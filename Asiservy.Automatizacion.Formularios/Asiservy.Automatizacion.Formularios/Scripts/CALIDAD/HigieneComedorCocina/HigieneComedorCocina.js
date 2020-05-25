@@ -187,7 +187,8 @@ function ModalIngresoCabecera() {
     LimpiarCabecera();
     $("#txtFechaCabecera").prop('disabled', false);
     $('#ModalIngresoCabecera').modal('show');
-    $("#txtIngresoFechaCabecera").val(moment($("#txtFecha").val()).format("YYYY-MM-DDTHH:mm"));
+    var date = new Date();
+    $("#txtIngresoFechaCabecera").val(moment($("#txtFecha").val() + ' ' + moment(date).format('HH:mm')).format("YYYY-MM-DDTHH:mm"));
     itemEditar = [];
 }
 

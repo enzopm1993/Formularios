@@ -187,7 +187,7 @@ function ModalGenerarDetalle() {
         $("#ModalGenerarDetalle").modal("show");
         limpiarDetalle();
         }
-    }, 500);
+    }, 200);
 }
 
 function limpiarDetalle() {

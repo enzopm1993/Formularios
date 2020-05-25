@@ -83,12 +83,12 @@
             display: none;
         }
 
-        #titulo {
+        #tblNoImprimir {
             display: none;
         }
 
-        #tblTitulo2 {
-            display: none;
+        #tbltituloImprimir {
+            display: block;
         }
 
         input, select, textarea {
@@ -119,18 +119,10 @@
             height: 300px;
             overflow: auto;
         }
-    }
-
-    .tbltitulo {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #858796;
-        border-top: 2px solid #e3e6f0;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
+        #tbltituloImprimir {
+            display: none;
+        }
+    }   
 </style>
 
 <div class="row" id="divFiltro">
@@ -176,8 +168,38 @@
 <!-- Modal -->
 <div hidden class="card table-responsive" id="divCardMostrarDetalle" style="padding:10px;">
     @* ENCABEZADO *@
+    <table id="tblNoImprimir" class="table table-bordered">
+        <tbody>
+            <tr>
+                <td width="80%" colspan="3" class="text-center">
+                    <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
+                </td>
+                <td rowspan="2" width="10%" class="text-center text-right">
+                    <div style="font-size:11px">
+                        <b>
+                            @ViewBag.CodigoReporte
+                        </b>
+                        <br />
+                        <b>
+                            @ViewBag.VersionReporte
+                        </b>
+                    </div>
 
-    <table id="tbltitulo" class="table table-bordered">
+                </td>
+            </tr>
+            <tr>
+                <td width="90%" colspan="3" class="text-center">
+                    <strong>CONTROL DE LAVADO Y DESINFECCION DE MANOS</strong>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px">FECHA:</td>
+                <td colspan="3" style="width:90%"><label id="lblMostrarFechaM"></label></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="tbltituloImprimir" class="table table-bordered">
         <tbody>
             <tr>
                 <td rowspan="2" width="10%">
@@ -205,9 +227,9 @@
                 </td>
             </tr>
             <tr>
-                <td >FECHA:</td>
-                <td colspan="4" style="width:50%"><label id="lblMostrarFecha"></label></td>
-                
+                <td>FECHA:</td>
+                <td colspan="4" style="width:50%"><label id="lblMostrarFechaM"></label></td>
+
             </tr>
         </tbody>
     </table>

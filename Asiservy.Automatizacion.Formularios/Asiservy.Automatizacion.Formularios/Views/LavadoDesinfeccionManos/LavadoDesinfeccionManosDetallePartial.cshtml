@@ -2,7 +2,7 @@
 @using Newtonsoft.Json;
 
 <table class="table table-light table-striped" tabindex="1" id="tblDataTable">
-    <thead>
+    <thead style="font-size:12px">
         <tr>
             <th>
                 HORA
@@ -23,7 +23,7 @@
                          select new { Hora = g.Key.Hora,  Count = g.Count() }).ToList();
         var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
     }
-    <tbody style="font-size:14px">
+    <tbody style="font-size:11px">
         @foreach (var subListaHora in listaHora)
         {
             var itemColumna = (from x in Model

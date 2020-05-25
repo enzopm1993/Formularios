@@ -1,31 +1,29 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Control_Cuchillos_Preparacion>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Cuchillos_Preparacion>
+@{
+    //Obtengo los Codigo del cuchillo para armar los TH
+    var listaCodigoCuchillo = (from p in Model
+                               select new { p.CodigoCuchillo }).Distinct().ToList();
 
+    var listaHora = (from ssi in Model
+                     group ssi by new { ssi.Hora, ssi.Fecha } into g
+                     select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
+}
 <table class="table table-bordered table-hover" style="cursor: pointer" id="tblDataTable">
-    <thead style="font-size:12px">
-        <tr>            
+    <thead style="font-size:11px">
+        <tr>
             <th>
                 HORA
             </th>
-            @{
-                //Obtengo los Codigo del cuchillo para armar los TH
-                var listaCodigoCuchillo = (from p in Model
-                                           select new { p.CodigoCuchillo }).Distinct().ToList();
-
-                var listaHora = (from ssi in Model
-                                 group ssi by new { ssi.Hora, ssi.Fecha } into g
-                                 select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
-            }
-
             @foreach (var itemCodigoCuchillo in listaCodigoCuchillo)
             {
                 <th>
                     <center>@itemCodigoCuchillo.CodigoCuchillo</center>
                 </th>
                 <th>EMPLEADO-@itemCodigoCuchillo.CodigoCuchillo</th>
-            }            
+            }
         </tr>
     </thead>
-    <tbody style="font-size:12px">
+    <tbody style="font-size:10px">
         @foreach (var item in listaHora)
         {
             string usuarioAprobacion = "";
@@ -36,7 +34,7 @@
                 {
                     var estado = (from c in Model
                                   where c.Fecha == item.Fecha && c.Hora == item.Hora && lh.CodigoCuchillo == c.CodigoCuchillo
-                                  select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte, c.UsuarioModificacionLog });
+                                  select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte});
 
                     <td>
                         @foreach (var est in estado)
@@ -60,12 +58,12 @@
                                 var nombres = cedula.CedulaEmpleado.Split('-');
                                 <span>@nombres[1].ToUpper()</span>
                             }
-                            usuarioAprobacion = cedula.UsuarioModificacionLog;
+                            //usuarioAprobacion = cedula.UsuarioModificacionLog;
                             estadoReporte = cedula.EstadoReporte;
                         }
                     </td>
                 }
-                
+
             </tr>
         }
     </tbody>

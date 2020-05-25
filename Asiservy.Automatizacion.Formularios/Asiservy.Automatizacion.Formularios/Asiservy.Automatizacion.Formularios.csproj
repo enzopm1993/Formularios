@@ -2238,6 +2238,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoMoretones\MantenimientoMoreton.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoPediluvio\MantenimientoPediluvio.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
@@ -3405,6 +3406,7 @@
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoMoretones\ClsDMantenimientoMoretones.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoPediluvio\ClsDMantenimientoPediluvio.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoMoreton.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
@@ -3503,6 +3505,7 @@
     <Compile Include="Controllers\CALIDAD\LimpiezaDesinfeccionPlantaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoColorController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoMoretonesController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoOlorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoPediluvioController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoProteinaController.cs" />
@@ -4040,6 +4043,9 @@
     <Content Include="Views\OperatividadMetal\OperatividadMetalPartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\ReporteVerificacionPotenciometro.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\ReporteVerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ConsultarCuchilloPreparacionPartial.cshtml" />
+    <Content Include="Views\MantenimientoMoretones\MantenimientoMoreton.cshtml" />
+    <Content Include="Views\MantenimientoMoretones\MantenimientoMoretonPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

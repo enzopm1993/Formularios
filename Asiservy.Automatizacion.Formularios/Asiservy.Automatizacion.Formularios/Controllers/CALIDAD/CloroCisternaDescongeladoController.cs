@@ -60,16 +60,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
-                var poCloroCisterna=clsDCloroCisternaDescongelado.Eliminar_ReporteCloroCisternaDescongelado(model);
-                if (poCloroCisterna==1)
+                var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisterna);
+                if (!estadoReporte.EstadoReporte)
                 {
-                    return Json("1", JsonRequestBehavior.AllowGet);
+                    var poCloroCisterna = clsDCloroCisternaDescongelado.Eliminar_ReporteCloroCisternaDescongelado(model);
+                    if (poCloroCisterna == 1)
+                    {
+                        return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
                 }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                                  
+                else return Json("2", JsonRequestBehavior.AllowGet);
+
+
             }
             catch (DbEntityValidationException e)
             {
@@ -146,8 +152,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;                
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
-                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+                var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisterna);
+                if (!estadoReporte.EstadoReporte)
+                {
+                    clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
+                    return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+                }else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -184,8 +194,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongeladoDetalle(model);
-                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+                var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisternaCabecera);
+                if (!estadoReporte.EstadoReporte)
+                {
+                    clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongeladoDetalle(model);
+                    return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+                }else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -259,16 +273,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
-                var poCloroCisterna = clsDCloroCisternaDescongelado.Eliminar_ReporteCloroCisternaDescongeladoDetalle(model);
-                if (poCloroCisterna == 1)
+                var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisternaCabecera);
+                if (!estadoReporte.EstadoReporte)
                 {
-                    return Json("1", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-
+                    var poCloroCisterna = clsDCloroCisternaDescongelado.Eliminar_ReporteCloroCisternaDescongeladoDetalle(model);
+                    if (poCloroCisterna == 1)
+                    {
+                        return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                }else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -586,7 +603,42 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-    
+
+        public JsonResult ConsultarEstadoReporte(long idControlCloro)
+        {
+            try
+            {
+                clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
+                var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(idControlCloro);
+                if (poCloroCisterna != null)
+                {
+                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
