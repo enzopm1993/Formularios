@@ -48,7 +48,8 @@ function SeleccionarCabecera(jdata) {
     var op = 0;
     var mesLetras = mes[parseInt(moment(jdata.FechaMES).format('MM'))];
     var anio = moment(jdata.FechaMES).format('YYYY');
-    $('#lblMostrarFecha').text(mesLetras+' - '+anio);
+    $('#lblMostrarFecha').text(mesLetras + ' - ' + anio);
+    $('#lblMostrarFechaM').text(mesLetras + ' - ' + anio);
     $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
     $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
     if (jdata.AprobadoPor == null) {
@@ -56,7 +57,7 @@ function SeleccionarCabecera(jdata) {
     }
 
     if (jdata.FechaAprobacion != null) {
-        jdata.FechaAprobacion = moment(jdata.FechaAprobacion).format('DD-MM-YYYY');
+        jdata.FechaAprobacion = moment(jdata.FechaAprobacion).format('DD-MM-YYYY HH:mm');
     } else if (jdata.FechaAprobacion == null) {
         jdata.FechaAprobacion = '';
     }

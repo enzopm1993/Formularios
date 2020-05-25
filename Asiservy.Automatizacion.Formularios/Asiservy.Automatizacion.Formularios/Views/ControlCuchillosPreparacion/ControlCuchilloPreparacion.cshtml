@@ -41,13 +41,13 @@
 
 <div class="row">
     <div class="col-md-12 ">
-        <h4 class="text-md-left text-center" style="float:left">Control de Cuchillo Preparación</h4>
+        <h4 class="text-md-left text-center" style="float:left">Control de Cuchillo Preparación <label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
         <div class="box_filters">
             <div class="itemFilter">
-                <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="ListarControlCuchillos(0)" id="txtFechaFiltro" class="form-control" />
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFechaFiltro" class="form-control" />
             </div>
             <div class="itemFilter">
-                <a onclick="ListarControlCuchillos(0)" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+                <a onclick="CargarCabecera()" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
     </div>
@@ -62,51 +62,101 @@
         </div>
     </div>
 </div>
-<hr />
 
 @* DIV CABECERA CUANDO SE SELECCIONA EL DETALLE *@
-<div class="row" hidden id="divCabecera">
-    <div class="col-md-3 col-12 col-sm-12">
-        <div class="form-group">
-            <label>Fecha-Hora</label>
-            <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="ListarControlCuchillos(0)" id="txtFecha" class="form-control" />
+<div class="card" hidden id="divCabecera">
+    <div class="row">
+        <div class="col-md-3 col-12 col-sm-12">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("dd-MM-yyyy")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-5 col-12 col-sm-12">
+            <div class="form-group">
+                <label>Observación</label>
+                <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
+            <label class="" id="lblAcciones">Acciones</label>
+            <div class="form-group">
+                <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
+                <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabecera(true)" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/edit24.png" />
+                </button>
+                <button data-toggle="tooltip" hidden data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/atras24.png" />
+                </button>
+            </div>
         </div>
     </div>
-    <div class="col-md-5 col-12 col-sm-12">
+</div><br />
+@* CARGAR TABLA CON DATOS HORA *@
+<div class="row" id="divIngresoHora" hidden>
+    <div class="col-md-12 col-12 col-sm-12 text-md-left text-center">
+        <label class="" id="lblAcciones">Nueva Hora</label>
         <div class="form-group">
-            <label>Observación</label>
-            <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
-        </div>
-    </div>
-    <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
-        <label class="" id="lblAcciones">Acciones</label>
-        <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/cancel24.png" />
-            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabecera(true)" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/edit24.png" />
-            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            <button data-toggle="tooltip" data-placement="top" title="Crear nueva hora" class="btn" id="btnGenerarRegistro" onclick="NuevoRegistroHora()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
         </div>
     </div>
 </div>
+@*<div class="card">*@
+    <div class="table-responsive card" id="divHora">
 
-@* CARGAR TABLA CON LOS REGISTROS DE LA FECHA FILTRADA *@
-<div class="table-responsive" id="divCargarCuchillos">
-    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableCargar">
-        <thead>
-            <tr>
-                <th>FECHA</th>
-                <th>HORA</th>
-                <th>OBSERVACION</th>
-                <th style="width:25%">ESTADO APROBACION</th>
-            </tr>
-        </thead>
-        <tbody style="font-size:14px"></tbody>
-    </table>
+    </div>
+@*</div>*@
+<div class="modal" tabindex="-1" id="modalIngresoHora" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Nueva Hora</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="limpiarHora()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="ValidarHora()" id="txtHora" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>DESCRIPCION</label>
+                            <input type="text" name="name" value="" id="txtDescripcion" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarHora()" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarHora()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*MODAL ELIMINAR Hora COFIRMAR*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalHoraEliminar">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Desea eliminar esta Hora?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarHoraSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarHoraNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- MODAL AGREGAR CUCHILOS A LA CABECERA -->
@@ -114,36 +164,29 @@
 <div id="divIngresarDetalleHora" hidden>
     <div class="row">
         <div class="col-md-12 col-12 col-sm-12">
-            <div class="card shadow">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-1 col-sm-3 col-4">
-                            <div class="form-group">
-                                <button data-toggle="tooltip" data-placement="top" title="Crear Registro Hora" class="btn" id="btnModalGenerarDetalle" onclick="ModalGenerarDetalle()" style="border-color:#2c3e50" type="button">
-                                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-10 col-sm-9 col-8">
-                            <h4>Nuevo Detalle</h4>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-body">
-                    <div id="divTableEntregaProductoDetalle" class="table-responsive">
-
+            <div class="row">
+                <div class="col-md-12 col-sm-3 col-4">
+                    <label>Asignar Cuchillo</label>
+                    <div class="form-group">
+                        <button data-toggle="tooltip" data-placement="top" title="Crear Registro Cuchillo" class="btn" id="btnModalGenerarDetalle" onclick="ModalGenerarDetalle()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="body">
+                <div id="divTableEntregaProductoDetalle" class="table-responsive">
 
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+
 @* MODAL PARA EL INGRESO DE LOS CONTROLES CHECKBOX *@
 <div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Control Cuchillo Detalle</h5>
@@ -153,20 +196,19 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <input type="hidden" id="txtIdEntregaProductoTerminadoDetalle" name="name" value="0" />
-                    <div class="col-md-3 col-12 col-sm-12">
+                    <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Código Cuchillo</label>
                             @Html.DropDownList("txtCodigoCuchillo", new SelectList(ViewBag.Cuchillos, "IdCuchilloPreparacion", "CodigoCuchillo"), "Seleccione Cuchillo", new { @class = "form-control", @onchange = "ValidarCuchilloExiste(0)" })
                         </div>
                     </div>
-                    <div class="col-md-6 col-12 col-sm-12">
+                    <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Empleado</label>
                             @Html.DropDownList("txtEmpleado", new SelectList(ViewBag.listaEmpleadoLinea, "CEDULA", "Nombres"), "Seleccione Empleado", new { @class = "form-control", @onchange = "ValidarEmpleadoExiste(0)" })
                         </div>
                     </div>
-                    <div class="col-md-3 col-12" id="ModalCheckBox">
+                    <div class="col-md-12 col-12 text-center" id="ModalCheckBox">
                         <div class="form-group">
                             <label>Estado</label>
                             <div class="custom-control custom-checkbox mb-3">
@@ -202,63 +244,38 @@
     </div>
 </div>
 
-@* MODAL CARGAR DETALLE DE CUCHILLO *@
-<div class="table-responsive" id="divCargarCuchillosDetalle">
-    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableCargarDetalle">
-        <thead>
-            <tr>
-                <th>Código Cuchillo</th>
-                <th>Estado</th>
-                <th>Empleado</th>
-                <th>Usuario Creación</th>
-            </tr>
-        </thead>
-        <tbody style="font-size:14px"></tbody>
-    </table>
-</div>
-
-@* MODAL PARA ELIMINAR/ACTUALIZARDETALLE *@
-<div class="modal" tabindex="-1" id="ModalEliminarActualizarDetalle" role="dialog" data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
+@*MODAL ELIMINAR DETALLE COFIRMAR*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarDetalle">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Control Cuchillo Detalle</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-3 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>Código Cuchillo</label>
-                            @Html.DropDownList("txtCodigoCuchilloDetalle", new SelectList(ViewBag.Cuchillos, "IdCuchilloPreparacion", "CodigoCuchillo"), "Seleccione", new { @class = "form-control", @onchange = "ValidarCuchilloExiste(1)" })
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>Empleado</label>
-                            @Html.DropDownList("txtEmpleadoDetalle", new SelectList(ViewBag.listaEmpleadoLinea, "CEDULA", "Nombres"), "Seleccione Empleado", new { @class = "form-control", @onchange = "ValidarEmpleadoExiste(1)" })
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12 col-sm-12" id="ModalCheckBox">
-                        <div class="form-group">
-                            <label>Estado</label>
-                            <div class="custom-control custom-checkbox mb-3">
-                                @Html.CheckBox("EstadoRegistroDetalle", false, new { @id = "CheckEstadoRegistroOpD", @class = "custom-control-input", @onchange = "CambioEstadoDetalle(this.checked)" })
-                                <label class="custom-control-label" for="CheckEstadoRegistroOpD" id="LabelEstadoDetalle">Estao Registro</label>
-                                <input type="hidden" id="txtActualizar" value="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Desea eliminar este Detalle?</h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="btnEliminarDetalle">Eliminar</button>
-                <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle(1)" id="btnActualizarDetalle">Actualizar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleCabeceraNo()" id="modal-detalle-no">No</button>
             </div>
         </div>
+    </div>
+</div>
+
+@* MODAL CARGAR DETALLE DE CUCHILLO *@
+<div class="card">
+    <div class="table-responsive" id="divCargarCuchillosDetalle" hidden>
+        <table class="table table-bordered table-striped" style="width:100%" id="tblDataTableCargarDetalle">
+            <thead style="font-size:12px">
+                <tr>
+                    <th>CODIGO CUCHILLO</th>
+                    <th>ESTADO</th>
+                    <th>EMPLEADO</th>
+                    <th>USUARIO CREACION</th>
+                    <td>ACCIONES</td>
+                </tr>
+            </thead>
+            <tbody style="font-size:11px"></tbody>
+        </table>
     </div>
 </div>
 
@@ -274,10 +291,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5z col-12 col-sm-12">
+                    <div class="col-md-5 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>Fecha-Hora</label>
-                            <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" id="txtFechaIngresoCabecera" class="form-control" />
+                            <label>Fecha</label>
+                            <input type="date" name="name" value="@DateTime.Now.ToString("dd-MM-yyyy")" id="txtFechaIngresoCabecera" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-7 col-12 col-sm-12">
@@ -288,7 +305,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="GuardarModificarControlCuchilloPreparacion()" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="GuardarCabecera()" id="btnGenerarControlRegistro">Guardar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarCabecera()">Cancelar</button>
                 </div>
             </div>

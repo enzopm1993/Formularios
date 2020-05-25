@@ -136,7 +136,8 @@ function AprobarPendiente(estadoReporte) {
             return;
         }
     } else { $('#txtFechaAprobado').val(''); }
-       var siAprobar = 1;//en la condicion del la clase clsD se envia a actualizar solo la columna EstadoReporte 
+    var siAprobar = 1;//en la condicion del la clase clsD se envia a actualizar solo la columna EstadoReporte 
+    console.log($('#txtFechaAprobado').val());
     $.ajax({
         url: "../DesechosLiquidosPeligrosos/BandejaGuardarModificarDesechosLiquidos",
         type: "POST",

@@ -45,7 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult ConsultarCuchilloPreparacion(string CodigoCuchillo, int opcion)
+        public ActionResult ConsultarCuchilloPreparacionPartial(string codigoCuchillo, int op)
         {
             try
             {
@@ -55,11 +55,50 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(CodigoCuchillo, opcion);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(codigoCuchillo, op);
                 if (poCloroCisterna != null)
                 {
-                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                    return PartialView(poCloroCisterna);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
+        public JsonResult ConsultarCuchilloPreparacion(string codigoCuchillo, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(codigoCuchillo, op);
+                if (poCloroCisterna != null)
+                {                               
+                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -124,7 +163,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-----------------------------------------------------CONTROL CUCHILLO PREPARACION----------------------------------------------------------------------
-        public ActionResult ControlCuchilloPreparacion()
+        public ActionResult ControlCuchilloPreparacion(string codigoCuchillo="", int op=0)
         {
             try
             {
@@ -134,7 +173,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDEmpleado empleado = new clsDEmpleado();
                 var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46","0","0");
                 ViewBag.listaEmpleadoLinea = listaEmpleadoLinea;
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion("", 2);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(codigoCuchillo, op);
                 ViewBag.Cuchillos = poCloroCisterna;
                 return View();
             }
@@ -158,7 +197,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }        
 
-        public JsonResult ConsultarControlCuchilloPreparacion(DateTime fecha, int IdControlCuchillo, int opcion)
+        public JsonResult ConsultarCabecera(DateTime fecha, int idControlCuchillo=0)
         {
             try
             {
@@ -168,7 +207,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarControlCuchilloPreparacion(fecha, fecha, IdControlCuchillo, opcion);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCabecera(fecha,idControlCuchillo);
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -198,7 +237,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult GuardarModificarControlCuchilloPreparacion(CC_CONTROL_CUCHILLOS_PREPARACION model, bool siAprobar=false)
+        public JsonResult GuardarModificarControlCuchilloPreparacion(CC_CUCHILLOS_PREPARACION_CTRL model, bool siAprobar=false)
         {
             try
             {
@@ -212,13 +251,105 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor=clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloPreparacion(model, siAprobar);
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.Now, model.IdControlCuchillo);
+                if (!validarEstadoReporte.EstadoReporte)
+                {
+                    var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloPreparacion(model, siAprobar);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
+                    else return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("3", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //-----------------------------------------------------CONTROL CUCHILLO PREPARACION----------------------------------------------------------------------
+        public ActionResult ConsultarHoraPartial(int idControlCuchillo)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+                var hora = clsDControlCuchillosPreparacion.ConsultarHora(idControlCuchillo);
+                if (hora != null)
+                {
+                    return PartialView(hora);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GuardarModificarHora(CC_CUCHILLOS_PREPARACION_HORA model, int idControlCuchillo)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                if (consultarEstado.EstadoReporte)
+                {
+                    return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                var valor = clsDControlCuchillosPreparacion.GuardarModificarHora(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
-                else return Json("2", JsonRequestBehavior.AllowGet);
+                else  return Json("1", JsonRequestBehavior.AllowGet);           
 
             }
             catch (DbEntityValidationException e)
@@ -242,7 +373,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarControlCuchilloPreparacion(CC_CONTROL_CUCHILLOS_PREPARACION model)
+        public ActionResult EliminarrHora(CC_CUCHILLOS_PREPARACION_HORA model, int idControlCuchillo)
         {
             try
             {
@@ -252,8 +383,59 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarControlCuchilloPreparacion(DateTime.Now, DateTime.Now, model.IdControlCuchillo, 1);
-                if (!validarEstadoReporte[0].EstadoReporte)
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                if (consultarEstado.EstadoReporte)
+                {
+                    return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                var valor = clsDControlCuchillosPreparacion.EliminarHora(model);
+                if (valor == 1)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }             
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarControlCuchilloPreparacion(CC_CUCHILLOS_PREPARACION_CTRL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.Now, model.IdControlCuchillo);
+                if (!validarEstadoReporte.EstadoReporte)
                 {
                     var poCloroCisterna = clsDControlCuchillosPreparacion.EliminarControlCuchilloPreparacion(model);
                     if (poCloroCisterna == 1)
@@ -264,7 +446,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     {
                         return Json("0", JsonRequestBehavior.AllowGet);
                     }
-                }else return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("2", JsonRequestBehavior.AllowGet);
 
             }
             catch (DbEntityValidationException e)
@@ -288,7 +471,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-----------------------------------------------------CONTROL CUCHILLO PREPARACION DETALLE----------------------------------------------------------------------
-        public JsonResult ConsultarControlCuchilloDetalle(int idCuchilloPreparacion, int idControlCuchillo, int idControlCuchilloDetalle, int opcion)
+        public JsonResult ConsultarControlCuchilloDetalle(int idHora, int op)
         {
             try
             {
@@ -298,18 +481,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarControlCuchilloDetalle(idCuchilloPreparacion, idControlCuchillo, idControlCuchilloDetalle, opcion);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarDetalle(idHora,op);
                 if (poCloroCisterna != null)
                 {
                     clsDEmpleado empleado = new clsDEmpleado();
                     var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");
                     List<string> listaCedula = new List<string>();
-                    foreach (var itemCuchillo in poCloroCisterna) {
+                    foreach (var itemCuchillo in poCloroCisterna)
+                    {
                         listaCedula.Add(itemCuchillo.CedulaEmpleado);
                         foreach (var itemEmpleado in listaEmpleadoLinea)
                         {
-                            if (itemCuchillo.CedulaEmpleado==itemEmpleado.CEDULA) {                                
-                                itemCuchillo.CedulaEmpleado+="-"+itemEmpleado.NOMBRES;
+                            if (itemCuchillo.CedulaEmpleado == itemEmpleado.CEDULA)
+                            {
+                                itemCuchillo.CedulaEmpleado += "-" + itemEmpleado.NOMBRES;
                             }
                         }
 
@@ -341,7 +526,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult GuardarModificarControlCuchilloDetalle(CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE model)
+        public JsonResult GuardarModificarControlCuchilloDetalle(CC_CUCHILLOS_PREPARACION_CTRL_DET model, int idControlCuchillo)
         {
             try
             {
@@ -351,12 +536,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                model.FechaIngresoLog = DateTime.Now;           
+                model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarControlCuchilloPreparacion(DateTime.Now, DateTime.Now, model.IdControlCuchillo,1);
-                if (!validarEstadoReporte[0].EstadoReporte)
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                if (!validarEstadoReporte.EstadoReporte)
                 {
                     var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloDetalle(model);
                     if (valor == 0)
@@ -388,7 +573,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarControlCuchilloDetalle(CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE model)
+        public ActionResult EliminarControlCuchilloDetalle(CC_CUCHILLOS_PREPARACION_CTRL_DET model, int idControlCuchillo)
         {
             try
             {
@@ -398,20 +583,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarControlCuchilloPreparacion(DateTime.Now, DateTime.Now, model.IdControlCuchillo, 1);
-                if (!validarEstadoReporte[0].EstadoReporte)
-                {
-                    var poCloroCisterna = clsDControlCuchillosPreparacion.EliminarControlCuchilloDetalle(model);
-                    if (poCloroCisterna == 1)
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+               
+                    if (!validarEstadoReporte.EstadoReporte)
                     {
-                        return Json("1", JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json("0", JsonRequestBehavior.AllowGet);
-                    }
+                        var poCloroCisterna = clsDControlCuchillosPreparacion.EliminarControlCuchilloDetalle(model);
+                        if(poCloroCisterna == 1)
+                        {
+                            return Json("1", JsonRequestBehavior.AllowGet);
+                        }
+                    else return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("2", JsonRequestBehavior.AllowGet);
+                    else return Json("2", JsonRequestBehavior.AllowGet);               
 
             }
             catch (DbEntityValidationException e)
@@ -434,7 +617,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //------------------------------------REPORTE CONTROL CUCHILLO PREPARACION DETALLE----------------------------------------------
+        ////------------------------------------REPORTE CONTROL CUCHILLO PREPARACION DETALLE----------------------------------------------
         public ActionResult ReporteControlCuchilloPreparacion()
         {
             try
@@ -471,7 +654,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReporteControlCuchilloPreparacionPartial(DateTime filtroFechaDesde, DateTime filtroFechaHasta,int idControlCuchillo, int op)
+        public ActionResult ReporteControlCuchilloPreparacionPartial(int idControlCuchillo, int op)
         {
             try
             {
@@ -481,7 +664,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ReporteControlCuchilloPreparacion(filtroFechaDesde, filtroFechaHasta, idControlCuchillo, op);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarBandeja(idControlCuchillo, op);
                 if (poCloroCisterna != null)
                 {
                     clsDEmpleado empleado = new clsDEmpleado();
@@ -494,7 +677,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                             {
                                 itemCuchillo.CedulaEmpleado += "-" + itemEmpleado.NOMBRES;
                             }
-                        }             }
+                        }
+                    }
                     return PartialView(poCloroCisterna);
                 }
                 else
@@ -522,7 +706,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReporteControlCuchilloPreparacionCabeceraPartial(DateTime fechaDesde, DateTime fechaHasta)
+        public ActionResult ReporteControlCuchilloPreparacionCabeceraPartial(DateTime fechaDesde, DateTime fechaHasta,int op)
         {
             try
             {
@@ -533,9 +717,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
 
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ReporteConsultarcabecera(fechaDesde, fechaHasta);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarcabeceraFechaID(fechaDesde, fechaHasta, false,op);
                 if (poCloroCisterna != null)
-                {                   
+                {
                     return PartialView(poCloroCisterna);
                 }
                 else
@@ -593,7 +777,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult BandejaCuchilloPreparacionPartial(DateTime fechaDesde, DateTime fechaHasta,int idControlCuchillo, int op)
+        public ActionResult BandejaCuchilloPreparacionPartial(DateTime fechaDesde, DateTime fechaHasta, bool estado)
         {
             try
             {
@@ -603,7 +787,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var cabeceraTabla = clsDControlCuchillosPreparacion.ConsultarControlCuchilloPreparacion(fechaDesde, fechaHasta, idControlCuchillo, op);
+                var cabeceraTabla = clsDControlCuchillosPreparacion.ConsultarcabeceraFechaID(fechaDesde, fechaHasta, estado);
                 if (cabeceraTabla != null)
                 {
                     return PartialView(cabeceraTabla);
@@ -632,7 +816,49 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-      
+
+        public JsonResult AprobarPendiente(CC_CUCHILLOS_PREPARACION_CTRL model, bool siAprobar = false)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.UsuarioIngresoLog = lsUsuario[0];               
+                    var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloPreparacion(model, siAprobar);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
+                    else return Json("2", JsonRequestBehavior.AllowGet);                
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

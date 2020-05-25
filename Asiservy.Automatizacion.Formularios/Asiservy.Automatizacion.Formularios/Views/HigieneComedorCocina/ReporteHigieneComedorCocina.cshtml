@@ -87,6 +87,13 @@
         input, select, textarea {
             max-width: 100%
         }
+        #tblNoImprimir {
+            display: none;
+        }
+
+        #tbltituloImprimir {
+            display: block;
+        }
     }
 
     @@media screen {
@@ -107,10 +114,9 @@
         .btnWait {
             cursor: no-drop !important;
         }
-    }
-
-    table {
-        border-collapse: collapse;
+        #tbltituloImprimir {
+            display: none;
+        }
     }
 </style>
 
@@ -150,10 +156,45 @@
 <div  class="card table-responsive" id="divMostarTablaCabecera">
    
 </div>
-<div hidden class="card" id="divCardMostrarDetalle" >
+<div hidden class="card" id="divCardMostrarDetalle">
     @* ENCABEZADO *@
+    <table id="tblNoImprimir" class="table table-bordered">
+        <tbody>
+            <tr>
+                <td width="80%" colspan="3" class="text-center">
+                    <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
+                </td>
+                <td rowspan="2" width="10%" class="text-center text-right">
+                    <div style="font-size:11px">
+                        <b>
+                            @ViewBag.CodigoReporte
+                        </b>
+                        <br />
+                        <b>
+                            @ViewBag.VersionReporte
+                        </b>
+                    </div>
 
-    <table id="tbltitulo" class="table table-bordered">
+                </td>
+            </tr>
+            <tr>
+                <td width="90%" colspan="3" class="text-center">
+                    <strong>VERIFICACIÓN DE HIGIENE DE COMEDOR Y COCINA</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>FECHA:</td>
+                <td style="width:70%"><label id="lblMostrarFechaM"></label></td>
+                <td >HORA:</td>
+                <td style="width:45%" colspan="1">
+                    <label id="lblMostrarHoraM"></label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table id="tbltituloImprimir" class="table table-bordered">
         <tbody>
             <tr>
                 <td rowspan="2" width="10%">
@@ -187,7 +228,6 @@
                 <td style="width:45%">
                     <label id="lblMostrarHora"></label>
                 </td>
-                <td></td>
             </tr>
         </tbody>
     </table>
@@ -230,7 +270,7 @@
                     <label id="txtFechaCreacion"></label>
                 </td>
                 <td>
-                    <label  id="txtUsuarioAprobacion"></label><br />
+                    <label id="txtUsuarioAprobacion"></label><br />
                     <label style="border-top:solid 1px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aprobado Por&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br />
                     <label id="txtFechaAprobacion"></label>
                 </td>

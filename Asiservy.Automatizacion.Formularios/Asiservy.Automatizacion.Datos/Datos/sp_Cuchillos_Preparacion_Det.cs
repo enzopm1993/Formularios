@@ -11,11 +11,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_Control_Cuchillos_Preparacion
+    public partial class sp_Cuchillos_Preparacion_Det
     {
-        public System.DateTime Fecha { get; set; }
-        public string ObservacionCab { get; set; }
-        public bool EstadoReporte { get; set; }
         public int IdHora { get; set; }
         public int IdControlCuchillo { get; set; }
         public System.DateTime Hora { get; set; }

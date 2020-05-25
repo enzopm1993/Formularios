@@ -1,4 +1,4 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Control_Cuchillos_Preparacion
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Cuchillos_Preparacion
 
 @{
     ViewBag.Title = "ReporteControlCuchilloPreparacion";
@@ -45,7 +45,9 @@
         .shadow {
             box-shadow: 0 0.15rem 1.75rem 0 #fff !important;
         }
-
+        #tbltituloImprimir {
+            display:block;
+        }
         .card {
             border: 0px;
         }
@@ -82,16 +84,11 @@
             display: none;
         }
 
-        #titulo {
-            display: none;
-        }
-
-        #tblTitulo2 {
-            display: none;
-        }
-
         input, select, textarea {
             max-width: 100%
+        }
+        #tblNoImprimir{
+            display:none;
         }
     }
 
@@ -113,23 +110,10 @@
         .btnWait {
             cursor: no-drop !important;
         }
-
-        #divTableDetalle2 {
-            height: 300px;
-            overflow: auto;
+        #tbltituloImprimir{
+            display:none;
         }
-    }
-
-    .tbltitulo {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #858796;
-        border-top: 2px solid #e3e6f0;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
+    }    
 </style>
 
 <div class="row" id="divFiltro">
@@ -175,7 +159,37 @@
 <div hidden class="card table-responsive" id="divCardMostrarDetalle" style="padding:10px;">
     @* ENCABEZADO *@
 
-    <table id="tbltitulo" class="table table-bordered">
+    <table id="tblNoImprimir" class="table table-bordered">
+        <tbody>
+            <tr>                
+                <td width="80%" colspan="3" class="text-center">
+                    <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
+                </td>
+                <td rowspan="2" width="10%" class="text-center text-right">
+                    <div style="font-size:11px">
+                        <b>
+                            @ViewBag.CodigoReporte
+                        </b>
+                        <br />
+                        <b>
+                            @ViewBag.VersionReporte
+                        </b>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td width="90%" colspan="3" class="text-center">
+                    <strong>CONTROL DE CUCHILLO DE PREPARACION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px">FECHA:</td>
+                <td colspan="3" style="width:90%"><label id="lblMostrarFechaM"></label></td>               
+            </tr>
+        </tbody>
+    </table>
+    <table id="tbltituloImprimir" class="table table-bordered">
         <tbody>
             <tr>
                 <td rowspan="2" width="10%">
@@ -204,12 +218,7 @@
             </tr>
             <tr>
                 <td>FECHA:</td>
-                <td colspan="4" style="width:50%"><label id="lblMostrarFecha"></label></td>
-                @*<td>:</td>
-                <td style="width:45%">
-                    <label id="lblMostrarHora"></label>
-                </td>
-                <td></td>*@
+                <td colspan="4" style="width:50%"><label id="lblMostrarFecha"></label></td>                
             </tr>
         </tbody>
     </table>

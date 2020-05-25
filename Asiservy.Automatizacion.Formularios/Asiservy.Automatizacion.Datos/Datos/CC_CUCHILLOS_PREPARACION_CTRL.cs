@@ -12,17 +12,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_CONTROL_CUCHILLOS_PREPARACION
+    public partial class CC_CUCHILLOS_PREPARACION_CTRL
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_CONTROL_CUCHILLOS_PREPARACION()
+        public CC_CUCHILLOS_PREPARACION_CTRL()
         {
-            this.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE = new HashSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE>();
+            this.CC_CUCHILLOS_PREPARACION_HORA = new HashSet<CC_CUCHILLOS_PREPARACION_HORA>();
         }
     
         public int IdControlCuchillo { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.DateTime Hora { get; set; }
         public string Observacion { get; set; }
         public bool EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
@@ -36,6 +35,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaAprobado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
+        public virtual ICollection<CC_CUCHILLOS_PREPARACION_HORA> CC_CUCHILLOS_PREPARACION_HORA { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_COLOR>
 @using Newtonsoft.Json;
 
-<table class="table table-light table-striped table-hover" id="tblDataTable">
+<table class="table table-striped table-bordered" style="font-size:12px" id="tblDataTable">
     <thead>
         <tr>
             <th>
@@ -25,7 +25,7 @@
         </tr>
     </thead>
    
-    <tbody style="font-size:14px">
+    <tbody style="font-size:11px">
         @foreach (var item in Model)
         {
             DateTime fecham =Convert.ToDateTime( item.FechaModificacionLog);

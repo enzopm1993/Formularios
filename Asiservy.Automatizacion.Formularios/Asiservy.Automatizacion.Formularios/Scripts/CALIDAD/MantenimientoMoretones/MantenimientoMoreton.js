@@ -1,45 +1,46 @@
 ﻿var itemEditar = [];
 $(document).ready(function () {
-    CargarCabecera();    
+    CargarCabecera();
 });
-function CargarCabecera() {  
-        $.ajax({
-            url: "../MantenimientoColor/MantenimientoColorPartial",
-            type: "GET",
-            success: function (resultado) {
-                if (resultado == "101") {
-                    window.location.reload();
-                }                
-                if (resultado == "0") {
-                    $("#divMantenimientoColor").html("No existen registros");
-                } else {
-                    $("#divMantenimientoColor").html(resultado);
-                }                
-                itemEditar = 0;
-                    CerrarModalCargando();
-            },
-            error: function (resultado) {
-                CerrarModalCargando();
-                MensajeError(resultado.responseText, false);
+
+function CargarCabecera() {
+    $.ajax({
+        url: "../MantenimientoMoretones/MantenimientoMoretonPartial",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
             }
-        });    
+            if (resultado == "0") {
+                $("#divMantenimientoMoretones").html("No existen registros");
+            } else {
+                $("#divMantenimientoMoretones").html(resultado);
+            }
+            itemEditar = 0;
+            CerrarModalCargando();
+        },
+        error: function (resultado) {
+            CerrarModalCargando();
+            MensajeError(resultado.responseText, false);
+        }
+    });
 }
 
 function GuardarCabecera() {
-    if ($("#txtDescripcion").val() == '' || $('#txtAbreviatura').val()=='') {
+    if ($("#txtDescripcion").val() == '' || $('#txtAbreviatura').val() == '') {
         MensajeAdvertencia("<span class='badge badge-danger'>!Ingrese una Descripción/Abreviatura al Color que desea ingresar¡</span>");
         return;
     }
-    if ($('#txtAbreviatura').val().length>5) {
+    if ($('#txtAbreviatura').val().length > 5) {
         MensajeAdvertencia("<span class='badge badge-danger'>!Exidio el maximo de caracteres: 5¡</span>");
         return;
     }
     $('#cargac').show();
     $.ajax({
-        url: "../MantenimientoColor/GuardarModificarMantenimientoColor",
+        url: "../MantenimientoMoretones/GuardarModificarMantenimientoMoreton",
         type: "POST",
         data: {
-            IdColor: itemEditar.IdColor,
+            IdMoreton: itemEditar.IdMoreton,
             Abreviatura: $('#txtAbreviatura').val().toUpperCase(),
             Descripcion: $("#txtDescripcion").val().toUpperCase()
         },
@@ -47,7 +48,7 @@ function GuardarCabecera() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            CargarCabecera();  
+            CargarCabecera();
             $("#txtDescripcion").val('');
             $('#txtAbreviatura').val('');
             $('#cargac').hide();
@@ -76,11 +77,11 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     MostrarModalCargando();
     $.ajax({
-        url: "../MantenimientoColor/EliminarMantenimientoColor",
+        url: "../MantenimientoMoretones/EliminarMantenimientoMoreton",
         type: "POST",
         data: {
-            IdColor: itemEditar.IdColor,
-            EstadoRegistro: itemEditar.EstadoRegistro 
+            IdMoreton: itemEditar.IdMoreton,
+            EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -94,7 +95,7 @@ function EliminarCabeceraSi() {
             } else if (resultado == "1") {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera();
-                MensajeCorrecto("Registro Actualizado con Éxito");                
+                MensajeCorrecto("Registro Actualizado con Éxito");
                 setTimeout(function () {
                     CerrarModalCargando();
                 }, 500);
@@ -113,7 +114,7 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabecera(jdata) {
-    $("#txtDescripcion").prop("disabled", false);    
+    $("#txtDescripcion").prop("disabled", false);
     $("#txtDescripcion").val(jdata.Descripcion);
     $('#txtAbreviatura').val(jdata.Abreviatura)
     itemEditar = jdata;

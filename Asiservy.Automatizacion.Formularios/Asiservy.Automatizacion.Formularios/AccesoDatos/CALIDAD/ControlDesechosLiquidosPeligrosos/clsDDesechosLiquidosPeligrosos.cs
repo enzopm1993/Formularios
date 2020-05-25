@@ -45,11 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
                 var model = db.CC_DESECHOS_LIQUIDOS_PELIGROSOS.FirstOrDefault(x => x.IdDesechosLiquidos == guardarmodificar.IdDesechosLiquidos && x.EstadoRegistro == guardarmodificar.EstadoRegistro);
                 if (model != null)
                 {
-                    if (siAprobar == 0)
-                    {
-                        model.FechaMES = guardarmodificar.FechaMES;
-                    }
-                    else if (siAprobar == 1)
+                     if (siAprobar == 1)
                     {
                         model.EstadoReporte = guardarmodificar.EstadoReporte;
                         model.AprobadoPor = guardarmodificar.UsuarioIngresoLog;
