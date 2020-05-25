@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE
     {
         public int IdDetalleEvaluacionLomoyMigasEnBandeja { get; set; }
-        public Nullable<System.DateTime> Hora { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
         public string Linea { get; set; }
         public string Lote { get; set; }
         public string buque { get; set; }
