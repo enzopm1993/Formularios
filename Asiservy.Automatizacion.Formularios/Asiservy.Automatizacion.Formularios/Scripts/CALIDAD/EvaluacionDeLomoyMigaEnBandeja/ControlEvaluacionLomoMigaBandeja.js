@@ -2,22 +2,36 @@
 var Error = 0;
 var IdCabecera = 0;
 var IdDetalle = 0;
+var rotation = 0;
 $(document).ready(function () {
     $('#txtVenas').mask("9?9");
     $('#txtEspinas').mask("9?9");
     $('#txtSangre').mask("9?9");
     $('#txtEscamas').mask("9?9");
     $('#txtPiel').mask("9?9");
+    
+    LLenarComboOrdenes()
+    .then(function () {
+        ConsultarCabControl();
+    })
+    //.then(function () {
+    //    DatosOrdenFabricacion()
+    //})
+
 });
-function LLenarComboOrdenes(orden) {
-    Error = 0;
-    //$('#txtProducto').val('');
-    //$('#txtTamanoFunda').val('');
-    $('#txtCliente').val('');
-    //$('#txtPedidoVenta').val('');
-    //$('#CodProducto').val('');
-    $('#cmbOrdeneFabricacion').empty();
-    $('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
+function NuevoControlDetalle2() {
+    $("#txtIdControlDetalle2").val("");
+    $("#txtNovedad").val("");
+    $("#file-upload").val('');
+    $("#file-preview-zone").html('');
+    rotation = 0;
+}
+function ModalGenerarControlDetalle2() {
+    NuevoControlDetalle2();
+    $("#ModalGenerarControlDetalle2").modal("show");
+    
+}
+async function LlenarComboOrdenesAjax() {
     let params = {
         Fecha: $("#txtFechaProduccion").val()
     }
@@ -26,40 +40,34 @@ function LLenarComboOrdenes(orden) {
         .join('&');
 
     let url = '../General/ConsultaSoloOFNivel3?' + query;
-    if ($('#txtFechaProduccion').val() == '') {
+    var promesa = fetch(url);
+    return promesa;
+}
+async function LLenarComboOrdenes(/*orden*/) {
 
-    } else {
-        fetch(url)
-            //,body: data
-            .then(function (respuesta) {
-                if (!respuesta.ok) {
-                    //MensajeError(respuesta.statusText);
-                    MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
-                    Error = 1;
-                }
-                return respuesta.json();
-            })
-            .then(function (resultado) {
-                if (resultado == "101") {
+    try {
+        $('#txtCliente').val('');
+
+        $('#cmbOrdeneFabricacion').empty();
+
+        if (!$('#txtFechaProduccion').val() == '') {
+            var PromesaConsultar = await LlenarComboOrdenesAjax();
+            if (!PromesaConsultar.ok) {
+                throw "Error";
+            }
+            var ResultadoConsultar = await PromesaConsultar.json();
+            if (ResultadoConsultar == "101") {
                     window.location.reload();
-                }
-                if (Error == 0) {
-                    //console.log(resultado);
-               
-                    $.each(resultado, function (key, value) {
-                        $('#cmbOrdeneFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
-                    });
-                    if (orden != null) {
-                        $('#cmbOrdeneFabricacion').val(orden);
-                    }
-                }
-            })
-            .catch(function (resultado) {
-                console.log(resultado);
-                MensajeError(resultado.responseText, false);
-              
-            })
+            }
+            $.each(ResultadoConsultar, function (key, value) {
+                $('#cmbOrdeneFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
+            });
+
     }
+    } catch (ex) {
+        MensajeError('Error comuníquese con el departamento de Sistemas, ' + ex.message, false);
+    }
+    
 
 }
 function DatosOrdenFabricacion() {
@@ -78,9 +86,7 @@ function DatosOrdenFabricacion() {
         .join('&');
 
     let url = '../General/ConsultarDatosOrdenFabricacion?' + query;
-    if ($('#cmbOrdeneFabricacion').prop('selectedIndex') == 0) {
-
-    } else {
+    
         fetch(url)
             //,body: data
             .then(function (respuesta) {
@@ -110,106 +116,109 @@ function DatosOrdenFabricacion() {
                 MensajeError(resultado.responseText, false);
 
             })
-    }
+   
 
     //$('#txtCliente').val(Datos.NombreCliente);
-    LlenarComboLotes($("#cmbOrdeneFabricacion").val());
+    //LlenarComboLotes($("#cmbOrdeneFabricacion").val());
 }
-function ConsultarCabControl() {
-   
-    if ($('#txtFechaProduccion').val() == '') {
-        $('#msjErrorFechaProduccion').prop('hidden', false);
-        return false;
-    } else {
-        $('#msjErrorFechaProduccion').prop('hidden', true);
-    }
-    $('#btnCargando').prop('hidden', false);
-    $('#btnConsultar').prop('hidden', true);
-    $('#btnLimpiar').prop('hidden', true);
-    $('#btnEliminarCabeceraControl').prop('hidden', true);
-    $('#btnGuardar').prop('hidden', true);
+async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    var promesa=fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
         method: 'POST',
         body: data
-    }).then(function (respuesta) {
-    if (!respuesta.ok) {
-        //MensajeError(respuesta.statusText);
-        MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
-        Error = 1;
-    }
-    return respuesta.json();
     })
-    .then(function (resultado) {
-    //console.log(respuesta);
-    if (resultado == "101") {
-        window.location.reload();
-    }
-    if (Error == 0) {
-        //console.log(resultado);
-        $('#txtFechaProduccion').prop('disabled', true);
+    return promesa;
+}
+async function ConsultarCabControl(bandera) {
+    
+    try {
+       
+       
+        if ($('#txtFechaProduccion').val() == '') {
+            $('#msjErrorFechaProduccion').prop('hidden', false);
+            return;
+        }
+        else {
+            
+            $('#msjErrorFechaProduccion').prop('hidden', true);
+        }
+        if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
+        {
+            await LLenarComboOrdenes();
+        }
+        $('#btnCargando').prop('hidden', false);
+        $('#btnConsultar').prop('hidden', true);
+        $('#btnLimpiar').prop('hidden', true);
+        $('#btnEliminarCabeceraControl').prop('hidden', true);
+        $('#btnGuardar').prop('hidden', true);
+        var PromesaConsultar = await ConsultarCabControlAjax();
+        if (!PromesaConsultar.ok) {
+            throw "Error";
+        }
+        var ResultadoConsulta = await PromesaConsultar.json();
+        if (ResultadoConsulta != "0") {
 
-        //LLenarComboOrdenes(resultado.OrdenFabricacion);
-        //$("#cmbTurno").val("2");
-        if (resultado != "0") {
-            LLenarComboOrdenes(resultado.OrdenFabricacion);
             $('#mensajeRegistros').prop('hidden', true);
-            IdCabecera = resultado.IdEvaluacionDeLomosYMigasEnBandejas;
-            $('#cmbOrdeneFabricacion').val(resultado.OrdenFabricacion);
-            $('#txtCliente').val(resultado.Cliente);
-            if (resultado.Lomo) {
+            IdCabecera = ResultadoConsulta.IdEvaluacionDeLomosYMigasEnBandejas;
+            $('#cmbOrdeneFabricacion').val(ResultadoConsulta.OrdenFabricacion);
+            $('#txtCliente').val(ResultadoConsulta.Cliente);
+            if (ResultadoConsulta.Lomo) {
                 $('#Lomo').prop('checked', true);
             }
-            if (resultado.Miga) {
+            if (ResultadoConsulta.Miga) {
                 $('#Miga').prop('checked', true);
             }
-            if (resultado.Empaque) {
+            if (ResultadoConsulta.Empaque) {
                 $('#Empaque').prop('checked', true);
             }
-            if (resultado.Enlatado) {
+            if (ResultadoConsulta.Enlatado) {
                 $('#Enlatado').prop('checked', true);
             }
-            if (resultado.Pouch) {
+            if (ResultadoConsulta.Pouch) {
                 $('#Pouch').prop('checked', true);
             }
-            if (resultado.EstadoControl == true) {
+            if (ResultadoConsulta.EstadoControl == true) {
                 $("#estadocontrol").removeClass("badge-danger").addClass("badge-success");
                 $('#estadocontrol').text(Mensajes.Aprobado);
-            } else {
+            }
+            else {
                 $("#estadocontrol").removeClass("badge-success").addClass("badge-danger");
                 $('#estadocontrol').text(Mensajes.Pendiente);
             }
-            $('#cmbNivelLimpieza').val(resultado.NivelLimpieza);
-            $('#Observacion').val(resultado.Observacion);
+            $('#cmbNivelLimpieza').val(ResultadoConsulta.NivelLimpieza);
+            $('#Observacion').val(ResultadoConsulta.Observacion);
             $('#CardDetalle').prop('hidden', false);
             $('#btnEliminarCabeceraControl').prop('disabled', false);
-            LlenarComboLotes(resultado.OrdenFabricacion);
-            //ConsultarDetalleControl();
+
+            LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
             ConsultarDetalleControl();
+            //ConsultarDetalleControl();
+
             SlideCabecera();
         } else {
-            LLenarComboOrdenes();
             $('#brespacio').remove();
             $('#DivCabecera').after('<br id="brespacio">');
             $('#mensajeRegistros').prop('hidden', false);
             $('#mensajeRegistros').text(Mensajes.SinRegistros);
-            
-        }
-    }
-        $('#btnCargando').prop('hidden', true);
-        $('#btnConsultar').prop('hidden', false);
-        $('#btnLimpiar').prop('hidden', false);
-        $('#btnEliminarCabeceraControl').prop('hidden', false);
-        $('#btnGuardar').prop('hidden', false);
-    })
-    .catch(function (resultado) {
-        //console.log('error');
-        console.log(resultado);
-        MensajeError(resultado.responseText, false);
+            $('#DivDetalles').empty();
+            LimpiarControles();
 
-    });
-    //LlenarComboLotes();
+            $('#CardDetalle').prop('hidden', true);
+
+        }
+        DatosOrdenFabricacion();
+       
+    } catch (ex) {
+        MensajeError('Error comuníquese con el departamento de Sistemas, ' + ex.message, false);
+    }
+    $('#btnCargando').prop('hidden', true);
+    $('#btnConsultar').prop('hidden', false);
+    $('#btnLimpiar').prop('hidden', false);
+    $('#btnEliminarCabeceraControl').prop('hidden', false);
+    $('#btnGuardar').prop('hidden', false);
+   
 }
 function GuardarCabceraControl() {
     var Lomo = false;
@@ -224,7 +233,7 @@ function GuardarCabceraControl() {
     } else {
         $('#msjErrorFechaProduccion').prop('hidden', true);
     }
-    if ($('#cmbOrdeneFabricacion').prop('selectedIndex') == 0) {
+    if ($('#cmbOrdeneFabricacion').val()=='') {
         $('#msjErrorOrdenFabricacion').prop('hidden', false);
         return false;
     } else {
@@ -307,19 +316,19 @@ function GuardarCabceraControl() {
         })
 }
 function LimpiarControles() {
-
+    //console.log($("#cmbOrdeneFabricacion").val());
     IdCabecera = 0;
     Error = 0;
     IdDetalle = 0;
     $('#estadocontrol').text('');
     $('#cmbNivelLimpieza').prop('selectedIndex',0);
     $('#EtiquetaEstadoControl').html('');
-    $('#txtFechaProduccion').val('');
-    $('#cmbOrdeneFabricacion').empty();
-    $('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
-    $('#txtCliente').val('');
+    //$('#txtFechaProduccion').val('');
+    //$('#cmbOrdeneFabricacion').empty();
+    //$('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
+    //$('#txtCliente').val('');
     $('#txtFechaProduccion').prop('disabled', false);
-    $('#mensajeRegistros').prop('hidden', true);
+    //$('#mensajeRegistros').prop('hidden', true);
     $('#Lomo').prop('checked', false);
     $('#Miga').prop('checked', false);
     $('#Empaque').prop('checked', false);
@@ -392,9 +401,7 @@ function LlenarComboLotes(orden) {
         .join('&');
 
     let url = '../General/ConsultarLotesPorOf?' + query;
-    if ($('#cmbOrdeneFabricacion').prop('selectedIndex')== 0) {
-
-    } else {
+   
         fetch(url)
             //,body: data
             .then(function (respuesta) {
@@ -424,7 +431,7 @@ function LlenarComboLotes(orden) {
                 MensajeError(resultado.responseText, false);
 
             })
-    }
+ 
 }
 function DatosLote(){
      var Datos = Enumerable.From(ListaLotes)
@@ -499,7 +506,7 @@ function GuardarDetalleControl() {
     $('#btnEliminarDetalleControl').prop('hidden', true);
     $('#btnGuardarDetalle').prop('hidden', true);
     $('#btnLimpiarDetalle').prop('hidden', true);
-    $('#btnCargandoDetalle').prop('hidden', false)
+    $('#btnCargandoSubDetalle').prop('hidden', false)
     const data = new FormData();
     data.append('IdDetalleEvaluacionLomoyMigasEnBandeja', IdDetalle);
     data.append('Hora', $("#txtHora").val());
@@ -510,8 +517,8 @@ function GuardarDetalleControl() {
     data.append('Textura', $("#cmbTextura").val());
     data.append('Color', $("#cmbColor").val());
     data.append('Olor', $("#cmbOlor").val());
-    data.append('Moretones', $("#txtMoretones").val());
-    data.append('HematomasProfundos', $("#txtHematomas").val());
+    data.append('Moretones', $("#cmbMoreton").val());
+    //data.append('HematomasProfundos', $("#txtHematomas").val());
     data.append('Proteina', $("#cmbProteina").val());
     data.append('Trozo', $("#txtTrozos").val());
     data.append('Venas', $("#txtVenas").val());
@@ -552,7 +559,7 @@ function GuardarDetalleControl() {
         }
         $('#btnGuardarDetalle').prop('hidden', false);
         $('#btnLimpiarDetalle').prop('hidden', false);
-        $('#btnCargandoDetalle').prop('hidden', true);
+        $('#btnCargandoSubDetalle').prop('hidden', true);
         $('#btnEliminarDetalleControl').prop('hidden', false);
     })
         .catch(function (resultado) {
@@ -607,8 +614,8 @@ function LimpiarDetalleControles() {
     $('#btnEliminarDetalleControl').prop('disabled', true);
     $('#txtHora').val('');
     $('#txtBuque').val('');
-    $('#txtMoretones').val('');
-    $('#txtHematomas').val('');
+    $('#cmbMoreton').prop('selectedIndex',0);
+    //$('#txtHematomas').val('');
     $('#txtTrozos').val('');
     $('#txtVenas').val('');
     $('#txtEspinas').val('');
@@ -628,10 +635,12 @@ function LimpiarDetalleControles() {
 }
 function ModificarDetalle(data) {
     IdDetalle = data.IdDetalle;
-    $('#txtHora').val(moment(data.Hora).format('YYYY-MM-DDThh:mm'));
+    console.log(data.Hora);
+    $('#txtHora').val(data.Hora);
+
     $('#txtBuque').val(data.Buque);
-    $('#txtMoretones').val(data.Moretones);
-    $('#txtHematomas').val(data.HematomasProfundos);
+    $('#cmbMoreton').val(data.CodMoretones);
+    //$('#txtHematomas').val(data.HematomasProfundos);
     $('#txtTrozos').val(data.Trozos);
     $('#txtVenas').val(data.Venas);
     $('#txtEspinas').val(data.Espinas);

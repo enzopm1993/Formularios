@@ -74,7 +74,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" onchange="ConsultarCabControl()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -82,7 +82,7 @@
             <div class="form-group">
                 Orden de Fabricación:
 
-                <select id="cmbOrdeneFabricacion" class="form-control" onchange="DatosOrdenFabricacion()">
+                <select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
                     <option>Seleccione..</option>
                 </select>
                 <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>
@@ -100,7 +100,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="form-check-inline">
+                        @*<div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
                             </label>
@@ -109,6 +109,21 @@
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
                             </label>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Lomo" name="RadiosProducto">
+                                    <label class="custom-control-label" for="Lomo">Lomo</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto">
+                                    <label class="custom-control-label" for="Miga">Miga</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,7 +136,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="form-check-inline">
+                        @*<div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" id="Empaque" value="">Empaque
                             </label>
@@ -135,6 +150,26 @@
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" id="Pouch" value="">Pouch
                             </label>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Empaque" name="RadiosDestinos">
+                                    <label class="custom-control-label" for="Empaque">Empaque</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Enlatado" name="RadiosDestinos">
+                                    <label class="custom-control-label" for="Enlatado">Enlatado</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Pouch" name="RadiosDestinos">
+                                    <label class="custom-control-label" for="Pouch">Pouch</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,9 +201,9 @@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
@@ -202,7 +237,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="datetime-local" id="txtHora" class=" form-control" />
+                                <input type="time" id="txtHora" class=" form-control" />
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>
@@ -269,12 +304,12 @@
                                 <label id="msjMoreton" class="text-danger" hidden>El campo moretones es obligatorio</label>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
+                        @*<div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hematomas profundos</label>
                                 <input type="number" id="txtHematomas" class="form-control" />
                             </div>
-                        </div>
+                        </div>*@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Proteínas</label>
@@ -328,6 +363,48 @@
         </div>
     </div>
     <br /><hr />
+    <div>
+        <div id="divDetalle2" class="">
+            <div class="row">
+                <div class="col-md-12 col-12 col-sm-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-4">
+                                    <div class="form-group">
+                                        @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle2()" style="border-color:#2c3e50" type="button">
+                                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-8">
+                                    <h5>Adjuntar fotos</h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div id="chart">
+                                <div class="d-flex justify-content-center">
+                                    <div id="spinnerCargandoDetalle2" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+
+                                <div id="divTableDetalle2" class="table-responsive">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class=" col-12 text-center">
             <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
@@ -407,6 +484,48 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="btnsidet" onclick="EliminarDetalle()">Si</button>
                 <button type="button" class="btn btn-primary" id="btnnodet" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal imagenes*@
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle2" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fotos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlDetalle2" name="name" value="0" />
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Novedad</label>
+                            <input class="form-control" id="txtNovedad" type="text" size="500" name="name" value="" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Adjuntar foto</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file-uploadcod" accept="image/*">
+                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle2()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

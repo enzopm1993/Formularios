@@ -12,20 +12,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class MONITOREO_DESCONGELADO
+    public partial class CC_EVALUACION_LOMO_MIGA_FOTO
     {
-        public int IdMonitoreoDescongelado { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Tanque { get; set; }
-        public string Lote { get; set; }
-        public string Especie { get; set; }
-        public string Talla { get; set; }
-        public System.DateTime Hora { get; set; }
-        public string Tipo { get; set; }
-        public Nullable<decimal> TemperaturaAgua { get; set; }
-        public decimal Muestra1 { get; set; }
-        public decimal Muestra2 { get; set; }
-        public decimal Muestra3 { get; set; }
+        public int IdFotoEvaluacioLomosyMigas { get; set; }
+        public Nullable<int> IdDetalleEvaluacionLomosyMigas { get; set; }
+        public string Imagen { get; set; }
+        public Nullable<int> Rotacion { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

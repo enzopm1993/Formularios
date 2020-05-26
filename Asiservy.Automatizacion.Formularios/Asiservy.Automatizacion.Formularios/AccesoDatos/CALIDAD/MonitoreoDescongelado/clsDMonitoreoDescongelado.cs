@@ -17,11 +17,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,string Tipo)
+        public CC_MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,string Tipo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.MONITOREO_DESCONGELADO.Where(x=> 
+                var lista = entities.CC_MONITOREO_DESCONGELADO.Where(x=> 
                             x.Fecha==Fecha
                             &&x.Tanque == Tanque 
                             && x.Tipo == Tipo
@@ -31,35 +31,57 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public void GuardarModificarMonitoreoDescongelado(MONITOREO_DESCONGELADO model)
+        public void GuardarModificarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
-                if (poControl != null)
+                using (var transaction = entities.Database.BeginTransaction())
                 {
-                    poControl.TemperaturaAgua = model.TemperaturaAgua;
-                    poControl.Muestra1 = model.Muestra1;
-                    poControl.Muestra2 = model.Muestra2;
-                    poControl.Muestra3 = model.Muestra3;
-                    poControl.Hora = model.Hora;
-                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
-                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    CC_MONITOREO_DESCONGELADO_CONTROL poControlReporte = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha);
+                    int idControl = 0;
+                    if (poControlReporte != null)
+                    {
+                        idControl = poControlReporte.IdMonitoreoDescongeladoControl;
+                    }
+                    else
+                    {
+                        CC_MONITOREO_DESCONGELADO_CONTROL control = new CC_MONITOREO_DESCONGELADO_CONTROL();
+                        control.Fecha = model.Fecha;
+                        control.EstadoReporte = false;
+                        control.FechaIngresoLog = model.FechaIngresoLog;
+                        control.TerminalIngresoLog = model.TerminalIngresoLog;
+                        control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        control.EstadoReporte = false;
+                        control.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                        entities.CC_MONITOREO_DESCONGELADO_CONTROL.Add(control);
+                        entities.SaveChanges();
+                        idControl = control.IdMonitoreoDescongeladoControl;
+
+                    }
+                    var poControl = entities.CC_MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
+                    if (poControl != null)
+                    {
+                        poControl.Hora = model.Hora;
+                        poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    }
+                    else
+                    {
+                        model.IdMonitoreoDescongeladoControl = idControl;
+                        entities.CC_MONITOREO_DESCONGELADO.Add(model);
+                    }
+                    entities.SaveChanges();
+                    transaction.Commit();
                 }
-                else
-                {
-                    entities.MONITOREO_DESCONGELADO.Add(model);
-                }
-                entities.SaveChanges();
             }
         }
 
-        public void EliminarMonitoreoDescongelado(MONITOREO_DESCONGELADO model)
+        public void EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
+                var poControl = entities.CC_MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
@@ -67,6 +89,62 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;
                     entities.SaveChanges();
+                }
+
+            }
+        }
+        public List<CC_MONITOREO_DESCONGELADO_CONTROL> ConsultaMonitoreoDescongeladoControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                && x.EstadoReporte == Estado).ToList();
+            }
+        }
+
+        public List<CC_MONITOREO_DESCONGELADO_CONTROL> ConsultaMonitoreoDescongeladoControl(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                               ).ToList();
+            }
+        }
+
+        public List<CC_MONITOREO_DESCONGELADO_CONTROL> ConsultaMonitoreoDescongeladoControl(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => x.Fecha == Fecha
+                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+
+        public List<CC_MONITOREO_DESCONGELADO_CONTROL> ConsultaMonitoreoDescongeladoControlPendiente()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => !x.EstadoReporte).ToList();
+            }
+        }
+        public void Aprobar_ReporteMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO_CONTROL controlCloro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.IdMonitoreoDescongeladoControl == controlCloro.IdMonitoreoDescongeladoControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.EstadoReporte = controlCloro.EstadoReporte;
+                    model.AprobadoPor = controlCloro.AprobadoPor;
+                    model.FechaAprobacion = controlCloro.FechaAprobacion;
+                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
+                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
+                    db.SaveChanges();
                 }
 
             }
