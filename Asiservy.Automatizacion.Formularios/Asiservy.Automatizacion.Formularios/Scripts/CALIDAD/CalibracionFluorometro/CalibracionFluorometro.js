@@ -8,7 +8,7 @@ function MascaraInputs() {
     json = JSON.parse($('#inpTotalEstandar').val());
     json.forEach(function (row) {
         $('#Estandar_' + row.IdEstandar).val('');
-        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '99.99' });var d = row;
+        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '99.99' });
     });
 }
 
