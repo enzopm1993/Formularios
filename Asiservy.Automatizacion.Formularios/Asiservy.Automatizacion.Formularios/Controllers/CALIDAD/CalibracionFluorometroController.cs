@@ -223,9 +223,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     CC_CALIBRACION_FLUOROMETRO_CTRL cab = new CC_CALIBRACION_FLUOROMETRO_CTRL();
                     cab.IdCalibracionFluor = calibracionFluorIdFecha.IdCalibracionFluor;
-                    cab.Fecha = calibracionFluorIdFecha.Fecha;
-                    cab.Observacion = calibracionFluorIdFecha.Observacion;
-                    cab.EstadoReporte = calibracionFluorIdFecha.EstadoReporte;
+                    //cab.Fecha = calibracionFluorIdFecha.Fecha;
+                    //cab.Observacion = calibracionFluorIdFecha.Observacion;
+                    //cab.EstadoReporte = calibracionFluorIdFecha.EstadoReporte;
                     cab.FechaAprobado = calibracionFluorIdFecha.FechaAprobado;
                     cab.FechaAprobado = calibracionFluorIdFecha.FechaAprobado;
                     cab.UsuarioIngresoLog = calibracionFluorIdFecha.UsuarioIngresoLog;
@@ -393,23 +393,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (model.Fecha != DateTime.MinValue && model.Hora != DateTime.MinValue && model.ValorEstandar >= 0)
-                {
-                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
-                    model.FechaIngresoLog = DateTime.Now;
-                    model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                    model.TerminalIngresoLog = Request.UserHostAddress;
-                    model.UsuarioIngresoLog = lsUsuario[0];
-                    var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluorDetalle(model);
-                    if (valor == 0)
-                    {
-                        return Json("0", JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json("1", JsonRequestBehavior.AllowGet);
-                    }
-                }else return Json("2", JsonRequestBehavior.AllowGet);
+                //if (model.Fecha != DateTime.MinValue && model.Hora != DateTime.MinValue && model.ValorEstandar >= 0)
+                //{
+                //    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                //    model.FechaIngresoLog = DateTime.Now;
+                //    model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                //    model.TerminalIngresoLog = Request.UserHostAddress;
+                //    model.UsuarioIngresoLog = lsUsuario[0];
+                //    var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluorDetalle(model);
+                //    if (valor == 0)
+                //    {
+                //        return Json("0", JsonRequestBehavior.AllowGet);
+                //    }
+                //    else
+                //    {
+                //        return Json("1", JsonRequestBehavior.AllowGet);
+                //    }
+                //}else return Json("2", JsonRequestBehavior.AllowGet);
+                return null;
 
             }
             catch (DbEntityValidationException e)

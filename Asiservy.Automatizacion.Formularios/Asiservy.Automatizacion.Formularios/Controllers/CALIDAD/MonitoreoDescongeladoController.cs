@@ -14,10 +14,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class MonitoreoDescongeladoController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDMonitoreoDescongelado clsDMonitoreoDescongelado = null;
-        clsDApiProduccion clsDApiProduccion = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDMonitoreoDescongelado clsDMonitoreoDescongelado { get; set; } = null;
+        clsDApiProduccion clsDApiProduccion { get; set; } = null;
 
         // GET: MonitoreoDescongelado
         [Authorize]
@@ -27,7 +27,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                
 
@@ -64,8 +63,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDApiProduccion = new clsDApiProduccion();
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
                 ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
                 if (!model.Any())
                 {
@@ -104,8 +101,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo);
                 if (model==null)
                 {
@@ -134,7 +129,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult MonitoreoDescongelado(MONITOREO_DESCONGELADO control)
+        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control)
         {
             try
             {
@@ -144,8 +139,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;

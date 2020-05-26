@@ -98,27 +98,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                     }
                     else
                     {
-                        if (guardarModificar.Fecha != DateTime.MinValue)
-                        {
-                            model.Fecha = guardarModificar.Fecha;
-                            model.Observacion = guardarModificar.Observacion;
-                            model.Observacion = guardarModificar.Observacion;
-                            valor = 1;//ACTUALIZAR
-                        }
-                        else valor = 3;
+                        //if (guardarModificar.Fecha != DateTime.MinValue)
+                        //{
+                        //    model.Fecha = guardarModificar.Fecha;
+                        //    model.Observacion = guardarModificar.Observacion;
+                        //    model.Observacion = guardarModificar.Observacion;
+                        //    valor = 1;//ACTUALIZAR
+                        //}
+                        //else valor = 3;
                     }
                     model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
                 }
-                else
-                {
-                    if (guardarModificar.Fecha != DateTime.MinValue)
-                    {
-                        db.CC_CALIBRACION_FLUOROMETRO_CTRL.Add(guardarModificar);
-                    }
-                    else valor = 3;
-                }
+                //else
+                //{
+                //    //if (guardarModificar.Fecha != DateTime.MinValue)
+                //    //{
+                //    //    db.CC_CALIBRACION_FLUOROMETRO_CTRL.Add(guardarModificar);
+                //    //}
+                //    else valor = 3;
+                //}
                 db.SaveChanges();
                 return valor;
             }
@@ -153,10 +153,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                 if (model != null)
                 {
                     model.ValorEstandar = guardarModificar.ValorEstandar;
-                    model.Fecha = guardarModificar.Fecha;
-                    model.Hora = guardarModificar.Hora;
-                    model.CoeficienteDeterminacion = guardarModificar.CoeficienteDeterminacion;
-                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    //model.Fecha = guardarModificar.Fecha;
+                    //model.Hora = guardarModificar.Hora;
+                    //model.CoeficienteDeterminacion = guardarModificar.CoeficienteDeterminacion;
+                    //model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
                     valor = 1;
@@ -200,11 +200,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                     calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.IdCalibracionFluor == idCalibracionFluor
                                                                         && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 }
-                else if(fecha!=null)
-                {
-                    calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.Fecha == fecha
-                                                                       && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                }
+                //else if(fecha!=null)
+                //{
+                //    calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.Fecha == fecha
+                //                                                       && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                //}
                 return calibracionID;
             }
         }
@@ -213,11 +213,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_CALIBRACION_FLUOROMETRO_CTRL.Where(c => c.Fecha >= fechaDesde && c.Fecha <= fechaHasta 
-                                                                    && c.EstadoReporte == estadoReReporte
-                                                                    && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
-                                                                    .OrderBy(x=> x.Fecha).ToList();               
-                return lista;
+                //var lista = db.CC_CALIBRACION_FLUOROMETRO_CTRL.Where(c => c.Fecha >= fechaDesde && c.Fecha <= fechaHasta 
+                //                                                    && c.EstadoReporte == estadoReReporte
+                //                                                    && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                //                                                    .OrderBy(x=> x.Fecha).ToList();               
+                //return lista;
+                return null;
             }
         }
 
@@ -225,9 +226,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_CALIBRACION_FLUOROMETRO_DET.Where(c => c.IdCalibracionFluorDetalle== idCalibracionFluorDetalle && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
-                                                                    .OrderBy(x => x.Fecha).ToList();
-                return lista;
+                //var lista = db.CC_CALIBRACION_FLUOROMETRO_DET.Where(c => c.IdCalibracionFluorDetalle== idCalibracionFluorDetalle && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                //                                                    .OrderBy(x => x.Fecha).ToList();
+                //return lista;
+                return null;
+
             }
         }
     }
