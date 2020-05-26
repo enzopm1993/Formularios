@@ -16,8 +16,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdFotoEvaluacioLomosyMigas { get; set; }
         public Nullable<int> IdDetalleEvaluacionLomosyMigas { get; set; }
-        public string Titulo { get; set; }
-        public string Observación { get; set; }
+        public string Imagen { get; set; }
+        public Nullable<int> Rotacion { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

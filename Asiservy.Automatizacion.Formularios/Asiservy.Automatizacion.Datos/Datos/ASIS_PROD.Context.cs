@@ -101,7 +101,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
         public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
-        public virtual DbSet<MONITOREO_DESCONGELADO> MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<MODULO> MODULO { get; set; }
         public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<PlantillasMemorandum> PlantillasMemorandum { get; set; }
@@ -148,9 +147,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE> CC_CLORO_AGUA_AUTOCLAVE { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
@@ -167,8 +163,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_HORA> CC_CUCHILLOS_PREPARACION_HORA { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
-        public virtual DbSet<CC_EVALUACION_LOMO_MIGA_FOTO> CC_EVALUACION_LOMO_MIGA_FOTO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_MORETON> CC_MANTENIMIENTO_MORETON { get; set; }
+        public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
+        public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
+        public virtual DbSet<CC_EVALUACION_LOMO_MIGA_FOTO> CC_EVALUACION_LOMO_MIGA_FOTO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

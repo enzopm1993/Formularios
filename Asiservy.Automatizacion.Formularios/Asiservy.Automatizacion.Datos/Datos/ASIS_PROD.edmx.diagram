@@ -106,7 +106,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO" Width="1.5" PointX="7.375" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="28.375" PointY="6" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.MONITOREO_DESCONGELADO" Width="1.5" PointX="29.375" PointY="10.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="3.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="35.875" PointY="29.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PlantillasMemorandum" Width="1.5" PointX="20.375" PointY="34.75" />
@@ -173,11 +172,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Width="1.5" PointX="40.375" PointY="35.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_CTRL" Width="1.5" PointX="40.375" PointY="46.25" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="41" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="41.5" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Width="1.5" PointX="27.875" PointY="38.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Width="1.5" PointX="23.375" PointY="50.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Width="1.5" PointX="25.625" PointY="43.75" />
@@ -204,8 +198,16 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="35.625" PointY="36.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" Width="1.5" PointX="38.375" PointY="16.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MORETON" Width="1.5" PointX="42.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="45.625" PointY="10.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Width="1.5" PointX="43.375" PointY="10.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_CTRL" Width="1.5" PointX="40.375" PointY="41" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="41.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="46.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" Width="1.5" PointX="38.375" PointY="16.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

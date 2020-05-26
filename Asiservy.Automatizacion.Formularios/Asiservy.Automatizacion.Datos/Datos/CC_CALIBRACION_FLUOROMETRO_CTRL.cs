@@ -21,8 +21,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         }
     
         public int IdCalibracionFluor { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Observacion { get; set; }
+        public System.DateTime FechaHora { get; set; }
+        public string CoeficienteDeterminacion { get; set; }
         public bool EstadoReporte { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobado { get; set; }
