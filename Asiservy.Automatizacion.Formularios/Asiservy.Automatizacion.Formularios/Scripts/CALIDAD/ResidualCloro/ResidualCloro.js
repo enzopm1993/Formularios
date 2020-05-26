@@ -73,6 +73,7 @@ function CargarResidualCloro() {
             {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                $("#chartCabecera2").html(Mensajes.Aprobado);
                 $("#btnGenerar").prop("disabled", true);
             }
             else {
@@ -336,6 +337,7 @@ function CargarResidualCloroDetalle() {
 function NuevoDetalle() {
     $("#txtCantidad").val('');   
     $("#selectPeliduvio").prop('selectedIndex', 0);   
+    $("#txtIdResidualCloroDetalle").val(0);
     $("#selectPeliduvio").css('borderColor', '#ced4da');
 }
 

@@ -199,7 +199,7 @@ function CargarControlDetalle2(id) {
             } else {
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
                 $("#divTableDetalle2").html(resultado);
-                console.log(listaDatos);
+              //  console.log(listaDatos);
                 $("#txtCodDetectorMetal").val(listaDatos.DetectorMetal);
                 //config.opcionesDT.pageLength = 10;
                 //      config.opcionesDT.order = [[0, "asc"]];

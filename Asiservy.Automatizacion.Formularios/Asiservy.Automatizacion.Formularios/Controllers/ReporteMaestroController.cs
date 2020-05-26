@@ -202,6 +202,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, model.Version);
                 }
+                else
+                {
+                    clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, "");
+
+                }
                 clsDReporte.GuardarModificarReporteMaestroDetalle(model);
                 if (dataImg != null)
                 {

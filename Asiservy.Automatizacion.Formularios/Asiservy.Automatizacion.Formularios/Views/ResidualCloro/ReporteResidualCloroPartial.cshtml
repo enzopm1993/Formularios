@@ -12,7 +12,7 @@
                 @Html.DisplayNameFor(model => model.Hora)
             </th>
             @foreach(var x in pediluvios) {
-                <td>@x.Descripcion</td>
+                <th style="white-space:normal">@x.Descripcion</th>
             }           
         </tr>
     </thead>
@@ -27,13 +27,13 @@
                 if (cantidad != null)
                 {
             <td>
-                @if (cantidad.Cantidad < 200)
+                @if ((cantidad.Cantidad == 200 && cantidad.CodPeliduvio != 7) ||(cantidad.CodPeliduvio==7 && cantidad.Cantidad==50))
                 {
-                    <span class="badge badge-danger">@cantidad.Cantidad</span>
+                    <span class="badge badge-success">@cantidad.Cantidad</span>
                 }
                 else
                 {
-                    <span class="badge badge-success">@cantidad.Cantidad</span>
+                    <span class="badge badge-danger">@cantidad.Cantidad</span>
 
                 }
 
