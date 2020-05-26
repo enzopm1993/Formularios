@@ -11,7 +11,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = (from c in db.CC_CUCHILLOS_PREPARACION                            
+                var lista = (from c in db.CC_CUCHILLOS_PREPARACION
+                             where(c.EstadoRegistro==clsAtributos.EstadoRegistroActivo)
                              orderby c.IdCuchilloPreparacion descending
                              select new {c.IdCuchilloPreparacion, c.CodigoCuchillo, c.DescripcionCuchillo, c.EstadoRegistro, c.FechaIngresoLog,
                              c.FechaModificacionLog, c.TerminalIngresoLog, c.TerminalModificacionLog, c.UsuarioIngresoLog, c.UsuarioModificacionLog}).ToList();

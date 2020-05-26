@@ -251,18 +251,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.Now, model.IdControlCuchillo);
-                if (!validarEstadoReporte.EstadoReporte)
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, model.IdControlCuchillo);
+                if (validarEstadoReporte!=null)
                 {
-                    var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloPreparacion(model, siAprobar);
-                    if (valor == 0)
+                    if(validarEstadoReporte.EstadoReporte)
                     {
-                        return Json("0", JsonRequestBehavior.AllowGet);
+                        return Json("3", JsonRequestBehavior.AllowGet);
                     }
-                    else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
-                    else return Json("2", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("3", JsonRequestBehavior.AllowGet);
+               
+                var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloPreparacion(model, siAprobar);
+                if (valor == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
+                else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

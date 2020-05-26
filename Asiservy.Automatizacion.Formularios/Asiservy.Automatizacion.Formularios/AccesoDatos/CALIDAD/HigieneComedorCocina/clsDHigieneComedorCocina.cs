@@ -225,7 +225,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                 var lista = (from c in db.CC_HIGIENE_COMEDOR_COCINA_CTRL
                              where (c.Fecha >= fechaDesde &&  c.Fecha <= fechaHasta && c.EstadoRegistro==clsAtributos.EstadoRegistroActivo)
                              orderby c.Fecha descending
-                             select new { c.IdControlHigiene, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                             select new { c.IdControlHigiene, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog,
+                                         c.FechaModificacionLog, c.UsuarioModificacionLog,c.FechaAprobado, c.AprobadoPor }).ToList();
                 List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listacabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();              
                 CC_HIGIENE_COMEDOR_COCINA_CTRL cabecera;
                 foreach (var item in lista)
@@ -238,6 +239,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                     cabecera.Observacion = item.Observacion;
                     cabecera.FechaIngresoLog = item.FechaIngresoLog;
                     cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    cabecera.UsuarioModificacionLog = item.UsuarioModificacionLog;
+                    cabecera.FechaModificacionLog = item.FechaModificacionLog;
                     cabecera.FechaAprobado = item.FechaAprobado;
                     cabecera.AprobadoPor = item.AprobadoPor;
                     listacabecera.Add(cabecera);
