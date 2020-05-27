@@ -21,13 +21,44 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MONITOREO_DESCONGELADO.Where(x=> 
+                var model = entities.CC_MONITOREO_DESCONGELADO.Where(x=> 
                             x.Fecha==Fecha
                             &&x.Tanque == Tanque 
                             && x.Tipo == Tipo
                             && x.Lote == Lote
                             && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
-                return lista;
+                if (model != null)
+                {
+                    CC_MONITOREO_DESCONGELADO control = new CC_MONITOREO_DESCONGELADO
+                    {
+                        Especie = model.Especie,
+                        EstadoRegistro = model.EstadoRegistro,
+                        Fecha = model.Fecha,
+                        FechaIngresoLog = model.FechaIngresoLog,
+                        FechaModificacionLog = model.FechaModificacionLog,
+                        Hora = model.Hora,
+                        IdMonitoreoDescongelado = model.IdMonitoreoDescongelado,
+                        IdMonitoreoDescongeladoControl = model.IdMonitoreoDescongeladoControl,
+                        Lote = model.Lote,
+                        Muestra1 = model.Muestra1,
+                        Muestra2 = model.Muestra2,
+                        Muestra3 = model.Muestra3,
+                        Talla = model.Talla,
+                        Tanque = model.Tanque,
+                        TemperaturaAgua = model.TemperaturaAgua,
+                        TerminalIngresoLog = model.TerminalIngresoLog,
+                        TerminalModificacionLog = model.TerminalModificacionLog,
+                        Tipo = model.Tipo,
+                        UsuarioIngresoLog = model.UsuarioIngresoLog,
+                        UsuarioModificacionLog = model.UsuarioModificacionLog
+                    };
+                    return control;
+
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

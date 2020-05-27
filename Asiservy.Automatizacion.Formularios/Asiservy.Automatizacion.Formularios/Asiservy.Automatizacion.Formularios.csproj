@@ -2244,6 +2244,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
+    <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\BandejaMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -4046,6 +4047,8 @@
     <Content Include="Views\ControlCuchillosPreparacion\ConsultarCuchilloPreparacionPartial.cshtml" />
     <Content Include="Views\MantenimientoMoretones\MantenimientoMoreton.cshtml" />
     <Content Include="Views\MantenimientoMoretones\MantenimientoMoretonPartial.cshtml" />
+    <Content Include="Views\MonitoreoDescongelado\BandejaMonitoreoDescongelado.cshtml" />
+    <Content Include="Views\MonitoreoDescongelado\BandejaMonitoreoDescongeladoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
