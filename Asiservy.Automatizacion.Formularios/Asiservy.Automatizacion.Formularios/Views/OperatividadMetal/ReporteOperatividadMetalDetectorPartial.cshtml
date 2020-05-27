@@ -1,63 +1,72 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_DETECTOR_METAL>
 
-<style>
-    .img {
-        margin: 10px auto;
-        border-radius: 5px;
-        /*border: 1px solid #999;*/
-        padding: 13px;
-        /*width:420px;
-  height:320px;*/
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+@*<style>
+      .img {
+          margin: 10px auto;
+          border-radius: 5px;
+          /*border: 1px solid #999;*/
+          padding: 13px;
+          /*width:420px;
+    height:320px;*/
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          background-size: cover;
+      }
 
-        .img img {
-            width: 100%;
-        }
+          .img img {
+              width: 100%;
+          }
 
-    @@media all and (min-width: 500px) and (max-width: 1000px) {
-        .img {
-            margin: 20px auto;
-            border-radius: 5px;
-            border: 1px solid #999;
-            padding: 13px;
-            width: 300px;
-            height: 300px;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-    }
+      @@media all and (min-width: 500px) and (max-width: 1000px) {
+          .img {
+              margin: 20px auto;
+              border-radius: 5px;
+              border: 1px solid #999;
+              padding: 13px;
+              width: 300px;
+              height: 300px;
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              background-size: cover;
+          }
+      }
 
-    .img img {
-        width: 100%;
-    }
+      .img img {
+          width: 100%;
+      }
+</style>*@
 
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-         margin-right: 0; 
-         margin-left: 0; 
-    }
-</style>
-
-@{ 
+@{
     var count = 0;
- }
+}
 
-<table class="table table-borderless">
+<tr>
+    @foreach (var item in Model)
+    {
+        <td style="width:50%;height:100%;">
+            @if (item.Imagen != null)
+            {
+                <div class="text-center" id="header_@item.IdOperatividadDetectorMetal" style="background:#DCDCDC;">
+                    <img src="~/Content/Img/@item.Imagen" id="@item.IdOperatividadDetectorMetal" class="card-img-top" alt="...">
+                </div>
+            }
+            @if (item.Imagen != null)
+            {
+                <script>
+                        validarImg('@item.Rotacion','@item.IdOperatividadDetectorMetal','@item.Imagen');
+                </script>
+            }
+            <div class="" style="background:#F0F8FF">
+                <p class="card-text" style="color:black"><b>Novedades del hallazgo: </b> @item.Novedad</p>
+            </div>
+        </td>
 
-    <tr>
-        @foreach (var item in Model)
-        {
-            <td style="width:33.3%;height:50px">
-                <div class="card shadow" style="margin-bottom:10px">
+        @*<td style="width:50%;height:100%">
+                <div class="card" style="margin-bottom:10px; height:auto">
                     @if (item.Imagen != null)
                     {
-                        <div class="card-header text-center" style="background:#DCDCDC">
-                            <img src="~/Content/Img/@item.Imagen" id="@item.IdOperatividadDetectorMetal" class="card-img-top" alt="...">
+                        <div class="card-header text-center" id="header_@item.IdOperatividadDetectorMetal" style="background:#DCDCDC;">
+                            <img src="~/Content/Img/@item.Imagen" id="@item.IdOperatividadDetectorMetal"  class="card-img-top" alt="...">
                         </div>
                     }
                     @if (item.Imagen != null)
@@ -70,48 +79,55 @@
                         <p class="card-text" style="color:black"><b>Novedades del hallazgo: </b> @item.Novedad</p>
                     </div>
                 </div>
-            </td>
+            </td>*@
 
-          
-            count++;
-            if (count == 3)
-            {
-            @:</tr><tr>
-                count = 0;
-            }
-            
+
+        count++;
+        if (count == 2)
+        {
+        @:</tr><tr>
+            count = 0;
         }
-    
-    </tr>
-</table>
+
+    }
+
+</tr>
 
 
-
+<tr>
+    <td>
+        <p><b>Limite Control:</b> 100% de bandejas de lomos pasadas por el detector de metales.</p>
+    </td>
+    <td>
+        <label><b>CODIGO DETECTOR METALES</b></label>
+        <input type="text" class="form-control" disabled name="name" id="txtCodDetectorMetal" value="" />
+    </td>
+</tr>
 
 @*<div class="row">
 
-    @foreach (var item in Model)
-    {
+        @foreach (var item in Model)
+        {
 
-        <div class="col-md-4 col-12 col-sm-12 text-center ">
-            <div class="card shadow" style="margin-bottom:10px; border:medium double">
-                @if (item.Imagen != null)
-                {
-                    <div class="card-header text-center" style="background:#DCDCDC">
-                        <img src="~/Content/Img/@item.Imagen" id="@item.IdOperatividadDetectorMetal" class="card-img-top" alt="...">
+            <div class="col-md-4 col-12 col-sm-12 text-center ">
+                <div class="card shadow" style="margin-bottom:10px; border:medium double">
+                    @if (item.Imagen != null)
+                    {
+                        <div class="card-header text-center" style="background:#DCDCDC">
+                            <img src="~/Content/Img/@item.Imagen" id="@item.IdOperatividadDetectorMetal" class="card-img-top" alt="...">
+                        </div>
+                    }
+
+                    <div class="card-body" style="background:#F0F8FF">
+                        <p class="card-text" style="color:black">@item.Novedad</p>
                     </div>
-                }
-
-                <div class="card-body" style="background:#F0F8FF">
-                    <p class="card-text" style="color:black">@item.Novedad</p>
                 </div>
             </div>
-        </div>
-        if (item.Imagen != null)
-        {
-            <script>
-        validarImg('@item.Rotacion','@item.IdOperatividadDetectorMetal','@item.Imagen');
-            </script>
+            if (item.Imagen != null)
+            {
+                <script>
+            validarImg('@item.Rotacion','@item.IdOperatividadDetectorMetal','@item.Imagen');
+                </script>
+            }
         }
-    }
-</div>*@
+    </div>*@

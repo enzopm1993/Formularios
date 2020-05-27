@@ -75,7 +75,7 @@ function SeleccionarBandeja(Control) {
     $("#lblNoFerroso").html(model.NoFerroso);
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);
-    $("#txtCodDetectorMetal").val(model.DetectorMetal);
+   
 
 
  
@@ -149,6 +149,7 @@ function CargarControlDetalle2() {
             } else {
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
                 $("#divTableDetalle2").html(resultado);
+                $("#txtCodDetectorMetal").val(model.DetectorMetal);
                 //config.opcionesDT.pageLength = 10;
                 //      config.opcionesDT.order = [[0, "asc"]];
                 //    $('#tblDataTable').DataTable(config.opcionesDT);
@@ -164,26 +165,44 @@ function CargarControlDetalle2() {
 
 function validarImg(rotacion, id, imagen) {
 
-    $('#' + id).rotate(rotacion);
     //document.getElementById(id).style.height = "0px";
     //document.getElementById(id).style.width = "0px";
+
+    //var img = $('<img id="' + id + 'width="150px" height="250px">'); //Equivalent: $(document.createElement('img'))
+    //img.attr('src', "/Content/Img/" + imagen);
+    //img.appendTo("#header_" + id);
+
+    if (rotacion > 0) { $('#' + id).rotate(parseInt(rotacion)); }
+
 
     var img = new Image();
     img.onload = function () {
         //  alert(this.width + 'x' + this.height);
         var ancho = this.width;
         var alto = this.height;
+        var h = 0;
+        var a = 0;
         if (ancho < alto) {
             document.getElementById(id).style.height = "250px";
             document.getElementById(id).style.width = "150px";
+
+            //document.getElementById("header_"+id).style.height = "250px";
+            //$("#header_" + id).css("height", "250px");
         } else {
             document.getElementById(id).style.height = "150px";
             document.getElementById(id).style.width = "250px";
+
+            if (rotacion == 90 || rotacion == 270) {
+                console.log($("#header_" + id));
+                $("#header_" + id).css("height", "250px");
+                $("#header_" + id).css("padding-top", "50px");
+            }
         }
 
     }
     img.src = "/Content/Img/" + imagen;
 
+    
 }
 
 //FECHA DataRangePicker

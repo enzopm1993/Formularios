@@ -50,7 +50,7 @@
                     }
                 </td>
                 <td>
-                    @{ DateTime datem = Convert.ToDateTime(item.FechaAprobado);}
+                    @{ DateTime datem = Convert.ToDateTime(item.FechaModificacionLog);}
                     @if (datem != DateTime.MinValue)
                     {
                         @datem.ToString("dd-MM-yyyy")

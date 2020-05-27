@@ -187,6 +187,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+
                 clsDCondicionPersonal.GuardarModificarCondicionPersonal(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
@@ -268,6 +273,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDCondicionPersonal = new clsDCondicionPersonal();
+                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDCondicionPersonal.EliminarCondicionPersonal(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }
@@ -290,6 +299,54 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult ValidaEstadoReporte(DateTime Fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                var control = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha).FirstOrDefault();
+                if (control != null)
+                {
+                    if (control.EstadoReporte)
+                    {
+                        return Json(1, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(2, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
 
         #region REPORTE
@@ -308,6 +365,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
                     ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 ClsDClasificador = new clsDClasificador();

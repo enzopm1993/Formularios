@@ -208,6 +208,12 @@
                             @Html.DropDownList("txtEmpleado", new SelectList(ViewBag.listaEmpleadoLinea, "CEDULA", "Nombres"), "Seleccione Empleado", new { @class = "form-control", @onchange = "ValidarEmpleadoExiste(0)" })
                         </div>
                     </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Observación</label>
+                            <input type="text" name="name" value="" id="txtObservacionDetalle" class="form-control" />
+                        </div>
+                    </div>
                     <div class="col-md-12 col-12 text-center" id="ModalCheckBox">
                         <div class="form-group">
                             <label>Estado</label>
@@ -217,6 +223,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -270,6 +277,7 @@
                     <th>CODIGO CUCHILLO</th>
                     <th>ESTADO</th>
                     <th>EMPLEADO</th>
+                    <th>OBSERVACION</th>
                     <th>USUARIO CREACION</th>
                     <td>ACCIONES</td>
                 </tr>

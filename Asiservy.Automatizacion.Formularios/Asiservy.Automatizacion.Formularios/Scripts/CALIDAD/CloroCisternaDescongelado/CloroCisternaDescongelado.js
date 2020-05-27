@@ -5,6 +5,8 @@ var estadoReporte = [];
 //ListaDatosDetalle.IdCloroCisternaDetalle = 0;
 $(document).ready(function () {
     CargarCabecera();
+    $('#txtPpm').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '9.99' });
+    $('#txtCisterna').inputmask({ 'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'max': '9' });
 });
 
 function ConsultarEstadoReporte() {
@@ -196,15 +198,13 @@ function ModalGenerarHoraControlCloroCisterna() {
 function CargarHora() {
     var fechaactual = new Date();
     var horaactual = moment(fechaactual).format('HH:mm');
-    //var fecha = $("#txtFecha").val();
-    //var fechahora = moment(fecha + " " + horaactual).format('YYYY-MM-DDTHH:mm');
     $("#txtHora").val(horaactual); 
 }
 
 function limpiarDetalle() {
     $("#txtHora").val('');
     $("#txtPpm").val('');
-    $("#txtCisterna").val('');
+    $("#txtCisterna").val(1);
     $("#txtObservacionDetalle").val('');
 }
 

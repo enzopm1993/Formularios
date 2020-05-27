@@ -42,12 +42,13 @@ function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;
 
+    $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
+    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
+
     if (model.EstadoReporte) {
-        $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-        $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
-        $("#txtUsuarioAprobacion").html(model.AprobadoPor);
+         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
         $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
-        $("#txtCodDetectorMetal").val(model.DetectorMetal);
+        //$("#txtCodDetectorMetal").val(model.DetectorMetal);
        // return;
     }
     $("#btnImprimir").prop("hidden", false);

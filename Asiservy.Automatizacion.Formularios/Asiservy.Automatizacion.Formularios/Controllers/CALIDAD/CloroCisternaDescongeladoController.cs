@@ -23,8 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {              
                 ViewBag.dataTableJS = "1";
-                ViewBag.JavaScrip = "CALIDAD/"+RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                
+                ViewBag.JavaScrip = "CALIDAD/"+RouteData.Values["controller"] + "/" + RouteData.Values["action"];                ViewBag.MascaraInput = "1";
 
                 return View();
             }

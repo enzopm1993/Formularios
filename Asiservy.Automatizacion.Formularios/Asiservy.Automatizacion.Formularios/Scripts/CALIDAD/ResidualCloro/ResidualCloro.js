@@ -39,10 +39,44 @@ function ConsultarPeliduvios() {
     });
 }
 
+
+function ValidaEstadoReporte(Fecha,Area) {
+    $.ajax({
+        url: "../ResidualCloro/ValidaEstadoReporte",
+        type: "GET",
+        data: {
+            Fecha: Fecha,
+            Area: Area
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            // console.log(resultado == 0);
+            if (resultado == 0) {
+                $("#lblAprobadoPendiente").html("");
+
+            } else if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+
+            } else {
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+
 function CargarResidualCloro() {
     $("#chartCabecera2").html('');
     $("#btnGenerar").prop("disabled", false);
     $("#lblAprobadoPendiente").html("");
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
     $("#divCabecera2").prop("hidden", false);
     if ($("#txtFecha").val() == '' || $("#selectArea").val() == '') {
         return;
@@ -53,6 +87,7 @@ function CargarResidualCloro() {
         return;
     }
     $("#spinnerCargando").prop("hidden", false);
+    ValidaEstadoReporte($("#txtFecha").val(), $("#selectArea").val());
     ConsultarPeliduvios();
     $.ajax({
         url: "../ResidualCloro/ResidualCloroPartial",
@@ -69,15 +104,8 @@ function CargarResidualCloro() {
             $("#spinnerCargando").prop("hidden", true);
             if (resultado == "0") {
                 $("#chartCabecera2").html(Mensajes.SinRegistros);
-            } else if (resultado.Fecha!=null)
-            {
-                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
-                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
-                $("#btnGenerar").prop("disabled", true);
             }
             else {
-                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
-                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
                 $("#chartCabecera2").html(resultado);
                 config.opcionesDT.pageLength = 10;
                 $('#tblDataTable').DataTable(config.opcionesDT);
@@ -94,7 +122,7 @@ function CargarResidualCloro() {
 
 function NuevoControl() {    
     $("#txtObservacion").val('');   
-    $("#txtHora").val('');   
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
     $("#selectArea").css('borderColor', '#ced4da');
 }
 
@@ -155,6 +183,12 @@ function GuardarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+            }
             MensajeCorrecto(resultado);
             CargarResidualCloro();
             NuevoControl();
@@ -207,7 +241,9 @@ function InactivarControl() {
         url: "../ResidualCloro/EliminarResidualCloro",
         type: "POST",
         data: {
-            IdResidualCloro: $("#txtEliminarDetalle").val()
+            IdResidualCloro: $("#txtEliminarDetalle").val(),
+            Fecha: DatosCabecera.Fecha,
+            CodArea:$("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -215,6 +251,12 @@ function InactivarControl() {
             }
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
+            }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
             }
             AtrasControlPrincipal();
             $("#modalEliminarControl").modal("hide");
@@ -290,6 +332,13 @@ function EditarResidualCloro() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                $("#ModalEditarControl").modal("hide");
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+            }
             MensajeCorrecto(resultado);
             $("#ModalEditarControl").modal("hide");
             $("#txtDescripcionCabecera").html(DatosCabecera.Hora);         
@@ -336,6 +385,7 @@ function CargarResidualCloroDetalle() {
 function NuevoDetalle() {
     $("#txtCantidad").val('');   
     $("#selectPeliduvio").prop('selectedIndex', 0);   
+    $("#txtIdResidualCloroDetalle").val(0);
     $("#selectPeliduvio").css('borderColor', '#ced4da');
 }
 
@@ -392,11 +442,20 @@ function GuardarResidualCloroDetalle() {
             IdResidualCloro: DatosCabecera.IdResidualCloro,
             IdResidualCloroDetalle: $("#txtIdResidualCloroDetalle").val(),
             CodPeliduvio: $("#selectPeliduvio").val(),
-            Cantidad: $("#txtCantidad").val()
+            Cantidad: $("#txtCantidad").val(),
+            Fecha: DatosCabecera.Fecha,
+            Area:$("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                $("#ModalResidualCloroDetalle").modal("hide");
+                return;
             }
             MensajeCorrecto(resultado);
             $("#ModalResidualCloroDetalle").modal("hide");
@@ -417,7 +476,9 @@ function InactivarResidualCloroDetalle() {
         url: "../ResidualCloro/EliminarResidualCloroDetalle",
         type: "POST",
         data: {
-            IdResidualCloroDetalle: $("#txtEliminarModalDetalle").val()
+            IdResidualCloroDetalle: $("#txtEliminarModalDetalle").val(),
+            Fecha: DatosCabecera.Fecha,
+            Area: $("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -425,6 +486,12 @@ function InactivarResidualCloroDetalle() {
             }
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
+            }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
             }
             CargarResidualCloroDetalle();
             $("#modalEliminarControlDetalle").modal("hide");

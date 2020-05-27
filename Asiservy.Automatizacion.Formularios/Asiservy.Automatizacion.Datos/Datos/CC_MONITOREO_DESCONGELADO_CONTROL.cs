@@ -12,20 +12,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class MONITOREO_DESCONGELADO
+    public partial class CC_MONITOREO_DESCONGELADO_CONTROL
     {
-        public int IdMonitoreoDescongelado { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_MONITOREO_DESCONGELADO_CONTROL()
+        {
+            this.CC_MONITOREO_DESCONGELADO = new HashSet<CC_MONITOREO_DESCONGELADO>();
+        }
+    
+        public int IdMonitoreoDescongeladoControl { get; set; }
         public System.DateTime Fecha { get; set; }
-        public string Tanque { get; set; }
-        public string Lote { get; set; }
-        public string Especie { get; set; }
-        public string Talla { get; set; }
-        public System.DateTime Hora { get; set; }
-        public string Tipo { get; set; }
-        public Nullable<decimal> TemperaturaAgua { get; set; }
-        public decimal Muestra1 { get; set; }
-        public decimal Muestra2 { get; set; }
-        public decimal Muestra3 { get; set; }
+        public bool EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -33,5 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
     }
 }

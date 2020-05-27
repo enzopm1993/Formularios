@@ -1,7 +1,9 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.CC_CALIBRACION_FLUOROMETRO_CTRL
-
+@using Newtonsoft.Json;
 @{
     ViewBag.Title = "CalibracionFluorometro";
+    var json = JsonConvert.SerializeObject(ViewBag.ListaEstandar);
+    
 }
 
 <style>
@@ -51,12 +53,17 @@
 <div class="row">
     <div class="col-12">
         <h4 style="float:left">Control de Calibración Fluorómetro<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
-        <div class="col.md-4 box_filters">
+        <div class="box_filters">
             <div class="itemFilter">
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+                <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
             </div>
             <div class="itemFilter">
-                <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera(0)" id="iconSearch" class="fas fa-search"></i></a>
+                <a onclick="CargarCabecera()" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
     </div>
@@ -76,7 +83,7 @@
     </div>
 </div>
 
-<div class="card col-md-12" id="divMostrarCabecera" hidden>
+@*<div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
         <div class="col-md-3 col-12 col-sm-12" style="float:left">
             <div class="form-group">
@@ -104,10 +111,10 @@
         </div>
     </div>
 </div>
-<hr />
+<hr />*@
 
 @* BOTON INGRESAR DETALLE *@
-<div class="row" id="divBotonCrearDetalle">
+@*<div class="row" id="divBotonCrearDetalle">
     <div class="col-12">
         <div class="col-md-3 col-12 float-left">
             <label class="" id="lblAcciones">Nuevo Registro Detalle</label>
@@ -119,12 +126,12 @@
         </div>
 
     </div>
-</div>
+</div>*@
 
 
 
 @*MODAL MOSTRAR TABLA DETALLE*@
-<div id="divMostarTablaDetallesVer" class="table-responsive">
+<div id="divMostrarCabecera" class="table-responsive">
 </div>
 
 @*MODAL ELIMINAR REGISTRO CABECERA*@
@@ -148,33 +155,51 @@
 @* MODAL PARA EL INGRESO NUEVO REGISTRO CABECERA*@
 <div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-sm">
             <div class="modal-header">
                 <h5 class="modal-title">Crear Nuevo Registro</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="Limpiar()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5 col-12 col-sm-12">
+                    <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
                         <div class="form-group">
-                            <label>FECHA-HORA</label>
-                            <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="OnChangeTextBox(0)" id="txtIngresoFechaCabecera" class="form-control" />
+                            <label>COEFICIENTE DETERMINACION</label>
+                            <input type="text" name="name" value="" id="txtCoeficiente" autofocus class="form-control" onchange="OnChangeTextBox()"/>
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-12 col-sm-12">
+                    @foreach (var item in ViewBag.ListaEstandar)
+                    {
+                        <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
+                            <div class="form-group">
+                                <label>@item.NombEstandar</label>
+                                <input type="text" name="name" value=""id="Estandar_@item.IdEstandar" class="form-control" onchange="OnChangeTextBox()"/>
+                                
+                            </div>
+                        </div>
+                    }
+                    <input type="hidden" id="inpTotalEstandar" value="@json"/>
+                    <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
                         <div class="form-group">
-                            <label>OBSERVACION</label>
-                            <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
+                            <label>FECHA-HORA</label>
+                            <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="OnChangeTextBox()" id="txtFechaCalibre" class="form-control" />
                         </div>
                     </div>
+                    <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
+                        <div class="form-group">
+                            <label>ANALISTA</label>
+                            <input type="text" disabled name="name" value="@ViewBag.Analista" id="txtAnalista" class="form-control" />
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(false)" id="btnGenerarControlRegistro">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Limpiar()">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -182,7 +207,7 @@
 </div>
 
 @* MODAL PARA EL INGRESO/EDITAR NUEVO DETALLE *@
-<div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
+@*<div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -199,4 +224,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@

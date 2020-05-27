@@ -53,7 +53,10 @@ function SeleccionarCabecera(jdata) {
     $('#lblMostrarFechaM').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
     $('#lblMostrarHora').text(moment(jdata.Fecha).format('HH:mm'));
     $('#lblMostrarHoraM').text(moment(jdata.Fecha).format('HH:mm')); 
-    $('#lblMostrarObservacion').text('\u00a0' + jdata.Observacion.toUpperCase());
+    if (jdata.Observacion!=null) {
+        $('#lblMostrarObservacion').text('\u00a0' + jdata.Observacion.toUpperCase());
+    }
+    //$('#lblMostrarObservacion').text('\u00a0' + jdata.Observacion.toUpperCase());
     $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
     $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
     if (jdata.AprobadoPor == null) {

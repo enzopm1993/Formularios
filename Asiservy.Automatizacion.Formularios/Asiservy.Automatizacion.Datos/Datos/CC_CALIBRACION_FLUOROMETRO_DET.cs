@@ -18,9 +18,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdCalibracionFluor { get; set; }
         public int IdEstandar { get; set; }
         public decimal ValorEstandar { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public System.DateTime Hora { get; set; }
-        public string CoeficienteDeterminacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

@@ -318,6 +318,7 @@ function NuevoDetalle() {
     $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
     $("#divFileUpload").css('color', '#ced4da');
     $("#file-preview-zone").css('borderColor', '#ced4da');
+    $("#txtIdDetalleModal").val(0);
     rotation = 0;
 
 }

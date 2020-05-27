@@ -8,7 +8,7 @@ $(document).ready(function () {
 });
 
 var rotation = 0;
-
+    
 
 function ConsultarControl() {
     MostrarModalCargando();
@@ -296,7 +296,7 @@ function CargarControlDetalle() {
 
 function ModalGenerarControlDetalle() {
     $("#txtIdControlDetalle").val(0);
-    //$("#txtHora").val("");
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
     //$("#txtHoraFinDetalle").val("");
     $("#ModalGenerarControlDetalle").modal("show");
 
