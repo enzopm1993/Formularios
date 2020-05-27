@@ -1802,15 +1802,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Higine_Comedor_Cocina>("sp_Control_Higine_Comedor_Cocina", idControlHigieneParameter, fechaDesdeParameter, fechaHastaParameter, opParameter);
         }
     
-        public virtual ObjectResult<spConsultaCodigoReporte> spConsultaCodigoReporte(string reporte)
-        {
-            var reporteParameter = reporte != null ?
-                new ObjectParameter("Reporte", reporte) :
-                new ObjectParameter("Reporte", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
-        }
-    
         public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
@@ -2089,6 +2080,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion>("sp_Control_Cuchillos_Preparacion", idControlCuchilloParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCodigoReporte> spConsultaCodigoReporte(string reporte)
+        {
+            var reporteParameter = reporte != null ?
+                new ObjectParameter("Reporte", reporte) :
+                new ObjectParameter("Reporte", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
         }
     }
 }
