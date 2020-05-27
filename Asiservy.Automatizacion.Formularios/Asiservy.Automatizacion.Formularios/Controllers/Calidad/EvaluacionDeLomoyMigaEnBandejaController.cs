@@ -14,6 +14,7 @@ using Asiservy.Automatizacion.Formularios.Models.Calidad;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using System.IO;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -46,6 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.DateTimePicker = "1";
                 ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
                 //ViewBag.FirmaPad = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
@@ -81,6 +83,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.MaskedInput = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";
                 //ViewBag.FirmaPad = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
@@ -136,6 +139,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";
                 ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 
@@ -307,6 +311,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
+        public JsonResult EliminarFotoDetalle(int IdFoto)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                CC_EVALUACION_LOMO_MIGA_FOTO poFotoLomosyMigas = new CC_EVALUACION_LOMO_MIGA_FOTO()
+                {
+                    IdFotoEvaluacioLomosyMigas = IdFoto,
+                    UsuarioIngresoLog = lsUsuario[0],
+                    FechaIngresoLog = DateTime.Now,
+                    TerminalIngresoLog = Request.UserHostAddress
+                };
+                object[] Respuesta = null;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.InactivarFotoDetalle(poFotoLomosyMigas);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
         public JsonResult GuardarDetalleControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetalleControl)
         {
             try
@@ -376,6 +421,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
                 Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.InactivarDetalle(poDetControl);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult PartialReporteFotos(int IdCabecera)
+        {
+            try
+            {
+
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                List<ReporteFotosEvaluacionLomosyMigasViewModel> resultado;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFotosControl(IdCabecera);
+                if (resultado.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(resultado);
             }
             catch (DbEntityValidationException e)
             {
@@ -650,6 +734,115 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult GuardarFotoDetalle(HttpPostedFileBase dataImg, CC_EVALUACION_LOMO_MIGA_FOTO control)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                object resultado = new object[3];
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                string path = string.Empty;
+                string NombreImg = string.Empty;
+                if (dataImg != null)
+                {
+                    path = Server.MapPath("~/Content/Img/EvaluacionDeLomosYMigasEnBandeja/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    var date = DateTime.Now;
+                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
+                    var ext2 = dataImg.FileName.Split('.');
+                    var cont = ext2.Length;
+                    NombreImg = "EvaluacionDeLomosYMigasEnBandeja/EvaluacionDeLomosYMigasEnBandeja" + n.ToString() + "." + ext2[cont - 1];
+                    control.Imagen = NombreImg;
+                }
+
+
+                control.UsuarioIngresoLog = lsUsuario[0];
+                control.FechaIngresoLog = DateTime.Now;
+                control.TerminalIngresoLog = Request.UserHostAddress;
+                control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                if (control.IdFotoEvaluacioLomosyMigas == 0)
+                {
+                    resultado=clsDEvaluacionDeLomosYMigasEnBandeja.GuardarDetalleFoto(control);
+                }
+                else
+                {
+                    resultado=clsDEvaluacionDeLomosYMigasEnBandeja.ModificarDetalleFoto(control);
+                }
+                
+                if (dataImg != null)
+                {
+                    dataImg.SaveAs(path + Path.GetFileName(NombreImg));
+                }
+                return Json(resultado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public ActionResult DetalleFotoPartial(int IdDetalle)
+        {
+            try
+            {
+
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+               
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFotosDetalle(IdDetalle);
+                if (resultado.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(resultado);
             }
             catch (DbEntityValidationException e)
             {

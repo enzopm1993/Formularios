@@ -9,6 +9,63 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
 {
     public class clsDEvaluacionDeLomosYMigasEnBandeja
     {
+        public object[] GuardarDetalleFoto(CC_EVALUACION_LOMO_MIGA_FOTO control)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+
+                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Find(control.IdDetalleEvaluacionLomosyMigas);
+                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(buscarDetalle.IdCabeceraEvaluacionLomosYMigasEnBandeja);
+                if (buscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible ingresar el control, por que se encuentra aprobado";
+                    resultado[2] = control;
+                }
+                db.CC_EVALUACION_LOMO_MIGA_FOTO.Add(control);
+                db.SaveChanges();
+                resultado[0] = "000";
+                resultado[1] = "Foto guardada";
+                resultado[2] = control;
+              
+                return resultado;
+            }
+        }
+        public object[] ModificarDetalleFoto(CC_EVALUACION_LOMO_MIGA_FOTO control)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+
+                var buscarFoto = db.CC_EVALUACION_LOMO_MIGA_FOTO.Find(control.IdFotoEvaluacioLomosyMigas);
+                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Find(buscarFoto.IdDetalleEvaluacionLomosyMigas);
+                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(buscarDetalle.IdCabeceraEvaluacionLomosYMigasEnBandeja);
+                if (buscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible modificar el control, por que se encuentra aprobado";
+                    resultado[2] = control;
+                }
+                else
+                {
+                    if (control.Imagen != null)
+                        buscarFoto.Imagen = control.Imagen;
+                    buscarFoto.Observacion = control.Observacion;
+                    buscarFoto.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    buscarFoto.FechaModificacionLog = DateTime.Now;
+                    buscarFoto.TerminalModificacionLog = control.TerminalModificacionLog;
+
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Foto Actualizada";
+                    resultado[2] = control;
+                }
+                
+
+                return resultado;
+            }
+        }
         public CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion,int OrdenFabricacion)
         {
             using (var db = new ASIS_PRODEntities())
@@ -97,6 +154,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
          }
+        public object[] InactivarFotoDetalle(CC_EVALUACION_LOMO_MIGA_FOTO pofoto)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                var buscarFotoDet = db.CC_EVALUACION_LOMO_MIGA_FOTO.Find(pofoto.IdFotoEvaluacioLomosyMigas);
+                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Find(buscarFotoDet.IdDetalleEvaluacionLomosyMigas);
+                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(buscarDetalle.IdCabeceraEvaluacionLomosYMigasEnBandeja);
+                if (buscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible inactivar el control, por que se encuentra aprobado";
+                    resultado[2] = pofoto;
+                }
+                else
+                {
+                    buscarFotoDet.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    buscarFotoDet.FechaModificacionLog = pofoto.FechaIngresoLog;
+                    buscarFotoDet.UsuarioModificacionLog = pofoto.UsuarioIngresoLog;
+                    buscarFotoDet.TerminalModificacionLog = pofoto.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = pofoto;
+                }
+                return resultado;
+            }
+        }
         public object[] GuardarDetalleControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetalleControl)
         {
             using (var db = new ASIS_PRODEntities())
@@ -293,6 +378,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
         }
+        public List<CC_EVALUACION_LOMO_MIGA_FOTO> ConsultarFotosDetalle(int IdDetalle)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                return db.CC_EVALUACION_LOMO_MIGA_FOTO.Where(x => x.IdDetalleEvaluacionLomosyMigas == IdDetalle&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
         public List<spReporteEvaluacionLomosMigasBandeja> ConsultarReporte(int IdEvaluacionDeLomosYMigasEnBandejas)
         {
             using (var db = new ASIS_PRODEntities())
@@ -428,6 +520,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                  }).Distinct().ToList();
 
                 return respuesta;
+            }
+        }
+        public List<ReporteFotosEvaluacionLomosyMigasViewModel> ConsultarFotosControl(int IdCab)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<int> ListDetallesCab = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.IdCabeceraEvaluacionLomosYMigasEnBandeja == IdCab && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x=>x.IdDetalleEvaluacionLomoyMigasEnBandeja).ToList();
+
+                var query = (from f in db.CC_EVALUACION_LOMO_MIGA_FOTO
+                             join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE 
+                             on new { IdDetalleEvaluacionLomoyMigasEnBandeja= f.IdDetalleEvaluacionLomosyMigas.Value, estado=clsAtributos.EstadoRegistroActivo } equals new { d.IdDetalleEvaluacionLomoyMigasEnBandeja,estado=d.EstadoRegistro }
+                             where f.EstadoRegistro==clsAtributos.EstadoRegistroActivo && ListDetallesCab.Contains(f.IdDetalleEvaluacionLomosyMigas.Value)
+                             orderby d.Hora
+                             select new ReporteFotosEvaluacionLomosyMigasViewModel { IdFoto=f.IdFotoEvaluacioLomosyMigas,Hora = d.Hora, Imagen = f.Imagen, Novedad = f.Observacion ,Rotacion=f.Rotacion.Value}).ToList();
+                return query;
             }
         }
         //public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo,string Usuario, string Terminal)

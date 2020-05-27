@@ -1,10 +1,80 @@
 ﻿var Error = 0;
 var IdControlAp;
-
+var TipoLimpieza;
+var ParametrosLomosYMigas =
+{
+    Limpieza1: {
+        Venas: 8,
+        Espinas: 10,
+        Moretones: 9,
+        Escamas: 3,
+        Piel: 5,
+        Total: 35
+    },
+    Limpieza2: {
+        Venas: 6,
+        Espinas: 8,
+        Moretones: 5,
+        Escamas: 2,
+        Piel: 4,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 1,
+        Espinas: 3,
+        Moretones: 3,
+        Escamas: 0,
+        Piel: 0,
+        Total: 7
+    }
+}
 $(document).ready(function () {
     CargarBandeja();
     
 });
+function ConsultarFotos(idCabecera) {
+    let params = {
+        IdCabecera: idCabecera
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../EvaluacionDeLomoyMigaEnBandeja/PartialReporteFotos?' + query;
+
+    fetch(url)
+        //,body: data
+        .then(function (respuesta) {
+            if (!respuesta.ok) {
+           
+                MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+                Error = 1;
+            }
+            return respuesta.text();
+        })
+        .then(function (resultado) {
+            if (resultado == '"101"') {
+                window.location.reload();
+            }
+            if (Error == 0) {
+                if (resultado == '"0"') {
+                    //$("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
+                    //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                } else {
+                    //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                    $("#divTableDetalle2").html(resultado);
+         
+                }
+           
+
+            }
+        })
+        .catch(function (resultado) {
+
+            MensajeError(resultado.responseText, false);
+
+        })
+}
 function CargarBandeja() {
     $('#cargac').show();
     if ($("#cmbEstadoControl").val() == 'false') {
@@ -74,9 +144,9 @@ function CargarBandeja() {
         });
     }
 }
-function AbrirModalDetalle(IdCabecera) {
+function AbrirModalDetalle(IdCabecera,NivelLimpieza) {
     CerrarConfirmacionAprobar();
-    
+    TipoLimpieza = NivelLimpieza;
     $('#cargac').show();
     Error = 0;
     let params = {
@@ -149,6 +219,30 @@ function AbrirModalDetalle(IdCabecera) {
             MensajeError(resultado.responseText, false);
      
         })
+        ConsultarFotos(IdCabecera);
+}
+function validarImg(rotacion, id, imagen) {
+
+    $('#' + id).rotate(rotacion);
+    //document.getElementById(id).style.height = "0px";
+    //document.getElementById(id).style.width = "0px";
+
+    var img = new Image();
+    img.onload = function () {
+        //  alert(this.width + 'x' + this.height);
+        var ancho = this.width;
+        var alto = this.height;
+        if (ancho < alto) {
+            document.getElementById(id).style.height = "250px";
+            document.getElementById(id).style.width = "150px";
+        } else {
+            document.getElementById(id).style.height = "150px";
+            document.getElementById(id).style.width = "250px";
+        }
+
+    }
+    img.src = "/Content/Img/" + imagen;
+
 }
 function ConfirmarAprobar() {
     if ($('#txtFechaAprob').val() == '') {

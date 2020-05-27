@@ -3,7 +3,36 @@ var Error = 0;
 var IdCabecera = 0;
 var IdDetalle = 0;
 var rotation = 0;
+var IdFotoEvaluacioLomosyMigas = 0;
+var ParametrosLomosYMigas =
+{
+    Limpieza1: {
+        Venas: 8,
+        Espinas: 10,
+        Moretones: 9,
+        Escamas: 3,
+        Piel: 5,
+        Total:35
+    },
+    Limpieza2: {
+        Venas: 6,
+        Espinas: 8,
+        Moretones: 5,
+        Escamas: 2,
+        Piel: 4,
+        Total:25
+    },
+    Limpieza3: {
+        Venas: 1,
+        Espinas: 3,
+        Moretones: 3,
+        Escamas: 0,
+        Piel: 0,
+        Total:7
+    }
+}
 $(document).ready(function () {
+    
     $('#txtVenas').mask("9?9");
     $('#txtEspinas').mask("9?9");
     $('#txtSangre').mask("9?9");
@@ -19,14 +48,141 @@ $(document).ready(function () {
     //})
 
 });
+async function CargarControlDetalle2Ajax() {
+    $("#divTableDetalle2").html('');
+    let params = {
+        IdDetalle: IdDetalle
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../EvaluacionDeLomoyMigaEnBandeja/DetalleFotoPartial?' + query;
+    var promesa = fetch(url);
+    return promesa;
+    //$.ajax({
+    //    url: "../OperatividadMetal/OperatividadMetalDetectorPartial",
+    //    type: "GET",
+    //    data: {
+    //        IdDetalle: Model.IdOperatividadMetal
+     
+    //    },
+    //    success: function (resultado) {
+    //        if (resultado == "101") {
+    //            window.location.reload();
+    //        }
+    //        if (resultado == "0") {
+    //            $("#divTableDetalle2").html(Mensajes.SinRegistros);
+    //            $("#spinnerCargandoDetalle2").prop("hidden", true);
+    //        } else {
+    //            $("#spinnerCargandoDetalle2").prop("hidden", true);
+    //            $("#divTableDetalle2").html(resultado);
+    
+    //        }
+    //    },
+    //    error: function (resultado) {
+    //        MensajeError(Mensajes.Error + resultado.responseText, false);
+    //        $("#spinnerCargandoDetalle2").prop("hidden", true);
+    //    }
+    //});
+}
+async function CargarControlDetalle2() {
+    try {
+
+        var promesaDetalleFoto = await CargarControlDetalle2Ajax();
+        if (!promesaDetalleFoto.ok) {
+            throw "Error";
+        }
+        var ResultadoDetalleFoto = await promesaDetalleFoto.text();
+        if (ResultadoDetalleFoto == '"101"') {
+            window.location.reload();
+        }
+        if (ResultadoDetalleFoto != '"0"') {
+            $("#divTableDetalle2").html(ResultadoDetalleFoto);
+        }
+        MensajeCorrecto(ResultadoGuardarFoto);
+    } catch (ex) {
+
+    }
+}
+async function GenerarControlDetalle2() {
+    try {
+        $('#btnguardarfoto').prop('hidden', true);
+        $('#btncancelarguardarfoto').prop('hidden', true);
+        $('#btncargandoimg').prop('hidden', false);
+        
+        var promesaGuardarFoto = await GenerarControlDetalle2Ajax();
+        if (!promesaGuardarFoto.ok) {
+            throw "Error";
+        }
+        var ResultadoGuardarFoto = await promesaGuardarFoto.json();
+        if (MensajeCorrecto(ResultadoGuardarFoto[0] == '003')){
+            MensajeAdvertencia(ResultadoGuardarFoto[1]);
+        } else {
+            MensajeCorrecto(ResultadoGuardarFoto[1]);
+        }
+        
+        $('#btnguardarfoto').prop('hidden', false);
+        $('#btncancelarguardarfoto').prop('hidden', false);
+        $('#btncargandoimg').prop('hidden', true);
+        $("#ModalGenerarControlDetalle2").modal("hide");
+        await CargarControlDetalle2();
+    } catch (ex) {
+        $('#btnguardarfoto').prop('hidden', false);
+        $('#btncancelarguardarfoto').prop('hidden', false);
+        $('#btncargandoimg').prop('hidden', true);
+        MensajeError('Error comuníquese con el departamento de Sistemas, ' + ex.message, false);
+    }
+}
+async function GenerarControlDetalle2Ajax() {
+    var imagen = $('#file-upload')[0].files[0];
+    var data = new FormData();
+    data.append("dataImg", imagen);
+    data.append("IdDetalleEvaluacionLomosyMigas", IdDetalle);
+    data.append("IdFotoEvaluacioLomosyMigas", IdFotoEvaluacioLomosyMigas);
+    data.append("Observacion", $("#txtNovedad").val());
+    data.append("Rotacion", rotation);
+
+    var promesa = fetch("../EvaluacionDeLomoyMigaEnBandeja/GuardarFotoDetalle", {
+        method: 'POST',
+        body: data
+    })
+    return promesa;
+    //$.ajax({
+    //    url: "../EvaluacionDeLomoyMigaEnBandeja/GuardarFotoDetalle",
+    //    type: "POST",
+    //    cache: false,
+    //    data: data,
+    //    contentType: false,
+    //    processData: false,
+    //    async: false,
+    //    data: data,
+    //    success: function (resultado) {
+    //        //  $("#spinnerCargandoDetalle").prop("hidden", true);
+    //        if (resultado == "101") {
+    //            window.location.reload();
+    //        }
+    //        CargarControlDetalle2();
+    //        MensajeCorrecto(resultado);
+    //        $("#ModalGenerarControlDetalle2").modal("hide");
+    //    },
+    //    error: function (resultado) {
+    //        MensajeError(Mensajes.Error + resultado.responseText, false);
+    //        $("#spinnerCargandoDetalle2").prop("hidden", true);
+    //    }
+    //});
+}
 function NuevoControlDetalle2() {
     $("#txtIdControlDetalle2").val("");
     $("#txtNovedad").val("");
     $("#file-upload").val('');
     $("#file-preview-zone").html('');
+    $('#lblfoto').text('Seleccione archivo');
     rotation = 0;
+    
 }
 function ModalGenerarControlDetalle2() {
+    IdFotoEvaluacioLomosyMigas = 0;
     NuevoControlDetalle2();
     $("#ModalGenerarControlDetalle2").modal("show");
     
@@ -47,7 +203,12 @@ async function LLenarComboOrdenes(/*orden*/) {
 
     try {
         $('#txtCliente').val('');
-
+        if ($('#txtFechaProduccion').val() == '') {
+            $('#msjErrorFechaProduccion').prop('hidden', false);
+            return;
+        } else {
+            $('#msjErrorFechaProduccion').prop('hidden', true);
+        }
         $('#cmbOrdeneFabricacion').empty();
 
         if (!$('#txtFechaProduccion').val() == '') {
@@ -388,6 +549,51 @@ function EliminarCabecera() {
 
         })
 }
+function EliminarFoto() {
+    console.log('Eliminar');
+    $('#modal-detalle2-si').prop('disabled', true);
+    $('#modal-detalle2-no').prop('disabled', true);
+    Error = 0;
+    const data = new FormData();
+    data.append('IdFoto', IdFotoEvaluacioLomosyMigas);
+
+
+    fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarFotoDetalle", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#modalEliminarControlDetalle2').modal('hide');
+            
+            MensajeCorrecto(resultado[1]);
+            CargarControlDetalle2();
+           
+
+        }
+        $('#modal-detalle2-si').prop('disabled', false);
+        $('#modal-detalle2-no').prop('disabled', false);
+
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            $('#modal-detalle2-si').prop('disabled', false);
+            $('#modal-detalle2-no').prop('disabled', false);
+            MensajeError(resultado.responseText, false);
+
+        })
+}
 function LlenarComboLotes(orden) {
     Error = 0;
     $('#cmbLote').empty();
@@ -570,6 +776,7 @@ function GuardarDetalleControl() {
         })
 }
 function ConsultarDetalleControl() {
+    $('#cargac').show();
     Error = 0;
     let params = {
         IdCabeceraControl: IdCabecera
@@ -600,19 +807,23 @@ function ConsultarDetalleControl() {
             } else {
                 $('#DivDetalles').empty();
             }
+            $('#cargac').hide();
             //console.log(resultado);
         })
         .catch(function (resultado) {
-            console.log(resultado);
+            //console.log(resultado);
             MensajeError(resultado.responseText, false);
             $('#btnCargando').prop('hidden', true);
             $('#btnConsultar').prop('hidden', false);
+            $('#cargac').hide();
         })
+    
 }
 function LimpiarDetalleControles() {
+    $('#divDetalle2').prop('hidden', true);
     $('#txtHora').prop('disabled', false);
     $('#btnEliminarDetalleControl').prop('disabled', true);
-    $('#txtHora').val('');
+    $('#txtHora').val(moment().format("HH:mm"));
     $('#txtBuque').val('');
     $('#cmbMoreton').prop('selectedIndex',0);
     //$('#txtHematomas').val('');
@@ -630,11 +841,14 @@ function LimpiarDetalleControles() {
     $('#cmbColor').prop('selectedIndex', 0);
     $('#cmbOlor').prop('selectedIndex', 0);
     IdDetalle = 0;
+    IdFotoEvaluacioLomosyMigas = 0;
     ActivaInfo();
 
 }
-function ModificarDetalle(data) {
+async function ModificarDetalle(data) {
+    $('#divDetalle2').prop('hidden', false);
     IdDetalle = data.IdDetalle;
+    await CargarControlDetalle2();
     console.log(data.Hora);
     $('#txtHora').val(data.Hora);
 
@@ -736,6 +950,117 @@ function EliminarDetalle() {
 function SlideCabecera() {
     $("#DivCabecera").slideToggle("fast");
 }
+function ModificarFoto(data) {
+    //console.log(data);
+
+    IdFotoEvaluacioLomosyMigas = data.IdFotoEvaluacioLomosyMigas;
+    NuevoControlDetalle2();
+    
+    $("#txtNovedad").val(data.Observacion);
+    if (data.Imagen != null && data.Imagen != '') {
+        var re = 'EvaluacionDeLomosYMigasEnBandeja/EvaluacionDeLomosYMigasEnBandeja';
+        var resultado = data.Imagen.replace(re, '');
+        $('#lblfoto').text(resultado);
+
+        var filePreview = document.createElement('img');
+        filePreview.id = 'file-preview';
+        filePreview.src = "/Content/Img/" + data.Imagen;
+        var previewZone = document.getElementById('file-preview-zone');
+        previewZone.appendChild(filePreview);
+
+        $("#file-preview").addClass("img");
+        $('#file-preview').rotate(parseInt(data.Rotacion));
+        document.getElementById("file-preview").style.height = "0px";
+        document.getElementById("file-preview").style.width = "0px";
+
+        var img = new Image();
+        img.onload = function () {
+            //  alert(this.width + 'x' + this.height);
+            var ancho = this.width;
+            var alto = this.height;
+            if (ancho < alto) {
+                document.getElementById("file-preview").style.height = "350px";
+                document.getElementById("file-preview").style.width = "250px";
+            } else {
+                document.getElementById("file-preview").style.height = "250px";
+                document.getElementById("file-preview").style.width = "350px";
+            }
+            $("#ModalGenerarControlDetalle2").modal("show");
+
+        }
+        img.src = "/Content/Img/" + data.Imagen;
+
+    } else {
+        $("#ModalGenerarControlDetalle2").modal("show");
+    }
+}
+function InactivarFoto(data) {
+    $('#labelMensaje2').text('Novedad: '+ data.Observacion);
+    $('#modalEliminarControlDetalle2').modal('show');
+    IdFotoEvaluacioLomosyMigas = data.IdFotoEvaluacioLomosyMigas;
+}
+
+function readFile(input) {
+
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // console.log(this.width.toFixed(0));
+
+            // alert('Imagen correcta :)')
+            $("#file-preview-zone").html('');
+            var filePreview = document.createElement('img');
+            filePreview.id = 'file-preview';
+            // filePreview.setAttribute("type", "hidden");
+
+            //e.target.result contents the base64 data from the image uploaded
+            filePreview.src = e.target.result;
+            //console.log(e.target.result);
+            var previewZone = document.getElementById('file-preview-zone');
+            previewZone.appendChild(filePreview);
+            $("#file-preview").addClass("img");
+            document.getElementById("file-preview").style.height = "0px";
+            document.getElementById("file-preview").style.width = "0px";
+            //console.log(e.target.result);
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function () {
+                if (this.width < this.height) {
+                    document.getElementById("file-preview").style.height = "350px";
+                    document.getElementById("file-preview").style.width = "250px";
+                }
+                else {
+                    document.getElementById("file-preview").style.height = "250px";
+                    document.getElementById("file-preview").style.width = "350px";
+                }
+
+            };
+
+
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var fileUpload = document.getElementById('file-upload');
+fileUpload.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement);
+
+}
+
+
+$('#file-preview-zone').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+
 //function GuardarFirma() {
 //    var canvas = document.getElementById("firmacanvas");
 //    var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');

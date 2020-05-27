@@ -55,9 +55,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Moretones)
                     </th>
-                    <th>
-                        Hematomas profundos
-                    </th>
+
 
                     <th>
                         @Html.DisplayNameFor(model => model.Proteinas)
@@ -80,82 +78,126 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Piel)
                     </th>
-
+                    <th>Total Individual</th>
                 </tr>
             </thead>
 
             <tbody>
+                @{
+                    int cont = 0;
+                }
                 @foreach (var item in Model)
                 {
 
                     <tr style="cursor:pointer">
-                        <td>
-                            @item.Hora.Value.ToString("dd-MM-yyyy HH:mm")
+                        <td class="text-center">
+                            @item.Hora
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Linea)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Buque)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Lote)
                         </td>
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.CodSabor)
-                        </td>*@
-                        <td>
+                    @Html.DisplayFor(modelItem => item.CodSabor)
+                </td>*@
+                        <td >
                             @Html.DisplayFor(modelItem => item.Sabor)
                         </td>
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.CodTextura)
-                        </td>*@
+                    @Html.DisplayFor(modelItem => item.CodTextura)
+                </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Textura)
                         </td>
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.CodColor)
-                        </td>*@
+                    @Html.DisplayFor(modelItem => item.CodColor)
+                </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Color)
                         </td>
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.CodOlor)
-                        </td>*@
-                        <td>
+                    @Html.DisplayFor(modelItem => item.CodOlor)
+                </td>*@
+                        <td >
                             @Html.DisplayFor(modelItem => item.Olor)
                         </td>
-                        <td>
+                        <td >
                             @Html.DisplayFor(modelItem => item.Moretones)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.HematomasProfundos)
-                        </td>
+
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.CodProteinas)
-                        </td>*@
-                        <td>
+                    @Html.DisplayFor(modelItem => item.CodProteinas)
+                </td>*@
+                        <td >
                             @Html.DisplayFor(modelItem => item.Proteinas)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Trozos)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Venas)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Espinas)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Sangre)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Escamas)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Piel)
+                            
                         </td>
+                        <td class="text-center">
+                            @{
+                                var sum = item.Venas + item.Espinas + item.Sangre + item.Escamas + item.Piel;
+                                cont++;
+                            }
+                            <label id="total@(cont)" class="badge badge-pill">@sum</label>
 
+                            <script>
+                        var suma =@Html.Raw(Json.Encode(sum));
+                        var tdnombre=@Html.Raw(Json.Encode(item.Hora));
+                        var contador =@Html.Raw(Json.Encode(cont));
+                        //contador = contador - 1;
+                                if (TipoLimpieza == 1)
+                        {
+
+                            if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
+                                console.log("assadsd");
+                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                            } else {
+                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                            }
+                        }
+                                if (TipoLimpieza == 2) {
+
+                            if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
+
+                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                            } else {
+                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                            }
+                        }
+                                if (TipoLimpieza == 3) {
+
+                            if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
+                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                            }
+                            else {
+                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                            }
+                        }
+
+                            </script>
+                        </td>
                     </tr>
                 }
             </tbody>

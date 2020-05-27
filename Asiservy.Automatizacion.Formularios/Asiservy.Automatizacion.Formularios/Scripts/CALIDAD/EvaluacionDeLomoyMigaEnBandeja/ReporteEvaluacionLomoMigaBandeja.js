@@ -35,15 +35,85 @@ function MostrarReporte(data) {
             $('#cargac').hide();
             //console.log(resultado);
         })
+        .then(function () {
+            ConsultarFotos(data.IdEvaluacionDeLomosYMigasEnBandejas);
+        })
         .catch(function (resultado) {
             console.log(resultado);
             MensajeError(resultado, false);
             //$('#btnCargando').prop('hidden', true);
             //$('#btnConsultar').prop('hidden', false);
         })
+    
 }
 function imprimirw() {
     window.print();
+}
+function ConsultarFotos(idCabecera) {
+    let params = {
+        IdCabecera: idCabecera
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../EvaluacionDeLomoyMigaEnBandeja/PartialReporteFotos?' + query;
+
+    fetch(url)
+        //,body: data
+        .then(function (respuesta) {
+            if (!respuesta.ok) {
+
+                MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+                Error = 1;
+            }
+            return respuesta.text();
+        })
+        .then(function (resultado) {
+            if (resultado == '"101"') {
+                window.location.reload();
+            }
+            if (Error == 0) {
+                if (resultado == '"0"') {
+                    //$("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
+                    //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                } else {
+                    //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                    $("#divTableDetalle2").html(resultado);
+
+                }
+
+
+            }
+        })
+        .catch(function (resultado) {
+
+            MensajeError(resultado.responseText, false);
+
+        })
+}
+function validarImg(rotacion, id, imagen) {
+
+    $('#' + id).rotate(rotacion);
+    //document.getElementById(id).style.height = "0px";
+    //document.getElementById(id).style.width = "0px";
+
+    var img = new Image();
+    img.onload = function () {
+        //  alert(this.width + 'x' + this.height);
+        var ancho = this.width;
+        var alto = this.height;
+        if (ancho < alto) {
+            document.getElementById(id).style.height = "250px";
+            document.getElementById(id).style.width = "150px";
+        } else {
+            document.getElementById(id).style.height = "150px";
+            document.getElementById(id).style.width = "250px";
+        }
+
+    }
+    img.src = "/Content/Img/" + imagen;
+
 }
 function Atras() {
     $('#DivReporte').prop('hidden', true);

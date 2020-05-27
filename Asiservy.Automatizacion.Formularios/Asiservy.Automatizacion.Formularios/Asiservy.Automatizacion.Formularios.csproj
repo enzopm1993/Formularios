@@ -3572,6 +3572,7 @@
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
+    <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />
@@ -4046,6 +4047,8 @@
     <Content Include="Views\ControlCuchillosPreparacion\ConsultarCuchilloPreparacionPartial.cshtml" />
     <Content Include="Views\MantenimientoMoretones\MantenimientoMoreton.cshtml" />
     <Content Include="Views\MantenimientoMoretones\MantenimientoMoretonPartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\DetalleFotoPartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialReporteFotos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
