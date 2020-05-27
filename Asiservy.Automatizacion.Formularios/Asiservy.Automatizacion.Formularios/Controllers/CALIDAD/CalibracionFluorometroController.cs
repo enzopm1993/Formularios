@@ -6,6 +6,8 @@ using System.Data.Entity.Validation;
 using System.Net;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -301,7 +303,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult GuardarModificarCalibracionFluor(CC_CALIBRACION_FLUOROMETRO_CTRL model, bool siAprobar)
+        public JsonResult GuardarModificarCalibracionFluor(CC_CALIBRACION_FLUOROMETRO_CTRL model, bool siAprobar, List<CC_CALIBRACION_FLUOROMETRO_DET> detalle)
         {
             try
             {
@@ -315,7 +317,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-
+                if (detalle.Count == 0)
+                {
+                    return Json("6", JsonRequestBehavior.AllowGet);//SIN DETALLE
+                }
                 if (siAprobar)
                 {
                     var estadoReporte = ClsDCalibracionFluorometro.ConsultarCalibracionFluorIdFecha(model.IdCalibracionFluor);
@@ -333,6 +338,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     }
                 }
                 var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluor(model, siAprobar);
+                foreach (var item in detalle)
+                {
+                    item.IdCalibracionFluor = model.IdCalibracionFluor;
+                    item.FechaIngresoLog = DateTime.Now;
+                    item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    item.TerminalIngresoLog = Request.UserHostAddress;
+                    item.UsuarioIngresoLog = lsUsuario[0];
+                    ClsDCalibracionFluorometro.GuardarModificarCalibracionFluorDetalle(item);
+                }
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -341,10 +355,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
-                else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }
+                else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }//APROBAR
                 else
                 {
-                    return Json("3", JsonRequestBehavior.AllowGet);//ERROR DE FECHA
+                    return Json("3", JsonRequestBehavior.AllowGet);//ERROR DE FECHA/HORA
                 }
 
             }

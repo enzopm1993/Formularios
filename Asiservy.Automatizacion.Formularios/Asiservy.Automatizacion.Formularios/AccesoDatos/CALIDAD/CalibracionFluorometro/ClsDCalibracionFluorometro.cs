@@ -213,10 +213,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
         {           
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-               var lista = db.CC_CALIBRACION_FLUOROMETRO_CTRL.Where(c => c.FechaHora >= fechaDesde && c.FechaHora<=fechaHasta && c.FechaHora <= fechaHasta                                                                    
+               var lista = db.CC_CALIBRACION_FLUOROMETRO_CTRL.Where(c => c.FechaHora >= fechaDesde && c.FechaHora<=fechaHasta                                                                  
                                                                     && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                                                                     .OrderBy(x => x.FechaHora).ToList();
-                return lista;
+                List<CC_CALIBRACION_FLUOROMETRO_CTRL> listaEstandar = new List<CC_CALIBRACION_FLUOROMETRO_CTRL>();
+                CC_CALIBRACION_FLUOROMETRO_CTRL estadar;
+                foreach (var item in lista)
+                {
+                    estadar = new CC_CALIBRACION_FLUOROMETRO_CTRL();
+                    estadar.IdCalibracionFluor = item.IdCalibracionFluor;
+                    estadar.FechaHora = item.FechaHora;
+                    estadar.CoeficienteDeterminacion = item.CoeficienteDeterminacion;
+                    estadar.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    estadar.FechaIngresoLog = item.FechaIngresoLog;
+                    estadar.EstadoRegistro = item.EstadoRegistro;
+                    listaEstandar.Add(estadar);
+                }
+                return listaEstandar;
             }
         }
 

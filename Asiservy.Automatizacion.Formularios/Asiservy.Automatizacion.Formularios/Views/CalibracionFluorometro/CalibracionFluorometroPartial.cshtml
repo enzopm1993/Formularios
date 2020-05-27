@@ -1,16 +1,10 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CALIBRACION_FLUOROMETRO_DET>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CALIBRACION_FLUOROMETRO_CTRL>
 @using Newtonsoft.Json;
 <table class="table table-bordered table-striped" style="font-size:12px" id="tblDataTable">
     <thead>
         <tr>
             <th>
                 COEFICIENTE TETERMINACION
-            </th>
-            <th>
-                ESTANDAR
-            </th>
-            <th>
-                VALOR ESTANDAR
             </th>
             <th>
                 HORA
@@ -28,13 +22,7 @@
                     @item.CoeficienteDeterminacion
                 </td>
                 <td>
-                    @item.IdEstandar
-                </td>
-                <td>
-                    @item.ValorEstandar
-                </td>
-                <td>
-                    @item.Hora
+                    @item.FechaHora
                 </td>
                 <td>
                     @item.UsuarioIngresoLog

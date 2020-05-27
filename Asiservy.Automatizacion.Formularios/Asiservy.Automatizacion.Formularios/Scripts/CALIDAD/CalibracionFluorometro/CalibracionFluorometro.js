@@ -8,6 +8,7 @@ function MascaraInputs() {
     json = JSON.parse($('#inpTotalEstandar').val());
     json.forEach(function (row) {
         $('#Estandar_' + row.IdEstandar).val('');
+        $('#Estandar_' + row.IdEstandar).css('border', '');
         $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '99.99' });
     });
 }
@@ -23,7 +24,7 @@ function CargarCabecera() {
         url: "../CalibracionFluorometro/CalibracionFluorometroPartial",
         data: {
             fechaDesde: $("#fechaDesde").val(),
-            FechaHasta: $("#fechaHasta").val()
+            FechaHasta: $("#fechaHasta").val()+' 23:59'
         },
         type: "GET",
         success: function (resultado) {
@@ -43,7 +44,22 @@ function CargarCabecera() {
 }
 
 function GuardarCabecera(siAprobar) {
-    //HACER UN FOREACH Y COMPARAR LOS DATOS ID DE LOS TEXT CON EL ID GUARDADO EN EL JSON
+    var detalleCalibracion = [];
+    json.forEach(function (row) {
+        var d = {};
+        d.IdCalibracionFluorDetalle = 0;
+        d.IdCalibracionFluor = itemEditar.IdCalibracionFluor;
+        d.IdEstandar = row.IdEstandar;
+        d.ValorEstandar = $('#Estandar_' + row.IdEstandar).val();
+        d.FechaIngresoLog = "";
+        d.EstaoRegistro = "";
+        d.TerminalIngresoLog = "";
+        d.UsuarioIngresoLog = "";
+        d.FechaModificacionLog = "";
+        d.TerminalModificacionLog = "";
+        d.UsuarioModificacionLog = "";        
+        detalleCalibracion.push(d);
+    });
     $('#cargac').show();
     $.ajax({
         url: "../CalibracionFluorometro/GuardarModificarCalibracionFluor",
@@ -52,7 +68,8 @@ function GuardarCabecera(siAprobar) {
             IdCalibracionFluor: itemEditar.IdCalibracionFluor,
             FechaHora: $("#txtFechaCalibre").val(),
             CoeficienteDeterminacion: $("#txtCoeficiente").val(),
-            siAprobar: siAprobar
+            siAprobar: siAprobar,
+            detalle: detalleCalibracion
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -71,10 +88,10 @@ function GuardarCabecera(siAprobar) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             }
             $('#ModalIngresoCabecera').modal('hide');
-            $('#divBotonesCRUD').prop('hidden', false);
+            //$('#divBotonesCRUD').prop('hidden', false);
             $('#divMostarTablaDetalle').prop('hidden', false);
-            $('#divBotonCrear').prop('hidden', true);
-            LimpiarCabecera();
+            //$('#divBotonCrear').prop('hidden', true);
+            //LimpiarCabecera();
             itemEditar = 0;
             $('#cargac').hide();
             CargarCabecera();
@@ -88,10 +105,11 @@ function GuardarCabecera(siAprobar) {
 
 function ModalIngresoCabecera() {
     Limpiar();
-    $("#txtFechaCabecera").prop('disabled', false);
+    //$("#txtFechaCabecera").prop('disabled', false);
+    $('#txtFechaCalibre').css('border', '');
     $('#ModalIngresoCabecera').modal('show');
     var date = new Date();
-    $("#txtIngresoFechaCabecera").val(moment(date).format("YYYY-MM-DDTHH:mm"));
+    //$("#txtIngresoFechaCabecera").val(moment(date).format("YYYY-MM-DDTHH:mm"));
     MascaraInputs();
     itemEditar = [];
 }
@@ -104,12 +122,12 @@ function Limpiar() {
     CambiarMensajeEstado('nada');
 }
 
-function ValidarDatosVacios() {
+function ValidarDatosVacios(siAprobar) {
     var vacio = OnChangeTextBox();
     if (vacio == 1) {
         MensajeAdvertencia('¡Ingrese todo los datos requeridos!');
         return;
-    } 
+    } else GuardarCabecera(siAprobar);
 }
 
 function OnChangeTextBox() {
@@ -118,6 +136,13 @@ function OnChangeTextBox() {
         $("#txtFechaCalibre").css('border', '1px dashed red');
         con = 1;
     } else { $("#txtFechaCalibre").css('border', ''); }
+   
+    json.forEach(function (row) {
+        if ($('#Estandar_' + row.IdEstandar).val() == '') {
+            $('#Estandar_' + row.IdEstandar).css('border', '1px dashed red');
+            con = 1;
+        } else { $('#Estandar_' + row.IdEstandar).css('border', ''); }
+    });
     return con;
 }
 
