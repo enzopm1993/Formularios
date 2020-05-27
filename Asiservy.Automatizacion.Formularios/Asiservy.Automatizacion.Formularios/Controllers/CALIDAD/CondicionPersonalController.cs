@@ -365,6 +365,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
                     ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 ClsDClasificador = new clsDClasificador();
