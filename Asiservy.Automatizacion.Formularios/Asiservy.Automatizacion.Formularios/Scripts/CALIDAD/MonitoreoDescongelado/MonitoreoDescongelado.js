@@ -2,8 +2,42 @@
 
 $(document).ready(function () {
     ConsultarMonitoreoDescongelado();
-
+    $("#txtTemperaturaAgua").mask("9?.99");
+    $("#txtMuestra1").mask("9?.99");
+    $("#txtMuestra2").mask("9?.99");
+    $("#txtMuestra3").mask("9?.99");
 });
+
+function ValidaEstadoReporte(Fecha){
+    $.ajax({
+        url: "../MonitoreoDescongelado/ValidaEstadoReporte",
+        type: "GET",
+        data: {
+            Fecha: Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+           // console.log(resultado);
+           // console.log(resultado == 0);
+            if (resultado == 0) {
+                $("#lblAprobadoPendiente").html("");
+
+            } else if (resultado==1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+
+            } else {
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
 
 function ConsultarMonitoreoDescongelado() {
     $("#chartCabecera2").html('');
@@ -16,7 +50,7 @@ function ConsultarMonitoreoDescongelado() {
         MensajeAdvertencia("Fecha no permitida");
         return;
     }
-
+    ValidaEstadoReporte($("#txtFecha").val());
     $("#divCabecera2").prop("hidden", false);
     $("#spinnerCargando").prop("hidden", false);
   //  ConsultarPeliduvios();
@@ -45,7 +79,6 @@ function ConsultarMonitoreoDescongelado() {
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
-            $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
         }
     });
@@ -74,11 +107,10 @@ function SeleccionarControl(model) {
         $("#divTemperaturaAgua").prop("hidden", false);
     }
     ConsultarMonitoreoDetalle();
-    $("#ModalMonitoreo").modal("show");
+    
 }
 
 function ConsultarMonitoreoDetalle() {
-    
     $.ajax({
         url: "../MonitoreoDescongelado/MonitoreoDescongeladoDetallePartial",
         type: "GET",
@@ -89,30 +121,33 @@ function ConsultarMonitoreoDetalle() {
             Tipo: $("#selectTipo").val()
         },
         success: function (resultado) {
+            //console.log(resultado);
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado != "0") {
-                $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
-                $("#txtTemperaturaAgua").val(resultado.TemperaturaAgua);
-                $("#txtMuestra1").val(resultado.Muestra1);
-                $("#txtMuestra2").val(resultado.Muestra2);
-                $("#txtMuestra3").val(resultado.Muestra3);
-                $("#txtIdControl").val(resultado.IdMonitoreoDescongelado);
-                
-            } else {
+            if (resultado == "0") {
                 $("#txtIdControl").val(0);
                 $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
                 $("#txtTemperaturaAgua").val('');
                 $("#txtMuestra1").val('');
                 $("#txtMuestra2").val('');
                 $("#txtMuestra3").val('');
+                $("#ModalMonitoreo").modal("show");
+            } else {
+                $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
+                $("#txtTemperaturaAgua").val(resultado.TemperaturaAgua);
+                $("#txtMuestra1").val(resultado.Muestra1);
+                $("#txtMuestra2").val(resultado.Muestra2);
+                $("#txtMuestra3").val(resultado.Muestra3);
+                $("#txtIdControl").val(resultado.IdMonitoreoDescongelado);
+                $("#ModalMonitoreo").modal("show");
 
             }
             $("#btnGuardarMonitoreo").prop("disabled", false);
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
+            //console.log(resultado);
             MensajeError("Error: Comuníquese con sistemas", false);         
         }
     });
@@ -185,10 +220,15 @@ function GuardarMonitoreoDescongelado() {
             if (resultado == "101") {
                 window.location.reload();
             }
-           
-            MensajeCorrecto(resultado);         
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                MensajeCorrecto(resultado);    
+                ConsultarMonitoreoDescongelado();
+            }
             $("#ModalMonitoreo").modal("hide");
-            ConsultarMonitoreoDescongelado();
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);

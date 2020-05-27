@@ -214,7 +214,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_OPERATIVIDAD_METAL.Where(x => x.EstadoReporte == false && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+                return entities.CC_OPERATIVIDAD_METAL.Where(x => !x.EstadoReporte && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
 
@@ -222,7 +222,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == Control.IdOperatividadMetal || (x.Fecha == Control.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == Control.IdOperatividadMetal);
                 if (model != null)
                 {
                     model.EstadoReporte = Control.EstadoReporte;
@@ -244,7 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == Control.IdOperatividadMetal || (x.Fecha == Control.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == Control.IdOperatividadMetal);
                 if (model != null)
                 {
                     model.EstadoReporte = Control.EstadoReporte;

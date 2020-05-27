@@ -9,7 +9,7 @@ function CargarBandeja() {
     $("#txtFechaAprobacion").prop("hidden", true);
     $('#divPartialControl').html('');
     $.ajax({
-        url: "../OperatividadMetal/BandejaOperatividadMetalPartial",
+        url: "../MonitoreoDescongelado/BandejaMonitoreoDescongeladoPartial",
         type: "GET",
         success: function (resultado) {
             $('#divPartialControl').html('');
@@ -23,28 +23,28 @@ function CargarBandeja() {
             $("#btnAprobado").prop("hidden", false);
             $("#btnReversar").prop("hidden", true);
             $("#spinnerCargando").prop("hidden", true);
-            //config.opcionesDT.pageLength = 10;
-            //$('#tblDataTable').DataTable(config.opcionesDT);
+            config.opcionesDT.pageLength = 10;
+            $('#tblDataTable').DataTable(config.opcionesDT);
 
         },
         error: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
-            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
         }
     });
 }
 
 function SeleccionarBandeja(model) {
-   // console.log(model);
-    CargarControlDetalle(model.IdOperatividadMetal);
-    CargarControlDetalle2(model.IdOperatividadMetal);
-    $("#txtFechaAprobacion").prop("hidden", false);
-    $("txtFechaAprobacion").attr({
-        "min": model.Fecha       // values (or variables) here
-    });
- 
+    // console.log(model);
+    //  CargarControlDetalle(model.IdMonitoreoDescongelado);
+    if ($("#selectEstadoRegistro").val() == "false") {
+        $("#txtFechaAprobacion").prop("hidden", false);
+    } else {
+        $("#txtFechaAprobacion").prop("hidden", true);
+    }
     $("#ModalApruebaCntrol").modal("show");
     listaDatos = model;
+    CargarControlDetalle();
 }
 
 function AprobarControl() {
@@ -61,10 +61,10 @@ function AprobarControl() {
     }
 
     $.ajax({
-        url: "../OperatividadMetal/AprobarBandejaControl",
+        url: "../MonitoreoDescongelado/AprobarBandejaControlCloro",
         type: "POST",
         data: {
-            IdOperatividadMetal: listaDatos.IdOperatividadMetal,
+            IdMonitoreoDescongelado: listaDatos.IdMonitoreoDescongelado,
             Fecha: listaDatos.Fecha,
             FechaAprobacion: $("#txtFechaAprobacion").val()
         },
@@ -77,7 +77,7 @@ function AprobarControl() {
             $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
-            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
         }
     });
 }
@@ -86,10 +86,10 @@ function AprobarControl() {
 function ReversarControl() {
     //var estadoReporte = data;
     $.ajax({
-        url: "../OperatividadMetal/ReversarBandejaControl",
+        url: "../MonitoreoDescongelado/ReversarBandejaControl",
         type: "POST",
         data: {
-            IdOperatividadMetal: listaDatos.IdOperatividadMetal,
+            IdMonitoreoDescongelado: listaDatos.IdMonitoreoDescongelado,
             Fecha: listaDatos.Fecha
         },
         success: function (resultado) {
@@ -101,7 +101,7 @@ function ReversarControl() {
             $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
-            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
         }
     });
 }
@@ -115,7 +115,7 @@ function FiltrarAprobadosFecha() {
         $('#divPartialControl').html('');
         $("#spinnerCargando").prop("hidden", false);
         $.ajax({
-            url: "../OperatividadMetal/BandejaOperatividadMetalPartial",
+            url: "../MonitoreoDescongelado/BandejaMonitoreoDescongeladoPartial",
             type: "GET",
             data: {
                 FechaDesde: $("#fechaDesde").val(),
@@ -139,7 +139,7 @@ function FiltrarAprobadosFecha() {
             },
             error: function (resultado) {
                 $("#spinnerCargando").prop("hidden", true);
-                MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
+                MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
             }
         });
     }
@@ -147,14 +147,14 @@ function FiltrarAprobadosFecha() {
 
 
 ////////////////////////////////////// DETALLE
-function CargarControlDetalle(id) {
+function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
-        url: "../OperatividadMetal/ReporteOperatividadMetalDetallePartial",
+        url: "../MonitoreoDescongelado/ReporteMonitoreoDescongeladoPartial",
         type: "GET",
         data: {
-            IdControl: id
+            Fecha: listaDatos.Fecha
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {
@@ -173,70 +173,12 @@ function CargarControlDetalle(id) {
             }
         },
         error: function (resultado) {
-            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
 }
 
-function CargarControlDetalle2(id) {
-    $("#divTableDetalle2").html('');
-    $("#spinnerCargandoDetalle2").prop("hidden", false);
-    $.ajax({
-        url: "../OperatividadMetal/ReporteOperatividadMetalDetectorPartial",
-        type: "GET",
-        data: {
-            IdControl: id
-            //  Tipo: $("#txtLineaNegocio").val()
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "0") {
-                $("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
-                $("#spinnerCargandoDetalle2").prop("hidden", true);
-            } else {
-                $("#spinnerCargandoDetalle2").prop("hidden", true);
-                $("#divTableDetalle2").html(resultado);
-              //  console.log(listaDatos);
-                $("#txtCodDetectorMetal").val(listaDatos.DetectorMetal);
-                //config.opcionesDT.pageLength = 10;
-                //      config.opcionesDT.order = [[0, "asc"]];
-                //    $('#tblDataTable').DataTable(config.opcionesDT);
-            }
-        },
-        error: function (resultado) {
-            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
-            $("#spinnerCargandoDetalle2").prop("hidden", true);
-        }
-    });
-}
-
-function validarImg(rotacion, id, imagen) {
-
-    $('#' + id).rotate(rotacion);
-    //document.getElementById(id).style.height = "0px";
-    //document.getElementById(id).style.width = "0px";
-
-    var img = new Image();
-    img.onload = function () {
-        //  alert(this.width + 'x' + this.height);
-        var ancho = this.width;
-        var alto = this.height;
-        if (ancho < alto) {
-            document.getElementById(id).style.height = "250px";
-            document.getElementById(id).style.width = "150px";
-        } else {
-            document.getElementById(id).style.height = "150px";
-            document.getElementById(id).style.width = "250px";
-        }
-
-    }
-    img.src = "/Content/Img/" + imagen;
-
-}
-//FECHA DataRangePicker
 $(function () {
     var start = moment();
     var end = moment();

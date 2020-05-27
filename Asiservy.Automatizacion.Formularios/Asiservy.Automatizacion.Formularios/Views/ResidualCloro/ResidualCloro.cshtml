@@ -35,7 +35,7 @@
         <div class="col-md-4 col-6 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
-                <input type="datetime-local" name="name" value="" onchange="" id="txtHora" class="form-control" />
+                <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="" id="txtHora" class="form-control" />
             </div>
         </div>
 
@@ -48,7 +48,7 @@
 
         <div class="col-md-4 col-6">
             <div class="form-group">                
-                <div style="border:inset">                    
+                <div style="border:ridge">                    
                     <div>
                         <label>Frecuencia: <b>3horas</b></label>
                         <br />
