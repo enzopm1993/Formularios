@@ -4,11 +4,43 @@
 });
 
 
+function ValidaEstadoReporte(Fecha) {
+    $.ajax({
+        url: "../CondicionPersonal/ValidaEstadoReporte",
+        type: "GET",
+        data: {
+            Fecha: Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            // console.log(resultado == 0);
+            if (resultado == 0) {
+                $("#lblAprobadoPendiente").html("");
+
+            } else if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+
+            } else {
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+
 function ConsultarControl() {
     $("#chartCabecera2").html('');
     if ($("#txtFecha").val() == '') {
         return;
     }
+    ValidaEstadoReporte($("#txtFecha").val());
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../CondicionPersonal/CondicionPersonalPartial",
@@ -22,7 +54,7 @@ function ConsultarControl() {
             }
             $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
-                $("#chartCabecera2").html("No existen registros");
+                $("#chartCabecera2").html('<div class="text-center"><h4 class="text-warning">'+Mensajes.SinRegistros+'</h4></div>');
                 $("#spinnerCargando").prop("hidden", true);
             } else {
                 $("#spinnerCargando").prop("hidden", true);
@@ -182,7 +214,13 @@ function GuardarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
-            } else {
+            } else if (resultado == "1") {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+            }
+            else {
+                MensajeCorrecto(resultado);
                 NuevoControl();
                 ConsultarControl();
             }

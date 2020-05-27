@@ -67,12 +67,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro = new clsDResidualCloro();
-                var reporte = clsDResidualCloro.ConsultaResidualCloroControl(Fecha,Area);
                 var model = clsDResidualCloro.ConsultaResidualCloro(Fecha, Area);
-                if (reporte != null && reporte.EstadoReporte==clsAtributos.EstadoReporteActivo)
-                {
-                    return Json(reporte, JsonRequestBehavior.AllowGet);
-                }
+                
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -115,6 +111,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 clsDResidualCloro.GuardarModificarResidualCloroControl(model);
+                if (clsDResidualCloro.ConsultaResidualCloroControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDResidualCloro.GuardarModificarResidualCloro(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
@@ -158,6 +158,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDResidualCloro = new clsDResidualCloro();
+                if (clsDResidualCloro.ConsultaResidualCloroControl(model.Fecha).Any(x => x.EstadoReporte && x.Area==model.CodArea))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDResidualCloro.EliminarResidualCloro(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }
@@ -180,6 +184,55 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        public JsonResult ValidaEstadoReporte(DateTime Fecha, string Area)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDResidualCloro = new clsDResidualCloro();
+                var control = clsDResidualCloro.ConsultaResidualCloroControl(Fecha).FirstOrDefault(x=>x.Area==Area);
+                if (control != null)
+                {
+                    if (control.EstadoReporte)
+                    {
+                        return Json(1, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(2, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
 
 
@@ -221,7 +274,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public ActionResult ResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model)
+        public ActionResult ResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model,DateTime Fecha, string Area)
         {
             try
             {
@@ -240,6 +293,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                if (clsDResidualCloro.ConsultaResidualCloroControl(Fecha).Any(x => x.EstadoReporte && x.Area== Area))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDResidualCloro.GuardarModificarResidualCloroDetalle(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
@@ -265,7 +322,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model)
+        public ActionResult EliminarResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model, DateTime Fecha, string Area)
         {
             try
             {
@@ -283,6 +340,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDResidualCloro = new clsDResidualCloro();
+                if (clsDResidualCloro.ConsultaResidualCloroControl(Fecha).Any(x => x.EstadoReporte && x.Area== Area))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDResidualCloro.EliminarResidualCloroDetalle(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }
