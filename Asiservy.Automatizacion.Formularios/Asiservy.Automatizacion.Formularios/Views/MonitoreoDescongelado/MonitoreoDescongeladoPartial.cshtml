@@ -41,14 +41,27 @@
                 {
                     <i class="fas fa-check-circle" style="color: dodgerblue"></i>
                 }
+                else
+                {
+                    <i class="fas fa-check-circle" style="color: darkgray"></i>
+                }
                 @if (Emparrillado != null)
                 {
                     <i class="fas fa-check-circle" style="color:royalblue"></i>
+                }
+                else
+                {
+                    <i class="fas fa-check-circle" style="color: darkgray"></i>
                 }
                 @if (Cocina != null)
                 {
                     <i class="fas fa-check-circle" style="color:darkblue"></i>
                 }
+                else
+                {
+                    <i class="fas fa-check-circle" style="color: darkgray"></i>
+                }
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)

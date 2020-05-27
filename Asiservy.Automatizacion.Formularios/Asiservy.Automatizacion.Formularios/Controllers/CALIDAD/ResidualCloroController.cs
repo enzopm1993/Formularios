@@ -116,7 +116,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro.GuardarModificarResidualCloro(model);
-
+               
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

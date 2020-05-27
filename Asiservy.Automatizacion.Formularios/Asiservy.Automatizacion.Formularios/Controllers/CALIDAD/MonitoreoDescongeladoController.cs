@@ -217,7 +217,51 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-
+        [HttpPost]
+        public ActionResult EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdMonitoreoDescongelado == 0)
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
+                if (clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
+                clsDMonitoreoDescongelado.EliminarMonitoreoDescongelado(model);
+                return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region BANDEJA DE APORBACION
