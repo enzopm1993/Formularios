@@ -71,7 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControlReporte = entities.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha);
+                var poControlReporte = entities.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 if (poControlReporte == null)
                 {
                     CC_CONDICION_PERSONAL_CONTROL control = new CC_CONDICION_PERSONAL_CONTROL();
@@ -106,14 +106,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var poControl = entities.CC_CONDICION_PERSONAL.FirstOrDefault(x => x.IdCondicionPersonal == model.IdCondicionPersonal);
+                var poControl2 = entities.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (poControl2 != null)
+                {
+                    poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl2.FechaModificacionLog = model.FechaIngresoLog;
+
+                }
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;
-                    entities.SaveChanges();
                 }
+                entities.SaveChanges();
+
 
             }
         }
@@ -152,7 +162,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => !x.EstadoReporte).ToList();
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
         public void Aprobar_ReporteCondicionPersonal(CC_CONDICION_PERSONAL_CONTROL controlCloro)

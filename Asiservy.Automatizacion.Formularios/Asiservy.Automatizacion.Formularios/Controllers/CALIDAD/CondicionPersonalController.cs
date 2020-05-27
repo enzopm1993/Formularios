@@ -273,6 +273,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDCondicionPersonal = new clsDCondicionPersonal();
+                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDCondicionPersonal.EliminarCondicionPersonal(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }

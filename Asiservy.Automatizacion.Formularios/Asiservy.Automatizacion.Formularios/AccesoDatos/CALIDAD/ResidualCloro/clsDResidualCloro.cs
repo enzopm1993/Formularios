@@ -20,7 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.RESIDUAL_CLORO_CONTROL.Where(x=> x.Fecha== Fecha && x.Area == Area).FirstOrDefault();
+                var lista = entities.RESIDUAL_CLORO_CONTROL.Where(x=> x.Fecha== Fecha && x.Area == Area && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 return lista;
             }
         }
@@ -80,6 +80,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
                 if(poControl2!= null)
                 {
                     poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl2.FechaModificacionLog = model.FechaIngresoLog;
                 }
                 if (poControl != null)
                 {
@@ -184,7 +188,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.RESIDUAL_CLORO_CONTROL.Where(x => !x.EstadoReporte).ToList();
+                return entities.RESIDUAL_CLORO_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
         public void Aprobar_ReporteResidualCloro(RESIDUAL_CLORO_CONTROL controlCloro)

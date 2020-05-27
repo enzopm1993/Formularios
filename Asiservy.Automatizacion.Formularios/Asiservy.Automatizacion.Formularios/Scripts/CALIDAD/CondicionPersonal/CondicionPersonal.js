@@ -241,12 +241,19 @@ function InactivarControl() {
         url: "../CondicionPersonal/EliminarCondicionPersonal",
         type: "POST",
         data: {
-            IdCondicionPersonal: $("#txtIdCondicionPersonal").val()
+            IdCondicionPersonal: $("#txtIdCondicionPersonal").val(),
+              Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+            } 
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }

@@ -48,7 +48,7 @@ function SeleccionarBandejaControl(model) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            console.log(resultado);
+           // console.log(resultado);
             if (resultado == 0) {
                 MensajeAdvertencia("¡El REGISTRO no tiene detalle, por favor ingrese los datos en el CONTROL!");
                 return;

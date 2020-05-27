@@ -76,6 +76,7 @@ function CargarResidualCloro() {
     $("#chartCabecera2").html('');
     $("#btnGenerar").prop("disabled", false);
     $("#lblAprobadoPendiente").html("");
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
     $("#divCabecera2").prop("hidden", false);
     if ($("#txtFecha").val() == '' || $("#selectArea").val() == '') {
         return;
@@ -121,7 +122,7 @@ function CargarResidualCloro() {
 
 function NuevoControl() {    
     $("#txtObservacion").val('');   
-    $("#txtHora").val('');   
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
     $("#selectArea").css('borderColor', '#ced4da');
 }
 
@@ -241,8 +242,8 @@ function InactivarControl() {
         type: "POST",
         data: {
             IdResidualCloro: $("#txtEliminarDetalle").val(),
-            Fecha: model.Fecha,
-            Area: model.Area
+            Fecha: DatosCabecera.Fecha,
+            CodArea:$("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -334,6 +335,7 @@ function EditarResidualCloro() {
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                $("#ModalEditarControl").modal("hide");
                 MensajeAdvertencia(Mensajes.ControlAprobado);
                 return;
             }
@@ -441,8 +443,8 @@ function GuardarResidualCloroDetalle() {
             IdResidualCloroDetalle: $("#txtIdResidualCloroDetalle").val(),
             CodPeliduvio: $("#selectPeliduvio").val(),
             Cantidad: $("#txtCantidad").val(),
-            Fecha: model.Fecha,
-            Area: model.Area
+            Fecha: DatosCabecera.Fecha,
+            Area:$("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -452,6 +454,7 @@ function GuardarResidualCloroDetalle() {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
+                $("#ModalResidualCloroDetalle").modal("hide");
                 return;
             }
             MensajeCorrecto(resultado);
@@ -474,8 +477,8 @@ function InactivarResidualCloroDetalle() {
         type: "POST",
         data: {
             IdResidualCloroDetalle: $("#txtEliminarModalDetalle").val(),
-            Fecha: model.Fecha,
-            Area: model.Area
+            Fecha: DatosCabecera.Fecha,
+            Area: $("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

@@ -111,7 +111,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 clsDResidualCloro.GuardarModificarResidualCloroControl(model);
-                if (clsDResidualCloro.ConsultaResidualCloroControl(model.Fecha).Any(x => x.EstadoReporte))
+                if (clsDResidualCloro.ConsultaResidualCloroControl(model.Fecha).Any(x => x.EstadoReporte && x.Area== model.CodArea))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
