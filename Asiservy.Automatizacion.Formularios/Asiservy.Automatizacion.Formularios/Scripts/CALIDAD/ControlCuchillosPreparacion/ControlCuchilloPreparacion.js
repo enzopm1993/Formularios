@@ -509,6 +509,7 @@ function ConsultarDetalle(jdata) {
                         { data: 'CodigoCuchillo' },
                         { data: 'Estado' },
                         { data: 'CedulaEmpleado' },
+                        { data: 'Observacion' },
                         { data: 'UsuarioIngresoLog' },
                         { data: 'Acciones' }
                     ];
