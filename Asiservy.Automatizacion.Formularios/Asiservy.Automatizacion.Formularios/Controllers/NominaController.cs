@@ -268,7 +268,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var content = response.Content;
                 var datos = JsonConvert.DeserializeObject<List<ClsKeyValue>>(content);
 
-                dataView.ListaEmpresas = datos;
+                clsDLogin clsDLogin  = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
+                int piRolOC = 0;
+                if (roles.Any())
+                {
+                    piRolOC = roles.FirstOrDefault(x => x.Value == clsAtributos.RolControlOC) ?? 0;
+                }
+                List<ClsKeyValue> resu = new List<ClsKeyValue>();
+                if (piRolOC == 0)
+                {
+                    resu = datos.Where(c => c.Codigo == "2").ToList();
+                }else
+                {
+                    resu = datos;
+                }
+
+
+                dataView.ListaEmpresas = resu;
                 return View(dataView);
             }
             catch (Exception ex)
