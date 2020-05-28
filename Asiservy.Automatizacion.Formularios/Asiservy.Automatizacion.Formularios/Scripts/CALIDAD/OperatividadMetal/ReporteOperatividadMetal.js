@@ -48,6 +48,9 @@ function SeleccionarBandeja(Control) {
     if (model.EstadoReporte) {
         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
         $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
+    } else {
+        $("#txtUsuarioAprobacion").html('');
+        $("#txtFechaAprobacion").html('');
     }
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);

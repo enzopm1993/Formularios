@@ -41,10 +41,10 @@ function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;
 
-    if (!model.EstadoReporte) {
-        MensajeAdvertencia("Reporte se encuentra pendiente.");
-        return;
-    }
+    //if (!model.EstadoReporte) {
+    //    MensajeAdvertencia("Reporte se encuentra pendiente.");
+    //    return;
+    //}
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
     $("#btnConsultar").prop("hidden", true);
@@ -70,12 +70,15 @@ function SeleccionarBandeja(Control) {
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);
 
-
+    if (model.EstadoReporte) {
+        $("#txtUsuarioAprobacion").html(model.AprobadoPor);
+        $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD HH:mm"));
+    } else {
+        $("#txtUsuarioAprobacion").html('');
+        $("#txtFechaAprobacion").html('');
+    }
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
     $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
-    $("#txtUsuarioAprobacion").html(model.AprobadoPor);
-    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD HH:mm"));
-    $("#txtCodDetectorMetal").val(model.DetectorMetal);
 
 
     CargarControlDetalle();

@@ -4,57 +4,73 @@
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-            <th rowspan="2" class="text-center">@Html.DisplayNameFor(model => model.Tanque)</th>
-            <th rowspan="2" class="text-center"> @Html.DisplayNameFor(model => model.Lote)</th>
-            <th rowspan="2" class="text-center"> @Html.DisplayNameFor(model => model.Especie)</th>
+            <th rowspan="3" class="text-center">@Html.DisplayNameFor(model => model.Tanque)</th>
+            <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Lote)</th>
+            <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Especie)</th>
+            <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Talla)</th>
+
             <th colspan="5" class="text-center">Inicio Descongelado</th>
             <th colspan="5" class="text-center">Emparrillado</th>
-            <th colspan="4" class="text-center">Ingreso Cocina</th>           
+            <th colspan="4" class="text-center">Ingreso Cocina</th>
+        </tr>
+        <tr class="text-center">
+            <th rowspan="2">
+                Hora
+            </th>
+            <th rowspan="2" style="white-space:normal">
+                Temperatura de agua ºc
+            </th>
+            <th colspan="3" style="white-space:normal">
+                Temperatura de pescado ºc
+            </th>
+
+            <th rowspan="2">
+                Hora
+            </th>
+            <th rowspan="2" style="white-space:normal">
+                Temperatura de agua ºc
+            </th>
+            <th colspan="3" style="white-space:normal">
+                Temperatura de pescado ºc
+            </th>
+            <th rowspan="2">
+                Hora
+            </th>
+            <th colspan="3">
+                Temperatura de pescado ºc
+            </th>
         </tr>
         <tr>
+          
             <th>
-                Hora
+                1
             </th>
             <th>
-                Temperatura
+                2
             </th>
             <th>
-                Muestra 1
-            </th>
-            <th>
-                Muestra 2
-            </th>
-            <th>
-                Muestra 3
+                3
             </th>
 
             <th>
-                Hora
+                 1
             </th>
             <th>
-                Temperatura
+                 2
             </th>
             <th>
-                Muestra 1
-            </th>
-            <th>
-                Muestra 2
-            </th>
-            <th>
-                Muestra 3
+                 3
             </th>
 
+            
             <th>
-                Hora
+                 1
             </th>
             <th>
-                Muestra 1
+                 2
             </th>
             <th>
-                Muestra 2
-            </th>
-            <th>
-                Muestra 3
+                 3
             </th>
            
         </tr>
@@ -75,6 +91,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Especie)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
             </td>
             @if (Descongelado != null)
             {
@@ -135,7 +155,7 @@
                 <td>
                     @Cocina.Hora.ToString("HH:mm")
                 </td>
-                
+
                 <td>
                     @Cocina.Muestra1
                 </td>

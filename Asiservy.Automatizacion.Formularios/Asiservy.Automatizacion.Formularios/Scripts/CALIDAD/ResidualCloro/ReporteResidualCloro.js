@@ -46,10 +46,13 @@ function SeleccionarBandeja(Control) {
     $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
 
     if (model.EstadoReporte) {
-         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
+        $("#txtUsuarioAprobacion").html(model.AprobadoPor);
         $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
         //$("#txtCodDetectorMetal").val(model.DetectorMetal);
-       // return;
+        // return;
+    } else {
+        $("#txtUsuarioAprobacion").html('');
+        $("#txtFechaAprobacion").html('');
     }
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
@@ -61,7 +64,7 @@ function SeleccionarBandeja(Control) {
     $("#divDetalle").prop("hidden", false);
     $("#divDetalle2").prop("hidden", false);
 
-    // console.log(model);
+     console.log(model);
 
     $("#divMensaje").html('');
     if (model.Lomos) {

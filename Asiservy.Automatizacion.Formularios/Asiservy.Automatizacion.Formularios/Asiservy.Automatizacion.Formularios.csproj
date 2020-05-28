@@ -4049,6 +4049,7 @@
     <Content Include="Views\MantenimientoMoretones\MantenimientoMoretonPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\BandejaMonitoreoDescongelado.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\BandejaMonitoreoDescongeladoPartial.cshtml" />
+    <Content Include="Views\MonitoreoDescongelado\ReporteMonitoreoDescongeladoControlPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
