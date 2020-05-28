@@ -7,7 +7,6 @@ using System.Net;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -96,7 +95,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 if (!string.IsNullOrWhiteSpace(model.NombEstandar))
                 {
-                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();                    
                     model.FechaIngresoLog = DateTime.Now;
                     model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     model.TerminalIngresoLog = Request.UserHostAddress;
@@ -110,7 +109,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     {
                         return Json("1", JsonRequestBehavior.AllowGet);
                     }
-                    else return Json("2", JsonRequestBehavior.AllowGet);
+                    else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }
+                    else return Json("4", JsonRequestBehavior.AllowGet);
                 }
                 else return Json("3", JsonRequestBehavior.AllowGet);
             }
@@ -263,7 +263,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }       
 
-        public ActionResult CalibracionFluorometroPartial(DateTime fechaDesde, DateTime fechaHasta)
+        public ActionResult CalibracionFluorometroPartial(int op, DateTime? fechaDesde, DateTime? fechaHasta, int idCalibracionFluor=0, int ocultarSi=0)
         {
             try
             {
@@ -273,15 +273,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
-                var rangoFecha = ClsDCalibracionFluorometro.ConsultarFluorRangoFecha(fechaDesde,fechaHasta);
-                //if (rangoFecha != null)
-                //{
+                ViewBag.ocultarSi = ocultarSi;
+                var rangoFecha = ClsDCalibracionFluorometro.ConsultarRanfoFechaInner(fechaDesde,fechaHasta, idCalibracionFluor, op);
                     return PartialView(rangoFecha);
-                //}
-                //else
-                //{
-                //    return Json("0", JsonRequestBehavior.AllowGet);
-                //}
             }
             catch (DbEntityValidationException e)
             {
@@ -332,7 +326,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 else
                 {
                     var validarFechaExiste = ClsDCalibracionFluorometro.ConsultarCalibracionFluorIdFecha(0, model.FechaHora);
-                    if (validarFechaExiste != null)
+                    if (validarFechaExiste != null && validarFechaExiste.IdCalibracionFluor!= model.IdCalibracionFluor)
                     {
                         return Json("4", JsonRequestBehavior.AllowGet);//FECHA EXISTE
                     }
@@ -425,135 +419,190 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        //public JsonResult EliminarHigieneControl(CC_CALIBRACION_FLUOROMETRO_CTRL model)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
-        //        model.FechaIngresoLog = DateTime.Now;
-        //        model.TerminalIngresoLog = Request.UserHostAddress;
-        //        model.UsuarioIngresoLog = lsUsuario[0];
-        //        model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-        //        var valor = ClsDCalibracionFluorometro.EliminarCalibracionFluor(model);
-        //        if (valor == 0)
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else return Json("1", JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        //---------------------------------------------------------BANDEJA------------------------------------------------------------------------
+        public ActionResult BandejaCalibracionFluorometro()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
-        //public JsonResult GuardarModificarCalibracionFluorDetalle(CC_CALIBRACION_FLUOROMETRO_DET model)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        if (model.Fecha != DateTime.MinValue && model.Hora != DateTime.MinValue && model.ValorEstandar >= 0)
-        //        {
-        //            ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
-        //            model.FechaIngresoLog = DateTime.Now;
-        //            model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-        //            model.TerminalIngresoLog = Request.UserHostAddress;
-        //            model.UsuarioIngresoLog = lsUsuario[0];
-        //            var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluorDetalle(model);
-        //            if (valor == 0)
-        //            {
-        //                return Json("0", JsonRequestBehavior.AllowGet);
-        //            }
-        //            else
-        //            {
-        //                return Json("1", JsonRequestBehavior.AllowGet);
-        //            }
-        //        }else return Json("2", JsonRequestBehavior.AllowGet);
+        public ActionResult BandejaCalibracionFluorometroPartial(bool estadoReporte, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                var lista = ClsDCalibracionFluorometro.BandejaConsultarCalibracionFluorometro(estadoReporte, fechaDesde, fechaHasta);
+                //if (lista.Count!=0)
+                //{
+                    return PartialView(lista);
+                //}
+                //else
+                //{
+                //    return Json("0", JsonRequestBehavior.AllowGet);
+                //}
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public JsonResult EliminarHigieneControlDetalle(CC_CALIBRACION_FLUOROMETRO_DET model)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
-        //        model.FechaIngresoLog = DateTime.Now;
-        //        model.TerminalIngresoLog = Request.UserHostAddress;
-        //        model.UsuarioIngresoLog = lsUsuario[0];
-        //        model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-        //        var valor = ClsDCalibracionFluorometro.EliminarCalibracionFluorDetalle(model);
-        //        if (valor == 0)
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else return Json("1", JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult BandejaAprobarReverso(CC_CALIBRACION_FLUOROMETRO_CTRL model, bool siAprobar)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluor(model, siAprobar);
+                if (valor == 2)
+                {
+                    return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("0", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //---------------------------------------------------------REPORTE------------------------------------------------------------------------
+        public ActionResult ReporteCalibracionFluorometro()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";               
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ClsDReporte = new clsDReporte();
+                var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        public ActionResult ReporteCalibracionFluorometroPartial(int op, DateTime? fechaDesde, DateTime? fechaHasta, int idCalibracionFluor = 0)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                var rangoFecha = ClsDCalibracionFluorometro.ConsultarRanfoFechaInner(fechaDesde, fechaHasta, idCalibracionFluor, op);
+                if (rangoFecha.Count != 0)
+                {
+                    return PartialView(rangoFecha);
+                }
+                else return Json("0", JsonRequestBehavior.AllowGet);
+                
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
         protected void SetSuccessMessage(string message)
         {

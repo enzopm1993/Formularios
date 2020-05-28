@@ -1,11 +1,12 @@
 ﻿var itemEditar = [];
 var json = [];
+var estadoReporte = [];
 $(document).ready(function () {
-    CargarCabecera();   
+    CargarCabecera(1);   
 });
 
 function MascaraInputs() {    
-    json = JSON.parse($('#inpTotalEstandar').val());
+    json = JSON.parse($('#inpTotalEstandar').val());//Lista de Estandares enviados mendiante ViewBag txt id="inpTotalEstandar" 
     json.forEach(function (row) {
         $('#Estandar_' + row.IdEstandar).val('');
         $('#Estandar_' + row.IdEstandar).css('border', '');
@@ -13,7 +14,7 @@ function MascaraInputs() {
     });
 }
 
-function CargarCabecera() {
+function CargarCabecera(op) {
     $('#cargac').show();
     if ($('#txtFecha').val() == '') {
         MensajeAdvertencia('Fecha invalida');
@@ -24,16 +25,16 @@ function CargarCabecera() {
         url: "../CalibracionFluorometro/CalibracionFluorometroPartial",
         data: {
             fechaDesde: $("#fechaDesde").val(),
-            FechaHasta: $("#fechaHasta").val()+' 23:59'
+            FechaHasta: $("#fechaHasta").val(),
+            op:op
         },
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-           
-                $('#divMostrarCabecera').html(resultado);
-            
+            $('#divMostrarCabecera').html(resultado);
+
             $('#cargac').hide();
         },
         error: function (resultado) {
@@ -45,10 +46,18 @@ function CargarCabecera() {
 
 function GuardarCabecera(siAprobar) {
     var detalleCalibracion = [];
-    json.forEach(function (row) {
+    var idCalibracionFluor=0;
+    json.forEach(function (row) {//json= Variable listada desde el mantenimiento(ESTANDAR) y recivida en ViewBag---txt id="inpTotalEstandar" 
         var d = {};
-        d.IdCalibracionFluorDetalle = 0;
-        d.IdCalibracionFluor = itemEditar.IdCalibracionFluor;
+        if (itemEditar!=null) {
+            itemEditar.forEach(function (subItem) {//Envio la lista filtrada por idCalibracionFluor en el boton Editar
+                if (row.IdEstandar == subItem.IdEstandar) {
+                    d.IdCalibracionFluorDetalle = subItem.IdCalibracionFluorDetalle;
+                    d.IdCalibracionFluor = subItem.IdCalibracionFluor;
+                    idCalibracionFluor = subItem.IdCalibracionFluor;
+                }
+            });   
+        }            
         d.IdEstandar = row.IdEstandar;
         d.ValorEstandar = $('#Estandar_' + row.IdEstandar).val();
         d.FechaIngresoLog = "";
@@ -65,7 +74,7 @@ function GuardarCabecera(siAprobar) {
         url: "../CalibracionFluorometro/GuardarModificarCalibracionFluor",
         type: "POST",
         data: {
-            IdCalibracionFluor: itemEditar.IdCalibracionFluor,
+            IdCalibracionFluor: idCalibracionFluor,
             FechaHora: $("#txtFechaCalibre").val(),
             CoeficienteDeterminacion: $("#txtCoeficiente").val(),
             siAprobar: siAprobar,
@@ -83,18 +92,17 @@ function GuardarCabecera(siAprobar) {
                 MensajeAdvertencia('Error de Fecha/Hora vacía');
                 return;
             } else if (resultado == 4) {
-                MensajeAdvertencia('La fecha que intenta ingresar ya existe: <span class="badge badge-danger">' + moment($("#txtFechaCalibre").val()).format('DD-MM-YYYY')+'</span>');
+                MensajeAdvertencia('La fecha que intenta ingresar ya existe: <span class="badge badge-danger">' + moment($("#txtFechaCalibre").val()).format('DD-MM-YYYY') + '</span>');
+                $('#cargac').hide();
+                return;
             } else if (resultado == 5) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             }
             $('#ModalIngresoCabecera').modal('hide');
-            //$('#divBotonesCRUD').prop('hidden', false);
             $('#divMostarTablaDetalle').prop('hidden', false);
-            //$('#divBotonCrear').prop('hidden', true);
-            //LimpiarCabecera();
             itemEditar = 0;
             $('#cargac').hide();
-            CargarCabecera();
+            CargarCabecera(1);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -105,11 +113,8 @@ function GuardarCabecera(siAprobar) {
 
 function ModalIngresoCabecera() {
     Limpiar();
-    //$("#txtFechaCabecera").prop('disabled', false);
     $('#txtFechaCalibre').css('border', '');
     $('#ModalIngresoCabecera').modal('show');
-    var date = new Date();
-    //$("#txtIngresoFechaCabecera").val(moment(date).format("YYYY-MM-DDTHH:mm"));
     MascaraInputs();
     itemEditar = [];
 }
@@ -119,7 +124,6 @@ function Limpiar() {
     $('#txtCoeficiente').val('');
     var date = new Date();
     $('#txtFechaCalibre').val(moment(date).format('YYYY-MM-DDTHH:mm'));
-    CambiarMensajeEstado('nada');
 }
 
 function ValidarDatosVacios(siAprobar) {
@@ -146,273 +150,102 @@ function OnChangeTextBox() {
     return con;
 }
 
-//function EliminarConfirmar() {
-//    ConsultarEstadoRegistro();
-//    setTimeout(function () {
-//        if (estadoReporte == true) {
-//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-//            return;
-//        } else {
-//            $("#modalEliminarControl").modal("show");
-//            $("#myModalLabel").text("¿Desea Eliminar el registro?");
-//        }
-//    }, 200);
-//}
+function EliminarConfirmar(jdata) {
+    ConsultarEstadoRegistro(jdata[0].IdCalibracionFluor);
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            itemEditar = jdata;
+            $("#modalEliminarControl").modal("show");
+            $("#myModalLabel").text("¿Desea Eliminar el registro?");
+        }
+    }, 200);
+}
 
-//function EliminarCabeceraSi() {
-//    $('#cargac').show();
-//    ConsultarEstadoRegistro();
-//    setTimeout(function () {
-//        if (estadoReporte == true) {
-//            $('#cargac').hide();
-//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-//            return;
-//        } else {           
-//            $.ajax({
-//                url: "../CalibracionFluorometro/EliminarHigieneControl",
-//                type: "POST",
-//                data: {
-//                    IdCalibracionFluor: itemEditar.IdCalibracionFluor
-//                },
-//                success: function (resultado) {
-//                    if (resultado == "101") {
-//                        window.location.reload();
-//                    }
-//                    if (resultado == "0") {
-//                        MensajeAdvertencia("Falta Parametro IdLavadoCisterna");
-//                        $("#modalEliminarControl").modal("hide");
-//                        $('#cargac').hide();
-//                        return;
-//                    } else if (resultado == "1") {
-//                        $('#firmaDigital').prop('hidden', true);
-//                        $("#modalEliminarControl").modal("hide");
-//                        CargarCabecera();
-//                        MensajeCorrecto("Registro eliminado con Éxito");
-//                        $('#cargac').hide();
-//                    } else if (resultado == '2') {
-//                        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
-//                        $('#cargac').hide();
-//                        return;
-//                    }
-//                    itemEditar = 0;
-//                },
-//                error: function (resultado) {
-//                    $('#cargac').hide();
-//                    MensajeError(resultado.responseText, false);
-//                }
-//            });
-//        }
-//    }, 200);
-//}
+function EliminarCabeceraSi() {
+    $('#cargac').show();
+    var idCalibracionFluor = 0;
+    itemEditar.forEach(function (subItem) {//OBTENHGO EL ID DE LA CABECERA DE LA LISTA JSON ENVIADA DESDE EL PARTIAL     
+        idCalibracionFluor = subItem.IdCalibracionFluor;
+    });   
+    $.ajax({
+        url: "../CalibracionFluorometro/EliminarCalibracionFluor",
+        type: "POST",
+        data: {
+            IdCalibracionFluor: idCalibracionFluor
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Falta Parametro IdCalibracionFluor");
+                $("#modalEliminarControl").modal("hide");
+                $('#cargac').hide();
+                return;
+            } else if (resultado == "1") {
+                $("#modalEliminarControl").modal("hide");
+                CargarCabecera(1);
+                MensajeCorrecto("Registro eliminado con Éxito");
+                $('#cargac').hide();
+            } else if (resultado == '2') {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+                $('#cargac').hide();
+                return;
+            }
+            itemEditar = 0;
+        },
+        error: function (resultado) {
+            $('#cargac').hide();
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
 
-//function EliminarCabeceraNo() {
-//    $("#modalEliminarControl").modal("hide");
-//}
+function EliminarCabeceraNo() {
+    $("#modalEliminarControl").modal("hide");
+}
 
-//function ActualizarCabecera() {
-//    ConsultarEstadoRegistro();
-//    setTimeout(function () {
-//        if (estadoReporte == true) {
-//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-//            return;
-//        } else {
-//            LimpiarModalIngresoCabecera();
-//            var hora = moment(itemEditar.Hora).format('HH:mm');
-//            $("#txtIngresoFechaCabecera").val(moment(itemEditar.Fecha +' '+hora).format("YYYY-MM-DD"));
-//            $("#txtObservacion").val(itemEditar.Observacion);
-//            $('#ModalIngresoCabecera').modal('show');
-//        }
-//    }, 200);
-//}
+function ActualizarCabecera(jdata) {
+    ConsultarEstadoRegistro(jdata[0].IdCalibracionFluor);
+    setTimeout(function () {
+        if (estadoReporte == true) {            
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            ModalIngresoCabecera();            
+            jdata.forEach(function (row) {
+                $('#txtFechaCalibre').val(row.FechaHora); 
+                $('#txtCoeficiente').val(row.CoeficienteDeterminacion);
+                $('#Estandar_' + row.IdEstandar).val(row.ValorEstandar);
+            });
+            itemEditar = jdata;
+        }
+    }, 200);
+}
 
-
-
-
-
-//function LimpiarModalIngresoCabecera() {
-//    $('#txtIngresoFechaCabecera').val(moment($('#txtFecha').val()).format('YYYY-MM-DDTHH:mm'));
-//    $('#txtObservacion').val('');
-//}
-
-
-
-
-
-////DETALLE
-//function CargarDetalle(idCalibracionFluorDetalle) {
-//    $('#cargac').show();
-//    $.ajax({
-//        url: "../CalibracionFluorometro/CalibracionFluorometroPartial",
-//        data: {
-//            idCalibracionFluorDetalle: idCalibracionFluorDetalle            
-//        },
-//        type: "GET",
-//        success: function (resultado) {
-//            if (resultado == "101") {
-//                window.location.reload();
-//            }
-//            if (resultado == "0") {
-//                $("#divMostarTablaDetallesVer").html("No existen registros");
-//                $('#firmaDigital').prop('hidden', true);
-//            } else {
-//                $('#firmaDigital').prop('hidden', false);
-//                //$('#divBotonCrearDetalle').prop('hidden', true);
-//                $('#divMostarTablaDetallesVer').prop('hidden', false);
-//                $('#divMostarTablaDetallesVer').html(resultado);
-
-//            }
-//            $('#cargac').hide();
-//        },
-//        error: function (resultado) {
-//            $('#cargac').hide();
-//            MensajeError(resultado.responseText, false);
-//        }
-//    });
-//}
-
-//function ModalIngresoDetalle() {
-//    LimpiarDetalle();
-//    $('#ModalIngresoDetalle').modal('show');
-//    var estadoRegistro = 'A';
-//    //INICIO AJAX
-//    $.ajax({
-//        url: "../CalibracionFluorometro/ConsultaHigieneMantActivosPartial",
-//        type: "GET",
-//        data: {
-//            estadoRegistro: estadoRegistro
-//        },
-//        success: function (resultado) {
-//            if (resultado == "101") {
-//                window.location.reload();
-//            }
-//            if (resultado == "0") {
-//                $("#divMostarTablaDetalles").html("No existen registros");
-//            } else {
-
-//                $("#divMostarTablaDetalles").html(resultado);
-
-//            }
-//        },
-//        error: function (resultado) {
-//            MensajeError(resultado.responseText, false);
-//        }
-//    });
-//    //FIN AJAX
-//}
-
-//function LimpiarDetalle() {
-
-//}
-
-//function GuardarDetalle(jdata) {
-//    $('#cargac').show();
-//    ConsultarEstadoRegistro();
-//    setTimeout(function () {
-//        if (estadoReporte == true) {
-//            $('#cargac').hide();
-//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-//            return;
-//        } else {
-//            $('#cargac').show();
-//            var con = 0;
-//            var idControlHigiene = itemEditar[0].IdControlHigiene;
-//            jdata.forEach(function (rowMantenimiento) {
-//                var sel = document.getElementById('selectLimpiezaEstado-' + rowMantenimiento.IdMantenimiento).value;
-//                var obs = document.getElementById('txtObservacionDetalle-' + rowMantenimiento.IdMantenimiento).value;
-//                var acc = document.getElementById('txtACorrectivaDetalle-' + rowMantenimiento.IdMantenimiento).value;
-//                var idControlMantenimiento = document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value;
-//                jdata[con].IdControlHigiene = idControlHigiene;
-//                jdata[con].LimpiezaEstado = sel;
-//                jdata[con].Observacion = obs;
-//                jdata[con].AccionCorrectiva = acc;
-//                jdata[con].IdControlDetalle = idControlMantenimiento;
-//                con++;
-//            });
-
-//            $.ajax({
-//                url: "../CalibracionFluorometro/GuardarModificarHigieneControlDetalle",
-//                type: "POST",
-//                data: {
-//                    listaControlDetalle: jdata
-//                },
-//                success: function (resultado) {
-//                    if (resultado == "101") {
-//                        window.location.reload();
-//                    }
-//                    if (resultado == 0) {
-//                        MensajeCorrecto('Registro guardado correctamente');
-//                    } else if (resultado == 1) {
-//                        MensajeCorrecto('Registro actualizado correctamente');
-//                    }
-//                    $('#ModalIngresoDetalle').modal('hide');
-//                    LimpiarCabecera();
-//                    itemEditar = 0;
-//                    $('#cargac').hide();
-//                    CargarCabecera(0);
-//                },
-//                error: function (resultado) {
-//                    $('#cargac').hide();
-//                    MensajeError(resultado.responseText, false);
-//                }
-//            });
-//        }
-//    }, 200);
-//}
-
-//function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL CalibracionFluorometroDetallePartial
-//    ConsultarEstadoRegistro();
-//    setTimeout(function () {
-//        if (estadoReporte == true) {
-//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-//            return;
-//        } else {
-//            ModalIngresoDetalle();
-//            setTimeout(function () {
-//                jdata.forEach(function (rowMantenimiento) {
-//                    document.getElementById('selectLimpiezaEstado-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.LimpiezaEstado;
-//                    document.getElementById('txtObservacionDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.Observacion;
-//                    document.getElementById('txtACorrectivaDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.AccionCorrectiva;
-//                    document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.IdControlDetalle;
-//                });
-//            }, 1000);
-//        }
-//    }, 200);
-//}
-
-//function ConsultarEstadoRegistro() {
-//    $.ajax({
-//        url: "../CalibracionFluorometro/ConsultarCalibracionFluorometroJson",
-//        data: {
-//            idCalibracionFluor: itemEditar.IdCalibracionFluor
-//        },
-//        type: "GET",
-//        success: function (resultado) {
-//            if (resultado == "101") {
-//                window.location.reload();
-//            }
-//            estadoReporte = resultado.EstadoReporte;
-//            CambiarMensajeEstado(resultado.EstadoReporte);
-//        },
-//        error: function (resultado) {
-//            MensajeError(resultado.responseText, false);
-//        }
-//    });
-//}
-
-function CambiarMensajeEstado(estadoReporteParametro) {
-    if (estadoReporteParametro == true) {
-        $("#lblAprobadoPendiente").text("APROBADO");
-        $("#lblAprobadoPendiente").removeClass('badge-danger');
-        $("#lblAprobadoPendiente").addClass('badge badge-success');
-    } else if (estadoReporteParametro == false) {
-        $("#lblAprobadoPendiente").text("PENDIENTE");
-        $("#lblAprobadoPendiente").removeClass('badge-success');
-        $("#lblAprobadoPendiente").addClass('badge badge-danger');
-    } else if (estadoReporteParametro == 'nada') {
-        $("#lblAprobadoPendiente").text("");
-        $("#lblAprobadoPendiente").removeClass('badge-success');
-        $("#lblAprobadoPendiente").removeClass('badge badge-danger');
-    }
+function ConsultarEstadoRegistro(idCalibracionFluor) {
+    $.ajax({
+        url: "../CalibracionFluorometro/ConsultarCalibracionFluorometroJson",
+        data: {
+            idCalibracionFluor: idCalibracionFluor
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado.EstadoReporte==true) {
+                CargarCabecera(1);
+            }
+            estadoReporte = resultado.EstadoReporte;
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
 }
 
 $(function () {
