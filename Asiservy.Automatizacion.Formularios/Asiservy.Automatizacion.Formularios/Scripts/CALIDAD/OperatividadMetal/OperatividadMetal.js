@@ -61,7 +61,7 @@ function ConsultarControl() {
                 $("#txtAceroInoxidable").val('');
                 $("#txtCodDetectorMetal").val('');
                 $("#txtObservacion").val('');
-                $("#divMensaje").html("<h3 class='text-warning'>"+Mensajes.SinRegistros+"</h3>");
+                $("#divMensaje").html('<div class="text-center"><h4 class="text-warning">' + Mensajes.SinRegistros + '</h4></div>');
             } else {
 
                 $("#divCabeceras").html(resultado);

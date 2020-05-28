@@ -52,7 +52,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr  style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionDeLomosYMigasEnBandejas)">
+            <tr  style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionDeLomosYMigasEnBandejas,@item.NivelLimpieza)">
              
                 <td>
                     @item.FechaProduccion.Value.ToString("dd-MM-yyyy")

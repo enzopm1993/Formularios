@@ -237,7 +237,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="time" id="txtHora" class=" form-control" />
+                                <input type="time" id="txtHora" value="08:56" class=" form-control" />
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>
@@ -364,7 +364,7 @@
     </div>
     <br /><hr />
     <div>
-        <div id="divDetalle2" class="">
+        <div id="divDetalle2" hidden class="">
             <div class="row">
                 <div class="col-md-12 col-12 col-sm-12">
                     <div class="card shadow">
@@ -510,22 +510,50 @@
                     <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
                         <label>Adjuntar foto</label>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="file-uploadcod" accept="image/*">
-                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
+                            <input type="file" class="custom-file-input" id="file-upload" accept="image/*">
+                            <label class="custom-file-label" for="customFile" id="lblfoto">Seleccione archivo</label>
                         </div>
                         <br />
                         <div class="text-center" style="justify-content:center">
+                            <br />
                             <div id="file-preview-zone" style="height:auto">
                             </div>
-
+                            <br />
                         </div>
                     </div>
 
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle2()" id="">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoimg">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle2()" id="btnguardarfoto">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelarguardarfoto">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal mensaje eliminar foto*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle2">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle2" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle?</h4>
+            </div>
+            <div class="modal-body">
+                <label id="labelMensaje2"></label>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoeliminarfotos">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle2-si" onclick="EliminarFoto()">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle2-no" data-dismiss="modal">No</button>
             </div>
         </div>
     </div>

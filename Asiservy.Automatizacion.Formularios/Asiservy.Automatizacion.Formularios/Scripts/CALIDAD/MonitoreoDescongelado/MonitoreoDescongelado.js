@@ -1,11 +1,11 @@
 ﻿var DatosCabecera = [];
-
+var model = [];
 $(document).ready(function () {
     ConsultarMonitoreoDescongelado();
-    $("#txtTemperaturaAgua").mask("9?.99");
-    $("#txtMuestra1").mask("9?.99");
-    $("#txtMuestra2").mask("9?.99");
-    $("#txtMuestra3").mask("9?.99");
+    $("#txtTemperaturaAgua").mask("99?.9");
+    $("#txtMuestra1").mask("99?.9");
+    $("#txtMuestra2").mask("99?.9");
+    $("#txtMuestra3").mask("99?.9");
 });
 
 function ValidaEstadoReporte(Fecha){
@@ -65,7 +65,7 @@ function ConsultarMonitoreoDescongelado() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#chartCabecera2").html("No existen registros");
+                $("#chartCabecera2").html('<div class="text-center"><h4 class="text-warning">' + Mensajes.SinRegistros + '</h4></div>');
                 $("#spinnerCargando").prop("hidden", true);
             } else {
                 $("#spinnerCargando").prop("hidden", true);
@@ -133,6 +133,8 @@ function ConsultarMonitoreoDetalle() {
                 $("#txtMuestra2").val('');
                 $("#txtMuestra3").val('');
                 $("#ModalMonitoreo").modal("show");
+                $("#btnEliminar").prop("hidden", true);
+                model = [];
             } else {
                 $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
                 $("#txtTemperaturaAgua").val(resultado.TemperaturaAgua);
@@ -141,7 +143,8 @@ function ConsultarMonitoreoDetalle() {
                 $("#txtMuestra3").val(resultado.Muestra3);
                 $("#txtIdControl").val(resultado.IdMonitoreoDescongelado);
                 $("#ModalMonitoreo").modal("show");
-
+                $("#btnEliminar").prop("hidden", false);
+                model = resultado;
             }
             $("#btnGuardarMonitoreo").prop("disabled", false);
             //  $('#btnConsultar').prop("disabled", true);
@@ -232,6 +235,71 @@ function GuardarMonitoreoDescongelado() {
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+
+function EliminarControl() {
+    $("#ModalMonitoreo").modal("hide");
+    $("#modalEliminarControl").modal("show");
+   // console.log(model);
+    //$("#txtModalTipo").val(model.Tipo=='D'?'Descongelado':model.tipo=='E'?'Emparrillado':'Ingreso a Cocina');
+    if (model.Tipo == 'D') {
+        $("#txtModalTipo").val('Descongelado');
+    } else if (model.Tipo=='E') {
+        $("#txtModalTipo").val('Emparrillado');
+
+    } else {
+        $("#txtModalTipo").val('Ingreso a Cocina');
+
+    }
+
+    $("#txtModalTanque").val(DatosCabecera.U_SYP_TANQUE);
+    $("#txtModalLote").val(DatosCabecera.U_SYP_LOTE);
+    $("#txtModalHora").val(moment(model.Hora).format("YYYY-MM-DD HH:mm"));
+}
+
+
+$("#modal-detalle-si").on("click", function () {
+    InactivarControl();
+    $("#modalEliminarControl").modal('hide');
+});
+
+$("#modal-detalle-no").on("click", function () {
+    $("#modalEliminarControl").modal('hide');
+});
+
+
+function InactivarControl() {
+    $.ajax({
+        url: "../MonitoreoDescongelado/EliminarMonitoreoDescongelado",
+        type: "POST",
+        data: {
+            IdMonitoreoDescongelado: $("#txtIdControl").val(),
+            Fecha: $("#txtFecha").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+            }
+            if (resultado == 0) {
+                MensajeAdvertencia("Faltan Parametros");
+            } else {
+                MensajeCorrecto(resultado);
+            }
+            ConsultarMonitoreoDescongelado();
+            NuevoControl();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
         }
     });
 }

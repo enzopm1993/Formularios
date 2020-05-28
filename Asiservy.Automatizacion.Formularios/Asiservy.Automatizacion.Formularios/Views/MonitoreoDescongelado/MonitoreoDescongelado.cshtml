@@ -19,7 +19,7 @@
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-12 col-12">
+        <div class="col-md-4 col-sm-6 col-6">
             <label>Tipo</label>
             <select class="form-control" id="selectTipo" onchange="">
                 <option value="D">Descongelado</option>
@@ -27,7 +27,7 @@
                 <option value="C">Ingreso Cocina</option>
             </select>
         </div>
-        <div class="col-md-4 text-md-left col-sm-12 col-12 text-center">
+        <div class="col-md-1 text-md-left col-sm-12 col-12 text-center">
             <label class="">Acción</label>
             <div class="form-group">
                 @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
@@ -35,6 +35,24 @@
                     <img style="width:100%" src="~/Content/icons/ver24.png" />
                 </button>
             </div>
+        </div>
+        <div class="col-md-3 col-sm-12 col-12">
+            <table class="table table-bordered" style="width:100px">
+                <tr>
+                    <td>Descongelado</td>
+                    <td><i class="fas fa-check-circle" style="color: dodgerblue"></i></td>
+                </tr>
+
+                <tr>
+                    <td>Emparrillado</td>
+                    <td> <i class="fas fa-check-circle" style="color:royalblue"></i></td>
+                </tr>
+
+                <tr>
+                    <td>Ingreso Cocina</td>
+                    <td> <i class="fas fa-check-circle" style="color:darkblue"></i></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
@@ -48,6 +66,10 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
+            <div>
+
+            </div>
+
 
             <div id="chartCabecera2" class="table-responsive"></div>
         </div>
@@ -67,7 +89,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="txtIdControl"  name="name" value="0" />
+                <input type="hidden" id="txtIdControl" name="name" value="0" />
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-6">
                         <label>Tanque</label>
@@ -114,9 +136,52 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" hidden id="btnEliminar" onclick="EliminarControl()" class="btn btn-danger">Eliminar</button>
                     <button type="button" disabled id="btnGuardarMonitoreo" onclick="GuardarMonitoreoDescongelado()" class="btn btn-primary">Guardar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar este control de monitoreo de descongelado?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Tipo</label>
+                        <input type="text" disabled class="form-control" id="txtModalTipo" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Tanque</label>
+                        <input type="text" disabled class="form-control" id="txtModalTanque" name="name" value="" />
+
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <label>Lote</label>
+                        <input type="text" disabled class="form-control" id="txtModalLote" name="name" value="" />
+
+                    </div>
+                    <div class="col-md-9 col-6 col-sm-6">
+                        <label>Hora</label>
+                        <input type="text" disabled class="form-control" id="txtModalHora" name="name" value="" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
             </div>
         </div>
     </div>

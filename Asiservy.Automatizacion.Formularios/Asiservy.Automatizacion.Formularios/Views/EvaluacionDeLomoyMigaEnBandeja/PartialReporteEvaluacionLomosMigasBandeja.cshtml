@@ -19,7 +19,7 @@
                 <br />
 
             </div>
-            <table id="tbltitulo" class="table table-bordered" >
+            <table id="tbltitulo" class="table table-bordered">
                 <tbody>
                     <tr>
                         <td rowspan="2" width="10%" id="logo">
@@ -48,7 +48,7 @@
                 <tbody>
                     <tr>
                         <td colspan="5">
-                            <strong>FECHA DE PRODUCCIÓN:</strong> @Model.FirstOrDefault().FechaProduccion.Value.ToString("yyyy/MM/dd")
+                            <strong>FECHA DE PRODUCCIÓN:</strong> @Model.FirstOrDefault().FechaProduccion.Value.ToString("dd/MM/yyyy")
                         </td>
                         <td colspan="11">
                             <strong>CLIENTE:</strong> @Model.FirstOrDefault().Cliente
@@ -211,13 +211,13 @@
                             <td>@item.Moretones</td>
                         }
                     </tr>
-                    <tr>
+                    @*<tr>
                         <td>Hematomas profundos</td>
                         @foreach (var item in Model)
                         {
                             <td>@item.HematomasProfundos</td>
                         }
-                    </tr>
+                    </tr>*@
                     <tr>
                         <td>Proteínas</td>
                         @foreach (var item in Model)
@@ -344,7 +344,7 @@
                                 @if (Model.FirstOrDefault().FechaAprobacion != null)
                                 {
                                     <text>
-                                            @Model.FirstOrDefault().FechaAprobacion.Value.ToString("dd-MM-yyyy hh:mm:ss")
+                                        @Model.FirstOrDefault().FechaAprobacion.Value.ToString("dd-MM-yyyy hh:mm:ss")
                                     </text>
                                 }
                                 else
@@ -359,6 +359,14 @@
 
                 </table>
             </center>
+        </div>
+        
+     
+        <div >
+            
+            <div id="divTableDetalle2" >
+
+            </div>
         </div>
     </div>
 </div>

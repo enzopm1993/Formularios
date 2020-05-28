@@ -48,6 +48,9 @@ function SeleccionarBandeja(Control) {
     if (model.EstadoReporte) {
         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
         $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
+    } else {
+        $("#txtUsuarioAprobacion").html('');
+        $("#txtFechaAprobacion").html('');
     }
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
@@ -75,7 +78,7 @@ function SeleccionarBandeja(Control) {
     $("#lblNoFerroso").html(model.NoFerroso);
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);
-    $("#txtCodDetectorMetal").val(model.DetectorMetal);
+   
 
 
  
@@ -149,6 +152,7 @@ function CargarControlDetalle2() {
             } else {
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
                 $("#divTableDetalle2").html(resultado);
+                $("#txtCodDetectorMetal").val(model.DetectorMetal);
                 //config.opcionesDT.pageLength = 10;
                 //      config.opcionesDT.order = [[0, "asc"]];
                 //    $('#tblDataTable').DataTable(config.opcionesDT);

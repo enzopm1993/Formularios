@@ -3,6 +3,34 @@
     $("#txtCloro").mask("9?.99");
 });
 
+function ValidaEstadoReporte(Fecha) {
+    $.ajax({
+        url: "../CloroAguaAutoClave/ValidaEstadoReporte",
+        type: "GET",
+        data: {
+            Fecha: Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == 0) {
+                $("#lblAprobadoPendiente").html("");
+
+            } else if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+
+            } else {
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
 
 function ConsultarControl() {
     $("#chartCabecera2").html('');
@@ -10,6 +38,7 @@ function ConsultarControl() {
         return;
     }
     $("#spinnerCargando").prop("hidden", false);
+    ValidaEstadoReporte($("#txtFecha").val());
     $.ajax({
         url: "../CloroAguaAutoclave/CloroAguaAutoclavePartial",
         type: "GET",
@@ -22,7 +51,7 @@ function ConsultarControl() {
             }
             $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
-                $("#chartCabecera2").html("No existen registros");
+                $("#chartCabecera2").html('<div class="text-center"><h4 class="text-warning">' + Mensajes.SinRegistros + '</h4></div>');
                 $("#spinnerCargando").prop("hidden", true);
             } else {
                 $("#spinnerCargando").prop("hidden", true);
@@ -62,7 +91,7 @@ function SeleccionarControl(model) {
 function NuevoControl() {
     $("#txtFecha").prop("disabled", false);
     $("#txtIdCloroAguaAutoclave").val('0');
-    $("#txtHora").val(moment().format("yyyy-MM-ddTHH:mm"));
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
     $("#txtObservacion").val('');
     $("#txtParada").val('');
     $("#txtProducto").val('');
@@ -144,6 +173,7 @@ function GuardarControl() {
         MensajeAdvertencia("Fecha no permitida");
         return;
     }
+    MostrarModalCargando();
     $.ajax({
         url: "../CloroAguaAutoclave/CloroAguaAutoclave",
         type: "POST",
@@ -163,9 +193,16 @@ function GuardarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            CerrarModalCargando();
+
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
+            }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
             } else {
                 NuevoControl();
                 ConsultarControl();
@@ -174,6 +211,7 @@ function GuardarControl() {
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
+            CerrarModalCargando();
         }
     });
 
@@ -187,7 +225,8 @@ function InactivarControl() {
         url: "../CloroAguaAutoclave/EliminarCloroAguaAutoclave",
         type: "POST",
         data: {
-            IdCloroAguaAutoclave: $("#txtIdCloroAguaAutoclave").val()
+            IdCloroAguaAutoclave: $("#txtIdCloroAguaAutoclave").val(),
+            Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -196,8 +235,14 @@ function InactivarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
-            ConsultarControl();
-            NuevoControl();
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                ConsultarControl();
+                NuevoControl();
+            }
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {

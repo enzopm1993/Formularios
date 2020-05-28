@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDescongelado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -18,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDError clsDError { get; set; } = null;
         clsDMonitoreoDescongelado clsDMonitoreoDescongelado { get; set; } = null;
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
-
+        clsDReporte clsDReporte { get; set; } = null;
         #region Control
         // GET: MonitoreoDescongelado
         [Authorize]
@@ -217,7 +218,51 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-
+        [HttpPost]
+        public ActionResult EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdMonitoreoDescongelado == 0)
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
+                if (clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
+                clsDMonitoreoDescongelado.EliminarMonitoreoDescongelado(model);
+                return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region BANDEJA DE APORBACION
@@ -429,9 +474,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //  ViewBag.select2 = "1";
-                //lsUsuario = User.Identity.Name.Split('_');
-
+                ViewBag.DateRangePicker = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
 
                 return View();
             }
@@ -488,6 +539,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ReporteMonitoreoDescongeladoControlPartial(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
+                List<CC_MONITOREO_DESCONGELADO_CONTROL> poControl = null;
+
+                poControl = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(FechaDesde, FechaHasta);
+
+
+                if (poControl != null && poControl.Any())
+                {
+                    return PartialView(poControl);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

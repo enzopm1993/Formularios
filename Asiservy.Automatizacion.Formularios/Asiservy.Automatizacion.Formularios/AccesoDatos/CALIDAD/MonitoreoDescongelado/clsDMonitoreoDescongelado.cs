@@ -68,7 +68,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
-                    CC_MONITOREO_DESCONGELADO_CONTROL poControlReporte = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha);
+                    CC_MONITOREO_DESCONGELADO_CONTROL poControlReporte = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro== clsAtributos.EstadoRegistroActivo);
                     int idControl = 0;
                     if (poControlReporte != null)
                     {
@@ -115,6 +115,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 var poControl = entities.CC_MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
                 if (poControl != null)
                 {
+                    var poControl2 = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.IdMonitoreoDescongeladoControl == poControl.IdMonitoreoDescongeladoControl);
+                    if (poControl2 != null)
+                    {
+                        poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControl2.FechaModificacionLog = model.FechaIngresoLog;
+                    }
+
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -159,7 +168,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => !x.EstadoReporte).ToList();
+                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
         public void Aprobar_ReporteMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO_CONTROL controlCloro)

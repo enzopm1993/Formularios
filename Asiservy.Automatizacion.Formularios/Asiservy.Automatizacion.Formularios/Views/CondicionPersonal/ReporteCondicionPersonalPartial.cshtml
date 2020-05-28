@@ -78,9 +78,8 @@
 </table>
 
 <br />
-@if (Control.EstadoReporte)
-{
 
+<div id="divFooter">
     <table class="table table-borderless text-center">
         <tr>
             <td>
@@ -88,13 +87,15 @@
                 <label>Realizado Por</label><br />
                 <label id="txtFechaCreacion">@Control.FechaIngresoLog</label>
             </td>
-            <td>
-                <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion">@Control.AprobadoPor</label><br />
-                <label>Aprobado Por</label><br />
-                <label id="txtFechaAprobacion">@Control.FechaAprobacion</label>
-            </td>
-        </tr>
+            @if (Control.EstadoReporte)
+            {
+                <td>
+                    <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion">@Control.AprobadoPor</label><br />
+                    <label>Aprobado Por</label><br />
+                    <label id="txtFechaAprobacion">@Control.FechaAprobacion</label>
+                </td>
+            }
+            </tr>
     </table>
+</div>
 
-
-}
