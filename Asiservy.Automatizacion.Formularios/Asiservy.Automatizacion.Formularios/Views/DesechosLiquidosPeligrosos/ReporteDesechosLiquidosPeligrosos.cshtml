@@ -127,12 +127,12 @@
 <hr />
 <div class="row" id="divFiltro">
     
-    <div class="col-md-2 col-12 col-sm-12 text-md-left text-center">
+    <div class="col-md-2 col-6 col-sm-6 text-md-left text-center">
         <label>AÑO</label>
         <select id="selectAnio" class="form-control" onchange="CargarCabecera()"></select>
     </div>
-    <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
-        <label>BUSCAR:</label><br />
+    <div class="col-md-3 col-6 col-sm-6 text-md-left text-center">    
+        <label>BUSCAR: </label><br />
         <a href="#" onclick="CargarCabecera()" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
     </div>
 </div>
@@ -179,7 +179,7 @@
             </tr>
             <tr>
                 <td width="90%" colspan="3" class="text-center">
-                    <strong>CONTROL DESECHOS LIQUIDOS PELIGROSOS</strong>
+                    <strong>@ViewBag.NombreReporte</strong>
 </td>
             </tr>
             <tr>
@@ -213,7 +213,7 @@
             </tr>
             <tr>
                 <td width="90%" colspan="3" class="text-center">
-                    <strong>CONTROL DESECHOS LIQUIDOS PELIGROSOS</strong>
+                    <strong>@ViewBag.NombreReporte</strong>
                 </td>
             </tr>
             <tr>

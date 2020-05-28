@@ -107,7 +107,7 @@
 </style>
 <br id="brCabecera" />
 <div class="row" id="divFiltro">
-    <div class="col-12">
+    <div class="col-12 text-md-left text-center">
         <h4 style="float:left">Reporte Lavado de Cisterna</h4>
         <div class="box_filters">
             <div class="itemFilter">
@@ -118,7 +118,7 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
             </div>
-            <div class="itemFilter">
+            <div class="itemFilter col-md-1 col-12 col-sm-12 text-md-left text-center">
                 <a href="#" onclick="CargarCabecera(1)" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
@@ -160,7 +160,7 @@
             </tr>
             <tr>
                 <td width="90%" colspan="3" class="text-center">
-                    <strong>CONTROL DEL LAVADO DE CISTERNA</strong>
+                    <strong>@ViewBag.NombreReporte</strong>
                 </td>
             </tr>            
         </tbody>
@@ -190,7 +190,7 @@
             </tr>
             <tr>
                 <td width="90%" colspan="3" class="text-center">
-                    <strong>CONTROL DEL LAVADO DE CISTERNA</strong>
+                    <strong>@ViewBag.NombreReporte</strong>
                 </td>
             </tr>            
         </tbody>
