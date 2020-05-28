@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<bool> Enlatado { get; set; }
         public Nullable<bool> Pouch { get; set; }
         public string TipoLimpieza { get; set; }
-        public Nullable<System.DateTime> Hora { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
         public string Linea { get; set; }
         public string buque { get; set; }
         public string Lote { get; set; }
@@ -34,8 +34,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Textura { get; set; }
         public string Color { get; set; }
         public string Olor { get; set; }
-        public Nullable<int> Moretones { get; set; }
-        public Nullable<int> HematomasProfundos { get; set; }
+        public string Moretones { get; set; }
         public string Proteinas { get; set; }
         public Nullable<decimal> Trozo { get; set; }
         public Nullable<int> Venas { get; set; }
