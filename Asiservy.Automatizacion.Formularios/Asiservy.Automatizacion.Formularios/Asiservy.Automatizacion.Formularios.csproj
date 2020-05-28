@@ -2195,8 +2195,10 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionFluorometro\ReporteCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
@@ -4049,6 +4051,10 @@
     <Content Include="Views\MantenimientoMoretones\MantenimientoMoretonPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\BandejaMonitoreoDescongelado.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\BandejaMonitoreoDescongeladoPartial.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\BandejaCalibracionFluorometro.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\BandejaCalibracionFluorometroPartial.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometro.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
