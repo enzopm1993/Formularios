@@ -103,7 +103,7 @@ function CargarResidualCloro() {
             }
             $("#spinnerCargando").prop("hidden", true);
             if (resultado == "0") {
-                $("#chartCabecera2").html(Mensajes.SinRegistros);
+                $("#chartCabecera2").html('<div class="text-center"><h4 class="text-warning">' + Mensajes.SinRegistros + '</h4></div>');
             }
             else {
                 $("#chartCabecera2").html(resultado);
@@ -169,7 +169,7 @@ function GuardarControl() {
         MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
         return;
     }
-
+    MostrarModalCargando();
     $.ajax({
         url: "../ResidualCloro/ResidualCloro",
         type: "POST",
@@ -183,6 +183,7 @@ function GuardarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            CerrarModalCargando();
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
@@ -194,6 +195,7 @@ function GuardarControl() {
             NuevoControl();
         },
         error: function (resultado) {
+            CerrarModalCargando();
             MensajeError(Mensajes.Error, false);
         }
     });

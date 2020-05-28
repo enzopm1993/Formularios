@@ -83,6 +83,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                 var poControl = entities.CC_CLORO_AGUA_AUTOCLAVE.FirstOrDefault(x => x.IdCloroAguaAutoclave == model.IdCloroAguaAutoclave);
                 if (poControl != null)
                 {
+                    var poControl2 = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.IdCloroAguaAutoclaveControl == poControl.IdCloroAguaAutoclaveControl);
+                    if (poControl2 != null)
+                    {
+                        poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControl2.FechaModificacionLog = model.FechaIngresoLog;
+                    }
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;

@@ -65,7 +65,7 @@ function ConsultarMonitoreoDescongelado() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#chartCabecera2").html("No existen registros");
+                $("#chartCabecera2").html('<div class="text-center"><h4 class="text-warning">' + Mensajes.SinRegistros + '</h4></div>');
                 $("#spinnerCargando").prop("hidden", true);
             } else {
                 $("#spinnerCargando").prop("hidden", true);
