@@ -497,6 +497,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
                     ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
                 }
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 

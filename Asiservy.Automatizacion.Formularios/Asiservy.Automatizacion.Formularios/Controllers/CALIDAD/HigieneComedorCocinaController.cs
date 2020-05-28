@@ -548,12 +548,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
-                ClsDReporte = new clsDReporte();                
+                ClsDReporte = new clsDReporte();
+                ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
                     ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
                 }
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
