@@ -29,7 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
-                    CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha);
+                    CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     int idControl = 0;
                     if (poControlReporte != null)
                     {
@@ -135,7 +135,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.Where(x => !x.EstadoReporte).ToList();
+                return entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
         public void Aprobar_ReporteCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE_CONTROL controlCloro)

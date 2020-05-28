@@ -91,7 +91,7 @@ function SeleccionarControl(model) {
 function NuevoControl() {
     $("#txtFecha").prop("disabled", false);
     $("#txtIdCloroAguaAutoclave").val('0');
-    $("#txtHora").val(moment().format("yyyy-MM-ddTHH:mm"));
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
     $("#txtObservacion").val('');
     $("#txtParada").val('');
     $("#txtProducto").val('');
