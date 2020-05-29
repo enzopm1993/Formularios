@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA()
         {
             this.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE = new HashSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE>();
+            this.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE1 = new HashSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE>();
         }
     
         public int IdMantenimiento { get; set; }
@@ -35,5 +36,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
         public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE1 { get; set; }
     }
 }

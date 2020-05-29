@@ -2082,15 +2082,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
         }
     
-        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", idParameter);
-        }
-    
         public virtual ObjectResult<sp_Calibracion_Fluorometro> sp_Calibracion_Fluorometro(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCalibracionFluor, Nullable<int> op)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2110,6 +2101,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Calibracion_Fluorometro>("sp_Calibracion_Fluorometro", fechaDesdeParameter, fechaHastaParameter, idCalibracionFluorParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja_Result> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja_Result>("spReporteEvaluacionLomosMigasBandeja", idParameter);
         }
     }
 }

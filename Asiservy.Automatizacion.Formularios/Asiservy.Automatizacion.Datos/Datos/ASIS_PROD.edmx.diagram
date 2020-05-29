@@ -208,6 +208,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" Width="1.5" PointX="38.375" PointY="16.75" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
