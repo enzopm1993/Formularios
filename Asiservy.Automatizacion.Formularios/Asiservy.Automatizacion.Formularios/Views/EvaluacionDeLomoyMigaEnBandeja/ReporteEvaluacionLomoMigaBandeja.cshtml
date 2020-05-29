@@ -7,6 +7,24 @@
         @@page {
             size: landscape;
         }
+        #tblfotos {
+            page-break-before:always;
+        }
+        table {
+            page-break-after: auto
+        }
+
+        div.divHeader {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        div.divFooter {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
 
         #revisado {
             text-align: center;
@@ -53,11 +71,11 @@
             display: none;
         }
 
-        #tablaCab {
+        /*#tablaCab {
             margin-bottom: 0rem;
             margin-top: 0rem;
-            border: 1px solid red;
-        }
+       
+        }*/
 
         #tbltitulo {
             display: block;
@@ -74,15 +92,44 @@
         /*table tr td {
             border: 1px solid black;
         }*/
-        #firma1 {
+        /*#firma1 {
             border-bottom: solid;
         }
 
         #firma2 {
             border-bottom: solid;
+        }*/
+        /*tr {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }
+
+        td {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }*/
+
+        /*thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-footer-group
+        }*/
+
+
+        hr {
+            display: none;
+        }
+
+        /*br {
+            display: none;
+        }*/
+
+        .card {
+            border: 0px solid #e3e6f0;
         }
     }
-
     @@media screen {
         #logo {
             display: none;
@@ -142,11 +189,11 @@
             margin-bottom: 0.5rem;
         }
 
-            .table tr td {
-                border: 1px solid black;
-            }
+        /*.table tr td {
+            border: 1px;
+        }*/
 
-        .card {
+        /*.card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
             width: 100%;
@@ -154,15 +201,15 @@
             padding-bottom: 10px;
             padding-left: 10px;
             padding-right: 10px;
-        }
+        }*/
 
-        #firma1 {
+        /*#firma1 {
             border-bottom: solid;
         }
 
         #firma2 {
             border-bottom: solid;
-        }
+        }*/
     }
 </style>
 <h4 id="titulo">Reporte de evaluación de lomos y migas en bandeja</h4>
@@ -226,6 +273,18 @@
                 <tbody></tbody>
             </table>
         </div>
+    </div>
+</div>
+<div>
+    <div style="padding-bottom:10px;" id="DivBotonImpr" hidden>
+        <center>
+            <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnimprimir" onclick="Atras()" style="border-color:#2c3e50" type="button" >
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button" >
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>
+        </center>
     </div>
 </div>
 <div id="DivReporte">

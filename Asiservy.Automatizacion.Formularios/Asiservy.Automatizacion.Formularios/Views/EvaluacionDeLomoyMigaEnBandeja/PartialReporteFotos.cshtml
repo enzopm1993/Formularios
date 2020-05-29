@@ -1,58 +1,75 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.ReporteFotosEvaluacionLomosyMigasViewModel>
 
-<style>
-      .img {
-          margin: 10px auto;
-          border-radius: 5px;
-          /*border: 1px solid #999;*/
-          padding: 13px;
-          /*width:420px;
-    height:320px;*/
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          background-size: cover;
-      }
+@*<style>
+          .img {
+              margin: 10px auto;
+              border-radius: 5px;
+              /*border: 1px solid #999;*/
+              padding: 13px;
+              /*width:420px;
+        height:320px;*/
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              background-size: cover;
+          }
+
+              .img img {
+                  width: 100%;
+              }
+
+          @@media all and (min-width: 500px) and (max-width: 1000px) {
+              .img {
+                  margin: 20px auto;
+                  border-radius: 5px;
+                  border: 1px solid #999;
+                  padding: 13px;
+                  width: 300px;
+                  height: 300px;
+                  background-size: 100% 100%;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+              }
+          }
 
           .img img {
               width: 100%;
           }
 
-      @@media all and (min-width: 500px) and (max-width: 1000px) {
-          .img {
-              margin: 20px auto;
-              border-radius: 5px;
-              border: 1px solid #999;
-              padding: 13px;
-              width: 300px;
-              height: 300px;
-              background-size: 100% 100%;
-              background-repeat: no-repeat;
-              background-size: cover;
+          .row {
+              display: flex;
+              flex-wrap: wrap;
+              margin-right: 0;
+              margin-left: 0;
           }
-      }
-
-      .img img {
-          width: 100%;
-      }
-
-      .row {
-          display: flex;
-          flex-wrap: wrap;
-          margin-right: 0;
-          margin-left: 0;
-      }
-</style>
+    </style>*@
 
 @{
     var count = 0;
 }
 
-<table class="table table-borde">
+@*<table class="table table-borde">*@
 
-    <tr>
-        @foreach (var item in Model)
-        {
-            <td style="width:33.3%;height:50px">
+<tr>
+    @foreach (var item in Model)
+    {
+        <td style="width:50%;height:100%;">
+            @if (item.Imagen != null)
+            {
+                <div class="text-center" id="header_@item.IdFoto" style="background:#DCDCDC;">
+                    <img src="~/Content/Img/@item.Imagen" id="@item.IdFoto" class="card-img-top" alt="...">
+                </div>
+            }
+            @if (item.Imagen != null)
+            {
+                <script>
+                        validarImg('@item.Rotacion','@item.IdFoto','@item.Imagen');
+                </script>
+            }
+            <div class="" style="background:#F0F8FF">
+                <p class="card-text" style="color:black"><b>Novedades del hallazgo: </b> @item.Novedad</p>
+            </div>
+        </td>
+        @*<td style="width:33.3%;height:50px">
                 <div class="card shadow" style="margin-bottom:10px">
                     @if (item.Imagen != null)
                     {
@@ -79,9 +96,16 @@
             {
             @:</tr><tr>
                 count = 0;
-            }
+            }*@
 
+
+        count++;
+        if (count == 2)
+        {
+        @:</tr><tr>
+            count = 0;
         }
+    }
 
-    </tr>
-</table>
+</tr>
+@*</table>*@

@@ -20,6 +20,7 @@ function MostrarReporte(data) {
                 window.location.reload();
             }
             if (resultado != '"0"') {
+                $('#DivBotonImpr').prop('hidden', false);
                 $('#DivReporte').prop('hidden', false);
                 $('#DivCabReportes').prop('hidden', true);
                 $('#DivReporte').empty();
@@ -116,6 +117,7 @@ function validarImg(rotacion, id, imagen) {
 
 }
 function Atras() {
+    $('#DivBotonImpr').prop('hidden', true);
     $('#DivReporte').prop('hidden', true);
     $('#DivCabReportes').prop('hidden', false);
 }
