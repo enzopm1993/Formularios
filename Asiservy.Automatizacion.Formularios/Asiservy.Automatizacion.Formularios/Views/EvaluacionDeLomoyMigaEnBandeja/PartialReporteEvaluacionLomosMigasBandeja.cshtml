@@ -43,8 +43,11 @@
                         <table class="table table-bordered" id="tablaCab">
                             <tbody>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="3">
                                         <strong>FECHA DE PRODUCCIÓN:</strong> @Model.FirstOrDefault().FechaProduccion.Value.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td colspan="2">
+                                        <strong>ORDEN FABRICACIÓN:</strong> @Model.FirstOrDefault().OrdenFabricacion
                                     </td>
                                     <td colspan="11">
                                         <strong>CLIENTE:</strong> @Model.FirstOrDefault().Cliente
