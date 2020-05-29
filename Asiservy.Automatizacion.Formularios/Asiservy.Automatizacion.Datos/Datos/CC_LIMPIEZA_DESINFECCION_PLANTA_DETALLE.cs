@@ -16,15 +16,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdDetalle { get; set; }
         public Nullable<int> IdCabecera { get; set; }
-        public Nullable<int> IdItemxArea { get; set; }
+        public Nullable<int> IdMantenimiento { get; set; }
         public string Limpieza { get; set; }
         public string Desinfeccion { get; set; }
         public string Observacion { get; set; }
         public Nullable<System.DateTime> Hora { get; set; }
         public string AccionCorrectiva { get; set; }
-        public string Firma { get; set; }
-        public string UrlFoto { get; set; }
-        public Nullable<int> rotation { get; set; }
+        public string RutaFoto { get; set; }
+        public Nullable<int> Rotation { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,12 +31,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> IdMantenimiento { get; set; }
-        public string RutaFoto { get; set; }
-        public Nullable<int> Rotation { get; set; }
     
         public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
         public virtual CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
-        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA1 { get; set; }
     }
 }
