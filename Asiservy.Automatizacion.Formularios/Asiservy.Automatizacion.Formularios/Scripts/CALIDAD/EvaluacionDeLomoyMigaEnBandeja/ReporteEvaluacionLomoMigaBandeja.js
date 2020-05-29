@@ -1,4 +1,31 @@
 ﻿var Error = 0;
+var ParametrosLomosYMigas =
+{
+    Limpieza1: {
+        Venas: 8,
+        Espinas: 10,
+        Moretones: 9,
+        Escamas: 3,
+        Piel: 5,
+        Total: 35
+    },
+    Limpieza2: {
+        Venas: 6,
+        Espinas: 8,
+        Moretones: 5,
+        Escamas: 2,
+        Piel: 4,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 1,
+        Espinas: 3,
+        Moretones: 3,
+        Escamas: 0,
+        Piel: 0,
+        Total: 7
+    }
+}
 function MostrarReporte(data) {
     $('#cargac').show();
     Error = 0;

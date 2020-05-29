@@ -3,9 +3,13 @@
     ViewBag.Title = "ReporteEvaluacionLomoMigaBandeja";
 }
 <style>
-    @@media print {
+    @@media print and (color){
         @@page {
             size: landscape;
+      
+        }
+        * {
+            -webkit-print-color-adjust: exact;
         }
         #tblfotos {
             page-break-before:always;
@@ -13,13 +17,21 @@
         table {
             page-break-after: auto
         }
-
-        div.divHeader {
-            position: fixed;
-            top: 0;
-            width: 100%;
+        div.divCont{
+            top:100px;
+            position:relative;
         }
-
+        div.divHeader {
+            /*position: fixed;
+            top: 0;
+            width: 100%;*/
+        }
+        div.divBody {
+            /*margin-top: 170px;
+            border-left: 1px solid gray;
+            padding: 1em;
+            overflow: hidden;*/
+        }
         div.divFooter {
             position: fixed;
             bottom: 0;

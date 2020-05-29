@@ -233,11 +233,11 @@ function validarImg(rotacion, id, imagen) {
         var ancho = this.width;
         var alto = this.height;
         if (ancho < alto) {
-            document.getElementById(id).style.height = "250px";
-            document.getElementById(id).style.width = "150px";
-        } else {
-            document.getElementById(id).style.height = "150px";
+            document.getElementById(id).style.height = "350px";
             document.getElementById(id).style.width = "250px";
+        } else {
+            document.getElementById(id).style.height = "250px";
+            document.getElementById(id).style.width = "350px";
         }
 
     }

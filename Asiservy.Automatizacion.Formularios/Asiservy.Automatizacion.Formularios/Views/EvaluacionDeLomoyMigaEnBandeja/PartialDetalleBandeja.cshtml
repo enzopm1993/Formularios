@@ -5,8 +5,8 @@
     <div class="col-md-3 col-sm-6" id="divfechaap">
         <div class="form-group">
             <label>Fecha Aprobación:</label>
-            <input type="hidden" id="fechacontrol" value="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd HH:mm")"/>
-         
+            <input type="hidden" id="fechacontrol" value="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd HH:mm")" />
+
             <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                 <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="txtfechaaprob" />
                 <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 <input type="hidden" value="@Model.FirstOrDefault().Aprobado.ToString()" id="txtAprobado" />
@@ -103,37 +103,37 @@
                             @Html.DisplayFor(modelItem => item.Lote)
                         </td>
                         @*<td>
-                    @Html.DisplayFor(modelItem => item.CodSabor)
-                </td>*@
-                        <td >
+                                @Html.DisplayFor(modelItem => item.CodSabor)
+                            </td>*@
+                        <td>
                             @Html.DisplayFor(modelItem => item.Sabor)
                         </td>
                         @*<td>
-                    @Html.DisplayFor(modelItem => item.CodTextura)
-                </td>*@
+                                @Html.DisplayFor(modelItem => item.CodTextura)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Textura)
                         </td>
                         @*<td>
-                    @Html.DisplayFor(modelItem => item.CodColor)
-                </td>*@
+                                @Html.DisplayFor(modelItem => item.CodColor)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Color)
                         </td>
                         @*<td>
-                    @Html.DisplayFor(modelItem => item.CodOlor)
-                </td>*@
-                        <td >
+                                @Html.DisplayFor(modelItem => item.CodOlor)
+                            </td>*@
+                        <td>
                             @Html.DisplayFor(modelItem => item.Olor)
                         </td>
-                        <td >
+                        <td>
                             @Html.DisplayFor(modelItem => item.Moretones)
                         </td>
 
                         @*<td>
-                    @Html.DisplayFor(modelItem => item.CodProteinas)
-                </td>*@
-                        <td >
+                                @Html.DisplayFor(modelItem => item.CodProteinas)
+                            </td>*@
+                        <td>
                             @Html.DisplayFor(modelItem => item.Proteinas)
                         </td>
                         <td class="text-center">
@@ -153,7 +153,7 @@
                         </td>
                         <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Piel)
-                            
+
                         </td>
                         <td class="text-center">
                             @{

@@ -3,7 +3,7 @@
 <table class="table table-bordered table-hover" id="tblBandejaEvaluacion">
     <thead>
         <tr>
-     
+
             <th>
                 Fecha de producción
             </th>
@@ -34,12 +34,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
-          
-           
+
+
             <th>
                 Estado
             </th>
-       
+
             <th>
                 Aprobado por
             </th>
@@ -52,8 +52,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr  style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionDeLomosYMigasEnBandejas,@item.NivelLimpieza)">
-             
+            <tr style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionDeLomosYMigasEnBandejas,@item.NivelLimpieza)">
+
                 <td>
                     @item.FechaProduccion.Value.ToString("dd-MM-yyyy")
                 </td>
@@ -78,13 +78,13 @@
                 <td class="text-center">
                     @if (item.Empaque == true)
                     {
-                    <i class="far fa-check-circle" style="color:green"></i>
+                        <i class="far fa-check-circle" style="color:green"></i>
                     }
                 </td>
                 <td class="text-center">
                     @if (item.Enlatado == true)
                     {
-                    <i class="far fa-check-circle" style="color:green"></i>
+                        <i class="far fa-check-circle" style="color:green"></i>
                     }
                 </td>
                 <td class="text-center">
@@ -99,7 +99,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>
-                
+
                 <td class="text-center">
                     @if (item.EstadoControl == true)
                     {
@@ -110,14 +110,14 @@
                         <span class="badge badge-danger">Pendiente</span>
                     }
                 </td>
-           
+
                 <td>
                     @Html.DisplayFor(modelItem => item.AprobadoPor)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaAprobacion)
                 </td>
-           
+
             </tr>
         }
 
