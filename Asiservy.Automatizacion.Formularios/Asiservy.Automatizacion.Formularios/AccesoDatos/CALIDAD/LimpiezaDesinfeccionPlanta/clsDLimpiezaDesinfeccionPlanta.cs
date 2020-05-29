@@ -245,65 +245,65 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             }
         }
         //-------------------------------------------------------------CONTROL----------------------------------------------------------------------------
-        public object[] GuardarCabeceraControl(CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA poCabControl)
-        {
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            {
-                object[] resultado = new object[3];
-                var buscaeControl = db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Where(x => x.Fecha == poCabControl.Fecha &&
-                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
-                if (buscaeControl == null)
-                {
-                    db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Add(poCabControl);
-                    db.SaveChanges();
-                    resultado[0] = "000";
-                    resultado[1] = "Registro ingresado con éxito";
-                    resultado[2] = poCabControl;
-                }
-                else
-                {
-                    resultado[0] = "002";
-                    resultado[1] = "Error, el registro ya existe";
-                    resultado[2] = poCabControl;
-                }
-                return resultado;
+        //public object[] GuardarCabeceraControl(CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA poCabControl)
+        //{
+        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+        //    {
+        //        object[] resultado = new object[3];
+        //        var buscaeControl = db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Where(x => x.Fecha == poCabControl.Fecha &&
+        //        x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+        //        if (buscaeControl == null)
+        //        {
+        //            db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Add(poCabControl);
+        //            db.SaveChanges();
+        //            resultado[0] = "000";
+        //            resultado[1] = "Registro ingresado con éxito";
+        //            resultado[2] = poCabControl;
+        //        }
+        //        else
+        //        {
+        //            resultado[0] = "002";
+        //            resultado[1] = "Error, el registro ya existe";
+        //            resultado[2] = poCabControl;
+        //        }
+        //        return resultado;
 
-            }
-        }
-        public CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA ConsultarCabecera(DateTime Fecha)
-        {
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            {
-                return db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
-            }
-        }
-        public object[] ActualizarCabeceraControl(CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA poCabControl)
-        {
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            {
-                object[] resultado = new object[3];
-                var buscarcabecera = db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Find(poCabControl.IdLimpiezaDesinfeccionPlanta);
-                if (buscarcabecera.EstadoControl==true)
-                {
-                    resultado[0] = "003";
-                    resultado[1] = "No se pudo actualizar el control, debido a que ya se encuentra aprobado";
-                    resultado[2] = poCabControl;
-                    return resultado;
-                }
-                else
-                {
-                    //buscarcabecera.FirmaControl = poCabControl.FirmaControl;
-                    buscarcabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
-                    buscarcabecera.TerminalModificacionLog = poCabControl.TerminalIngresoLog;
-                    buscarcabecera.FechaModificacionLog = DateTime.Now;
-                    resultado[0] = "002";
-                    resultado[1] = "Registro actualizado con éxito";
-                    resultado[2] = poCabControl;
-                    return resultado;
-                }
-            }
+        //    }
+        //}
+        //public CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA ConsultarCabecera(DateTime Fecha)
+        //{
+        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+        //    {
+        //        return db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+        //    }
+        //}
+        //public object[] ActualizarCabeceraControl(CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA poCabControl)
+        //{
+        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+        //    {
+        //        object[] resultado = new object[3];
+        //        var buscarcabecera = db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Find(poCabControl.IdLimpiezaDesinfeccionPlanta);
+        //        if (buscarcabecera.EstadoControl==true)
+        //        {
+        //            resultado[0] = "003";
+        //            resultado[1] = "No se pudo actualizar el control, debido a que ya se encuentra aprobado";
+        //            resultado[2] = poCabControl;
+        //            return resultado;
+        //        }
+        //        else
+        //        {
+        //            //buscarcabecera.FirmaControl = poCabControl.FirmaControl;
+        //            buscarcabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
+        //            buscarcabecera.TerminalModificacionLog = poCabControl.TerminalIngresoLog;
+        //            buscarcabecera.FechaModificacionLog = DateTime.Now;
+        //            resultado[0] = "002";
+        //            resultado[1] = "Registro actualizado con éxito";
+        //            resultado[2] = poCabControl;
+        //            return resultado;
+        //        }
+        //    }
 
-        }
+        //}
       
     }
 }
