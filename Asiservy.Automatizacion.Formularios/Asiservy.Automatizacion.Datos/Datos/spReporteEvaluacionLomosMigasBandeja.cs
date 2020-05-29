@@ -11,7 +11,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spReporteEvaluacionLomosMigasBandeja_Result
+    public partial class spReporteEvaluacionLomosMigasBandeja
     {
         public Nullable<int> OrdenFabricacion { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

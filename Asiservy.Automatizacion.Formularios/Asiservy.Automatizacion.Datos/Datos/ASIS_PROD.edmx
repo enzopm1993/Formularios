@@ -5512,7 +5512,7 @@
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
           </AssociationSet>
-          <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja_Result)">
+          <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
@@ -10763,7 +10763,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spReporteEvaluacionLomosMigasBandeja_Result">
+        <ComplexType Name="spReporteEvaluacionLomosMigasBandeja">
           <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
           <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" Precision="23" />
@@ -16055,7 +16055,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteEvaluacionLomosMigasBandeja" FunctionName="ASIS_PRODModel.Store.spReporteEvaluacionLomosMigasBandeja">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja_Result">
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja">
                 <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
