@@ -40,12 +40,27 @@ $(document).ready(function () {
     $('#txtPiel').mask("9?9");
     
     LLenarComboOrdenes()
-    .then(function () {
-        ConsultarCabControl();
-    })
     //.then(function () {
-    //    DatosOrdenFabricacion()
+    //    ConsultarCabControl();
     //})
+   
+});
+$("#btnOrden").on("click", function () {
+    $("#ModalOrdenes").modal('show');
+});
+$("#modal-orden-si").on("click", function () {
+    if ($("#SelectOrdenFabricacion").prop('selectedIndex')==0) {
+        $('#validaOrden').prop("hidden", false);
+        return;
+    }
+    $("#cmbOrdeneFabricacion").val($("#SelectOrdenFabricacion").val());
+    //CargarLotes($("#SelectOrdenFabricacion").val());
+    DatosOrdenFabricacion();
+
+    $("#ModalOrdenes").modal('hide');
+    $('#validaOrden').prop("hidden", true);
+
+    ConsultarCabControl();
 
 });
 async function CargarControlDetalle2Ajax() {
@@ -189,7 +204,7 @@ function ModalGenerarControlDetalle2() {
 }
 async function LlenarComboOrdenesAjax() {
     let params = {
-        Fecha: $("#txtFechaProduccion").val()
+        Fecha: $("#txtFechaOrden").val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -203,25 +218,26 @@ async function LLenarComboOrdenes(/*orden*/) {
 
     try {
         $('#txtCliente').val('');
-        if ($('#txtFechaProduccion').val() == '') {
-            $('#msjErrorFechaProduccion').prop('hidden', false);
-            return;
-        } else {
-            $('#msjErrorFechaProduccion').prop('hidden', true);
-        }
-        $('#cmbOrdeneFabricacion').empty();
-
-        if (!$('#txtFechaProduccion').val() == '') {
+        //if ($('#txtFechaProduccion').val() == '') {
+        //    $('#msjErrorFechaProduccion').prop('hidden', false);
+        //    return;
+        //} else {
+        //    $('#msjErrorFechaProduccion').prop('hidden', true);
+        //}
+        $('#SelectOrdenFabricacion').empty();
+        $('#SelectOrdenFabricacion').append('<option> Seleccione</option>');
+        if (!$('#txtFechaOrden').val() == '') {
             var PromesaConsultar = await LlenarComboOrdenesAjax();
             if (!PromesaConsultar.ok) {
                 throw "Error";
             }
             var ResultadoConsultar = await PromesaConsultar.json();
+            console.log(ResultadoConsultar);
             if (ResultadoConsultar == "101") {
                     window.location.reload();
             }
             $.each(ResultadoConsultar, function (key, value) {
-                $('#cmbOrdeneFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
+                $('#SelectOrdenFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
             });
 
     }
@@ -233,6 +249,7 @@ async function LLenarComboOrdenes(/*orden*/) {
 }
 function DatosOrdenFabricacion() {
     Error = 0;
+    $('#cargac').show();
     $('#txtCliente').val('');
     //console.log(ListaOrdenesFabricacion);
     //var Datos = Enumerable.From(ListaOrdenesFabricacion)
@@ -271,11 +288,12 @@ function DatosOrdenFabricacion() {
                     //console.log(resultado);
 
                 }
+                $('#cargac').hide();
             })
             .catch(function (resultado) {
                 //console.log(resultado);
                 MensajeError(resultado.responseText, false);
-
+                $('#cargac').hide();
             })
    
 
@@ -304,6 +322,12 @@ async function ConsultarCabControl(bandera) {
         else {
             
             $('#msjErrorFechaProduccion').prop('hidden', true);
+        }
+        if ($('#cmbOrdeneFabricacion').val() == '') {
+            return;
+
+        } else {
+
         }
         if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
         {
