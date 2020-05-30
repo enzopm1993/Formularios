@@ -61,7 +61,7 @@ function AprobarControl() {
         MensajeAdvertencia("Fecha de Aprobación no puede ser menor a la Fecha de Creación.");
         return;
     }
-    if (moment($("#txtFechaAprobacion").val()) > moment()) {
+    if (moment($("#txtFechaAprobacion").val()).format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) {
         MensajeAdvertencia("Fecha de Aprobación no puede ser mayor a la fecha actual.");
         return;
     }

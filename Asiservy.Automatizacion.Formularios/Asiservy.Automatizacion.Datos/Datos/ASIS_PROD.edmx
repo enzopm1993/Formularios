@@ -765,15 +765,14 @@
           </Key>
           <Property Name="IdDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCabecera" Type="int" />
-          <Property Name="IdItemxArea" Type="int" />
+          <Property Name="IdMantenimiento" Type="int" />
           <Property Name="Limpieza" Type="varchar" MaxLength="3" />
           <Property Name="Desinfeccion" Type="varchar" MaxLength="3" />
           <Property Name="Observacion" Type="varchar" MaxLength="2000" />
           <Property Name="Hora" Type="datetime" />
           <Property Name="AccionCorrectiva" Type="varchar" MaxLength="200" />
-          <Property Name="Firma" Type="varchar" MaxLength="10" />
-          <Property Name="UrlFoto" Type="varchar" MaxLength="200" />
-          <Property Name="rotation" Type="int" />
+          <Property Name="RutaFoto" Type="varchar" MaxLength="200" />
+          <Property Name="Rotation" Type="int" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -834,10 +833,9 @@
           <Property Name="IdLimpiezaDesinfeccionPlanta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" />
           <Property Name="Hora" Type="time" Precision="7" />
-          <Property Name="Inspector" Type="varchar" MaxLength="10" />
-          <Property Name="UsuarioAprobacion" Type="varchar" MaxLength="50" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
           <Property Name="FechaAprobacion" Type="datetime" />
-          <Property Name="EstadoControl" Type="bit" />
+          <Property Name="EstadoReporte" Type="bit" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -2909,7 +2907,7 @@
               <PropertyRef Name="IdMantenimiento" />
             </Principal>
             <Dependent Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-              <PropertyRef Name="IdItemxArea" />
+              <PropertyRef Name="IdMantenimiento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5392,17 +5390,7 @@
             <Parameter Name="Hora" Mode="In" Type="Time" />
             <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" />
-          <EntitySet Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" />
-          <AssociationSet Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA">
-            <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
-            <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-            <End Role="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" EntitySet="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" />
-            <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
-          </AssociationSet>
           <AssociationSet Name="FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS">
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" />
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
@@ -5504,15 +5492,25 @@
           <Parameter Name="Reporte" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_FOTO" EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" />
-          <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
-          <Parameter Name="Id" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_Calibracion_Fluorometro" ReturnType="Collection(ASIS_PRODModel.sp_Calibracion_Fluorometro)">
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="idCalibracionFluor" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
+          <AssociationSet Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA">
+            <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
+            <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
+          </AssociationSet>
+          <EntitySet Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" />
+          <AssociationSet Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+            <End Role="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" EntitySet="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" />
+            <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -9362,8 +9360,8 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" Relationship="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" />
-          <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
           <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Relationship="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" />
+          <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
         </EntityType>
         <Association Name="FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA">
           <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" Multiplicity="1" />
@@ -10015,31 +10013,6 @@
           <Property Type="String" Name="CODLINEAMOVIDO" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="LINEAMOVIDO" Nullable="false" MaxLength="50" />
         </ComplexType>
-        <EntityType Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-          <Key>
-            <PropertyRef Name="IdDetalle" />
-          </Key>
-          <Property Name="IdDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCabecera" Type="Int32" />
-          <Property Name="IdItemxArea" Type="Int32" />
-          <Property Name="Limpieza" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Desinfeccion" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="Hora" Type="DateTime" Precision="3" />
-          <Property Name="AccionCorrectiva" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Firma" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UrlFoto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="rotation" Type="Int32" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
-          <NavigationProperty Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" ToRole="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" />
-        </EntityType>
         <EntityType Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS">
           <Key>
             <PropertyRef Name="IdObjeto" />
@@ -10056,50 +10029,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Relationship="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
         </EntityType>
-        <EntityType Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-          <Key>
-            <PropertyRef Name="IdLimpiezaDesinfeccionPlanta" />
-          </Key>
-          <Property Name="IdLimpiezaDesinfeccionPlanta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Precision="0" />
-          <Property Name="Hora" Type="Time" Precision="7" />
-          <Property Name="Inspector" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UsuarioAprobacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
-          <Property Name="EstadoControl" Type="Boolean" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" FromRole="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
-        </EntityType>
-        <Association Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA">
-          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA">
-              <PropertyRef Name="IdMantenimiento" />
-            </Principal>
-            <Dependent Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-              <PropertyRef Name="IdItemxArea" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Role="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-              <PropertyRef Name="IdLimpiezaDesinfeccionPlanta" />
-            </Principal>
-            <Dependent Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-              <PropertyRef Name="IdCabecera" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS">
           <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Multiplicity="1" />
           <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Multiplicity="*" />
@@ -10725,7 +10654,25 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_Calibracion_Fluorometro">
+          <Property Type="Int32" Name="IdCalibracionFluor" Nullable="false" />
+          <Property Type="String" Name="CoeficienteDeterminacion" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaHora" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="DateTime" Name="FechaAprobado" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdCalibracionFluorDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdEstandar" Nullable="false" />
+          <Property Type="Decimal" Name="ValorEstandar" Nullable="false" Precision="4" Scale="2" />
+          <Property Type="String" Name="NombEstandar" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescEstandar" Nullable="true" MaxLength="100" />
+        </ComplexType>
         <ComplexType Name="spReporteEvaluacionLomosMigasBandeja">
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
           <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
@@ -10757,23 +10704,73 @@
           <Property Type="Int32" Name="Piel" Nullable="true" />
           <Property Type="Int32" Name="SumaScorch" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_Calibracion_Fluorometro">
-          <Property Type="Int32" Name="IdCalibracionFluor" Nullable="false" />
-          <Property Type="String" Name="CoeficienteDeterminacion" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="FechaHora" Nullable="false" Precision="23" />
-          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
-          <Property Type="DateTime" Name="FechaAprobado" Nullable="true" Precision="23" />
-          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="IdCalibracionFluorDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdEstandar" Nullable="false" />
-          <Property Type="Decimal" Name="ValorEstandar" Nullable="false" Precision="4" Scale="2" />
-          <Property Type="String" Name="NombEstandar" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="DescEstandar" Nullable="true" MaxLength="100" />
-        </ComplexType>
+        <EntityType Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDetalle" />
+          </Key>
+          <Property Name="IdDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCabecera" Type="Int32" />
+          <Property Name="IdMantenimiento" Type="Int32" />
+          <Property Name="Limpieza" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Desinfeccion" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Hora" Type="DateTime" Precision="3" />
+          <Property Name="AccionCorrectiva" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RutaFoto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Rotation" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
+          <NavigationProperty Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" FromRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" ToRole="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" />
+        </EntityType>
+        <Association Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA">
+          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA">
+              <PropertyRef Name="IdMantenimiento" />
+            </Principal>
+            <Dependent Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
+              <PropertyRef Name="IdMantenimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+          <Key>
+            <PropertyRef Name="IdLimpiezaDesinfeccionPlanta" />
+          </Key>
+          <Property Name="IdLimpiezaDesinfeccionPlanta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Hora" Type="Time" Precision="7" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="EstadoReporte" Type="Boolean" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Relationship="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" FromRole="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" ToRole="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
+        </EntityType>
+        <Association Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Role="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+              <PropertyRef Name="IdLimpiezaDesinfeccionPlanta" />
+            </Principal>
+            <Dependent Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
+              <PropertyRef Name="IdCabecera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15431,30 +15428,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-              <MappingFragment StoreEntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="rotation" ColumnName="rotation" />
-                <ScalarProperty Name="UrlFoto" ColumnName="UrlFoto" />
-                <ScalarProperty Name="Firma" ColumnName="Firma" />
-                <ScalarProperty Name="AccionCorrectiva" ColumnName="AccionCorrectiva" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Desinfeccion" ColumnName="Desinfeccion" />
-                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
-                <ScalarProperty Name="IdItemxArea" ColumnName="IdItemxArea" />
-                <ScalarProperty Name="IdCabecera" ColumnName="IdCabecera" />
-                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS">
               <MappingFragment StoreEntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS">
@@ -15468,26 +15441,6 @@
                 <ScalarProperty Name="DescripcionObjeto" ColumnName="DescripcionObjeto" />
                 <ScalarProperty Name="NombreObjeto" ColumnName="NombreObjeto" />
                 <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-              <MappingFragment StoreEntitySet="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="EstadoControl" ColumnName="EstadoControl" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="UsuarioAprobacion" ColumnName="UsuarioAprobacion" />
-                <ScalarProperty Name="Inspector" ColumnName="Inspector" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdLimpiezaDesinfeccionPlanta" ColumnName="IdLimpiezaDesinfeccionPlanta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -16012,9 +15965,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Calibracion_Fluorometro" FunctionName="ASIS_PRODModel.Store.sp_Calibracion_Fluorometro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Calibracion_Fluorometro">
+                <ScalarProperty Name="IdCalibracionFluor" ColumnName="IdCalibracionFluor" />
+                <ScalarProperty Name="CoeficienteDeterminacion" ColumnName="CoeficienteDeterminacion" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="IdCalibracionFluorDetalle" ColumnName="IdCalibracionFluorDetalle" />
+                <ScalarProperty Name="IdEstandar" ColumnName="IdEstandar" />
+                <ScalarProperty Name="ValorEstandar" ColumnName="ValorEstandar" />
+                <ScalarProperty Name="NombEstandar" ColumnName="NombEstandar" />
+                <ScalarProperty Name="DescEstandar" ColumnName="DescEstandar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteEvaluacionLomosMigasBandeja" FunctionName="ASIS_PRODModel.Store.spReporteEvaluacionLomosMigasBandeja">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja">
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
@@ -16048,27 +16023,48 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Calibracion_Fluorometro" FunctionName="ASIS_PRODModel.Store.sp_Calibracion_Fluorometro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Calibracion_Fluorometro">
-                <ScalarProperty Name="IdCalibracionFluor" ColumnName="IdCalibracionFluor" />
-                <ScalarProperty Name="CoeficienteDeterminacion" ColumnName="CoeficienteDeterminacion" />
-                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+          <EntitySetMapping Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
+              <MappingFragment StoreEntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+                <ScalarProperty Name="AccionCorrectiva" ColumnName="AccionCorrectiva" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Desinfeccion" ColumnName="Desinfeccion" />
+                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+                <ScalarProperty Name="IdCabecera" ColumnName="IdCabecera" />
+                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+              <MappingFragment StoreEntitySet="CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="IdCalibracionFluorDetalle" ColumnName="IdCalibracionFluorDetalle" />
-                <ScalarProperty Name="IdEstandar" ColumnName="IdEstandar" />
-                <ScalarProperty Name="ValorEstandar" ColumnName="ValorEstandar" />
-                <ScalarProperty Name="NombEstandar" ColumnName="NombEstandar" />
-                <ScalarProperty Name="DescEstandar" ColumnName="DescEstandar" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdLimpiezaDesinfeccionPlanta" ColumnName="IdLimpiezaDesinfeccionPlanta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

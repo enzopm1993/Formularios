@@ -23,10 +23,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdLimpiezaDesinfeccionPlanta { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public Nullable<System.TimeSpan> Hora { get; set; }
-        public string Inspector { get; set; }
-        public string UsuarioAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public Nullable<bool> EstadoControl { get; set; }
+        public Nullable<bool> EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
