@@ -5,6 +5,8 @@ namespace Asiservy.Automatizacion.Formularios.Models.Calidad
 {
     public class DetalleEvaluacionLomosMIgasBandejaViewModel
     {
+        public bool? Lomo { get; set; }
+        public bool? Miga { get; set; }
         public DateTime? FechaControl { get; set; }
         public int IdCabecera { get; set; }
         public int IdDetalle {get;set;}

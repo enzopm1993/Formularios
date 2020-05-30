@@ -117,7 +117,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="form-check-inline">
+                        @*<div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
                             </label>
@@ -131,6 +131,28 @@
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
                             </label>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Lomo" name="RadiosProducto">
+                                    <label class="custom-control-label" for="Lomo">Lomo</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto">
+                                    <label class="custom-control-label" for="Miga">Miga</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Trozo" name="RadiosProducto">
+                                    <label class="custom-control-label" for="Trozo">Trozo</label>
+                                </div>
+                            </div>
                         </div>
                         <label class="text-danger" id="msgerrortipoproducto" hidden>Debe seleccionar al menos un tipo de producto</label>
                     </div>

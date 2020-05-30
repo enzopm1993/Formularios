@@ -4,7 +4,8 @@ var IdCabecera = 0;
 var IdDetalle = 0;
 var rotation = 0;
 var IdFotoEvaluacioLomosyMigas = 0;
-var ParametrosLomosYMigas =
+var TotalMaximo;
+var ParametrosLomo =
 {
     Limpieza1: {
         Venas: 8,
@@ -31,6 +32,33 @@ var ParametrosLomosYMigas =
         Total:7
     }
 }
+var ParametrosMiga =
+{
+    Limpieza1: {
+        Venas: 7,
+        Espinas: 10,
+        Moretones: 7,
+        Escamas: 10,
+        Piel: 6,
+        Total: 40
+    },
+    Limpieza2: {
+        Venas: 4,
+        Espinas: 10,
+        Moretones: 3,
+        Escamas: 5,
+        Piel: 3,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 0,
+        Espinas: 2,
+        Moretones: 2,
+        Escamas: 0,
+        Piel: 0,
+        Total: 4
+    }
+}
 $(document).ready(function () {
     
     $('#txtVenas').mask("9?9");
@@ -38,6 +66,7 @@ $(document).ready(function () {
     $('#txtSangre').mask("9?9");
     $('#txtEscamas').mask("9?9");
     $('#txtPiel').mask("9?9");
+    $('#txtTrozos').mask("9?.99");
     
     LLenarComboOrdenes()
     //.then(function () {
@@ -48,6 +77,16 @@ $(document).ready(function () {
 $("#btnOrden").on("click", function () {
     $("#ModalOrdenes").modal('show');
 });
+$("#Lomo").on("change", function () {
+    ValidarParametro();
+});
+$("#Miga").on("change", function () {
+    ValidarParametro();
+});
+$("#cmbNivelLimpieza").on("change", function () {
+    ValidarParametro();
+});
+
 $("#modal-orden-si").on("click", function () {
     if ($("#SelectOrdenFabricacion").prop('selectedIndex')==0) {
         $('#validaOrden').prop("hidden", false);
@@ -63,6 +102,43 @@ $("#modal-orden-si").on("click", function () {
     ConsultarCabControl();
 
 });
+function ValidarParametro() {
+    $('#lblparametro').text("");
+    console.log($('#Lomo').val());
+    console.log($('#Miga').val());
+    if ($('#Lomo').is(':checked') || $('#Miga').is(':checked') && ($('#cmbNivelLimpieza').prop('selectedIndex') != 0)) {
+        if ($('#Lomo').is(':checked')) {
+            if ($('#cmbNivelLimpieza').val() == '1') {
+                $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
+                TotalMaximo = ParametrosLomo.Limpieza1.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '2') {
+                $('#lblparametro').text(ParametrosLomo.Limpieza2.Total);
+                TotalMaximo = ParametrosLomo.Limpieza2.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '3') {
+                $('#lblparametro').text(ParametrosLomo.Limpieza3.Total);
+                TotalMaximo = ParametrosLomo.Limpieza3.Total;
+            }
+
+        } else {
+            if ($('#cmbNivelLimpieza').val() == '1') {
+                $('#lblparametro').text(ParametrosMiga.Limpieza1.Total);
+                TotalMaximo = ParametrosMiga.Limpieza1.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '2') {
+                $('#lblparametro').text(ParametrosMiga.Limpieza2.Total);
+                TotalMaximo = ParametrosMiga.Limpieza2.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '3') {
+                $('#lblparametro').text(ParametrosMiga.Limpieza3.Total);
+                TotalMaximo = ParametrosMiga.Limpieza3.Total;
+            }
+
+        }
+    }
+    
+}
 async function CargarControlDetalle2Ajax() {
     $("#divTableDetalle2").html('');
     let params = {
@@ -376,7 +452,7 @@ async function ConsultarCabControl(bandera) {
             $('#Observacion').val(ResultadoConsulta.Observacion);
             $('#CardDetalle').prop('hidden', false);
             $('#btnEliminarCabeceraControl').prop('disabled', false);
-
+            ValidarParametro();
             LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
             ConsultarDetalleControl();
             //ConsultarDetalleControl();
@@ -491,7 +567,7 @@ function GuardarCabceraControl() {
         $('#btnEliminarCabeceraControl').prop('hidden', false);
         $('#btnGuardar').prop('hidden', false);
         $('#btnEliminarCabeceraControl').prop('disabled', false);
-
+        LlenarComboLotes($('#cmbOrdeneFabricacion').val());
     })
         .catch(function (resultado) {
             //console.log('error');
@@ -730,7 +806,14 @@ function GuardarDetalleControl() {
     } else {
         $('#msjOlor').prop('hidden', true);
     }
-    
+    if ($('#cmbMoreton').prop('selectedIndex') == 0) {
+        $('#msjMoreton').prop('hidden', false);
+
+        ActivaEvaluacion();
+        return;
+    } else {
+        $('#msjMoreton').prop('hidden', true);
+    }
   
 
     $('#btnEliminarDetalleControl').prop('hidden', true);

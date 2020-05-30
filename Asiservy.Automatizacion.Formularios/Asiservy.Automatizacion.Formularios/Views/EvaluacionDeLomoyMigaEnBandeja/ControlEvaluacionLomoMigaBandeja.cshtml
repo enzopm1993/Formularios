@@ -188,6 +188,8 @@
             <div class="form-group">
                 Nivel de limpieza:
                 @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
+                <label>Parámetro máximo:</label>
+                <label class="badge badge-success" id="lblparametro"></label>
             </div>
         </div>
         <div class="col-md-4">
@@ -328,7 +330,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Trozos</label>
-                                <input type="number" id="txtTrozos" class="form-control" />
+                                <input type="text" id="txtTrozos" class="form-control" />
                             </div>
                         </div>
                     </div>

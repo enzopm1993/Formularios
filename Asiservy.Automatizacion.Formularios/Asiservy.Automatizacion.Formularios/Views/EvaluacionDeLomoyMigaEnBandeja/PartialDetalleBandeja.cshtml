@@ -163,38 +163,97 @@
                             <label id="total@(cont)" class="badge badge-pill">@sum</label>
 
                             <script>
-                        var suma =@Html.Raw(Json.Encode(sum));
-                        var tdnombre=@Html.Raw(Json.Encode(item.Hora));
-                        var contador =@Html.Raw(Json.Encode(cont));
+                                var suma =@Html.Raw(Json.Encode(sum));
+                                var tdnombre=@Html.Raw(Json.Encode(item.Hora));
+                                var contador =@Html.Raw(Json.Encode(cont));
+                                var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().Lomo));
+                                var Miga =@Html.Raw(Json.Encode(Model.FirstOrDefault().Miga));
+                                //console.log(Lomo);
+                                //console.log(Miga);
+                            
+                                    if (Lomo) {
+                                        if (TipoLimpieza == 1) {
+                                            $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
+                                            
+                                            if (suma > ParametrosLomo.Limpieza1.Total) {
+                                              $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+                                        }
+                                        if (TipoLimpieza == 2) {
+                                           
+                                            if (suma > ParametrosLomo.Limpieza2.Total) {
+                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+                                        }
+                                        if (TipoLimpieza == 3) {
+                                   
+                                            if (suma > ParametrosLomo.Limpieza3.Total) {
+                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+
+                                        }
+
+                                    } else {
+                                            if (TipoLimpieza == 1) {
+                                                if (suma > ParametrosMiga.Limpieza1.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+
+                                            }
+                                            if (TipoLimpieza == 2) {
+                                                if (suma > ParametrosMiga.Limpieza2.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+                                            }
+                                            if (TipoLimpieza == 3) {
+                                           
+                                                if (suma > ParametrosMiga.Limpieza3.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+                                            }
+
+                                        }   
                         //contador = contador - 1;
-                                if (TipoLimpieza == 1)
-                        {
+                        //        if (TipoLimpieza == 1)
+                        //{
 
-                            if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
-                                console.log("assadsd");
-                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                            } else {
-                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                            }
-                        }
-                                if (TipoLimpieza == 2) {
+                        //    if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
+                        //        //console.log("assadsd");
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //        if (TipoLimpieza == 2) {
 
-                            if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
+                        //    if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
 
-                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                            } else {
-                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                            }
-                        }
-                                if (TipoLimpieza == 3) {
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //        if (TipoLimpieza == 3) {
 
-                            if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
-                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                            }
-                            else {
-                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                            }
-                        }
+                        //    if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    }
+                        //    else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
 
                             </script>
                         </td>

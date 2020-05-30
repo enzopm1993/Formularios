@@ -347,6 +347,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                  where d.IdCabeceraEvaluacionLomosYMigasEnBandeja == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select new DetalleEvaluacionLomosMIgasBandejaViewModel
                                  {
+                                     Lomo=cab.Lomo,
+                                     Miga=cab.Miga,
                                      FechaControl=cab.FechaProduccion,
                                      Buque = d.buque,
                                      CodColor = c.IdColor,
