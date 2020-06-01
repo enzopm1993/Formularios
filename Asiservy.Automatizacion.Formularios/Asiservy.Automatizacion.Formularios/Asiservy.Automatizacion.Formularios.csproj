@@ -3576,6 +3576,7 @@
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
+    <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />
@@ -4059,6 +4060,8 @@
     <Content Include="Views\CalibracionFluorometro\BandejaCalibracionFluorometroPartial.cshtml" />
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometro.cshtml" />
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometroPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\DetalleFotoPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteFotos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

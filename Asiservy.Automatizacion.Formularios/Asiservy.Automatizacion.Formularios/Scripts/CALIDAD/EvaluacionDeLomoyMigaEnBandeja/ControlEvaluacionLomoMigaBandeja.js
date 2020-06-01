@@ -86,6 +86,9 @@ $("#Miga").on("change", function () {
 $("#cmbNivelLimpieza").on("change", function () {
     ValidarParametro();
 });
+$("#btncancelarguardarfoto").on("click", function () {
+    IdFotoEvaluacioLomosyMigas = 0;
+});
 
 $("#modal-orden-si").on("click", function () {
     if ($("#SelectOrdenFabricacion").prop('selectedIndex')==0) {
@@ -104,8 +107,8 @@ $("#modal-orden-si").on("click", function () {
 });
 function ValidarParametro() {
     $('#lblparametro').text("");
-    console.log($('#Lomo').val());
-    console.log($('#Miga').val());
+    //console.log($('#Lomo').val());
+    //console.log($('#Miga').val());
     if ($('#Lomo').is(':checked') || $('#Miga').is(':checked') && ($('#cmbNivelLimpieza').prop('selectedIndex') != 0)) {
         if ($('#Lomo').is(':checked')) {
             if ($('#cmbNivelLimpieza').val() == '1') {
@@ -380,6 +383,9 @@ async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     var promesa=fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
         method: 'POST',
         body: data
@@ -400,10 +406,10 @@ async function ConsultarCabControl(bandera) {
             $('#msjErrorFechaProduccion').prop('hidden', true);
         }
         if ($('#cmbOrdeneFabricacion').val() == '') {
+            $('#msjerrorordenfb').prop('hidden', false);
             return;
-
         } else {
-
+            $('#msjerrorordenfb').prop('hidden', true);
         }
         if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
         {
@@ -650,7 +656,7 @@ function EliminarCabecera() {
         })
 }
 function EliminarFoto() {
-    console.log('Eliminar');
+    //console.log('Eliminar');
     $('#modal-detalle2-si').prop('disabled', true);
     $('#modal-detalle2-no').prop('disabled', true);
     Error = 0;
@@ -953,10 +959,11 @@ function LimpiarDetalleControles() {
 
 }
 async function ModificarDetalle(data) {
+    IdFotoEvaluacioLomosyMigas = 0;
     $('#divDetalle2').prop('hidden', false);
     IdDetalle = data.IdDetalle;
     await CargarControlDetalle2();
-    console.log(data.Hora);
+    //console.log(data.Hora);
     $('#txtHora').val(data.Hora);
 
     $('#txtBuque').val(data.Buque);

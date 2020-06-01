@@ -90,6 +90,7 @@
                         <img src="~/Content/images/buscar.png" />
                     </button><br />
                 </div>
+                <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
                         <option>Seleccione..</option>
                     </select>
@@ -188,6 +189,7 @@
             <div class="form-group">
                 Nivel de limpieza:
                 @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
+                <label class="text-danger" id="msgerrorniveldelimpieza" hidden>Debe seleccionar el nivel de limpieza</label>
                 <label>Parámetro máximo:</label>
                 <label class="badge badge-success" id="lblparametro"></label>
             </div>
@@ -247,7 +249,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="time" id="txtHora" value="08:56" class=" form-control" />
+                                <input type="time" id="txtHora" class=" form-control" />
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>

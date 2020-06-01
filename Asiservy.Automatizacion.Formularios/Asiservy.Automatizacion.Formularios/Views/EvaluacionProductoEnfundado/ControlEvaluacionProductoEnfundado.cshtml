@@ -9,7 +9,7 @@
         border: 1px solid #999;
         padding: 13px;
         /*width:420px;
-  height:320px;*/
+    height:320px;*/
         background-size: 100% 100%;
         background-repeat: no-repeat;
         background-size: cover;
@@ -18,11 +18,13 @@
         .img img {
             width: 100%;
         }
+
     #divmin {
         padding-top: 0px;
         padding-bottom: 0px;
         background-color: #00447A;
     }
+
     textarea {
         resize: none;
     }
@@ -79,36 +81,37 @@
         border: 1px solid black;
     }
     /*#pizarra {
-        border: 1px solid black;
-    }*/
+          border: 1px solid black;
+      }*/
 </style>
-<h4>Control Evaluación Producto Enfundado</h4>
+<h4>Control Evaluación Producto Enfundado <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
 <div class="card" id="divmin" style="cursor:pointer" onclick="SlideCabecera()">
     <center><i class="fas fa-arrow-alt-circle-down"></i></center>
 </div>
-<div class="card"  id="DivCabecera">
+<div class="card" id="DivCabecera">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" onchange="ConsultarCabControl()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 Orden de Fabricación:
-
-                <select id="cmbOrdeneFabricacion" class="form-control" onchange="DatosOrdenFabricacion()">
-                    <option>Seleccione..</option>
-                </select>
-                <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                Cliente:
-                <input type="text" id="txtCliente" class="form-control" disabled />
+                <div class="input-group">
+                    @*@Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: auto; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })*@
+                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                    <button type="button" onclick="" id="btnOrden">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
+                <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
+                @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
+                        <option>Seleccione..</option>
+                    </select>
+                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
             </div>
         </div>
         <div class="col-md-4">
@@ -118,38 +121,38 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
-                            </label>
-                        </div>*@
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
+                                </label>
+                            </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="Lomo" name="RadiosProducto">
+                                    <input type="radio" class="custom-control-input" id="Lomo" checked name="RadiosProducto" onchange="ConsultarCabControl()">
                                     <label class="custom-control-label" for="Lomo">Lomo</label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-4">
 
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto">
+                                    <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto" onchange="ConsultarCabControl()">
                                     <label class="custom-control-label" for="Miga">Miga</label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-4">
 
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="Trozo" name="RadiosProducto">
+                                    <input type="radio" class="custom-control-input" id="Trozo" name="RadiosProducto" onchange="ConsultarCabControl()">
                                     <label class="custom-control-label" for="Trozo">Trozo</label>
                                 </div>
                             </div>
@@ -160,7 +163,14 @@
 
             </fieldset>
         </div>
-        <div class="col-md-4" style="margin-top:10px">
+        <div class="col-md-4">
+            <div class="form-group">
+                Cliente:
+                <input type="text" id="txtCliente" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="col-md-4" @*style="margin-top:10px"*@>
             <div class="form-group">
                 <label>Destino:</label>
                 <input type="text" id="txtDestino" class="form-control" disabled />
@@ -171,6 +181,8 @@
                 Nivel de limpieza:
                 @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
                 <label class="text-danger" id="msgerrorniveldelimpieza" hidden>Debe seleccionar el nivel de limpieza</label>
+                <label>Parámetro máximo:</label>
+                <label class="badge badge-success" id="lblparametro"></label>
             </div>
         </div>
         <div class="col-md-8" style="margin-top:10px">
@@ -217,9 +229,9 @@
                 <textarea id="Observacion" class="form-control" rows="5"></textarea>
             </div>
         </div>
-        <div class="col-md-3 col-sm-3">
-            <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()"/>
-        </div>
+        @*<div class="col-md-3 col-sm-3">
+                <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()" />
+            </div>*@
     </div>
     <br />
     <div class="row">
@@ -229,14 +241,14 @@
                 Espere...
             </button>
             @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>*@
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/clear24.png" />
-            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
@@ -271,7 +283,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="datetime-local" id="txtHora" class=" form-control" />
+                                <input type="time" id="txtHora" class=" form-control" />
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>
@@ -331,18 +343,25 @@
                             </div>
                         </div>
 
+                        @*<div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Moretones</label>
+                                    <input type="text" id="txtMoretones" class="form-control" />
+                                </div>
+                            </div>*@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Moretones</label>
-                                <input type="text" id="txtMoretones" class="form-control" />
+                                @Html.DropDownList("cmbMoreton", (IEnumerable<SelectListItem>)ViewBag.Moreton, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjMoreton" class="text-danger" hidden>El campo moretones es obligatorio</label>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-group">
-                                <label>Hematomas profundos</label>
-                                <input type="text" id="txtHematomas" class="form-control" />
-                            </div>
-                        </div>
+                        @*<div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Hematomas profundos</label>
+                                    <input type="text" id="txtHematomas" class="form-control" />
+                                </div>
+                            </div>*@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Proteínas</label>
@@ -408,6 +427,48 @@
         </div>
     </div>
     <br /><hr />
+    <div>
+        <div id="divDetalle2" hidden class="">
+            <div class="row">
+                <div class="col-md-12 col-12 col-sm-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-4">
+                                    <div class="form-group">
+                                        @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle2()" style="border-color:#2c3e50" type="button">
+                                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-8">
+                                    <h5>Adjuntar fotos</h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div id="chart">
+                                <div class="d-flex justify-content-center">
+                                    <div id="spinnerCargandoDetalle2" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+
+                                <div id="divTableDetalle2" class="table-responsive">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class=" col-12 text-center">
             <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
@@ -441,23 +502,23 @@
         </div>*@
     <br />
     @*<div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
-        <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
+            <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
 
-        <div>
-            <canvas width=400 height=200 id="firmacanvas"></canvas>
+            <div>
+                <canvas width=400 height=200 id="firmacanvas"></canvas>
+            </div>
+            <div>
+                <center> <button type="button" class="btn btn-primary" onclick="GuardarFirma()">Guardar Firma</button></center>
+            </div>
         </div>
-        <div>
-            <center> <button type="button" class="btn btn-primary" onclick="GuardarFirma()">Guardar Firma</button></center>
-        </div>
-    </div>
-    <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
+        <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
 
 
-        <img id="ImgFirma" width="400" height="200" src="" />
-        <div>
-            <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
-        </div>
-    </div>*@
+            <img id="ImgFirma" width="400" height="200" src="" />
+            <div>
+                <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
+            </div>
+        </div>*@
 
 </div>
 
@@ -492,112 +553,111 @@
         </div>
     </div>
 </div>
-@*modal Agregar Imagenes*@
-<div class="modal" tabindex="-1" id="ModalAgregarImagenes" role="dialog" data-backdrop="static">
+
+
+
+@*modal ordenes de fabricacion*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="LLenarComboOrdenes()" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal imagenes*@
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle2" role="dialog" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Imágenes</h5>
+                <h5 class="modal-title">Fotos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#fotoprod" id="fotoprodtab">Código de producto</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#foto1" id="foto1tab">Producto foto 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#foto2" id="foto2tab">Producto foto 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#foto3" id="foto3tab">Producto foto 3</a>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content" id="divtabfotos">
-                            <div class="tab-pane container-fluid active" id="fotoprod">
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-uploadcod" accept="image/*">
-                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
-                                        </div>
-                                        <br />
-                                        <div class="text-center" style="justify-content:center">
-                                            <div id="file-preview-zone1" style="height:auto">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane container-fluid fade" id="foto1">
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-upload1" accept="image/*">
-                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
-                                        </div>
-                                        <br />
-                                        <div class="text-center" style="justify-content:center">
-                                            <div id="file-preview-zone2" style="height:auto">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane container-fluid fade" id="foto2">
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-upload2" accept="image/*">
-                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
-                                        </div>
-                                        <br />
-                                        <div class="text-center" style="justify-content:center">
-                                            <div id="file-preview-zone3" style="height:auto">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane container-fluid fade" id="foto3">
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-upload3" accept="image/*">
-                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
-                                        </div>
-                                        <br />
-                                        <div class="text-center" style="justify-content:center">
-                                            <div id="file-preview-zone4" style="height:auto">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <input type="hidden" id="txtIdControlDetalle2" name="name" value="0" />
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Novedad</label>
+                            <input class="form-control" id="txtNovedad" type="text" size="500" name="name" value="" autocomplete="off" />
                         </div>
                     </div>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Adjuntar foto</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file-upload" accept="image/*">
+                            <label class="custom-file-label" for="customFile" id="lblfoto">Seleccione archivo</label>
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <br />
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
-                
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="">Aceptar</button>
-                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>*@
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoimg">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle2()" id="btnguardarfoto">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelarguardarfoto">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal mensaje eliminar foto*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle2">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle2" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle?</h4>
+            </div>
+            <div class="modal-body">
+                <label id="labelMensaje2"></label>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoeliminarfotos">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle2-si" onclick="EliminarFoto()">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle2-no" data-dismiss="modal">No</button>
             </div>
         </div>
     </div>

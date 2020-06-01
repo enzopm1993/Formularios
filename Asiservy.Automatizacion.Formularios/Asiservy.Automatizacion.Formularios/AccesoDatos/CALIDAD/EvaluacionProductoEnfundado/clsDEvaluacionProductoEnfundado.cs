@@ -13,8 +13,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Where(x => x.FechaProduccion == poCabeceraControl.FechaProduccion &&
-                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Where(x => x.FechaProduccion == poCabeceraControl.FechaProduccion 
+                &&x.OrdenFabricacion==poCabeceraControl.OrdenFabricacion
+                &&(x.Lomo==poCabeceraControl.Lomo&&x.Miga==poCabeceraControl.Miga&&x.Trozo==poCabeceraControl.Trozo)
+                &&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Add(poCabeceraControl);
@@ -32,11 +34,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return resultado;
             }
         }
-        public CC_EVALUACION_PRODUCTO_ENFUNDADO ConsultarCabeceraControl(DateTime FechaProduccion)
+        public CC_EVALUACION_PRODUCTO_ENFUNDADO ConsultarCabeceraControl(DateTime FechaProduccion,int orden,bool Lomo,bool Miga, bool Trozo)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Where(x => x.FechaProduccion == FechaProduccion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                return db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Where(x => x.FechaProduccion == FechaProduccion 
+                &&x.OrdenFabricacion==orden&&(x.OrdenFabricacion==orden&&x.Lomo==Lomo&& x.Trozo==Trozo)
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo ).FirstOrDefault();
             }
         }
         public object[] ActualizarCabeceraControl(CC_EVALUACION_PRODUCTO_ENFUNDADO poCabControl)
@@ -68,18 +72,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                     BuscarCabecera.FechaModificacionLog = poCabControl.FechaIngresoLog;
                     BuscarCabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
                     BuscarCabecera.TerminalIngresoLog = poCabControl.TerminalIngresoLog;
-                    if (!string.IsNullOrEmpty(poCabControl.ImagenCodigo))
-                        BuscarCabecera.ImagenCodigo = poCabControl.ImagenCodigo;
-                    if (!string.IsNullOrEmpty(poCabControl.ImagenProducto1))
-                        BuscarCabecera.ImagenProducto1 = poCabControl.ImagenProducto1;
-                    if (!string.IsNullOrEmpty(poCabControl.ImagenProducto2))
-                        BuscarCabecera.ImagenProducto2 = poCabControl.ImagenProducto2;
-                    if (!string.IsNullOrEmpty(poCabControl.ImagenProducto3))
-                        BuscarCabecera.ImagenProducto3 = poCabControl.ImagenProducto3;
-                    BuscarCabecera.RotacionImagenCod = poCabControl.RotacionImagenCod;
-                    BuscarCabecera.RotacionImagenProd1 = poCabControl.RotacionImagenProd1;
-                    BuscarCabecera.RotacionImagenProd2 = poCabControl.RotacionImagenProd2;
-                    BuscarCabecera.RotacionImagenProd3 = poCabControl.RotacionImagenProd3;
+                    
                     db.SaveChanges();
                     resultado[0] = "001";
                     resultado[1] = "Registro actualizado con éxito";
@@ -119,21 +112,110 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Where(x => x.Hora == poDetalleControl.Hora).FirstOrDefault();
-                if (buscarDetalle == null)
+                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(poDetalleControl.IdCabeceraEvaluacionProductoEnfundado);
+                if (buscarCabecera.EstadoControl == true)
                 {
-                    db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Add(poDetalleControl);
-                    db.SaveChanges();
-                    resultado[0] = "000";
-                    resultado[1] = "Registro ingresado con éxito";
-                    resultado[2] = poDetalleControl;
+                    resultado[0] = "003";
+                    resultado[1] = "No se puede actualizar el registro, por que el control ya se encuentra aprobado";
+                    resultado[2] = new
+                    {
+                        poDetalleControl.buque,
+                        poDetalleControl.Color,
+                        poDetalleControl.Empacador,
+                        poDetalleControl.Escamas,
+                        poDetalleControl.Espinas,
+                        poDetalleControl.EstadoRegistro,
+                        poDetalleControl.FechaIngresoLog,
+                        poDetalleControl.Hora,
+                        poDetalleControl.IdCabeceraEvaluacionProductoEnfundado,
+                        poDetalleControl.IdDetalleEvaluacionProductoEnfundado,
+                        poDetalleControl.Lote,
+                        poDetalleControl.Miga,
+                        poDetalleControl.Moretones,
+                        poDetalleControl.Olor,
+                        poDetalleControl.Otro,
+                        poDetalleControl.Piel,
+                        poDetalleControl.Proteina,
+                        poDetalleControl.Sabor,
+                        poDetalleControl.Sangre,
+                        poDetalleControl.TerminalIngresoLog,
+                        poDetalleControl.Textura,
+                        poDetalleControl.Trozo,
+                        poDetalleControl.UsuarioIngresoLog,
+                        poDetalleControl.Venas
+                    };
                 }
                 else
                 {
-                    resultado[0] = "002";
-                    resultado[1] = "Error, el registro ya existe";
-                    resultado[2] = poDetalleControl;
+                    var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Where(x => x.Hora == poDetalleControl.Hora).FirstOrDefault();
+                    if (buscarDetalle == null)
+                    {
+                        db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Add(poDetalleControl);
+                        db.SaveChanges();
+                        resultado[0] = "000";
+                        resultado[1] = "Registro ingresado con éxito";
+                        resultado[2] = new
+                        {
+                            poDetalleControl.buque,
+                            poDetalleControl.Color,
+                            poDetalleControl.Empacador,
+                            poDetalleControl.Escamas,
+                            poDetalleControl.Espinas,
+                            poDetalleControl.EstadoRegistro,
+                            poDetalleControl.FechaIngresoLog,
+                            poDetalleControl.Hora,
+                            poDetalleControl.IdCabeceraEvaluacionProductoEnfundado,
+                            poDetalleControl.IdDetalleEvaluacionProductoEnfundado,
+                            poDetalleControl.Lote,
+                            poDetalleControl.Miga,
+                            poDetalleControl.Moretones,
+                            poDetalleControl.Olor,
+                            poDetalleControl.Otro,
+                            poDetalleControl.Piel,
+                            poDetalleControl.Proteina,
+                            poDetalleControl.Sabor,
+                            poDetalleControl.Sangre,
+                            poDetalleControl.TerminalIngresoLog,
+                            poDetalleControl.Textura,
+                            poDetalleControl.Trozo,
+                            poDetalleControl.UsuarioIngresoLog,
+                            poDetalleControl.Venas
+                        };
+                    }
+                    else
+                    {
+                        resultado[0] = "002";
+                        resultado[1] = "Error, el registro ya existe";
+                        resultado[2] = new
+                        {
+                            poDetalleControl.buque,
+                            poDetalleControl.Color,
+                            poDetalleControl.Empacador,
+                            poDetalleControl.Escamas,
+                            poDetalleControl.Espinas,
+                            poDetalleControl.EstadoRegistro,
+                            poDetalleControl.FechaIngresoLog,
+                            poDetalleControl.Hora,
+                            poDetalleControl.IdCabeceraEvaluacionProductoEnfundado,
+                            poDetalleControl.IdDetalleEvaluacionProductoEnfundado,
+                            poDetalleControl.Lote,
+                            poDetalleControl.Miga,
+                            poDetalleControl.Moretones,
+                            poDetalleControl.Olor,
+                            poDetalleControl.Otro,
+                            poDetalleControl.Piel,
+                            poDetalleControl.Proteina,
+                            poDetalleControl.Sabor,
+                            poDetalleControl.Sangre,
+                            poDetalleControl.TerminalIngresoLog,
+                            poDetalleControl.Textura,
+                            poDetalleControl.Trozo,
+                            poDetalleControl.UsuarioIngresoLog,
+                            poDetalleControl.Venas
+                        }; ;
+                    }
                 }
+                
                 return resultado;
             }
         }
@@ -163,7 +245,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                     buscardetalle.Color = poDetalleControl.Color;
                     buscardetalle.Olor = poDetalleControl.Olor;
                     buscardetalle.Moretones = poDetalleControl.Moretones;
-                    buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
+                    //buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
                     buscardetalle.Proteina = poDetalleControl.Proteina;
                     buscardetalle.Trozo = poDetalleControl.Trozo;
                     buscardetalle.Venas = poDetalleControl.Venas;
@@ -216,6 +298,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 IEnumerable<spConsutaEmpleadosFiltro> pListEmpleados;
                 pListEmpleados = db.spConsutaEmpleadosFiltro("0", "0", clsAtributos.CargoEmpacado).ToList();
                 var resultado = (from d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE
+                                 join mo in db.CC_MANTENIMIENTO_MORETON on new { IdMoreton = d.Moretones.Value, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { mo.IdMoreton, mo.EstadoRegistro }
                                  join c in db.CC_MANTENIMIENTO_COLOR on new { d.Color, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Color = c.IdColor, c.EstadoRegistro }
                                  join o in db.CC_MANTENIMIENTO_OLOR on new { d.Olor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Olor = o.IdOlor, o.EstadoRegistro }
                                  join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Sabor = s.IdSabor, s.EstadoRegistro }
@@ -226,7 +309,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                  where d.IdCabeceraEvaluacionProductoEnfundado == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select new DetalleEvaluacionProductoEnfundadoViewModel
                                  {
+                                     TLomo=cab.Lomo,
+                                     TMiga=cab.Miga,
+                                     TTrozo=cab.Trozo,
                                      Buque = d.buque,
+                                     CodMoretones = mo.IdMoreton,
                                      CodColor = c.IdColor,
                                      CodOlor = o.IdOlor,
                                      CodProteinas = p.IdProteina,
@@ -235,12 +322,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      Color = c.Descripcion,
                                      Escamas = d.Escamas,
                                      Espinas = d.Espinas,
-                                     HematomasProfundos = d.HematomasProfundos,
+                                     //HematomasProfundos = d.HematomasProfundos,
                                      Hora = d.Hora,
                                      empacador=d.Empacador,
-                                     
                                      Lote = d.Lote,
-                                     Moretones = d.Moretones,
+                                     Moretones = mo.Descripcion,
                                      Olor = o.Descripcion,
                                      Piel = d.Piel,
                                      Proteinas = p.Descripcion,
@@ -261,6 +347,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                       join e in pListEmpleados on r.empacador equals e.CEDULA
                                       select new DetalleEvaluacionProductoEnfundadoViewModel
                                       {
+                                          TLomo=r.TLomo,
+                                          TMiga=r.TMiga,
+                                          TTrozo=r.TTrozo,
                                           Buque = r.Buque,
                                           CodColor = r.CodColor,
                                           CodOlor = r.CodOlor,
@@ -270,11 +359,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                           Color = r.Color,
                                           Escamas = r.Escamas,
                                           Espinas = r.Espinas,
-                                          HematomasProfundos = r.HematomasProfundos,
                                           Hora = r.Hora,
                                           empacador = r.empacador,
                                           NombreEmpacador = e.NOMBRES,
                                           Lote = r.Lote,
+                                          CodMoretones=r.CodMoretones,
                                           Moretones = r.Moretones,
                                           Olor = r.Olor,
                                           Piel = r.Piel,
@@ -360,15 +449,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                          Destino=x.Destino,
                                          Lote=x.Lote,
                                          Marca=x.Marca,
-                                         Proveedor=x.Proveedor,
-                                         ImagenCodigo=x.ImagenCodigo,
-                                         ImagenProducto1=x.ImagenProducto1,
-                                         ImagenProducto2=x.ImagenProducto2,
-                                         ImagenProducto3=x.ImagenProducto3,
-                                         RotacionImagenCod=x.RotacionImagenCod,
-                                         RotacionImagenProd1=x.RotacionImagenProd1,
-                                         RotacionImagenProd2=x.RotacionImagenProd2,
-                                         RotacionImagenProd3=x.RotacionImagenProd3
+                                         Proveedor=x.Proveedor
                                      }).Distinct().ToList();
 
                     return respuesta;
@@ -448,13 +529,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return db.spReporteEvaluacionProductoEnfundado(IdControl).ToList();
             }
         }
-        public CC_EVALUACION_PRODUCTO_ENFUNDADO ConsultarFotosControl(int IdControl)
-        {
-            using (var db = new ASIS_PRODEntities())
-            {
-                return db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdControl);
-            }
-        }
         public string ReversarControl(int IdControl, string usuario, string terminal)
         {
             using (var db = new ASIS_PRODEntities())
@@ -511,6 +585,113 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                  }).Distinct().ToList();
 
                 return respuesta;
+            }
+        }
+        public object[] GuardarDetalleFoto(CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO control)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+
+                var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(control.IdDetalleEvaluacionProductoEnfundado);
+                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(buscarDetalle.IdCabeceraEvaluacionProductoEnfundado);
+                if (buscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible ingresar el control, por que se encuentra aprobado";
+                    resultado[2] = control;
+                }
+                db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.Add(control);
+                db.SaveChanges();
+                resultado[0] = "000";
+                resultado[1] = "Foto guardada";
+                resultado[2] = control;
+
+                return resultado;
+            }
+        }
+        public object[] ModificarDetalleFoto(CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO control)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+
+                var buscarFoto = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.Find(control.IdFotoEvaluacioProductoEnfundado);
+                var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(buscarFoto.IdDetalleEvaluacionProductoEnfundado);
+                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(buscarDetalle.IdCabeceraEvaluacionProductoEnfundado);
+                if (buscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible modificar el control, por que se encuentra aprobado";
+                    resultado[2] = control;
+                }
+                else
+                {
+                    if (control.Imagen != null)
+                        buscarFoto.Imagen = control.Imagen;
+                    buscarFoto.Observacion = control.Observacion;
+                    buscarFoto.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    buscarFoto.FechaModificacionLog = DateTime.Now;
+                    buscarFoto.TerminalModificacionLog = control.TerminalModificacionLog;
+
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Foto Actualizada";
+                    resultado[2] = control;
+                }
+
+
+                return resultado;
+            }
+        }
+        public object[] InactivarFotoDetalle(CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO pofoto)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                var buscarFotoDet = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.Find(pofoto.IdFotoEvaluacioProductoEnfundado);
+                var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(buscarFotoDet.IdDetalleEvaluacionProductoEnfundado);
+                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(buscarDetalle.IdCabeceraEvaluacionProductoEnfundado);
+                if (buscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible inactivar el control, por que se encuentra aprobado";
+                    resultado[2] = pofoto;
+                }
+                else
+                {
+                    buscarFotoDet.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    buscarFotoDet.FechaModificacionLog = pofoto.FechaIngresoLog;
+                    buscarFotoDet.UsuarioModificacionLog = pofoto.UsuarioIngresoLog;
+                    buscarFotoDet.TerminalModificacionLog = pofoto.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = pofoto;
+                }
+                return resultado;
+            }
+        }
+        public List<CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO> ConsultarFotosDetalle(int IdDetalle)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                return db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.Where(x => x.IdDetalleEvaluacionProductoEnfundado == IdDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+        public List<ReporteFotosEvaluacionProductoEnfundadoViewModel> ConsultarFotosControl(int IdCab)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<int> ListDetallesCab = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Where(x => x.IdCabeceraEvaluacionProductoEnfundado == IdCab && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x => x.IdDetalleEvaluacionProductoEnfundado).ToList();
+
+                var query = (from f in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO
+                             join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE
+                             on new { id=f.IdDetalleEvaluacionProductoEnfundado.Value,estado=f.EstadoRegistro} equals new {id=d.IdDetalleEvaluacionProductoEnfundado,estado=clsAtributos.EstadoRegistroActivo }
+                             where f.EstadoRegistro == clsAtributos.EstadoRegistroActivo && ListDetallesCab.Contains(f.IdDetalleEvaluacionProductoEnfundado.Value)
+                             orderby d.Hora
+                             select new ReporteFotosEvaluacionProductoEnfundadoViewModel { IdFoto = f.IdFotoEvaluacioProductoEnfundado, Hora = d.Hora, Imagen = f.Imagen, Novedad = f.Observacion, Rotacion = f.Rotacion.Value }).ToList();
+                return query;
             }
         }
     }

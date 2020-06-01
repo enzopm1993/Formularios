@@ -28,6 +28,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDMantenimientoTextura clsDMantenimientoTextura { get; set; } = null;
         clsDMantenimientoSabor clsDMantenimientoSabor { get; set; } = null;
         clsDMantenimientoProteina clsDMantenimientoProteina { get; set; } = null;
+        ClsDMantenimientoMoreton ClsDMantenimientoMoreton { get; set; } = null;
         clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
         clsDEmpleado clsDEmpleado { get; set; } = null;
         // GET: EvaluacionProductoEnfundado
@@ -57,6 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDMantenimientoSabor = new clsDMantenimientoSabor();
                 clsDMantenimientoProteina = new clsDMantenimientoProteina();
                 clsDMantenimientoColor = new clsDMantenimientoColor();
+                ClsDMantenimientoMoreton = new ClsDMantenimientoMoreton();
                 clsDClasificador = new clsDClasificador();
                 var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x => x.Codigo);
                 //var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
@@ -66,6 +68,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var Sabor = clsDMantenimientoSabor.ConsultaManteminetoSabor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Color = clsDMantenimientoColor.ConsultarMantenimientoColor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var Moretones = ClsDMantenimientoMoreton.ConsultaManteminetoMoreton();
+                ViewBag.Moreton = new SelectList(Moretones, "IdMoreton", "Descripcion");
                 ViewBag.Olor = new SelectList(Olor, "IdOlor", "Descripcion");
                 ViewBag.Textura = new SelectList(Textura, "IdTextura", "Descripcion");
                 ViewBag.Sabor = new SelectList(Sabor, "IdSabor", "Descripcion");
@@ -124,6 +128,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
+            }
+        }
+        public ActionResult PartialReporteFotos(int IdCabecera)
+        {
+            try
+            {
+
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                List<ReporteFotosEvaluacionProductoEnfundadoViewModel> resultado;
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                resultado = clsDEvaluacionProductoEnfundado.ConsultarFotosControl(IdCabecera);
+                if (resultado.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(resultado);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult PartialReporteEvaluacionProductoEnfundado(int IdControl)
@@ -186,67 +229,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                string path = string.Empty;
-                string NombreImg = string.Empty;
-                string NombreImg1 = string.Empty;
-                string NombreImg2 = string.Empty;
-                string NombreImg3 = string.Empty;
-                if (dataImg != null)
-                {
-                    path = Server.MapPath("~/Content/Img/EvaluacionProductoEnfundado/");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    var date = DateTime.Now;
-                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
-                    var ext2 = dataImg.FileName.Split('.');
-                    var cont = ext2.Length;
-                    NombreImg = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() +"1"+ "." + ext2[cont - 1];
-                    poCabeceraControl.ImagenCodigo = NombreImg;
-                }
-                if (dataImg1 != null)
-                {
-                    path = Server.MapPath("~/Content/Img/EvaluacionProductoEnfundado/");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    var date = DateTime.Now;
-                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
-                    var ext2 = dataImg1.FileName.Split('.');
-                    var cont = ext2.Length;
-                    NombreImg1 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "2" + "." + ext2[cont - 1];
-                    poCabeceraControl.ImagenProducto1 = NombreImg1;
-                }
-                if (dataImg2 != null)
-                {
-                    path = Server.MapPath("~/Content/Img/EvaluacionProductoEnfundado/");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    var date = DateTime.Now;
-                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
-                    var ext2 = dataImg2.FileName.Split('.');
-                    var cont = ext2.Length;
-                    NombreImg2 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "3" + "." + ext2[cont - 1];
-                    poCabeceraControl.ImagenProducto2 = NombreImg2;
-                }
-                if (dataImg3 != null)
-                {
-                    path = Server.MapPath("~/Content/Img/EvaluacionProductoEnfundado/");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    var date = DateTime.Now;
-                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
-                    var ext2 = dataImg3.FileName.Split('.');
-                    var cont = ext2.Length;
-                    NombreImg3 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "4"+ "." + ext2[cont - 1];
-                    poCabeceraControl.ImagenProducto3 = NombreImg3;
-                }
+                
                 poCabeceraControl.FechaIngresoLog = DateTime.Now;
                 poCabeceraControl.UsuarioIngresoLog = lsUsuario[0];
                 poCabeceraControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -261,22 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     resultado = clsDEvaluacionProductoEnfundado.ActualizarCabeceraControl(poCabeceraControl);
                 }
-                if (dataImg != null)
-                {
-                    dataImg.SaveAs(path + Path.GetFileName(NombreImg));
-                }
-                if (dataImg1 != null)
-                {
-                    dataImg1.SaveAs(path + Path.GetFileName(NombreImg1));
-                }
-                if (dataImg2 != null)
-                {
-                    dataImg2.SaveAs(path + Path.GetFileName(NombreImg2));
-                }
-                if (dataImg3 != null)
-                {
-                    dataImg3.SaveAs(path + Path.GetFileName(NombreImg3));
-                }
+                
                 //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                 //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
@@ -312,7 +280,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 CC_EVALUACION_PRODUCTO_ENFUNDADO resultado = null;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                resultado = clsDEvaluacionProductoEnfundado.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value);
+                resultado = clsDEvaluacionProductoEnfundado.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value,poCabControl.OrdenFabricacion.Value,poCabControl.Lomo.Value, poCabControl.Miga.Value, poCabControl.Trozo.Value);
                 if (resultado != null)
                 {
                     return Json(new
@@ -331,15 +299,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                         resultado.NivelLimpieza,
                         resultado.OrdenFabricacion,
                         resultado.Observacion,
-                        resultado.EstadoControl,
-                        resultado.ImagenCodigo,
-                        resultado.ImagenProducto1,
-                        resultado.ImagenProducto2,
-                        resultado.ImagenProducto3,
-                        resultado.RotacionImagenCod,
-                        resultado.RotacionImagenProd1,
-                        resultado.RotacionImagenProd2,
-                        resultado.RotacionImagenProd3
+                        resultado.EstadoControl
+                       
                     }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -458,6 +419,86 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
+        public JsonResult EliminarFotoDetalle(int IdFoto)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO poFotoLomosyMigas = new CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO()
+                {
+                    IdFotoEvaluacioProductoEnfundado = IdFoto,
+                    UsuarioIngresoLog = lsUsuario[0],
+                    FechaIngresoLog = DateTime.Now,
+                    TerminalIngresoLog = Request.UserHostAddress
+                };
+                object[] Respuesta = null;
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                Respuesta = clsDEvaluacionProductoEnfundado.InactivarFotoDetalle(poFotoLomosyMigas);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DetalleFotoPartial(int IdDetalle)
+        {
+            try
+            {
+
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                var resultado = clsDEvaluacionProductoEnfundado.ConsultarFotosDetalle(IdDetalle);
+                if (resultado.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(resultado);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
         public JsonResult EliminarDetalleControl(int IdDetalle)
         {
             try
@@ -537,6 +578,76 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public JsonResult GuardarFotoDetalle(HttpPostedFileBase dataImg, CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO control)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                object[] resultado;
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                string path = string.Empty;
+                string NombreImg = string.Empty;
+                if (dataImg != null)
+                {
+                    path = Server.MapPath("~/Content/Img/EvaluacionProductoEnfundado/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    var date = DateTime.Now;
+                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
+                    var ext2 = dataImg.FileName.Split('.');
+                    var cont = ext2.Length;
+                    NombreImg = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "." + ext2[cont - 1];
+                    control.Imagen = NombreImg;
+                }
+
+
+                control.UsuarioIngresoLog = lsUsuario[0];
+                control.FechaIngresoLog = DateTime.Now;
+                control.TerminalIngresoLog = Request.UserHostAddress;
+                control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                if (control.IdFotoEvaluacioProductoEnfundado == 0)
+                {
+                    resultado = clsDEvaluacionProductoEnfundado.GuardarDetalleFoto(control);
+                }
+                else
+                {
+                    resultado = clsDEvaluacionProductoEnfundado.ModificarDetalleFoto(control);
+                }
+
+                if (dataImg != null)
+                {
+                    dataImg.SaveAs(path + Path.GetFileName(NombreImg));
+                }
+                return Json(resultado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+
+            }
+        }
         //[HttpPost]
         //public JsonResult GuardarImagenFirma(string imagen, int IdCabecera, string Tipo)
         //{
@@ -553,7 +664,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //        clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
         //        byte[] Firma = Convert.FromBase64String(imagen);
         //        var resultado = clsDEvaluacionProductoEnfundado.GuardarImagenFirma(Firma, IdCabecera, Tipo, lsUsuario[0], Request.UserHostAddress);
-                
+
         //        var imagenfirma = String.Format("data:image/png;base64,{0}", imagen);
         //        return Json(imagenfirma, JsonRequestBehavior.AllowGet);
         //    }
@@ -769,41 +880,40 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult ConsultarFotosControlxId(int IdControl)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
+        //public JsonResult ConsultarFotosControlxId(int IdControl)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
 
         
-                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                var Respuesta = clsDEvaluacionProductoEnfundado.ConsultarFotosControl(IdControl);
-                return Json(new {Respuesta.IdEvaluacionProductoEnfundado, Respuesta.ImagenCodigo,Respuesta.ImagenProducto1,Respuesta.ImagenProducto2
-                ,Respuesta.ImagenProducto3,Respuesta.RotacionImagenCod,Respuesta.RotacionImagenProd1,Respuesta.RotacionImagenProd2, Respuesta.RotacionImagenProd3}, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+        //        var Respuesta = clsDEvaluacionProductoEnfundado.ConsultarFotosControl(IdControl);
+        //        return Json(new {Respuesta.IdEvaluacionProductoEnfundado}, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         [HttpPost]
         public JsonResult ReversarControl(int IdCabecera)
         {

@@ -53,9 +53,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Moretones)
             </th>
-            <th>
-                Hematomas profundos
-            </th>
+       
 
             <th>
                 @Html.DisplayNameFor(model => model.Proteinas)
@@ -84,16 +82,22 @@
             <th>
                 Otros
             </th>
+            <th>
+                Total individual
+            </th>
         </tr>
     </thead>
 
     <tbody>
+        @{ 
+            int cont = 0;
+        }
         @foreach (var item in Model)
         {
 
         <tr style="cursor:pointer">
             <td>
-               @item.Hora.Value.ToString("dd-MM-yyyy HH:mm:ss")
+                @item.Hora.Value.ToString("hh\\:mm")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NombreEmpacador)
@@ -131,9 +135,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Moretones)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HematomasProfundos)
-            </td>
+
             @*<td>
             @Html.DisplayFor(modelItem => item.CodProteinas)
         </td>*@
@@ -165,7 +167,109 @@
 
                 @Html.DisplayFor(modelItem => item.Otro)
             </td>
+            <td class="text-center">
+                @{
+                    var sum = (item.Venas==null?0: item.Venas) + (item.Espinas==null?0: item.Espinas) + (item.Sangre==null?0: item.Sangre) + (item.Escamas==null?0: item.Escamas) + (item.Piel==null?0: item.Piel)+(item.Otro==null?0:item.Otro);
+                    cont++;
+                }
+                <label id="total@(cont)" class="badge badge-pill">@sum</label>
 
+                <script>
+                                var suma =@Html.Raw(Json.Encode(sum));
+                                var tdnombre=@Html.Raw(Json.Encode(item.Hora));
+                                var contador =@Html.Raw(Json.Encode(cont));
+                                var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().TLomo));
+                                var Miga =@Html.Raw(Json.Encode(Model.FirstOrDefault().TMiga));
+                                var Trozo =@Html.Raw(Json.Encode(Model.FirstOrDefault().TTrozo));
+                                //console.log(Lomo);
+                                //console.log(Miga);
+
+                                    if (Lomo || Trozo) {
+                                        if (TipoLimpieza == 1) {
+                                            $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
+
+                                            if (suma > ParametrosLomo.Limpieza1.Total) {
+                                              $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+                                        }
+                                        if (TipoLimpieza == 2) {
+
+                                            if (suma > ParametrosLomo.Limpieza2.Total) {
+                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+                                        }
+                                        if (TipoLimpieza == 3) {
+
+                                            if (suma > ParametrosLomo.Limpieza3.Total) {
+                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+
+                                        }
+
+                                    } else {
+                                            if (TipoLimpieza == 1) {
+                                                if (suma > ParametrosMiga.Limpieza1.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+
+                                            }
+                                            if (TipoLimpieza == 2) {
+                                                if (suma > ParametrosMiga.Limpieza2.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+                                            }
+                                            if (TipoLimpieza == 3) {
+
+                                                if (suma > ParametrosMiga.Limpieza3.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+                                            }
+
+                                        }
+                        //contador = contador - 1;
+                        //        if (TipoLimpieza == 1)
+                        //{
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
+                        //        //console.log("assadsd");
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //        if (TipoLimpieza == 2) {
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
+
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //        if (TipoLimpieza == 3) {
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    }
+                        //    else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+
+                </script>
+            </td>
         </tr>
         }
     </tbody>

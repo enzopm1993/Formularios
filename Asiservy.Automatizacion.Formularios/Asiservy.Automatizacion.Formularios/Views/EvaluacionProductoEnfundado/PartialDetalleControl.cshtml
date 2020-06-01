@@ -35,9 +35,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Moretones)
             </th>
-            <th>
+            @*<th>
                 Hematomas profundos
-            </th>
+            </th>*@
 
             <th>
                 @Html.DisplayNameFor(model => model.Proteinas)
@@ -66,10 +66,16 @@
             <th>
                 Otros
             </th>
+            <th>
+                Total Individual
+            </th>
         </tr>
     </thead>
 
     <tbody>
+        @{ 
+            int cont = 0;
+        }
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
@@ -113,9 +119,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Moretones)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.HematomasProfundos)
-                </td>
+                </td>*@
                 @*<td>
                         @Html.DisplayFor(modelItem => item.CodProteinas)
                     </td>*@
@@ -147,7 +153,29 @@
                   
                     @Html.DisplayFor(modelItem => item.Otro)
                 </td>
-             
+                <td class="text-center">
+                    @{ 
+                        int? suma = (item.Venas == null ? 0 : item.Venas) + (item.Espinas == null ? 0 : item.Espinas) + (item.Sangre == null ? 0 : item.Sangre) + (item.Escamas == null ? 0 : item.Escamas) + (item.Piel == null ? 0 : item.Piel) + (item.Otro == null ? 0 : item.Otro);
+                        cont++;
+                        }
+                    <label id="total@(cont)" class="badge badge-pill">@suma</label>
+                    <script>
+                        var suma =@Html.Raw(Json.Encode(suma));
+                   
+                        var contador =@Html.Raw(Json.Encode(cont));
+                        //contador = contador - 1;
+                        console.log(suma);
+                        console.log(TotalMaximo);
+                        if (suma > TotalMaximo) {
+                                //console.log("assadsd");
+                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                            } else {
+                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                            }
+
+
+                    </script>
+                </td>
 
             </tr>
         }
