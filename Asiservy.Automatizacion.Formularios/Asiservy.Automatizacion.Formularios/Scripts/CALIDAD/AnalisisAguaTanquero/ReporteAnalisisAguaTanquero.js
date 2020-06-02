@@ -10,7 +10,7 @@ function FiltrarAprobadosFecha() {
     $("#MensajeRegistros").html('');
 
     $.ajax({
-        url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclavePartial",
+        url: "../AnalisisAguaTanquero/ReporteAnalisisAguaTanqueroPartial",
         type: "GET",
         data: {
             FechaDesde: $("#fechaDesde").val(),
@@ -63,13 +63,7 @@ function SeleccionarBandeja(Control) {
     if (model.Latas) {
         $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
     }
-    //$("#lblFerroro").html(model.Ferroso);
-    //$("#lblPCC").html(model.Pcc);
-    //$("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
-    //$("#lblNoFerroso").html(model.NoFerroso);
-    //$("#lblAceroInoxidable").html(model.AceroInoxidable);
-    //$("#pObservacion").html(model.Observacion);
-
+   
     if (model.EstadoReporte) {
         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
         $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD HH:mm"));
@@ -98,7 +92,7 @@ function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
-        url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclaveDetallePartial",
+        url: "../AnalisisAguaTanquero/ReporteAnalisisAguaTanqueroDetallePartial",
         type: "GET",
         data: {
             Fecha: model.Fecha

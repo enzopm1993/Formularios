@@ -106,17 +106,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var poControl = entities.CC_CONDICION_PERSONAL.FirstOrDefault(x => x.IdCondicionPersonal == model.IdCondicionPersonal);
-                var poControl2 = entities.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                if (poControl2 != null)
-                {
-                    poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                    poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
-                    poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    poControl2.FechaModificacionLog = model.FechaIngresoLog;
-
-                }
                 if (poControl != null)
                 {
+                    var poControl2 = entities.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    var poControl1 = entities.CC_CONDICION_PERSONAL.Count(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    if (poControl2 != null && poControl1 == 1)
+                    {
+                        poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControl2.FechaModificacionLog = model.FechaIngresoLog;
+
+                    }
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;

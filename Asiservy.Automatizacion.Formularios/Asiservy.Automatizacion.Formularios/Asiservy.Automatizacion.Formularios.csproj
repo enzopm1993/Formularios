@@ -2195,6 +2195,9 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -3394,6 +3397,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaTanquero\ClsdAnalisisAguaTanquero.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
@@ -3494,6 +3498,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\AnalisisAguaTanqueroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
@@ -4062,6 +4067,13 @@
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometroPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\DetalleFotoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteFotos.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\AnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\AnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\BandejaAnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\ReporteAnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\ReporteAnalisisAguaTanqueroDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

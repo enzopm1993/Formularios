@@ -1,6 +1,7 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_AGUA_AUTOCLAVE_CONTROL>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_AGUA_TANQUERO_CONTROL>
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
+
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
@@ -37,17 +38,10 @@
         @foreach (var item in Model)
         {
 
-            var m = new CC_CLORO_AGUA_AUTOCLAVE_CONTROL
+            var m = new CC_ANALISIS_AGUA_TANQUERO_CONTROL
             {
-                IdCloroAguaAutoclaveControl = item.IdCloroAguaAutoclaveControl,
+                IdAnalisisAguaTanqueroControl = item.IdAnalisisAguaTanqueroControl,
                 Fecha = item.Fecha,
-                AprobadoPor = item.AprobadoPor,
-                EstadoReporte = item.EstadoReporte,
-                FechaAprobacion = item.FechaAprobacion,
-                FechaIngresoLog = item.FechaIngresoLog,
-                FechaModificacionLog = item.FechaModificacionLog,
-                UsuarioIngresoLog = item.UsuarioIngresoLog,
-                UsuarioModificacionLog = item.UsuarioModificacionLog
             };
 
 
@@ -56,7 +50,8 @@
                 <td>
                     @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
-             
+
+
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>
@@ -78,9 +73,7 @@
                 </td>
                 <td>
                     @if (item.FechaModificacionLog != null)
-                    {
-                        @item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
-                    }
+                    {@item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm")}
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
