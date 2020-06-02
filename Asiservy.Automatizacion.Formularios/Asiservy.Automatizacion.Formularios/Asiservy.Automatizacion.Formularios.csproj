@@ -2196,6 +2196,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -4067,6 +4068,8 @@
     <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteFotos.cshtml" />
     <Content Include="Views\AnalisisAguaTanquero\AnalisisAguaTanquero.cshtml" />
     <Content Include="Views\AnalisisAguaTanquero\AnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\BandejaAnalisisAguaTanqueroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
