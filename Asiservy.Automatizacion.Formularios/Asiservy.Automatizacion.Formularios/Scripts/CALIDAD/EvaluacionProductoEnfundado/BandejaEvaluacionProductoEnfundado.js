@@ -200,7 +200,7 @@ function AbrirModalDetalle(IdCabecera,NivelLimpieza) {
                 $('#datetimepicker1').datetimepicker(
                     {
                         date: moment().format("YYYY-MM-DD HH:mm"),
-                        format: "YYYY-MM-DD HH:mm",
+                        format: "DD-MM-YYYY HH:mm",
                         minDate: moment($('#fechacontrol').val(), "YYYY-MM-DD HH:mm"),
                         ignoreReadonly: true
                     });

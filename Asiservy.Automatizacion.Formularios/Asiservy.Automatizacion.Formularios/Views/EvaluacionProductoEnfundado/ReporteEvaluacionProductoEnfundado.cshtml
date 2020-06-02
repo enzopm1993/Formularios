@@ -3,14 +3,63 @@
     ViewBag.Title = "ReporteEvaluacionProductoEnfundado";
 }
 <style>
-    @@media print {
+    @@media print and (color) {
         @@page {
             size: landscape;
         }
-        #tbltitulo {
-            display: block;
-            margin-bottom: 0rem;
+
+        * {
+            -webkit-print-color-adjust: exact;
         }
+
+        #tblfotos {
+            page-break-before: always;
+        }
+
+        table {
+            page-break-after: auto
+        }
+
+        div.divCont {
+            top: 100px;
+            position: relative;
+        }
+
+        div.divHeader {
+            /*position: fixed;
+            top: 0;
+            width: 100%;*/
+        }
+
+        div.divBody {
+            /*margin-top: 170px;
+            border-left: 1px solid gray;
+            padding: 1em;
+            overflow: hidden;*/
+        }
+
+        div.divFooter {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #revisado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: dimgrey;
+        }
+
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: dimgrey;
+        }
+
         #divcarddet {
             border: none;
         }
@@ -27,51 +76,76 @@
         #card1 {
             display: none;
         }
+
         #espacio {
             display: none;
         }
+
         #accordionSidebar {
             display: none;
         }
+
         #titulo {
             display: none;
         }
 
-        #tablaCab {
+        /*#tablaCab {
             margin-bottom: 0rem;
-            border: 1px solid red;
-        }
-        #tablaCab td{
+            margin-top: 0rem;
        
+        }*/
+
+        #tbltitulo {
+            display: block;
+            margin-bottom: 0rem;
+        }
+
+        #tablaCab td {
             font-size: 0.5rem;
         }
+
         #tblReporte td {
             font-size: 0.5rem;
         }
         /*table tr td {
             border: 1px solid black;
         }*/
-        #firma1 {
+        /*#firma1 {
             border-bottom: solid;
         }
 
         #firma2 {
             border-bottom: solid;
-        }
-        #revisado {
-            text-align: center;
-            border-bottom: 0px;
-            border-right: 0px;
-            border-left: 0px;
-            border-top-color: black;
+        }*/
+        /*tr {
+            page-break-inside: avoid;
+            page-break-after: auto
         }
 
-        #realizado {
-            text-align: center;
-            border-bottom: 0px;
-            border-right: 0px;
-            border-left: 0px;
-            border-top-color: black;
+        td {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }*/
+
+        /*thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-footer-group
+        }*/
+
+
+        hr {
+            display: none;
+        }
+
+        /*br {
+            display: none;
+        }*/
+
+        .card {
+            border: 0px solid #e3e6f0;
         }
     }
 
@@ -213,6 +287,20 @@
                 <tbody></tbody>
             </table>
         </div>
+    </div>
+</div>
+<div>
+    <div style="padding-bottom:10px;" id="DivBotonImpr" hidden>
+        <center>
+            <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnimprimir" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>
+        </center>
+
+
     </div>
 </div>
 <div id="DivReporte">

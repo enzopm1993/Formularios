@@ -269,7 +269,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(poDetalleControl.IdCabeceraEvaluacionProductoEnfundado);
+                var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionProductoEnfundado);
+                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(buscarDetalle.IdCabeceraEvaluacionProductoEnfundado);
                 if(buscarCabecera.EstadoControl==true)
                 {
                     resultado[0] = "003";
@@ -278,7 +279,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 }
                 else
                 {
-                    var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionProductoEnfundado);
+                    
                     buscarDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     buscarDetalle.FechaModificacionLog = poDetalleControl.FechaIngresoLog;
                     buscarDetalle.UsuarioModificacionLog = poDetalleControl.UsuarioIngresoLog;
@@ -601,11 +602,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                     resultado[1] = "No es posible ingresar el control, por que se encuentra aprobado";
                     resultado[2] = control;
                 }
-                db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.Add(control);
-                db.SaveChanges();
-                resultado[0] = "000";
-                resultado[1] = "Foto guardada";
-                resultado[2] = control;
+                else
+                {
+                    db.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.Add(control);
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Foto guardada";
+                    resultado[2] = control;
+                }
+               
 
                 return resultado;
             }

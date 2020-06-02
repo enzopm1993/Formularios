@@ -181,8 +181,13 @@ function EliminarFoto() {
         if (Error == 0) {
             $('#modalEliminarControlDetalle2').modal('hide');
 
-            MensajeCorrecto(resultado[1]);
-            CargarControlDetalle2();
+            if (resultado[0] == '002') {
+                MensajeCorrecto(resultado[1]);
+                CargarControlDetalle2();
+            } else {
+                MensajeAdvertencia(resultado[1]);
+                CargarControlDetalle2();
+            }
 
 
         }
@@ -269,7 +274,8 @@ async function GenerarControlDetalle2() {
             throw "Error";
         }
         var ResultadoGuardarFoto = await promesaGuardarFoto.json();
-        if (MensajeCorrecto(ResultadoGuardarFoto[0] == '003')) {
+        console.log(ResultadoGuardarFoto[0]);
+        if (ResultadoGuardarFoto[0] == '003') {
             MensajeAdvertencia(ResultadoGuardarFoto[1]);
         } else {
             MensajeCorrecto(ResultadoGuardarFoto[1]);
@@ -651,137 +657,137 @@ async function ConsultarCabControl(/*bandera*/) {
 }
 
 function GuardarCabceraControl() {
-var Lomo = false;
-var Miga = false;
-var Trozo = false;
-if ($('#cmbNivelLimpieza').prop('selectedIndex') == 0) {
-    $('#msgerrorniveldelimpieza').prop('hidden', false);
-    return false;
-} else {
-    $('#msgerrorniveldelimpieza').prop('hidden', true);
-}
-if ($('#txtProveedor').val() == '') {
-    $('#msgerrorproveedor').prop('hidden', false);
-    return false;
-} else {
-    $('#msgerrorproveedor').prop('hidden', true);
-}
-if ($('#txtBatch').val() == '') {
-    $('#msgerrorbatch').prop('hidden', false);
-    return false;
-} else {
-    $('#msgerrorbatch').prop('hidden', true);
-}
-if ($('#txtLoteProveedor').val() == '') {
-    $('#msgerrorloteproveedor').prop('hidden', false);
-    return false;
-} else {
-    $('#msgerrorloteproveedor').prop('hidden', true);
-}
-if (($('#Lomo').prop("checked") == false) && ($('#Miga').prop("checked") == false) && ($('#Trozo').prop("checked") == false)) {
-    $('#msgerrortipoproducto').prop('hidden', false);
-    return false;
-}
-else {
-    $('#msgerrortipoproducto').prop('hidden', true);
-}
-if ($('#txtFechaProduccion').val() == '') {
-    $('#msjErrorFechaProduccion').prop('hidden', false);
-    return false;
-} else {
-    $('#msjErrorFechaProduccion').prop('hidden', true);
-}
-if ($('#cmbOrdeneFabricacion').prop('selectedIndex') == 0) {
-    $('#msjErrorOrdenFabricacion').prop('hidden', false);
-    return false;
-} else {
-    $('#msjErrorOrdenFabricacion').prop('hidden', true);
-}
-
-$('#btnCargando').prop('hidden', false);
-$('#btnConsultar').prop('hidden', true);
-$('#btnLimpiar').prop('hidden', true);
-$('#btnEliminarCabeceraControl').prop('hidden', true);
-$('#btnGuardar').prop('hidden', true);
-//var imagen1 = $('#file-uploadcod')[0].files[0];
-//var imagen2 = $('#file-upload1')[0].files[0];
-//var imagen3 = $('#file-upload2')[0].files[0];
-//var imagen4 = $('#file-upload3')[0].files[0];
-const data = new FormData();
-//data.append("RotacionImagenCod", rotation1);
-//data.append("RotacionImagenProd1", rotation1);
-//data.append("RotacionImagenProd2", rotation2);
-//data.append("RotacionImagenProd3", rotation3);
-//data.append('dataImg', imagen1);
-//data.append('dataImg1', imagen2);
-//data.append('dataImg2', imagen3);
-//data.append('dataImg3', imagen4);
-data.append('IdEvaluacionProductoEnfundado', IdCabecera);
-data.append('FechaProduccion', $("#txtFechaProduccion").val());
-data.append('Cliente', $("#txtCliente").val());
-data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
-data.append('NivelLimpieza', $("#cmbNivelLimpieza").val());
-data.append('Marca', $('#txtMarca').val());
-data.append('Destino', $('#txtDestino').val());
-data.append('Proveedor', $('#txtProveedor').val());
-data.append('Lote', $('#txtLoteProveedor').val());
-data.append('Batch', $('#txtBatch').val());
-data.append('Observacion', $('#Observacion').val());
-if ($('#Lomo').is(":checked")) {
-    Lomo = true;
-}
-if ($('#Miga').is(":checked")) {
-    Miga = true;
-}
-if ($('#Trozo').is(":checked")) {
-    Trozo = true;
-}
-
-data.append('Lomo', Lomo);
-data.append('Miga', Miga);
-data.append('Trozo', Trozo);
-fetch("../EvaluacionProductoEnfundado/GuardarCabeceraControl", {
-    method: 'POST',
-    body: data
-}).then(function (respuesta) {
-    if (!respuesta.ok) {
-        //MensajeError(respuesta.statusText);
-        MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
-        Error = 1;
+    var Lomo = false;
+    var Miga = false;
+    var Trozo = false;
+    if ($('#cmbNivelLimpieza').prop('selectedIndex') == 0) {
+        $('#msgerrorniveldelimpieza').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorniveldelimpieza').prop('hidden', true);
     }
-    return respuesta.json();
-}).then(function (resultado) {
-    //console.log(respuesta);
-    if (resultado == "101") {
-        window.location.reload();
+    if ($('#txtProveedor').val() == '') {
+        $('#msgerrorproveedor').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorproveedor').prop('hidden', true);
     }
-    if (Error == 0) {
-        IdCabecera = resultado[2].IdEvaluacionProductoEnfundado;
-        if (resultado[0] == "002") {
-            MensajeAdvertencia(resultado[1]);
-        } else {
-            MensajeCorrecto(resultado[1]);
-            $('#brespacio').remove();
-            $('#mensajeRegistros').text('');
-            $('#CardDetalle').prop('hidden', false);
-            SlideCabecera();
+    if ($('#txtBatch').val() == '') {
+        $('#msgerrorbatch').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorbatch').prop('hidden', true);
+    }
+    if ($('#txtLoteProveedor').val() == '') {
+        $('#msgerrorloteproveedor').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorloteproveedor').prop('hidden', true);
+    }
+    if (($('#Lomo').prop("checked") == false) && ($('#Miga').prop("checked") == false) && ($('#Trozo').prop("checked") == false)) {
+        $('#msgerrortipoproducto').prop('hidden', false);
+        return false;
+    }
+    else {
+        $('#msgerrortipoproducto').prop('hidden', true);
+    }
+    if ($('#txtFechaProduccion').val() == '') {
+        $('#msjErrorFechaProduccion').prop('hidden', false);
+        return false;
+    } else {
+        $('#msjErrorFechaProduccion').prop('hidden', true);
+    }
+    if ($('#cmbOrdeneFabricacion').prop('selectedIndex') == 0) {
+        $('#msjErrorOrdenFabricacion').prop('hidden', false);
+        return false;
+    } else {
+        $('#msjErrorOrdenFabricacion').prop('hidden', true);
+    }
+
+    $('#btnCargando').prop('hidden', false);
+    $('#btnConsultar').prop('hidden', true);
+    $('#btnLimpiar').prop('hidden', true);
+    $('#btnEliminarCabeceraControl').prop('hidden', true);
+    $('#btnGuardar').prop('hidden', true);
+    //var imagen1 = $('#file-uploadcod')[0].files[0];
+    //var imagen2 = $('#file-upload1')[0].files[0];
+    //var imagen3 = $('#file-upload2')[0].files[0];
+    //var imagen4 = $('#file-upload3')[0].files[0];
+    const data = new FormData();
+    //data.append("RotacionImagenCod", rotation1);
+    //data.append("RotacionImagenProd1", rotation1);
+    //data.append("RotacionImagenProd2", rotation2);
+    //data.append("RotacionImagenProd3", rotation3);
+    //data.append('dataImg', imagen1);
+    //data.append('dataImg1', imagen2);
+    //data.append('dataImg2', imagen3);
+    //data.append('dataImg3', imagen4);
+    data.append('IdEvaluacionProductoEnfundado', IdCabecera);
+    data.append('FechaProduccion', $("#txtFechaProduccion").val());
+    data.append('Cliente', $("#txtCliente").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('NivelLimpieza', $("#cmbNivelLimpieza").val());
+    data.append('Marca', $('#txtMarca').val());
+    data.append('Destino', $('#txtDestino').val());
+    data.append('Proveedor', $('#txtProveedor').val());
+    data.append('Lote', $('#txtLoteProveedor').val());
+    data.append('Batch', $('#txtBatch').val());
+    data.append('Observacion', $('#Observacion').val());
+    if ($('#Lomo').is(":checked")) {
+        Lomo = true;
+    }
+    if ($('#Miga').is(":checked")) {
+        Miga = true;
+    }
+    if ($('#Trozo').is(":checked")) {
+        Trozo = true;
+    }
+
+    data.append('Lomo', Lomo);
+    data.append('Miga', Miga);
+    data.append('Trozo', Trozo);
+    fetch("../EvaluacionProductoEnfundado/GuardarCabeceraControl", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
         }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            IdCabecera = resultado[2].IdEvaluacionProductoEnfundado;
+            if (resultado[0] != "000" && resultado[0] != "001" ) {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+                $('#brespacio').remove();
+                $('#mensajeRegistros').text('');
+                $('#CardDetalle').prop('hidden', false);
+                SlideCabecera();
+            }
 
-    }
-    $('#btnCargando').prop('hidden', true);
-    $('#btnConsultar').prop('hidden', false);
-    $('#btnLimpiar').prop('hidden', false);
-    $('#btnEliminarCabeceraControl').prop('hidden', false);
-    $('#btnGuardar').prop('hidden', false);
-    $('#btnEliminarCabeceraControl').prop('disabled', false);
-
-})
-    .catch(function (resultado) {
-        //console.log('error');
-        //console.log(resultado);
-        MensajeError(resultado.responseText, false);
+        }
+        $('#btnCargando').prop('hidden', true);
+        $('#btnConsultar').prop('hidden', false);
+        $('#btnLimpiar').prop('hidden', false);
+        $('#btnEliminarCabeceraControl').prop('hidden', false);
+        $('#btnGuardar').prop('hidden', false);
+        $('#btnEliminarCabeceraControl').prop('disabled', false);
 
     })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+
+        })
 }
 function LimpiarControles() {
     IdCabecera = 0;
@@ -846,9 +852,14 @@ fetch("../EvaluacionProductoEnfundado/EliminarCabeceraControl", {
         //if (resultado[0] == "002") {
         //    MensajeAdvertencia(resultado[1]);
         //} else {
-        MensajeCorrecto(resultado[1]);
+        if (resultado[0] != '002') {
+            MensajeAdvertencia(resultado[1]);
+        } else {
+            MensajeCorrecto(resultado[1]);
 
-        LimpiarControles();
+            LimpiarControles();
+        }
+        
         //}
 
     }
@@ -1025,7 +1036,7 @@ fetch("../EvaluacionProductoEnfundado/GuardarDetalleControl", {
     }
     if (Error == 0) {
 
-        if (resultado[0] == "002") {
+        if (resultado[0] != "000" && resultado[0] != "001") {
             MensajeAdvertencia(resultado[1]);
         } else {
             MensajeCorrecto(resultado[1]);
@@ -1155,10 +1166,15 @@ fetch("../EvaluacionProductoEnfundado/EliminarDetalleControl", {
         //if (resultado[0] == "002") {
         //    MensajeAdvertencia(resultado[1]);
         //} else {
-        MensajeCorrecto(resultado[1]);
+        if (resultado[0] == '002') {
+            MensajeCorrecto(resultado[1]);
+        } else {
+            MensajeAdvertencia(resultado[1]);
+        }
+        
 
         LimpiarDetalleControles();
-        ConsultarDetalleControl();
+        ConsultarDetalleControl(1);
         //}
 
     }

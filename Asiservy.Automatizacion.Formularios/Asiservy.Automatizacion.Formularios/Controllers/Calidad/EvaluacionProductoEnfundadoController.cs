@@ -105,6 +105,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
 
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 lsUsuario = User.Identity.Name.Split('_');
@@ -858,7 +859,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                string Respuesta = clsDEvaluacionProductoEnfundado.AprobarControl(IdCabecera, Request.UserHostAddress, lsUsuario[0], Fecha);
+                string Respuesta = clsDEvaluacionProductoEnfundado.AprobarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress, Fecha);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

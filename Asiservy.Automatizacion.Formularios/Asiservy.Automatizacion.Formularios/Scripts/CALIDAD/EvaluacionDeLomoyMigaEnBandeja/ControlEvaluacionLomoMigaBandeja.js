@@ -556,8 +556,16 @@ function GuardarCabceraControl() {
         }
         if (Error == 0) {
             IdCabecera = resultado[2].IdEvaluacionDeLomosYMigasEnBandejas;
-            if (resultado[0] == "002") {
+            if (resultado[0] == "002" || resultado[0] == "003") {
                 MensajeAdvertencia(resultado[1]);
+                (resultado[2].Lomo) ? $('#Lomo').prop("checked", true) : $('#Lomo').prop("checked", false);
+                (resultado[2].Miga) ? $('#Miga').prop("checked", true) : $('#Miga').prop("checked", false);
+                (resultado[2].Empaque) ? $('#Empaque').prop("checked", true) : $('#Empaque').prop("checked", false);
+                (resultado[2].Enlatado) ? $('#Enlatado').prop("checked", true) : $('#Enlatado').prop("checked", false);
+                (resultado[2].Pouch) ? $('#Pouch').prop("checked", true) : $('#Pouch').prop("checked", false);
+                $('#cmbNivelLimpieza').val(resultado[2].NivelLimpieza);
+                $('#Observacion').val(resultado[2].Observacion);
+                ValidarParametro();
             } else {
                 MensajeCorrecto(resultado[1]);
                 $('#brespacio').remove();
@@ -681,9 +689,14 @@ function EliminarFoto() {
         }
         if (Error == 0) {
             $('#modalEliminarControlDetalle2').modal('hide');
+
+            if (resultado[0] == '003') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+                CargarControlDetalle2();
+            }
             
-            MensajeCorrecto(resultado[1]);
-            CargarControlDetalle2();
            
 
         }
@@ -867,7 +880,7 @@ function GuardarDetalleControl() {
             if (resultado[0] == "002" || resultado[0] == "003") {
                 MensajeAdvertencia(resultado[1]);
             }
-            if (resultado[0] == "000" || resultado[0] == "000") {
+            if (resultado[0] == "000" || resultado[0] == "001") {
                 MensajeCorrecto(resultado[1]);
                 //$('#CardDetalle').prop('hidden', false);
                 //ConsultarDetalleControl();

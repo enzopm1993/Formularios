@@ -133,7 +133,10 @@
                     @Html.DisplayFor(modelItem => item.AprobadoPor)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaAprobacion)
+                    @if (item.FechaAprobacion != null)
+                    {
+                        @item.FechaAprobacion.Value.ToString("dd-MM-yyyy HH:mm")
+                    }
                 </td>
 
             </tr>
