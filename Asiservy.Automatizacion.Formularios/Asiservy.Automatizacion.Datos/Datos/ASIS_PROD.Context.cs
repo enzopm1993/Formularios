@@ -171,6 +171,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO> CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO { get; set; }
+        public virtual DbSet<CC_ANALISIS_AGUA_TANQUERO_CONTROL> CC_ANALISIS_AGUA_TANQUERO_CONTROL { get; set; }
+        public virtual DbSet<CC_ANALISIS_AGUA_TANQUERO> CC_ANALISIS_AGUA_TANQUERO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
