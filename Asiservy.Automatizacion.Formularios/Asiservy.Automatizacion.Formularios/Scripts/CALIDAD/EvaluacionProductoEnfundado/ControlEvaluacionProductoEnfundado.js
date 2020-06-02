@@ -73,7 +73,7 @@ $(document).ready(function () {
     $('#txtHematomas').mask("9?9");
     $('#txtTrozos').mask("9?.99");
     $('#txtMiga').mask("9?.99");
- 
+    LLenarComboOrdenes();
 });
 function ValidarParametro() {
     $('#lblparametro').text("");

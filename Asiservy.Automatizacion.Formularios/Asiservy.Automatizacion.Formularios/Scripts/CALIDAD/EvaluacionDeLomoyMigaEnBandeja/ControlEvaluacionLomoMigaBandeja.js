@@ -68,7 +68,7 @@ $(document).ready(function () {
     $('#txtPiel').mask("9?9");
     $('#txtTrozos').mask("9?.99");
     
-    LLenarComboOrdenes()
+    LLenarComboOrdenes();
     //.then(function () {
     //    ConsultarCabControl();
     //})
@@ -493,7 +493,24 @@ function GuardarCabceraControl() {
     var Empaque = false;
     var Enlatado = false;
     var Pouch = false;
-
+    if ($('#cmbNivelLimpieza').prop('selectedIndex') == 0) {
+        $('#msgerrorniveldelimpieza').prop('hidden', false);
+        return;
+    } else {
+        $('#msgerrorniveldelimpieza').prop('hidden', true);
+    }
+    if (!$('#Lomo').is(':checked') && !$('#Miga').is(':checked')) {
+        $('#msjerrorProducto').prop('hidden', false);
+        return;
+    } else {
+        $('#msjerrorProducto').prop('hidden', true);
+    }
+    if (!$('#Empaque').is(':checked') && !$('#Enlatado').is(':checked') && !$('#Pouch').is(':checked')) {
+        $('#msjerrorDestino').prop('hidden', false);
+        return;
+    } else {
+        $('#msjerrorDestino').prop('hidden', true);
+    }
     if ($('#txtFechaProduccion').val() == '') {
         $('#msjErrorFechaProduccion').prop('hidden', false);
         return false;
