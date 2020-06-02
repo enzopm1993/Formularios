@@ -12,20 +12,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA
+    public partial class CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA()
+        public CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA()
         {
             this.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE = new HashSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE>();
         }
     
         public int IdLimpiezaDesinfeccionPlanta { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string ObservacionControl { get; set; }
         public string AprobadoPor { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public Nullable<bool> EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
+        public bool EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

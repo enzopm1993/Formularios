@@ -15,12 +15,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE
     {
         public int IdDetalle { get; set; }
-        public Nullable<int> IdCabecera { get; set; }
-        public Nullable<int> IdMantenimiento { get; set; }
+        public int IdLimpiezaDesinfeccionPlanta { get; set; }
+        public int IdMantenimiento { get; set; }
+        public System.DateTime HoraAuditoria { get; set; }
         public string Limpieza { get; set; }
         public string Desinfeccion { get; set; }
-        public string Observacion { get; set; }
-        public Nullable<System.DateTime> Hora { get; set; }
+        public string ObservacionDetalle { get; set; }
+        public Nullable<System.DateTime> HoraAccionCorrectiva { get; set; }
+        public string PersonaAccionCorrectiva { get; set; }
         public string AccionCorrectiva { get; set; }
         public string RutaFoto { get; set; }
         public Nullable<int> Rotation { get; set; }
@@ -31,8 +33,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string Turno { get; set; }
     
+        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
         public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
-        public virtual CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
     }
 }

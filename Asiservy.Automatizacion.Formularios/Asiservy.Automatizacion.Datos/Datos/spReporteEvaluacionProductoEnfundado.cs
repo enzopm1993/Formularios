@@ -32,15 +32,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string LoteCabecera { get; set; }
         public string TipoLimpieza { get; set; }
         public Nullable<int> Otro { get; set; }
-        public Nullable<System.DateTime> Hora { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
         public string buque { get; set; }
         public string Lote { get; set; }
         public string Sabor { get; set; }
         public string Textura { get; set; }
         public string Color { get; set; }
         public string Olor { get; set; }
-        public Nullable<int> Moretones { get; set; }
-        public Nullable<int> HematomasProfundos { get; set; }
+        public string Moretones { get; set; }
         public string Proteinas { get; set; }
         public Nullable<decimal> TrozoPorcentaje { get; set; }
         public Nullable<decimal> MigaPorcentaje { get; set; }
