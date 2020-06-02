@@ -115,8 +115,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 var poControl = entities.CC_MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
                 if (poControl != null)
                 {
+                     var poControl1 = entities.CC_MONITOREO_DESCONGELADO.Count(x => x.IdMonitoreoDescongeladoControl == poControl.IdMonitoreoDescongeladoControl);
                     var poControl2 = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.IdMonitoreoDescongeladoControl == poControl.IdMonitoreoDescongeladoControl);
-                    if (poControl2 != null)
+                    if (poControl2 != null && poControl1 == 1)
                     {
                         poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                         poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
