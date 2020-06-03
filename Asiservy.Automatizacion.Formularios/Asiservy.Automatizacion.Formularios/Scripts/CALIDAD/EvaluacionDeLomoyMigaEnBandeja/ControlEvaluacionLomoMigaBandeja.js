@@ -663,9 +663,14 @@ function EliminarCabecera() {
             //if (resultado[0] == "002") {
             //    MensajeAdvertencia(resultado[1]);
             //} else {
-            MensajeCorrecto(resultado[1]);
+       
+            if (resultado[0] != '002') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
 
-            LimpiarControles();
+                LimpiarControles();
+            }
             //}
 
         }

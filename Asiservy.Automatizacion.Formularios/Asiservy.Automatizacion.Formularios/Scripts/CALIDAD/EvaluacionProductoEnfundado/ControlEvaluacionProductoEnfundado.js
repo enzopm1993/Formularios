@@ -765,6 +765,32 @@ function GuardarCabceraControl() {
             IdCabecera = resultado[2].IdEvaluacionProductoEnfundado;
             if (resultado[0] != "000" && resultado[0] != "001" ) {
                 MensajeAdvertencia(resultado[1]);
+                $('#cmbOrdeneFabricacion').val(resultado[2].OrdenFabricacion);
+                //if (resultado[2].Lomo) {
+                //    $('#Lomo').prop('checked', true);
+                //} else {
+                //    $('#Lomo').prop('checked', false);
+                //}
+                //if (resultado[2].Miga) {
+                //    $('#Miga').prop('checked', true);
+                //} else {
+                //    $('#Miga').prop('checked', false);
+                //}
+                //if (resultado[2].Trozo) {
+                //    $('#Trozo').prop('checked', true);
+                //} else {
+                //    $('#Trozo').prop('checked', false);
+                //}
+                
+                $('#txtCliente').val(resultado[2].Cliente);
+                $('#txtDestino').val(resultado[2].Destino);
+                $('#cmbNivelLimpieza').val(resultado[2].NivelLimpieza);
+                $('#txtProveedor').val(resultado[2].Proveedor);
+                $('#txtBatch').val(resultado[2].Batch);
+                $('#txtLoteProveedor').val(resultado[2].Lote);
+                $('#txtMarca').val(resultado[2].Marca);
+                $('#Observacion').val(resultado[2].Observacion);
+                ValidarParametro();
             } else {
                 MensajeCorrecto(resultado[1]);
                 $('#brespacio').remove();

@@ -21,7 +21,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td><input type="checkbox" id="Empleado-@item.CEDULA" /></td>
+                <td class="text-center"><input type="checkbox" id="Empleado-@item.CEDULA" /></td>
                 <td>@item.CEDULA</td>
                 <td>@item.NOMBRES</td>
                 @{string LineaMovido = "";
