@@ -252,6 +252,12 @@
     <Compile Include="Datos\CC_OPERATIVIDAD_METAL_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_TERMOENCOGIDO_SELLADO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -844,6 +850,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteResidualCloro.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spReporteTemperaturaInternaRefrigeradora.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Calibracion_Fluorometro.cs">
