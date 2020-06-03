@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "BandejaCalibracionPhMetro";
+//ViewBag.Title = "BandejaCalibracionPhMetro";
 }
 <style>
     .selectbox {
@@ -58,6 +58,25 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h6 class="modal-title">¿Esta seguro que desea aprobar el control?</h6>
+                
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12" id="divfechaap">
+                        <div class="form-group">
+                            <label>Fecha Aprobación:</label>
+                            <input type="hidden" id="fechacontrol" value="" />
+
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="txtfechaaprob" />
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="btnsicab" onclick="AprobarControl()">Si</button>

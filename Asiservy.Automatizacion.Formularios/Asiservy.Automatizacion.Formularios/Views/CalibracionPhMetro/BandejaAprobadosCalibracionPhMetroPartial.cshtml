@@ -81,7 +81,7 @@
                 @if (item.EstadoControl == false || item.EstadoControl == null)
                 {
                     <td>
-                       <a href="#" class="text-success" onclick="ConfirmarAprobar(@item.IDPhMetro)">Aprobar</a>
+                       <a href="#" class="text-success" onclick="ConfirmarAprobar(@item.IDPhMetro,'@item.Fecha.Value.ToString("yyyy-MM-dd HH:mm")')">Aprobar</a>
                     </td>
                 }
                 else
