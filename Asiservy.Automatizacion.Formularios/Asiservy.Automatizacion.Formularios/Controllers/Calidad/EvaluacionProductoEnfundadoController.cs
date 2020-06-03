@@ -180,11 +180,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
                     ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
                 }
                 else
                 {
                     ViewBag.CodigoReporte = "AS-RG-CC-21";
                     ViewBag.VersionReporte = "V 10.0";
+                    ViewBag.NombreReporte = "EVALUACIÓN DE PRODUCTO ENFUNDADO";
                 }
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))

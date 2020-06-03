@@ -568,11 +568,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
                     ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
                 }
                 else
                 {
                     ViewBag.CodigoReporte = "AS-RG-CC-21";
                     ViewBag.VersionReporte = "V 10.0";
+                    ViewBag.NombreReporte = "EVALUACIÓN DE LOMOS Y MIGAS EN BANDEJAS";
                 }
 
                 lsUsuario = User.Identity.Name.Split('_');

@@ -26,7 +26,7 @@
                             </tr>
                             <tr>
                                 <td width="90%" class="text-center">
-                                    <strong>EVALUACIÓN DE LOMOS Y MIGAS EN BANDEJAS</strong>
+                                    <strong>@ViewBag.NombreReporte</strong>
                                 </td>
                                 @*<td class="text-center">
                             @ViewBag.VersionReporte
@@ -348,35 +348,7 @@
                                                         }
 
                                                     } 
-                                                //contador = contador - 1;
-                                                //        if (TipoLimpieza == "Sencilla")
-                                                //{
-
-                                                //    if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
-                                                //        console.log("assadsd");
-                                                //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                //    } else {
-                                                //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                //    }
-                                                //}
-                                                //        if (TipoLimpieza == "Intermedia") {
-
-                                                //    if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
-
-                                                //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                //    } else {
-                                                //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                //    }
-                                                //}
-                                                //        if (TipoLimpieza == "Doble") {
-
-                                                //    if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
-                                                //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                //    }
-                                                //    else {
-                                                //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                //    }
-                                                //}
+                                        
 
                                             </script>
                                         </td>
@@ -385,22 +357,7 @@
                                 </tr>
                             </tbody>
                             <tfoot>
-                                @*<tr>
-                        <td>
-                            TOTAL GENERAL
-                        </td>
-                        <td colspan="@reg">
-                            @Model.Sum(x => x.SumaScorch)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            PROMEDIO
-                        </td>
-                        <td colspan="@reg">
-                            @Promedio
-                        </td>
-                    </tr>*@
+                      
                                 <tr>
                                     <td>
                                         OBSERVACIONES:
@@ -452,7 +409,7 @@
                                         <br />
                                         <input type="text" value="Realizado Por" id="realizado" />
                                         <br />
-                                        @Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy hh:mm:ss")
+                                        @Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")
                                     </td>
                                     <td>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -465,7 +422,7 @@
                                         @if (Model.FirstOrDefault().FechaAprobacion != null)
                                         {
                                             <text>
-                                                @Model.FirstOrDefault().FechaAprobacion.Value.ToString("dd-MM-yyyy hh:mm:ss")
+                                                @Model.FirstOrDefault().FechaAprobacion.Value.ToString("dd-MM-yyyy HH:mm")
                                             </text>
                                         }
                                         else

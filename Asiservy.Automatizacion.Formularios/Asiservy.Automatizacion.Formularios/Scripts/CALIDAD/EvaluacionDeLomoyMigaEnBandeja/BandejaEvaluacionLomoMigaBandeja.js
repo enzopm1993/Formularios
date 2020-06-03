@@ -218,6 +218,7 @@ function AbrirModalDetalle(IdCabecera,NivelLimpieza) {
                         date: moment().format("YYYY-MM-DD HH:mm"),
                         format: "DD-MM-YYYY HH:mm",
                         minDate: moment($('#fechacontrol').val(), "YYYY-MM-DD HH:mm"),
+                        maxDate: moment(),
                         ignoreReadonly: true
                     });
              

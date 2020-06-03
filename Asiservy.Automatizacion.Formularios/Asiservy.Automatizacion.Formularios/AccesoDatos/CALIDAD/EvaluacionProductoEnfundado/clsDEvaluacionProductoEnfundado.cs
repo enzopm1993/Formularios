@@ -53,7 +53,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 {
                     resultado[0] = "003";
                     resultado[1] = "No es posible actualizar el control, por que ya se encuentra aprobado";
-                    resultado[2] = poCabControl;
+                    resultado[2] = new
+                    {
+                        BuscarCabecera.IdEvaluacionProductoEnfundado,
+                        BuscarCabecera.OrdenFabricacion,
+                        BuscarCabecera.Lomo,
+                        BuscarCabecera.Miga,
+                        BuscarCabecera.Trozo,
+                        BuscarCabecera.Cliente,
+                        BuscarCabecera.Destino,
+                        BuscarCabecera.NivelLimpieza,
+                        BuscarCabecera.Proveedor,
+                        BuscarCabecera.Batch,
+                        BuscarCabecera.Lote,
+                        BuscarCabecera.Marca,
+                        BuscarCabecera.Observacion
+                    };
                 }
                 else
                 {
