@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteTemperaturaInternaRefrigeradora>
+
+<table class="table table-bordered">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            Temperatura º <br />
+            Refrigeradora
+        </th>
+        <th>
+           Observación
+        </th>
+       <th>
+           Ingreso
+       </th>
+        <th>
+            Aprobado
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Fecha.ToString("dd-MM-yyyy")
+        </td>
+     
+        <td>
+            @item.Hora.ToString("HH:mm")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Temperatura)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+        <td>
+            @item.UsuarioIngresoLog <br />
+            @item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")
+        </td>
+      <td>
+          @if (item.EstadoReporte)
+          {
+              @item.AprobadoPor @:<br />
+              @item.FechaAprobacion.Value.ToString("dd-MM-yyyy HH:mm")
+          }
+      </td>
+    </tr>
+}
+
+</table>

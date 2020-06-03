@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_TEMPERATURA_INTERNA_REFRIGERADORA>
+
+<table class="table table-bordered">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Temperatura)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+       
+      
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+           
+            <td>
+                @item.Hora.ToShortTimeString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Temperatura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+
+        </tr>
+    }
+
+</table>
