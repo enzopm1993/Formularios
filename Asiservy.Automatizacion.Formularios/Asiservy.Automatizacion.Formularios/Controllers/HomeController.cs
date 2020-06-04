@@ -11,9 +11,6 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using System.Globalization;
 using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
-using System.Configuration;
-using System.Xml.Serialization;
-using System.IO;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Vacaciones;
 using Newtonsoft.Json;
@@ -74,8 +71,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Vacaciones = JsonConvert.SerializeObject(clsVacaciones.ConsultarVacaciones(lsUsuario[1], "E").FirstOrDefault());
                 ViewBag.Marcacion = clsDGeneral.ConsultarBiometricoxFecha(lsUsuario[1], DateTime.Now);
                 Notificaciones(Roles);
-                //  string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
-               // ViewBag.BaseDatos = clsDGeneral.getDataBase();
                 var BD = clsDGeneral.getDataBase();
                 if (BD == clsAtributos.DesarrolloBD)
                 {
@@ -214,7 +209,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/BandejaAprobacion";
                     string Mensaje = "Tienes " + solicitudes + " solicitudes en su bandeja por aprobar";
-                    // ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -231,7 +225,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/BandejaRRHH";
                     string Mensaje = "Tiene " + solicitudes + " solicitudes en su bandeja por revisar";
-                    //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -253,7 +246,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/BandejaMedico";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
-                    //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -269,7 +261,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/ReporteSolicitud";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja";
-                    //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -321,7 +312,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             if (Roles.Any(x => x.Value == clsAtributos.RolControladorLinea || x.Value == clsAtributos.RolEnlatado ||
             x.Value == clsAtributos.RolEtiquetadoLata || x.Value == clsAtributos.RolEtiquetadoPouch || x.Value == clsAtributos.RolLimpiezaPouch
-            || x.Value == clsAtributos.RolLimpiezaPouch || x.Value == clsAtributos.RolAutoclave || x.Value == clsAtributos.RolFrio))
+            || x.Value == clsAtributos.RolLimpiezaPouch || x.Value == clsAtributos.RolAutoclave
+            || x.Value == clsAtributos.RolFrio || x.Value == clsAtributos.RolEvicerado))
             {
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
@@ -353,8 +345,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
-                //lsUsuario = User.Identity.Name.Split('_');
-                //var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistenciaTodos(DateTime.Now.AddDays(-1));
                 var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.FechaInicio, Linea =x.CodLinea}).Distinct();
                 if (finalizarAsistencia.Any())
@@ -364,13 +354,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         var linea = clsDGeneral.ConsultaLineas(x.Linea).FirstOrDefault();
                         int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Fecha && y.CodLinea==x.Linea);
                         string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
-                        //string enlace = "/Asistencia/AsistenciaFinalizar";
                         string Mensaje = "No ha finalizado la Asistencia "+linea.Descripcion+" del día: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy") + " Existen " + cantidad + " empleados sin finalizar";
 
                         MensajesNotificaciones.Add(new RespuestaGeneral
                         {
                             Mensaje = Mensaje,
-                           // Observacion = enlace
                         });
 
                     }
