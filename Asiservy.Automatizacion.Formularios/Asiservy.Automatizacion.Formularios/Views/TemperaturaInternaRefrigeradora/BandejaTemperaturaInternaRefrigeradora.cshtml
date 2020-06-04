@@ -103,7 +103,7 @@
 
             </div>
             <div class="modal-footer">
-                <input type="datetime-local" id="txtFechaAprobacion" style="width:300px" max="@DateTime.Now" class="form-control" hidden name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                <input type="datetime-local" id="txtFechaAprobacion" style="width:auto" max="@DateTime.Now" class="form-control" hidden name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                 <button type="button" id="btnAprobado" class="btn btn-primary" onclick="AprobarControl()">Aprobar</button>
                 <button type="button" id="btnReversar" class="btn btn-primary" onclick="ReversarControl()">Reversar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
