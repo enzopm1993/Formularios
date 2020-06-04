@@ -67,7 +67,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Session["Hijo"] = resultado[1];
                 Session["Modulos"] = resultado[2];
                 var Roles = PsLogin.ConsultaRolesUsuario(lsUsuario[1]);
-                ViewBag.Nombre = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault().NOMBRES;
+                var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                if (Empleado != null)
+                {
+                    ViewBag.Nombre = Empleado.NOMBRES;
+                }
                 ViewBag.Vacaciones = JsonConvert.SerializeObject(clsVacaciones.ConsultarVacaciones(lsUsuario[1], "E").FirstOrDefault());
                 ViewBag.Marcacion = clsDGeneral.ConsultarBiometricoxFecha(lsUsuario[1], DateTime.Now);
                 Notificaciones(Roles);
@@ -289,22 +293,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
-                if (finalizarAsistencia.Any())
+                if (empleado != null)
                 {
-                    foreach(var x in finalizarAsistencia)
+                    var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
+                    if (finalizarAsistencia.Any())
                     {
-
-                        string dia = ci.DateTimeFormat.GetDayName(x.FechaInicio.Value.DayOfWeek);
-                        string enlace = "/Asistencia/FinalizarAsistencia";
-                        string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.FechaInicio.Value.ToString("dd-MM-yyyy");
-
-                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        foreach (var x in finalizarAsistencia)
                         {
-                            Mensaje = Mensaje,
-                            Observacion = enlace
-                        });
 
+                            string dia = ci.DateTimeFormat.GetDayName(x.FechaInicio.Value.DayOfWeek);
+                            string enlace = "/Asistencia/FinalizarAsistencia";
+                            string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.FechaInicio.Value.ToString("dd-MM-yyyy");
+
+                            MensajesNotificaciones.Add(new RespuestaGeneral
+                            {
+                                Mensaje = Mensaje,
+                                Observacion = enlace
+                            });
+
+                        }
                     }
                 }
 
@@ -319,23 +326,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
-                var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.FechaInicio).Distinct();
-                if (finalizarAsistencia.Any())
+                if (empleado != null)
                 {
-                    foreach (var x in finalizarCantidadFecha)
+                    var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
+                    var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.FechaInicio).Distinct();
+                    if (finalizarAsistencia.Any())
                     {
-                        int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Value);
-                        string dia = ci.DateTimeFormat.GetDayName(x.Value.DayOfWeek);
-                        string enlace = "/Asistencia/AsistenciaFinalizar";
-                        string Mensaje = "No ha finalizado la Asistencia del día: " + dia + ", " + x.Value.ToString("dd-MM-yyyy")+" Existen "+cantidad+" empleados sin finalizar";
-
-                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        foreach (var x in finalizarCantidadFecha)
                         {
-                            Mensaje = Mensaje,
-                            Observacion = enlace
-                        });
+                            int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Value);
+                            string dia = ci.DateTimeFormat.GetDayName(x.Value.DayOfWeek);
+                            string enlace = "/Asistencia/AsistenciaFinalizar";
+                            string Mensaje = "No ha finalizado la Asistencia del día: " + dia + ", " + x.Value.ToString("dd-MM-yyyy") + " Existen " + cantidad + " empleados sin finalizar";
 
+                            MensajesNotificaciones.Add(new RespuestaGeneral
+                            {
+                                Mensaje = Mensaje,
+                                Observacion = enlace
+                            });
+
+                        }
                     }
                 }
             }
