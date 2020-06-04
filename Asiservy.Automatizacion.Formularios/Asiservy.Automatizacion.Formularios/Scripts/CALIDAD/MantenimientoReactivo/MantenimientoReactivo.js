@@ -4,16 +4,17 @@ $(document).ready(function () {
 });
 
 function ConsultarReporte() {
-    $("#chartCabecera2").html('');
+    //alert();
+   $("#chartCabecera2").html('');
+   $("#divCabecera2").prop("hidden", false);
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
-        url: "../MantenimientoOlor/MantenimientoOlorPartial",
+        url: "../MantenimientoReactivo/MantenimientoReactivoPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
                 $("#chartCabecera2").html("No existen registros");
                 $("#spinnerCargando").prop("hidden", true);
@@ -37,15 +38,9 @@ function ConsultarReporte() {
 }
 
 
-function GuardarControl() {
-
-    //if ($("#SelectTipoLimpieza").val() == "") {
-    //    $("#SelectTipoLimpieza").css('borderColor', '#FA8072');
-    //    return;
-    //} else {
-    //    $("#SelectTipoLimpieza").css('borderColor', '#ced4da');
-    //}
-
+function GuardarModificarControl() {
+    // alert();
+    //console.log($("#txtDescripcion").val());
     if ($("#txtDescripcion").val() == "") {
         $("#txtDescripcion").css('borderColor', '#FA8072');
         return;
@@ -64,12 +59,12 @@ function GuardarControl() {
     //if (!$("#CheckEstadoRegistro").prop("checked")) {
     //    estado = 'I'
     //}
-
+    MostrarModalCargando();
     $.ajax({
-        url: "../MantenimientoOlor/MantenimientoOlor",
+        url: "../MantenimientoReactivo/MantenimientoReactivo",
         type: "POST",
         data: {
-            IdOlor: $("#txtIdControl").val(),
+            IdReactivo: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             Abreviatura: $("#txtAbreviatura").val(),
             EstadoRegistro: estado
@@ -78,6 +73,7 @@ function GuardarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            CerrarModalCargando();
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
@@ -89,6 +85,8 @@ function GuardarControl() {
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
+            CerrarModalCargando();
+
         }
     });
 
@@ -114,7 +112,7 @@ function NuevoControl() {
 
 
 function ActualizarCabecera(model) {
-    $("#txtIdControl").val(model.IdOlor);
+    $("#txtIdControl").val(model.IdReactivo);
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
 }
@@ -144,10 +142,10 @@ function EliminarCabeceraNo() {
 function EliminarCabeceraSi() {
     MostrarModalCargando();
     $.ajax({
-        url: "../MantenimientoOlor/EliminarMantenimientoOlor",
+        url: "../MantenimientoReactivo/EliminarMantenimientoReactivo",
         type: "POST",
         data: {
-            IdOlor: itemEditar.IdOlor,
+            IdReactivo: itemEditar.IdReactivo,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
