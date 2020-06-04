@@ -1,15 +1,43 @@
 ﻿$(document).ready(function () {
     ConsultarReporteMaestros();
     $("#selectOpcion").select2();
-    $("#selectOpcionModal").select2();
 });
 
 var ReporteModel = [];
 var rotation = 0;
 
 
-function ConsultarReporteMaestros() {
+function ConsultarOpciones() {
 
+
+    $("#selectOpcion").empty();
+    $("#selectOpcion").append("<option value='0' >-- Seleccionar Opción--</option>");
+
+   
+    $.ajax({
+        url: "../ReporteMaestro/ConsultaOpciones",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            console.log(resultado);
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectOpcion").append("<option value='" + row.IdOpcion + "'>" + row.Formulario + "</option>")
+
+                    
+                });
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function ConsultarReporteMaestros() {
+    ConsultarOpciones();
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../ReporteMaestro/ReporteMaestroPartial",
@@ -25,7 +53,7 @@ function ConsultarReporteMaestros() {
                 $("#spinnerCargando").prop("hidden", true);
                 $("#chartCabecera").html(resultado);
                 config.opcionesDT.pageLength = -1;
-                config.opcionesDT.order = [];
+                config.opcionesDT.order = ["0","desc"];
                 $('#tblDataTable').DataTable(config.opcionesDT);
             }
             //  $('#btnConsultar').prop("disabled", true);
@@ -36,7 +64,6 @@ function ConsultarReporteMaestros() {
         }
     });
 }
-
 
 
 function GenerarReporteMaestro() {
@@ -87,7 +114,7 @@ function GenerarReporteMaestro() {
                 MensajeAdvertencia("Faltan parametros");
                 return;
             }
-      //      NuevaReporteMaestro();
+            NuevoControl();
             MensajeCorrecto("Registro Exitoso");
             ConsultarReporteMaestros();
         },
@@ -104,11 +131,12 @@ function NuevoControl() {
     $("#txtCodigo").val('');
     $("#txtVersion").val('');
     $("#selectOpcion").prop("selectedIndex",0).change()
-    $("#selectOpcionModal").prop("selectedIndex", 0).change()
     $("#txtIdControlModal").val('0');
+    $("#selectOpcionModal").val('');
     $("#txtNombreModal").val('');
     $("#txtCodigoModal").val('');
     $("#txtVersionModal").val('');
+    $("#CheckVersion").prop("checked", false);
 
 }
 
@@ -122,7 +150,7 @@ function SeleccionarReporteMaestro(model) {
     $("#txtCodigo").val(model.Codigo);
     $("#txtVersion").val(model.UltimaVersion);
 
-    $("#selectOpcionModal").val(model.IdOpcion).change()
+    $("#selectOpcionModal").val(model.Formulario);
     $("#txtIdControlModal").val(model.IdReporteMaestro);
     $("#txtNombreModal").val(model.Nombre);
     $("#txtCodigoModal").val(model.Codigo);
@@ -183,23 +211,14 @@ function EditarReporteMaestro() {
     } else {
         $("#txtCodigoModal").css('borderColor', '#ced4da');
     }
+
     if ($("#selectOpcionModal").val() == "") {
-        //$("#SelectTextura").css('borderColor', '#FA8072');
-        $("#selectOpcionModal").each(function () {
-            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
-        });
-        valida = false;
+        $("#selectOpcionModal").css('borderColor', '#FA8072');
+        return;
     } else {
-        $("#selectOpcionModal").each(function () {
-            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
-        });
+        $("#selectOpcionModal").css('borderColor', '#ced4da');
     }
-    //if ($("#txtVersionModal").val() == "") {
-    //    $("#txtVersionModal").css('borderColor', '#FA8072');
-    //    return;
-    //} else {
-    //    $("#txtVersionModal").css('borderColor', '#ced4da');
-    //}
+
     $.ajax({
         url: "../ReporteMaestro/ReporteMaestro",
         type: "POST",
