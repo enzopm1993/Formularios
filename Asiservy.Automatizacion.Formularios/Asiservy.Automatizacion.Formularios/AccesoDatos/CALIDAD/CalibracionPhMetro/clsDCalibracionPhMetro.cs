@@ -117,7 +117,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
                 }
             }
         }
-        public string AprobarControl(int IdControl, string usuario, string terminal)
+        public string AprobarControl(int IdControl, string usuario, string terminal,DateTime Fecha)
         {
             using (var db = new ASIS_PRODEntities())
             {
@@ -127,7 +127,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
                 buscarControl.UsuarioModificacionLog = usuario;
                 buscarControl.TerminalModificacionLog = terminal;
                 buscarControl.UsuarioAprobacion = usuario;
-                buscarControl.FechaAprobacion = DateTime.Now;
+                buscarControl.FechaAprobacion = Fecha;
                 buscarControl.EstadoControl = true;
                 db.SaveChanges();
 

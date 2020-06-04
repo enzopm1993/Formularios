@@ -1,22 +1,50 @@
 ﻿var Error = 0;
 var IdControlAp;
+var FechaControlap;
 $(document).ready(function () {
     CargarBandeja();
 
 });
-function ConfirmarAprobar(IdControl) {
+function ConfirmarAprobar(IdControl,Fecha) {
     $('#ModalAprobar').modal('show');
-    IdControlAp=IdControl
+    IdControlAp = IdControl;
+    FechaControlap = Fecha;
+    $('#txtfechaaprob').prop('readonly', true);
+
+    //$('#txtfechaaprob').val(moment(FechaControlap, "YYYY-MM-DD HH:mm"));
+    $('#txtfechaaprob').val(moment(FechaControlap).format("DD-MM-YYYY HH:mm"));
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    $('#datetimepicker1').datetimepicker(
+        {
+            date: moment(FechaControlap).format("YYYY-MM-DD HH:mm"),
+            format: "DD-MM-YYYY HH:mm",
+            minDate: moment(FechaControlap, "YYYY-MM-DD HH:mm"),
+            maxDate: moment(),
+            ignoreReadonly: true
+        });
 }
 function ConfirmarReversar(IdControl) {
     $('#ModalReversar').modal('show');
-    IdControlAp = IdControl
+    IdControlAp = IdControl;
 }
 function AprobarControl() {
     Error = 0;
     
     const data = new FormData();
     data.append('IdControl', IdControlAp);
+    data.append('Fecha', $('#txtfechaaprob').val());
   
     fetch("../CalibracionPhMetro/AprobarControl", {
         method: 'POST',
