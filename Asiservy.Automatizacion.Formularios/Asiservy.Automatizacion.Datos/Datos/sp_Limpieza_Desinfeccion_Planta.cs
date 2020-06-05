@@ -10,9 +10,8 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE
+    public partial class sp_Limpieza_Desinfeccion_Planta
     {
         public int IdDetalle { get; set; }
         public int IdLimpiezaDesinfeccionPlanta { get; set; }
@@ -34,8 +33,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
-        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
+        public int IdObjeto { get; set; }
+        public int IdAuditoria { get; set; }
+        public string NombreObjeto { get; set; }
+        public string NombreAuditoria { get; set; }
     }
 }

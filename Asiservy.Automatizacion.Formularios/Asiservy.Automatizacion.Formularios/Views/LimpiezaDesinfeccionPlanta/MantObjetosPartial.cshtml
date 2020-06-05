@@ -2,7 +2,7 @@
 @using Newtonsoft.Json;
 
 <table class="table table-bordered" id="tblDataTable">
-    <thead style="font-size:13px">
+    <thead style="font-size:12px">
         <tr>
             <th>
                 NOMBRE
@@ -22,16 +22,16 @@
             <th>ACCIONES</th>
         </tr>
     </thead>
-    <tbody style="font-size:12px">
+    <tbody style="font-size:11px">
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td style="white-space:normal">
                     @item.NombreObjeto.ToUpper()
                 </td>
                 @if (!string.IsNullOrEmpty(item.DescripcionObjeto))
                 {
-                    <td>@item.DescripcionObjeto.ToUpper()</td>
+                    <td style="white-space:normal">@item.DescripcionObjeto.ToUpper()</td>
                 }
                 else
                 {

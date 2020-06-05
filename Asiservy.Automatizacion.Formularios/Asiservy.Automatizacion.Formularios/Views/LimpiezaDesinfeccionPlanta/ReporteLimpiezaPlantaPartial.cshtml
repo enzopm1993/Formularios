@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>
+@using Newtonsoft.Json;
+
+<table class="table table-bordered table-hover table-striped" id="tblDataTable">
+    <thead style="font-size:14px">
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>
+                USUARIO CREACION
+            </th>
+            <th>
+                F. CREACION
+            </th>
+            <th>
+                USUARIO CREACION
+            </th>
+            <th>
+                F. MODIFICACION
+            </th>
+            <th>
+                ESTADO
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:13px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarCabecera(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.ObservacionControl))
+                    {
+                        @item.ObservacionControl.ToUpper()
+                    }
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog
+                </td>
+                <td>
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.UsuarioModificacionLog))
+                    {
+                        @item.UsuarioModificacionLog.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaModificacionLog);}
+                    @if (date!=DateTime.MinValue)
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

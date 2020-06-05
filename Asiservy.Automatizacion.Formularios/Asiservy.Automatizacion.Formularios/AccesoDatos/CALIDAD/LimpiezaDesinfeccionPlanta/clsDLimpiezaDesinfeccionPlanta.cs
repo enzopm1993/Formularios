@@ -8,7 +8,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
     public class clsDLimpiezaDesinfeccionPlanta
     {
         public List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> ConsultarObjetos() {
-            using ( ASIS_PRODEntities db =new ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.ToList();
                 List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> listaObjeto = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS>();
@@ -32,7 +32,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.Where(x=> x.EstadoRegistro==estadoRegistro).ToList();
+                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.Where(x => x.EstadoRegistro == estadoRegistro).OrderBy(v=>v.NombreObjeto).ToList();
                 List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> listaObjeto = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS>();
                 CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS objeto;
                 foreach (var item in lista)
@@ -54,7 +54,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.Where(x => x.IdObjeto == idObjeto && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Count();                
+                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.Where(x => x.IdObjeto == idObjeto && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Count();
                 return lista;
             }
         }
@@ -63,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.Where(x => x.IdAuditoria == idAuditoria && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.Where(x => x.IdAuditoria == idAuditoria && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> listaObjeto = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA>();
                 CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA objeto;
                 foreach (var item in lista)
@@ -84,6 +84,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                var validarNombreRepetido = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.FirstOrDefault(x => x.NombreObjeto.Replace(" ", string.Empty).ToUpper() == guardarModificar.NombreObjeto.Replace(" ", string.Empty).ToUpper());
+                if (validarNombreRepetido != null && guardarModificar.NombreObjeto.Replace(" ", string.Empty).ToUpper() == validarNombreRepetido.NombreObjeto.Replace(" ", string.Empty).ToUpper()
+                   && guardarModificar.IdObjeto != validarNombreRepetido.IdObjeto)
+                {
+                    valor = 3;
+                    return valor;
+                }
+
                 var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.FirstOrDefault(x => x.IdObjeto == guardarModificar.IdObjeto);
                 if (model != null)
                 {
@@ -95,7 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                     }
                     else
                     {
-                        model.NombreObjeto = guardarModificar.NombreObjeto;
+                        //model.NombreObjeto = guardarModificar.NombreObjeto;
                         model.DescripcionObjeto = guardarModificar.DescripcionObjeto;
                         model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
@@ -126,7 +134,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                     model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
                     db.SaveChanges();
                     valor = 1;
-                }             
+                }
                 return valor;
             }
         }
@@ -151,11 +159,40 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             }
         }
 
+        public List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> ConsultarAreaAuditoriaActivos(string estadoRegistro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.Where(x => x.EstadoRegistro == estadoRegistro).OrderBy(x => x.NombreAuditoria).ToList();
+                List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> listaArea = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA>();
+                CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA objArea;
+                foreach (var item in lista)
+                {
+                    objArea = new CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA();
+                    objArea.IdAuditoria = item.IdAuditoria;
+                    objArea.NombreAuditoria = item.NombreAuditoria.ToUpper();
+                    objArea.DescripcionAuditoria = item.DescripcionAuditoria;
+                    objArea.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    objArea.FechaIngresoLog = item.FechaIngresoLog;
+                    objArea.EstadoRegistro = item.EstadoRegistro;
+                    listaArea.Add(objArea);
+                }
+                return listaArea;
+            }
+        }
+
         public int GuardarModificarAreaAuditoria(CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA guardarModificar)
         {
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                var validarNombreRepetido = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.FirstOrDefault(x => x.NombreAuditoria.Replace(" ", string.Empty).ToUpper() == guardarModificar.NombreAuditoria.Replace(" ", string.Empty).ToUpper());
+                if (validarNombreRepetido != null && guardarModificar.NombreAuditoria.Replace(" ", string.Empty).ToUpper() == validarNombreRepetido.NombreAuditoria.Replace(" ", string.Empty).ToUpper()
+                   && guardarModificar.IdAuditoria != validarNombreRepetido.IdAuditoria)
+                {
+                    valor = 6;
+                    return valor;
+                }
                 var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria);
                 if (model != null)
                 {
@@ -167,7 +204,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                     }
                     else
                     {
-                        model.NombreAuditoria = guardarModificar.NombreAuditoria;
+                        //model.NombreAuditoria = guardarModificar.NombreAuditoria;
                         model.DescripcionAuditoria = guardarModificar.DescripcionAuditoria;
                         model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
@@ -177,7 +214,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                 }
                 else
                 {
-                    db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.Add(guardarModificar); 
+                    db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.Add(guardarModificar);
                 }
                 db.SaveChanges();
                 return valor;
@@ -208,7 +245,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria && x.IdObjeto==guardarModificar.IdObjeto && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria && x.IdObjeto == guardarModificar.IdObjeto && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
                     model.IdObjeto = guardarModificar.IdObjeto;
@@ -245,65 +282,306 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             }
         }
         //-------------------------------------------------------------CONTROL----------------------------------------------------------------------------
-        public object[] GuardarCabeceraControl(CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA poCabControl)
+        public int GuardarModificarLimpiezaCabecera(CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA guardarModificar, int siAprobar)
         {
+            int valor = 0;//GUARDDADO NUEVO
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                object[] resultado = new object[3];
-                var buscaeControl = db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Where(x => x.Fecha == poCabControl.Fecha &&
-                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
-                if (buscaeControl == null)
+                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.IdLimpiezaDesinfeccionPlanta == guardarModificar.IdLimpiezaDesinfeccionPlanta && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
                 {
-                    db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Add(poCabControl);
+                    if (siAprobar == 1)
+                    {
+                        model.EstadoReporte = guardarModificar.EstadoReporte;
+                        model.AprobadoPor = guardarModificar.UsuarioIngresoLog;
+                        model.FechaAprobado = guardarModificar.FechaAprobado;
+                        valor = 2;//APRROBADO
+                    }
+                    else
+                    {
+                        if (guardarModificar.Fecha != DateTime.MinValue)
+                        {
+                            model.Fecha = guardarModificar.Fecha;
+                            model.ObservacionControl = guardarModificar.ObservacionControl;
+                            valor = 1;//ACTUALIZAR
+                        }
+                        else valor = 3;//ERROR DE FECHA
+                    }
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                }
+                else
+                {
+                    if (guardarModificar.Fecha != DateTime.MinValue)
+                    {
+                        db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.Add(guardarModificar);
+                    }
+                    else valor = 3;
+                }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+
+        public int EliminarLimpiezaCabecera(CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.IdLimpiezaDesinfeccionPlanta == guardarModificar.IdLimpiezaDesinfeccionPlanta);
+                if (model != null)
+                {
+                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;
                     db.SaveChanges();
-                    resultado[0] = "000";
-                    resultado[1] = "Registro ingresado con éxito";
-                    resultado[2] = poCabControl;
+                }
+                return valor;
+            }
+        }
+
+        public int GuardarModificarLimpiezaDetalle(CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE guardarModificar, int idAuditoria)
+        {           
+            int valor = 0;//GUARDDADO NUEVO
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var validarHora = (from det in db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE
+                                   join inter in db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA on det.IdMantenimiento equals inter.IdMantenimiento
+                                   where (inter.IdAuditoria == idAuditoria && inter.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                                   det.EstadoRegistro == clsAtributos.EstadoRegistroActivo && det.IdMantenimiento == guardarModificar.IdMantenimiento
+                                   && det.HoraAuditoria == guardarModificar.HoraAuditoria)
+                                   select new { det.HoraAuditoria, inter.IdMantenimiento, det.IdDetalle}).FirstOrDefault();
+                if (validarHora != null && validarHora.IdDetalle != guardarModificar.IdDetalle)
+                {
+                    valor = 3;
+                    return valor;
+                }                
+
+                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdDetalle == guardarModificar.IdDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    model.Turno = guardarModificar.Turno;
+                    model.HoraAuditoria = guardarModificar.HoraAuditoria;
+                    model.Limpieza = guardarModificar.Limpieza;
+                    model.Desinfeccion = guardarModificar.Desinfeccion;
+                    model.ObservacionDetalle = guardarModificar.ObservacionDetalle;                   
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;//ACTUALIZAR                   
                 }
                 else
                 {
-                    resultado[0] = "002";
-                    resultado[1] = "Error, el registro ya existe";
-                    resultado[2] = poCabControl;
+                    db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.Add(guardarModificar);
                 }
-                return resultado;
+                db.SaveChanges();
+                return valor;
+            }
+        }
 
-            }
-        }
-        public CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA ConsultarCabecera(DateTime Fecha)
+        public int EliminarLimpiezaDetalle(CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE guardarModificar)
         {
+            int valor = 0;//ERROR ELIMINADO
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
-            }
-        }
-        public object[] ActualizarCabeceraControl(CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA poCabControl)
-        {
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            {
-                object[] resultado = new object[3];
-                var buscarcabecera = db.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA.Find(poCabControl.IdLimpiezaDesinfeccionPlanta);
-                if (buscarcabecera.EstadoControl==true)
+                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdDetalle == guardarModificar.IdDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
                 {
-                    resultado[0] = "003";
-                    resultado[1] = "No se pudo actualizar el control, debido a que ya se encuentra aprobado";
-                    resultado[2] = poCabControl;
-                    return resultado;
+                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;//ELIMINADO
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+
+        public int GuardarModificarAccionCorrectiva(CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE guardarModificar)
+        {
+            int valor = 0;//ERROR ELIMINADO
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdDetalle == guardarModificar.IdDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    model.HoraAccionCorrectiva = guardarModificar.HoraAccionCorrectiva;
+                    model.PersonaAccionCorrectiva = guardarModificar.PersonaAccionCorrectiva;
+                    model.AccionCorrectiva = guardarModificar.AccionCorrectiva;
+                    if (!string.IsNullOrEmpty(guardarModificar.RutaFoto))
+                        model.RutaFoto = guardarModificar.RutaFoto;
+                    model.Rotation = guardarModificar.Rotation;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;//ELIMINADO
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+
+        public CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA ConsultarEstadoReporte(int idLimpiezaDesinfeccionPlanta, DateTime fechaControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA listado;
+                if (idLimpiezaDesinfeccionPlanta == 0 && fechaControl > DateTime.MinValue)
+                {
+                    listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                        && x.Fecha.Day == fechaControl.Day
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 }
                 else
                 {
-                    //buscarcabecera.FirmaControl = poCabControl.FirmaControl;
-                    buscarcabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
-                    buscarcabecera.TerminalModificacionLog = poCabControl.TerminalIngresoLog;
-                    buscarcabecera.FechaModificacionLog = DateTime.Now;
-                    resultado[0] = "002";
-                    resultado[1] = "Registro actualizado con éxito";
-                    resultado[2] = poCabControl;
-                    return resultado;
+                    listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.IdLimpiezaDesinfeccionPlanta == idLimpiezaDesinfeccionPlanta && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 }
+                CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA cabecera;
+                if (listado != null)
+                {
+                    cabecera = new CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA();
+                    cabecera.IdLimpiezaDesinfeccionPlanta = listado.IdLimpiezaDesinfeccionPlanta;
+                    cabecera.Fecha = listado.Fecha;
+                    cabecera.ObservacionControl = listado.ObservacionControl;
+                    cabecera.EstadoReporte = listado.EstadoReporte;
+                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = listado.FechaAprobado;
+                    cabecera.AprobadoPor = listado.AprobadoPor;
+                    return cabecera;
+                }
+                return listado;
             }
-
         }
-      
+
+        public CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE ConsultarHoraAuditoria(DateTime hora, int idMantenimiento)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdMantenimiento == idMantenimiento && x.HoraAuditoria==hora);
+                                
+                return listado;
+            }
+        }
+
+        public List<ListaIntermedia> ConsultarIntermediaJoinObjeto(int idAuditoria)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = (from inter in db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA
+                             join obj in db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS on inter.IdObjeto equals obj.IdObjeto
+                             where (inter.IdAuditoria == idAuditoria && inter.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                   && obj.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                             select new { inter.IdAuditoria, inter.IdObjeto, obj.NombreObjeto, inter.EstadoRegistro, inter.IdMantenimiento }).ToList();
+                ListaIntermedia intermedia;
+                List<ListaIntermedia> listaIntermedia = new List<ListaIntermedia>();
+                if (lista.Count!=0)
+                {                    
+                    foreach (var item in lista)
+                    {
+                        intermedia = new ListaIntermedia();
+                        intermedia.IdMantenimiento = item.IdMantenimiento;
+                        intermedia.IdAuditoria = item.IdAuditoria;
+                        intermedia.IdObjeto = item.IdObjeto;
+                        intermedia.NombreObjeto = item.NombreObjeto;
+                        intermedia.EstadoRegistro = item.EstadoRegistro;
+                        listaIntermedia.Add(intermedia);
+                    }
+                }
+                return listaIntermedia;
+            }
+        }       
+
+        public List<sp_Limpieza_Desinfeccion_Planta> ConsultarJoinDetalle(int idLimpiezaDesinfeccionPlanta, int op, string turno, int idAuditoria)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.sp_Limpieza_Desinfeccion_Planta(idLimpiezaDesinfeccionPlanta, turno, op, idAuditoria).ToList();
+                return lista;
+            }                 
+        }
+
+        #region BANDEJA
+        public List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> ConsultarBadejaEstado( DateTime fechaDesde, DateTime FechaHasta, bool estadoReporte)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> listado;
+                if(estadoReporte)
+                {
+                     listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                               && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).ToList();
+                }
+                else
+                {
+                    listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                               && x.Fecha <= FechaHasta).ToList();
+                }                   
+                CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA cabecera;
+                List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> listaCabecera = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>();
+                if (listado.Any())
+                {
+                    foreach (var item in listado)
+                    {
+                        cabecera = new CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA();
+                        cabecera.IdLimpiezaDesinfeccionPlanta = item.IdLimpiezaDesinfeccionPlanta;
+                        cabecera.Fecha = item.Fecha;
+                        cabecera.ObservacionControl = item.ObservacionControl;
+                        cabecera.EstadoReporte = item.EstadoReporte;
+                        cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                        cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                        cabecera.FechaAprobado = item.FechaAprobado;
+                        cabecera.AprobadoPor = item.AprobadoPor;
+                        listaCabecera.Add(cabecera);
+                    }                    
+                }
+                return listaCabecera;
+            }
+        }
+        #endregion
+        #region REPORTE
+        public List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> ConsultarReporteRangoFecha(DateTime fechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                           && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).OrderByDescending(c=> c.Fecha).ToList();
+
+                CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA cabecera;
+                List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> listaCabecera = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>();
+                if (listado.Any())
+                {
+                    foreach (var item in listado)
+                    {
+                        cabecera = new CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA();
+                        cabecera.IdLimpiezaDesinfeccionPlanta = item.IdLimpiezaDesinfeccionPlanta;
+                        cabecera.Fecha = item.Fecha;
+                        cabecera.ObservacionControl = item.ObservacionControl;
+                        cabecera.EstadoReporte = item.EstadoReporte;
+                        cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                        cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                        cabecera.UsuarioModificacionLog = item.UsuarioModificacionLog;
+                        cabecera.FechaModificacionLog = item.FechaModificacionLog;
+                        cabecera.FechaAprobado = item.FechaAprobado;
+                        cabecera.AprobadoPor = item.AprobadoPor;
+                        listaCabecera.Add(cabecera);
+                    }
+                }
+                return listaCabecera;
+            }
+        }
+        #endregion
+    }
+    public class ListaIntermedia
+    {
+        public int IdMantenimiento { get; set; }
+        public int IdAuditoria { get; set; }
+        public int IdObjeto { get; set; }
+        public string NombreObjeto { get; set; }
+        public string EstadoRegistro { get; set; }
     }
 }

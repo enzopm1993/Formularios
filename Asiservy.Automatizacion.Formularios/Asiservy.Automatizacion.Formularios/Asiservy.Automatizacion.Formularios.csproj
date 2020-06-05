@@ -2232,10 +2232,11 @@
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.js" />
-    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantObjetos.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlanta.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
@@ -3994,7 +3995,6 @@
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantAreaAuditoriaPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantObjetos.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantObjetosPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ControlCalibracionPhMetro.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
@@ -4008,7 +4008,6 @@
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
     <Content Include="Views\Memorandum\Plantillas.cshtml" />
     <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCodinaPartial.cshtml" />
@@ -4059,6 +4058,15 @@
     <Content Include="Views\CalibracionFluorometro\BandejaCalibracionFluorometroPartial.cshtml" />
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometro.cshtml" />
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometroPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ConsultarIntermediaJoinObjetoPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ConsultarDetallePartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaAprobarPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlanta.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
