@@ -874,50 +874,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //public string ErrorMessage { get; set; }
-        //public decimal filesize { get; set; }
-        //public string UploadUserFile(HttpPostedFileBase file)
-        //{
-        //    try
-        //    {
-        //        var supportedTypes = new[] { "jpg", "jpeg" };
-        //        var fileExt = Path.GetExtension(file.FileName).Substring(1);
-        //        if (!supportedTypes.Contains(fileExt))
-        //        {
-        //            ErrorMessage = "File Extension Is InValid - Only Upload WORD/PDF/EXCEL/TXT File";
-        //            return ErrorMessage;
-        //        }
-        //        else if (file.ContentLength > (filesize * 1024))
-        //        {
-        //            ErrorMessage = "File size Should Be UpTo " + filesize + "KB";
-        //            return ErrorMessage;
-        //        }
-        //        else
-        //        {
-        //            ErrorMessage = "File Is Successfully Uploaded";
-        //            return ErrorMessage;
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
         public JsonResult GuardarModificarAccionCorrectiva(CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE model, HttpPostedFileBase dataImg)
         {
             try

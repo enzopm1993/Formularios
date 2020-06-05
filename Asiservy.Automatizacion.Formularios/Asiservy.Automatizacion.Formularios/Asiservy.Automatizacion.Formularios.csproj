@@ -2235,10 +2235,11 @@
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.js" />
-    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantObjetos.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlanta.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
@@ -4093,6 +4094,14 @@
     <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivoPartial.cshtml" />
     <Content Include="Views\MantenimientoReactivo\MantenimientoReactivo.cshtml" />
     <Content Include="Views\MantenimientoReactivo\MantenimientoReactivoPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaAprobarPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ConsultarDetallePartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ConsultarIntermediaJoinObjetoPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlanta.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaDetallePartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
