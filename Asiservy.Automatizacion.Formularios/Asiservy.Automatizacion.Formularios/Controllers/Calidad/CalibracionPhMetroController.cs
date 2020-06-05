@@ -65,7 +65,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.DateRangePicker = "1";
-   
+                ViewBag.DateTimePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
  
@@ -290,7 +290,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdControl)
+        public JsonResult AprobarControl(int IdControl,DateTime Fecha)
         {
             try
             {
@@ -301,7 +301,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
 
                 clsDCalibracionPhMetro = new clsDCalibracionPhMetro();
-                string Respuesta = clsDCalibracionPhMetro.AprobarControl(IdControl, lsUsuario[0], Request.UserHostAddress);
+                string Respuesta = clsDCalibracionPhMetro.AprobarControl(IdControl, lsUsuario[0], Request.UserHostAddress,Fecha);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

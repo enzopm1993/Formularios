@@ -1,7 +1,7 @@
 ﻿var Error = 0;
 var IdControlAp;
 var TipoLimpieza;
-var ParametrosLomosYMigas =
+var ParametrosLomo =
 {
     Limpieza1: {
         Venas: 8,
@@ -26,6 +26,33 @@ var ParametrosLomosYMigas =
         Escamas: 0,
         Piel: 0,
         Total: 7
+    }
+}
+var ParametrosMiga =
+{
+    Limpieza1: {
+        Venas: 7,
+        Espinas: 10,
+        Moretones: 7,
+        Escamas: 10,
+        Piel: 6,
+        Total: 40
+    },
+    Limpieza2: {
+        Venas: 4,
+        Espinas: 10,
+        Moretones: 3,
+        Escamas: 5,
+        Piel: 3,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 0,
+        Espinas: 2,
+        Moretones: 2,
+        Escamas: 0,
+        Piel: 0,
+        Total: 4
     }
 }
 $(document).ready(function () {
@@ -189,8 +216,9 @@ function AbrirModalDetalle(IdCabecera,NivelLimpieza) {
                 $('#datetimepicker1').datetimepicker(
                     {
                         date: moment().format("YYYY-MM-DD HH:mm"),
-                        format: "YYYY-MM-DD HH:mm",
+                        format: "DD-MM-YYYY HH:mm",
                         minDate: moment($('#fechacontrol').val(), "YYYY-MM-DD HH:mm"),
+                        maxDate: moment(),
                         ignoreReadonly: true
                     });
              
@@ -233,11 +261,11 @@ function validarImg(rotacion, id, imagen) {
         var ancho = this.width;
         var alto = this.height;
         if (ancho < alto) {
-            document.getElementById(id).style.height = "250px";
-            document.getElementById(id).style.width = "150px";
-        } else {
-            document.getElementById(id).style.height = "150px";
+            document.getElementById(id).style.height = "350px";
             document.getElementById(id).style.width = "250px";
+        } else {
+            document.getElementById(id).style.height = "250px";
+            document.getElementById(id).style.width = "350px";
         }
 
     }

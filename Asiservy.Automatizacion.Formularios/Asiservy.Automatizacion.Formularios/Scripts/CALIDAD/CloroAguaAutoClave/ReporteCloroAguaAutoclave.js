@@ -63,12 +63,12 @@ function SeleccionarBandeja(Control) {
     if (model.Latas) {
         $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
     }
-    $("#lblFerroro").html(model.Ferroso);
-    $("#lblPCC").html(model.Pcc);
-    $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
-    $("#lblNoFerroso").html(model.NoFerroso);
-    $("#lblAceroInoxidable").html(model.AceroInoxidable);
-    $("#pObservacion").html(model.Observacion);
+    //$("#lblFerroro").html(model.Ferroso);
+    //$("#lblPCC").html(model.Pcc);
+    //$("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
+    //$("#lblNoFerroso").html(model.NoFerroso);
+    //$("#lblAceroInoxidable").html(model.AceroInoxidable);
+    //$("#pObservacion").html(model.Observacion);
 
     if (model.EstadoReporte) {
         $("#txtUsuarioAprobacion").html(model.AprobadoPor);

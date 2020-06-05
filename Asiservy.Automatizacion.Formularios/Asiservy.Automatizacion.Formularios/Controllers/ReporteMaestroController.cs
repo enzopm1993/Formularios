@@ -46,7 +46,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDOpcion = new clsDOpcion();
                 ViewBag.Pesos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodPesoEnlatado, "0");
                 ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodLineaEnlatado, "0");
-                ViewBag.Opciones = clsDOpcion.ConsultarOpciones(new OPCION { Reporte = true, EstadoRegistro = clsAtributos.EstadoRegistroActivo }).ToList();
 
                 return View();
             }
@@ -158,7 +157,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
+        public JsonResult ConsultaOpciones()
+        {
+            try
+            {
+                clsDReporte = new clsDReporte();
+                var Opciones = clsDReporte.ConsultaOpcionesSinAsignar();
 
+                return Json(Opciones,JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
 

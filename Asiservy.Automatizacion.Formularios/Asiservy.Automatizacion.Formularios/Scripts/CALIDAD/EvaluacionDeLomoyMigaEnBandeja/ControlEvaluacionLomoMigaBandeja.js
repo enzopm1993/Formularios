@@ -4,7 +4,8 @@ var IdCabecera = 0;
 var IdDetalle = 0;
 var rotation = 0;
 var IdFotoEvaluacioLomosyMigas = 0;
-var ParametrosLomosYMigas =
+var TotalMaximo;
+var ParametrosLomo =
 {
     Limpieza1: {
         Venas: 8,
@@ -31,6 +32,33 @@ var ParametrosLomosYMigas =
         Total:7
     }
 }
+var ParametrosMiga =
+{
+    Limpieza1: {
+        Venas: 7,
+        Espinas: 10,
+        Moretones: 7,
+        Escamas: 10,
+        Piel: 6,
+        Total: 40
+    },
+    Limpieza2: {
+        Venas: 4,
+        Espinas: 10,
+        Moretones: 3,
+        Escamas: 5,
+        Piel: 3,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 0,
+        Espinas: 2,
+        Moretones: 2,
+        Escamas: 0,
+        Piel: 0,
+        Total: 4
+    }
+}
 $(document).ready(function () {
     
     $('#txtVenas').mask("9?9");
@@ -38,16 +66,82 @@ $(document).ready(function () {
     $('#txtSangre').mask("9?9");
     $('#txtEscamas').mask("9?9");
     $('#txtPiel').mask("9?9");
+    $('#txtTrozos').mask("9?.99");
     
-    LLenarComboOrdenes()
-    .then(function () {
-        ConsultarCabControl();
-    })
+    LLenarComboOrdenes();
     //.then(function () {
-    //    DatosOrdenFabricacion()
+    //    ConsultarCabControl();
     //})
+   
+});
+$("#btnOrden").on("click", function () {
+    $("#ModalOrdenes").modal('show');
+});
+$("#Lomo").on("change", function () {
+    ValidarParametro();
+});
+$("#Miga").on("change", function () {
+    ValidarParametro();
+});
+$("#cmbNivelLimpieza").on("change", function () {
+    ValidarParametro();
+});
+$("#btncancelarguardarfoto").on("click", function () {
+    IdFotoEvaluacioLomosyMigas = 0;
+});
+
+$("#modal-orden-si").on("click", function () {
+    if ($("#SelectOrdenFabricacion").prop('selectedIndex')==0) {
+        $('#validaOrden').prop("hidden", false);
+        return;
+    }
+    $("#cmbOrdeneFabricacion").val($("#SelectOrdenFabricacion").val());
+    //CargarLotes($("#SelectOrdenFabricacion").val());
+    DatosOrdenFabricacion();
+
+    $("#ModalOrdenes").modal('hide');
+    $('#validaOrden').prop("hidden", true);
+
+    ConsultarCabControl();
 
 });
+function ValidarParametro() {
+    $('#lblparametro').text("");
+    //console.log($('#Lomo').val());
+    //console.log($('#Miga').val());
+    if ($('#Lomo').is(':checked') || $('#Miga').is(':checked') && ($('#cmbNivelLimpieza').prop('selectedIndex') != 0)) {
+        if ($('#Lomo').is(':checked')) {
+            if ($('#cmbNivelLimpieza').val() == '1') {
+                $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
+                TotalMaximo = ParametrosLomo.Limpieza1.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '2') {
+                $('#lblparametro').text(ParametrosLomo.Limpieza2.Total);
+                TotalMaximo = ParametrosLomo.Limpieza2.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '3') {
+                $('#lblparametro').text(ParametrosLomo.Limpieza3.Total);
+                TotalMaximo = ParametrosLomo.Limpieza3.Total;
+            }
+
+        } else {
+            if ($('#cmbNivelLimpieza').val() == '1') {
+                $('#lblparametro').text(ParametrosMiga.Limpieza1.Total);
+                TotalMaximo = ParametrosMiga.Limpieza1.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '2') {
+                $('#lblparametro').text(ParametrosMiga.Limpieza2.Total);
+                TotalMaximo = ParametrosMiga.Limpieza2.Total;
+            }
+            if ($('#cmbNivelLimpieza').val() == '3') {
+                $('#lblparametro').text(ParametrosMiga.Limpieza3.Total);
+                TotalMaximo = ParametrosMiga.Limpieza3.Total;
+            }
+
+        }
+    }
+    
+}
 async function CargarControlDetalle2Ajax() {
     $("#divTableDetalle2").html('');
     let params = {
@@ -189,7 +283,7 @@ function ModalGenerarControlDetalle2() {
 }
 async function LlenarComboOrdenesAjax() {
     let params = {
-        Fecha: $("#txtFechaProduccion").val()
+        Fecha: $("#txtFechaOrden").val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -203,25 +297,26 @@ async function LLenarComboOrdenes(/*orden*/) {
 
     try {
         $('#txtCliente').val('');
-        if ($('#txtFechaProduccion').val() == '') {
-            $('#msjErrorFechaProduccion').prop('hidden', false);
-            return;
-        } else {
-            $('#msjErrorFechaProduccion').prop('hidden', true);
-        }
-        $('#cmbOrdeneFabricacion').empty();
-
-        if (!$('#txtFechaProduccion').val() == '') {
+        //if ($('#txtFechaProduccion').val() == '') {
+        //    $('#msjErrorFechaProduccion').prop('hidden', false);
+        //    return;
+        //} else {
+        //    $('#msjErrorFechaProduccion').prop('hidden', true);
+        //}
+        $('#SelectOrdenFabricacion').empty();
+        $('#SelectOrdenFabricacion').append('<option> Seleccione</option>');
+        if (!$('#txtFechaOrden').val() == '') {
             var PromesaConsultar = await LlenarComboOrdenesAjax();
             if (!PromesaConsultar.ok) {
                 throw "Error";
             }
             var ResultadoConsultar = await PromesaConsultar.json();
+            console.log(ResultadoConsultar);
             if (ResultadoConsultar == "101") {
                     window.location.reload();
             }
             $.each(ResultadoConsultar, function (key, value) {
-                $('#cmbOrdeneFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
+                $('#SelectOrdenFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
             });
 
     }
@@ -233,6 +328,7 @@ async function LLenarComboOrdenes(/*orden*/) {
 }
 function DatosOrdenFabricacion() {
     Error = 0;
+    $('#cargac').show();
     $('#txtCliente').val('');
     //console.log(ListaOrdenesFabricacion);
     //var Datos = Enumerable.From(ListaOrdenesFabricacion)
@@ -271,11 +367,12 @@ function DatosOrdenFabricacion() {
                     //console.log(resultado);
 
                 }
+                $('#cargac').hide();
             })
             .catch(function (resultado) {
                 //console.log(resultado);
                 MensajeError(resultado.responseText, false);
-
+                $('#cargac').hide();
             })
    
 
@@ -285,6 +382,9 @@ function DatosOrdenFabricacion() {
 async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     var promesa=fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
         method: 'POST',
@@ -304,6 +404,12 @@ async function ConsultarCabControl(bandera) {
         else {
             
             $('#msjErrorFechaProduccion').prop('hidden', true);
+        }
+        if ($('#cmbOrdeneFabricacion').val() == '') {
+            $('#msjerrorordenfb').prop('hidden', false);
+            return;
+        } else {
+            $('#msjerrorordenfb').prop('hidden', true);
         }
         if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
         {
@@ -352,7 +458,7 @@ async function ConsultarCabControl(bandera) {
             $('#Observacion').val(ResultadoConsulta.Observacion);
             $('#CardDetalle').prop('hidden', false);
             $('#btnEliminarCabeceraControl').prop('disabled', false);
-
+            ValidarParametro();
             LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
             ConsultarDetalleControl();
             //ConsultarDetalleControl();
@@ -387,7 +493,24 @@ function GuardarCabceraControl() {
     var Empaque = false;
     var Enlatado = false;
     var Pouch = false;
-
+    if ($('#cmbNivelLimpieza').prop('selectedIndex') == 0) {
+        $('#msgerrorniveldelimpieza').prop('hidden', false);
+        return;
+    } else {
+        $('#msgerrorniveldelimpieza').prop('hidden', true);
+    }
+    if (!$('#Lomo').is(':checked') && !$('#Miga').is(':checked')) {
+        $('#msjerrorProducto').prop('hidden', false);
+        return;
+    } else {
+        $('#msjerrorProducto').prop('hidden', true);
+    }
+    if (!$('#Empaque').is(':checked') && !$('#Enlatado').is(':checked') && !$('#Pouch').is(':checked')) {
+        $('#msjerrorDestino').prop('hidden', false);
+        return;
+    } else {
+        $('#msjerrorDestino').prop('hidden', true);
+    }
     if ($('#txtFechaProduccion').val() == '') {
         $('#msjErrorFechaProduccion').prop('hidden', false);
         return false;
@@ -450,8 +573,16 @@ function GuardarCabceraControl() {
         }
         if (Error == 0) {
             IdCabecera = resultado[2].IdEvaluacionDeLomosYMigasEnBandejas;
-            if (resultado[0] == "002") {
+            if (resultado[0] == "002" || resultado[0] == "003") {
                 MensajeAdvertencia(resultado[1]);
+                (resultado[2].Lomo) ? $('#Lomo').prop("checked", true) : $('#Lomo').prop("checked", false);
+                (resultado[2].Miga) ? $('#Miga').prop("checked", true) : $('#Miga').prop("checked", false);
+                (resultado[2].Empaque) ? $('#Empaque').prop("checked", true) : $('#Empaque').prop("checked", false);
+                (resultado[2].Enlatado) ? $('#Enlatado').prop("checked", true) : $('#Enlatado').prop("checked", false);
+                (resultado[2].Pouch) ? $('#Pouch').prop("checked", true) : $('#Pouch').prop("checked", false);
+                $('#cmbNivelLimpieza').val(resultado[2].NivelLimpieza);
+                $('#Observacion').val(resultado[2].Observacion);
+                ValidarParametro();
             } else {
                 MensajeCorrecto(resultado[1]);
                 $('#brespacio').remove();
@@ -467,7 +598,7 @@ function GuardarCabceraControl() {
         $('#btnEliminarCabeceraControl').prop('hidden', false);
         $('#btnGuardar').prop('hidden', false);
         $('#btnEliminarCabeceraControl').prop('disabled', false);
-
+        LlenarComboLotes($('#cmbOrdeneFabricacion').val());
     })
         .catch(function (resultado) {
             //console.log('error');
@@ -532,9 +663,14 @@ function EliminarCabecera() {
             //if (resultado[0] == "002") {
             //    MensajeAdvertencia(resultado[1]);
             //} else {
-            MensajeCorrecto(resultado[1]);
+       
+            if (resultado[0] != '002') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
 
-            LimpiarControles();
+                LimpiarControles();
+            }
             //}
 
         }
@@ -550,7 +686,7 @@ function EliminarCabecera() {
         })
 }
 function EliminarFoto() {
-    console.log('Eliminar');
+    //console.log('Eliminar');
     $('#modal-detalle2-si').prop('disabled', true);
     $('#modal-detalle2-no').prop('disabled', true);
     Error = 0;
@@ -575,9 +711,14 @@ function EliminarFoto() {
         }
         if (Error == 0) {
             $('#modalEliminarControlDetalle2').modal('hide');
+
+            if (resultado[0] == '003') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+                CargarControlDetalle2();
+            }
             
-            MensajeCorrecto(resultado[1]);
-            CargarControlDetalle2();
            
 
         }
@@ -706,7 +847,14 @@ function GuardarDetalleControl() {
     } else {
         $('#msjOlor').prop('hidden', true);
     }
-    
+    if ($('#cmbMoreton').prop('selectedIndex') == 0) {
+        $('#msjMoreton').prop('hidden', false);
+
+        ActivaEvaluacion();
+        return;
+    } else {
+        $('#msjMoreton').prop('hidden', true);
+    }
   
 
     $('#btnEliminarDetalleControl').prop('hidden', true);
@@ -754,7 +902,7 @@ function GuardarDetalleControl() {
             if (resultado[0] == "002" || resultado[0] == "003") {
                 MensajeAdvertencia(resultado[1]);
             }
-            if (resultado[0] == "000" || resultado[0] == "000") {
+            if (resultado[0] == "000" || resultado[0] == "001") {
                 MensajeCorrecto(resultado[1]);
                 //$('#CardDetalle').prop('hidden', false);
                 //ConsultarDetalleControl();
@@ -846,10 +994,11 @@ function LimpiarDetalleControles() {
 
 }
 async function ModificarDetalle(data) {
+    IdFotoEvaluacioLomosyMigas = 0;
     $('#divDetalle2').prop('hidden', false);
     IdDetalle = data.IdDetalle;
     await CargarControlDetalle2();
-    console.log(data.Hora);
+    //console.log(data.Hora);
     $('#txtHora').val(data.Hora);
 
     $('#txtBuque').val(data.Buque);

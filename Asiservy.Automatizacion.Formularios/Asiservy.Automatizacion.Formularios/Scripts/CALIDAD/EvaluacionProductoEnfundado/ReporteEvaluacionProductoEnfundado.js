@@ -1,4 +1,58 @@
 ﻿var Error = 0;
+var ParametrosLomo =
+{
+    Limpieza1: {
+        Venas: 3,
+        Espinas: 8,
+        Moretones: 5,
+        Escamas: 2,
+        Piel: 3,
+        Total: 21
+    },
+    Limpieza2: {
+        Venas: 2,
+        Espinas: 5,
+        Moretones: 3,
+        Escamas: 1,
+        Piel: 1,
+        Total: 12
+    },
+    Limpieza3: {
+        Venas: 0,
+        Espinas: 3,
+        Moretones: 1,
+        Escamas: 0,
+        Piel: 0,
+        Total: 4
+    }
+}
+var ParametrosMiga =
+{
+    Limpieza1: {
+        Venas: 7,
+        Espinas: 10,
+        Moretones: 7,
+        Escamas: 10,
+        Piel: 6,
+        Total: 40
+    },
+    Limpieza2: {
+        Venas: 4,
+        Espinas: 10,
+        Moretones: 3,
+        Escamas: 5,
+        Piel: 3,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 0,
+        Espinas: 2,
+        Moretones: 2,
+        Escamas: 0,
+        Piel: 0,
+        Total: 4
+    }
+}
 function MostrarReporte(data) {
     $('#cargac').show();
     Error = 0;
@@ -21,6 +75,8 @@ function MostrarReporte(data) {
             }
             //console.log(resultado);
             if (resultado != '"0"') {
+    
+                $('#DivBotonImpr').prop('hidden', false);
                 $('#DivReporte').prop('hidden', false);
                 $('#DivCabReportes').prop('hidden', true);
                 $('#DivReporte').empty();
@@ -35,13 +91,16 @@ function MostrarReporte(data) {
                 //LimpiarDetalleControles();
             } else {
                 $('#DivReporte').empty();
-                $('#DivCabReportes').empty();
+                //$('#DivCabReportes').empty();
             
-                $('#mensajeRegistros').text(Mensajes.SinRegistrosRangoFecha);
+                //$('#mensajeRegistros').text(Mensajes.SinRegistrosRangoFecha);
                 $('#mensajeRegistros').prop('hidden', false);
             }
             $('#cargac').hide();
             //console.log(resultado);
+        })
+        .then(function () {
+            ConsultarFotos(data.IdEvaluacionProductoEnfundado);
         })
         .catch(function (resultado) {
             console.log(resultado);
@@ -50,10 +109,77 @@ function MostrarReporte(data) {
             //$('#btnConsultar').prop('hidden', false);
         })
 }
+function ConsultarFotos(idCabecera) {
+    let params = {
+        IdCabecera: idCabecera
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../EvaluacionProductoEnfundado/PartialReporteFotos?' + query;
+
+    fetch(url)
+        //,body: data
+        .then(function (respuesta) {
+            if (!respuesta.ok) {
+
+                MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+                Error = 1;
+            }
+            return respuesta.text();
+        })
+        .then(function (resultado) {
+            if (resultado == '"101"') {
+                window.location.reload();
+            }
+            if (Error == 0) {
+                if (resultado == '"0"') {
+                    //$("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
+                    //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                } else {
+                    //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                    $("#divTableDetalle2").html(resultado);
+
+                }
+
+
+            }
+        })
+        .catch(function (resultado) {
+
+            MensajeError(resultado.responseText, false);
+
+        })
+}
+function validarImg(rotacion, id, imagen) {
+
+    $('#' + id).rotate(rotacion);
+    //document.getElementById(id).style.height = "0px";
+    //document.getElementById(id).style.width = "0px";
+
+    var img = new Image();
+    img.onload = function () {
+        //  alert(this.width + 'x' + this.height);
+        var ancho = this.width;
+        var alto = this.height;
+        if (ancho < alto) {
+            document.getElementById(id).style.height = "250px";
+            document.getElementById(id).style.width = "150px";
+        } else {
+            document.getElementById(id).style.height = "150px";
+            document.getElementById(id).style.width = "250px";
+        }
+
+    }
+    img.src = "/Content/Img/" + imagen;
+
+}
 function imprimirw() {
     window.print();
 }
 function Atras() {
+    $('#DivBotonImpr').prop('hidden', true);
     $('#DivReporte').prop('hidden', true);
     $('#DivCabReportes').prop('hidden', false);
 }

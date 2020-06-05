@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE
     {
         public int IdDetalleEvaluacionProductoEnfundado { get; set; }
-        public Nullable<System.DateTime> Hora { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
         public string Empacador { get; set; }
         public string Lote { get; set; }
         public string buque { get; set; }
@@ -24,7 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int Color { get; set; }
         public int Olor { get; set; }
         public Nullable<int> Moretones { get; set; }
-        public Nullable<int> HematomasProfundos { get; set; }
         public int Proteina { get; set; }
         public Nullable<decimal> Trozo { get; set; }
         public Nullable<decimal> Miga { get; set; }

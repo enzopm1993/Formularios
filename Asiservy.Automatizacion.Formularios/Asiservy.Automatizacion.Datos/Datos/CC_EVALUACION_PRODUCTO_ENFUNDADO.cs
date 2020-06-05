@@ -44,14 +44,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<bool> EstadoControl { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public string ImagenCodigo { get; set; }
-        public string ImagenProducto1 { get; set; }
-        public string ImagenProducto2 { get; set; }
-        public string ImagenProducto3 { get; set; }
-        public Nullable<int> RotacionImagenCod { get; set; }
-        public Nullable<int> RotacionImagenProd1 { get; set; }
-        public Nullable<int> RotacionImagenProd2 { get; set; }
-        public Nullable<int> RotacionImagenProd3 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }

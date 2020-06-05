@@ -2,10 +2,18 @@
 var model = [];
 $(document).ready(function () {
     ConsultarMonitoreoDescongelado();
-    $("#txtTemperaturaAgua").mask("99?.9");
-    $("#txtMuestra1").mask("99?.9");
-    $("#txtMuestra2").mask("99?.9");
-    $("#txtMuestra3").mask("99?.9");
+  //  $("#txtTemperaturaAgua").mask("99?.9");
+    //$("#txtMuestra1").mask("99?.9");
+    //$("#txtMuestra2").mask("99?.9");
+   // $("#txtMuestra3").mask("99?.9");
+    $.mask.definitions['~'] = '[+-]';
+    $("#txtTemperaturaAgua").mask("~99?.9");
+    $.mask.definitions['~'] = '[+-]';
+    $("#txtMuestra1").mask("~99?.9");
+    $.mask.definitions['~'] = '[+-]';
+    $("#txtMuestra2").mask("~99?.9");
+    $.mask.definitions['~'] = '[+-]';
+    $("#txtMuestra3").mask("~99?.9");
 });
 
 function ValidaEstadoReporte(Fecha){

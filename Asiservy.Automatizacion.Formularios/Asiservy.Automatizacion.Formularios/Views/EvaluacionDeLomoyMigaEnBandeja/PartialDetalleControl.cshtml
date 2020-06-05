@@ -147,34 +147,41 @@
                         var tdnombre=@Html.Raw(Json.Encode(item.Hora));
                         var contador =@Html.Raw(Json.Encode(cont));
                         //contador = contador - 1;
-                        if ($('#cmbNivelLimpieza').val() == 1)
-                        {
-
-                            if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
-                                console.log("assadsd");
+                        if (suma > TotalMaximo) {
+                                //console.log("assadsd");
                                 $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
                             } else {
                                 $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
                             }
-                        }
-                        if ($('#cmbNivelLimpieza').val() == 2) {
+                        
+                        //if ($('#cmbNivelLimpieza').val() == 1)
+                        //{
 
-                            if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
+                        //    if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
+                        //        console.log("assadsd");
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //if ($('#cmbNivelLimpieza').val() == 2) {
 
-                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                            } else {
-                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                            }
-                        }
-                        if ($('#cmbNivelLimpieza').val() == 3) {
+                        //    if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
 
-                            if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
-                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                            }
-                            else {
-                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                            }
-                        }
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //if ($('#cmbNivelLimpieza').val() == 3) {
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    }
+                        //    else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
 
                     </script>
                 </td>

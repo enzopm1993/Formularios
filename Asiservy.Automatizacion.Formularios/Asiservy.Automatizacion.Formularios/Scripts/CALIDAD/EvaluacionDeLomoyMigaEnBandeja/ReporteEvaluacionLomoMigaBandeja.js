@@ -1,4 +1,58 @@
 ﻿var Error = 0;
+var ParametrosLomo =
+{
+    Limpieza1: {
+        Venas: 8,
+        Espinas: 10,
+        Moretones: 9,
+        Escamas: 3,
+        Piel: 5,
+        Total: 35
+    },
+    Limpieza2: {
+        Venas: 6,
+        Espinas: 8,
+        Moretones: 5,
+        Escamas: 2,
+        Piel: 4,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 1,
+        Espinas: 3,
+        Moretones: 3,
+        Escamas: 0,
+        Piel: 0,
+        Total: 7
+    }
+}
+var ParametrosMiga =
+{
+    Limpieza1: {
+        Venas: 7,
+        Espinas: 10,
+        Moretones: 7,
+        Escamas: 10,
+        Piel: 6,
+        Total: 40
+    },
+    Limpieza2: {
+        Venas: 4,
+        Espinas: 10,
+        Moretones: 3,
+        Escamas: 5,
+        Piel: 3,
+        Total: 25
+    },
+    Limpieza3: {
+        Venas: 0,
+        Espinas: 2,
+        Moretones: 2,
+        Escamas: 0,
+        Piel: 0,
+        Total: 4
+    }
+}
 function MostrarReporte(data) {
     $('#cargac').show();
     Error = 0;
@@ -20,6 +74,7 @@ function MostrarReporte(data) {
                 window.location.reload();
             }
             if (resultado != '"0"') {
+                $('#DivBotonImpr').prop('hidden', false);
                 $('#DivReporte').prop('hidden', false);
                 $('#DivCabReportes').prop('hidden', true);
                 $('#DivReporte').empty();
@@ -116,6 +171,7 @@ function validarImg(rotacion, id, imagen) {
 
 }
 function Atras() {
+    $('#DivBotonImpr').prop('hidden', true);
     $('#DivReporte').prop('hidden', true);
     $('#DivCabReportes').prop('hidden', false);
 }

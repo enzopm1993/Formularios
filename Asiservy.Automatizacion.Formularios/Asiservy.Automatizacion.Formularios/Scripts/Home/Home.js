@@ -47,7 +47,7 @@ function ConsultaComunicados() {
                 return;
             }
             $("#divComunicados").html(resultado);
-            $("#divComunicados").css("height", "100px");
+            //$("#divComunicados").css("height", "100px");
             $("#spinnerCargando").prop("hidden", true);
 
         },

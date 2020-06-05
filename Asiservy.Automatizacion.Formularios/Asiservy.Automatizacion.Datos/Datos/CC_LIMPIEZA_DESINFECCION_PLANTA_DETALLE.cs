@@ -17,7 +17,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdDetalle { get; set; }
         public int IdLimpiezaDesinfeccionPlanta { get; set; }
         public int IdMantenimiento { get; set; }
-        public string Turno { get; set; }
         public System.DateTime HoraAuditoria { get; set; }
         public string Limpieza { get; set; }
         public string Desinfeccion { get; set; }
@@ -34,6 +33,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string Turno { get; set; }
     
         public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
         public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }

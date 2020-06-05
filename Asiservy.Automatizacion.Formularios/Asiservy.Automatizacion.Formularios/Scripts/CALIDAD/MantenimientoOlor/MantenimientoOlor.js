@@ -39,12 +39,12 @@ function ConsultarReporte() {
 
 function GuardarControl() {
 
-    if ($("#SelectTipoLimpieza").val() == "") {
-        $("#SelectTipoLimpieza").css('borderColor', '#FA8072');
-        return;
-    } else {
-        $("#SelectTipoLimpieza").css('borderColor', '#ced4da');
-    }
+    //if ($("#SelectTipoLimpieza").val() == "") {
+    //    $("#SelectTipoLimpieza").css('borderColor', '#FA8072');
+    //    return;
+    //} else {
+    //    $("#SelectTipoLimpieza").css('borderColor', '#ced4da');
+    //}
 
     if ($("#txtDescripcion").val() == "") {
         $("#txtDescripcion").css('borderColor', '#FA8072');

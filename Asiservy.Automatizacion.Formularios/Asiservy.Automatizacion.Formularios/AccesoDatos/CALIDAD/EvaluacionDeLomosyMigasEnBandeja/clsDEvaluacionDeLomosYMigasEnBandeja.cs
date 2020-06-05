@@ -23,11 +23,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     resultado[1] = "No es posible ingresar el control, por que se encuentra aprobado";
                     resultado[2] = control;
                 }
-                db.CC_EVALUACION_LOMO_MIGA_FOTO.Add(control);
-                db.SaveChanges();
-                resultado[0] = "000";
-                resultado[1] = "Foto guardada";
-                resultado[2] = control;
+                else
+                {
+                    db.CC_EVALUACION_LOMO_MIGA_FOTO.Add(control);
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Foto guardada";
+                    resultado[2] = control;
+                }
+                
               
                 return resultado;
             }
@@ -107,7 +111,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 {
                     resultado[0] = "003";
                     resultado[1] = "El control ya se encuentra aprobado, no puede ser modificado";
-                    resultado[2] = poCabControl;
+                    resultado[2] = new {BuscarCabecera.IdEvaluacionDeLomosYMigasEnBandejas,BuscarCabecera.Lomo, BuscarCabecera.Miga, BuscarCabecera.Empaque, BuscarCabecera.Enlatado, BuscarCabecera.Pouch
+                    ,BuscarCabecera.NivelLimpieza,BuscarCabecera.Observacion
+                    };
                 }
                 else
                 {
@@ -116,6 +122,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     BuscarCabecera.NivelLimpieza = poCabControl.NivelLimpieza;
                     BuscarCabecera.Observacion = poCabControl.Observacion;
                     BuscarCabecera.OrdenFabricacion = poCabControl.OrdenFabricacion;
+                    BuscarCabecera.Empaque = poCabControl.Empaque;
+                    BuscarCabecera.Enlatado = poCabControl.Enlatado;
                     BuscarCabecera.Pouch = poCabControl.Pouch;
                     BuscarCabecera.FechaModificacionLog = poCabControl.FechaIngresoLog;
                     BuscarCabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
@@ -165,7 +173,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 if (buscarControl.EstadoControl == true)
                 {
                     resultado[0] = "003";
-                    resultado[1] = "No es posible inactivar el control, por que se encuentra aprobado";
+                    resultado[1] = "No es posible inactivar el registro, por que el control se encuentra aprobado";
                     resultado[2] = pofoto;
                 }
                 else
@@ -291,7 +299,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarCabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja);
+                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionLomoyMigasEnBandeja);
+                var buscarCabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(buscarDetalle.IdCabeceraEvaluacionLomosYMigasEnBandeja);
                 if(buscarCabecera.EstadoControl==true)
                 {
                     resultado[0] = "003";
@@ -300,7 +309,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 }
                 else
                 {
-                    var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionLomoyMigasEnBandeja);
+                    
                     buscarDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     buscarDetalle.FechaModificacionLog = poDetalleControl.FechaIngresoLog;
                     buscarDetalle.UsuarioModificacionLog = poDetalleControl.UsuarioIngresoLog;
@@ -347,6 +356,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                  where d.IdCabeceraEvaluacionLomosYMigasEnBandeja == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select new DetalleEvaluacionLomosMIgasBandejaViewModel
                                  {
+                                     Lomo=cab.Lomo,
+                                     Miga=cab.Miga,
                                      FechaControl=cab.FechaProduccion,
                                      Buque = d.buque,
                                      CodColor = c.IdColor,

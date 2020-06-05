@@ -7,6 +7,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
 {
     public class clsDReporte
     {
+        public List<OPCION> ConsultaOpcionesSinAsignar()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var opciones = entities.REPORTE_MAESTRO.Select(x => x.IdOpcion).ToList();
+
+                var query = (from o in entities.OPCION
+                             where !opciones.Contains(o.IdOpcion) 
+                             && o.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && o.Reporte == true
+                             select new 
+                             {
+                                 IdOpcion = o.IdOpcion,
+                                 Formulario = o.Formulario
+                             }).ToList().Select(x=> new OPCION{
+                                 IdOpcion = x.IdOpcion,
+                                 Formulario = x.Formulario
+                             }).ToList();
+                return query;
+            }
+        }
+
+
 
         public List<spConsultaReporteMaestro> ConsultaReporteMaestro()
         {
@@ -37,7 +60,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                     poReporte.EstadoRegistro = model.EstadoRegistro;
                     poReporte.Nombre = model.Nombre;
                     poReporte.Codigo = model.Codigo;
-                    poReporte.IdOpcion = model.IdOpcion;
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;

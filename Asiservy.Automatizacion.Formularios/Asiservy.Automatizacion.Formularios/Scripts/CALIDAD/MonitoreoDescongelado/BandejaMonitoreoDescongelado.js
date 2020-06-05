@@ -18,14 +18,13 @@ function CargarBandeja() {
             } else {
                 $('#MensajeRegistros').hide();
                 $('#divPartialControl').html(resultado);
+                config.opcionesDT.pageLength = 10;
+                $('#tblDataTable').DataTable(config.opcionesDT);
             }
             $("#btnPendiente").prop("hidden", true);
             $("#btnAprobado").prop("hidden", false);
             $("#btnReversar").prop("hidden", true);
-            $("#spinnerCargando").prop("hidden", true);
-            config.opcionesDT.pageLength = 10;
-            $('#tblDataTable').DataTable(config.opcionesDT);
-
+            $("#spinnerCargando").prop("hidden", true);           
         },
         error: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);

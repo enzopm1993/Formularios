@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
 {
     public class DetalleEvaluacionProductoEnfundadoViewModel
     {
+        public bool? TMiga { get; set; }
+        public bool? TLomo { get; set; }
+        public bool? TTrozo { get; set; }
         public int IdCabecera { get; set; }
         public int IdDetalle { get; set; }
-        public DateTime? Hora { get; set; }
+        public TimeSpan? Hora { get; set; }
         public string NombreEmpacador { get; set; }
         public string Buque { get; set; }
         public string Lote { get; set; }
@@ -21,8 +21,8 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
         public string Color { get; set; }
         public int CodOlor { get; set; }
         public string Olor { get; set; }
-        public int? Moretones { get; set; }
-        public int? HematomasProfundos { get; set; }
+        public string Moretones { get; set; }
+        public int? CodMoretones { get; set; }
         public int CodProteinas { get; set; }
         public string Proteinas { get; set; }
         public decimal? Trozos { get; set; }

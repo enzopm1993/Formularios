@@ -2195,6 +2195,9 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -2232,11 +2235,10 @@
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
-    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantObjetos.js" />
-    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlanta.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
@@ -2245,6 +2247,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoPediluvio\MantenimientoPediluvio.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\BandejaMonitoreoDescongelado.js" />
@@ -2258,6 +2261,9 @@
     <Content Include="Scripts\CALIDAD\ResidualCloro\BandejaResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaInternaRefrigeradora\BandejaTemperaturaInternaRefrigeradora.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradora.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaInternaRefrigeradora\TemperaturaInternaRefrigeradora.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
@@ -3395,6 +3401,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaTanquero\ClsdAnalisisAguaTanquero.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
@@ -3412,6 +3419,7 @@
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoMoretones\ClsDMantenimientoMoretones.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoPediluvio\ClsDMantenimientoPediluvio.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoReactivo\ClsdMantenimientoReactivo.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoMoreton.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
@@ -3421,6 +3429,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\TemperaturaInternaRefrigeradora\ClsdTemperaturaInternaRefrigeradora.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\VerificacionPotenciometro\ClsdVerificacionPotenciometro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
@@ -3495,6 +3504,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\AnalisisAguaTanqueroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
@@ -3513,12 +3523,14 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoOlorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoPediluvioController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoProteinaController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoSaborController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoTexturaController.cs" />
     <Compile Include="Controllers\CALIDAD\MonitoreoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
+    <Compile Include="Controllers\CALIDAD\TemperaturaInternaRefrigeradoraController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
     <Compile Include="Controllers\CALIDAD\VerificacionPotenciometroController.cs" />
     <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
@@ -3577,6 +3589,7 @@
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
+    <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />
@@ -3995,6 +4008,7 @@
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantAreaAuditoriaPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantObjetos.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantObjetosPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ControlCalibracionPhMetro.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
@@ -4008,6 +4022,7 @@
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
     <Content Include="Views\Memorandum\Plantillas.cshtml" />
     <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCodinaPartial.cshtml" />
@@ -4058,15 +4073,26 @@
     <Content Include="Views\CalibracionFluorometro\BandejaCalibracionFluorometroPartial.cshtml" />
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometro.cshtml" />
     <Content Include="Views\CalibracionFluorometro\ReporteCalibracionFluorometroPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ConsultarIntermediaJoinObjetoPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ConsultarDetallePartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaAprobarPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlanta.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaPartial.cshtml" />
-    <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaDetallePartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\DetalleFotoPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteFotos.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\AnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\AnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\BandejaAnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\ReporteAnalisisAguaTanqueroPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaTanquero\ReporteAnalisisAguaTanqueroDetallePartial.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\TemperaturaInternaRefrigeradora.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\TemperaturaInternaRefrigeradoraPartial.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\BandejaTemperaturaInternaRefrigeradora.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\BandejaTemperaturaInternaRefrigeradoraPartial.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradora.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradoraPartial.cshtml" />
+    <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradoraDetallePartial.cshtml" />
+    <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivo.cshtml" />
+    <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivoPartial.cshtml" />
+    <Content Include="Views\MantenimientoReactivo\MantenimientoReactivo.cshtml" />
+    <Content Include="Views\MantenimientoReactivo\MantenimientoReactivoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
