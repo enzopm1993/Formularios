@@ -179,8 +179,9 @@ function validarImg(rotacion, id, imagen) {
     $('#' + id).rotate(parseInt(rotacion));
     var img = new Image();
     img.onload = function () {
-        document.getElementById(id).style.height = "250px";
-        document.getElementById(id).style.width = "250px";      
+        document.getElementById(id).style.borderRadius = "20px";
+        document.getElementById(id).style.height = "240px";
+        document.getElementById(id).style.width = "240px";      
     }
     img.src = "/Content/Img/" + imagen;
 }

@@ -10,7 +10,7 @@ function MascaraInputs() {
     json.forEach(function (row) {
         $('#Estandar_' + row.IdEstandar).val('');
         $('#Estandar_' + row.IdEstandar).css('border', '');
-        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '99.99' });
+        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '999.99' });
     });
 }
 

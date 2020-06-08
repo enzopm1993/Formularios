@@ -58,19 +58,7 @@ function SeleccionarCabecera(jdata) {
     if (jdata.ObservacionControl != null) {
         $('#lblMostrarObservacion').text('\u00a0' + jdata.ObservacionControl.toUpperCase());
     }
-    $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
-    $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
-    if (jdata.AprobadoPor == null) {
-        jdata.AprobadoPor = '';
-    }
-
-    if (jdata.FechaAprobado != null) {
-        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY HH:mm');
-    } else if (jdata.FechaAprobado == null) {
-        jdata.FechaAprobado = '';
-    }
-    $('#txtUsuarioAprobacion').text('\u00a0' + jdata.AprobadoPor);
-    $('#txtFechaAprobacion').text('\u00a0' + jdata.FechaAprobado);
+   
     $.ajax({
         url: "../LimpiezaDesinfeccionPlanta/ReporteLimpiezaPlantaDetallePartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
         data: {
@@ -95,6 +83,19 @@ function SeleccionarCabecera(jdata) {
                 $('#divBotones').prop('hidden', false);
                 $('#divTurno').prop('hidden', false);
                 $("#divMostarTablaDetalle").html(resultado);
+                $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
+                $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
+                if (jdata.AprobadoPor == null) {
+                    jdata.AprobadoPor = '';
+                }
+
+                if (jdata.FechaAprobado != null) {
+                    jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY HH:mm');
+                } else if (jdata.FechaAprobado == null) {
+                    jdata.FechaAprobado = '';
+                }
+                $('#txtUsuarioAprobacion').text('\u00a0' + jdata.AprobadoPor);
+                $('#txtFechaAprobacion').text('\u00a0' + jdata.FechaAprobado);
             }
             $('#cargac').hide();
         },
@@ -152,8 +153,8 @@ function validarImg(rotacion, id, imagen) {
     var img = new Image();
     img.onload = function () {
         document.getElementById(id).style.borderRadius = "20px";
-        document.getElementById(id).style.height = "330px";
-        document.getElementById(id).style.width = "330px";
+        document.getElementById(id).style.height = "320px";
+        document.getElementById(id).style.width = "320px";
     }
     img.src = "/Content/Img/" + imagen;
 }

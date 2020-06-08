@@ -384,13 +384,16 @@ function prepararAntesGuardar(jdata) {//jdata tare el orden en la que se van a g
             estado = "false";
             if (selectText[i] == "Seleccione..") {
                 $("#selectLinea_" + jdata[i]).css('border', '2px dashed red');
-                MensajeAdvertencia("<span class='badge badge-danger'>¡Se deben ingresar todos los datos requeridos!</span>");
-                return;
+                //MensajeAdvertencia("<span class='badge badge-danger'>¡Se deben ingresar todos los datos requeridos!</span>");
+                //return;
             } else {
                 $("#selectLinea_" + jdata[i]).css('border', '');
             }
             if (selectText[i] == "C-CUMPLE") {
                 estado = "true";
+            }
+            if (selectText[i] == "N/A") {
+                estado = "null";
             }
             if (ListaDatosDetalle != '') {
                 for (var j in ListaDatosDetalle) {
