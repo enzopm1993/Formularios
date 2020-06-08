@@ -39,7 +39,7 @@ function CargarCabecera(op) {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -104,9 +104,9 @@ function GuardarCabecera(siAprobar) {
             $('#cargac').hide();
             CargarCabecera(1);
         },
-        error: function (resultado) {
+        error: function () {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -199,7 +199,7 @@ function EliminarCabeceraSi() {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -243,7 +243,7 @@ function ConsultarEstadoRegistro(idCalibracionFluor) {
             estadoReporte = resultado.EstadoReporte;
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }

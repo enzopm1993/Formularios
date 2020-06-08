@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinfeccionPlanta.ListaIntermedia>
+@using Newtonsoft.Json;
+
+<table class="table table-bordered table-striped">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                OBJETO AUDITAR
+            </th>
+            <th>
+                LIMPIEZA
+            </th>
+            <th>
+                DESINFECCION
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th hidden>idDetalle</th>           
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+        @foreach (var item in Model)
+        {
+            <tr>                
+                <td style="white-space:normal">
+                    @item.NombreObjeto.ToUpper()
+                </td>
+                <td>
+                    <select style="width:120px;font-size:11px" class="form-control" id="selectLimpieza-@item.IdObjeto">
+                        <option value="S" selected>SATISFACTORIO</option>
+                        <option value="NS">NO SATISFACTORIO</option>
+                        <option value="N/A">N/A</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="width:120px;font-size:11px" class="form-control" id="selectDesinfeccion-@item.IdObjeto">
+                        <option value="S" selected>SATISFACTORIO</option>
+                        <option value="NS">NO SATISFACTORIO</option>
+                        <option value="N/A">N/A</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="name" value="" style="font-size: 11px;width:320px" maxlength="200" class="form-control" id="txtObservacionDetalle-@item.IdObjeto" />
+                </td>
+                <td hidden>
+                    <input type="hidden" name="name" value="0"  id="txtIdDetalle-@item.IdObjeto" />
+                </td>               
+            </tr>
+        }
+    </tbody>
+</table>
+@{ var json = JsonConvert.SerializeObject(Model); }
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" onclick="GuardarDetalle(@json)" id="btnGenerarControlRegistroDetalle">Guardar</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+</div>

@@ -22,33 +22,17 @@
         }*/
     #divComucados2 {
        
-         height: 280px;
-        max-height: 300px;
+         /*height: 280px;
+        max-height: 300px;*/
         
     }
     @@media only screen and (max-width: 600px) {
-        #divComucados2 {
+        /*#divComucados2 {
             font-size: 12px;
             height: 350px;
-        }
+        }*/
 }
-    .reloj {
-        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-        width: 100%;
-        padding: 20px;
-        font-size: 4em;
-        text-align: center;
-        background: rgba(0,0,0,.5);
-    }
-
-        .reloj .cajaSegundos {
-            display: inline-block;
-        }
-
-        .reloj .ampm, .reloj .segundos {
-            display: block;
-            font-size: 2rem;
-        }
+   
 </style>
 
 @if (@ViewBag.Vacaciones != null)
@@ -124,7 +108,7 @@
                     <div class="text-center">
                         @if (ViewBag.Garita != null)
                         {
-                            @:GARITA
+                        <b>GARITA</b>
                         }
                         else
                         {
@@ -142,25 +126,25 @@
                     }
                     else
                     {
-                        <div class="row">
-                            <div class="col-md-8 col-12 col-sm-6" style="border-right:inset 1px">
+                        <div class="row" style="font-size:13px  ">
+                            <div class="col-md-9 col-12 col-sm-6" style="border-right:inset 1px">
                                 <div class="text-center"><b><label>VACACIONES</label></b> (<label id="TotalDiasVacciones"></label> días)</div>
                                 <div class="text-center" id="divOtros">
                                 </div>
 
                             </div>
-                            <div class="col-md-4 col-12 col-sm-6">
+                            <div class="col-md-3 col-12 col-sm-6">
                                 <div class="text-center"><b><label>MARCACIÓN DE ENTRADA</label></b></div>
 
-                                <div class="card shadow text-center" style="">
-                                    <div class="card-body">
+                                <div class="card shadow text-center" style="padding:0.5px">
+                                    <div class="card-body text-info" style="font-size:12px medium; padding:0px">
                                         @if (ViewBag.Marcacion != null && ViewBag.Marcacion.Hora != null)
                                         {
-                                            @ViewBag.Marcacion.Hora
+                                           @ViewBag.Marcacion.Hora 
                                         }
                                         else
                                         {
-                                            <i style="color:#f6c23e" class="fas fa-exclamation-triangle fa-3x"></i>
+                                            <i style="color:#f6c23e" class="fas fa-exclamation-triangle fa-2x"></i>
                                         }
 
                                     </div>
@@ -183,9 +167,9 @@
                 </div>
                 <div class="card-body">
                     <div class="text-center">
-                        <p style="font-size:12px; margin-bottom:0px">de click en uno de los asuntos para leer el comunicado completo.</p>
+                        <p style="font-size:12px; margin-bottom:0px">De click en uno de los asuntos para leer el comunicado completo.</p>
                     </div>
-                    <div id="divComunicados" class="table-responsive" style="overflow-x:auto;">
+                    <div id="divComunicados" class="table-responsive">
                         <div id="spinnerCargando" hidden class="text-center">
                             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                                 <span class="sr-only">Cargando...</span>
@@ -273,7 +257,7 @@
         </div>*@
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="ModalComunicado">
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalComunicado">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">

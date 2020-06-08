@@ -1,8 +1,43 @@
-﻿
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA
+
 @{
     ViewBag.Title = "ControlLimpiezaDesinfeccionPlanta";
 }
+
+
 <style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
+
     .card {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
@@ -12,53 +47,336 @@
         padding-left: 10px;
         padding-right: 10px;
     }
-</style>
-<h4>Limpieza y desinfección de planta</h4>
 
-<div class="card">
-    <div class="row">
-        <div class="col-md-3 col-sm-6">
-            <div class="form-group">
-                <label>Fecha:</label>
-                @{
-                    string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-                }
-                <input type="date" class="form-control" value="@fecha" />
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding-left: 10px !important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    .img {
+        margin: 10px auto;
+        border-radius: 5px;
+        border: 1px solid #999;
+        padding: 13px;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+        .img img {
+            width: 100%;
+        }
+
+    @@media all and (min-width: 500px) and (max-width: 1000px) {
+        .img {
+            margin: 20px auto;
+            border-radius: 5px;
+            border: 1px solid #999;
+            padding: 13px;
+            width: 300px;
+            height: 300px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    }
+
+    .img img {
+        width: 100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left">Control Limpieza y Desinfeccion de Planta<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
+        <div class=" box_filters ">
+            <div class="itemFilter">
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
             </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="form-group">
-                <label>Inspector de calidad:</label>
-                <input type="text" class="form-control" />
+            <div class="itemFilter">
+                <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera()" id="iconSearch" class="fas fa-search"></i></a>
             </div>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class=" col-12 text-center">
-            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espere...
-            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/save20.png" />
-            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarCabeceraControle()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/clear24.png" />
-            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
-                <img style="width:100%" src="~/Content/icons/cancel24.png" />
-            </button>
         </div>
     </div>
 </div>
 
-<div id="DivDetalle" class="card">
+<div class="row" id="divBotonCrear">
+    <div class="col-12">
+        <div class="col-md-3 col-12 float-left">
+            <label class="" id="lblAcciones">Nuevo Registro</label>
+            <div class="form-group">
+                <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-12 col-sm-12">
-            <select id="cmbArea">
-                <option></option>
-            </select>
+        <div class="col-md-2 col-12 col-sm-12" style="float:left">
+            <div class="form-group">
+                <label>FECHA</label>
+                <input type="date" name="name" disabled value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-3 col-12 col-sm-12" style="float:left">
+            <div class="form-group">
+                <label>INSPECTOR DE CALIDAD</label>
+                <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtInspectorVer" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-7 col-12 col-sm-12" style="float:left">
+            <div class="form-group">
+                <label>OBSERVACION</label>
+                <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 col-sm-12 text-md-center text-center">
+            <div class="form-group">
+                <label>ACCIONES</label><br />
+                <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
+                <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabecera(true)" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/edit24.png" />
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+
+@* BOTON INGRESAR DETALLE *@
+<div class="row" id="divBotonCrearDetalle">
+    <div class="col-md-9 col-12 col-sm-12 text-center text-md-left">
+        <label class="" id="lblAcciones">Nueva Auditoria</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistroDetalle" onclick="ModalIngresoDetalleV()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+
+    <div class="col-md-5 col-12 col-sm-12">
+        <label>AREA AUDITADA</label>
+        <div class="form-group">
+            @Html.DropDownList("selectAreaAuditarFiltro", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"), new { @class = "js-example-basic-single", @onchange = "CargarDetalle(2)" })
+        </div>
+    </div>
+    <br />
+
+    <div class="col-md-3 col-12 col-sm-12 text-center text-md-left">
+        <label>TURNO</label>
+        <select id="selectTurnoFiltro" class="form-control" onchange="CargarDetalle(2)">
+            <option value="TURNO_A" selected>TURNO A</option>
+            <option value="TURNO_B">TURNO B</option>
+            <option value="TURNO_C">TURNO C</option>
+        </select>
+    </div>
+</div>
+<br />
+
+@*MODAL MOSTRAR TABLA DETALLE*@
+
+
+<div id="divMostarTablaDetallesVer">
+
+</div>
+
+
+
+@*MODAL ELIMINAR REGISTRO CABECERA*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"></h4>
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR REGISTRO DETALLE*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabelDetalle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL PARA EL INGRESO NUEVO REGISTRO CABECERA*@
+<div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Nuevo Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>FECHA</label>
+                            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtIngresoFecha" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>OBSERVACION</label>
+                            <input type="text" name="name" value="" maxlength="100" id="txtIngresoObservacion" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>INSPECTOR DE CALIDAD</label>
+                            <input type="text" name="name" disabled value="@ViewBag.Inspector" id="txtIngresoInspector" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL PARA EL INGRESO/EDITAR NUEVO DETALLE *@
+<div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Nueva Auditoria</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>HORA</label>
+                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="OnChangeTextBoxDetalle()" id="txtIngresoFechaDetalle" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>AREA AUDITAR</label>
+                            @*<select id="selectAreaAuditar" class="form-control js-example-basic-single" onchange="ConsultarIntermidia()"></select>*@
+                            @Html.DropDownList("selectAreaAuditar", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"),  new { @class = "form-control js-example-basic-single", @onchange = "ConsultarIntermidia()" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>TURNO</label>
+                            <select id="selectTurno" class="form-control">
+                                <option value="TURNO_A">TURNO A</option>
+                                <option value="TURNO_B">TURNO B</option>
+                                <option value="TURNO_C">TURNO C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="divMostarTablaDetalles" class="table-responsive">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL PARA EL INGRESO/EDITAR ACCION CORRECTIVA DETALLE *@
+<div class="modal" tabindex="-1" id="ModalAccionCorrectiva" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">AcciónCorrectiva</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarAccionCorrectiva()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>HORA</label>
+                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="OnChangeTextBoxAccion()" id="txtHoraAccionCorrectiva" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>AUDITOR</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBoxAccion()" id="txtAuditor" maxlength="20" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>ACCION CORRECTIVA</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBoxAccion()" id="txtAccionCorrectiva" maxlength="200" class="form-control" />
+                        </div>
+                    </div>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <div id="divFileUpload">
+                            <input id="file-upload" type="file" accept="image/*" />
+
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarAccionCorrectiva()" id="btnGuardarAccion">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarAccionCorrectiva()">Cancelar</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

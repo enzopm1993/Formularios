@@ -50,6 +50,9 @@ function GuardarCabecera() {
                 MensajeCorrecto('Registro actualizado correctamente');
             } else if (resultado == 2) {
                 MensajeAdvertencia('El registro no se pudo Actualizar ¡Por favor ACTIVE y vuelva a intentar!');
+            } else if (resultado == 3) {
+                MensajeAdvertencia('!El nombre ya existe:! <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span>');
+                return;
             } else {
                 MensajeAdvertencia('Error al guardar el registro: No se permite espacios en blanco ni vacío');
                 $("#txtNombre").css('border', '1px dashed red');
@@ -57,15 +60,15 @@ function GuardarCabecera() {
                 return;
             }
             $("#txtDescripcion").val('');
-            setTimeout(function () {
+            
                 LimpiarCabecera();
                 $('#ModalIngresoCabecera').modal('hide');
                 $('#cargac').hide();
-            }, 200);
+            
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -73,12 +76,14 @@ function GuardarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');    
+    $('#txtNombre').prop('disabled', false);
     itemEditar = [];
 }
 
 function ActualizarCabecera(jdata) {
     if (jdata.EstadoRegistro == 'A') {
         $("#txtNombre").val(jdata.NombreObjeto);
+        $('#txtNombre').prop('disabled', true);
         $("#txtDescripcion").val(jdata.DescripcionObjeto);
         $('#ModalIngresoCabecera').modal('show');
         itemEditar = jdata;

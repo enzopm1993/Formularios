@@ -13,11 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var validarNombre = db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.FirstOrDefault(x=> x.NombEstandar.Replace(" ", string.Empty).ToUpper()==guardarModificar.NombEstandar.Replace(" ", string.Empty).ToUpper());
-                //if (validarNombre!=null && validarNombre.IdEstandar==guardarModificar.IdEstandar)
-                //{
-                //    //valor = 3;
-                //    //return valor;
-                //}
+               
                 var model = db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.FirstOrDefault(x => x.IdEstandar == guardarModificar.IdEstandar);
                 if (validarNombre != null && validarNombre.IdEstandar == guardarModificar.IdEstandar)
                 {
@@ -28,7 +24,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                     }
                     else
                     {
-                        //model.NombEstandar = guardarModificar.NombEstandar;
                         model.DescEstandar = guardarModificar.DescEstandar;
                         model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
@@ -37,28 +32,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                     }
                 }
                 else if(validarNombre==null)
-                {
-                    //    if (model != null)
-                    //    {
-                    //        if (model.EstadoRegistro == "I")
-                    //        {
-                    //            valor = 2;
-                    //            return valor;
-                    //        }
-                    //        else
-                    //        {
-                    //            model.NombEstandar = guardarModificar.NombEstandar;
-                    //            model.DescEstandar = guardarModificar.DescEstandar;
-                    //            model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-                    //            model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-                    //            model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-                    //            valor = 1;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
+                {                   
                     db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.Add(guardarModificar);
-                    //}
+                   
                 }
                 else
                 {

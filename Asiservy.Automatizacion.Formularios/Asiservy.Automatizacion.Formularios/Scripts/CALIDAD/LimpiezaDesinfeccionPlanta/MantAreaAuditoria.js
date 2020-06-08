@@ -30,7 +30,7 @@ function CargarCabecera() {
 }
 
 function GuardarCabecera() {
-    $('#ModalIngresoCabecera').modal('hide');
+    //$('#ModalIngresoCabecera').modal('hide');
     $('#cargac').show();
     var listaIdObjetoAuditar = new Array();
     $("input[type=checkbox]:checked").each(function (resultado) {
@@ -52,7 +52,8 @@ function GuardarCabecera() {
             var con = 0;
             listaAnterior.forEach(function (rowPrevious) {
                 if (rowNew == rowPrevious.IdObjeto) {
-                    delete listaAnterior[con];//ELIMINO LOS ID(table) CHECK LOS RESTANTES LOS ELIMINO EN BD
+                    //ELIMINO LOS ID(table) CHECK LOS RESTANTES LOS ELIMINO EN BD                 
+                    listaAnterior.splice(con,1);               
                 }
                 con++;
             });
@@ -69,8 +70,7 @@ function GuardarCabecera() {
             listaIdObjetoAuditar: listaIdObjetoAuditar,
             listaIdObjetoEliminar: listaAnterior
         },
-        success: function (resultado) {
-            $('#ModalIngresoCabecera').modal('hide');
+        success: function (resultado) {            
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -92,11 +92,16 @@ function GuardarCabecera() {
                 MensajeAdvertencia('Debe seleccionar un OBJETO para crear una Area de Auditoria');
                 $('#cargac').hide();
                 return;
-            } else {
+            } else if (resultado == 6) {
+                MensajeAdvertencia('!El nombre ya existe:! <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span>');
+                $('#cargac').hide();
+                return;
+            }else {
                 MensajeAdvertencia('Se detecto que un OBJETO fue INACTIVADO, !Por favor vuelva a intentar¡');
                 $('#cargac').hide();
                 return;
             }
+            $('#ModalIngresoCabecera').modal('hide');
             itemEditarMantenimiento = [0];
             $("#txtDescripcion").val('');
             LimpiarCabecera();
@@ -104,17 +109,19 @@ function GuardarCabecera() {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
 
 function ModalIngresoCabecera(idObjeto) {
+    $('#txtNombre').prop('disabled', true);
     document.getElementById("btnActualizarObjeto").disabled = true;
     var objIdObjeto = idObjeto;       
     if (idObjeto == true) {//NUEVO REGISTRO
         objIdObjeto = [0];
         LimpiarCabecera();
+        $('#txtNombre').prop('disabled', false);
     } else if (idObjeto == 0) {//NO EXISTE NINGUN OBJETO CON EL CHECK ActualizarCabecera(resultado);
         objIdObjeto = [0];
     }
@@ -122,7 +129,6 @@ function ModalIngresoCabecera(idObjeto) {
         if (itemEditarMantenimiento == 0) {
             objIdObjeto = [0];
         } else { objIdObjeto = itemEditarMantenimiento;}
-        
     }
     var estadoRegistro = 'A';
     $('#ModalIngresoCabecera').modal('show');    
@@ -139,7 +145,7 @@ function ModalIngresoCabecera(idObjeto) {
             if (resultado == "0") {
                 $("#divMostarObjetos").html("No existen registros");
             } else {
-                var theHTML = "<table class='table table-bordered' style='cursor: pointer' id='tblDataTableObjeto'>\
+                var theHTML = "<table class='table table-bordered' style='cursor: pointer;font-size:9px' id='tblDataTableObjeto'>\
                                <thead style='font-size: 14px'><tr>\
                                <th><div class='custom-control custom-checkbox'>\
                                <input type='checkbox'  class='custom-control-input' id='Objeto' onclick='SeleccionarTodos(this.checked)'>\
@@ -154,20 +160,29 @@ function ModalIngresoCabecera(idObjeto) {
                     theHTML += "<tr>";
                     theHTML += "<td class='text-center'>\
                                      <div class='custom-control custom-checkbox'>";
+                    if (row.DescripcionObjeto == null) {
+                        row.DescripcionObjeto = '';
+                    }
                     objIdObjeto.forEach(function (rowObjeto) {
                         if (rowObjeto.IdObjeto == row.IdObjeto) {
                             check = 'checked';
-                        }
+                        }                        
                     });
                     theHTML += "<input type='checkbox' " + check + " class='custom-control-input' id='Objeto-" + row.IdObjeto + "'>";
                     theHTML += "<label class='custom-control-label' for='Objeto-" + row.IdObjeto + "'></label></div></td>";
                     theHTML += "<td>" + row.NombreObjeto + "</td>";
-                    theHTML += "<td>" + row.DescripcionObjeto + "</td>";
+                    theHTML += "<td style='white-space:normal'>" + row.DescripcionObjeto + "</td>";
                     theHTML += "</tr>";
                 });                
                 theHTML += "</tbody></table>";
-                //LO ENVIO AL DIV QUE CONTIENE LA TABLA
+                //LO ENVIO AL DIV QUE CONTIENE LA TABLA                
                 document.getElementById("divMostarObjetos").innerHTML = theHTML;
+               
+                //var table = $("#tblDataTableObjeto");                
+                //configAuditoria.opcionesDT.order = [1, 'asc'];                
+                //table.DataTable(configAuditoria.opcionesDT);               
+                //table.DataTable().draw();
+
                 setTimeout(function () {
                     document.getElementById("btnActualizarObjeto").disabled = false;
                 },5000);
@@ -181,6 +196,7 @@ function ModalIngresoCabecera(idObjeto) {
 
 function ActualizarCabecera(jdata) {
     if (jdata.EstadoRegistro == 'A') {
+        $("#txtNombre").css('border', '');   
         $("#txtNombre").val(jdata.NombreAuditoria);
         $("#txtDescripcion").val(jdata.DescripcionAuditoria);
         $('#ModalIngresoCabecera').modal('show');
@@ -303,4 +319,52 @@ function SeleccionarTodos(check) {
 function NuevoRegistro() {   
     var url = $("#RedirectTo").val();
     var win = window.open(url, '_blank');
+}
+
+var configAuditoria = {
+    wsUrl: 'http://192.168.0.31:8870',
+    baseUrl: '@Url.Content("~/")',
+    opcionesDT: {
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
+            }
+        },
+        "pageLength": -1,
+        "lengthMenu": [[-1], ["Todos"]],
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        //"scrollX": "auto",
+        //"scrollY": "auto",
+        "order": [[0, "desc"], [1, "desc"]],
+        "buttons": [
+            {
+                extend: 'pageLength',
+                text: ' <img style="width:100%" src="../../Content/icons/show24.png" />',
+                titleAttr: 'Mostrar'
+            }
+        ]
+    }
 }

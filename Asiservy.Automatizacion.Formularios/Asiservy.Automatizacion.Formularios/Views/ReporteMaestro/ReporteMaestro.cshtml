@@ -62,7 +62,9 @@
 
                         <div class="form-group">
                             <label>Opcion</label>
-                            @Html.DropDownList("selectOpcion", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })
+                           @* @Html.DropDownList("selectOpcion", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })*@
+                            <select id="selectOpcion" class="form-control">
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-12">
@@ -187,7 +189,8 @@
                     <div class="col-md-12 col-5 col-sm-6">
                         <div class="form-group">
                             <label>Opcion</label>
-                            @Html.DropDownList("selectOpcionModal", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })
+                            @*@Html.DropDownList("selectOpcionModal", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })*@
+                            <input type="text" readonly class="form-control" id="selectOpcionModal" name="name" value="" />
                         </div>
                     </div>
                     @*<div class="col-md-6 col-6 col-sm-6">

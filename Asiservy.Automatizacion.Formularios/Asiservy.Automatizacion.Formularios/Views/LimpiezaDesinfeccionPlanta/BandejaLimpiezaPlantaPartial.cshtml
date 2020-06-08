@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>
+@using Newtonsoft.Json;
+<table class="table table-bordered table-hover table-striped" id="tblDataTable">
+    <thead style="font-size:14px">
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>
+                USUARIO CREACION
+            </th>
+            <th>
+                FECHA CREACION
+            </th>
+            <th>
+                ESTADO
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:13px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @item.ObservacionControl
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog
+                </td>
+                <td>
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

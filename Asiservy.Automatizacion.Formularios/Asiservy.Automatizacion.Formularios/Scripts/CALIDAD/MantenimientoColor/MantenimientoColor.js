@@ -40,8 +40,8 @@ function GuardarCabecera() {
         type: "POST",
         data: {
             IdColor: itemEditar.IdColor,
-            Abreviatura: $('#txtAbreviatura').val().toUpperCase(),
-            Descripcion: $("#txtDescripcion").val().toUpperCase()
+            Abreviatura: $('#txtAbreviatura').val(),
+            Descripcion: $("#txtDescripcion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

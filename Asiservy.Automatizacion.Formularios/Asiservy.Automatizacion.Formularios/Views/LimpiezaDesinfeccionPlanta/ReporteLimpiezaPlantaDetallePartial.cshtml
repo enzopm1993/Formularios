@@ -1,0 +1,191 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Limpieza_Desinfeccion_Planta>
+
+@{
+    var listaTablas = (from v in Model
+                       group v by new { v.IdAuditoria, v.NombreAuditoria, v.HoraAuditoria, v.Turno } into x
+                       orderby x.Key.HoraAuditoria descending
+                       select new { x.Key.IdAuditoria, x.Key.NombreAuditoria, x.Key.HoraAuditoria, x.Key.Turno }).ToList();
+}
+
+<table class="table table-bordered table-striped">
+    <thead style="font-size:11px">
+        <tr>
+            <th>
+                AREAS AUDITADAS
+            </th>
+            <th>
+                LIMPIEZA
+            </th>
+            <th>
+                DESINFECCION
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>
+                HORA
+            </th>
+            <th>
+                ACCION CORRECTIVA
+            </th>
+            <th>
+                SUPERVISOR
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:10px">
+        @foreach (var tabla in listaTablas)
+        {
+            int con = 0;
+            foreach (var item in Model)
+            {
+                if (tabla.IdAuditoria == item.IdAuditoria && tabla.HoraAuditoria == item.HoraAuditoria)
+                {
+                    if (con == 0)
+                    {
+                        <tr>
+                            <td colspan="7">
+                                <b>
+                                    @tabla.NombreAuditoria.ToUpper()
+                                </b>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>HORA: @item.HoraAuditoria.ToString("HH:mm")</b>
+                            </td>
+                        </tr>
+
+                    }
+                    con++;
+                    <tr>
+                        <td style="white-space:normal">
+                            @item.NombreObjeto.ToUpper()
+                        </td>
+                        <td style="text-align:center">
+                            @item.Limpieza
+                        </td>
+                        <td style="text-align:center;">
+                            @item.Desinfeccion
+                        </td>
+                        <td style="white-space:normal">
+                            @if (!string.IsNullOrEmpty(item.ObservacionDetalle))
+                            {
+                                @item.ObservacionDetalle.ToUpper()
+                            }
+                        </td>
+                        <td>
+                            @{DateTime date = Convert.ToDateTime(item.HoraAccionCorrectiva);}
+                            @if (date != DateTime.MinValue)
+                            {
+                                @date.ToString("HH:mm")
+                            }
+                        </td>
+                        <td style="white-space:normal">
+                            @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
+                            {
+                                @item.AccionCorrectiva.ToUpper()
+                            }
+                        </td>
+                        <td>
+                            @item.PersonaAccionCorrectiva
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+
+</table>
+
+<div class="row">
+    <div class="col-md-3 col-12 col-sm-12">
+        <table class="table table-bordered" style="font-size:8px">
+            <thead class="text-center text-right" style="height:8px">
+                <tr>
+                    <th colspan="2">TABLA DE CALIFICACIONES DE <br /> LIMPIEZA Y DESINFECCIÓN</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:10px">
+                <tr>
+                    <td>SATISFACTORIO</td>
+                    <td>S</td>
+                </tr>
+                <tr>
+                    <td>NO SATISFACTORIO</td>
+                    <td>NS</td>
+                </tr>
+                <tr>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-9 col-12 colsm-12">
+        <br />
+        <table class="table table-borderless text-center">
+            <tr>
+                <td>
+                    <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label> <br />
+                    <label>Inspector de Calidad</label><br />
+                    <label id="txtFechaCreacion"></label>
+                </td>
+                <td>
+                    <label id="txtUsuarioAprobacion"></label><br />
+                    <label style="border-top:solid 1px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aprobado Por&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br />
+                    <label id="txtFechaAprobacion"></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="pagebreak"></div>
+@{
+    int cont = 0;
+}
+<div class="row" style="margin:3px">
+    @foreach (var tabla in listaTablas)
+    {
+        foreach (var item in Model)
+        {
+            if (tabla.IdAuditoria == item.IdAuditoria && tabla.HoraAuditoria == item.HoraAuditoria)
+            {
+                if (item.RutaFoto != null)
+                {
+                    <div class="text-center imgImprimir" style="border:1px solid;border-radius:20px;margin:3px;width:330px">
+                        <div id="header_@item.IdDetalle">
+                            <img src="~/Content/Img/@item.RutaFoto" id="@item.IdDetalle" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                        </div>
+                        <script>
+                            validarImg('@item.Rotation','@item.IdDetalle','@item.RutaFoto');
+                        </script>
+                        <div>
+                            <label class="card-text nose" style="color:black;font-size:11px;"><b>AREA AUDITORIA: </b> @item.NombreAuditoria.ToUpper()</label><br />
+                            <label class="card-text nose" style="color:black; font-size:11px;"><b>OBJETO AUDITADO: </b> @item.NombreObjeto.ToUpper()</label><br />
+                            <label class="card-text nose" style="color:black;font-size:11px;"><b>ACCION CORRECTIVA: </b> @item.AccionCorrectiva.ToUpper()</label>
+                        </div>
+                    </div>
+                    if (cont == 7)
+                    {
+                    @:</div>
+                    @:<div>
+                    cont = 0;
+                    <div class="pagebreak"></div>
+                }
+                cont++;
+            }
+        }
+    }
+}
+    </div>
+                      <style>
+                          img {
+                              border: 1px solid #ddd;
+                              border-radius: 4px;
+                              padding: 5px;
+                          }
+
+                              img:hover {
+                                  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+                              }
+                      </style>
+                      
