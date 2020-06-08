@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoCisterna;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaClorinacionCisterna;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using System.Net;
+using System;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class MantenimientoCisternaController : Controller
+    public class AnalisisAguaClorinacionCisternaController : Controller
     {
         clsDError clsDError { get; set; } = null;
 
-        clsDMantenimientoCisterna clsDMantenimientoCisterna { get; set; } = null;
-        string[] lsUsuario { get; set; }=null;
-
-        public ActionResult MantenimientoCisterna()
+        ClsAnalisisAguaClorinacionCisterna ClsAnalisisAguaClorinacionCisterna { get; set; } = null;
+        string[] lsUsuario { get; set; } = null;
+        #region
+        //-------------------------------------------------MANTENIMIENTO CLORINACION CISTERNA-------------------------------------------
+        public ActionResult MantenimientoClorinacionCisterna()
         {
             try
             {
@@ -45,7 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult MantenimientoCisternaPartial()
+        public ActionResult MantenimientoClorinacionCisternaPartial()
         {
             try
             {
@@ -54,8 +53,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoCisterna = new clsDMantenimientoCisterna();
-                var lista = clsDMantenimientoCisterna.ConsultarMantenimientoCisterna();
+                ClsAnalisisAguaClorinacionCisterna = new ClsAnalisisAguaClorinacionCisterna();
+                var lista = ClsAnalisisAguaClorinacionCisterna.ConsultarMantenimientoCisterna();
                 if (lista != null)
                 {
                     return PartialView(lista);
@@ -83,11 +82,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-        }
+        }       
 
-        //-------------------------------------------------MANTENIMIENTO DE CISTERNA-------------------------------------------
-
-        public ActionResult GuardarModificarMantenimientoCisterna(CC_MANTENIMIENTO_CISTERNA model)
+        public ActionResult GuardarModificarMantenimientoCisterna(CC_ANALISIS_AGUA_CLORINACION_MANT model)
         {
             try
             {
@@ -96,12 +93,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoCisterna = new clsDMantenimientoCisterna();
+                ClsAnalisisAguaClorinacionCisterna = new ClsAnalisisAguaClorinacionCisterna();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDMantenimientoCisterna.GuardarModificarMantenimientoCisterna(model);
+                var valor = ClsAnalisisAguaClorinacionCisterna.GuardarModificarMantenimientoCisterna(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -128,7 +125,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult EliminarMantenimientoCisterna(CC_MANTENIMIENTO_CISTERNA model)
+        public ActionResult EliminarMantenimientoCisterna(CC_ANALISIS_AGUA_CLORINACION_MANT model)
         {
             try
             {
@@ -137,16 +134,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoCisterna = new clsDMantenimientoCisterna();
-                model.FechaIngresoLog = DateTime.Now;                
+                ClsAnalisisAguaClorinacionCisterna = new ClsAnalisisAguaClorinacionCisterna();
+                model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDMantenimientoCisterna.EliminarMantenimientoCisterna(model);
+                var valor = ClsAnalisisAguaClorinacionCisterna.EliminarMantenimientoCisterna(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
+                else return Json("1", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -167,6 +164,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
         protected void SetSuccessMessage(string message)
         {

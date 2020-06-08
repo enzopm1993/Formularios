@@ -25,10 +25,10 @@
             @foreach (var item in Model)
             {
                 <td id="@item.Codigo">
-                    <select id="selectLinea_@item.Codigo" style="width:120px" class="form-control" onchange="quitarEstiloSelect(this);">
-                        <option value="" default>Seleccione..</option>
-                        <option value="true">C-CUMPLE</option>
+                    <select id="selectLinea_@item.Codigo" style="width:120px" class="form-control" onchange="quitarEstiloSelect(this);">                        
+                        <option value="true" default>C-CUMPLE</option>
                         <option value="false">N-NO CUMPLE</option>
+                        <option value="null">N/A</option>
                     </select>
                 </td>
                 json.Add(item.Codigo);

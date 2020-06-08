@@ -50,6 +50,8 @@
                         {
                             <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
                         }
+                        else if (ic.EstadoCumplimiento == null)
+                        { <td><center><span class="badge badge-info">N/A</span></center></td>}
                     }
                 }
                 if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
