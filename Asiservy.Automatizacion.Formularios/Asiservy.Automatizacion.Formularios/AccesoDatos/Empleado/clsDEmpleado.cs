@@ -200,6 +200,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return BuscarEmpleaado;
             }
         }
+        
+        public List<spConsultarCaambioPersonalxCedula> ConsultarDondeFueMovido(List<spConsutaEmpleadosCambioPersonal> ListEmpleados)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                //List<spConsutaEmpleadosFiltroCambioPersonal> Empleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                List<spConsultarCaambioPersonalxCedula> Empleados = new List<spConsultarCaambioPersonalxCedula>();
+
+                spConsultarCaambioPersonalxCedula consultarempleado = null;
+                foreach (var item in ListEmpleados)
+                {
+                    consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
+                    //Empleados.Add(new spConsutaEmpleadosFiltroCambioPersonal { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
+                    Empleados.Add(new spConsultarCaambioPersonalxCedula { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA, FECHAMOVIDO = consultarempleado.FECHAMOVIDO });
+
+                }
+
+                return Empleados;
+            }
+        }
         public List<spConsultarCaambioPersonalxCedula> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -217,6 +237,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 }
 
                 return Empleados;
+            }
+        }
+        public List<spConsutaEmpleadosCambioPersonal> ConsultarEmpledosaPrestaroRegresar(string dsLinea, string dsArea, string dsCargo, string psRecurso, string psTipo)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                if (string.IsNullOrEmpty(dsLinea))
+                    dsLinea = "0";
+                if (string.IsNullOrEmpty(dsArea))
+                    dsArea = "0";
+                if (string.IsNullOrEmpty(dsCargo))
+                    dsCargo = "0";
+                if (string.IsNullOrEmpty(psRecurso))
+                    psRecurso = "0";
+
+
+                List<spConsutaEmpleadosCambioPersonal> pListEmpleados = null;
+                //List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleadoR = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                pListEmpleados = db.spConsutaEmpleadosCambioPersonal(dsArea, dsLinea, dsCargo, psRecurso, psTipo).ToList();
+
+                return pListEmpleados;
+
             }
         }
         public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultaEmpleadosFiltroCambioPersonal(string dsLinea, string dsArea, string dsCargo,string psRecurso,string psTipo)

@@ -106,76 +106,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     if (tipo == "prestar")
                     {
-                        //foreach (var item in pListCambioPersonal.ToArray())
-                        //{//Para ver si el empleado fue movido a otra linea anteriormente(vigente=false), y actualizar se registro donde se moverá ahora
-                        //    if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && !x.Vigente.Value))
-                        //    {
-                        //        listCedulas.Add(item.Cedula);// a listCedulas agrego los empleados que se van a actualizar en CAMBIO_PERSONAL
-                        //        pListCambioPersonal.Remove(item);//remuevo para que queden solo los registros nuevos que se van a crear
-                        //    }
-                        //}
-                        //if (listCedulas.Count > 0)//Si es un CAMBIO_PERSONAL que no se encuentra vigente(0), se obtiene el registro y se lo modifica a donde se lo esta moviendo
-                        //{
-                        //    DateTime? FechaCambioPersonalConhoras = psHora == null ? psfecha : psfecha.Value.Add(psHora.Value);
-                        //    //var BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(p => CedulasArray.Contains(p.Cedula) && p.FechaInicio == psfecha &&).ToList();
-                        //    MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonalDiario;
-                        //    //verifica si esta en movimiento:personal:diario
-                        //    foreach (var item in listCedulas.ToArray())
-                        //    {
-                        //        //Busco en MOVIMIENTO_PERSONAL_DIARIO si la asistencia ya fue tomada en la fecha ingresada y traigo el último registro.
-                        //        BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item && x.FechaInicio == psfecha /*&& x.Asistencia == true*/ && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).OrderByDescending(X => X.IdCambioPersonal).FirstOrDefault();
-                        //        if (BuscarMovimientoPersonalDiario != null)//si encuentra 
-                        //        {
-                        //            //valido si la asistencia se guardo asistencia en movimiento_personal siempre y cuando la fecha a la que lo quiero mover sea mayor a la que se registro en la asistencia
-                        //            if (FechaCambioPersonalConhoras > BuscarMovimientoPersonalDiario.FechaInicio.Value.Add(BuscarMovimientoPersonalDiario.HoraInicio.Value))
-                        //            {
-                        //                BuscarMovimientoPersonalDiario.FechaFin = psfecha;
-                        //                BuscarMovimientoPersonalDiario.HoraFin = psHora;
-                        //                BuscarMovimientoPersonalDiario.TerminalModificacionLog = psterminal;
-                        //                BuscarMovimientoPersonalDiario.FechaModificacionLog = DateTime.Now;
-                        //                BuscarMovimientoPersonalDiario.UsuarioModificacionLog = psusuario;
-                        //                db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
-                        //                {
-                        //                    Cedula = BuscarMovimientoPersonalDiario.Cedula,
-                        //                    FechaInicio = psfecha,
-                        //                    HoraInicio = psHora,
-                        //                    EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                        //                    CodLinea = psLinea,
-                        //                    CentroCosto = psCentroCosto,
-                        //                    CodCargo = psCargo,
-                        //                    Recurso = psRecurso,
-                        //                    FechaIngresoLog = DateTime.Now,
-                        //                    TerminalIngresoLog = psterminal,
-                        //                    UsuarioIngresoLog = psusuario
-                        //                });
-                        //                db.SaveChanges();
-                        //            }
-                        //            else
-                        //            {
-                        //                listCedulas.Remove(item);
-                        //                NoSePudieornMover.Add(item + ": No se pudo mover en la fecha y hora indicadas por que ya tenía marcada asistencia en una hora menor  a la imgresada");
-                        //            }
-
-                        //        }
-                        //    }
-                        //    string[] CedulasArray = listCedulas.ToArray();
-                        //    var ActualizarCambioPersonal = db.CAMBIO_PERSONAL.Where(p => CedulasArray.Contains(p.Cedula)).ToList();
-                        //    ActualizarCambioPersonal.ForEach(p =>
-                        //    {
-                        //        p.Vigente = true;
-                        //        p.CodLinea = psLinea;
-                        //        p.CentroCosto = psCentroCosto;
-                        //        p.Recurso = psRecurso;
-                        //        p.HoraInicio = psHora;
-                        //        p.Fecha = psfecha;
-                        //        p.CodCargo = psCargo;
-                        //        p.FechaModificacionLog = DateTime.Now;
-                        //        p.UsuarioModificacionLog = psusuario;
-                        //        p.TerminalModificacionLog = psterminal;
-                        //    });
-                        //    db.SaveChanges();
-                        //}
-
                         //**Buscar En Asistencia EstadoFalta para no permitir mover
                         ASISTENCIA BuscarEnAsistencia = null;
                         foreach (var item in pListCambioPersonal.ToArray())
@@ -196,24 +126,44 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                             MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonalDiario;
                             CAMBIO_PERSONAL BuscarPerCambioPersonal;
+                            CAMBIO_PERSONAL BuscarCPFalse;
                             DateTime? FechaIngresada;
                             foreach (var item in pListCambioPersonal.ToArray())
                             {
                                 Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
                                 FechaIngresada = item.HoraInicio == null ? item.Fecha : item.Fecha.Value.Add(item.HoraInicio.Value);
                                 //busco si la persona esta en CAMBIO_PERSONAL con Vigente false(osea que ya ha sido regresado)
-                                BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && !x.Vigente.Value).OrderByDescending(z=>z.IdCambioPersonal).FirstOrDefault();
-                                if (BuscarPerCambioPersonal != null)
-                                {
-                                    if (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value))
-                                    {
-                                        pListCambioPersonal.Remove(item);
-                                        
-                                        NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada.");
+                                BuscarCPFalse = db.CAMBIO_PERSONAL.Where(z => z.Cedula == item.Cedula && z.EstadoRegistro == clsAtributos.EstadoRegistroActivo).OrderByDescending(x=>x.IdCambioPersonal).FirstOrDefault();
 
-                                    }
+                                BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && !x.Vigente.Value&& x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).OrderByDescending(z=>z.IdCambioPersonal).FirstOrDefault();
+                                if (!BuscarCPFalse.Vigente.Value && BuscarPerCambioPersonal != null && (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value)))
+                                {
+                                        pListCambioPersonal.Remove(item);
+                                        NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada.");
                                 }
+                                //**agregado 04-06-2020 requerimiento de prestar personal sin necesidad de regresar
                                 
+                                BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && x.Vigente.Value &&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();
+                               if (BuscarPerCambioPersonal != null && (FechaIngresada <= BuscarPerCambioPersonal.Fecha.Value.Add(BuscarPerCambioPersonal.HoraInicio.Value)))
+                                {
+                                        pListCambioPersonal.Remove(item);
+                                        NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada.");
+                                }
+                                if(BuscarPerCambioPersonal!=null && (BuscarPerCambioPersonal.RecursoOrigen == psRecurso&&BuscarPerCambioPersonal.CodLineaOrigen==psLinea&&BuscarPerCambioPersonal.CentroCostoOrigen==psCentroCosto&&BuscarPerCambioPersonal.CodCargo==psCargo))
+                                {
+                                    pListCambioPersonal.Remove(item);
+                                    NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No puede ser prestado al mismo centro de costo, recurso, línea y cargo al que pertenece, debe ir a la opción regresar empleados.");
+                                }else if (BuscarPerCambioPersonal != null && (FechaIngresada > BuscarPerCambioPersonal.Fecha.Value.Add(BuscarPerCambioPersonal.HoraInicio.Value)))
+                                {
+                                    BuscarPerCambioPersonal.Vigente = false;
+                                    BuscarPerCambioPersonal.FechaFin = FechaIngresada;
+                                    BuscarPerCambioPersonal.Horafin = psHora == null ? TimeSpan.Parse("00:00") : psHora;
+                                    BuscarPerCambioPersonal.FechaModificacionLog = DateTime.Now;
+                                    BuscarPerCambioPersonal.UsuarioModificacionLog = psusuario;
+                                    BuscarPerCambioPersonal.TerminalModificacionLog = psterminal;
+                                    db.SaveChanges();
+                                }
+                                //**
                                 if (item.HoraInicio == null)//si la hora ingresada es "Inicio Jornada(null)", entonces busco si esa persona no tiene estado presente de asistencia
                                 {
                                     BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item.Cedula && x.FechaInicio == psfecha&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo /*&& x.Asistencia.Value*/).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();//busco el registro en movimiento_personal_diario
@@ -247,8 +197,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                                 pListCambioPersonal.Remove(item);
                                                 NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece.");
                                             }
-                                        }else
-                                        if (psHora < BuscarMovimientoPersonalDiario.HoraInicio)// && psHora>x.HoraInicio
+                                        }else if (psHora < BuscarMovimientoPersonalDiario.HoraInicio)// && psHora>x.HoraInicio
                                         {
                                             pListCambioPersonal.Remove(item);
                                             NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece.");
@@ -268,7 +217,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                             CodCargo=psCargo,Recurso=psRecurso,FechaInicio=psfecha,HoraInicio=psHora,EstadoRegistro=clsAtributos.EstadoRegistroActivo,
                                             FechaIngresoLog=DateTime.Now,UsuarioIngresoLog=psusuario,TerminalIngresoLog=psterminal, Asistencia=false, Turno=psTurno});
                                             db.SaveChanges();
-
                                         }
                                     }
                                 }

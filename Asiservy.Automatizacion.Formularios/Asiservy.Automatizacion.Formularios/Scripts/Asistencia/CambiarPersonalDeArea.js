@@ -240,6 +240,7 @@ function Mover(result) {
             
 
             $('#ModalMensajeCP').modal('show');
+            ConsultarEmpleadosRegresar();
         }
         ,
         error: function (resultado) {
