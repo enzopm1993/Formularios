@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdDesinfeccionManos { get; set; }
         public string Hora { get; set; }
         public string CodigoLinea { get; set; }
-        public bool EstadoCumplimiento { get; set; }
+        public Nullable<bool> EstadoCumplimiento { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
     }
