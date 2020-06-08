@@ -240,6 +240,58 @@
           <Property Name="CodCargoOrigen" Type="varchar" MaxLength="30" />
           <Property Name="RecursoOrigen" Type="varchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+          <Key>
+            <PropertyRef Name="IdAnalisisAguaControl" />
+          </Key>
+          <Property Name="IdAnalisisAguaControl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="300" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="100" />
+          <Property Name="FechaAprobado" Type="datetime" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+          <Key>
+            <PropertyRef Name="IdAnalisisAguaDetalle" />
+          </Key>
+          <Property Name="IdAnalisisAguaDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAnalisisAguaControl" Type="int" Nullable="false" />
+          <Property Name="IdCisterna" Type="int" Nullable="false" />
+          <Property Name="Hora" Type="datetime" Nullable="false" />
+          <Property Name="STD" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DT" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="CL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_ANALISIS_AGUA_CLORINACION_MANT">
+          <Key>
+            <PropertyRef Name="IdCisterna" />
+          </Key>
+          <Property Name="IdCisterna" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreCisterna" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DescripcionCisterna" Type="varchar" MaxLength="100" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_ANALISIS_AGUA_TANQUERO">
           <Key>
             <PropertyRef Name="IdAnalisisAguaTanquero" />
@@ -2808,6 +2860,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+          <End Role="CC_ANALISIS_AGUA_CLORINACION_CONTROL" Type="Self.CC_ANALISIS_AGUA_CLORINACION_CONTROL" Multiplicity="1" />
+          <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" Type="Self.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+              <PropertyRef Name="IdAnalisisAguaControl" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+              <PropertyRef Name="IdAnalisisAguaControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT">
+          <End Role="CC_ANALISIS_AGUA_CLORINACION_MANT" Type="Self.CC_ANALISIS_AGUA_CLORINACION_MANT" Multiplicity="1" />
+          <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" Type="Self.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_AGUA_CLORINACION_MANT">
+              <PropertyRef Name="IdCisterna" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+              <PropertyRef Name="IdCisterna" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL">
           <End Role="CC_ANALISIS_AGUA_TANQUERO_CONTROL" Type="Self.CC_ANALISIS_AGUA_TANQUERO_CONTROL" Multiplicity="1" />
           <End Role="CC_ANALISIS_AGUA_TANQUERO" Type="Self.CC_ANALISIS_AGUA_TANQUERO" Multiplicity="*" />
@@ -4136,6 +4212,9 @@
           <EntitySet Name="CABECERA_CONTROL_PESO_CODIFICACION" EntityType="Self.CABECERA_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CABECERA_PRODUCTO_POUCH_CUARENTENA" EntityType="Self.CABECERA_PRODUCTO_POUCH_CUARENTENA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CC_ANALISIS_AGUA_CLORINACION_CONTROL" EntityType="Self.CC_ANALISIS_AGUA_CLORINACION_CONTROL" Schema="dbo" Table="CC.ANALISIS_AGUA_CLORINACION_CONTROL" store:Type="Tables" />
+          <EntitySet Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntityType="Self.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Schema="dbo" Table="CC.ANALISIS_AGUA_CLORINACION_DETALLE" store:Type="Tables" />
+          <EntitySet Name="CC_ANALISIS_AGUA_CLORINACION_MANT" EntityType="Self.CC_ANALISIS_AGUA_CLORINACION_MANT" Schema="dbo" Table="CC.ANALISIS_AGUA_CLORINACION_MANT" store:Type="Tables" />
           <EntitySet Name="CC_ANALISIS_AGUA_TANQUERO" EntityType="Self.CC_ANALISIS_AGUA_TANQUERO" Schema="dbo" Table="CC.ANALISIS_AGUA_TANQUERO" store:Type="Tables" />
           <EntitySet Name="CC_ANALISIS_AGUA_TANQUERO_CONTROL" EntityType="Self.CC_ANALISIS_AGUA_TANQUERO_CONTROL" Schema="dbo" Table="CC.ANALISIS_AGUA_TANQUERO_CONTROL" store:Type="Tables" />
           <EntitySet Name="CC_CALIBRACION_FLUOROMETRO_CTRL" EntityType="Self.CC_CALIBRACION_FLUOROMETRO_CTRL" Schema="dbo" Table="CC.CALIBRACION_FLUOROMETRO_CTRL" store:Type="Tables" />
@@ -4279,6 +4358,14 @@
           <AssociationSet Name="FK__USUARIO_R__IdRol__534D60F1" Association="Self.FK__USUARIO_R__IdRol__534D60F1">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO_ROL" EntitySet="USUARIO_ROL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" Association="Self.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_CONTROL" EntitySet="CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntitySet="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" Association="Self.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT">
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_MANT" EntitySet="CC_ANALISIS_AGUA_CLORINACION_MANT" />
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntitySet="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL" Association="Self.FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL">
             <End Role="CC_ANALISIS_AGUA_TANQUERO_CONTROL" EntitySet="CC_ANALISIS_AGUA_TANQUERO_CONTROL" />
@@ -5698,6 +5785,17 @@
             <Parameter Name="IdDesinfeccionManos" Mode="In" Type="Int32" />
             <Parameter Name="opcion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CC_ANALISIS_AGUA_CLORINACION_CONTROL" EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
+          <EntitySet Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+          <EntitySet Name="CC_ANALISIS_AGUA_CLORINACION_MANT" EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_MANT" />
+          <AssociationSet Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_CONTROL" EntitySet="CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntitySet="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT">
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_MANT" EntitySet="CC_ANALISIS_AGUA_CLORINACION_MANT" />
+            <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntitySet="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -11143,6 +11241,86 @@
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+          <Key>
+            <PropertyRef Name="IdAnalisisAguaControl" />
+          </Key>
+          <Property Name="IdAnalisisAguaControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Observaciones" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" FromRole="CC_ANALISIS_AGUA_CLORINACION_CONTROL" ToRole="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+        </EntityType>
+        <EntityType Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+          <Key>
+            <PropertyRef Name="IdAnalisisAguaDetalle" />
+          </Key>
+          <Property Name="IdAnalisisAguaDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAnalisisAguaControl" Type="Int32" Nullable="false" />
+          <Property Name="IdCisterna" Type="Int32" Nullable="false" />
+          <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="STD" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="DT" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="CL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_ANALISIS_AGUA_CLORINACION_CONTROL" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" FromRole="CC_ANALISIS_AGUA_CLORINACION_DETALLE" ToRole="CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
+          <NavigationProperty Name="CC_ANALISIS_AGUA_CLORINACION_MANT" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" FromRole="CC_ANALISIS_AGUA_CLORINACION_DETALLE" ToRole="CC_ANALISIS_AGUA_CLORINACION_MANT" />
+        </EntityType>
+        <EntityType Name="CC_ANALISIS_AGUA_CLORINACION_MANT">
+          <Key>
+            <PropertyRef Name="IdCisterna" />
+          </Key>
+          <Property Name="IdCisterna" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreCisterna" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionCisterna" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" FromRole="CC_ANALISIS_AGUA_CLORINACION_MANT" ToRole="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+        </EntityType>
+        <Association Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+          <End Type="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_CONTROL" Role="CC_ANALISIS_AGUA_CLORINACION_CONTROL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+              <PropertyRef Name="IdAnalisisAguaControl" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+              <PropertyRef Name="IdAnalisisAguaControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT">
+          <End Type="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_MANT" Role="CC_ANALISIS_AGUA_CLORINACION_MANT" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_AGUA_CLORINACION_MANT">
+              <PropertyRef Name="IdCisterna" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+              <PropertyRef Name="IdCisterna" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16612,6 +16790,61 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+              <MappingFragment StoreEntitySet="CC_ANALISIS_AGUA_CLORINACION_CONTROL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdAnalisisAguaControl" ColumnName="IdAnalisisAguaControl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+              <MappingFragment StoreEntitySet="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="CL" ColumnName="CL" />
+                <ScalarProperty Name="DT" ColumnName="DT" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdCisterna" ColumnName="IdCisterna" />
+                <ScalarProperty Name="IdAnalisisAguaControl" ColumnName="IdAnalisisAguaControl" />
+                <ScalarProperty Name="IdAnalisisAguaDetalle" ColumnName="IdAnalisisAguaDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_ANALISIS_AGUA_CLORINACION_MANT">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_MANT">
+              <MappingFragment StoreEntitySet="CC_ANALISIS_AGUA_CLORINACION_MANT">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="DescripcionCisterna" ColumnName="DescripcionCisterna" />
+                <ScalarProperty Name="NombreCisterna" ColumnName="NombreCisterna" />
+                <ScalarProperty Name="IdCisterna" ColumnName="IdCisterna" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

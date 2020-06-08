@@ -105,6 +105,15 @@
     <Compile Include="Datos\CAMBIO_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_ANALISIS_AGUA_CLORINACION_CONTROL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_AGUA_CLORINACION_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_AGUA_CLORINACION_MANT.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_ANALISIS_AGUA_TANQUERO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

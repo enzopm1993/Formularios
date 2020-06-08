@@ -216,6 +216,11 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="43.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_CONTROL" Width="1.5" PointX="44.375" PointY="48.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Width="1.5" PointX="46.625" PointY="1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_MANT" Width="1.5" PointX="44.375" PointY="1.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
