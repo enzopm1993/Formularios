@@ -16,17 +16,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class AsistenciaController : Controller
     {
-        clsDPeriodo ClsDPeriodo = null;
-        clsDGeneral clsDGeneral = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDAsistencia clsDAsistencia = null;
-        clsDParametro clsDParametro = null;
-        clsDCambioPersonal clsDCambioPersonal = null;
+        clsDPeriodo ClsDPeriodo { get; set; } = null;
+        clsDGeneral clsDGeneral { get; set; } = null;
+        clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDAsistencia clsDAsistencia { get; set; } = null;
+        clsDParametro clsDParametro { get; set; } = null;
+        clsDCambioPersonal clsDCambioPersonal { get; set; } = null;
         string[] liststring;
-        clsDError clsDError = null;
-        clsDClasificador clsDClasificador = null;
-        clsDCuchillo clsDCuchillo = null;
-        clsDLogin clsDLogin = null;
+        clsDError clsDError { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
+        clsDCuchillo clsDCuchillo { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
         //clsApiUsuario clsApiUsuario=null;
         //clsDSolicitudPermiso ClsDSolicitudPermiso = null;
         //clsDLogin clsDLogin = null;
@@ -1311,16 +1311,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                List<spConsutaEmpleadosFiltroCambioPersonal> ListaEmpleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                //List<spConsutaEmpleadosFiltroCambioPersonal> ListaEmpleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                //clsDEmpleado = new clsDEmpleado();
+                //if (tipo == "prestar")
+                //{
+                //    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoPrestar);
+                //    TempData["ListaEmpleados"] = ListaEmpleados;
+                //}
+                //else
+                //{
+                //    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoRegresar);
+                //    TempData["ListaEmpleados"] = ListaEmpleados;
+                //    ViewBag.ADondeFuePrestado = clsDEmpleado.ConsultarDondeFueMovido(ListaEmpleados);
+                //}
+                //return PartialView(ListaEmpleados);
+                List<spConsutaEmpleadosCambioPersonal> ListaEmpleados;
                 clsDEmpleado = new clsDEmpleado();
                 if (tipo == "prestar")
                 {
-                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoPrestar);
+                    ListaEmpleados = clsDEmpleado.ConsultarEmpledosaPrestaroRegresar(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoPrestar);
                     TempData["ListaEmpleados"] = ListaEmpleados;
                 }
                 else
                 {
-                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoRegresar);
+                    ListaEmpleados = clsDEmpleado.ConsultarEmpledosaPrestaroRegresar(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoRegresar);
                     TempData["ListaEmpleados"] = ListaEmpleados;
                     ViewBag.ADondeFuePrestado = clsDEmpleado.ConsultarDondeFueMovido(ListaEmpleados);
                 }
@@ -1463,7 +1477,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("5555", JsonRequestBehavior.AllowGet);
                 }
-                List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
+                //List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
+                List<spConsutaEmpleadosCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosCambioPersonal>;
                 
 
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
@@ -1490,10 +1505,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                                 UsuarioIngresoLog = liststring[0],
                                 TerminalIngresoLog = Request.UserHostAddress,
                                 EstadoRegistro = "A",
-                                CentroCostoOrigen=ListEmpleados.Where(x=>x.CEDULA==pscedulas).FirstOrDefault().CODIGOAREA,
-                                CodLineaOrigen=ListEmpleados.Where(x => x.CEDULA == pscedulas).FirstOrDefault().CODIGOLINEA,
-                                RecursoOrigen= ListEmpleados.Where(x => x.CEDULA == pscedulas).FirstOrDefault().RECURSO,
-                                CodCargoOrigen= ListEmpleados.Where(x => x.CEDULA == pscedulas).FirstOrDefault().CODIGOCARGO
+                                CentroCostoOrigen=ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOAREA,
+                                CodLineaOrigen=ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOLINEA,
+                                RecursoOrigen= ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).RECURSO,
+                                CodCargoOrigen= ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOCARGO
                             });
                             //pListBitacoraCambioPersonal.Add(new BITACORA_CAMBIO_PERSONAL
                             //{

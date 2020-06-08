@@ -11,14 +11,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_Control_Lavado_Desinfeccion_Manos_Detalle
+    public partial class spConsutaEmpleadosCambioPersonal
     {
-        public int IdDesinfeccionManosDetalle { get; set; }
-        public int IdDesinfeccionManos { get; set; }
-        public string Hora { get; set; }
-        public string CodigoLinea { get; set; }
-        public Nullable<bool> EstadoCumplimiento { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
+        public string CEDULA { get; set; }
+        public string NOMBRES { get; set; }
+        public string CODIGOLINEA { get; set; }
+        public string LINEA { get; set; }
+        public string CODIGOAREA { get; set; }
+        public string AREA { get; set; }
+        public string CODIGOCARGO { get; set; }
+        public string CARGO { get; set; }
+        public string RECURSO { get; set; }
     }
 }

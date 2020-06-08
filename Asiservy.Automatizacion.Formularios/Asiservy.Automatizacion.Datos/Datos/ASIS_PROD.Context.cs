@@ -108,7 +108,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
         public virtual DbSet<CONTROL_HUESO> CONTROL_HUESO { get; set; }
         public virtual DbSet<CABECERA_PRODUCTO_POUCH_CUARENTENA> CABECERA_PRODUCTO_POUCH_CUARENTENA { get; set; }
-        public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_CISTERNA> CC_MANTENIMIENTO_CISTERNA { get; set; }
@@ -158,7 +157,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
@@ -176,6 +174,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_REACTIVO> CC_MANTENIMIENTO_REACTIVO { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
+        public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1983,19 +1983,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos>("sp_Control_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, opcionParameter);
         }
     
-        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos_Detalle> sp_Control_Lavado_Desinfeccion_Manos_Detalle(Nullable<int> idDesinfeccionManos, Nullable<int> opcion)
-        {
-            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
-                new ObjectParameter("IdDesinfeccionManos", idDesinfeccionManos) :
-                new ObjectParameter("IdDesinfeccionManos", typeof(int));
-    
-            var opcionParameter = opcion.HasValue ?
-                new ObjectParameter("opcion", opcion) :
-                new ObjectParameter("opcion", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
-        }
-    
         public virtual ObjectResult<sp_Control_Termoencogido_Sellado> sp_Control_Termoencogido_Sellado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2150,6 +2137,44 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("idAuditoria", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Limpieza_Desinfeccion_Planta>("sp_Limpieza_Desinfeccion_Planta", idLimpiezaDesinfeccionPlantaParameter, turnoParameter, opParameter, idAuditoriaParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosCambioPersonal> spConsutaEmpleadosCambioPersonal(string area, string linea, string cargo, string recurso, string tipo)
+        {
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var cargoParameter = cargo != null ?
+                new ObjectParameter("Cargo", cargo) :
+                new ObjectParameter("Cargo", typeof(string));
+    
+            var recursoParameter = recurso != null ?
+                new ObjectParameter("Recurso", recurso) :
+                new ObjectParameter("Recurso", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCambioPersonal>("spConsutaEmpleadosCambioPersonal", areaParameter, lineaParameter, cargoParameter, recursoParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos_Detalle> sp_Control_Lavado_Desinfeccion_Manos_Detalle(Nullable<int> idDesinfeccionManos, Nullable<int> opcion)
+        {
+            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
+                new ObjectParameter("IdDesinfeccionManos", idDesinfeccionManos) :
+                new ObjectParameter("IdDesinfeccionManos", typeof(int));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
         }
     }
 }
