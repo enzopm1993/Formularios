@@ -7,6 +7,9 @@ var accionCorrectiva = [];
 $(document).ready(function () {
     CargarCabecera();
     $('.js-example-basic-single').select2();
+    $('#selectAreaAuditarFiltro').select2({
+        width: '100%'
+    });
     var x = document.getElementById("selectAreaAuditarFiltro");
     var option = document.createElement("option");
     option.text = 'TODOS LOS RESGISTROS';

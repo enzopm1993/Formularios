@@ -1,8 +1,10 @@
 ﻿$(document).ready(function () {
     $("#selectCondicion").select2();
+    $('#selectCondicion').select2({
+        width: '100%'
+    });
     ConsultarControl();
 });
-
 
 function ValidaEstadoReporte(Fecha) {
     $.ajax({
@@ -150,7 +152,7 @@ function NuevoControl() {
 
 function Validar() {
     var valida = true;
-    if ($("#Cedula").val() == "") {
+    if ($("#Cedula").val() == "" && $("#selectCondicion").val()!='1') {
         $("#Nombre").css('borderColor', '#FA8072');
         valida=false;
     } else {
