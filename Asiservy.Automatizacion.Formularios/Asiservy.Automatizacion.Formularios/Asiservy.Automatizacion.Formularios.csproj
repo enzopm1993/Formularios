@@ -4095,8 +4095,6 @@
     <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradora.cshtml" />
     <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradoraPartial.cshtml" />
     <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradoraDetallePartial.cshtml" />
-    <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivo.cshtml" />
-    <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivoPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaAprobarPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaPartial.cshtml" />
