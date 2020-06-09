@@ -841,6 +841,39 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_KARDEX_REACTIVO">
+          <Key>
+            <PropertyRef Name="IdKardexReactivo" />
+          </Key>
+          <Property Name="IdKardexReactivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="datetime" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_KARDEX_REACTIVO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdKardexReactivoDetalle" />
+          </Key>
+          <Property Name="IdKardexReactivoDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdKardexReactivo" Type="int" Nullable="false" />
+          <Property Name="IdReactivo" Type="int" Nullable="false" />
+          <Property Name="Valor" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_LAVADO_CISTERNA">
           <Key>
             <PropertyRef Name="IdLavadoCisterna" />
@@ -3088,6 +3121,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO">
+          <End Role="CC_KARDEX_REACTIVO" Type="Self.CC_KARDEX_REACTIVO" Multiplicity="1" />
+          <End Role="CC_KARDEX_REACTIVO_DETALLE" Type="Self.CC_KARDEX_REACTIVO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_KARDEX_REACTIVO">
+              <PropertyRef Name="IdKardexReactivo" />
+            </Principal>
+            <Dependent Role="CC_KARDEX_REACTIVO_DETALLE">
+              <PropertyRef Name="IdKardexReactivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO">
+          <End Role="CC_MANTENIMIENTO_REACTIVO" Type="Self.CC_MANTENIMIENTO_REACTIVO" Multiplicity="1" />
+          <End Role="CC_KARDEX_REACTIVO_DETALLE" Type="Self.CC_KARDEX_REACTIVO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_REACTIVO">
+              <PropertyRef Name="IdReactivo" />
+            </Principal>
+            <Dependent Role="CC_KARDEX_REACTIVO_DETALLE">
+              <PropertyRef Name="IdReactivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA">
           <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" Type="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" Multiplicity="1" />
           <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Type="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Multiplicity="*" />
@@ -4243,6 +4300,8 @@
           <EntitySet Name="CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" EntityType="Self.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" Schema="dbo" Table="CC.HIGIENE_COMEDOR_COCINA_CTRL_DET" store:Type="Tables" />
           <EntitySet Name="CC_HIGIENE_COMEDOR_COCINA_MANT" EntityType="Self.CC_HIGIENE_COMEDOR_COCINA_MANT" Schema="dbo" Table="CC.HIGIENE_COMEDOR_COCINA_MANT" store:Type="Tables" />
           <EntitySet Name="CC_INTERMEDIA_CTRL_MANT_CISTERNA" EntityType="Self.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Schema="dbo" Table="CC.INTERMEDIA_CTRL_MANT_CISTERNA" store:Type="Tables" />
+          <EntitySet Name="CC_KARDEX_REACTIVO" EntityType="Self.CC_KARDEX_REACTIVO" Schema="dbo" Table="CC.KARDEX_REACTIVO" store:Type="Tables" />
+          <EntitySet Name="CC_KARDEX_REACTIVO_DETALLE" EntityType="Self.CC_KARDEX_REACTIVO_DETALLE" Schema="dbo" Table="CC.KARDEX_REACTIVO_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_LAVADO_CISTERNA" EntityType="Self.CC_LAVADO_CISTERNA" Schema="dbo" Table="CC.LAVADO_CISTERNA" store:Type="Tables" />
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_CABECERA" store:Type="Tables" />
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_DETALLE" store:Type="Tables" />
@@ -4434,6 +4493,14 @@
           <AssociationSet Name="FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" Association="Self.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA">
             <End Role="CC_MANTENIMIENTO_CISTERNA" EntitySet="CC_MANTENIMIENTO_CISTERNA" />
             <End Role="CC_INTERMEDIA_CTRL_MANT_CISTERNA" EntitySet="CC_INTERMEDIA_CTRL_MANT_CISTERNA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" Association="Self.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO">
+            <End Role="CC_KARDEX_REACTIVO" EntitySet="CC_KARDEX_REACTIVO" />
+            <End Role="CC_KARDEX_REACTIVO_DETALLE" EntitySet="CC_KARDEX_REACTIVO_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" Association="Self.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO">
+            <End Role="CC_MANTENIMIENTO_REACTIVO" EntitySet="CC_MANTENIMIENTO_REACTIVO" />
+            <End Role="CC_KARDEX_REACTIVO_DETALLE" EntitySet="CC_KARDEX_REACTIVO_DETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" Association="Self.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA">
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" />
@@ -5795,6 +5862,16 @@
           <AssociationSet Name="FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT">
             <End Role="CC_ANALISIS_AGUA_CLORINACION_MANT" EntitySet="CC_ANALISIS_AGUA_CLORINACION_MANT" />
             <End Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE" EntitySet="CC_ANALISIS_AGUA_CLORINACION_DETALLE" />
+          </AssociationSet>
+          <EntitySet Name="CC_KARDEX_REACTIVO" EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO" />
+          <EntitySet Name="CC_KARDEX_REACTIVO_DETALLE" EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE" />
+          <AssociationSet Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO">
+            <End Role="CC_KARDEX_REACTIVO" EntitySet="CC_KARDEX_REACTIVO" />
+            <End Role="CC_KARDEX_REACTIVO_DETALLE" EntitySet="CC_KARDEX_REACTIVO_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO">
+            <End Role="CC_MANTENIMIENTO_REACTIVO" EntitySet="CC_MANTENIMIENTO_REACTIVO" />
+            <End Role="CC_KARDEX_REACTIVO_DETALLE" EntitySet="CC_KARDEX_REACTIVO_DETALLE" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -11052,6 +11129,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_KARDEX_REACTIVO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" FromRole="CC_MANTENIMIENTO_REACTIVO" ToRole="CC_KARDEX_REACTIVO_DETALLE" />
         </EntityType>
         <EntityType Name="CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA">
           <Key>
@@ -11318,6 +11396,66 @@
             </Principal>
             <Dependent Role="CC_ANALISIS_AGUA_CLORINACION_DETALLE">
               <PropertyRef Name="IdCisterna" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CC_KARDEX_REACTIVO">
+          <Key>
+            <PropertyRef Name="IdKardexReactivo" />
+          </Key>
+          <Property Name="IdKardexReactivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_KARDEX_REACTIVO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" FromRole="CC_KARDEX_REACTIVO" ToRole="CC_KARDEX_REACTIVO_DETALLE" />
+        </EntityType>
+        <EntityType Name="CC_KARDEX_REACTIVO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdKardexReactivoDetalle" />
+          </Key>
+          <Property Name="IdKardexReactivoDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdKardexReactivo" Type="Int32" Nullable="false" />
+          <Property Name="IdReactivo" Type="Int32" Nullable="false" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="8" Scale="4" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_KARDEX_REACTIVO" Relationship="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" FromRole="CC_KARDEX_REACTIVO_DETALLE" ToRole="CC_KARDEX_REACTIVO" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_REACTIVO" Relationship="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" FromRole="CC_KARDEX_REACTIVO_DETALLE" ToRole="CC_MANTENIMIENTO_REACTIVO" />
+        </EntityType>
+        <Association Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO">
+          <End Type="ASIS_PRODModel.CC_KARDEX_REACTIVO" Role="CC_KARDEX_REACTIVO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE" Role="CC_KARDEX_REACTIVO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_KARDEX_REACTIVO">
+              <PropertyRef Name="IdKardexReactivo" />
+            </Principal>
+            <Dependent Role="CC_KARDEX_REACTIVO_DETALLE">
+              <PropertyRef Name="IdKardexReactivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Role="CC_MANTENIMIENTO_REACTIVO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE" Role="CC_KARDEX_REACTIVO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_REACTIVO">
+              <PropertyRef Name="IdReactivo" />
+            </Principal>
+            <Dependent Role="CC_KARDEX_REACTIVO_DETALLE">
+              <PropertyRef Name="IdReactivo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -16842,6 +16980,41 @@
                 <ScalarProperty Name="DescripcionCisterna" ColumnName="DescripcionCisterna" />
                 <ScalarProperty Name="NombreCisterna" ColumnName="NombreCisterna" />
                 <ScalarProperty Name="IdCisterna" ColumnName="IdCisterna" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_KARDEX_REACTIVO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_KARDEX_REACTIVO">
+              <MappingFragment StoreEntitySet="CC_KARDEX_REACTIVO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdKardexReactivo" ColumnName="IdKardexReactivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_KARDEX_REACTIVO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE">
+              <MappingFragment StoreEntitySet="CC_KARDEX_REACTIVO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdReactivo" ColumnName="IdReactivo" />
+                <ScalarProperty Name="IdKardexReactivo" ColumnName="IdKardexReactivo" />
+                <ScalarProperty Name="IdKardexReactivoDetalle" ColumnName="IdKardexReactivoDetalle" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

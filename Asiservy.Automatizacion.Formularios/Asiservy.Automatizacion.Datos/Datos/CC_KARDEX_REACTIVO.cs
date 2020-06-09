@@ -12,17 +12,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_REACTIVO
+    public partial class CC_KARDEX_REACTIVO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_REACTIVO()
+        public CC_KARDEX_REACTIVO()
         {
             this.CC_KARDEX_REACTIVO_DETALLE = new HashSet<CC_KARDEX_REACTIVO_DETALLE>();
         }
     
-        public int IdReactivo { get; set; }
-        public string Descripcion { get; set; }
-        public string Abreviatura { get; set; }
+        public int IdKardexReactivo { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public bool EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
