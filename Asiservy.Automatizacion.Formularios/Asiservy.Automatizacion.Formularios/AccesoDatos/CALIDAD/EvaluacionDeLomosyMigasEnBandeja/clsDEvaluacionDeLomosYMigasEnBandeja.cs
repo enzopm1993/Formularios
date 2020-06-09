@@ -121,6 +121,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     BuscarCabecera.Miga = poCabControl.Miga;
                     BuscarCabecera.NivelLimpieza = poCabControl.NivelLimpieza;
                     BuscarCabecera.Observacion = poCabControl.Observacion;
+                    BuscarCabecera.Cliente = poCabControl.Cliente;
                     BuscarCabecera.OrdenFabricacion = poCabControl.OrdenFabricacion;
                     BuscarCabecera.Empaque = poCabControl.Empaque;
                     BuscarCabecera.Enlatado = poCabControl.Enlatado;
