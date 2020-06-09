@@ -118,7 +118,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<SUBDETALLE_PRODUCTO_POUCH_CUARENTENA> SUBDETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
         public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
-        public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
@@ -181,6 +180,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_MANT> CC_ANALISIS_AGUA_CLORINACION_MANT { get; set; }
         public virtual DbSet<CC_KARDEX_REACTIVO> CC_KARDEX_REACTIVO { get; set; }
         public virtual DbSet<CC_KARDEX_REACTIVO_DETALLE> CC_KARDEX_REACTIVO_DETALLE { get; set; }
+        public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1550,15 +1550,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter, usuarioParameter, terminalParameter);
         }
     
-        public virtual ObjectResult<spConsultaCondicionesPersonal> spConsultaCondicionesPersonal(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCondicionesPersonal>("spConsultaCondicionesPersonal", fechaParameter);
-        }
-    
         public virtual ObjectResult<spReporteEsterilizacionDetalle> spReporteEsterilizacionDetalle(Nullable<System.DateTime> fecha, string turno, string linea)
         {
             var fechaParameter = fecha.HasValue ?
@@ -2180,6 +2171,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("opcion", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCondicionesPersonal> spConsultaCondicionesPersonal(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCondicionesPersonal>("spConsultaCondicionesPersonal", fechaParameter);
         }
     }
 }
