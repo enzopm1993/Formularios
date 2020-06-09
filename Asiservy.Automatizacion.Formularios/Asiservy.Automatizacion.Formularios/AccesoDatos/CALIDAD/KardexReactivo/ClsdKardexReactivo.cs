@@ -3,56 +3,66 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPotenciometro
+namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
 {
-    public class ClsdVerificacionPotenciometro
+    public class ClsdKardexReactivo
     {
-        public List<CC_VERIFICACION_POTENCIOMETRO> ConsultaVerificacionPotenciometro(DateTime Fecha)
+        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometro(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var query = entities.CC_VERIFICACION_POTENCIOMETRO.Where(x=> x.Fecha==Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var query = entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
 
                 return query;
             }
         }
 
 
-        public void GuardarModificarVerificacionPotenciometro(CC_VERIFICACION_POTENCIOMETRO model)
+        public void GuardarModificarVerificacionPotenciometro(CC_KARDEX_REACTIVO model, List<CC_KARDEX_REACTIVO_DETALLE> detalle)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
-                    CC_VERIFICACION_POTENCIOMETRO poControlReporte = entities.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    CC_KARDEX_REACTIVO poControlReporte = entities.CC_KARDEX_REACTIVO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
                     if (poControlReporte != null)
                     {
-                        poControlReporte.NaCI1 = model.NaCI1;
-                        poControlReporte.NaCI2 = model.NaCI2;
-                        poControlReporte.NaCI3 = model.NaCI3;
-                        poControlReporte.Observacion = model.Observacion;
                         poControlReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControlReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                         poControlReporte.FechaModificacionLog = model.FechaIngresoLog;
-                        poControlReporte.Modelo = model.Modelo;
-                        poControlReporte.Serie = model.Serie;
-                    }
+                   }
                     else
                     {
-                        entities.CC_VERIFICACION_POTENCIOMETRO.Add(model);
+                        entities.CC_KARDEX_REACTIVO.Add(model);
                     }
-                   
+
+                    foreach(var x in detalle)
+                    {
+                        var modelDetalle = entities.CC_KARDEX_REACTIVO_DETALLE.FirstOrDefault(y=> y.IdKardexReactivo == poControlReporte.IdKardexReactivo
+                                           && y.IdKardexReactivoDetalle == x.IdKardexReactivoDetalle);
+
+                        if (modelDetalle != null)
+                        {
+                            modelDetalle.Valor = x.Valor;
+                        }
+                        else
+                        {
+                            entities.CC_KARDEX_REACTIVO_DETALLE.Add(x);
+                        }
+                    }
+
                     entities.SaveChanges();
                     transaction.Commit();
                 }
             }
         }
 
-        public void EliminarVerificacionPotenciometro(CC_VERIFICACION_POTENCIOMETRO model)
+        public void EliminarVerificacionPotenciometro(CC_KARDEX_REACTIVO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var poControl = entities.CC_KARDEX_REACTIVO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
@@ -64,49 +74,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPo
 
             }
         }
-        public List<CC_VERIFICACION_POTENCIOMETRO> ConsultaVerificacionPotenciometroControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
+        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_VERIFICACION_POTENCIOMETRO.Where(x => x.Fecha >= FechaDesde
+                return entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha >= FechaDesde
                                                                          && x.Fecha <= FechaHasta
                                                                          && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                                                 && x.EstadoReporte == Estado).ToList();
             }
         }
 
-        public List<CC_VERIFICACION_POTENCIOMETRO> ConsultaVerificacionPotenciometroControl(DateTime FechaDesde, DateTime FechaHasta)
+        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControl(DateTime FechaDesde, DateTime FechaHasta)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_VERIFICACION_POTENCIOMETRO.Where(x => x.Fecha >= FechaDesde
+                return entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha >= FechaDesde
                                                                          && x.Fecha <= FechaHasta
                                                                          && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                                                ).ToList();
             }
         }
 
-        public List<CC_VERIFICACION_POTENCIOMETRO> ConsultaVerificacionPotenciometroControl(DateTime Fecha)
+        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControl(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_VERIFICACION_POTENCIOMETRO.Where(x => x.Fecha == Fecha
+                return entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha == Fecha
                                                                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
 
-        public List<CC_VERIFICACION_POTENCIOMETRO> ConsultaVerificacionPotenciometroControlPendiente()
+        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControlPendiente()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_VERIFICACION_POTENCIOMETRO.Where(x => !x.EstadoReporte).ToList();
+                return entities.CC_KARDEX_REACTIVO.Where(x => !x.EstadoReporte).ToList();
             }
         }
-        public void Aprobar_ReporteVerificacionPotenciometro(CC_VERIFICACION_POTENCIOMETRO controlCloro)
+        public void Aprobar_ReporteVerificacionPotenciometro(CC_KARDEX_REACTIVO controlCloro)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.IdVerificacionPotenciometroControl == controlCloro.IdVerificacionPotenciometroControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_KARDEX_REACTIVO.FirstOrDefault(x => x.IdKardexReactivo == controlCloro.IdKardexReactivo || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (model != null)
                 {
                     model.EstadoReporte = controlCloro.EstadoReporte;
