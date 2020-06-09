@@ -3383,6 +3383,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\MantenimientoReactivo\MantenimientoReactivo.cshtml" />
+    <Content Include="Views\MantenimientoReactivo\MantenimientoReactivoPartial.cshtml" />
     <Content Include="Views\Memorandum\Gestion.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -4095,8 +4097,6 @@
     <Content Include="Views\TemperaturaInternaRefrigeradora\ReporteTemperaturaInternaRefrigeradoraDetallePartial.cshtml" />
     <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivo.cshtml" />
     <Content Include="Views\MantenimimentoReactivo\MantenimientoReactivoPartial.cshtml" />
-    <Content Include="Views\MantenimientoReactivo\MantenimientoReactivo.cshtml" />
-    <Content Include="Views\MantenimientoReactivo\MantenimientoReactivoPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlanta.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaAprobarPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\BandejaLimpiezaPlantaPartial.cshtml" />
