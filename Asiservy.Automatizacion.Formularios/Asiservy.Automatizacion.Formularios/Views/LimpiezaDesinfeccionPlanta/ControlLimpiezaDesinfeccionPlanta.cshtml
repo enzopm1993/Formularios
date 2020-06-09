@@ -131,21 +131,21 @@
 
 <div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-2 col-12 col-sm-12" style="float:left">
+        <div class="col-md-3 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>FECHA</label>
-                <input type="date" name="name" disabled value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
+                <input type="date" name="name" disabled value="@DateTime.Now.ToString("dd-MM-yyyy")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
             </div>
         </div>
 
         <div class="col-md-3 col-12 col-sm-12" style="float:left">
             <div class="form-group">
-                <label>INSPECTOR DE CALIDAD</label>
+                <label>INSPECTOR</label>
                 <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtInspectorVer" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-7 col-12 col-sm-12" style="float:left">
+        <div class="col-md-6 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>OBSERVACION</label>
                 <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" />
@@ -267,7 +267,7 @@
 
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>INSPECTOR DE CALIDAD</label>
+                            <label>INSPECTOR</label>
                             <input type="text" name="name" disabled value="@ViewBag.Inspector" id="txtIngresoInspector" class="form-control" />
                         </div>
                     </div>

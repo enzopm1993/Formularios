@@ -125,10 +125,10 @@ function EditarModal() {
         return;
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
-          $("#txtPcc").prop("disabled", true);
-        $("#txtCodDetectorMetal").prop("disabled", true);
-        $("#chkLomo").prop("disabled", true);
-        $("#chkLata").prop("disabled", true);
+          $("#txtPcc").prop("disabled", false);
+        $("#txtCodDetectorMetal").prop("disabled", false);
+        $("#chkLomo").prop("disabled", false);
+        $("#chkLata").prop("disabled", false);
         $("#txtPcc").val(Model.Pcc);
         $("#chkLomo").prop("checked", Model.Lomos);
         $("#chkLata").prop("checked", Model.Latas);

@@ -35,14 +35,14 @@
                 <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
             </div>
         </div>
-        <div class="col-md-4 col-12 col-sm-6">
+        <div class="col-md-4 col-12 col-sm-12">
             <div class="form-group">
                 <label>Condición</label>
                 @Html.DropDownList("selectCondicion", new SelectList(ViewBag.Condiciones, "IdMantenimientoCondicion", "Descripcion"), "Seleccione", new { @class = "form-control" })
             </div>
         </div>
 
-        <div class="col-md-3 col-12 col-sm-6">
+        <div class="col-md-3 col-12 col-sm-12">
             <div class="form-group">
                 <label class="label-control"> Linea</label>
                 @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })

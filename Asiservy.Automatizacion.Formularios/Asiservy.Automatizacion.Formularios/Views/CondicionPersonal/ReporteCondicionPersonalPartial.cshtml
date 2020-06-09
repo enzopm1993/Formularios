@@ -38,7 +38,7 @@
 
                 </td>
                 <td width="10%">
-                    <label>@item.Cedula</label>S
+                    <label>@item.Cedula</label>
                 </td>
                 <td width="20%">
                     <label>@item.Nombre</label>
@@ -69,10 +69,13 @@
         @foreach (var x in modelCondiciones)
         {
             int cantidad = Model.Count(y => y.CodCondicion == x.IdMantenimientoCondicion.ToString());
-            <tr>
+        <tr>
+            @if (x.IdMantenimientoCondicion != 1)
+            {
                 <td>@x.Descripcion</td>
                 <td class="text-center"> <label id="txt_@x.IdMantenimientoCondicion">@cantidad</label> </td>
-            </tr>
+            }
+        </tr>
         }
     </tbody>
 </table>
