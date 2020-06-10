@@ -15,6 +15,8 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System.IO;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -590,6 +592,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                else
+                {
+                    clsDApiOrdenFabricacion clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                    ViewBag.Cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(resultado.FirstOrDefault().OrdenFabricacion.ToString()).FirstOrDefault().CLIENTE;
+                }
+                
                 return PartialView(resultado);
             }
             catch (DbEntityValidationException e)

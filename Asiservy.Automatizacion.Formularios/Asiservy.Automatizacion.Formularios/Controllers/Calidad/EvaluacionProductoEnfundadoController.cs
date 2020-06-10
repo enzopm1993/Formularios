@@ -14,7 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionProductoEnfundadoController : Controller
@@ -200,6 +200,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    clsDApiOrdenFabricacion clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                    ViewBag.Cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(resultado.FirstOrDefault().OrdenFabricacion.ToString()).FirstOrDefault().CLIENTE;
                 }
                 return PartialView(resultado);
             }
