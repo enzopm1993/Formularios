@@ -88,17 +88,21 @@
             <td>
                 <label style="border-bottom:solid 1px" id="txtUsuarioCreacion">@Control.UsuarioIngresoLog</label> <br />
                 <label>Realizado Por</label><br />
-                <label id="txtFechaCreacion">@Control.FechaIngresoLog</label>
+                <label id="txtFechaCreacion">@Control.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")</label>
+            </td>           
+            <td>
+                <label id="txtUsuarioAprobacion">@Control.AprobadoPor</label><br />
+                <label style="border-top:solid 1px; width:125px">Aprobado Por      </label><br />
+                <label id="txtFechaAprobacion">
+                    @{ DateTime date = Convert.ToDateTime(Control.FechaAprobacion);}
+                    @if (date != DateTime.MinValue)
+                    {
+                        @date.ToString("dd-MM-yyyy HH:mm")
+                    }
+                </label>
             </td>
-            @if (Control.EstadoReporte)
-            {
-                <td>
-                    <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion">@Control.AprobadoPor</label><br />
-                    <label>Aprobado Por</label><br />
-                    <label id="txtFechaAprobacion">@Control.FechaAprobacion</label>
-                </td>
-            }
-            </tr>
+        </tr>
     </table>
+    
 </div>
 

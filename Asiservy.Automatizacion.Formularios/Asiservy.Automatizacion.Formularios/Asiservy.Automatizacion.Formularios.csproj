@@ -2195,7 +2195,9 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.js" />
@@ -2216,6 +2218,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\BandejaCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
@@ -4105,6 +4108,13 @@
     <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaPartial.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ControlClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaAprobarPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisternaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

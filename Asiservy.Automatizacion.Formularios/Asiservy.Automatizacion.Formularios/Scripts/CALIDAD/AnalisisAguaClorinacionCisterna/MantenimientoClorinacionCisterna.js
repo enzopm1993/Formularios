@@ -2,10 +2,11 @@
 $(document).ready(function () {
     CargarCabecera();
 });
+
 function CargarCabecera() {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
-        url: "../MantenimientoClorinacionCisterna/MantenimientoClorinacionCisternaPartial",
+        url: "../AnalisisAguaClorinacionCisterna/MantenimientoClorinacionCisternaPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
@@ -17,49 +18,58 @@ function CargarCabecera() {
                 $("#divMostarTablaCabecera").html(resultado);
             }
             itemEditar = 0;
-            setTimeout(function () {
-                CerrarModalCargando();
-            }, 500);
+            $('#cargac').hide();
         },
-        error: function (resultado) {
-            CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
+        error: function () {
+            $('#cargac').hide();
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
 
 function GuardarCabecera() {
     $('#cargac').show();
-    console.log($('#txtCapacidad').val().length);
-    if ($('#txtCapacidad').val().length > 100) {
+    if ($('#txtNombre').val().length > 50 || $('#txtDescripcion').val().length > 100) {
         $('#cargac').hide();
         MensajeAdvertencia('Paso e límite de caracteres en la Capacidad');
         return;
     }
     $.ajax({
-        url: "../MantenimientoClorinacionCisterna/GuardarModificarMantenimientoCisterna",
+        url: "../AnalisisAguaClorinacionCisterna/GuardarModificarMantenimientoCisterna",
         type: "POST",
         data: {
             IdCisterna: itemEditar.IdCisterna,
-            NDescripcion: $("#txtNDescripcion").val(),
-            Ubicacion: $("#txtUbicacion").val(),
-            Asignacion: $("#txtAsignacion").val(),
-            Tipo: $("#txtTipo").val(),
-            Capacidad: $("#txtCapacidad").val()
+            NombreCisterna: $("#txtNombre").val(),
+            DescripcionCisterna: $("#txtDescripcion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } else if (resultado == 0) {
+                MensajeCorrecto('Datos guardados correctamente');
+            } else if (resultado == 1) {
+                MensajeCorrecto('Datos actualizados correctamente');
+            } else if (resultado == 2) {
+                MensajeAdvertencia('El registro no se pudo Actualizar ¡Por favor ACTIVE y vuelva a intentar!');
+            } else if (resultado == 3) {
+                MensajeAdvertencia('!El nombre ya existe:! <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span>');
+                $('#cargac').hide();
+                return;
+            } else if (resultado==4) {
+                MensajeAdvertencia('Error al guardar el registro: No se permite espacios en blanco ni vacío');
+                $('#ModalIngresoCabecera').modal('show');
+                $("#txtNombre").css('border', '1px dashed red');
+                $('#cargac').hide();
+                return;
             }
             CargarCabecera();
-            $("#txtDescripcion").val('');
             LimpiarCabecera();
             $('#ModalIngresoCabecera').modal('hide');
             $('#cargac').hide();
         },
-        error: function (resultado) {
+        error: function () {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -81,10 +91,11 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     $('#cargac').show();
     $.ajax({
-        url: "../MantenimientoClorinacionCisterna/EliminarMantenimientoCisterna",
+        url: "../AnalisisAguaClorinacionCisterna/EliminarMantenimientoCisterna",
         type: "POST",
         data: {
             IdCisterna: itemEditar.IdCisterna,
+            NombreCisterna: itemEditar.NombreCisterna,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
@@ -92,7 +103,7 @@ function EliminarCabeceraSi() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdDesinfeccionManos");
+                MensajeAdvertencia("Falta Parametro IdCisterna");
                 $("#modalEliminarControl").modal("hide");
                 CerrarModalCargando();
                 return;
@@ -101,12 +112,15 @@ function EliminarCabeceraSi() {
                 CargarCabecera();
                 MensajeCorrecto("Registro Actualizado con Éxito");
                 $('#cargac').hide();
+            } else if (resultado == "2") {               
+                MensajeAdvertencia('Ya existe una CISTERNA activa con el Nombre: <span class="badge badge-danger">' + itemEditar.NombreCisterna.toUpperCase() + '</span>');
+                $('#cargac').hide();
             }
             itemEditar = 0;
         },
-        error: function (resultado) {
+        error: function () {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -116,32 +130,25 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabecera(jdata) {
-    $("#txtNDescripcion").val(jdata.NDescripcion);
-    $("#txtUbicacion").val(jdata.Ubicacion);
-    $("#txtAsignacion").val(jdata.Asignacion);
-    $("#txtTipo").val(jdata.Tipo);
-    $("#txtCapacidad").val(jdata.Capacidad);
+    $("#txtNombre").prop('disabled',true);
+    $("#txtNombre").val(jdata.NombreCisterna);
+    $("#txtDescripcion").val(jdata.DescripcionCisterna);   
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = jdata;
 }
 
 function ModalIngresoCabecera() {
+    $("#txtNombre").prop('disabled', false);
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = [];
 }
 
 function LimpiarCabecera() {
-    $('#txtNDescripcion').val('');
-    $('#txtUbicacion').val('');
-    $('#txtAsignacion').val('');
-    $('#txtTipo').val('');
-    $('#txtCapacidad').val('');
-    $("#txtNDescripcion").css('border', '');
-    $("#txtUbicacion").css('border', '');
-    $("#txtAsignacion").css('border', '');
-    $("#txtTipo").css('border', '');
-    $("#txtCapacidad").css('border', '');
+    $('#txtNombre').val('');
+    $('#txtDescripcion').val('');   
+    $("#txtNombre").css('border', '');
+    $("#txtDescripcion").css('border', '');   
 }
 
 function ValidarDatosVacios() {
@@ -154,25 +161,10 @@ function ValidarDatosVacios() {
 
 function OnChangeTextBox() {
     var con = 0;
-    if ($('#txtNDescripcion').val() == '') {
-        $("#txtNDescripcion").css('border', '1px dashed red');
+    if ($('#txtNombre').val() == '') {
+        $("#txtNombre").css('border', '1px dashed red');
         con = 1;
-    } else $("#txtNDescripcion").css('border', '');
-    if ($('#txtUbicacion').val() == '') {
-        $("#txtUbicacion").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtUbicacion").css('border', '');
-    if ($('#txtAsignacion').val() == '') {
-        $("#txtAsignacion").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtAsignacion").css('border', '');
-    if ($('#txtTipo').val() == '') {
-        $("#txtTipo").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtTipo").css('border', '');
-    if ($('#txtCapacidad').val() == '') {
-        $("#txtCapacidad").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtCapacidad").css('border', '');
+    } else $("#txtNombre").css('border', '');
+    
     return con;
 }
