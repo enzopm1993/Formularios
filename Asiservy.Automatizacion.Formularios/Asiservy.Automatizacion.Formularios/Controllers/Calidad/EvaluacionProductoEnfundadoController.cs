@@ -14,7 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionProductoEnfundadoController : Controller
