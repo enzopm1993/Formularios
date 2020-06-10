@@ -73,7 +73,7 @@ function CargarCabecera() {
                 $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
                 $("#txtObservacionVer").val(resultado.ObservacionControl);
                 $('#txtInspectorVer').val(resultado.UsuarioIngresoLog);
-                $('#selectAreaAuditarFiltro').val('galo').trigger('change');                
+                $('#selectAreaAuditarFiltro').val('galo').trigger('change');             
                 CargarDetalle(1);                
             }
             $('#cargac').hide();
@@ -521,14 +521,13 @@ function EliminarDetalleSi() {
                         window.location.reload();
                     }
                     if (resultado == "0") {
-                        MensajeAdvertencia("Falta Parametro IdLavadoCisterna");
+                        MensajeAdvertencia("Falta Parametro eliminarDetalle");
                         $("#modalEliminarControlDetalle").modal("hide");
                         $('#cargac').hide();
                         return;
                     } else if (resultado == "1") {
                         $('#firmaDigital').prop('hidden', true);
                         $("#modalEliminarControlDetalle").modal("hide");
-                        //CargarCabecera();
                         CargarDetalle(1);
                         $('#selectAreaAuditarFiltro').val('galo').trigger('change');
                         MensajeCorrecto("Registro eliminado con Éxito");

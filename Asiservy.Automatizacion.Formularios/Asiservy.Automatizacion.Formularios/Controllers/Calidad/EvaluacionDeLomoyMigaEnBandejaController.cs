@@ -34,6 +34,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDClasificador clsDClasificador { get; set; } = null;
         private ClsDMantenimientoMoreton ClsDMantenimientoMoreton { get; set; } = null;
         private clsDEvaluacionDeLomosYMigasEnBandeja clsDEvaluacionDeLomosYMigasEnBandeja { get; set; } = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -742,6 +743,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (Respuesta.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                    var ordenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(FechaDesde,FechaHasta);
+                    //ordenes.FirstOrDefault().
                 }
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }

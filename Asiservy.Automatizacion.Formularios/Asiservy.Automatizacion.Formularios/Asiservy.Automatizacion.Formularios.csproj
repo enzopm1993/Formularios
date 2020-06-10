@@ -2195,10 +2195,13 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -2216,6 +2219,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\BandejaCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
@@ -3407,6 +3411,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaClorinacionCisterna\ClsAnalisisAguaClorinacionCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaTanquero\ClsdAnalisisAguaTanquero.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\ClsDAnalisisQuimicoProductoSemielaborado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
@@ -3512,6 +3517,7 @@
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaClorinacionCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaTanqueroController.cs" />
+    <Compile Include="Controllers\CALIDAD\AnalisisQuimicoProductoSemielaboradoController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
@@ -4106,6 +4112,14 @@
     <Content Include="Views\LimpiezaDesinfeccionPlanta\ReporteLimpiezaPlantaPartial.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ControlClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaAprobarPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisternaPartial.cshtml" />
     <Content Include="Views\KardexReactivo\KardexReactivo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

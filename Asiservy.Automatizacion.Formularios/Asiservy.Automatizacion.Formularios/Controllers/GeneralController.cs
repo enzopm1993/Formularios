@@ -14,7 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class GeneralController : Controller
     {
-        string[] lsUsuario = null;
+        string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         clsDEmpleado clsDEmpleado { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;

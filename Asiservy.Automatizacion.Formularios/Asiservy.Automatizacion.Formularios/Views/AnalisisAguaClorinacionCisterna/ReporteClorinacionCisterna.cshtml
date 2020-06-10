@@ -1,7 +1,7 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_AGUA_CLORINACION_CONTROL
 
 @{
-    ViewBag.Title = "ReporteLimpiezaPlanta";
+    ViewBag.Title = "ReporteClorinacionCisterna";
 }
 
 <style>
@@ -143,7 +143,7 @@
 <br id="brCabecera" />
 <div class="row text-center text-md-left align-self-sm-center" id="divFiltro">
     <div class="col-12">
-        <h4 style="float:left">Reporte General de Limpieza y Desinfeccion de Planta</h4>
+        <h4 style="float:left">Reporte Analisis Agua Clorinacion Cisterna Planta</h4>
         <div class="box_filters text-center text-md-left">
             <div class="itemFilter col-12 col-sm-12 col-md-10">
                 <input type="hidden" id="fechaDesde" value="" />
@@ -160,28 +160,20 @@
     </div>
 </div>
 <hr />
-@* FILTRO *@
-    <br id="brCabecera" />
-    <div hidden class="card col-md-12 col-12 col-sm-12" id="divBotones">
-        <div class="text-center">
-            <label class="">Acción</label><br />
-            <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
-                <img style="width:100%" src="../../Content/icons/print24.png" />
-            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50;" type="button">
-                <img style="width:100%" src="~/Content/icons/atras24.png" />
-            </button>
-            <br /><br />
-            <center>
-                <select id="selectTurnoFiltro" class="form-control col-md-3" onchange="SeleccionarFiltroTurno()">
-                    <option value="TURNO_A" selected>TURNO A</option>
-                    <option value="TURNO_B">TURNO B</option>
-                    <option value="TURNO_C">TURNO C</option>
-                </select>
-            </center>
-        </div>
-    </div>       
-    
+
+<br id="brCabecera" />
+<div hidden class="card col-md-12 col-12 col-sm-12" id="divBotones">
+    <div class="text-center">
+        <label class="">Acción</label><br />
+        <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
+            <img style="width:100%" src="../../Content/icons/print24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50;" type="button">
+            <img style="width:100%" src="~/Content/icons/atras24.png" />
+        </button>       
+    </div>
+
+</div>
 
 @*MODAL MOSTRAR TABLA CABECERA*@
 <div class="card table-responsive" id="divMostarTablaCabecera">
@@ -217,15 +209,10 @@
                 </tr>
                 <tr>
                     <td>FECHA:</td>
-                    <td style="width:70%"><label id="lblMostrarFechaM"></label></td>
-                    <td>TURNO:</td>
-                    <td style="width:45%" colspan="1">
-                        <label id="lblMostrarHoraM"></label>
-                    </td>
+                    <td style="width:90%" colspan="3"><label id="lblMostrarFechaM"></label></td>
                 </tr>
             </tbody>
         </table>
-
 
         <table id="tbltituloImprimir" class="table table-bordered">
             <tbody>
@@ -246,7 +233,6 @@
                                 @ViewBag.VersionReporte
                             </b>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
@@ -256,19 +242,112 @@
                 </tr>
                 <tr>
                     <td>FECHA:</td>
-                    <td style="width:50%"><label id="lblMostrarFecha"></label></td>
-                    <td>TURNO:</td>
-                    <td style="width:45%">
-                        <label id="lblMostrarHora"></label>
-                    </td>
-                    <td></td>
+                    <td style="width:90%" colspan="4"><label id="lblMostrarFecha"></label></td>
                 </tr>
             </tbody>
         </table>
     </div>
     @*MODAL MOSTRAR TABLA DETALLE*@
     <div id="divMostarTablaDetalle" class="table-responsive">
-    </div>   
+    </div>
+    <div class="table-responsive">
+        <div class="row" style="margin-right:0px;">
+            <div class="col-md-4 col-12 colsm-12 text-uppercase" style="font-size:9px">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <th><b>USO DE AGUAS CISTERNA</b></th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:9px">
+                        @{ var listaCisterna = ViewBag.ListaCisterna;}
+                        @foreach (var item in listaCisterna)
+                        {
+                            <tr>
+                                <td>
+                                    @item.NombreCisterna.ToUpper():  @item.DescripcionCisterna
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5 col-12 col-sm-12 table-responsive">
+                <table class="table table-bordered text-uppercase" style="font-size:9px">
+                    <thead class="text-center">
+                        <tr>
+                            <th><b>COMENTARIOS</b></th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:9px">
+                        <tr>
+                            <td>LAS UNIDADES DE ANALISIS SON EXPRESADOS EN PPM</td>
+                        </tr>
+                        <tr>
+                            <td style="white-space:normal">CLORO RESIDUAL: CADA 3 HORAS, <b>MIN=</b><span class="badge badge-success">0.3PPM</span>    <b>MAX=</b><span class="badge badge-success">1.5PPM</span></td>
+                        </tr>
+                        <tr>
+                            <td>STD: CADA TRES HORAS</td>
+                        </tr>
+                        <tr><td>DT: INICIO Y FINAL DE LA JORNADA</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3 col-12 col-sm-12">
+                <table class="table table-bordered text-uppercase" style="font-size:9px">
+                    <thead class="text-center">
+                        <tr>
+                            <th><b>OBSERVACIONES </b></th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:9px">
+                        <tr>
+                            <td style="white-space:normal"><label id="lblObservacion"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+        <div class="row" style="margin-right:0px;">
+            <div class="col-md-3 col-12 col-sm-12">
+                <table class="table table-bordered text-uppercase" style="font-size:9px">
+                    <thead class="text-center">
+                        <tr>
+                            <th><b>TABLA DE CALIFICACIONES </b></th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:9px">
+                        <tr>
+                            <td><b>STD:</b> solidos totales disueltos</td>
+                        </tr>
+                        <tr>
+                            <td><b>DT:</b> dureza total</td>
+                        </tr>
+                        <tr>
+                            <td><b>cl:</b>cloro libre residual</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-9 col-12 colsm-12">
+                <br />
+                <table class="table table-borderless text-center">
+                    <tr>
+                        <td>
+                            <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label> <br />
+                            <label>Inspector de Calidad</label><br />
+                            <label id="txtFechaCreacion"></label>
+                        </td>
+                        <td>
+                            <label id="txtUsuarioAprobacion"></label><br />
+                            <label style="border-top:solid 1px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aprobado Por&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br />
+                            <label id="txtFechaAprobacion"></label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 

@@ -1116,6 +1116,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         #endregion
+
         #region REPORTE
         //----------------------------------------------------REPORTE----------------------------------------------------------------------------------
         public ActionResult ReporteLimpiezaPlanta()
