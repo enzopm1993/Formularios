@@ -2181,5 +2181,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCondicionesPersonal>("spConsultaCondicionesPersonal", fechaParameter);
         }
+    
+        public virtual ObjectResult<sp_Analisis_Agua_Clorinacion> sp_Analisis_Agua_Clorinacion(Nullable<int> idAnalisisAguaControl, Nullable<int> op)
+        {
+            var idAnalisisAguaControlParameter = idAnalisisAguaControl.HasValue ?
+                new ObjectParameter("idAnalisisAguaControl", idAnalisisAguaControl) :
+                new ObjectParameter("idAnalisisAguaControl", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Agua_Clorinacion>("sp_Analisis_Agua_Clorinacion", idAnalisisAguaControlParameter, opParameter);
+        }
     }
 }

@@ -3650,6 +3650,10 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="EmpleadosDatosPersonales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Analisis_Agua_Clorinacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idAnalisisAguaControl" Type="int" Mode="In" />
+          <Parameter Name="op" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_Calibracion_Fluorometro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
           <Parameter Name="fechaHasta" Type="date" Mode="In" />
@@ -5871,7 +5875,11 @@
           </AssociationSet>
           <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" />
           <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Analisis_Agua_Clorinacion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Agua_Clorinacion)">
+            <Parameter Name="idAnalisisAguaControl" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -11459,6 +11467,24 @@
           <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
         </ComplexType>
+        <ComplexType Name="sp_Analisis_Agua_Clorinacion">
+          <Property Type="Int32" Name="IdAnalisisAguaDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdAnalisisAguaControl" Nullable="false" />
+          <Property Type="Int32" Name="IdCisterna" Nullable="false" />
+          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="STD" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="DT" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="CL" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreCisterna" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescripcionCisterna" Nullable="true" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17015,6 +17041,28 @@
                 <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
                 <ScalarProperty Name="Condicion" ColumnName="Condicion" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Analisis_Agua_Clorinacion" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Agua_Clorinacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Agua_Clorinacion">
+                <ScalarProperty Name="IdAnalisisAguaDetalle" ColumnName="IdAnalisisAguaDetalle" />
+                <ScalarProperty Name="IdAnalisisAguaControl" ColumnName="IdAnalisisAguaControl" />
+                <ScalarProperty Name="IdCisterna" ColumnName="IdCisterna" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="DT" ColumnName="DT" />
+                <ScalarProperty Name="CL" ColumnName="CL" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="NombreCisterna" ColumnName="NombreCisterna" />
+                <ScalarProperty Name="DescripcionCisterna" ColumnName="DescripcionCisterna" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
