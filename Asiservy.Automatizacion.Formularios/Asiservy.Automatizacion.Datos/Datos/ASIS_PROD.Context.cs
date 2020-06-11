@@ -176,11 +176,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_CONTROL> CC_ANALISIS_AGUA_CLORINACION_CONTROL { get; set; }
-        public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_DETALLE> CC_ANALISIS_AGUA_CLORINACION_DETALLE { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_MANT> CC_ANALISIS_AGUA_CLORINACION_MANT { get; set; }
         public virtual DbSet<CC_KARDEX_REACTIVO> CC_KARDEX_REACTIVO { get; set; }
         public virtual DbSet<CC_KARDEX_REACTIVO_DETALLE> CC_KARDEX_REACTIVO_DETALLE { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
+        public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_DETALLE> CC_ANALISIS_AGUA_CLORINACION_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2148,19 +2148,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCondicionesPersonal>("spConsultaCondicionesPersonal", fechaParameter);
         }
     
-        public virtual ObjectResult<sp_Analisis_Agua_Clorinacion> sp_Analisis_Agua_Clorinacion(Nullable<int> idAnalisisAguaControl, Nullable<int> op)
-        {
-            var idAnalisisAguaControlParameter = idAnalisisAguaControl.HasValue ?
-                new ObjectParameter("idAnalisisAguaControl", idAnalisisAguaControl) :
-                new ObjectParameter("idAnalisisAguaControl", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Agua_Clorinacion>("sp_Analisis_Agua_Clorinacion", idAnalisisAguaControlParameter, opParameter);
-        }
-    
         public virtual ObjectResult<spConsultaControlAvanceDiarioPorLinea> spConsultaControlAvanceDiarioPorLinea(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string linea)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2193,6 +2180,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteAvanceDiario>("spConsultaReporteAvanceDiario", fechaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_Analisis_Agua_Clorinacion> sp_Analisis_Agua_Clorinacion(Nullable<int> idAnalisisAguaControl, Nullable<int> op)
+        {
+            var idAnalisisAguaControlParameter = idAnalisisAguaControl.HasValue ?
+                new ObjectParameter("idAnalisisAguaControl", idAnalisisAguaControl) :
+                new ObjectParameter("idAnalisisAguaControl", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Agua_Clorinacion>("sp_Analisis_Agua_Clorinacion", idAnalisisAguaControlParameter, opParameter);
         }
     }
 }
