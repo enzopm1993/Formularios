@@ -3523,6 +3523,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\KardexReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionProductoEnfundadoController.cs" />
@@ -4119,6 +4120,7 @@
     <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaAprobarPartial.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\KardexReactivo\KardexReactivo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

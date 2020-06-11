@@ -876,6 +876,9 @@
     <Compile Include="Datos\spReporteTemperaturaInternaRefrigeradora.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_Analisis_Agua_Clorinacion.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sp_Calibracion_Fluorometro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
