@@ -167,7 +167,6 @@ function CargarAvanceKPI2() {
             }
         }
     };
-
     var chart = new ApexCharts(document.querySelector("#chartPorLinea"), options);
     chart.render();
 
@@ -179,12 +178,13 @@ function CargarAvanceKPI2() {
 function CargarReporteAvanceKPI() {
     var txtFecha = $('#txtFecha').val();
     $("#kpi").prop("hidden", false);
-    $("#spinnerCargandokpi1").prop("hidden", false);
     if (txtFecha == "" || $("#selectTurno").val() == '') {
         
         return;
     }
-   
+            $("#chart").html("");
+    $("#spinnerCargandokpi1").prop("hidden", false);
+
     $.ajax({
         url: "../Hueso/ConsultaControlAvanceDiarioGeneral",
         type: "GET",
@@ -329,7 +329,6 @@ function CargarReporteAvanceKPI() {
                     }
                 }
             };
-
             var chart = new ApexCharts(document.querySelector("#chart"), options);
             chart.render();
     $("#spinnerCargandokpi1").prop("hidden", true);
