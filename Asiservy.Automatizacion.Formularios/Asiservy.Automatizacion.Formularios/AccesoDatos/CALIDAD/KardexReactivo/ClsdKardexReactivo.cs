@@ -7,7 +7,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
 {
     public class ClsdKardexReactivo
     {
-        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometro(DateTime Fecha)
+        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivo(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -18,7 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
         }
 
 
-        public void GuardarModificarVerificacionPotenciometro(CC_KARDEX_REACTIVO model, List<CC_KARDEX_REACTIVO_DETALLE> detalle)
+        public void GuardarModificarKardexReactivo(CC_KARDEX_REACTIVO model, List<CC_KARDEX_REACTIVO_DETALLE> detalle)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -58,7 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
             }
         }
 
-        public void EliminarVerificacionPotenciometro(CC_KARDEX_REACTIVO model)
+        public void EliminarKardexReactivo(CC_KARDEX_REACTIVO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -74,7 +74,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
 
             }
         }
-        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
+        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivoControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -85,7 +85,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
             }
         }
 
-        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControl(DateTime FechaDesde, DateTime FechaHasta)
+        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivoControl(DateTime FechaDesde, DateTime FechaHasta)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -96,7 +96,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
             }
         }
 
-        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControl(DateTime Fecha)
+        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivoControl(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -105,14 +105,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
             }
         }
 
-        public List<CC_KARDEX_REACTIVO> ConsultaVerificacionPotenciometroControlPendiente()
+        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivoControlPendiente()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 return entities.CC_KARDEX_REACTIVO.Where(x => !x.EstadoReporte).ToList();
             }
         }
-        public void Aprobar_ReporteVerificacionPotenciometro(CC_KARDEX_REACTIVO controlCloro)
+        public void Aprobar_ReporteKardexReactivo(CC_KARDEX_REACTIVO controlCloro)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {

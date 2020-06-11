@@ -54,7 +54,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
 
         [HttpPost]
-        public ActionResult KardexReactivo(CC_VERIFICACION_POTENCIOMETRO model)
+        public ActionResult KardexReactivo(CC_KARDEX_REACTIVO model, List<CC_KARDEX_REACTIVO_DETALLE> detalle)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                ClsdKardexReactivo.GuardarModificarKardexReactivo(model);
+                ClsdKardexReactivo.GuardarModificarKardexReactivo(model, detalle);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
@@ -130,7 +130,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public ActionResult EliminarKardexReactivo(CC_VERIFICACION_POTENCIOMETRO model)
+        public ActionResult EliminarKardexReactivo(CC_KARDEX_REACTIVO model)
         {
             try
             {
@@ -209,7 +209,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdKardexReactivo = new ClsdKardexReactivo();
-                List<CC_VERIFICACION_POTENCIOMETRO> poCloroCisterna = null;
+                List<CC_KARDEX_REACTIVO> poCloroCisterna = null;
                 if (FechaDesde != null && FechaHasta != null)
                 {
                     poCloroCisterna = ClsdKardexReactivo.ConsultaKardexReactivoControl(FechaDesde.Value, FechaHasta.Value, Estado);
@@ -289,7 +289,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult AprobarBandejaControlCloro(CC_VERIFICACION_POTENCIOMETRO model)
+        public ActionResult AprobarBandejaControlCloro(CC_KARDEX_REACTIVO model)
         {
             try
             {
@@ -330,7 +330,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReversarBandejaControl(CC_VERIFICACION_POTENCIOMETRO model)
+        public ActionResult ReversarBandejaControl(CC_KARDEX_REACTIVO model)
         {
             try
             {
@@ -419,7 +419,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdKardexReactivo = new ClsdKardexReactivo();
-                List<CC_VERIFICACION_POTENCIOMETRO> poControl = null;
+                List<CC_KARDEX_REACTIVO> poControl = null;
 
                 poControl = ClsdKardexReactivo.ConsultaKardexReactivoControl(FechaDesde, FechaHasta);
 
