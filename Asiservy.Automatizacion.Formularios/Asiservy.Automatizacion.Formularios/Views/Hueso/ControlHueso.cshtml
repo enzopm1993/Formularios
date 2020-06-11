@@ -12,7 +12,7 @@
 
 <h4>Control de Huesos</h4>
 
-x
+
 <label>@ViewBag.Linea </label>
 @using (Html.BeginForm())
 {
@@ -45,7 +45,7 @@ x
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6 col-sm-6">
+                        <div class="col-md-3 col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Orden Fabricación</label>
                                 <div class="input-group">
@@ -71,14 +71,14 @@ x
 
                         <input type="hidden" name="name" id="txtLinea" value="@ViewBag.CodLinea" />
                         <input type="hidden" name="name" id="txtIdControlHueso" value="0" />
-                        <div class="col-md-2 col-6 col-sm-6">
+                        <div class="col-md-3 col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Hora Inicio</label>
                                 <input class="form-control" type="datetime-local" name="name" value="" id="txtHoraInicio" />
                             </div>
                         </div>
-                        <div class="col-md-2 col-6 col-sm-6">
-                            <div class="form-groupf">
+                        <div class="col-md-3 col-12 col-sm-6">
+                            <div class="form-group">
                                 <label>Hora Fin</label>
                                 <input class="form-control" type="datetime-local" name="name" value="" id="txtHoraFin" />
                             </div>
@@ -95,20 +95,20 @@ x
                                 @*<input class="form-control" type="text" name="name" value="" id="txtLimpieza" maxlength="100" />*@
                             </div>
                         </div>
-                        <div class="col-md-4 col-12 col-sm-12">
-                            <div class="form-groupf">
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
                                 <label>Observación</label>
                                 <input class="form-control" type="text" name="name" value="" id="txtObservacion" maxlength="100" />
                             </div>
                         </div>
                         <div class="col-md-2 col-12" hidden id="divPiezas">
-                            <div class="form-groupf">
+                            <div class="form-group">
                                 <label>Total Piezas</label>
                                 <input class="form-control" type="number" name="name" value="0" id="txtPiezas" />
                             </div>
                         </div>
                         <div class="col-md-2 col-12" hidden id="divLimpiadoras">
-                            <div class="form-groupf">
+                            <div class="form-group">
                                 <label>Total Limpiadoras</label>
                                 <input class="form-control" type="number" name="name" value="0" id="txtLimpiadoras" />
                             </div>
