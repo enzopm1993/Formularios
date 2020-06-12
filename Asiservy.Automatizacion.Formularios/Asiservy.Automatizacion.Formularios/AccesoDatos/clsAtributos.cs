@@ -272,5 +272,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string Inicio { get; } = "I";
         public static string Medio { get; } = "M";
         public static string Final { get; } = "F";
+
+
+        public static string UrlImagen { get; } = "~/ImagenSiaa/";
+
     }
 }

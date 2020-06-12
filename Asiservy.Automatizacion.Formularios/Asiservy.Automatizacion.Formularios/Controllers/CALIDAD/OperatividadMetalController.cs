@@ -344,13 +344,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDOperatividadMetal = new clsDOperatividadMetal();
                 string path = string.Empty;
-                string path2 = string.Empty;
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/ImagenSiaa/DetectorMetal/");
-                    //path2 = Server.MapPath("~/~/EstEsprueba");
-                    //Directory.CreateDirectory(path2);
+                    path = Server.MapPath(clsAtributos.UrlImagen + "DetectorMetal/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
