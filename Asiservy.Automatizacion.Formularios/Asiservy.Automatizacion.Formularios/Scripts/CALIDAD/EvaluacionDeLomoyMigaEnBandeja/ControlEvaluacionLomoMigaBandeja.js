@@ -383,9 +383,6 @@ async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
-    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
-    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
-    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     var promesa=fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
         method: 'POST',
         body: data

@@ -260,8 +260,16 @@ function ConsultarFotos(idCabecera) {
                 if (resultado == '"0"') {
                     //$("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
                     //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                    divdetfotosbandeja
+                    $('#divdetfotosbandeja').prop('hidden', true);
+                    $('#titfoto').prop('hidden', true);
+                    $("#divTableDetalle2").html('');
+
                 } else {
+                    $('#divdetfotosbandeja').prop('hidden', false);
+                    $('#titfoto').prop('hidden', false);
                     //$("#spinnerCargandoDetalle2").prop("hidden", true);
+                    $("#divTableDetalle2").html('');
                     $("#divTableDetalle2").html(resultado);
 
                 }
