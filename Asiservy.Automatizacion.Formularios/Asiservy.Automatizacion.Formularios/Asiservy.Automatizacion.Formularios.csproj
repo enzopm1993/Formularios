@@ -2235,6 +2235,7 @@
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\ReporteHigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\BandejaKardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\KardexReactivo.js" />
+    <Content Include="Scripts\CALIDAD\KardexReactivo\ReporteKardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -4127,6 +4128,8 @@
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialSubDetalleControl.cshtml" />
     <Content Include="Views\KardexReactivo\BandejaKardexReactivo.cshtml" />
     <Content Include="Views\KardexReactivo\BandejaKardexReactivoPartial.cshtml" />
+    <Content Include="Views\KardexReactivo\ReporteKardexReactivo.cshtml" />
+    <Content Include="Views\KardexReactivo\ReporteKardexReactivoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
