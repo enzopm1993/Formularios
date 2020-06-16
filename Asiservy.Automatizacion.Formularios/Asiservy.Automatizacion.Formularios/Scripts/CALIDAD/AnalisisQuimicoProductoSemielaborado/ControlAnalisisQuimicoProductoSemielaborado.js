@@ -5,6 +5,13 @@ var Error = 0;
 var DatosDetalle;
 var ListaLotes;
 $(document).ready(function () {
+    $('#txtSalProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
+    $('#txtSalEmpaque').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
+    $('#txtHistaminaEmpaque').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
+    $('#txtHistaminaProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
+    $('#txtHumedadProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
+
+
     ConsultarCabControl();
     LLenarComboOrdenes();
 });
@@ -158,12 +165,15 @@ function AbrirModalDetalle() {
     //$('#ModalSubDetalle').modal({ backdrop: 'static', keyboard: false, show: true });
     IdDetalle = 0;
     $('#ModalDetalle').modal({ backdrop: 'static', keyboard: false, show: true });
+    LimpiarControlesDetalle();
+
     $('#btnOrden').prop('disabled', false);
     $('#cmbLote').prop('disabled', false);
 }
 function AbrirModalSubDetalle() {
     $('#ModalSubDetalle').modal({ backdrop: 'static', keyboard: false, show: true });
     IdSubDetalle = 0;
+    LimpiarControlesSubDetalle();
 }
 async function LlenarComboOrdenesAjax() {
     let params = {
@@ -363,7 +373,7 @@ function LimpiarControles() {
     $('#btnEliminarCabeceraControl').prop('disabled', true);
 }
 function ConfirmarEliminarCab() {
-    $('#ModalEliminarCabecera').modal('show');
+    $('#ModalEliminarControl').modal('show');
 }
 function EliminarCabecera() {
     $('#btnsicab').prop('disabled', true);
@@ -373,7 +383,7 @@ function EliminarCabecera() {
     data.append('IdCabecera', IdCabecera);
 
 
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarCabeceraControl", {
+    fetch("../AnalisisQuimicoProductoSemielaborado/EliminarCabeceraControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
@@ -389,7 +399,7 @@ function EliminarCabecera() {
             window.location.reload();
         }
         if (Error == 0) {
-            $('#ModalEliminarCabecera').modal('hide');
+            $('#ModalEliminarControl').modal('hide');
             //if (resultado[0] == "002") {
             //    MensajeAdvertencia(resultado[1]);
             //} else {
@@ -400,6 +410,8 @@ function EliminarCabecera() {
                 MensajeCorrecto(resultado[1]);
 
                 LimpiarControles();
+                $('#DivDetalle').empty();
+                ConsultarCabControl();
             }
             //}
 
@@ -412,59 +424,65 @@ function EliminarCabecera() {
             //console.log('error');
             //console.log(resultado);
             MensajeError(resultado.responseText, false);
-
+            $('#btnsicab').prop('disabled', false);
+            $('#btnnocab').prop('disabled', false);
         })
 }
 function GuardarDetalleControl() {
     Error = 0;
-    $('#cargac').show();
-    const data = new FormData();
-    data.append('IdDetalleAnalisisQuimicoProductoSe', IdDetalle);
-    data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
-    data.append('Lote', $("#cmbLote").val());
-    data.append('Proveedor', $("#txtProveedor").val());
-    data.append('Especie', $("#txtEspecie").val());
-    data.append('Talla', $("#txtTalla").val());
-    data.append('Cliente', $("#txtCliente").val());
-    console.log(IdCabecera);
-    data.append('IdCabeceraAnalisisQuimicoProductoSe', IdCabecera);
+    if (!ValidarDetalle()) {
+        return;
+    } else {
+        $('#cargac').show();
+        const data = new FormData();
+        data.append('IdDetalleAnalisisQuimicoProductoSe', IdDetalle);
+        data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+        data.append('Lote', $("#cmbLote").val());
+        data.append('Proveedor', $("#txtProveedor").val());
+        data.append('Especie', $("#txtEspecie").val());
+        data.append('Talla', $("#txtTalla").val());
+        data.append('Cliente', $("#txtCliente").val());
+        //console.log(IdCabecera);
+        data.append('IdCabeceraAnalisisQuimicoProductoSe', IdCabecera);
 
-    fetch("../AnalisisQuimicoProductoSemielaborado/GuardarDetalleControl", {
-        method: 'POST',
-        body: data
-    }).then(function (respuesta) {
-        if (!respuesta.ok) {
-            //MensajeError(respuesta.statusText);
-            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
-            Error = 1;
-        }
-        return respuesta.json();
-    }).then(function (resultado) {
-        //console.log(respuesta);
-        if (resultado == "101") {
-            window.location.reload();
-        }
-        if (Error == 0) {
+        fetch("../AnalisisQuimicoProductoSemielaborado/GuardarDetalleControl", {
+            method: 'POST',
+            body: data
+        }).then(function (respuesta) {
+            if (!respuesta.ok) {
+                //MensajeError(respuesta.statusText);
+                MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+                Error = 1;
+            }
+            return respuesta.json();
+        }).then(function (resultado) {
+            //console.log(respuesta);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (Error == 0) {
 
-            if (resultado[0] == "002" || resultado[0] == "003") {
-                MensajeAdvertencia(resultado[1]);
+                if (resultado[0] == "002" || resultado[0] == "003") {
+                    MensajeAdvertencia(resultado[1]);
+                }
+                if (resultado[0] == "000" || resultado[0] == "001") {
+                    MensajeCorrecto(resultado[1]);
+
+                    ConsultarDetalleControl();
+                }
+                $('#ModalDetalle').modal('hide');
+                //LimpiarDetalleControles();
             }
-            if (resultado[0] == "000" || resultado[0] == "001") {
-                MensajeCorrecto(resultado[1]);
-           
-                ConsultarDetalleControl();
-            }
-            $('#ModalDetalle').modal('hide');
-            //LimpiarDetalleControles();
-        }
-        $('#cargac').hide();
-    })
-        .catch(function (resultado) {
-            //console.log('error');
-            //console.log(resultado);
-            MensajeError(resultado.responseText, false);
             $('#cargac').hide();
         })
+            .catch(function (resultado) {
+                //console.log('error');
+                //console.log(resultado);
+                MensajeError(resultado.responseText, false);
+                $('#cargac').hide();
+            })
+    }
+    
 }
 function ConsultarDetalleControl() {
     $('#cargac').show();
@@ -518,6 +536,10 @@ function LimpiarControlesDetalle() {
     $('#txtEspecie').val('');
     $('#txtTalla').val('');
     $('#txtCliente').val('');
+
+    $('#msjerrorordenfb').prop('hidden', true);
+    $('#msjerrorLote').prop('hidden', true);
+
     LLenarComboOrdenes();
 
 }
@@ -536,57 +558,63 @@ function Atras() {
     $('#CardSubDetalle').prop('hidden', true);
     $('#DivCabecera').prop('hidden', false);
     $('#botonessubdetalle').prop('hidden', true);
+    IdDetalle = 0;
 }
 function GuardarSubDetalleControl() {
     Error = 0;
+    if (!ValidarSubDetallle()) {
+        return;
+    } else {
+        $('#cargac').show();
+        const data = new FormData();
+        data.append('IdTipoAnalisisQuimicoProductoSe', IdSubDetalle);
+        data.append('TipoProducto', $("#cmbTipoProducto").val());
+        data.append('SalProceso', $("#txtSalProceso").val());
+        data.append('HistaminaProceso', $("#txtHistaminaProceso").val());
+        data.append('HumedadProceso', $("#txtHumedadProceso").val());
+        data.append('SalEmpaque', $("#txtSalEmpaque").val());
+        data.append('HistaminaEmpaque', $("#txtHistaminaEmpaque").val());
+        data.append('CabeceraControl', IdCabecera);
+        data.append('IdDetalleAnalisisQuimicoProductoSe', IdDetalle);
 
-    const data = new FormData();
-    data.append('IdTipoAnalisisQuimicoProductoSe', IdSubDetalle);
-    data.append('TipoProducto', $("#cmbTipoProducto").val());
-    data.append('SalProceso', $("#txtSalProceso").val());
-    data.append('HistaminaProceso', $("#txtHistaminaProceso").val());
-    data.append('HumedadProceso', $("#txtHumedadProceso").val());
-    data.append('SalEmpaque', $("#txtSalEmpaque").val());
-    data.append('HistaminaEmpaque', $("#txtHistaminaEmpaque").val());
-    data.append('CabeceraControl', IdCabecera);
-    data.append('IdDetalleAnalisisQuimicoProductoSe', IdDetalle);
-
-    fetch("../AnalisisQuimicoProductoSemielaborado/GuardarSubDetalleControl", {
-        method: 'POST',
-        body: data
-    }).then(function (respuesta) {
-        if (!respuesta.ok) {
-            //MensajeError(respuesta.statusText);
-            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
-            Error = 1;
-        }
-        return respuesta.json();
-    }).then(function (resultado) {
-        //console.log(respuesta);
-        if (resultado == "101") {
-            window.location.reload();
-        }
-        if (Error == 0) {
-            
-            if (resultado[0] == "002" || resultado[0] == "003") {
-                MensajeAdvertencia(resultado[1]);
+        fetch("../AnalisisQuimicoProductoSemielaborado/GuardarSubDetalleControl", {
+            method: 'POST',
+            body: data
+        }).then(function (respuesta) {
+            if (!respuesta.ok) {
+                //MensajeError(respuesta.statusText);
+                MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+                Error = 1;
             }
-            if (resultado[0] == "000" || resultado[0] == "001") {
-                MensajeCorrecto(resultado[1]);
-
-                ConsultarSubDetalleControl();
+            return respuesta.json();
+        }).then(function (resultado) {
+            //console.log(respuesta);
+            if (resultado == "101") {
+                window.location.reload();
             }
-            $('#ModalSubDetalle').modal('hide');
-            //LimpiarDetalleControles();
-        }
-       
-    })
-        .catch(function (resultado) {
-            //console.log('error');
-            //console.log(resultado);
-            MensajeError(resultado.responseText, false);
+            if (Error == 0) {
 
+                if (resultado[0] == "002" || resultado[0] == "003") {
+                    MensajeAdvertencia(resultado[1]);
+                }
+                if (resultado[0] == "000" || resultado[0] == "001") {
+                    MensajeCorrecto(resultado[1]);
+
+                    ConsultarSubDetalleControl();
+                }
+                $('#ModalSubDetalle').modal('hide');
+                //LimpiarDetalleControles();
+            }
+            $('#cargac').hide();
         })
+            .catch(function (resultado) {
+                //console.log('error');
+                //console.log(resultado);
+                MensajeError(resultado.responseText, false);
+                $('#cargac').hide();
+            })
+    }
+    
 }
 function ConsultarSubDetalleControl() {
     $('#cargac').show();
@@ -640,6 +668,188 @@ function EditarDetalle() {
     $('#btnOrden').prop('disabled', true);
     $('#cmbLote').prop('disabled', true);
 }
-function EditarSubDetalle() {
+function EditarSubDetalle(data) {
     $('#ModalSubDetalle').modal('show');
+    $('#cmbTipoProducto').val(data.TipoProducto);
+    $('#txtSalProceso').val(data.SalProceso);
+    $('#txtHistaminaProceso').val(data.HistaminaProceso);
+    $('#txtHumedadProceso').val(data.HumedadProceso);
+    $('#txtSalEmpaque').val(data.SalEmpaque);
+    $('#txtHistaminaEmpaque').val(data.HistaminaEmpaque); 
+    IdSubDetalle = data.IdTipoAnalisisQuimicoProductoSe;
+}
+function LimpiarControlesSubDetalle() {
+    $('#cmbTipoProducto').prop('selectedIndex',0);
+    $('#txtSalProceso').val('');
+    $('#txtHistaminaProceso').val('');
+    $('#txtHumedadProceso').val('');
+    $('#txtSalEmpaque').val('');
+    $('#txtHistaminaEmpaque').val('');
+    $('#msjerrorTipoProducto').prop('hidden', true);
+    $('#msjerrorsalproceso').prop('hidden', true);
+    $('#msjerrorhumedad').prop('hidden', true);
+}
+function ValidarDetalle() {
+    var valida = true;
+    if ($('#cmbOrdeneFabricacion').val() == '') {
+        valida = false;
+        $('#msjerrorordenfb').prop('hidden', false);
+
+    } else {
+        $('#msjerrorordenfb').prop('hidden', true);
+    }
+    if ($('#cmbLote').prop('selectedIndex') == 0) {
+        valida = false;
+        $('#msjerrorLote').prop('hidden', false);
+    } else {
+        $('#msjerrorLote').prop('hidden', true);
+    }
+    return valida;
+
+}
+function ValidarSubDetallle() {
+    var valida = true;
+    if ($('#cmbTipoProducto').prop('selectedIndex') == 0){
+        valida = false;
+        $('#msjerrorTipoProducto').prop('hidden', false);
+
+    } else {
+        $('#msjerrorTipoProducto').prop('hidden', true);
+    }
+    if ($('#txtSalProceso').val() == '') {
+        $('#areproc').addClass('active');
+        $('#areaemp').removeClass('active');
+        $('#Proceso').addClass('active');
+        $('#Empaque').removeClass('active fade');
+        valida = false;
+        $('#msjerrorsalproceso').prop('hidden', false);
+    } else {
+        $('#msjerrorsalproceso').prop('hidden', true);
+    }
+    if ($('#txtHumedadProceso').val() == '') {
+        $('#areproc').addClass('active');
+        $('#areaemp').removeClass('active');
+        $('#Proceso').addClass('active');
+        $('#Empaque').removeClass('active fade');
+        valida = false;
+        $('#msjerrorhumedad').prop('hidden', false);
+    } else {
+        $('#msjerrorhumedad').prop('hidden', true);
+    }
+    
+    return valida;
+}
+function ConfirmarEliminarSubDetalle(data) {
+    $('#ModalEliminarSubDetalle').modal('show');
+    IdSubDetalle = data.IdTipoAnalisisQuimicoProductoSe;
+ 
+}
+function EliminarSubDetalle() {
+    $('#cargac').show();
+    Error = 0;
+    const data = new FormData();
+    data.append('IdSubdetalle', IdSubDetalle);
+    data.append('IdCabecera', IdCabecera);
+
+
+    fetch("../AnalisisQuimicoProductoSemielaborado/EliminarSubDetalleControl", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#ModalEliminarSubDetalle').modal('hide');
+            //if (resultado[0] == "002") {
+            //    MensajeAdvertencia(resultado[1]);
+            //} else {
+
+            if (resultado[0] != '002') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+
+                LimpiarControlesSubDetalle();
+                ConsultarSubDetalleControl();
+            }
+            //}
+
+        }
+
+        $('#cargac').show();
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+            $('#cargac').show();
+        })
+}
+function ConfirmarEliminarDetalle() {
+    $('#ModalEliminarDetalle').modal('show');  
+    $('#ordenflbl').text(DatosDetalle.OrdenFabricacion);
+    $('#lotelbl').text(DatosDetalle.Lote);   
+}
+function EliminarDetalle() {
+    $('#cargac').show();
+    Error = 0;
+    const data = new FormData();
+    data.append('IdDetalle', IdDetalle);
+    data.append('IdCabecera', IdCabecera);
+
+
+    fetch("../AnalisisQuimicoProductoSemielaborado/EliminarDetalleControl", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#ModalEliminarDetalle').modal('hide');
+            //if (resultado[0] == "002") {
+            //    MensajeAdvertencia(resultado[1]);
+            //} else {
+
+            if (resultado[0] != '002') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+                $('#CardDetalle').prop('hidden', false);
+                $('#CardSubDetalle').prop('hidden', true);
+                $('#DivCabecera').prop('hidden', false);
+                $('#botonessubdetalle').prop('hidden', true);
+                LimpiarControlesDetalle();
+                ConsultarDetalleControl();
+
+            }
+            //}
+
+        }
+
+        $('#cargac').show();
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+            $('#cargac').show();
+        })
 }

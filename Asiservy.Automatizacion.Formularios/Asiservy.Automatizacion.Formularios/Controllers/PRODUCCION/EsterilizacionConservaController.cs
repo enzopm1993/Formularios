@@ -17,10 +17,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
 {
     public class EsterilizacionConservaController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDEsterilizacionConserva clsDEsterilizacionConserva = null;
-        clsDCcocheAutoclave clsDCcocheAutoclave = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDEsterilizacionConserva clsDEsterilizacionConserva { get; set; } = null;
+        clsDCcocheAutoclave clsDCcocheAutoclave { get; set; } = null;
         //clsDEmpleado clsDEmpleado = null;
         //clsDClasificador clsDClasificador = null;
         //clsDApiProduccion clsDApiProduccion = null;

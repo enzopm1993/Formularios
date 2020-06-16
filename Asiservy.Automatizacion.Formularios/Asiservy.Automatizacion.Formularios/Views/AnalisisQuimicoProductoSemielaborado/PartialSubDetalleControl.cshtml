@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>
-
+@using Newtonsoft.Json
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -33,6 +33,9 @@
     <tbody>
         @foreach (var item in Model)
         {
+            var json = JsonConvert.SerializeObject(new {item.HistaminaEmpaque,item.HistaminaProceso,
+                item.HumedadProceso,item.IdDetalleAnalisisQuimicoProductoSe,item.IdTipoAnalisisQuimicoProductoSe,
+            item.SalEmpaque,item.SalProceso,item.TipoProducto});
             string Tipo = item.TipoProducto == "L" ? "Lomo" : item.TipoProducto == "M" ? "Miga" : item.TipoProducto == "T" ? "Trozo" : item.TipoProducto;
             <tr>
 
@@ -57,8 +60,8 @@
 
 
                 <td>
-                    <a href="#" onclick="EditarSubDetalle()">Editar</a>|
-                    <a href="#">Eliminar</a>|
+                    <a href="#" onclick="EditarSubDetalle(@json)">Editar</a>|
+                    <a href="#" onclick="ConfirmarEliminarSubDetalle(@json)">Eliminar</a>|
 
                 </td>
             </tr>
