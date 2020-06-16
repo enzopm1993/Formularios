@@ -2256,6 +2256,9 @@
     <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
+    <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ControlMaterialQuebradizo.js" />
+    <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterial.js" />
+    <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\BandejaMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
@@ -3420,6 +3423,7 @@
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlDesechosLiquidosPeligrosos\clsDDesechosLiquidosPeligrosos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlLavadoCisterna\clsDControlLavadoCisterna.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ControlMaterialQuebradizo\ClsMaterialQuebradizo.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionDeLomosyMigasEnBandeja\clsDEvaluacionDeLomosYMigasEnBandeja.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionProductoEnfundado\clsDEvaluacionProductoEnfundado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\HigieneComedorCocina\clsDHigieneComedorCocina.cs" />
@@ -3523,6 +3527,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
     <Compile Include="Controllers\CALIDAD\KardexReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
@@ -4121,6 +4126,13 @@
     <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisternaPartial.cshtml" />
     <Content Include="Views\KardexReactivo\KardexReactivo.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\MantenimientoMaterialQuebradizo.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\MantenimientoMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\MantenimientoMaterial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\MantenimientoMaterialPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\ControlMaterialIngresoPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\ConsultarDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

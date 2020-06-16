@@ -1,28 +1,21 @@
-﻿var itemEditar = [];
+﻿var itemCabecera = [];
 var estadoReporte = [];
 var itemDetalle = [];
 var siActualizar = [];
+var itemAccionCorrectiva=[];
+var rotation = 0;
 $(document).ready(function () {
     CargarCabecera();
-    $('#selectCisterna').select2();
-    MascaraInputs();
+    var x = document.getElementById("selectVerificacion");
+    var option = document.createElement("option");
+    option.text = 'Todos';
+    option.value = 'galo';
+    x.add(option);
 });
-
-function MascaraInputs() {   
-    $('#txtStd').val('');
-    $('#txtStd').css('border', '');
-    $('#txtStd').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99' , 'min':'0'});
-    $('#txtDt').val('');
-    $('#txtDt').css('border', '');
-    $('#txtDt').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99', 'min': '0' });
-    $('#txtCl').val('');
-    $('#txtCl').css('border', '');
-    $('#txtCl').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99', 'min': '0' });
-}
 
 function ConsultarEstadoRegistro() {
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/ConsultarEstadoReporte",
+        url: "../MaterialQuebradizo/ConsultarEstadoReporte",
         data: {
             fechaControl: $("#txtFecha").val()
         },
@@ -48,7 +41,7 @@ function CargarCabecera() {
         return;
     }
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/ConsultarEstadoReporte",
+        url: "../MaterialQuebradizo/ConsultarEstadoReporte",
         data: {
             fechaControl: $("#txtFecha").val()
         },
@@ -64,18 +57,18 @@ function CargarCabecera() {
                 $('#divBotonCrearDetalle').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').html(resultado);
-                itemEditar = 0;
+                itemCabecera = [];
                 LimpiarModalIngresoCabecera();
             } else {
-                itemEditar = resultado;
+                itemCabecera = resultado;
                 CambiarMensajeEstado(resultado.EstadoReporte);
                 $('#divBotonCrearDetalle').prop('hidden', false);
                 $('#divMostrarCabecera').prop('hidden', false);
                 $('#divMostarTablaDetalle').html(resultado);
                 $('#divBotonCrear').prop('hidden', true);
                 $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
-                $("#txtObservacionVer").val(resultado.Observaciones);
-               
+                $("#txtObservacionVer").val(resultado.ObservacionCtrl);
+
                 CargarDetalle(1);
             }
             $('#cargac').hide();
@@ -98,12 +91,12 @@ function GuardarCabecera(siAprobar) {
         } else {
 
             $.ajax({
-                url: "../AnalisisAguaClorinacionCisterna/GuardarModificarClorinacionCisterna",
+                url: "../MaterialQuebradizo/GuardarModificarMaterialQuebradizo",
                 type: "POST",
                 data: {
-                    IdAnalisisAguaControl: itemEditar.IdAnalisisAguaControl,
+                    IdMaterial: itemCabecera.IdMaterial,
                     Fecha: $("#txtIngresoFecha").val(),
-                    Observaciones: $("#txtIngresoObservacion").val(),
+                    ObservacionCtrl: $("#txtIngresoObservacion").val(),
                     siAprobar: siAprobar
                 },
                 success: function (resultado) {
@@ -125,7 +118,7 @@ function GuardarCabecera(siAprobar) {
                     $('#divBotonesCRUD').prop('hidden', false);
                     $('#divMostarTablaDetalle').prop('hidden', false);
                     $('#divBotonCrear').prop('hidden', true);
-                    itemEditar = 0;
+                    itemCabecera = [];
                     $('#cargac').hide();
                     CargarCabecera();
                 },
@@ -162,10 +155,10 @@ function EliminarCabeceraSi() {
         } else {
 
             $.ajax({
-                url: "../AnalisisAguaClorinacionCisterna/EliminarClorinacionCisterna",
+                url: "../MaterialQuebradizo/EliminarMaterialQuebradizo",
                 type: "POST",
                 data: {
-                    IdAnalisisAguaControl: itemEditar.IdAnalisisAguaControl
+                    IdMaterial: itemCabecera.IdMaterial
                 },
                 success: function (resultado) {
                     if (resultado == "101") {
@@ -187,7 +180,7 @@ function EliminarCabeceraSi() {
                         $('#cargac').hide();
                         return;
                     }
-                    itemEditar = 0;
+                    itemCabecera = [];
                 },
                 error: function (resultado) {
                     $('#cargac').hide();
@@ -210,8 +203,8 @@ function ActualizarCabecera() {
             return;
         } else {
             LimpiarModalIngresoCabecera();
-            $("#txtIngresoFecha").val(moment(itemEditar.Fecha).format("YYYY-MM-DD"));
-            $("#txtIngresoObservacion").val(itemEditar.Observaciones);
+            $("#txtIngresoFecha").val(moment(itemCabecera.Fecha).format("YYYY-MM-DD"));
+            $("#txtIngresoObservacion").val(itemCabecera.ObservacionCtrl);
             $('#ModalIngresoCabecera').modal('show');
         }
     }, 200);
@@ -220,7 +213,7 @@ function ActualizarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
     $('#ModalIngresoCabecera').modal('show');
-    itemEditar = [];
+    itemCabecera = [];
 }
 
 function LimpiarModalIngresoCabecera() {
@@ -250,10 +243,10 @@ function CargarDetalle() {
     $('#cargac').show();
     var op = 0;
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/ControlClorinacionCisternaPartial",
-        data: {           
-            idAnalisisAguaControl: itemEditar.IdAnalisisAguaControl,
-            op:op
+        url: "../MaterialQuebradizo/ConsultarDetallePartial",
+        data: {
+            IdMaterial: itemCabecera.IdMaterial,
+            op: op
         },
         type: "GET",
         success: function (resultado) {
@@ -262,15 +255,17 @@ function CargarDetalle() {
             }
             if (resultado == "0") {
                 $("#divMostarTablaDetallesVer").html("No existen registros");
-                $('#firmaDigital').prop('hidden', true);
+                $('#divBotonCrearDetalle').prop('hidden', false);
+                $('#selectVerificacion').prop('disabled', false);
             } else {
                 $('#divMostarTablaDetallesVer').prop('hidden', false);
+                $('#divBotonCrearDetalle').prop('hidden',true);
                 $('#divMostarTablaDetallesVer').html(resultado);
             }
             $('#cargac').hide();
         },
         error: function (resultado) {
-            console.log(resultado.responseText, false)
+            //console.log(resultado.responseText, false)
             $('#cargac').hide();
             MensajeError(Mensajes.Error, false);
         }
@@ -285,14 +280,15 @@ function ModalIngresoDetalle() {
         if (estadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
-        } else {
-            $('#ModalIngresoDetalle').modal('show');            
+        } else {     
+            ArmarTablaIngreso();
+            $('#ModalIngresoDetalle').modal('show');
             $('#cargac').hide();
         }
     }, 200);
 }
 
-function GuardarDetalle() {
+function GuardarDetalle(jdataAreas, jdataMateriales) {
     $('#cargac').show();
     ConsultarEstadoRegistro();
     setTimeout(function () {
@@ -301,20 +297,39 @@ function GuardarDetalle() {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
-            $('#cargac').show();           
+            $('#cargac').show();
+            listaDetalle = new Array;
+            jdataAreas.forEach(function (rowArea) {
+                jdataMateriales.forEach(function (rowMateriales) {
+                    var element = document.getElementById('checkMateriales_' + rowArea.IdMantenimiento + '_' + rowMateriales.IdMantMaterial);
+                    if (typeof (element) != 'undefined' && element != null) {
+                        var check = $('#checkMateriales_' + rowArea.IdMantenimiento + '_' + rowMateriales.IdMantMaterial).prop('checked');
+                        var obs = document.getElementById('txtObservacion_' + rowArea.IdMantenimiento).value;
+                        if (check == true) {
+                            detalle = {};
+                            itemDetalle.forEach(function (rowDetalle) {
+                                if (rowDetalle.IdMantenimiento == rowArea.IdMantenimiento && rowDetalle.IdMantMaterial == rowMateriales.IdMantMaterial) {
+                                    detalle.IdMaterialDetalle = rowDetalle.IdMaterialDetalle;
+                                }
+                            });                                                        
+                            
+
+                            detalle.IdMantenimiento = rowArea.IdMantenimiento;
+                            detalle.IdMaterial = itemCabecera.IdMaterial;
+                            detalle.IdMantMaterial = rowMateriales.IdMantMaterial;
+                            detalle.EstadoVerificacion = check;
+                            detalle.Observaciones = obs;
+                            listaDetalle.push(detalle);
+                        }
+                    }
+                });
+            });
 
             $.ajax({
-                url: "../AnalisisAguaClorinacionCisterna/GuardarModificarClorinacionDetalle",
+                url: "../MaterialQuebradizo/GuardarModificarDetalle",
                 type: "POST",
                 data: {
-                    IdAnalisisAguaDetalle: itemDetalle.IdAnalisisAguaDetalle,
-                    IdAnalisisAguaControl: itemEditar.IdAnalisisAguaControl,
-                    IdCisterna: $('#selectCisterna').val(),
-                    Hora: $('#txtIngresoFechaDetalle').val(),
-                    STD: $('#txtStd').val(),
-                    DT: $('#txtDt').val(),
-                    CL: $('#txtCl').val(),
-                    siActualizar: siActualizar
+                    listaDetalle: listaDetalle
                 },
                 success: function (resultado) {
                     if (resultado == "101") {
@@ -324,9 +339,10 @@ function GuardarDetalle() {
                         MensajeCorrecto('Registro guardado correctamente');
                     } else if (resultado == 1) {
                         MensajeCorrecto('Registro actualizado correctamente');
-                    }  else if (resultado == 2) {
-                        MensajeAdvertencia('¡Error! La hora ingresada ya existe  : <span class="badge badge-danger">' + $("#txtIngresoFechaDetalle").val() + '</span>');
+                    } else if (resultado == 2) {
+                        MensajeAdvertencia('¡Error! No se a guardado  : <span class="badge badge-danger">' + 'SIN DATOS' + '</span>');
                         $('#cargac').hide();
+                        $('#ModalIngresoDetalle').modal('hide');
                         return;
                     } else if (resultado == 3) {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
@@ -349,22 +365,22 @@ function GuardarDetalle() {
     }, 200);
 }
 
-function ActualizarDetalle(jdata) {
-    ModalIngresoDetalle();
-    document.getElementById('txtIngresoFechaDetalle').value = moment(jdata.Hora).format('HH:mm');
-    $('#cargac').show();     
-    if (jdata.STD!=null)
-        document.getElementById('txtStd').value = jdata.STD;
-    if (jdata.DT!=null)
-        document.getElementById('txtDt').value = jdata.DT;
-    if (jdata.CL!=null)
-        document.getElementById('txtCl').value = jdata.CL;
-
-    $('#selectCisterna').val(jdata.IdCisterna).trigger('change');
-    itemDetalle = jdata;
+async function ActualizarDetalle(jModel) {
+    document.getElementById('selectVerificacion').value = jModel[0].TipoVerificacion;
+    ModalIngresoDetalle();    
+    $('#cargac').show();
+    setTimeout(function () {
+        $('#selectVerificacion').prop('disabled', true);
+        jModel.forEach(function (rowModel) {
+            $('#checkMateriales_' + rowModel.IdMantenimiento + '_' + rowModel.IdMantMaterial).prop('checked', rowModel.EstadoVerificacion);
+            document.getElementById('txtObservacion_' + rowModel.IdMantenimiento).value = rowModel.Observaciones;
+        });        
+    },500);
+    
+    itemDetalle = jModel;
     siActualizar = true;
     $('#cargac').hide();
-    
+
 }
 
 function CambiarMensajeEstado(estadoReporteParametro) {
@@ -408,11 +424,10 @@ function EliminarConfirmarDetalle(jdata) {
 
 function EliminarDetalleSi() {
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/EliminarClorinacionDetalle",
+        url: "../MaterialQuebradizo/EliminarDetalle",
         type: "POST",
         data: {
-            IdAnalisisAguaControl: itemDetalle.IdAnalisisAguaControl,
-            IdAnalisisAguaDetalle: itemDetalle.IdAnalisisAguaDetalle
+            IdMaterial: itemDetalle.IdMaterial
         },
         success: function (resultado) {
             itemDetalle = [];
@@ -427,7 +442,7 @@ function EliminarDetalleSi() {
             } else if (resultado == "1") {
                 $("#modalEliminarControlDetalle").modal("hide");
                 CargarDetalle();
-                MensajeCorrecto("Registro eliminado con Éxito");
+                MensajeCorrecto("Registro eliminado con Éxito");                
                 $('#cargac').hide();
             } else if (resultado == '3') {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
@@ -442,16 +457,191 @@ function EliminarDetalleSi() {
     });
 }
 
-function LimpiarDetalle() {
-    MascaraInputs();
+function LimpiarDetalle() {    
     var date = new Date();
-    $('#txtIngresoFechaDetalle').val(moment(date).format('HH:mm'));
-    //$('#txtStd').val('');
-    //$('#txtDt').val('');
-    //$('#txtCl').val('');
+    $('#txtIngresoFechaDetalle').val(moment(date).format('HH:mm'));    
     itemDetalle = [];
 }
 
 function EliminarDetalleNo() {
     $("#modalEliminarControlDetalle").modal("hide");
 }
+
+function ArmarTablaIngreso() {
+    var verificacion = $('#selectVerificacion').val();
+    if ($('#selectVerificacion').val()=='galo') {
+        verificacion = null;
+    }
+    $.ajax({
+        url: "../MaterialQuebradizo/ControlMaterialIngresoPartial",
+        type: 'Post',
+        data: {
+            verificacion: verificacion
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }           
+            $('#divMostrarTablaIngresoDetalle').html(resultado);
+        },
+        error: function () {
+            $('#cargac').hide();
+            MensajeError(Mensajes.Error, false);
+        }
+    });
+}
+
+function AccionCorrectiva(jdata) {
+    ConsultarEstadoRegistro();
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            LimpiarAccionCorrectiva();
+            itemDetalle = jdata;
+            $("#modalAccionCorrectiva").modal("show");
+        }
+    }, 200);
+}
+
+function GuardarAccionCorrectiva() {
+    $('#cargac').show();
+    ConsultarEstadoRegistro();
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            $('#cargac').hide();
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            if (OnChangeTextBoxAccion() == 1) {
+                MensajeAdvertencia('Ingrese todos los datos requeridos');
+                $('#cargac').hide();
+                return;
+            }
+            $('#cargac').show();
+            var imagen = $('#file-upload')[0].files[0];
+            var data = new FormData();
+            data.append("dataImg", imagen);
+            data.append("IdMaterialDetalle", itemDetalle.IdMaterialDetalle);
+            data.append("IdAccion", itemAccionCorrectiva.IdAccion);
+            data.append("DescripcionAccion", $("#txtAccionCorrectiva").val());
+            data.append("Rotation", rotation);
+            $.ajax({
+                url: "../MaterialQuebradizo/GuardarModificarAccionCorrectiva",
+                type: "POST",
+                cache: false,
+                data: data,
+                contentType: false,
+                processData: false,
+                async: false,
+                data:data ,
+                success: function (resultado) {
+                    if (resultado == "101") {
+                        window.location.reload();
+                    }
+                    if (resultado == 0) {
+                        MensajeCorrecto('Acción Correctiva guardada correctamente');
+                    } else if (resultado == 1) {
+                        MensajeCorrecto('Registro actualizado correctamente');
+                    } else if (resultado == 3) {
+                        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                        $('#cargac').hide();
+                        return;
+                    } else if (resultado == 4) {
+                        MensajeAdvertencia('¡Solo se permiten imagenes!', 5);
+                        $('#cargac').hide();
+                        return;
+                    } else {
+                        var mb = parseFloat(resultado / (1024 * 1024)).toFixed(2);
+                        MensajeAdvertencia('¡Exedio el limite de capacidad permitido!:  <span class="badge badge-success">5Mb</span>: Su imagen:<span class="badge badge-danger">' + mb + 'Mb</span>');
+                        $('#cargac').hide();
+                        return;
+                    }                   
+                    itemDetalle = [];
+                    CargarDetalle();
+                    $('#modalAccionCorrectiva').modal('hide');
+                    $('#cargac').hide();
+                },
+                error: function (resultado) {
+                    console.log(resultado.innerText);
+                    $('#cargac').hide();
+                    MensajeError(Mensajes.Error, false);
+                }
+            });
+        }
+    }, 200);
+}
+
+function OnChangeTextBoxAccion() {
+    var con = 0;
+    if ($('#txtAccionCorrectiva').val() == '') {
+        $("#txtAccionCorrectiva").css('border', '1px dashed red');
+        con = 1;
+    } else { $("#txtAccionCorrectiva").css('border', ''); }
+    
+    if ($('#file-upload').val() == '') {
+        $("#file-upload").css('border', '1px dashed red');
+        con = 1;
+    } else { $("#file-upload").css('border', ''); }
+    if ($('#lblfoto').val() == '') {
+        $("#lblfoto").css('border', '1px dashed red');
+        
+    } else { $("#lblfoto").css('border', ''); }
+    return con;
+}
+
+function LimpiarAccionCorrectiva() {
+    $("#txtAccionCorrectiva").val("");
+    $("#file-upload").val('');
+    $("#file-preview-zone").html('');
+    $('#lblfoto').text('Seleccione archivo');
+    $("#lblfoto").css('border', '');
+    $("#file-upload").css('border', '');
+    rotation = 0;
+
+}
+
+function readFile(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#file-preview-zone").html('');
+            var filePreview = document.createElement('img');
+            filePreview.id = 'file-preview';
+            filePreview.src = e.target.result;
+            var previewZone = document.getElementById('file-preview-zone');
+            previewZone.appendChild(filePreview);
+            $("#file-preview").addClass("img");
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function () {
+                //if (this.width < this.height) {
+                    document.getElementById("file-preview").style.height = "350px";
+                    document.getElementById("file-preview").style.width = "350px";
+                //}
+                //else {
+                //    document.getElementById("file-preview").style.height = "300px";
+                //    document.getElementById("file-preview").style.width = "250px";
+                //}
+            };
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var fileUpload = document.getElementById('file-upload');
+
+fileUpload.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement);
+}
+
+$('#file-preview-zone').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
