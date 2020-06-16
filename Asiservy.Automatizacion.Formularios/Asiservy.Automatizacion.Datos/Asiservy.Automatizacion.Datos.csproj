@@ -873,6 +873,9 @@
     <Compile Include="Datos\spReporteEvaluacionProductoEnfundado.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spReporteKardexReactivo.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spReporteMapeoProductoTunelDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

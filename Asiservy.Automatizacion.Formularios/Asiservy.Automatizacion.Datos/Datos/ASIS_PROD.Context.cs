@@ -2206,5 +2206,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaKardexReactivo>("spConsultaKardexReactivo", fechaParameter);
         }
+    
+        public virtual ObjectResult<spReporteKardexReactivo> spReporteKardexReactivo(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteKardexReactivo>("spReporteKardexReactivo", fechaDesdeParameter, fechaHastaParameter);
+        }
     }
 }
