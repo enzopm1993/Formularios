@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_KARDEX_REACTIVO>
+@using Newtonsoft.Json
+@using Asiservy.Automatizacion.Datos.Datos
+
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+          
+            <th>
+                Estado
+            </th>
+
+
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario Modificación
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(new CC_KARDEX_REACTIVO {
+                Fecha=item.Fecha,
+                IdKardexReactivo=item.IdKardexReactivo
+            });
+            <tr onclick="SeleccionarBandeja(@json)">
+
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+             
+                @if (item.EstadoReporte == true)
+                {
+                    <td><span class="badge badge-success">Aprobado</span></td>
+                }
+                else
+                {
+                    <td><span class="badge badge-danger">Pendiente</span></td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

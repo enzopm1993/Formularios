@@ -465,7 +465,8 @@ function CargarControlDetalle2() {
 function NuevoControlDetalle2() {
     $("#txtIdControlDetalle2").val("");
     $("#txtNovedad").val("");
-    $("#file-upload").val('');
+    $("#file-upload").val(''); 
+    $("#lblfoto").val(''); 
     $("#file-preview-zone").html('');
     rotation = 0;
 }
@@ -675,3 +676,12 @@ $('#file-preview-zone').on("click", function (e) {
     }
 });
 
+var fileUpload = document.getElementById('file-upload');
+fileUpload.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement);
+
+
+
+}

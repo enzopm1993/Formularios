@@ -359,9 +359,13 @@
                     </div>
                     <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
                         <label>Metales</label>
-                        <div id="divFileUpload">
-                            <input id="file-upload" type="file" accept="image/*" />
+                        <div class="custom-file" id="divFileUpload">
+                            <input type="file" class="file-upload" id="file-upload" accept="image/*">
+                            <label class="custom-file-label" for="file-upload" id="lblfoto">Seleccione archivo</label>
                         </div>
+                        @*<div id="divFileUpload">
+            <input id="file-upload" type="file" accept="image/*" />
+        </div>*@
                         <br />
                         <div class="text-center" style="justify-content:center">
                             <div id="file-preview-zone" style="height:auto">
