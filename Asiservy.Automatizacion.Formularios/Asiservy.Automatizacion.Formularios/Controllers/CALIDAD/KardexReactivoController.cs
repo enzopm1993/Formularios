@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ClsdMantenimientoReactivo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
@@ -19,6 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
+        private ClsdMantenimientoReactivo ClsdMantenimientoReactivo { get; set; } = null;
 
         #region CONTROL 
         [Authorize]
@@ -30,6 +32,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 ViewBag.MaskedInput = "1";
+                ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
+                ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x=> x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 return View();
             }
             catch (DbEntityValidationException e)

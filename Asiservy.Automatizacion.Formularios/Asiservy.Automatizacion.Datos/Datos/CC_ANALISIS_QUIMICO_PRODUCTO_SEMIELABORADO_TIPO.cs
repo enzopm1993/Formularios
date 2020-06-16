@@ -12,15 +12,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_AGUA_CLORINACION_DETALLE
+    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO
     {
-        public int IdAnalisisAguaDetalle { get; set; }
-        public int IdAnalisisAguaControl { get; set; }
-        public int IdCisterna { get; set; }
-        public System.DateTime Hora { get; set; }
-        public Nullable<decimal> STD { get; set; }
-        public Nullable<decimal> DT { get; set; }
-        public Nullable<decimal> CL { get; set; }
+        public int IdTipoAnalisisQuimicoProductoSe { get; set; }
+        public string TipoProducto { get; set; }
+        public Nullable<decimal> SalProceso { get; set; }
+        public Nullable<decimal> HistaminaProceso { get; set; }
+        public Nullable<decimal> HumedadProceso { get; set; }
+        public Nullable<decimal> SalEmpaque { get; set; }
+        public Nullable<decimal> HistaminaEmpaque { get; set; }
+        public int IdDetalleAnalisisQuimicoProductoSe { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -29,7 +30,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_ANALISIS_AGUA_CLORINACION_CONTROL CC_ANALISIS_AGUA_CLORINACION_CONTROL { get; set; }
-        public virtual CC_ANALISIS_AGUA_CLORINACION_MANT CC_ANALISIS_AGUA_CLORINACION_MANT { get; set; }
+        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
     }
 }

@@ -17,9 +17,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdAnalisisAguaControl { get; set; }
         public int IdCisterna { get; set; }
         public System.DateTime Hora { get; set; }
-        public decimal STD { get; set; }
-        public decimal DT { get; set; }
-        public decimal CL { get; set; }
+        public Nullable<decimal> STD { get; set; }
+        public Nullable<decimal> DT { get; set; }
+        public Nullable<decimal> CL { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

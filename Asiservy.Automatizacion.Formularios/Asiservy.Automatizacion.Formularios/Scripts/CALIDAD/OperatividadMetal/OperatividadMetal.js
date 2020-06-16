@@ -465,7 +465,8 @@ function CargarControlDetalle2() {
 function NuevoControlDetalle2() {
     $("#txtIdControlDetalle2").val("");
     $("#txtNovedad").val("");
-    $("#file-upload").val('');
+    $("#file-upload").val(''); 
+    $("#lblfoto").val(''); 
     $("#file-preview-zone").html('');
     rotation = 0;
 }
@@ -538,7 +539,7 @@ function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
     if (imagen != null && imagen != '') {
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + imagen;
+        filePreview.src = "../ImagenSiaa/" + imagen;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
@@ -562,7 +563,7 @@ function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
             $("#ModalGenerarControlDetalle2").modal("show");
 
         }
-        img.src = "/Content/Img/" + imagen;
+        img.src = "../ImagenSiaa/" + imagen;
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");
@@ -675,3 +676,12 @@ $('#file-preview-zone').on("click", function (e) {
     }
 });
 
+var fileUpload = document.getElementById('file-upload');
+fileUpload.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement);
+
+
+
+}

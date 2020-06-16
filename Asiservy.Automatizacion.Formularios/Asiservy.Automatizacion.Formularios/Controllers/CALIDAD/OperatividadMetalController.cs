@@ -347,7 +347,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/Content/Img/DetectorMetal/");
+                    path = Server.MapPath(clsAtributos.UrlImagen + "DetectorMetal/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);

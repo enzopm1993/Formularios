@@ -120,6 +120,15 @@
     <Compile Include="Datos\CC_ANALISIS_AGUA_TANQUERO_CONTROL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_CALIBRACION_FLUOROMETRO_CTRL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
