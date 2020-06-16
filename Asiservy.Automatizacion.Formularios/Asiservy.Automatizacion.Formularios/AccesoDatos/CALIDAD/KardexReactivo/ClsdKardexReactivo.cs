@@ -121,7 +121,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_KARDEX_REACTIVO.Where(x => !x.EstadoReporte).ToList();
+                return entities.CC_KARDEX_REACTIVO.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
         public void Aprobar_ReporteKardexReactivo(CC_KARDEX_REACTIVO controlCloro)
