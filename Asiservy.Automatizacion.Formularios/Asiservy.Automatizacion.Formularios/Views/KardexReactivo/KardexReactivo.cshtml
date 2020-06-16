@@ -23,7 +23,7 @@
    // console.log(mantenimientos);
 </script>
 
-<h4>Kardex de Reactivo</h4>
+<h4>Kardex de Reactivo  <label id="lblAprobadoPendiente" class="badge"> </label></h4>
 
 
 
@@ -32,7 +32,7 @@
     <div class="card-body">
         <div class="row" id="divCabecera1">
             <input type="hidden" id="txtIdCloroAguaAutoclave" name="name" value="0" />
-            <div class="col-md-2 col-6 col-sm-6">
+            <div class="col-md-3 col-6 col-sm-6">
                 <div class="form-group">
                     <label>Fecha</label>
                     <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />

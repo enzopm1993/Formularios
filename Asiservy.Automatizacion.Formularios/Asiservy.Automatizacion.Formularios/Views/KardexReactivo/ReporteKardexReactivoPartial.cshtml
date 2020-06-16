@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteKardexReactivo>
+@using Asiservy.Automatizacion.Datos.Datos
+
+@{ 
+    List<CC_MANTENIMIENTO_REACTIVO> reactivos = (List<CC_MANTENIMIENTO_REACTIVO>)ViewBag.Reactivos;
+
+    List<DateTime> modelo = Model.Select(x => x.Fecha).Distinct().ToList();
+}
+
+
+
+<table class="table table-bordered">
+    <tr style="font-size:10px">
+        <th>
+            Fecha
+        </th>
+        @foreach (var r in reactivos)
+        {
+            <th style="white-space:normal">
+                @r.Descripcion @r.Abreviatura.
+            </th>
+        }
+        <th>Estadp</th>
+        <th>Ingreso</th>
+        <th>Aprobación</th>
+
+
+    </tr>
+
+@foreach (var item in modelo) {
+    var Control = Model.FirstOrDefault(y => y.Fecha == item);
+    <tr  style="font-size:9px">
+        <td>
+            @item.ToString("dd-MM-yyyy")
+        </td>
+        @{
+            foreach (var r in reactivos)
+            {
+                var detalle = Model.FirstOrDefault(y => y.Fecha == item && y.IdReactivo == r.IdReactivo);
+                if (detalle != null)
+                {
+
+                    <td style="">
+                        @detalle.Valor @r.Abreviatura
+                    </td>
+                }
+                else
+                {
+                    <td class="text-center">
+                        -
+                    </td>
+
+                }
+            }
+        }
+        @if (Control.EstadoReporte == true)
+        {
+            <td><span class="badge badge-success">Aprobado</span></td>
+        }
+        else
+        {
+            <td><span class="badge badge-danger">Pendiente</span></td>
+        }
+
+        <td>
+            @Control.UsuarioIngreso <br />
+            @Control.FechaIngreso.ToString("dd-MM-yyyy HH:mm")
+        </td>
+        <td>
+
+            @if (Control.FechaAprobacion != null)
+            {
+                @Html.DisplayFor(modelItem => Control.AprobadoPor) <br />
+                @Control.FechaAprobacion.Value.ToString("dd-MM-yyyy HH:mm")
+            }
+        </td>
+    </tr>
+}
+
+</table>

@@ -73,6 +73,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                if (ClsdKardexReactivo.ConsultaKardexReactivoControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
                 ClsdKardexReactivo.GuardarModificarKardexReactivo(model, detalle);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
@@ -152,8 +156,58 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 ClsdKardexReactivo = new ClsdKardexReactivo();
+                if (ClsdKardexReactivo.ConsultaKardexReactivoControl(model.Fecha).Any(x => x.EstadoReporte))
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
                 ClsdKardexReactivo.EliminarKardexReactivo(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ValidaEstadoReporte(DateTime Fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdKardexReactivo = new ClsdKardexReactivo();
+                var control = ClsdKardexReactivo.ConsultaKardexReactivoControl(Fecha).FirstOrDefault();
+                if (control != null)
+                {
+                    if (control.EstadoReporte)
+                    {
+                        return Json(1, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(2, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (DbEntityValidationException e)
             {
@@ -186,6 +240,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+                ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
+                ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -383,6 +441,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+             
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JqueryRotate = "1";
@@ -423,7 +482,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdKardexReactivo = new ClsdKardexReactivo();
-                List<CC_KARDEX_REACTIVO> poControl = null;
+                List<spReporteKardexReactivo> poControl = null;
+                ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
+                ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
 
                 poControl = ClsdKardexReactivo.ConsultaKardexReactivoControl(FechaDesde, FechaHasta);
 

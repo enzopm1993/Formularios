@@ -97,14 +97,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
             }
         }
 
-        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivoControl(DateTime FechaDesde, DateTime FechaHasta)
+        public List<spReporteKardexReactivo> ConsultaKardexReactivoControl(DateTime FechaDesde, DateTime FechaHasta)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha >= FechaDesde
-                                                                         && x.Fecha <= FechaHasta
-                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                                               ).ToList();
+                return entities.spReporteKardexReactivo(FechaDesde,FechaHasta).ToList();
             }
         }
 

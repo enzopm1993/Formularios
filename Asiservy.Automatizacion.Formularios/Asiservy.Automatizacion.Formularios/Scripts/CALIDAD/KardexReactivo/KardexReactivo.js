@@ -4,10 +4,40 @@
 });
 
 
+function ValidaEstadoReporte(Fecha) {
+    $.ajax({
+        url: "../KardexReactivo/ValidaEstadoReporte",
+        type: "GET",
+        data: {
+            Fecha: Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == 0) {
+                $("#lblAprobadoPendiente").html("");
+
+            } else if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+
+            } else {
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
 function ConsultarControl() {
     if ($("#txtFecha").val() == '') {
         return;
     }
+    ValidaEstadoReporte($("#txtFecha").val());
     MostrarModalCargando();
     $("#h4Mensaje").html("");
     $.ajax({
@@ -115,7 +145,7 @@ function GuardarControl() {
     });
 
     formdata.append("detalle", obj);
-    console.log(obj);
+   // console.log(obj);
    // return;
     $.ajax({
         url: "../KardexReactivo/KardexReactivo",
@@ -132,6 +162,10 @@ function GuardarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
+            } if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
             } else {
                 ConsultarControl();
             }
@@ -161,8 +195,14 @@ function InactivarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
-            ConsultarControl();
-            NuevoControl();
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                ConsultarControl();
+                NuevoControl();
+            }
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {
@@ -172,8 +212,6 @@ function InactivarControl() {
 }
 
 function EliminarControl() {
-    //  $("#txtEliminarDetalle").val($("#txtIdKardexReactivo").val());
-    //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
     $("#modalEliminarControlDetalle").modal('show');
 
 }

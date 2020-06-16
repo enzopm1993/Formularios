@@ -74,7 +74,7 @@ function ConsultarControl() {
 
 
 function SeleccionarControl(model) {
-    console.log(model);
+   // console.log(model);
     $("#txtFecha").prop("disabled", true);
     $("#txtIdCloroAguaAutoclave").val(model.IdCloroAguaAutoclave);
     $("#txtHora").val(moment(model.Hora).format("YYYY-MM-DDTHH:mm"));
