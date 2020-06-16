@@ -2197,5 +2197,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Agua_Clorinacion>("sp_Analisis_Agua_Clorinacion", idAnalisisAguaControlParameter, opParameter);
         }
+    
+        public virtual ObjectResult<spConsultaKardexReactivo> spConsultaKardexReactivo(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaKardexReactivo>("spConsultaKardexReactivo", fechaParameter);
+        }
     }
 }
