@@ -57,6 +57,10 @@
         width: 60%;
     }
 
+    #lgnlomo {
+        width: 60%;
+    }
+
     canvas {
         border: 1px solid black;
     }
@@ -79,72 +83,55 @@
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="form-group">
-                Orden de Fabricación:
-                <div class="input-group">
-                    @*@Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })*@
-                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
-                    <button type="button" onclick="" id="btnOrden">
-                        <img src="~/Content/images/buscar.png" />
-                    </button><br />
-                </div>
-                <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
-                @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
-                        <option>Seleccione..</option>
-                    </select>
-                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <fieldset>
-                <legend id="lgnprod">Tipo producto</legend>
-
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                  
-                        <div class="row" style="padding-left:10px">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbLomoCongelado" value="option1">
-                                <label class="form-check-label" for="ckbLomoCongelado">Lomo congelado</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbLomoPrecocido" value="option2">
-                                <label class="form-check-label" for="ckbLomoPrecocido">Lomos Precocidos</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbProductoEnlatado" value="option3">
-                                <label class="form-check-label" for="ckbProductoEnlatado">Prod P. Enlatado </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbProductoPouch" value="option3">
-                                <label class="form-check-label" for="ckbProductoPouch">Prod P. Pouch </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbOtro" value="option3">
-                                <label class="form-check-label" for="ckbOtro">Otros </label>
-                            </div>
-                            @*<div class="col-md-4 col-sm-4">
-            <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="Lomo" name="RadiosProducto">
-                <label class="custom-control-label" for="Lomo">Lomo</label>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-4">
-
-            <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto">
-                <label class="custom-control-label" for="Miga">Miga</label>
-            </div>
-        </div>*@
-                        </div>
-                        <label id="msjerrorProducto" class="text-danger" hidden>Debe seleccionar el Producto</label>
+        @*<div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    Orden de Fabricación:
+                    <div class="input-group">
+                        <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                        <button type="button" onclick="" id="btnOrden">
+                            <img src="~/Content/images/buscar.png" />
+                        </button><br />
                     </div>
+                    <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 </div>
+            </div>*@
 
-            </fieldset>
-        </div>
+        @*<div class="col-md-4">
+                <fieldset>
+                    <legend id="lgnprod">Tipo producto</legend>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+
+                            <div class="row" style="padding-left:10px">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbLomoCongelado" value="option1">
+                                    <label class="form-check-label" for="ckbLomoCongelado">Lomo congelado</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbLomoPrecocido" value="option2">
+                                    <label class="form-check-label" for="ckbLomoPrecocido">Lomos Precocidos</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbProductoEnlatado" value="option3">
+                                    <label class="form-check-label" for="ckbProductoEnlatado">Prod P. Enlatado </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbProductoPouch" value="option3">
+                                    <label class="form-check-label" for="ckbProductoPouch">Prod P. Pouch </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbOtro" value="option3">
+                                    <label class="form-check-label" for="ckbOtro">Otros </label>
+                                </div>
+
+                            </div>
+                            <label id="msjerrorProducto" class="text-danger" hidden>Debe seleccionar el Producto</label>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>*@
 
         <div class="col-md-4">
             <div class="form-group">
@@ -177,11 +164,64 @@
 
 <center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
 <br />
+<div class="card" id="botonessubdetalle" hidden>
+    <div class="row">
+       
+        <div class="col-12">
+            <center>
+                <div class="form-group">
 
+                    <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarDetalle()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/edit24.png">
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarDetalle()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/cancel24.png">
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/atras24.png">
+                    </button>
 
+                </div>
+            </center>
+        </div>
+    </div>
+</div>
 
+<div class="card" id="CardDetalle" hidden>
+    <div class="row">
+        <div class="col-3">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="AbrirModalDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 table-responsive" id="DivDetalle">
+
+        </div>
+
+    </div>
+</div>
+
+<div class="card" id="CardSubDetalle" hidden>
+    <div class="row">
+        <div class="col-3">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="AbrirModalSubDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 table-responsive" id="DivSubDetalle">
+
+        </div>
+
+    </div>
+</div>
 @*modal ordenes de fabricacion*@
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+<div class="modal fade show" role="dialog" id="ModalOrdenes" data-backdrop="static">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
@@ -216,3 +256,184 @@
         </div>
     </div>
 </div>
+@*@modal Detalle*@
+<div class="modal fade" id="ModalDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Detalle</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            Orden de Fabricación:
+                            <div class="input-group">
+                                <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                                <button type="button" onclick="" id="btnOrden">
+                                    <img src="~/Content/images/buscar.png" />
+                                </button><br />
+                            </div>
+                            <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <label>Lote</label>
+                            <select class="form-control" id="cmbLote" onchange="DatosLote()">
+                                <option>Seleccione..</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <label>Proveedor</label>
+                            <input type="text" class="form-control" id="txtProveedor" autocomplete="off" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <label>Especie</label>
+                            <input type="text" class="form-control" id="txtEspecie" autocomplete="off" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <label>Talla</label>
+                            <input type="text" class="form-control" id="txtTalla" autocomplete="off" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 cols-sm-3">
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <input type="text" id="txtCliente" class="form-control" readonly />
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarDetalleControl()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*@modal SubDetalle*@
+<div class="modal fade" id="ModalSubDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Detalle Lotes</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Tipo Producto</label>
+                            <select class="form-control" id="cmbTipoProducto">
+                                <option>Seleccione..</option>
+                                <option value="L">Lomo</option>
+                                <option value="M">Miga</option>
+                                <option value="T">Trozo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <br />
+                        <label>Producto:</label>
+                        <!-- Nav tabs -->
+                        <br />
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#Proceso">Área Proceso</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#Empaque">Área Empaque</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane container-fluid active" id="Proceso">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label>% Sal</label>
+                                                    <input type="text" class="form-control" id="txtSalProceso" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Histamina</label>
+                                                    <input type="text" class="form-control" id="txtHistaminaProceso" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Humedad</label>
+                                                    <input type="text" class="form-control" id="txtHumedadProceso" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="tab-pane container-fluid fade" id="Empaque">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+
+                                                <div class="form-group">
+                                                    <label>% Sal</label>
+                                                    <input type="text" class="form-control" id="txtSalEmpaque" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Histamina</label>
+                                                    <input type="text" class="form-control" id="txtHistaminaEmpaque" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarSubDetalleControl()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

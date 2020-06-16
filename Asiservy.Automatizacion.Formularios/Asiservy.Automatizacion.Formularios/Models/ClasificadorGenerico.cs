@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace Asiservy.Automatizacion.Formularios.Models
 {
@@ -12,5 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
 
         public string Especie { get; set; }
         public string Barco { get; set; }//agregado 31/3/2020
+        public string Talla { get; set; }
+        public string Cliente { get; set; }
     }
 }

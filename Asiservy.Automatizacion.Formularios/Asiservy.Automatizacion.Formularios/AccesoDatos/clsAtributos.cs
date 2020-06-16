@@ -276,5 +276,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         public static string UrlImagen { get; } = "~/ImagenSiaa/";
 
+
+        //TIPO DE PRODUCTO_ ANALISIS DE PRODUCTO SEMIELABORADO
+
+        public static string Lomo { get; } = "L";
+        public static string Miga { get; } = "M";
+        public static string Trozo { get; } = "T";
     }
 }

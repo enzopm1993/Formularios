@@ -4122,6 +4122,8 @@
     <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisternaPartial.cshtml" />
     <Content Include="Views\KardexReactivo\KardexReactivo.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialDetalleControl.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialSubDetalleControl.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
