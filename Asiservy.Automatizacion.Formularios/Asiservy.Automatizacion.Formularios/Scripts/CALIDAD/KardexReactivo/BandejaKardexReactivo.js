@@ -42,15 +42,58 @@ function SeleccionarBandeja(model) {
     } else {
         $("#txtFechaAprobacion").prop("hidden", true);
     }
-    $("#ModalApruebaCntrol").modal("show");
+   
     listaDatos = model;
 
-    $("#txtModelo").val(model.Modelo);
-    $("#txtSerie").val(model.Serie);
-    $("#txtNaci1").val(model.NaCI1);
-    $("#txtNaci2").val(model.NaCI2);
-    $("#txtNaci3").val(model.NaCI3);
+    ConsultarControl();
 
+}
+
+
+function ConsultarControl() {
+    if ($("#txtFecha").val() == '') {
+        return;
+    }
+    MostrarModalCargando();
+    $("#h4Mensaje").html("");
+    $.ajax({
+        url: "../KardexReactivo/KardexReactivoPartial",
+        type: "GET",
+        data: {
+            Fecha: listaDatos.Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#divCabecera2").prop("hidden", false);
+            if (resultado == "0") {
+                mantenimientos.forEach(function (x) {
+                    $("#txtReactivo-" + x).val("");
+                    $("#txtReactivo-" + x).prop("disabled", false);
+                });
+                MensajeAdvertencia("Control no tiene registros");
+            } else {
+                mantenimientos.forEach(function (x) {
+                    $("#txtReactivo-" + x).val("-");
+                    $("#txtReactivo-" + x).prop("disabled", true);
+                    resultado.forEach(function (y) {
+                        if (x = y.IdReactivo) {
+                            $("#txtReactivo-" + x).val(y.Valor);
+                        }
+                    });
+                });
+
+                $("#ModalApruebaCntrol").modal("show");
+            }
+            CerrarModalCargando();
+            //  $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+            CerrarModalCargando();
+        }
+    });
 }
 
 function AprobarControl() {

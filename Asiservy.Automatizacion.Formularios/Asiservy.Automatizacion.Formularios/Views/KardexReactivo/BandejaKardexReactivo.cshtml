@@ -1,4 +1,4 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
 @{
     ViewBag.Title = "BandejaKardexReactivo";
 }
@@ -22,6 +22,16 @@
         cursor: no-drop !important;
     }
 </style>
+
+@{
+    List<CC_MANTENIMIENTO_REACTIVO> ListReactivos = (List<CC_MANTENIMIENTO_REACTIVO>)ViewBag.Reactivos;
+}
+<script>
+    var mantenimientos = [];
+
+    mantenimientos = @Html.Raw(Json.Encode(ListReactivos.Select(x => x.IdReactivo)));
+   // console.log(mantenimientos);
+</script>
 
 <h4>Bandeja de Kardex Reactivo</h4>
 
@@ -83,7 +93,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="ModalApruebaCntrol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title text-black-50" id="exampleModalLabel">Kardex Reactivo</h4>
@@ -93,7 +103,15 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    
+                    @foreach (var x in ListReactivos)
+                    {
+                        <div class="col-md-3 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>@x.Descripcion (@x.Abreviatura)</label>
+                                <input type="number" class="form-control" id="txtReactivo-@x.IdReactivo" name="name" onchange="" value="" />
+                            </div>
+                        </div>
+                    }
                 </div>
 
             </div>
