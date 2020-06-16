@@ -22,40 +22,30 @@ function ConsultarControl() {
             }
             $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
-
-               // console.log(mantenimientos);
                 mantenimientos.forEach(function(x){
-                    //data here
                     $("#txtReactivo-" + x).val("");
-                    $("#txtReactivo-" + x).prop("disabled", true);
-                    //console.log(object);
+                    $("#txtReactivo-" + x).prop("disabled", false);
                 });
-              //  forEach(mantenimientos, function (x,index) {
-                 
-               //     $("#txt-" + x).val("");
-            //        $("#txt-" + x).prop("disabled", true);
-           //     });
                 $("#h4Mensaje").html(Mensajes.SinRegistros);
                 $("#btnGenerar").prop("hidden", false);
                 $("#btnEditar").prop("hidden", true);
                 $("#btnEliminar").prop("hidden", true);
-                
             } else {
-                $("#txtModelo").prop("disabled", true);
-                $("#txtSerie").prop("disabled", true);
-                $("#txtNaCI1").prop("disabled", true);
-                $("#txtNaCI2").prop("disabled", true);
-                $("#txtNaCI3").prop("disabled", true);
-                $("#txtObservacion").prop("disabled", true);
+                mantenimientos.forEach(function (x) {
+                    $("#txtReactivo-" + x).val("");
+                    $("#txtReactivo-" + x).prop("disabled", true);
+                    resultado.forEach(function (y) {
+                        if (x = y.IdReactivo) {
+                            $("#txtReactivo-" + x).val(y.Valor);
+                        }
+                    });
+                });
+
+                //console.log(resultado);
                 $("#btnGenerar").prop("hidden", true);
                 $("#btnEditar").prop("hidden", false);
                 $("#btnEliminar").prop("hidden", false);
-                $("#txtModelo").val(resultado[0].Modelo);
-                $("#txtSerie").val(resultado[0].Serie);
-                $("#txtNaCI1").val(resultado[0].NaCI1);
-                $("#txtNaCI2").val(resultado[0].NaCI2);
-                $("#txtNaCI3").val(resultado[0].NaCI3);
-                $("#txtObservacion").val(resultado[0].Observacion);
+               
 
             }
             CerrarModalCargando();
@@ -69,12 +59,11 @@ function ConsultarControl() {
 }
 
 function EditarControl() {
-    $("#txtModelo").prop("disabled", false);
-    $("#txtSerie").prop("disabled", false);
-    $("#txtNaCI1").prop("disabled", false);
-    $("#txtNaCI2").prop("disabled", false);
-    $("#txtNaCI3").prop("disabled", false);
-    $("#txtObservacion").prop("disabled", false);
+    mantenimientos.forEach(function (x) {
+        //data here
+        $("#txtReactivo-" + x).prop("disabled", false);
+        //console.log(object);
+    });
     $("#btnGenerar").prop("hidden", false);
     $("#btnEditar").prop("hidden", true);
     $("#btnEliminar").prop("hidden", false);
@@ -90,39 +79,17 @@ function Validar() {
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
     }
-
-    if ($("#txtModelo").val() == "") {
-        $("#txtModelo").css('borderColor', '#FA8072');
+    var contador = 0;
+    mantenimientos.forEach(function (x) {
+        if ($("#txtReactivo-" + x).val() != "") {
+            contador += 1;
+        }
+    });
+    if (contador == 0) {
+        MensajeAdvertencia("Ingrese al menos un componente.");
         valida = false;
-    } else {
-        $("#txtModelo").css('borderColor', '#ced4da');
-    }
-    if ($("#txtSerie").val() == "") {
-        $("#txtSerie").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtSerie").css('borderColor', '#ced4da');
     }
 
-    if ($("#txtNaCI1").val() == "") {
-        $("#txtNaCI1").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtNaCI1").css('borderColor', '#ced4da');
-    }
-
-    if ($("#txtNaCI2").val() == "") {
-        $("#txtNaCI2").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtNaCI2").css('borderColor', '#ced4da');
-    }
-    if ($("#txtNaCI3").val() == "") {
-        $("#txtNaCI3").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtNaCI3").css('borderColor', '#ced4da');
-    }
     return valida;
 }
 
@@ -136,17 +103,27 @@ function GuardarControl() {
         MensajeAdvertencia("Fecha no permitida");
         return;
     }
+
+    var formdata = new FormData();
+    formdata.append("Fecha", $("#txtFecha").val());
+
+    var obj = [];
+    mantenimientos.forEach(function (x) {
+        if ($("#txtReactivo-" + x).val() > 0) {
+            obj.push({ IdReactivo: x, Valor: $("#txtReactivo-" + x).val() });
+ }
+    });
+
+    formdata.append("detalle", obj);
+    console.log(obj);
+   // return;
     $.ajax({
         url: "../KardexReactivo/KardexReactivo",
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            Modelo: $("#txtModelo").val(),
-            Serie: $("#txtSerie").val(),
-            NaCI1: $("#txtNaCI1").val(),
-            NaCI2: $("#txtNaCI2").val(),
-            NaCI3: $("#txtNaCI3").val(),
-            Observacion: $("#txtObservacion").val()
+            Detalle: obj
+
         },
         success: function (resultado) {
             if (resultado == "101") {
