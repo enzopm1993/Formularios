@@ -4,7 +4,7 @@
     ViewBag.Title = "MantenimientoClorinacionCisterna";
 }
 
-<h2>MantenimientoClorinacionCisterna</h2>
+<h4>Mantenimiento Analisis Agua Clorinación Cisternas</h4>
 
 <style>
     input, select, textarea {
@@ -52,7 +52,7 @@
 @* MODAL PARA EL INGRESO NUEVO REGISTRO *@
 <div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-sm">
             <div class="modal-header">
                 <h5 class="modal-title">Crear Nuevo Registro</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarCabecera()" aria-label="Close">
@@ -61,36 +61,18 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>Nº</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtNDescripcion" class="form-control" />
+                            <label>NOMBRE</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtNombre" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>UBICACION</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtUbicacion" class="form-control" />
+                            <label>DESCRIPCION</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtDescripcion" class="form-control" />
                         </div>
-                    </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>ASIGNACION</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtAsignacion" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>TIPO</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtTipo" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>CAPACIDAD</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtCapacidad" class="form-control" />
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
 
                 <div class="modal-footer">

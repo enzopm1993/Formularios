@@ -38,10 +38,10 @@
                     @Html.DisplayFor(modelItem => item.IdControlHueso)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                    @item.HoraInicio.Value.ToString("yyyy-MM-dd HH:mm")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HoraFin)
+                    @item.HoraFin.Value.ToString("yyyy-MM-dd HH:mm")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TipoControlHueso)

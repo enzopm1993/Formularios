@@ -2195,7 +2195,9 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.js" />
@@ -2217,6 +2219,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\BandejaCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
@@ -2230,6 +2233,7 @@
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\HigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantHigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\ReporteHigieneComedorCocina.js" />
+    <Content Include="Scripts\CALIDAD\KardexReactivo\KardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3520,6 +3524,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\KardexReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionProductoEnfundadoController.cs" />
@@ -4109,6 +4114,14 @@
     <Content Include="Views\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.cshtml" />
     <Content Include="Views\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisternaPartial.cshtml" />
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ControlClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisternaAprobarPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.cshtml" />
+    <Content Include="Views\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisternaPartial.cshtml" />
+    <Content Include="Views\KardexReactivo\KardexReactivo.cshtml" />
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialDetalleControl.cshtml" />
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialSubDetalleControl.cshtml" />
     <None Include="Web.Debug.config">

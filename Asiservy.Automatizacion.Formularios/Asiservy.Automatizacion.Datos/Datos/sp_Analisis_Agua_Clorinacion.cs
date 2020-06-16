@@ -10,9 +10,8 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_AGUA_CLORINACION_DETALLE
+    public partial class sp_Analisis_Agua_Clorinacion
     {
         public int IdAnalisisAguaDetalle { get; set; }
         public int IdAnalisisAguaControl { get; set; }
@@ -28,8 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual CC_ANALISIS_AGUA_CLORINACION_CONTROL CC_ANALISIS_AGUA_CLORINACION_CONTROL { get; set; }
-        public virtual CC_ANALISIS_AGUA_CLORINACION_MANT CC_ANALISIS_AGUA_CLORINACION_MANT { get; set; }
+        public string NombreCisterna { get; set; }
+        public string DescripcionCisterna { get; set; }
     }
 }

@@ -81,9 +81,9 @@
             TotalTiempo = TotalTiempo + item.Tiempo ?? 0;
             TotalHueso = TotalHueso + item.Huesos??0;
             TotalLimpiadoras = TotalLimpiadoras + item.Limpiadoras ?? 0;
-            TotalKiloReal = TotalKiloReal + item.KiloReal ?? 0;
+            TotalKiloReal = TotalKiloReal + item.KiloReal;
             TotalKiloTeorico = TotalKiloTeorico + item.KiloTeorico;
-            TotalAvance = TotalAvance + item.avance??0;
+            TotalAvance = TotalAvance + item.avance;
         <tr>
             <td>
                 @item.Fecha.Value.ToString("yyyy-MM-dd")
@@ -101,10 +101,10 @@
                 @Html.DisplayFor(modelItem => item.Especie)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HoraInicio)
+                @item.HoraInicio.Value.ToString("yyyy-MM-dd HH:mm")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HoraFin)
+                @item.HoraFin.Value.ToString("yyyy-MM-dd HH:mm")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Tiempo)

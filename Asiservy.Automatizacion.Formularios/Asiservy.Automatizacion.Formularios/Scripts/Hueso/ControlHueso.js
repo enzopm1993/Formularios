@@ -318,6 +318,29 @@ function GenerarControlHueso() {
         MensajeAdvertencia("Ingrese rango de horas");
         return;
     }
+
+    if (horaInicio == '' || horaFin == '') {
+        MensajeAdvertencia("Ingrese rango de horas");
+        return;
+    }
+    var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
+    var fecha2 = moment($("#txtHoraInicio").val()).format('YYYY-MM-DD');
+    var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
+    if (fecha2 > fecha1) {
+        MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
+        return;
+    }
+
+    if (fecha2 < fecha3) {
+        MensajeAdvertencia("No puede ingresar una hora de inicio menor a: " + fecha3);
+        return;
+    }
+
+    if (moment($("#txtHoraFin").val()) < moment($("#txtHoraInicio").val())) {
+        MensajeAdvertencia("No puede ingresar una hora de fin menor a: " + moment($("#txtHoraInicio").val()).format("YYYY-MM-DD HH:mm"));
+        return;
+    }
+
     if ($('#selectLimpieza').val() == '0') {
         MensajeAdvertencia("Seleccione un tipo de limpieza");
         return;

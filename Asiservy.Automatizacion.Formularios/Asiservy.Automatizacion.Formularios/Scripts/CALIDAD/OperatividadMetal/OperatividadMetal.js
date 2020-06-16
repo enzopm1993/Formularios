@@ -538,7 +538,7 @@ function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
     if (imagen != null && imagen != '') {
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + imagen;
+        filePreview.src = "../ImagenSiaa/" + imagen;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
@@ -562,7 +562,7 @@ function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
             $("#ModalGenerarControlDetalle2").modal("show");
 
         }
-        img.src = "/Content/Img/" + imagen;
+        img.src = "../ImagenSiaa/" + imagen;
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");
