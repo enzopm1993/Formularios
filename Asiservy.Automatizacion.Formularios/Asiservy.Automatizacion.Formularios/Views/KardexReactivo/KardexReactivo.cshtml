@@ -17,8 +17,10 @@
     List<CC_MANTENIMIENTO_REACTIVO> ListReactivos = (List<CC_MANTENIMIENTO_REACTIVO>)ViewBag.Reactivos;
  }
 <script>
+    var mantenimientos = [];
+
     mantenimientos = @Html.Raw(Json.Encode(ListReactivos.Select(x => x.IdReactivo)));
-    console.log(mantenimientos);
+   // console.log(mantenimientos);
 </script>
 
 <h4>Kardex de Reactivo</h4>

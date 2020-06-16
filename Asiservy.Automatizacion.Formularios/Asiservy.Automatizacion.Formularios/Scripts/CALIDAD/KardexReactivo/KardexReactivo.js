@@ -1,5 +1,4 @@
-﻿var mantenimientos = [];
-$(document).ready(function () {
+﻿$(document).ready(function () {
     ConsultarControl();
     
 });
@@ -24,8 +23,18 @@ function ConsultarControl() {
             $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
 
-                console.log(mantenimientos);
-
+               // console.log(mantenimientos);
+                mantenimientos.forEach(function(x){
+                    //data here
+                    $("#txtReactivo-" + x).val("");
+                    $("#txtReactivo-" + x).prop("disabled", true);
+                    //console.log(object);
+                });
+              //  forEach(mantenimientos, function (x,index) {
+                 
+               //     $("#txt-" + x).val("");
+            //        $("#txt-" + x).prop("disabled", true);
+           //     });
                 $("#h4Mensaje").html(Mensajes.SinRegistros);
                 $("#btnGenerar").prop("hidden", false);
                 $("#btnEditar").prop("hidden", true);
