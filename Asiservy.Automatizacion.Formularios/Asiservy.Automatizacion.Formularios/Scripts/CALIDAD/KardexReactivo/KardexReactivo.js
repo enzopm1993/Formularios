@@ -111,9 +111,18 @@ function Validar() {
     }
     var contador = 0;
     mantenimientos.forEach(function (x) {
+        if ($("#txtReactivo-" + x).val() > 9999.9999){
+            $("#txtReactivo-" + x).css('borderColor', '#FA8072');
+            valida = false;
+        } else {
+            $("#txtReactivo-" + x).css('borderColor', '#ced4da');
+        }
+
         if ($("#txtReactivo-" + x).val() != "") {
             contador += 1;
         }
+
+
     });
     if (contador == 0) {
         MensajeAdvertencia("Ingrese al menos un componente.");
