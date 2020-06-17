@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Material_Quebradizo_Calidad>
+@using Newtonsoft.Json;
+@{
+
+    var listaMaterial = (from v in Model
+                         group v by new { v.NombreMaterial, v.IdMantMaterial } into x
+                         select new { x.Key.NombreMaterial, x.Key.IdMantMaterial }).ToList();
+
+    var listaTablas = (from v in Model
+                       group v by new { v.TipoVerificacion } into x
+                       select new { x.Key.TipoVerificacion }).ToList();
+}
+@foreach (var tabla in listaTablas)
+{
+<div class="row">
+    <div class="col-md-10 col-12 col-sm-12 text-md-left text-center">
+        <button id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@JsonConvert.SerializeObject(Model))">Actualizar</button>
+        <button id="btnEliminarDetalle" class="btn btn-outline-danger" style="color:#00264c" onclick="EliminarConfirmarDetalle(@JsonConvert.SerializeObject(Model.FirstOrDefault()))">Eliminar</button>
+    </div>
+</div><br />
+    <table class="table table-bordered table-secondary text-uppercase">
+        <thead style="font-size:10px">
+            <tr>
+                <th>VERIFICACION</th>
+                <th>
+                    AREA
+                </th>
+
+                @foreach (var item in listaMaterial)
+                {
+                    <th style="white-space:normal">
+                        @item.NombreMaterial
+                    </th>
+                }
+                <th>
+                    OBSERVACION
+                </th>
+                <th>
+                    ACCION CORRECTIVA
+                </th>
+                <th class="text-center">
+                    ACCION
+                </th>
+            </tr>
+        </thead>
+        <tbody style="font-size:10px">
+            @{
+                var listaArea = (from v in Model
+                                 where (v.TipoVerificacion == tabla.TipoVerificacion)
+                                 group v by new { v.Nombre, v.IdMantenimiento, v.Observaciones, v.TipoVerificacion, v.IdMaterial} into x
+                                 select new { x.Key.Nombre, x.Key.IdMantenimiento, x.Key.Observaciones, x.Key.TipoVerificacion,x.Key.IdMaterial }).ToList();
+            }
+            @foreach (var itemArea in listaArea)
+            {
+                int idDetalle = 0;
+                <tr>
+                    <td>
+                        @itemArea.TipoVerificacion
+                    </td>
+                    <td>
+                        @itemArea.Nombre
+                    </td>
+                    
+                    @foreach (var columna in listaMaterial)
+                    {
+                        var xz = Model.Where(d => d.IdMantMaterial == columna.IdMantMaterial && d.TipoVerificacion == itemArea.TipoVerificacion
+                                            && d.IdMantenimiento == itemArea.IdMantenimiento).FirstOrDefault();
+
+                        if (xz != null)
+                        {
+                            if (columna.IdMantMaterial == xz.IdMantMaterial)
+                            {
+                                if (xz.EstadoVerificacion)
+                                {
+                                    idDetalle = xz.IdMaterialDetalle;
+                                    <td style="text-align:center">
+                                        <i class="fas fa-check-circle" style="color: green"></i>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>}
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                    <td>
+                        @itemArea.Observaciones
+                    </td>
+                    <td>
+                        @{ 
+                            var accionC = Model.Where(v=> v.IdMaterialDetalle== idDetalle && v.IdMantenimiento==itemArea.IdMantenimiento);
+                        }
+                       dfdf
+                        <label id="lblAccionCorrectiva">SIN DATO</label>
+                    </td>
+                    <td>
+                        @{ 
+                            var json = JsonConvert.SerializeObject(itemArea);
+                        }
+                        <button id="btnAccionCorrectiva" class="btn btn-link" style="font-size:11px;padding-top:0px;margin:0px;" onclick="AccionCorrectiva(@json)">Correctiva</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

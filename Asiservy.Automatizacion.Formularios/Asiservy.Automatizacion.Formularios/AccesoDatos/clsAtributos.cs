@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //USADO PARA EL REPORTE DE MATERIAL QUEBRADIZO DE CALIDAD
+        public static List<string> MaterialQuebradizoVerificacion { get; set; } = new List<string>() { "Diario", "Semanal","Quincenal"};
         //ID DEL GRUPO DEL CLASIFICADOR PARA EL LAVADO Y DESINFECCION DE MANOS
         public static string IdCodigoLineaLavadoDesinfeccionManos { get; } = "037";
         //ESTADO DE REPORTE false=PENDIENTE; true=APROBADO

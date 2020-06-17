@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MATERIAL_QUEBRADIZO_MANT>
+@using Newtonsoft.Json;
+@{ 
+    var lis = (from v in Model
+               select new {v.Descripcion, v.IdMantenimiento, v.Nombre}).ToList();
+    var jsonAreas = JsonConvert.SerializeObject(lis);
+
+    var jsonMateriales = JsonConvert.SerializeObject(ViewBag.listaMateriales);
+
+}
+    <table class="table table-bordered" style="font-size:8px">
+        <thead>
+            <tr>
+                <th>
+                    AREAS
+                </th>
+                @foreach (var col in ViewBag.listaMateriales)
+                {
+                    <th style="white-space:normal">
+                        @col.Nombre.ToUpper()
+                    </th>
+
+                }
+                <th class="text-center">OBSERVACION</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:8px">
+            @foreach (var item in Model)
+            {
+                var g = "_";
+                <tr>
+                    <td>
+                        @item.Nombre.ToUpper()
+                    </td>
+                    @foreach (var col in ViewBag.listaMateriales)
+                    {                        
+                        <td class="text-center">
+                            <div class="custom-control custom-checkbox mb-1">
+                                @Html.CheckBox("EstadoRegistro", false, new { @id = "checkMateriales_" + item.IdMantenimiento + "_" + col.IdMantMaterial, @class = "custom-control-input hiiden", @onchange = "" })
+                                <label class="custom-control-label" for="checkMateriales_@item.IdMantenimiento@g@col.IdMantMaterial" id="LabelEstado"></label>
+                            </div>
+                        </td>
+                    }
+                        <td>
+                            <input type="text" style="width:350px" class="form-control" maxlength="200" id="txtObservacion_@item.IdMantenimiento" name="name" value="" />
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" onclick="GuardarDetalle(@jsonAreas, @jsonMateriales)" id="btnGuardarAccion">Guardar</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+</div>

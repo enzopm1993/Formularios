@@ -1,7 +1,14 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Agua_Clorinacion>
 @using Newtonsoft.Json;
 
-<table class="table table-striped table-bordered table-hover" style="font-size:12px">
+@{ var listaCisternas = (from v in Model
+                          group v by new { v.IdCisterna, v.Hora } into x
+                          orderby(x.Key.Hora ) descending
+                          select new {x.Key.IdCisterna }).Distinct().ToList();
+}
+@foreach (var tabla in listaCisternas)
+{
+<table class="table table-secondary " style="font-size:12px">
     <thead>
         <tr>
             <th>ANALISTA</th>
@@ -15,9 +22,11 @@
             <th style="text-align:center">ACCIONES</th>
         </tr>
     </thead>
+    @{ var listaItem = (Model.Where(x=>x.IdCisterna==tabla.IdCisterna).OrderByDescending(x=> x.IdCisterna));}
     <tbody style="font-size:11px">
-        @foreach (var item in Model)
+        @foreach (var item in listaItem)
         {
+           
             <tr>
                 <td>
                     @item.UsuarioIngresoLog.ToUpper()
@@ -70,24 +79,24 @@
         <tr>
             <td colspan="3" style="text-align:right">PROMEDIO</td>
             <td>
-                @{decimal v = Model.Where(a => a.STD != 0)
-                                .Select(a => a.STD)
-                                .DefaultIfEmpty(0)
-                                .Average();}
-                @v.ToString("0.00")
+                @{decimal sdt = listaItem.Where(a => a.STD != null)
+                                  .Select(a => Convert.ToDecimal(a.STD))
+                                  .DefaultIfEmpty(0)
+                                  .Average();}
+                @sdt.ToString("0.00")
             </td>
             <td>
-                @{decimal dt = Model.Where(a => a.DT != 0)
-                                 .Select(a => a.DT)
-                                 .DefaultIfEmpty(0)
-                                 .Average();}
+                @{decimal dt = listaItem.Where(a => a.DT != null)
+                                   .Select(a => Convert.ToDecimal(a.DT))
+                                   .DefaultIfEmpty(0)
+                                   .Average();}
                 @dt.ToString("0.00")
             </td>
             <td>
-                @{decimal cl = Model.Where(a => a.CL != 0)
-                                   .Select(a => a.CL)
-                                   .DefaultIfEmpty(0)
-                                   .Average();
+                @{decimal cl = listaItem.Where(a => a.CL != null)
+                                     .Select(a => Convert.ToDecimal(a.CL))
+                                     .DefaultIfEmpty(0)
+                                     .Average();
                 }
                 @if (cl >= 0.3M && cl <= 1.5M)
                 {
@@ -104,3 +113,4 @@
         </tr>
     </tfoot>
 </table>
+}

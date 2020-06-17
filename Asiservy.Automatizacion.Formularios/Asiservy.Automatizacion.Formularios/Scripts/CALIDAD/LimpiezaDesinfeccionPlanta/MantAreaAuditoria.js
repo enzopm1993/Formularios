@@ -115,13 +115,13 @@ function GuardarCabecera() {
 }
 
 function ModalIngresoCabecera(idObjeto) {
-    $('#txtNombre').prop('disabled', true);
+    //$('#txtNombre').prop('disabled', true);
     document.getElementById("btnActualizarObjeto").disabled = true;
     var objIdObjeto = idObjeto;       
     if (idObjeto == true) {//NUEVO REGISTRO
         objIdObjeto = [0];
         LimpiarCabecera();
-        $('#txtNombre').prop('disabled', false);
+        //$('#txtNombre').prop('disabled', false);
     } else if (idObjeto == 0) {//NO EXISTE NINGUN OBJETO CON EL CHECK ActualizarCabecera(resultado);
         objIdObjeto = [0];
     }

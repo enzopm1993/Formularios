@@ -100,7 +100,7 @@
             {
                 <div class="text-center" style="width:240px;border:1px solid;border-radius:20px;margin:3px">
                     <div id="header_@item.IdDetalle">
-                        <img src="~/Content/Img/@item.RutaFoto" id="@item.IdDetalle" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdDetalle" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
                     </div>
                     <script>
                             validarImg('@item.Rotation','@item.IdDetalle','@item.RutaFoto');
@@ -115,7 +115,7 @@
     </div><br /><br />
 
 }
-
+                <input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />
     <style>
         img {
             border: 1px solid #ddd;
