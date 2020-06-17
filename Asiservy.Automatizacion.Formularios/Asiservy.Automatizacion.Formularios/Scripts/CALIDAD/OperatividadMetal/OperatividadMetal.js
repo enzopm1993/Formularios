@@ -466,7 +466,7 @@ function NuevoControlDetalle2() {
     $("#txtIdControlDetalle2").val("");
     $("#txtNovedad").val("");
     $("#file-upload").val(''); 
-    $("#lblfoto").val(''); 
+    $("#lblfoto").html(''); 
     $("#file-preview-zone").html('');
     rotation = 0;
 }
