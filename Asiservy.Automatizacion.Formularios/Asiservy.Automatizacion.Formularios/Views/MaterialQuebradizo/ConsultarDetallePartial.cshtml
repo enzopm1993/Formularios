@@ -47,11 +47,12 @@
             @{
                 var listaArea = (from v in Model
                                  where (v.TipoVerificacion == tabla.TipoVerificacion)
-                                 group v by new { v.Nombre, v.IdMantenimiento, v.Observaciones, v.TipoVerificacion } into x
-                                 select new { x.Key.Nombre, x.Key.IdMantenimiento, x.Key.Observaciones, x.Key.TipoVerificacion }).ToList();
+                                 group v by new { v.Nombre, v.IdMantenimiento, v.Observaciones, v.TipoVerificacion, v.IdMaterial} into x
+                                 select new { x.Key.Nombre, x.Key.IdMantenimiento, x.Key.Observaciones, x.Key.TipoVerificacion,x.Key.IdMaterial }).ToList();
             }
             @foreach (var itemArea in listaArea)
             {
+                int idDetalle = 0;
                 <tr>
                     <td>
                         @itemArea.TipoVerificacion
@@ -59,7 +60,7 @@
                     <td>
                         @itemArea.Nombre
                     </td>
-
+                    
                     @foreach (var columna in listaMaterial)
                     {
                         var xz = Model.Where(d => d.IdMantMaterial == columna.IdMantMaterial && d.TipoVerificacion == itemArea.TipoVerificacion
@@ -71,6 +72,7 @@
                             {
                                 if (xz.EstadoVerificacion)
                                 {
+                                    idDetalle = xz.IdMaterialDetalle;
                                     <td style="text-align:center">
                                         <i class="fas fa-check-circle" style="color: green"></i>
                                     </td>
@@ -89,11 +91,15 @@
                         @itemArea.Observaciones
                     </td>
                     <td>
-                        nothing
+                        @{ 
+                            var accionC = Model.Where(v=> v.IdMaterialDetalle== idDetalle && v.IdMantenimiento==itemArea.IdMantenimiento);
+                        }
+                       dfdf
+                        <label id="lblAccionCorrectiva">SIN DATO</label>
                     </td>
                     <td>
                         @{ 
-                            var json = JsonConvert.SerializeObject(Model.First());
+                            var json = JsonConvert.SerializeObject(itemArea);
                         }
                         <button id="btnAccionCorrectiva" class="btn btn-link" style="font-size:11px;padding-top:0px;margin:0px;" onclick="AccionCorrectiva(@json)">Correctiva</button>
                     </td>

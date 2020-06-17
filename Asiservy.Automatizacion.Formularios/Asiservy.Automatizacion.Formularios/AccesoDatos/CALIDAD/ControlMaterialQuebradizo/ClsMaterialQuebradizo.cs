@@ -312,11 +312,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                 return valor;
             }
         }
-        public List<sp_Material_Quebradizo_Calidad> ConsultarDetalle(int idMaterial, int op)
+        public List<sp_Material_Quebradizo_Calidad> ConsultarDetalle(int idMaterial, int op, int idArea=0)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listaDetalleDia = db.sp_Material_Quebradizo_Calidad(idMaterial, op).ToList();
+                var listaDetalleDia = db.sp_Material_Quebradizo_Calidad(idMaterial,idArea, op).ToList();
                 return listaDetalleDia;
             }
         }
@@ -343,6 +343,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                     db.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA.Add(guardarModificar);
                 }
                 db.SaveChanges();
+                return valor;
+            }
+        }
+        public int EliminarAccionCorrectiva(CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA guardarmodificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA.Where(x => x.IdAccion == guardarmodificar.IdAccion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    foreach (var item in model)
+                    {
+                        item.EstadoRegistro = guardarmodificar.EstadoRegistro;
+                        item.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
+                        item.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
+                        item.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
+                    db.SaveChanges();
+                }
                 return valor;
             }
         }

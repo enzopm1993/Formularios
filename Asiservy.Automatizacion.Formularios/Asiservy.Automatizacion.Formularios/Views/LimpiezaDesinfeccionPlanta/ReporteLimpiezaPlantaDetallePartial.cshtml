@@ -6,7 +6,7 @@
                        orderby x.Key.HoraAuditoria descending
                        select new { x.Key.IdAuditoria, x.Key.NombreAuditoria, x.Key.HoraAuditoria, x.Key.Turno }).ToList();
 }
-
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />
 <table class="table table-bordered table-striped">
     <thead style="font-size:11px">
         <tr>
@@ -153,7 +153,7 @@
                 {
                     <div class="text-center imgImprimir" style="border:1px solid;border-radius:20px;margin:3px;width:320px">
                         <div id="header_@item.IdDetalle">
-                            <img src="~/Content/Img/@item.RutaFoto" id="@item.IdDetalle" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                            <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdDetalle" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
                         </div>
                         <script>
                             validarImg('@item.Rotation','@item.IdDetalle','@item.RutaFoto');
@@ -168,15 +168,16 @@
                     {
                     @:</div>
                     @:<div>
-                    cont = 0;
-                    <div class="pagebreak"></div>
-                }
-                cont++;
-            }
-        }
-    }
+    cont = 0;
+    <div class="pagebreak"></div>
 }
-    </div>
+cont++;
+}
+}
+}
+}
+    
+</div>
                       <style>
                           img {
                               border: 1px solid #ddd;

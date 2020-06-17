@@ -280,12 +280,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Fotos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="SalirAccicionCorrectiva()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="GuardarAccionCorrectiva()" id="btnAccionCorrectiva">Agregar</button>
+                            <button data-toggle="tooltip" data-placement="top" title="Nueva Foto" class="btn" id="btnNuevo" onclick="NuevaFoto()" style="border-color:#2c3e50; padding:0px" type="button">
+                                <img style="width:100%" src="~/Content/icons/clear24.png" />
+                            </button>
+                        </div>
+                    </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Acción Correctiva</label>
@@ -295,7 +303,7 @@
                     <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
                         <label>Adjuntar imagen</label>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="file-upload" onclick="OnChangeTextBoxAccion()"  accept="image/*">
+                            <input type="file" class="custom-file-input" id="file-upload" onclick="OnChangeTextBoxAccion()" accept="image/*">
                             <label class="custom-file-label" for="customFile" onclick="OnChangeTextBoxAccion()" id="lblfoto">Seleccione archivo</label>
                         </div>
                         <br />
@@ -308,14 +316,31 @@
                     </div>
 
                 </div>
+                <div id="divListarFotos" class="table-responsive"></div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="button" disabled hidden id="btncargandoimg">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Espere...
                 </button>
-                <button type="button" class="btn btn-primary" onclick="GuardarAccionCorrectiva()" id="btnAccionCorrectiva">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelarguardarfoto">Cancelar</button>
+
+                <button type="button" class="btn btn-secondary" onclick="SalirAccicionCorrectiva()" data-dismiss="modal" id="btncancelarguardarfoto">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR REGISTRO ACCION CORRECTIVA*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarAccionCorrectiva">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accionCorrectiva"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarAccionCorrectiva()" id="btnEliminarSi">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarAccionCorrectivaNo()" id="btnEliminarNo">No</button>
             </div>
         </div>
     </div>

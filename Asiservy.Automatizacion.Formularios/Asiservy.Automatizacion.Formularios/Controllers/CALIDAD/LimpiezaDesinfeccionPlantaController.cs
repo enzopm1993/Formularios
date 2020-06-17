@@ -481,6 +481,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 ViewBag.JqueryRotate = "1";
                 ViewBag.Inspector= lsUsuario[0];
+                ViewBag.Path = clsAtributos.UrlImagen.Replace("~","..");
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarAreaAuditoriaActivos("A");
                 ViewBag.ListaAreasAuditar = lista;
@@ -905,7 +906,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     {
                         return Json(dataImg.ContentLength, JsonRequestBehavior.AllowGet);//SOBREPASA EL LIMITE PERMITIDO dataImg.ContentLength=bytes convert to Mb
                     }
-                    path = Server.MapPath("~/Content/Img/LimpiezaPlanta/");
+                    path = Server.MapPath(clsAtributos.UrlImagen+"/LimpiezaPlanta/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
@@ -1088,6 +1089,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarJoinDetalle(idLimpiezaDesinfeccionPlanta, op, turno, idAuditoria);
                 if (lista.Count != 0)
                 {
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..");
                     ViewBag.JqueryRotate = "1";
                     return PartialView(lista);
                 }
@@ -1210,6 +1212,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarJoinDetalle(idLimpiezaDesinfeccionPlanta, op, turno, idAuditoria);
                 if (lista.Count != 0)
                 {
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..");
                     return PartialView(lista);
                 }
                 else

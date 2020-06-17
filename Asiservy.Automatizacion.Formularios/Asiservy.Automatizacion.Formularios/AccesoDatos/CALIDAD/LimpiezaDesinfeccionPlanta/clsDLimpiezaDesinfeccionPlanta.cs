@@ -103,7 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                     }
                     else
                     {
-                        //model.NombreObjeto = guardarModificar.NombreObjeto;
+                        model.NombreObjeto = guardarModificar.NombreObjeto;
                         model.DescripcionObjeto = guardarModificar.DescripcionObjeto;
                         model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
@@ -204,7 +204,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                     }
                     else
                     {
-                        //model.NombreAuditoria = guardarModificar.NombreAuditoria;
+                        model.NombreAuditoria = guardarModificar.NombreAuditoria;
                         model.DescripcionAuditoria = guardarModificar.DescripcionAuditoria;
                         model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;

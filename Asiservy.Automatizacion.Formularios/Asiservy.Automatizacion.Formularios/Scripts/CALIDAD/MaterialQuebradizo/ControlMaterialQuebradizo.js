@@ -2,8 +2,10 @@
 var estadoReporte = [];
 var itemDetalle = [];
 var siActualizar = [];
-var itemAccionCorrectiva=[];
+var itemAccionCorrectiva = [];
+var itemAccionCorrectivaG = [];
 var rotation = 0;
+var actualizarSi = false;
 $(document).ready(function () {
     CargarCabecera();
     var x = document.getElementById("selectVerificacion");
@@ -435,7 +437,7 @@ function EliminarDetalleSi() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdAnalisisAguaDetalle");
+                MensajeAdvertencia("Falta Parametro IdMaterial");
                 $("#modalEliminarControlDetalle").modal("hide");
                 $('#cargac').hide();
                 return;
@@ -499,8 +501,10 @@ function AccionCorrectiva(jdata) {
             return;
         } else {
             LimpiarAccionCorrectiva();
-            itemDetalle = jdata;
+            itemAccionCorrectiva = jdata;
+            itemAccionCorrectivaG = jdata;
             $("#modalAccionCorrectiva").modal("show");
+            CargarAccionCorrectiva();
         }
     }, 200);
 }
@@ -513,7 +517,7 @@ function GuardarAccionCorrectiva() {
             $('#cargac').hide();
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
-        } else {
+        } else {            
             if (OnChangeTextBoxAccion() == 1) {
                 MensajeAdvertencia('Ingrese todos los datos requeridos');
                 $('#cargac').hide();
@@ -523,7 +527,8 @@ function GuardarAccionCorrectiva() {
             var imagen = $('#file-upload')[0].files[0];
             var data = new FormData();
             data.append("dataImg", imagen);
-            data.append("IdMaterialDetalle", itemDetalle.IdMaterialDetalle);
+            data.append("IdMaterial", itemAccionCorrectiva.IdMaterial);
+            data.append("IdMantenimiento", itemAccionCorrectiva.IdMantenimiento);
             data.append("IdAccion", itemAccionCorrectiva.IdAccion);
             data.append("DescripcionAccion", $("#txtAccionCorrectiva").val());
             data.append("Rotation", rotation);
@@ -557,14 +562,14 @@ function GuardarAccionCorrectiva() {
                         MensajeAdvertencia('¡Exedio el limite de capacidad permitido!:  <span class="badge badge-success">5Mb</span>: Su imagen:<span class="badge badge-danger">' + mb + 'Mb</span>');
                         $('#cargac').hide();
                         return;
-                    }                   
-                    itemDetalle = [];
-                    CargarDetalle();
-                    $('#modalAccionCorrectiva').modal('hide');
+                    }
+                    CargarAccionCorrectiva();
+                    LimpiarAccionCorrectiva();
+                    NuevaFoto();                    
                     $('#cargac').hide();
                 },
                 error: function (resultado) {
-                    console.log(resultado.innerText);
+                    //console.log(resultado.innerText);
                     $('#cargac').hide();
                     MensajeError(Mensajes.Error, false);
                 }
@@ -579,15 +584,16 @@ function OnChangeTextBoxAccion() {
         $("#txtAccionCorrectiva").css('border', '1px dashed red');
         con = 1;
     } else { $("#txtAccionCorrectiva").css('border', ''); }
-    
-    if ($('#file-upload').val() == '') {
-        $("#file-upload").css('border', '1px dashed red');
-        con = 1;
-    } else { $("#file-upload").css('border', ''); }
-    if ($('#lblfoto').val() == '') {
-        $("#lblfoto").css('border', '1px dashed red');
-        
-    } else { $("#lblfoto").css('border', ''); }
+    if (!actualizarSi) {
+        if ($('#file-upload').val() == '') {
+            $("#file-upload").css('border', '1px dashed red');
+            con = 1;
+        } else { $("#file-upload").css('border', ''); }
+        if ($('#lblfoto').val() == '') {
+            $("#lblfoto").css('border', '1px dashed red');
+
+        } else { $("#lblfoto").css('border', ''); }
+    }
     return con;
 }
 
@@ -598,8 +604,35 @@ function LimpiarAccionCorrectiva() {
     $('#lblfoto').text('Seleccione archivo');
     $("#lblfoto").css('border', '');
     $("#file-upload").css('border', '');
-    rotation = 0;
+    $("#txtAccionCorrectiva").css('border', ''); 
+    rotation = 0;    
+    actualizarSi = false;
+}
 
+function CargarAccionCorrectiva() {
+    $('#cargac').show();
+    var op = 1;
+    $.ajax({
+        url: "../MaterialQuebradizo/VerCrearImagenPartial",
+        data: {
+            idMaterial: itemCabecera.IdMaterial,
+            idArea: itemAccionCorrectiva.IdMantenimiento,
+            op: op
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $('#divListarFotos').html(resultado);
+            $('#cargac').hide();
+        },
+            error: function (resultado) {
+            //console.log(resultado.responseText, false)
+            $('#cargac').hide();
+            MensajeError(Mensajes.Error, false);
+        }
+    });
 }
 
 function readFile(input) {
@@ -617,8 +650,8 @@ function readFile(input) {
             image.src = e.target.result;
             image.onload = function () {
                 //if (this.width < this.height) {
-                    document.getElementById("file-preview").style.height = "350px";
-                    document.getElementById("file-preview").style.width = "350px";
+                    document.getElementById("file-preview").style.height = "250px";
+                    document.getElementById("file-preview").style.width = "250px";
                 //}
                 //else {
                 //    document.getElementById("file-preview").style.height = "300px";
@@ -645,3 +678,100 @@ $('#file-preview-zone').on("click", function (e) {
         rotation = 0;
     }
 });
+
+function validarImg(rotacion, id, imagen) {
+    $('#' + id).rotate(parseInt(rotacion));
+    var img = new Image();
+    document.getElementById(id).style.borderRadius = "20px";
+    document.getElementById(id).style.height = "250px";
+    document.getElementById(id).style.width = "250px";
+    img.src = "../ImagenSiaa/MaterialQuebradizo/" + imagen;
+}
+
+function SalirAccicionCorrectiva() {
+    itemAccionCorrectiva = [];
+    itemDetalle = [];
+    $('#modalAccionCorrectiva').modal('hide');
+    LimpiarAccionCorrectiva();
+}
+
+function EditarAccionCorrectiva(jdata) {
+    LimpiarAccionCorrectiva();
+    itemAccionCorrectiva = [];
+    actualizarSi = true;
+    $("#txtAccionCorrectiva").val(jdata.DescripcionAccion);
+    if (jdata.RutaFoto != null && jdata.RutaFoto != '') {
+        var filePreview = document.createElement('img');
+        filePreview.id = 'file-preview';
+        filePreview.src = "../ImagenSiaa/MaterialQuebradizo/" + jdata.RutaFoto;
+        var previewZone = document.getElementById('file-preview-zone');
+        previewZone.appendChild(filePreview);
+
+        $("#file-preview").addClass("img");
+        $('#file-preview').rotate(parseInt(jdata.Rotation));
+        document.getElementById("file-preview").style.height = "0px";
+        document.getElementById("file-preview").style.width = "0px";
+
+        document.getElementById("file-preview").style.height = "250px";
+        document.getElementById("file-preview").style.width = "250px";
+        itemAccionCorrectiva = jdata;
+    }
+}
+
+function NuevaFoto() {
+    itemAccionCorrectiva = itemAccionCorrectivaG;
+    LimpiarAccionCorrectiva();
+}
+
+function EliminarAccionCorrectiva() {
+    $.ajax({
+        url: "../MaterialQuebradizo/EliminarAccionCorrectiva",
+        type: "POST",
+        data: {
+            IdAccion: itemAccionCorrectiva.IdAccion,
+            IdMaterial: itemAccionCorrectiva.IdMaterial
+        },
+        success: function (resultado) {            
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Falta Parametro IdAccion");
+                $("#modalEliminarControlDetalle").modal("hide");
+                $('#cargac').hide();
+                return;
+            } else if (resultado == "1") {
+                CargarAccionCorrectiva();
+                $("#modalEliminarAccionCorrectiva").modal("hide");                
+                MensajeCorrecto("Registro eliminado con Éxito");
+                $('#cargac').hide();
+            } else if (resultado == '2') {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+                $('#cargac').hide();
+                return;
+            }
+        },
+        error: function () {
+            $('#cargac').hide();
+            MensajeError(Mensajes.Error, false);
+        }
+    });
+}
+
+function EliminarAccionCorrectivaNo() {
+    $("#modalEliminarAccionCorrectiva").modal("hide");
+}
+
+function EliminarConfirmarAccionCorrectiva(jdata) {
+    ConsultarEstadoRegistro();
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $("#modalEliminarAccionCorrectiva").modal("show");
+            $("#accionCorrectiva").text("¿Desea Eliminar la Acción Correctiva?");
+            itemAccionCorrectiva = jdata;
+        }
+    }, 200);
+}

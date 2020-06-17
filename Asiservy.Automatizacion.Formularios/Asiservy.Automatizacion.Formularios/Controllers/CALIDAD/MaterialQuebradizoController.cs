@@ -745,11 +745,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
 
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
-                //var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(idMaterial, DateTime.MinValue);
-                //if (estadoReporte.EstadoReporte)
-                //{
-                //    return Json("3", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
-                //}
+                var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(model.IdMaterial, DateTime.MinValue);
+                if (estadoReporte.EstadoReporte)
+                {
+                    return Json("3", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
+                }
                 string path = string.Empty;
                 string NombreImg = string.Empty;
                 if (dataImg != null)
@@ -765,7 +765,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     {
                         return Json(dataImg.ContentLength, JsonRequestBehavior.AllowGet);//SOBREPASA EL LIMITE PERMITIDO dataImg.ContentLength=bytes convert to Mb
                     }
-                    path = Server.MapPath("~/Content/Img/LimpiezaPlanta/");
+                    path = Server.MapPath(clsAtributos.UrlImagen+ "MaterialQuebradizo/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
@@ -774,8 +774,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
                     var ext2 = dataImg.FileName.Split('.');
                     var cont = ext2.Length;
-                    NombreImg = "LimpiezaPlanta/LimpiezaPlanta" + n.ToString() + "." + ext2[cont - 1];
-                    model.RutaFoto = NombreImg;
+                    NombreImg = "AccionCorrectiva" + n.ToString() + "." + ext2[cont - 1];
+                    model.RutaFoto =NombreImg;
                 }
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
@@ -786,6 +786,95 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     dataImg.SaveAs(path + Path.GetFileName(NombreImg));
                 }
+                if (valor == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult VerCrearImagenPartial(int idMaterial,int idArea, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
+                var lista = ClsMaterialQuebradizo.ConsultarDetalle(idMaterial, op, idArea);
+                if (lista.Count != 0)
+                {
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        public JsonResult EliminarAccionCorrectiva(CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
+                var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(model.IdMaterial, DateTime.MinValue);
+                if (estadoReporte.EstadoReporte)
+                {
+                    return Json("2", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
+                }
+                var valor = 0;
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                valor = ClsMaterialQuebradizo.EliminarAccionCorrectiva(model);
+
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

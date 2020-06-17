@@ -4136,6 +4136,7 @@
     <Content Include="Views\MaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
     <Content Include="Views\MaterialQuebradizo\ControlMaterialIngresoPartial.cshtml" />
     <Content Include="Views\MaterialQuebradizo\ConsultarDetallePartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\VerCrearImagenPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

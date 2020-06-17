@@ -76,14 +76,14 @@ function GuardarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');    
-    $('#txtNombre').prop('disabled', false);
+    //$('#txtNombre').prop('disabled', false);
     itemEditar = [];
 }
 
 function ActualizarCabecera(jdata) {
     if (jdata.EstadoRegistro == 'A') {
         $("#txtNombre").val(jdata.NombreObjeto);
-        $('#txtNombre').prop('disabled', true);
+        //$('#txtNombre').prop('disabled', true);
         $("#txtDescripcion").val(jdata.DescripcionObjeto);
         $('#ModalIngresoCabecera').modal('show');
         itemEditar = jdata;
