@@ -9,10 +9,9 @@
     @@media print {
         @@page {
             size: A4;
-            margin: 25mm 0mm 25mm 0mm;
         }
 
-        table {
+        /*table {
             page-break-after: auto
         }
 
@@ -32,7 +31,7 @@
 
         tfoot {
             display: table-footer-group
-        }
+        }*/
         
        
         hr {
@@ -101,6 +100,13 @@
 
         input, select, textarea {
             max-width: 100%
+        }
+
+        .table-responsive1 {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .selectbox {
@@ -268,7 +274,7 @@
                 </tr>
             </table>
         </div>
-        <table class="table1  table-responsive">
+        <table class="table1  table-responsive1">
             <thead>
                 <tr>
                     <th style="width:100%; border-right:2px solid #e3e6f0; border-left:2px solid #e3e6f0; border-bottom:0px" class="text-center"><h5>Verificación de operatividad con patrones</h5></th>
@@ -291,7 +297,7 @@
             </tbody>
         </table>
 
-        <table class="table1 table-bordered  table-responsive">
+        <table class="table1 table-bordered  table-responsive1">
             <thead>
                 <tr>
                     <th colspan="2" style="width:100%" class="text-center"><h5>Detección de metales en bandejas</h5></th>
