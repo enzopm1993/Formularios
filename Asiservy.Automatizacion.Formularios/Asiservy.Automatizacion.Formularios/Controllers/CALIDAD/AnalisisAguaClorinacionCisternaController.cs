@@ -569,7 +569,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var lista = ClsAnalisisAguaClorinacionCisterna.ConsultarDetalleClorinacionCisterna(idAnalisisAguaControl, op);
                 if (lista.Count != 0)
                 {
-                    ViewBag.JqueryRotate = "1";
                     return PartialView(lista);
                 }
                 else

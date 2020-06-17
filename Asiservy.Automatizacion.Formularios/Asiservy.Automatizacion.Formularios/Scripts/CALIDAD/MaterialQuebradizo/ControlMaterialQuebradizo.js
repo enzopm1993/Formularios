@@ -685,7 +685,7 @@ function validarImg(rotacion, id, imagen) {
     document.getElementById(id).style.borderRadius = "20px";
     document.getElementById(id).style.height = "250px";
     document.getElementById(id).style.width = "250px";
-    img.src = "../ImagenSiaa/MaterialQuebradizo/" + imagen;
+    img.src = $('#btnPath').val() + imagen;
 }
 
 function SalirAccicionCorrectiva() {
@@ -703,14 +703,12 @@ function EditarAccionCorrectiva(jdata) {
     if (jdata.RutaFoto != null && jdata.RutaFoto != '') {
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "../ImagenSiaa/MaterialQuebradizo/" + jdata.RutaFoto;
+        filePreview.src = $('#btnPath').val() + jdata.RutaFoto;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
         $("#file-preview").addClass("img");
         $('#file-preview').rotate(parseInt(jdata.Rotation));
-        document.getElementById("file-preview").style.height = "0px";
-        document.getElementById("file-preview").style.width = "0px";
 
         document.getElementById("file-preview").style.height = "250px";
         document.getElementById("file-preview").style.width = "250px";
@@ -723,7 +721,7 @@ function NuevaFoto() {
     LimpiarAccionCorrectiva();
 }
 
-function EliminarAccionCorrectiva() {
+function EliminarAccionCorrectiva() {    
     $.ajax({
         url: "../MaterialQuebradizo/EliminarAccionCorrectiva",
         type: "POST",
@@ -743,13 +741,14 @@ function EliminarAccionCorrectiva() {
             } else if (resultado == "1") {
                 CargarAccionCorrectiva();
                 $("#modalEliminarAccionCorrectiva").modal("hide");                
-                MensajeCorrecto("Registro eliminado con Éxito");
-                $('#cargac').hide();
+                MensajeCorrecto("Registro eliminado con Éxito");                                
             } else if (resultado == '2') {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
             }
+            $("#modalAccionCorrectiva").modal("show");
+            $('#cargac').hide();
         },
         error: function () {
             $('#cargac').hide();
@@ -758,8 +757,9 @@ function EliminarAccionCorrectiva() {
     });
 }
 
-function EliminarAccionCorrectivaNo() {
-    $("#modalEliminarAccionCorrectiva").modal("hide");
+function EliminarAccionCorrectivaNo() {    
+    $("#modalEliminarAccionCorrectiva").modal("hide");    
+    $("#modalAccionCorrectiva").modal("show");
 }
 
 function EliminarConfirmarAccionCorrectiva(jdata) {
@@ -769,6 +769,7 @@ function EliminarConfirmarAccionCorrectiva(jdata) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
+            $("#modalAccionCorrectiva").modal("hide");
             $("#modalEliminarAccionCorrectiva").modal("show");
             $("#accionCorrectiva").text("¿Desea Eliminar la Acción Correctiva?");
             itemAccionCorrectiva = jdata;

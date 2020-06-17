@@ -14,7 +14,7 @@ function CargarBandeja() {
         $('#divCalendar').prop('hidden', false);
     }
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/BandejaClorinacionCisternaPartial",
+        url: "../MaterialQuebradizo/BandejaMaterialQuebradizoPartial",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: dateAux,
@@ -61,10 +61,10 @@ function SeleccionarBandeja(model) {
     }
     var op = 0;
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/BandejaClorinacionCisternaAprobarPartial",
+        url: "../MaterialQuebradizo/BandejaMaterialQuebradizoAprobarPartial",
         type: "GET",
         data: {
-            idAnalisisAguaControl: listaDatos.IdAnalisisAguaControl,
+            idMaterial: listaDatos.IdMaterial,
             op: op
         },
         success: function (resultado) {
@@ -102,10 +102,10 @@ function AprobarPendiente(estadoReporte) {
     } else { $('#txtFechaAprobado').val(''); }
     var siAprobar = 1;
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/GuardarModificarClorinacionCisterna",
+        url: "../MaterialQuebradizo/GuardarModificarMaterialQuebradizo",
         type: "POST",
         data: {
-            IdAnalisisAguaControl: listaDatos.IdAnalisisAguaControl,
+            IdMaterial: listaDatos.IdMaterial,
             EstadoReporte: estadoReporte,
             FechaAprobado: $('#txtFechaAprobado').val(),
             siAprobar: siAprobar
@@ -142,6 +142,17 @@ function validar() {
 
 function LimpiarFecha() {
     $("#txtFechaAprobado").css('border', '');
+}
+
+function validarImg(rotacion, id, imagen) {
+    $('#' + id).rotate(parseInt(rotacion));
+    var img = new Image();
+    //img.onload = function () {
+        document.getElementById(id).style.borderRadius = "20px";
+        document.getElementById(id).style.height = "250px";
+        document.getElementById(id).style.width = "250px";
+    //}
+    img.src = $('#btnPath').val() + imagen;
 }
 
 //DATE RANGE PICKER

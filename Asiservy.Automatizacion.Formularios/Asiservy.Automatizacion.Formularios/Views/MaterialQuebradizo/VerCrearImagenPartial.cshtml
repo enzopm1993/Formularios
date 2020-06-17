@@ -17,7 +17,7 @@
             <tr class="text-center imgImprimir">
                 <td style="white-space:normal">                   
                     <div id="header_@item.IdAccion">
-                        <img src="~/ImagenSiaa/MaterialQuebradizo/@item.RutaFoto" id="@item.IdAccion" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdAccion" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
                         
                     </div>
 
@@ -53,3 +53,5 @@
             box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
         }
 </style>
+
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />

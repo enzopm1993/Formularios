@@ -827,6 +827,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var lista = ClsMaterialQuebradizo.ConsultarDetalle(idMaterial, op, idArea);
                 if (lista.Count != 0)
                 {
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..")+ "MaterialQuebradizo/";
                     return PartialView(lista);
                 }
                 else
@@ -904,6 +905,240 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         #endregion
+
+        #region BANDEJA
+        public ActionResult BandejaMaterialQuebradizo()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaMaterialQuebradizoPartial(bool estadoReporte, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
+                var lista = ClsMaterialQuebradizo.ConsultarBadejaEstado(fechaDesde, fechaHasta, estadoReporte);
+                if (lista.Any())
+                {
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaMaterialQuebradizoAprobarPartial(int idMaterial, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
+                var lista = ClsMaterialQuebradizo.ConsultarDetalle(idMaterial, op);
+                if (lista.Count != 0)
+                {
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..") + "MaterialQuebradizo/";                    
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        #endregion
+
+        #region REPORTE
+        public ActionResult ReporteMaterialQuebradizo()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ClsDReporte = new clsDReporte();
+                var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteMaterialQuebradizoPartial(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
+                var lista = ClsMaterialQuebradizo.ConsultarReporteRangoFecha(fechaDesde, fechaHasta);
+                if (lista.Any())
+                {
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        public ActionResult ReporteMaterialQuebradizoDetallePartial(int idMaterial, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
+                var lista = ClsMaterialQuebradizo.ConsultarDetalle(idMaterial, op);
+                if (lista.Count != 0)
+                {
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..") + "MaterialQuebradizo/";
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        #endregion
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

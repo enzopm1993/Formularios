@@ -331,12 +331,12 @@
 </div>
 
 @*MODAL ELIMINAR REGISTRO ACCION CORRECTIVA*@
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarAccionCorrectiva">
+<div class="modal" style="background-color:rgba(224, 224, 235, .4)" id="modalEliminarAccionCorrectiva" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="accionCorrectiva"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" onclick="EliminarAccionCorrectivaNo()" aria-label="Close"><span >&times;</span></button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" onclick="EliminarAccionCorrectiva()" id="btnEliminarSi">Si</button>

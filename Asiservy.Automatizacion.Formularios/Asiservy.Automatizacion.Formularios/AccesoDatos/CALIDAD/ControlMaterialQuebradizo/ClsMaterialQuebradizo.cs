@@ -367,5 +367,71 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                 return valor;
             }
         }
+        public List<CC_MATERIAL_QUEBRADIZO_CTRL> ConsultarBadejaEstado(DateTime fechaDesde, DateTime FechaHasta, bool estadoReporte)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<CC_MATERIAL_QUEBRADIZO_CTRL> listado;
+                if (estadoReporte)
+                {
+                    listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                              && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).OrderByDescending(v => v.Fecha).ToList();
+                }
+                else
+                {
+                    listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                               && x.Fecha <= FechaHasta).OrderByDescending(v => v.Fecha).ToList();
+                }
+                CC_MATERIAL_QUEBRADIZO_CTRL cabecera;
+                List<CC_MATERIAL_QUEBRADIZO_CTRL> listaCabecera = new List<CC_MATERIAL_QUEBRADIZO_CTRL>();
+                if (listado.Any())
+                {
+                    foreach (var item in listado)
+                    {
+                        cabecera = new CC_MATERIAL_QUEBRADIZO_CTRL();
+                        cabecera.IdMaterial = item.IdMaterial;
+                        cabecera.Fecha = item.Fecha;
+                        cabecera.ObservacionCtrl = item.ObservacionCtrl;
+                        cabecera.EstadoReporte = item.EstadoReporte;
+                        cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                        cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                        cabecera.FechaAprobado = item.FechaAprobado;
+                        cabecera.AprobadoPor = item.AprobadoPor;
+                        listaCabecera.Add(cabecera);
+                    }
+                }
+                return listaCabecera;
+            }
+        }
+        public List<CC_MATERIAL_QUEBRADIZO_CTRL> ConsultarReporteRangoFecha(DateTime fechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                           && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).OrderByDescending(c => c.Fecha).ToList();
+
+                CC_MATERIAL_QUEBRADIZO_CTRL cabecera;
+                List<CC_MATERIAL_QUEBRADIZO_CTRL> listaCabecera = new List<CC_MATERIAL_QUEBRADIZO_CTRL>();
+                if (listado.Any())
+                {
+                    foreach (var item in listado)
+                    {
+                        cabecera = new CC_MATERIAL_QUEBRADIZO_CTRL();
+                        cabecera.IdMaterial = item.IdMaterial;
+                        cabecera.Fecha = item.Fecha;
+                        cabecera.ObservacionCtrl = item.ObservacionCtrl;
+                        cabecera.EstadoReporte = item.EstadoReporte;
+                        cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                        cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                        cabecera.UsuarioModificacionLog = item.UsuarioModificacionLog;
+                        cabecera.FechaModificacionLog = item.FechaModificacionLog;
+                        cabecera.FechaAprobado = item.FechaAprobado;
+                        cabecera.AprobadoPor = item.AprobadoPor;
+                        listaCabecera.Add(cabecera);
+                    }
+                }
+                return listaCabecera;
+            }
+        }
     }
 }

@@ -2261,9 +2261,11 @@
     <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
+    <Content Include="Scripts\CALIDAD\MaterialQuebradizo\BandejaMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterial.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
+    <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ReporteMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\BandejaMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
@@ -4147,6 +4149,12 @@
     <Content Include="Views\MaterialQuebradizo\ControlMaterialIngresoPartial.cshtml" />
     <Content Include="Views\MaterialQuebradizo\ConsultarDetallePartial.cshtml" />
     <Content Include="Views\MaterialQuebradizo\VerCrearImagenPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\BandejaMaterialQuebradizo.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\BandejaMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\BandejaMaterialQuebradizoAprobarPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\ReporteMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\ReporteMaterialQuebradizo.cshtml" />
+    <Content Include="Views\MaterialQuebradizo\ReporteMaterialQuebradizoDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
