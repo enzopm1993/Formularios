@@ -336,5 +336,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 return resultado;
             }
         }
+        public List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> ConsultarBandejaAnalisisQuimicoProductoSemielaborado(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                if (EstadoControl == clsAtributos.EstadoReportePendiente)
+                {
+                    //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
+                    var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
+                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdDetalleAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                     join s in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdDetalle = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleAnalisisQuimicoProductoSe, s.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null)
+                                     select x).Distinct().ToList();
+
+                    return respuesta;
+                }
+                else
+                {
+                    var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
+                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdDetalleAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                     join s in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdDetalle = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleAnalisisQuimicoProductoSe, s.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaInicio && x.Fecha <= FechaFin) &&
+                                     x.EstadoControl == clsAtributos.EstadoReporteActivo
+                                     select x).Distinct().ToList();
+                    return respuesta;
+                }
+            }
+
+        }
+
     }
 }

@@ -2201,7 +2201,9 @@
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\AnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\BandejaAnalisisAguaTanquero.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaTanquero\ReporteAnalisisAguaTanquero.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\BandejaAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -4128,6 +4130,8 @@
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialSubDetalleControl.cshtml" />
     <Content Include="Views\KardexReactivo\BandejaKardexReactivo.cshtml" />
     <Content Include="Views\KardexReactivo\BandejaKardexReactivoPartial.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\BandejaAnalisisQuimicoProductoSemielaborado.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\BandejaAprobadosAnalisisQuimicoProductoSemiElaboradoPartial.cshtml" />
     <Content Include="Views\KardexReactivo\ReporteKardexReactivo.cshtml" />
     <Content Include="Views\KardexReactivo\ReporteKardexReactivoPartial.cshtml" />
     <None Include="Web.Debug.config">
