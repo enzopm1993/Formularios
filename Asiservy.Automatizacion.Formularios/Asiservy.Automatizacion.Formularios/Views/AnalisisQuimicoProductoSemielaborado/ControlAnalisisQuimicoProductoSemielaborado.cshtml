@@ -166,7 +166,7 @@
 <br />
 <div class="card" id="botonessubdetalle" hidden>
     <div class="row">
-       
+
         <div class="col-12">
             <center>
                 <div class="form-group">
@@ -174,7 +174,7 @@
                     <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarDetalle()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="/Content/icons/edit24.png">
                     </button>
-                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarDetalle()" style="border-color:#2c3e50" type="button">
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="ConfirmarEliminarDetalle()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="/Content/icons/cancel24.png">
                     </button>
                     <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
@@ -288,6 +288,8 @@
                             <select class="form-control" id="cmbLote" onchange="DatosLote()">
                                 <option>Seleccione..</option>
                             </select>
+                            <label class="text-danger" id="msjerrorLote" hidden>Debe seleccionar Lote</label>
+
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
@@ -352,6 +354,7 @@
                                 <option value="M">Miga</option>
                                 <option value="T">Trozo</option>
                             </select>
+                            <label class="text-danger" id="msjerrorTipoProducto" hidden>Debe seleccionar un tipo de producto</label>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12">
@@ -361,10 +364,10 @@
                         <br />
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#Proceso">Área Proceso</a>
+                                <a class="nav-link active" data-toggle="tab" href="#Proceso" id="areproc">Área Proceso</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#Empaque">Área Empaque</a>
+                                <a class="nav-link" data-toggle="tab" href="#Empaque" id="areaemp">Área Empaque</a>
                             </li>
                         </ul>
 
@@ -379,6 +382,7 @@
                                                 <div class="form-group">
                                                     <label>% Sal</label>
                                                     <input type="text" class="form-control" id="txtSalProceso" />
+                                                    <label class="text-danger" id="msjerrorsalproceso" hidden>% de sal es un campo requerido</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-12">
@@ -391,11 +395,13 @@
                                                 <div class="form-group">
                                                     <label>Humedad</label>
                                                     <input type="text" class="form-control" id="txtHumedadProceso" />
+                                                    <label class="text-danger" id="msjerrorhumedad" hidden>Humedad es un campo requerido</label>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
                             </div>
                             <div class="tab-pane container-fluid fade" id="Empaque">
@@ -419,7 +425,7 @@
 
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -437,3 +443,55 @@
     </div>
 </div>
 
+@*modal eliminar subdetalle *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarSubDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarSubDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar detalle *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-body">
+                <div id="bodydetallemodal">
+                    <label>Orden de fabricación:</label><label id="ordenflbl"></label><br />
+                    <label>Lote: </label><label id="lotelbl"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsidetalle" onclick="EliminarDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnodetalle" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar cabecera *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarControl" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el control?</h6>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -278,5 +278,92 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 return resultado;
             }
         }
+        public object[] InactivarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalle, int IdCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                var BuscarCabeceraControl = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Find(IdCabecera);
+                if (BuscarCabeceraControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible inactivar el control, por que se encuentra aprobado";
+                    resultado[2] = poSubDetalle;
+                }
+                else
+                {
+                    var BuscarSubDetalle = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.FirstOrDefault(x => x.IdTipoAnalisisQuimicoProductoSe == poSubDetalle.IdTipoAnalisisQuimicoProductoSe
+                      && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                    BuscarSubDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    BuscarSubDetalle.FechaModificacionLog = poSubDetalle.FechaIngresoLog;
+                    BuscarSubDetalle.UsuarioModificacionLog = poSubDetalle.UsuarioIngresoLog;
+                    BuscarSubDetalle.TerminalModificacionLog = poSubDetalle.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = poSubDetalle;
+                }
+                return resultado;
+            }
+        }
+        public object[] InactivarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE poDetalle, int IdCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                var BuscarCabeceraControl = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Find(IdCabecera);
+                if (BuscarCabeceraControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible inactivar el control, por que se encuentra aprobado";
+                    resultado[2] = poDetalle;
+                }
+                else
+                {
+                    var BuscarDetalle = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE.FirstOrDefault(x => x.IdDetalleAnalisisQuimicoProductoSe == poDetalle.IdDetalleAnalisisQuimicoProductoSe
+                      && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                    BuscarDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    BuscarDetalle.FechaModificacionLog = poDetalle.FechaIngresoLog;
+                    BuscarDetalle.UsuarioModificacionLog = poDetalle.UsuarioIngresoLog;
+                    BuscarDetalle.TerminalModificacionLog = poDetalle.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = poDetalle;
+                }
+                return resultado;
+            }
+        }
+        public List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> ConsultarBandejaAnalisisQuimicoProductoSemielaborado(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                if (EstadoControl == clsAtributos.EstadoReportePendiente)
+                {
+                    //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
+                    var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
+                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdDetalleAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                     join s in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdDetalle = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleAnalisisQuimicoProductoSe, s.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null)
+                                     select x).Distinct().ToList();
+
+                    return respuesta;
+                }
+                else
+                {
+                    var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
+                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdDetalleAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                     join s in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdDetalle = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleAnalisisQuimicoProductoSe, s.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaInicio && x.Fecha <= FechaFin) &&
+                                     x.EstadoControl == clsAtributos.EstadoReporteActivo
+                                     select x).Distinct().ToList();
+                    return respuesta;
+                }
+            }
+
+        }
+
     }
 }

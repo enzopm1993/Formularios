@@ -23,7 +23,7 @@
    // console.log(mantenimientos);
 </script>
 
-<h4>Kardex de Reactivo</h4>
+<h4>Kardex de Reactivo  <label id="lblAprobadoPendiente" class="badge"> </label></h4>
 
 
 
@@ -32,7 +32,7 @@
     <div class="card-body">
         <div class="row" id="divCabecera1">
             <input type="hidden" id="txtIdCloroAguaAutoclave" name="name" value="0" />
-            <div class="col-md-2 col-6 col-sm-6">
+            <div class="col-md-3 col-6 col-sm-6">
                 <div class="form-group">
                     <label>Fecha</label>
                     <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
@@ -93,7 +93,7 @@
             <div class="modal-header">
                 <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control de verificación de potenciometro?</h4>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control de kardex reactivo?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>

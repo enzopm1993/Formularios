@@ -7,12 +7,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
 {
     public class ClsdKardexReactivo
     {
-        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivo(DateTime Fecha)
+        public List<spConsultaKardexReactivo> ConsultaKardexReactivo(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var query = entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-
+                var query = entities.spConsultaKardexReactivo(Fecha).ToList();
                 return query;
             }
         }
@@ -25,29 +24,42 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
                 using (var transaction = entities.Database.BeginTransaction())
                 {
                     CC_KARDEX_REACTIVO poControlReporte = entities.CC_KARDEX_REACTIVO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-
+                    var idReactivo = 0;
                     if (poControlReporte != null)
                     {
                         poControlReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControlReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                         poControlReporte.FechaModificacionLog = model.FechaIngresoLog;
+                        idReactivo = poControlReporte.IdKardexReactivo;
                    }
                     else
                     {
                         entities.CC_KARDEX_REACTIVO.Add(model);
+                        entities.SaveChanges();
+                        idReactivo = model.IdKardexReactivo;
                     }
 
                     foreach(var x in detalle)
                     {
-                        var modelDetalle = entities.CC_KARDEX_REACTIVO_DETALLE.FirstOrDefault(y=> y.IdKardexReactivo == poControlReporte.IdKardexReactivo
-                                           && y.IdKardexReactivoDetalle == x.IdKardexReactivoDetalle);
+                        var modelDetalle = entities.CC_KARDEX_REACTIVO_DETALLE.FirstOrDefault(y=> y.IdKardexReactivo == idReactivo
+                                           && y.IdReactivo == x.IdReactivo);
 
                         if (modelDetalle != null)
                         {
+
+                            x.UsuarioModificacionLog = model.UsuarioModificacionLog;
+                            x.FechaModificacionLog = model.FechaModificacionLog;
+                            x.TerminalModificacionLog = model.TerminalModificacionLog;
+                            x.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                             modelDetalle.Valor = x.Valor;
                         }
                         else
                         {
+                            x.IdKardexReactivo = idReactivo;
+                            x.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                            x.FechaIngresoLog = model.FechaIngresoLog;
+                            x.TerminalIngresoLog = model.TerminalIngresoLog;
+                            x.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                             entities.CC_KARDEX_REACTIVO_DETALLE.Add(x);
                         }
                     }
@@ -85,14 +97,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
             }
         }
 
-        public List<CC_KARDEX_REACTIVO> ConsultaKardexReactivoControl(DateTime FechaDesde, DateTime FechaHasta)
+        public List<spReporteKardexReactivo> ConsultaKardexReactivoControl(DateTime FechaDesde, DateTime FechaHasta)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_KARDEX_REACTIVO.Where(x => x.Fecha >= FechaDesde
-                                                                         && x.Fecha <= FechaHasta
-                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                                               ).ToList();
+                return entities.spReporteKardexReactivo(FechaDesde,FechaHasta).ToList();
             }
         }
 
@@ -109,7 +118,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_KARDEX_REACTIVO.Where(x => !x.EstadoReporte).ToList();
+                return entities.CC_KARDEX_REACTIVO.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
         public void Aprobar_ReporteKardexReactivo(CC_KARDEX_REACTIVO controlCloro)

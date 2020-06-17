@@ -79,11 +79,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
                
                 if (poControl != null)
                 {
-                     var poControl1 = entities.RESIDUAL_CLORO.Count(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                     var poControl1 = entities.RESIDUAL_CLORO.Count(x => x.Fecha == model.Fecha && x.CodArea == model.CodArea  && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     var poControl2 = entities.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.Area == model.CodArea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     if (poControl2 != null && poControl1 ==1)
                     {
-                        poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                         poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                         poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
