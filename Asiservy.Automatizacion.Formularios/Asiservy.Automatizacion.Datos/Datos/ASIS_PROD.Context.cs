@@ -2224,5 +2224,22 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Limpieza_Desinfeccion_Planta>("sp_Limpieza_Desinfeccion_Planta", idLimpiezaDesinfeccionPlantaParameter, turnoParameter, opParameter, idAuditoriaParameter);
         }
+    
+        public virtual ObjectResult<sp_Material_Quebradizo_Calidad> sp_Material_Quebradizo_Calidad(Nullable<int> idMaterial, Nullable<int> idArea, Nullable<int> op)
+        {
+            var idMaterialParameter = idMaterial.HasValue ?
+                new ObjectParameter("idMaterial", idMaterial) :
+                new ObjectParameter("idMaterial", typeof(int));
+    
+            var idAreaParameter = idArea.HasValue ?
+                new ObjectParameter("idArea", idArea) :
+                new ObjectParameter("idArea", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Material_Quebradizo_Calidad>("sp_Material_Quebradizo_Calidad", idMaterialParameter, idAreaParameter, opParameter);
+        }
     }
 }

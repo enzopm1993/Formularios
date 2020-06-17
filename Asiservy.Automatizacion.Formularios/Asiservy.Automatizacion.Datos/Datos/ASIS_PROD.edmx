@@ -3951,6 +3951,11 @@
           <Parameter Name="op" Type="int" Mode="In" />
           <Parameter Name="idAuditoria" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Material_Quebradizo_Calidad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idMaterial" Type="int" Mode="In" />
+          <Parameter Name="idArea" Type="int" Mode="In" />
+          <Parameter Name="op" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_obtener_asistenia_inicio_vs_actual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaIni" Type="date" Mode="In" />
           <Parameter Name="fechaFin" Type="date" Mode="In" />
@@ -6155,6 +6160,11 @@
             <End Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" EntitySet="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
             <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
           </AssociationSet>
+          <FunctionImport Name="sp_Material_Quebradizo_Calidad" ReturnType="Collection(ASIS_PRODModel.sp_Material_Quebradizo_Calidad)">
+            <Parameter Name="idMaterial" Mode="In" Type="Int32" />
+            <Parameter Name="idArea" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -12012,6 +12022,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_Material_Quebradizo_Calidad">
+          <Property Type="Int32" Name="IdMaterialDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdMantenimiento" Nullable="false" />
+          <Property Type="Int32" Name="IdMantMaterial" Nullable="false" />
+          <Property Type="Int32" Name="IdMaterial" Nullable="false" />
+          <Property Type="Boolean" Name="EstadoVerificacion" Nullable="false" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TipoVerificacion" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="NombreMaterial" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="String" Name="DescripcionMant" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DescripcionAccion" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="IdAccion" Nullable="true" />
+          <Property Type="Int32" Name="Rotation" Nullable="true" />
+          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17792,6 +17827,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Material_Quebradizo_Calidad" FunctionName="ASIS_PRODModel.Store.sp_Material_Quebradizo_Calidad">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Material_Quebradizo_Calidad">
+                <ScalarProperty Name="IdMaterialDetalle" ColumnName="IdMaterialDetalle" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+                <ScalarProperty Name="IdMantMaterial" ColumnName="IdMantMaterial" />
+                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+                <ScalarProperty Name="EstadoVerificacion" ColumnName="EstadoVerificacion" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="TipoVerificacion" ColumnName="TipoVerificacion" />
+                <ScalarProperty Name="NombreMaterial" ColumnName="NombreMaterial" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="DescripcionMant" ColumnName="DescripcionMant" />
+                <ScalarProperty Name="DescripcionAccion" ColumnName="DescripcionAccion" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

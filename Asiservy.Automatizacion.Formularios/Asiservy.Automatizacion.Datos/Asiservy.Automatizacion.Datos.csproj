@@ -960,6 +960,9 @@
     <Compile Include="Datos\sp_Limpieza_Desinfeccion_Planta.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_Material_Quebradizo_Calidad.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sp_obtenerAsistenciaBiometrico_Result.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
