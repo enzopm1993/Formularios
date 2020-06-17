@@ -230,6 +230,14 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" Width="1.5" PointX="44.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Width="1.5" PointX="5.375" PointY="55.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Width="1.5" PointX="7.625" PointY="46" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" Width="1.5" PointX="5.375" PointY="51.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="46.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
