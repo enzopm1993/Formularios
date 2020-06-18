@@ -344,7 +344,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 {
                     //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
                     var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
-                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdDetalleAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdCabeceraAnalisisQuimicoProductoSe, d.EstadoRegistro }
                                      join s in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdDetalle = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleAnalisisQuimicoProductoSe, s.EstadoRegistro }
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null)
                                      select x).Distinct().ToList();
@@ -354,7 +354,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 else
                 {
                     var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
-                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdDetalleAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                     join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdCabecera = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdCabeceraAnalisisQuimicoProductoSe, d.EstadoRegistro }
                                      join s in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdDetalle = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleAnalisisQuimicoProductoSe, s.EstadoRegistro }
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaInicio && x.Fecha <= FechaFin) &&
                                      x.EstadoControl == clsAtributos.EstadoReporteActivo
@@ -364,6 +364,93 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
             }
 
         }
+        public List<SPReporteAnalisisQuimicoProductoSe> ConsultaReporte(int idCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                return db.SPReporteAnalisisQuimicoProductoSe(idCabecera).ToList();
+            }
+        }
+        public string AprobarControl(int idCabecera, string usuario, string terminal, DateTime Fecha)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
 
+                var buscarCabecera = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Find(idCabecera);
+                buscarCabecera.FechaModificacionLog = DateTime.Now;
+                buscarCabecera.UsuarioModificacionLog = usuario;
+                buscarCabecera.TerminalModificacionLog = terminal;
+                buscarCabecera.AprobadoPor = usuario;
+                buscarCabecera.FechaAprobacion = Fecha;
+                buscarCabecera.EstadoControl = true;
+                //buscarCabecera.FirmaAprobacion = firma;
+                db.SaveChanges();
+
+                return "El control ha sido aprobado";
+            }
+        }
+        public string ReversarControl(int IdControl, string usuario, string terminal)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarControl = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Find(IdControl);
+                buscarControl.FechaModificacionLog = DateTime.Now;
+                buscarControl.UsuarioModificacionLog = usuario;
+                buscarControl.TerminalModificacionLog = terminal;
+                buscarControl.AprobadoPor = null;
+                buscarControl.FechaAprobacion = null;
+                buscarControl.EstadoControl = false;
+
+                db.SaveChanges();
+
+                return "El control ha sido Reversado";
+            }
+        }
+        public List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> ConsultarCabReportes(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
+                                 join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { Id = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = d.IdCabeceraAnalisisQuimicoProductoSe, d.EstadoRegistro }
+                                 join t in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { Id = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = t.IdDetalleAnalisisQuimicoProductoSe, t.EstadoRegistro }
+                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaDesde && x.Fecha <= FechaHasta)
+                                 select new
+                                 {
+                                     x.Fecha,
+                                     x.AprobadoPor,
+                                     x.EstadoControl,
+                                     x.EstadoRegistro,
+                                     x.FechaAprobacion,
+                                     x.FechaIngresoLog,
+                                     x.FechaModificacionLog,
+                                     x.IdAnalisisQuimicoProductoSe,
+                                     x.Observacion,
+                                     x.TerminalIngresoLog,
+                                     x.TerminalModificacionLog,
+                                     x.UsuarioIngresoLog,
+                                     x.UsuarioModificacionLog
+                                 }).Distinct().ToList();
+
+                List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> b = (from x in respuesta
+                                                                               select new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA {
+                                                                                   Fecha = x.Fecha,
+                                                                                   AprobadoPor = x.AprobadoPor,
+                                                                                   EstadoControl = x.EstadoControl,
+                                                                                   EstadoRegistro = x.EstadoRegistro,
+                                                                                   FechaAprobacion = x.FechaAprobacion,
+                                                                                   FechaIngresoLog = x.FechaIngresoLog,
+                                                                                   FechaModificacionLog = x.FechaModificacionLog,
+                                                                                   IdAnalisisQuimicoProductoSe = x.IdAnalisisQuimicoProductoSe,
+                                                                                   Observacion = x.Observacion,
+                                                                                   TerminalIngresoLog = x.TerminalIngresoLog,
+                                                                                   TerminalModificacionLog = x.TerminalModificacionLog,
+                                                                                   UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                                                                   UsuarioModificacionLog = x.UsuarioModificacionLog
+                                                                               }).ToList();
+                                                                       
+                return b;
+            }
+        }
     }
 }

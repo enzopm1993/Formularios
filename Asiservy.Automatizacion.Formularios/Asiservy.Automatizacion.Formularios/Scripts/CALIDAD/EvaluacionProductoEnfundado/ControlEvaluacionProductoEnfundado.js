@@ -1120,8 +1120,10 @@ fetch(url)
             //ConsultarFirma();
 
         } else {
+            LimpiarDetalleControles();
             $('#DivDetalles').empty();
         }
+        LlenarComboEmpacadores();
         //console.log(resultado);
     })
     .catch(function (resultado) {
@@ -1381,6 +1383,56 @@ function readFile(input) {
 
         }
         reader.readAsDataURL(input.files[0]);
+    }
+}
+function LlenarComboEmpacadores() {
+    Error = 0;
+    $('#cmbEmpacador').empty();
+    $('#cmbEmpacador').append('<option>Seleccione..</option>');
+
+    let params = {
+        Fecha: $('#txtFechaProduccion').val(),
+        Hora: $('#txtHora').val()
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../EvaluacionProductoEnfundado/ConsultarEmpacadores?' + query;
+    if ($('#txtHora').val()!='') 
+    {
+        fetch(url)
+           
+            .then(function (respuesta) {
+                if (!respuesta.ok) {
+                    //MensajeError(respuesta.statusText);
+                    MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+                    Error = 1;
+                }
+                return respuesta.json();
+            })
+            .then(function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                if (Error == 0) {
+                   
+                    if (resultado == "0") {
+                        $('#cmbEmpacador').empty();
+                        $('#cmbEmpacador').append('<option>Seleccione..</option>');
+                    } else {
+                        $.each(resultado, function (key, value) {
+                            $('#cmbEmpacador').append('<option value=' + value.Cedula + '>' + value.NOMBRES + '</option>');
+                        });
+                    }
+
+                }
+            })
+            .catch(function (resultado) {
+                //console.log(resultado);
+                MensajeError(resultado.responseText, false);
+
+            })
     }
 }
 

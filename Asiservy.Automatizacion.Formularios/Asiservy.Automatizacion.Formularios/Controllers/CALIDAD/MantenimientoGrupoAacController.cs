@@ -1,6 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoOlor;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoGrupoAac;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -11,14 +11,14 @@ using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class MantenimientoOlorController : Controller
+    public class MantenimientoGrupoAacController : Controller
     {
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
-        clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
-        // GET: MantenimientoOlor
+        ClsdMantenimientoGrupoAac ClsdMantenimientoGrupoAac { get; set; } = null;
+        // GET: MantenimientoGrupo
         [Authorize]
-        public ActionResult MantenimientoOlor()
+        public ActionResult MantenimientoGrupo()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public ActionResult MantenimientoOlorPartial()
+        public ActionResult MantenimientoGrupoPartial()
         {
             try
             {
@@ -57,8 +57,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoOlor = new clsDMantenimientoOlor();
-                var model = clsDMantenimientoOlor.ConsultaManteminetoOlor();
+                ClsdMantenimientoGrupoAac = new ClsdMantenimientoGrupoAac();
+                var model = ClsdMantenimientoGrupoAac.ConsultaManteminetoGrupo();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -87,7 +87,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
 
         [HttpPost]
-        public ActionResult MantenimientoOlor(CC_MANTENIMIENTO_OLOR model)
+        public ActionResult MantenimientoGrupo(CC_MANTENIMIENTO_GRUPO_AAC model)
         {
             try
             {
@@ -97,12 +97,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                clsDMantenimientoOlor = new clsDMantenimientoOlor();
+                ClsdMantenimientoGrupoAac = new ClsdMantenimientoGrupoAac();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                clsDMantenimientoOlor.GuardarModificarMantenimientoOlor(model);
+                ClsdMantenimientoGrupoAac.GuardarModificarMantenimientoGrupo(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
@@ -125,7 +125,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult EliminarMantenimientoOlor(CC_MANTENIMIENTO_OLOR model)
+        public ActionResult EliminarMantenimientoGrupo(CC_MANTENIMIENTO_GRUPO_AAC model)
         {
             try
             {
@@ -134,12 +134,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoOlor = new clsDMantenimientoOlor();
+                ClsdMantenimientoGrupoAac = new ClsdMantenimientoGrupoAac();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDMantenimientoOlor.EliminarMantenimientoOlor(model);
-                return Json("1", JsonRequestBehavior.AllowGet); 
+                ClsdMantenimientoGrupoAac.EliminarMantenimientoGrupo(model);
+                return Json("1", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

@@ -1,94 +1,118 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA>
+<style>
+    #tbltitulo {
+        display: none;
+    }
 
+    #tblReporte td {
+        font-size: 0.6rem;
+    }
 
-<table class="table table-bordered table-striped" id="tblBandejaAnalisis">
+    #tblReporte th {
+        font-size: 0.6rem;
+    }
+    #tablaCab
+    {
+        display:none;
+    }
+    #divfoot{
+        display:none;
+    }
+    #divhead{
+        display:none;
+    }
+    #divcard1 {
+        border: none;
+        padding: 0rem;
+    }
+</style>
+<table class="table table-bordered table-striped table-hover" id="tblBandejaAnalisis">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdAnalisisQuimicoProductoSe)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.EstadoRegistro)
+                Estado
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+                Fecha Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+                Usuario Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+               Terminal Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaModificacionLog)
+                Fecha Modificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+                Usuario modificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+                Aprobado por
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoControl)
+                Fecha Aprobación
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AprobadoPor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAprobacion)
-            </th>
-     
+
         </tr>
     </thead>
 
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr style="cursor:pointer" onclick="AbrirModalDetalle('@item.IdAnalisisQuimicoProductoSe','@item.Fecha.Value.ToString("yyyy-MM-dd")','@item.EstadoControl.ToString()')">
+               
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdAnalisisQuimicoProductoSe)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
+                    @item.Fecha.Value.ToString("dd-MM-yyyy")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
+            
+             
+                <td class="text-center">
+                    @if (item.EstadoControl == true)
+                    {
+                        <span class="badge badge-success">Aprobado</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">Pendiente</span>
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                    @item.UsuarioIngresoLog
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                    @item.TerminalIngresoLog
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                    @item.FechaModificacionLog
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoControl)
+                    @item.UsuarioModificacionLog
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AprobadoPor)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaAprobacion)
+                    @{
+                        if (item.FechaAprobacion != null)
+                        {
+                            @item.FechaAprobacion.Value.ToString("dd-MM-yyyy HH:mm")
+                        }
+                    }
                 </td>
               
             </tr>

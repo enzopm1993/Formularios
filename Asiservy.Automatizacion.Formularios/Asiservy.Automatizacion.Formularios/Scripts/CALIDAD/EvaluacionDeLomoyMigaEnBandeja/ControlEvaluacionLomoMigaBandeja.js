@@ -951,6 +951,7 @@ function ConsultarDetalleControl() {
                
             } else {
                 $('#DivDetalles').empty();
+                LimpiarDetalleControles();
             }
             $('#cargac').hide();
             //console.log(resultado);
