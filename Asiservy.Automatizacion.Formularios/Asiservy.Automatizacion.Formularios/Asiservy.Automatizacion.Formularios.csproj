@@ -4134,6 +4134,8 @@
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\BandejaAprobadosAnalisisQuimicoProductoSemiElaboradoPartial.cshtml" />
     <Content Include="Views\KardexReactivo\ReporteKardexReactivo.cshtml" />
     <Content Include="Views\KardexReactivo\ReporteKardexReactivoPartial.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialReporteControl.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

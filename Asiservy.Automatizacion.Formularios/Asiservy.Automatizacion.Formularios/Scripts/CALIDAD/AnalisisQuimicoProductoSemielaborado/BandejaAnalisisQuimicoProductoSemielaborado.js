@@ -17,7 +17,7 @@ function CargarBandeja() {
                 EstadoControl: false
             },
             success: function (resultado) {
-                $('#DivEvaluacionLomosMigas').empty();
+                $('#DivAnalisisQuimicoProductoSemiElaborado').empty();
                 if (resultado == '0') {
                     $('#MensajeRegistros').show();
                 } else {
@@ -75,19 +75,19 @@ function CargarBandeja() {
         });
     }
 }
-function AbrirModalDetalle(IdCabecera, NivelLimpieza) {
+function AbrirModalDetalle(IdCabecera,fecha,estadocontrol) {
     CerrarConfirmacionAprobar();
-    TipoLimpieza = NivelLimpieza;
+    //TipoLimpieza = NivelLimpieza;
     $('#cargac').show();
     Error = 0;
     let params = {
-        IdCabeceraControl: IdCabecera
+        IdCabecera: IdCabecera
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&');
 
-    let url = '../EvaluacionDeLomoyMigaEnBandeja/PartialDetalleBandeja?' + query;
+    let url = '../AnalisisQuimicoProductoSemielaborado/PartialReporteControl?' + query;
     fetch(url)
         //,body: data
         .then(function (respuesta) {
@@ -121,15 +121,15 @@ function AbrirModalDetalle(IdCabecera, NivelLimpieza) {
                     {
                         date: moment().format("YYYY-MM-DD HH:mm"),
                         format: "DD-MM-YYYY HH:mm",
-                        minDate: moment($('#fechacontrol').val(), "YYYY-MM-DD HH:mm"),
+                        minDate: fecha,
                         maxDate: moment(),
                         ignoreReadonly: true
                     });
 
 
-                config.opcionesDT.pageLength = 10;
-                $('#tblDetalleBandeja').DataTable(config.opcionesDT);
-                if ($('#txtAprobado').val() == 'True') {
+                //config.opcionesDT.pageLength = 10;
+                //$('#tblDetalleBandeja').DataTable(config.opcionesDT);
+                if (estadocontrol == 'True') {
                     $('#btnAprobar').prop('hidden', true);
                     $('#btnReversar').prop('hidden', false);
                     $('#divfechaap').prop('hidden', true);
@@ -151,31 +151,9 @@ function AbrirModalDetalle(IdCabecera, NivelLimpieza) {
             MensajeError(resultado.responseText, false);
 
         })
-    ConsultarFotos(IdCabecera);
-}
-function validarImg(rotacion, id, imagen) {
-
-    $('#' + id).rotate(rotacion);
-    //document.getElementById(id).style.height = "0px";
-    //document.getElementById(id).style.width = "0px";
-
-    var img = new Image();
-    img.onload = function () {
-        //  alert(this.width + 'x' + this.height);
-        var ancho = this.width;
-        var alto = this.height;
-        if (ancho < alto) {
-            document.getElementById(id).style.height = "350px";
-            document.getElementById(id).style.width = "250px";
-        } else {
-            document.getElementById(id).style.height = "250px";
-            document.getElementById(id).style.width = "350px";
-        }
-
-    }
-    img.src = "/Content/Img/" + imagen;
 
 }
+
 function ConfirmarAprobar() {
     if ($('#txtFechaAprob').val() == '') {
         $('#msjerrorfechaaprobacion').prop('hidden', false);
@@ -208,7 +186,7 @@ function AprobarControl() {
     data.append('IdCabecera', IdControlAp);
     data.append('Fecha', moment(fechaingresada._d).format('YYYY-MM-DD HH:mm'));
     //data.append('imagen', image);
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/AprobarControl", {
+    fetch("../AnalisisQuimicoProductoSemielaborado/AprobarControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
@@ -270,7 +248,7 @@ function ReversarControl() {
     const data = new FormData();
     data.append('IdCabecera', IdControlAp);
 
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/ReversarControl", {
+    fetch("../AnalisisQuimicoProductoSemielaborado/ReversarControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {

@@ -61,7 +61,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title"></h4>
+                <h4 class="modal-title">Análisis químico de producto semielaborado</h4>
                 <button type="button" class="close" data-dismiss="modal" id="btnclose">&times;</button>
             </div>
 
@@ -76,29 +76,26 @@
                 </div>
                 
             </div>
-      
-            <div class="text-center"><h5 id="titfoto">Fotos</h5></div>
-            <div class="table-responsive">
-                <div id="spinnerCargandoDetalle2" hidden class="text-center">
-                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                        <span class="sr-only">Cargando...</span>
+            <div class="modal-footer">
+                <div class="form-group" id="divfechaap">
+                    @*<label>Fecha Aprobación:</label>*@
+                    <input type="hidden" id="fechacontrol" value="" />
+
+                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="txtfechaaprob" />
+                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
                     </div>
                 </div>
-                <div id="divdetfotosbandeja" style="height:300px;overflow:auto">
-                    <center>
-                        <table class="table table-bordered">
-                            <tbody id="divTableDetalle2"></tbody>
-                        </table>
-                    </center>
-                </div>
-            </div>
-            <div class="modal-footer">
-                @*<button type="button" class="btn btn-primary" id="btnAprobar" onclick="ConfirmarAprobar()">Aprobar</button>*@
-                <button type="button" class="btn btn-primary" id="btnAprobar" onclick="AprobarControl()">Aprobar</button>
+                <div class="form-group">
+                    @*<button type="button" class="btn btn-primary" id="btnAprobar" onclick="ConfirmarAprobar()">Aprobar</button>*@
+                    <button type="button" class="btn btn-primary" id="btnAprobar" onclick="AprobarControl()">Aprobar</button>
 
-                @*<button type="button" class="btn btn-primary" id="btnReversar" onclick="ConfirmarReversar()" hidden>Reversar</button>*@
-                <button type="button" class="btn btn-primary" id="btnReversar" onclick="ReversarControl()" hidden>Reversar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncerrar">Cerrar</button>
+                    @*<button type="button" class="btn btn-primary" id="btnReversar" onclick="ConfirmarReversar()" hidden>Reversar</button>*@
+                    <button type="button" class="btn btn-primary" id="btnReversar" onclick="ReversarControl()" hidden>Reversar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncerrar">Cerrar</button>
+                </div>
             </div>
 
         </div>

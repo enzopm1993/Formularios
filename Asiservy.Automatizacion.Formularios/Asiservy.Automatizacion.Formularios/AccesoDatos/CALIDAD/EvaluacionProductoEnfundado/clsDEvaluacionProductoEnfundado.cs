@@ -714,5 +714,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return query;
             }
         }
+        public List<spConsultaMovimientoPersonalDiarioxCargo> ConsultarEmpacadores(DateTime Fecha, TimeSpan Hora)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaMovimientoPersonalDiarioxCargo(Fecha, Hora, clsAtributos.CargoEmpacado).ToList();
+            }
+        }
+      
     }
 }
