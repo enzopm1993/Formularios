@@ -433,7 +433,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult EliminarClorinacionDetalle(CC_ANALISIS_AGUA_CLORINACION_DETALLE model)
         {
             try
@@ -484,7 +483,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         #endregion
 
         #region BANDEJA
@@ -571,7 +569,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var lista = ClsAnalisisAguaClorinacionCisterna.ConsultarDetalleClorinacionCisterna(idAnalisisAguaControl, op);
                 if (lista.Count != 0)
                 {
-                    ViewBag.JqueryRotate = "1";
                     return PartialView(lista);
                 }
                 else

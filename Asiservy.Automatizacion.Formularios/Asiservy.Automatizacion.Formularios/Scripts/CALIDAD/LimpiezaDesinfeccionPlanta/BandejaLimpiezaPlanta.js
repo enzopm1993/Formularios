@@ -183,7 +183,7 @@ function validarImg(rotacion, id, imagen) {
         document.getElementById(id).style.height = "240px";
         document.getElementById(id).style.width = "240px";      
     }
-    img.src = "/Content/Img/" + imagen;
+    img.src = $('#btnPath').val() + imagen;
 }
 
 //DATE RANGE PICKER

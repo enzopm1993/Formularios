@@ -88,7 +88,6 @@ function SeleccionarBandeja(model) {
     });
 }
 
-
 function AprobarPendiente(estadoReporte) {
     if ($("#selectEstadoReporte").val() == 'false') {
         var date = new Date();

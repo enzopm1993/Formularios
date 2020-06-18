@@ -89,7 +89,7 @@
 
                                         @foreach (var Menupadre in Padre.Where(x => x.IdModulo == MenusModulos.IdModulo))
                                         {
-                                            <h6 class="collapse-header">@Menupadre.Nombre</h6>
+                                            <h6 class="collapse-header text-primary" style="white-space:normal"><text><b>@Menupadre.Nombre.ToUpper()</b></text></h6>
                                             if (Hijo != null)
                                             {
                                                 foreach (var MenuHijo in Hijo.Where(x => x.Padre == Menupadre.IdOpcion))
@@ -577,7 +577,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=1.7";
+        string url = "/Scripts/" + js + ".js?v=1.8";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         //SCRIPT PARA COMBOS DE BUSQUEDA

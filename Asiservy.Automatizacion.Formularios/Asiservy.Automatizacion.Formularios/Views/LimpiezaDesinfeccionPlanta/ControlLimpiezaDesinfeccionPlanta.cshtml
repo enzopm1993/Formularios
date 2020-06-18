@@ -305,7 +305,7 @@
                         <div class="form-group">
                             <label>AREA AUDITAR</label>
                             @*<select id="selectAreaAuditar" class="form-control js-example-basic-single" onchange="ConsultarIntermidia()"></select>*@
-                            @Html.DropDownList("selectAreaAuditar", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"),  new { @class = "form-control js-example-basic-single", @onchange = "ConsultarIntermidia()" })
+                            @Html.DropDownList("selectAreaAuditar", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"), new { @class = "form-control js-example-basic-single", @onchange = "ConsultarIntermidia()" })
                         </div>
                     </div>
 
@@ -380,3 +380,5 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path"  id="btnPath" />

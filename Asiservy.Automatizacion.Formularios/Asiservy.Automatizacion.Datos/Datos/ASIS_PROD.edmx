@@ -1072,6 +1072,37 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_EQUIPO_AAC">
+          <Key>
+            <PropertyRef Name="IdEquipo" />
+          </Key>
+          <Property Name="IdEquipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGrupo" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_GRUPO_AAC">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_MORETON">
           <Key>
             <PropertyRef Name="IdMoreton" />
@@ -1094,6 +1125,22 @@
           <Property Name="IdOlor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Abreviatura" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_AAC">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="MaximoPermitido" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1169,6 +1216,92 @@
           <Property Name="IdTextura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Abreviatura" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA">
+          <Key>
+            <PropertyRef Name="IdAccion" />
+          </Key>
+          <Property Name="IdAccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdMaterial" Type="int" Nullable="false" />
+          <Property Name="IdMantenimiento" Type="int" Nullable="false" />
+          <Property Name="RutaFoto" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Rotation" Type="int" Nullable="false" />
+          <Property Name="DescripcionAccion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_CTRL">
+          <Key>
+            <PropertyRef Name="IdMaterial" />
+          </Key>
+          <Property Name="IdMaterial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="ObservacionCtrl" Type="varchar" MaxLength="100" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="100" />
+          <Property Name="FechaAprobado" Type="datetime" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_DET">
+          <Key>
+            <PropertyRef Name="IdMaterialDetalle" />
+          </Key>
+          <Property Name="IdMaterialDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdMantenimiento" Type="int" Nullable="false" />
+          <Property Name="IdMantMaterial" Type="int" Nullable="false" />
+          <Property Name="IdMaterial" Type="int" Nullable="false" />
+          <Property Name="EstadoVerificacion" Type="bit" Nullable="false" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="200" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_MANT">
+          <Key>
+            <PropertyRef Name="IdMantenimiento" />
+          </Key>
+          <Property Name="IdMantenimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="TipoVerificacion" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+          <Key>
+            <PropertyRef Name="IdMantMaterial" />
+          </Key>
+          <Property Name="IdMantMaterial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="DescripcionMant" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -3251,6 +3384,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC">
+          <End Role="CC_MANTENIMIENTO_GRUPO_AAC" Type="Self.CC_MANTENIMIENTO_GRUPO_AAC" Multiplicity="1" />
+          <End Role="CC_MANTENIMIENTO_EQUIPO_AAC" Type="Self.CC_MANTENIMIENTO_EQUIPO_AAC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_GRUPO_AAC">
+              <PropertyRef Name="IdGrupo" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_EQUIPO_AAC">
+              <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
+          <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" Type="Self.CC_MATERIAL_QUEBRADIZO_CTRL" Multiplicity="1" />
+          <End Role="CC_MATERIAL_QUEBRADIZO_DET" Type="Self.CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_CTRL">
+              <PropertyRef Name="IdMaterial" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT">
+          <End Role="CC_MATERIAL_QUEBRADIZO_MANT" Type="Self.CC_MATERIAL_QUEBRADIZO_MANT" Multiplicity="1" />
+          <End Role="CC_MATERIAL_QUEBRADIZO_DET" Type="Self.CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_MANT">
+              <PropertyRef Name="IdMantenimiento" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMantenimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+          <End Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Type="Self.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Multiplicity="1" />
+          <End Role="CC_MATERIAL_QUEBRADIZO_DET" Type="Self.CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+              <PropertyRef Name="IdMantMaterial" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMantMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
           <End Role="CC_MONITOREO_DESCONGELADO_CONTROL" Type="Self.CC_MONITOREO_DESCONGELADO_CONTROL" Multiplicity="1" />
           <End Role="CC_MONITOREO_DESCONGELADO" Type="Self.CC_MONITOREO_DESCONGELADO" Multiplicity="*" />
@@ -3829,6 +4010,11 @@
           <Parameter Name="op" Type="int" Mode="In" />
           <Parameter Name="idAuditoria" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Material_Quebradizo_Calidad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idMaterial" Type="int" Mode="In" />
+          <Parameter Name="idArea" Type="int" Mode="In" />
+          <Parameter Name="op" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_obtener_asistenia_inicio_vs_actual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaIni" Type="date" Mode="In" />
           <Parameter Name="fechaFin" Type="date" Mode="In" />
@@ -4406,13 +4592,21 @@
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_CISTERNA" EntityType="Self.CC_MANTENIMIENTO_CISTERNA" Schema="dbo" Table="CC.MANTENIMIENTO_CISTERNA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_COLOR" EntityType="Self.CC_MANTENIMIENTO_COLOR" Schema="dbo" Table="CC.MANTENIMIENTO_COLOR" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_EQUIPO_AAC" EntityType="Self.CC_MANTENIMIENTO_EQUIPO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_EQUIPO_AAC" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_GRUPO_AAC" EntityType="Self.CC_MANTENIMIENTO_GRUPO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_GRUPO_AAC" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_MORETON" EntityType="Self.CC_MANTENIMIENTO_MORETON" Schema="dbo" Table="CC.MANTENIMIENTO_MORETON" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_OLOR" EntityType="Self.CC_MANTENIMIENTO_OLOR" Schema="dbo" Table="CC.MANTENIMIENTO_OLOR" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_AAC" EntityType="Self.CC_MANTENIMIENTO_PARAMETRO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_PARAMETRO_AAC" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PEDILUVIO" EntityType="Self.CC_MANTENIMIENTO_PEDILUVIO" Schema="dbo" Table="CC.MANTENIMIENTO_PEDILUVIO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PROTEINA" EntityType="Self.CC_MANTENIMIENTO_PROTEINA" Schema="dbo" Table="CC.MANTENIMIENTO_PROTEINA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_REACTIVO" EntityType="Self.CC_MANTENIMIENTO_REACTIVO" Schema="dbo" Table="CC.MANTENIMIENTO_REACTIVO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_SABOR" EntityType="Self.CC_MANTENIMIENTO_SABOR" Schema="dbo" Table="CC.MANTENIMIENTO_SABOR" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_TEXTURA" EntityType="Self.CC_MANTENIMIENTO_TEXTURA" Schema="dbo" Table="CC.MANTENIMIENTO_TEXTURA" store:Type="Tables" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" EntityType="Self.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" Schema="dbo" Table="CC.MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" store:Type="Tables" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_CTRL" EntityType="Self.CC_MATERIAL_QUEBRADIZO_CTRL" Schema="dbo" Table="CC.MATERIAL_QUEBRADIZO_CTRL" store:Type="Tables" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_DET" EntityType="Self.CC_MATERIAL_QUEBRADIZO_DET" Schema="dbo" Table="CC.MATERIAL_QUEBRADIZO_DET" store:Type="Tables" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_MANT" EntityType="Self.CC_MATERIAL_QUEBRADIZO_MANT" Schema="dbo" Table="CC.MATERIAL_QUEBRADIZO_MANT" store:Type="Tables" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" EntityType="Self.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Schema="dbo" Table="CC.MATERIAL_QUEBRADIZO_MANT_MATERIAL" store:Type="Tables" />
           <EntitySet Name="CC_MONITOREO_DESCONGELADO" EntityType="Self.CC_MONITOREO_DESCONGELADO" Schema="dbo" Table="CC.MONITOREO_DESCONGELADO" store:Type="Tables" />
           <EntitySet Name="CC_MONITOREO_DESCONGELADO_CONTROL" EntityType="Self.CC_MONITOREO_DESCONGELADO_CONTROL" Schema="dbo" Table="CC.MONITOREO_DESCONGELADO_CONTROL" store:Type="Tables" />
           <EntitySet Name="CC_OPERATIVIDAD_DETECTOR_METAL" EntityType="Self.CC_OPERATIVIDAD_DETECTOR_METAL" Schema="dbo" Table="CC.OPERATIVIDAD_DETECTOR_METAL" store:Type="Tables" />
@@ -4613,6 +4807,22 @@
           <AssociationSet Name="FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA1" Association="Self.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA1">
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" Association="Self.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC">
+            <End Role="CC_MANTENIMIENTO_GRUPO_AAC" EntitySet="CC_MANTENIMIENTO_GRUPO_AAC" />
+            <End Role="CC_MANTENIMIENTO_EQUIPO_AAC" EntitySet="CC_MANTENIMIENTO_EQUIPO_AAC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" Association="Self.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
+            <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" EntitySet="CC_MATERIAL_QUEBRADIZO_CTRL" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" Association="Self.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT">
+            <End Role="CC_MATERIAL_QUEBRADIZO_MANT" EntitySet="CC_MATERIAL_QUEBRADIZO_MANT" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Association="Self.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+            <End Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" EntitySet="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" Association="Self.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
             <End Role="CC_MONITOREO_DESCONGELADO_CONTROL" EntitySet="CC_MONITOREO_DESCONGELADO_CONTROL" />
@@ -5911,12 +6121,6 @@
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" />
           </AssociationSet>
-          <FunctionImport Name="sp_Limpieza_Desinfeccion_Planta" ReturnType="Collection(ASIS_PRODModel.sp_Limpieza_Desinfeccion_Planta)">
-            <Parameter Name="idLimpiezaDesinfeccionPlanta" Mode="In" Type="Int32" />
-            <Parameter Name="turno" Mode="In" Type="String" />
-            <Parameter Name="op" Mode="In" Type="Int32" />
-            <Parameter Name="idAuditoria" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spConsutaEmpleadosCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosCambioPersonal)">
             <Parameter Name="Area" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
@@ -5999,6 +6203,41 @@
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="sp_Limpieza_Desinfeccion_Planta" ReturnType="Collection(ASIS_PRODModel.sp_Limpieza_Desinfeccion_Planta)">
+            <Parameter Name="idLimpiezaDesinfeccionPlanta" Mode="In" Type="Int32" />
+            <Parameter Name="turno" Mode="In" Type="String" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
+            <Parameter Name="idAuditoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_CTRL" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_DET" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_MANT" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" />
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
+            <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" EntitySet="CC_MATERIAL_QUEBRADIZO_CTRL" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT">
+            <End Role="CC_MATERIAL_QUEBRADIZO_MANT" EntitySet="CC_MATERIAL_QUEBRADIZO_MANT" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+            <End Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" EntitySet="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Material_Quebradizo_Calidad" ReturnType="Collection(ASIS_PRODModel.sp_Material_Quebradizo_Calidad)">
+            <Parameter Name="idMaterial" Mode="In" Type="Int32" />
+            <Parameter Name="idArea" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CC_MANTENIMIENTO_EQUIPO_AAC" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" />
+          <EntitySet Name="CC_MANTENIMIENTO_GRUPO_AAC" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC" />
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_AAC" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC" />
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC">
+            <End Role="CC_MANTENIMIENTO_GRUPO_AAC" EntitySet="CC_MANTENIMIENTO_GRUPO_AAC" />
+            <End Role="CC_MANTENIMIENTO_EQUIPO_AAC" EntitySet="CC_MANTENIMIENTO_EQUIPO_AAC" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -11269,32 +11508,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_Limpieza_Desinfeccion_Planta">
-          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdLimpiezaDesinfeccionPlanta" Nullable="false" />
-          <Property Type="Int32" Name="IdMantenimiento" Nullable="false" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="10" />
-          <Property Type="DateTime" Name="HoraAuditoria" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Limpieza" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="Desinfeccion" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="ObservacionDetalle" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="HoraAccionCorrectiva" Nullable="true" Precision="23" />
-          <Property Type="String" Name="PersonaAccionCorrectiva" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="AccionCorrectiva" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="Rotation" Nullable="true" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="IdObjeto" Nullable="false" />
-          <Property Type="Int32" Name="IdAuditoria" Nullable="false" />
-          <Property Type="String" Name="NombreObjeto" Nullable="false" MaxLength="60" />
-          <Property Type="String" Name="NombreAuditoria" Nullable="false" MaxLength="60" />
-        </ComplexType>
         <ComplexType Name="spConsutaEmpleadosCambioPersonal">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -11728,6 +11941,246 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="sp_Limpieza_Desinfeccion_Planta">
+          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdLimpiezaDesinfeccionPlanta" Nullable="false" />
+          <Property Type="Int32" Name="IdMantenimiento" Nullable="false" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="HoraAuditoria" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Limpieza" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="Desinfeccion" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="ObservacionDetalle" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="HoraAccionCorrectiva" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PersonaAccionCorrectiva" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="AccionCorrectiva" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Rotation" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdObjeto" Nullable="false" />
+          <Property Type="Int32" Name="IdAuditoria" Nullable="false" />
+          <Property Type="String" Name="NombreObjeto" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="NombreAuditoria" Nullable="false" MaxLength="60" />
+        </ComplexType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA">
+          <Key>
+            <PropertyRef Name="IdAccion" />
+          </Key>
+          <Property Name="IdAccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdMaterial" Type="Int32" Nullable="false" />
+          <Property Name="IdMantenimiento" Type="Int32" Nullable="false" />
+          <Property Name="RutaFoto" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Rotation" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionAccion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_CTRL">
+          <Key>
+            <PropertyRef Name="IdMaterial" />
+          </Key>
+          <Property Name="IdMaterial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ObservacionCtrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_DET" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" FromRole="CC_MATERIAL_QUEBRADIZO_CTRL" ToRole="CC_MATERIAL_QUEBRADIZO_DET" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_DET">
+          <Key>
+            <PropertyRef Name="IdMaterialDetalle" />
+          </Key>
+          <Property Name="IdMaterialDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdMantenimiento" Type="Int32" Nullable="false" />
+          <Property Name="IdMantMaterial" Type="Int32" Nullable="false" />
+          <Property Name="IdMaterial" Type="Int32" Nullable="false" />
+          <Property Name="EstadoVerificacion" Type="Boolean" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_CTRL" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_CTRL" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_MANT" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_MANT" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_MANT">
+          <Key>
+            <PropertyRef Name="IdMantenimiento" />
+          </Key>
+          <Property Name="IdMantenimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipoVerificacion" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_DET" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" FromRole="CC_MATERIAL_QUEBRADIZO_MANT" ToRole="CC_MATERIAL_QUEBRADIZO_DET" />
+        </EntityType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+          <Key>
+            <PropertyRef Name="IdMantMaterial" />
+          </Key>
+          <Property Name="IdMantMaterial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="DescripcionMant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_DET" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" FromRole="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" ToRole="CC_MATERIAL_QUEBRADIZO_DET" />
+        </EntityType>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Role="CC_MATERIAL_QUEBRADIZO_CTRL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Role="CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_CTRL">
+              <PropertyRef Name="IdMaterial" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT">
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" Role="CC_MATERIAL_QUEBRADIZO_MANT" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Role="CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_MANT">
+              <PropertyRef Name="IdMantenimiento" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMantenimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Role="CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+              <PropertyRef Name="IdMantMaterial" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMantMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_Material_Quebradizo_Calidad">
+          <Property Type="Int32" Name="IdMaterialDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdMantenimiento" Nullable="false" />
+          <Property Type="Int32" Name="IdMantMaterial" Nullable="false" />
+          <Property Type="Int32" Name="IdMaterial" Nullable="false" />
+          <Property Type="Boolean" Name="EstadoVerificacion" Nullable="false" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TipoVerificacion" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="NombreMaterial" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="String" Name="DescripcionMant" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DescripcionAccion" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="IdAccion" Nullable="true" />
+          <Property Type="Int32" Name="Rotation" Nullable="true" />
+          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="CC_MANTENIMIENTO_EQUIPO_AAC">
+          <Key>
+            <PropertyRef Name="IdEquipo" />
+          </Key>
+          <Property Name="IdEquipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGrupo" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_GRUPO_AAC" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" FromRole="CC_MANTENIMIENTO_EQUIPO_AAC" ToRole="CC_MANTENIMIENTO_GRUPO_AAC" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_GRUPO_AAC">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_EQUIPO_AAC" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" FromRole="CC_MANTENIMIENTO_GRUPO_AAC" ToRole="CC_MANTENIMIENTO_EQUIPO_AAC" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_AAC">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="MaximoPermitido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC" Role="CC_MANTENIMIENTO_GRUPO_AAC" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Role="CC_MANTENIMIENTO_EQUIPO_AAC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_GRUPO_AAC">
+              <PropertyRef Name="IdGrupo" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_EQUIPO_AAC">
+              <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17033,36 +17486,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Limpieza_Desinfeccion_Planta" FunctionName="ASIS_PRODModel.Store.sp_Limpieza_Desinfeccion_Planta">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Limpieza_Desinfeccion_Planta">
-                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
-                <ScalarProperty Name="IdLimpiezaDesinfeccionPlanta" ColumnName="IdLimpiezaDesinfeccionPlanta" />
-                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="HoraAuditoria" ColumnName="HoraAuditoria" />
-                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
-                <ScalarProperty Name="Desinfeccion" ColumnName="Desinfeccion" />
-                <ScalarProperty Name="ObservacionDetalle" ColumnName="ObservacionDetalle" />
-                <ScalarProperty Name="HoraAccionCorrectiva" ColumnName="HoraAccionCorrectiva" />
-                <ScalarProperty Name="PersonaAccionCorrectiva" ColumnName="PersonaAccionCorrectiva" />
-                <ScalarProperty Name="AccionCorrectiva" ColumnName="AccionCorrectiva" />
-                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
-                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
-                <ScalarProperty Name="IdAuditoria" ColumnName="IdAuditoria" />
-                <ScalarProperty Name="NombreObjeto" ColumnName="NombreObjeto" />
-                <ScalarProperty Name="NombreAuditoria" ColumnName="NombreAuditoria" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsutaEmpleadosCambioPersonal" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosCambioPersonal">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosCambioPersonal">
@@ -17417,6 +17840,206 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Limpieza_Desinfeccion_Planta" FunctionName="ASIS_PRODModel.Store.sp_Limpieza_Desinfeccion_Planta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Limpieza_Desinfeccion_Planta">
+                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="IdLimpiezaDesinfeccionPlanta" ColumnName="IdLimpiezaDesinfeccionPlanta" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="HoraAuditoria" ColumnName="HoraAuditoria" />
+                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+                <ScalarProperty Name="Desinfeccion" ColumnName="Desinfeccion" />
+                <ScalarProperty Name="ObservacionDetalle" ColumnName="ObservacionDetalle" />
+                <ScalarProperty Name="HoraAccionCorrectiva" ColumnName="HoraAccionCorrectiva" />
+                <ScalarProperty Name="PersonaAccionCorrectiva" ColumnName="PersonaAccionCorrectiva" />
+                <ScalarProperty Name="AccionCorrectiva" ColumnName="AccionCorrectiva" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
+                <ScalarProperty Name="IdAuditoria" ColumnName="IdAuditoria" />
+                <ScalarProperty Name="NombreObjeto" ColumnName="NombreObjeto" />
+                <ScalarProperty Name="NombreAuditoria" ColumnName="NombreAuditoria" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA">
+              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="DescripcionAccion" ColumnName="DescripcionAccion" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_CTRL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL">
+              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_CTRL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="ObservacionCtrl" ColumnName="ObservacionCtrl" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_DET">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET">
+              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_DET">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="EstadoVerificacion" ColumnName="EstadoVerificacion" />
+                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+                <ScalarProperty Name="IdMantMaterial" ColumnName="IdMantMaterial" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+                <ScalarProperty Name="IdMaterialDetalle" ColumnName="IdMaterialDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_MANT">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT">
+              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_MANT">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TipoVerificacion" ColumnName="TipoVerificacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="DescripcionMant" ColumnName="DescripcionMant" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdMantMaterial" ColumnName="IdMantMaterial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Material_Quebradizo_Calidad" FunctionName="ASIS_PRODModel.Store.sp_Material_Quebradizo_Calidad">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Material_Quebradizo_Calidad">
+                <ScalarProperty Name="IdMaterialDetalle" ColumnName="IdMaterialDetalle" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
+                <ScalarProperty Name="IdMantMaterial" ColumnName="IdMantMaterial" />
+                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+                <ScalarProperty Name="EstadoVerificacion" ColumnName="EstadoVerificacion" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="TipoVerificacion" ColumnName="TipoVerificacion" />
+                <ScalarProperty Name="NombreMaterial" ColumnName="NombreMaterial" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="DescripcionMant" ColumnName="DescripcionMant" />
+                <ScalarProperty Name="DescripcionAccion" ColumnName="DescripcionAccion" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_EQUIPO_AAC">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_EQUIPO_AAC">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_GRUPO_AAC">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_GRUPO_AAC">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_PARAMETRO_AAC">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_PARAMETRO_AAC">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="MaximoPermitido" ColumnName="MaximoPermitido" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

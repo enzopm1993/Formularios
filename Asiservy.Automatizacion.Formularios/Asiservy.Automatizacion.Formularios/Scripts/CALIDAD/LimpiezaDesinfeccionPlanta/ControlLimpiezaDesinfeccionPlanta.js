@@ -686,30 +686,18 @@ function EditarAccionCorrectiva() {
     if (accionCorrectiva.RutaFoto != null && accionCorrectiva.RutaFoto != '') {
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + accionCorrectiva.RutaFoto;
+        filePreview.src = $('#btnPath').val() + accionCorrectiva.RutaFoto;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
         $("#file-preview").addClass("img");
         $('#file-preview').rotate(parseInt(accionCorrectiva.Rotation));
-        document.getElementById("file-preview").style.height = "0px";
-        document.getElementById("file-preview").style.width = "0px";
 
         var img = new Image();
-        img.onload = function () {
-            var ancho = this.width;
-            var alto = this.height;
-            if (ancho < alto) {
-                document.getElementById("file-preview").style.height = "250px";
-                document.getElementById("file-preview").style.width = "250px";
-            } else {
-                document.getElementById("file-preview").style.height = "250px";
-                document.getElementById("file-preview").style.width = "250px";
-            }
-            $("#ModalGenerarControlDetalle2").modal("show");
-        }
-        img.src = "/Content/Img/" + accionCorrectiva.RutaFoto;
-    } 
+        document.getElementById("file-preview").style.height = "250px";
+        document.getElementById("file-preview").style.width = "250px";
+        img.src = $('#btnPath').val() + accionCorrectiva.RutaFoto;
+    }
 }
 
 function readFile(input) {

@@ -93,27 +93,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCl
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var listaDetalleDia = db.sp_Analisis_Agua_Clorinacion(idAnalisisAguaControl, op).ToList();
-                return listaDetalleDia;
-                //var lista = db.CC_ANALISIS_AGUA_CLORINACION_DETALLE.Where(v=> v.IdAnalisisAguaControl== cabecera.IdAnalisisAguaControl).ToList();
-                //List<CC_ANALISIS_AGUA_CLORINACION_DETALLE> listaDetalle = new List<CC_ANALISIS_AGUA_CLORINACION_DETALLE>();
-                //CC_ANALISIS_AGUA_CLORINACION_DETALLE detalle;
-                //foreach (var item in lista)
-                //{
-                //    detalle = new CC_ANALISIS_AGUA_CLORINACION_DETALLE();
-                //    detalle.IdAnalisisAguaControl = item.IdAnalisisAguaControl;
-                //    detalle.IdAnalisisAguaDetalle = item.IdAnalisisAguaDetalle;
-                //    detalle.IdCisterna = item.IdCisterna;
-                //    detalle.CL = item.CL;
-                //    detalle.DT = item.DT;
-                //    detalle.STD = item.STD;
-                //    detalle.FechaIngresoLog = item.FechaIngresoLog;
-                //    detalle.Hora = item.Hora;
-                //    detalle.UsuarioIngresoLog = item.UsuarioIngresoLog;
-                //    detalle.UsuarioModificacionLog = item.UsuarioModificacionLog;
-                //    detalle.FechaModificacionLog = item.FechaModificacionLog;
-                //    listaDetalle.Add(detalle);
-                //}
-                //return listaDetalle;
+                return listaDetalleDia;               
             }
         }
         public int GuardarModificarClorinacionCisterna(CC_ANALISIS_AGUA_CLORINACION_CONTROL guardarModificar, int siAprobar)

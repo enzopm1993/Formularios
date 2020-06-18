@@ -139,7 +139,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 clsDMantenimientoOlor.EliminarMantenimientoOlor(model);
-                return Json("1", JsonRequestBehavior.AllowGet); ;
+                return Json("1", JsonRequestBehavior.AllowGet); 
             }
             catch (DbEntityValidationException e)
             {

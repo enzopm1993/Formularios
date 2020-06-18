@@ -156,7 +156,7 @@ function validarImg(rotacion, id, imagen) {
         document.getElementById(id).style.height = "320px";
         document.getElementById(id).style.width = "320px";
     }
-    img.src = "/Content/Img/" + imagen;
+    img.src = $('#btnPath').val()+ imagen;
 }
 
 //FECHA DataRangePicker

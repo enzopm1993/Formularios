@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Material_Quebradizo_Calidad>
+@using Newtonsoft.Json;
+<table class="table table-secondary">
+    <tr>
+        <th>IMAGENES GUARDADAS</th>
+    </tr>
+    @*AGRUPAR LOS DATOS POR IdAccion*@
+    @{ 
+        var listaAccionCorrectiva = (from x in Model
+                                     group x by new { x.DescripcionAccion, x.IdAccion, x.RutaFoto, x.Rotation} into v
+                                     select new { v.Key.DescripcionAccion, v.Key.IdAccion, v.Key.RutaFoto,v.Key.Rotation}).ToList();
+    }
+    @foreach (var item in listaAccionCorrectiva) 
+    {
+        if (item.RutaFoto != null)
+        {
+            <tr class="text-center imgImprimir">
+                <td style="white-space:normal">                   
+                    <div id="header_@item.IdAccion">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdAccion" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                        
+                    </div>
+
+                    <script>
+                            validarImg('@item.Rotation','@item.IdAccion','@item.RutaFoto');
+                    </script>
+                    <div>
+                        <label class="card-text" style="color:black;font-size:11px;"><b>ACCION CORRECTIVA: </b> @item.DescripcionAccion.ToUpper()</label><br />
+                    </div>
+                </td>
+                <td>
+                    @{ 
+                        
+                        var json = JsonConvert.SerializeObject(Model.Where(x=>x.IdAccion== item.IdAccion).First());
+                    }
+                    <button id="btnEliminarAC" class="btn btn-link " style="font-size:13px" onclick="EliminarConfirmarAccionCorrectiva(@json)">Eliminar</button><br />
+                    <button id="bntEditarAC" class="btn btn-link " style="font-size:13px" onclick="EditarAccionCorrectiva(@json)">Editar</button>
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>
+<style>
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+        img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
+
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />

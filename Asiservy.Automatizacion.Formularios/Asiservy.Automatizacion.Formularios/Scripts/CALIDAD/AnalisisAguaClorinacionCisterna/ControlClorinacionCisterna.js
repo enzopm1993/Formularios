@@ -11,13 +11,13 @@ $(document).ready(function () {
 function MascaraInputs() {   
     $('#txtStd').val('');
     $('#txtStd').css('border', '');
-    $('#txtStd').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '999.99' });
+    $('#txtStd').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99' , 'min':'0'});
     $('#txtDt').val('');
     $('#txtDt').css('border', '');
-    $('#txtDt').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '999.99' });
+    $('#txtDt').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99', 'min': '0' });
     $('#txtCl').val('');
     $('#txtCl').css('border', '');
-    $('#txtCl').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '999.99' });
+    $('#txtCl').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99', 'min': '0' });
 }
 
 function ConsultarEstadoRegistro() {
@@ -162,10 +162,10 @@ function EliminarCabeceraSi() {
         } else {
 
             $.ajax({
-                url: "../LimpiezaDesinfeccionPlanta/EliminarLimpiezaCabecera",
+                url: "../AnalisisAguaClorinacionCisterna/EliminarClorinacionCisterna",
                 type: "POST",
                 data: {
-                    IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta
+                    IdAnalisisAguaControl: itemEditar.IdAnalisisAguaControl
                 },
                 success: function (resultado) {
                     if (resultado == "101") {
@@ -191,7 +191,7 @@ function EliminarCabeceraSi() {
                 },
                 error: function (resultado) {
                     $('#cargac').hide();
-                    MensajeError(resultado.responseText, false);
+                    MensajeError(Mensajes.Error, false);
                 }
             });
         }
@@ -269,7 +269,8 @@ function CargarDetalle() {
             }
             $('#cargac').hide();
         },
-        error: function () {
+        error: function (resultado) {
+            console.log(resultado.responseText, false)
             $('#cargac').hide();
             MensajeError(Mensajes.Error, false);
         }
@@ -350,15 +351,20 @@ function GuardarDetalle() {
 
 function ActualizarDetalle(jdata) {
     ModalIngresoDetalle();
+    document.getElementById('txtIngresoFechaDetalle').value = moment(jdata.Hora).format('HH:mm');
     $('#cargac').show();     
-    document.getElementById('txtStd').value = jdata.STD;
-    document.getElementById('txtDt').value = jdata.DT;
-    document.getElementById('txtCl').value = jdata.CL;
+    if (jdata.STD!=null)
+        document.getElementById('txtStd').value = jdata.STD;
+    if (jdata.DT!=null)
+        document.getElementById('txtDt').value = jdata.DT;
+    if (jdata.CL!=null)
+        document.getElementById('txtCl').value = jdata.CL;
+
     $('#selectCisterna').val(jdata.IdCisterna).trigger('change');
     itemDetalle = jdata;
     siActualizar = true;
     $('#cargac').hide();
-    document.getElementById('txtIngresoFechaDetalle').value = moment(jdata.Hora).format('HH:mm');
+    
 }
 
 function CambiarMensajeEstado(estadoReporteParametro) {
@@ -440,9 +446,9 @@ function LimpiarDetalle() {
     MascaraInputs();
     var date = new Date();
     $('#txtIngresoFechaDetalle').val(moment(date).format('HH:mm'));
-    $('#txtStd').val('');
-    $('#txtDt').val('');
-    $('#txtCl').val('');
+    //$('#txtStd').val('');
+    //$('#txtDt').val('');
+    //$('#txtCl').val('');
     itemDetalle = [];
 }
 
