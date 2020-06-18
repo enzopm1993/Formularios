@@ -31,6 +31,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         ClsDMantenimientoMoreton ClsDMantenimientoMoreton { get; set; } = null;
         clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
         clsDEmpleado clsDEmpleado { get; set; } = null;
+ 
         // GET: EvaluacionProductoEnfundado
         protected void SetSuccessMessage(string message)
         {
@@ -62,7 +63,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDClasificador = new clsDClasificador();
                 var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x => x.Codigo);
                 //var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
-                ViewBag.Empacadores = new SelectList(clsDEmpleado.ConsultaEmpleadosFiltro(null, null, clsAtributos.CargoEmpacado),"CEDULA","NOMBRES");
+
+                //ViewBag.Empacadores = new SelectList(clsDEmpleado.ConsultaEmpleadosFiltro(null, null, clsAtributos.CargoEmpacado),"CEDULA","NOMBRES");
+
                 var Olor = clsDMantenimientoOlor.ConsultaManteminetoOlor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Textura = clsDMantenimientoTextura.ConsultaManteminetoTextura().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Sabor = clsDMantenimientoSabor.ConsultaManteminetoSabor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
@@ -1017,6 +1020,44 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 List<CabeceraEvaluacionProductoEnfundadoViewModel> Respuesta = clsDEvaluacionProductoEnfundado.ConsultarCabReportes(FechaDesde, FechaHasta);
+                if (Respuesta.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ConsultarEmpacadores(DateTime Fecha, TimeSpan Hora)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                List<spConsultaMovimientoPersonalDiarioxCargo> Respuesta = clsDEvaluacionProductoEnfundado.ConsultarEmpacadores(Fecha,Hora);
                 if (Respuesta.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

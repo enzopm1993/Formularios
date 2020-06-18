@@ -4147,6 +4147,8 @@
     <Content Include="Views\AnalisisQuimicoProductoSemielaborado\BandejaAprobadosAnalisisQuimicoProductoSemiElaboradoPartial.cshtml" />
     <Content Include="Views\KardexReactivo\ReporteKardexReactivo.cshtml" />
     <Content Include="Views\KardexReactivo\ReporteKardexReactivoPartial.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\PartialReporteControl.cshtml" />
+    <Content Include="Views\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.cshtml" />
     <Content Include="Views\MaterialQuebradizo\MantenimientoMaterialQuebradizo.cshtml" />
     <Content Include="Views\MaterialQuebradizo\MantenimientoMaterialQuebradizoPartial.cshtml" />
     <Content Include="Views\MaterialQuebradizo\MantenimientoMaterial.cshtml" />

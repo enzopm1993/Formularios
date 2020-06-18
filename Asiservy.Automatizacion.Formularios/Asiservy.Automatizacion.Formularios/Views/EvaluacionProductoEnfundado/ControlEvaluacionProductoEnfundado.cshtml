@@ -283,14 +283,17 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="time" id="txtHora" class=" form-control" />
+                                <input type="time" id="txtHora" class=" form-control" onchange="LlenarComboEmpacadores()"/>
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Empacador/a</label>
-                                @Html.DropDownList("cmbEmpacador", (IEnumerable<SelectListItem>)ViewBag.Empacadores, "Seleccione..", new { @class = "form-control" })
+                                @*@Html.DropDownList("cmbEmpacador", (IEnumerable<SelectListItem>)ViewBag.Empacadores, "Seleccione..", new { @class = "form-control" })*@
+                                <select class="form-control" id="cmbEmpacador">
+                                    <option>Seleccione..</option>
+                                </select>
                                 <label id="msjempacador" class="text-danger" hidden>Debe ingresar una línea</label>
                             </div>
                         </div>
