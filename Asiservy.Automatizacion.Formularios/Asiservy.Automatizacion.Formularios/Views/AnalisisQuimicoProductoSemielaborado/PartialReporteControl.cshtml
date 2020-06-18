@@ -1,5 +1,15 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.SPReporteAnalisisQuimicoProductoSe>
-
+<style>
+    #tblparametro td {
+        padding: 0rem;
+        font-size: 0.6rem;
+    }
+ 
+    #tblparametro th {
+        padding: 0rem;
+        font-size: 0.6rem;
+    }
+</style>
 @{ 
     var Lista = (from m in Model
                  select new { m.Proveedor, m.OrdenFabricacion, m.Lote, m.Especie, m.Talla,m.Cliente}).Distinct().ToList();
@@ -168,37 +178,59 @@
         
        
         </div>
-        <div class="card-footer divFooter" id="divfoot">
-            <center>
-                <table>
+            <div class="card-footer divFooter" id="divfoot">
+                <table id="tblparametro" border="1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">MIN</th>
+                            <th class="text-center">MAX</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr>
-                            <td class="text-center">
-                                <label id="lblUsuarioIngreso"></label>
-                                @*@Model.FirstOrDefault().UsuarioIngresoLog*@
-                                <br />
-                                <input type="text" value="Realizado Por" id="realizado" />
-                                <br />
-                                <label id="lblFechaIngreso"></label>
-                                @*@Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")*@
-                            </td>
-                            <td>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                            <td class="text-center">
-                                <label id="lblAprobadoPor"></label>
-                                @*@Model.FirstOrDefault().AprobadoPor*@
-                                <br />
-                                <input type="text" value="Revisado Por" id="revisado" />
-                                <br />
-                                    <label id="lblFechaAprobacion"></label>
-                            </td>
+                            <td>HISTAMINA</td>
+                            <td>3.61</td>
+                            <td>8.4</td>
+                        </tr>
+                        <tr>
+                            <td>HUMEDAD</td>
+                            <td>67.48</td>
+                            <td>69.92</td>
                         </tr>
                     </tbody>
-
                 </table>
-            </center>
-        </div>
+                <center>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    <label id="lblUsuarioIngreso"></label>
+                                    @*@Model.FirstOrDefault().UsuarioIngresoLog*@
+                                    <br />
+                                    <input type="text" value="Realizado Por" id="realizado" />
+                                    <br />
+                                    <label id="lblFechaIngreso"></label>
+                                    @*@Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")*@
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td class="text-center">
+                                    <label id="lblAprobadoPor"></label>
+                                    @*@Model.FirstOrDefault().AprobadoPor*@
+                                    <br />
+                                    <input type="text" value="Revisado Por" id="revisado" />
+                                    <br />
+                                    <label id="lblFechaAprobacion"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </center>
+            </div>
     </div>
 </div>
 </div>

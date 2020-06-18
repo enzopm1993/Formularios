@@ -134,7 +134,7 @@ function CargarCabReportes() {
                 });
                 config.opcionesDT.columnDefs = [
                     {
-                        "targets": [0],
+                        "targets": [0,3],
                         "visible": false,
                         "searchable": false
                     }
