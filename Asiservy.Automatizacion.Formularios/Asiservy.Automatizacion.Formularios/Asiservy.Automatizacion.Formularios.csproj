@@ -2254,6 +2254,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoEquipoAac\MantenimientoEquipoAac.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoGrupoAac\MantenimientoGrupo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoMoretones\MantenimientoMoreton.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
@@ -3441,6 +3442,7 @@
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoEquipoAac\ClsdMantenimientoEquipoAac.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoGrupoAac\ClsdMantenimientoGrupoAac.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoMoretones\ClsDMantenimientoMoretones.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoParametroAac\ClsdMantenimientoParametroAac.cs" />
@@ -3538,6 +3540,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
@@ -4167,6 +4170,8 @@
     <Content Include="Views\MantenimientoParametroAac\MantenimientoParametroAacPartial.cshtml" />
     <Content Include="Views\MantenimientoGrupoAac\MantenimientoGrupo.cshtml" />
     <Content Include="Views\MantenimientoGrupoAac\MantenimientoGrupoPartial.cshtml" />
+    <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAac.cshtml" />
+    <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAacPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
