@@ -189,6 +189,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_DET> CC_MATERIAL_QUEBRADIZO_DET { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_MANT> CC_MATERIAL_QUEBRADIZO_MANT { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL> CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_EQUIPO_AAC> CC_MANTENIMIENTO_EQUIPO_AAC { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_GRUPO_AAC> CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_AAC> CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

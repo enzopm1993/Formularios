@@ -238,6 +238,10 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Width="1.5" PointX="49" PointY="1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC" Width="1.5" PointX="46.75" PointY="1.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC" Width="1.5" PointX="0.75" PointY="45.75" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
