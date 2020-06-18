@@ -133,7 +133,7 @@ function EliminarCabeceraNo() {
 
 function ActualizarCabecera(jdata) {
     if (jdata.EstadoRegistro != 'I') {
-        $("#txtNombre").prop('disabled', true);
+        //$("#txtNombre").prop('disabled', true);
         $("#txtNombre").val(jdata.Nombre);
         $("#txtDescripcion").val(jdata.Descripcion);
         $('#ModalIngresoCabecera').modal('show');
@@ -145,7 +145,7 @@ function ActualizarCabecera(jdata) {
 }
 
 function ModalIngresoCabecera() {
-    $("#txtNombre").prop('disabled', false);
+    //$("#txtNombre").prop('disabled', false);
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = [];
