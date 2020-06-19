@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdTemperaturaInternaRefrigeradora { get; set; }
         public int IdTemperaturaInternaRefrigeradoraControl { get; set; }
-        public System.DateTime Hora { get; set; }
+        public System.TimeSpan Hora { get; set; }
         public int Temperatura { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
