@@ -611,6 +611,9 @@
         string url = "/Scripts/" + js + ".js?v=1.8";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
+        <script>
+            $.fn.select2.defaults.set("theme", "classic");
+        </script>
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>
             <link href="~/Content/css/select2.css" rel="stylesheet" />*@
