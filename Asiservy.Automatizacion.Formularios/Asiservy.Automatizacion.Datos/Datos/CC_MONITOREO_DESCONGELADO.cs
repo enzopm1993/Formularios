@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
-        public System.DateTime Hora { get; set; }
+        public System.TimeSpan Hora { get; set; }
         public string Tipo { get; set; }
         public Nullable<decimal> TemperaturaAgua { get; set; }
         public decimal Muestra1 { get; set; }

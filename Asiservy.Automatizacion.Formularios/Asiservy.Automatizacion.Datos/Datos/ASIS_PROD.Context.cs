@@ -152,7 +152,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_HORA> CC_CUCHILLOS_PREPARACION_HORA { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_MORETON> CC_MANTENIMIENTO_MORETON { get; set; }
-        public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
@@ -192,6 +191,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
+        public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1403,15 +1403,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveEsterilizacion>("spConsultaCocheAutoclaveEsterilizacion", fechaParameter, turnoParameter, idcabEsterilizacionParameter);
         }
     
-        public virtual ObjectResult<spConsultaMonitoreoDescongelado> spConsultaMonitoreoDescongelado(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
-        }
-    
         public virtual ObjectResult<spObtieneMarcaciones_Empleado_Result> spObtieneMarcaciones_Empleado(Nullable<System.DateTime> fecha_ini, Nullable<System.DateTime> fecha_fin, string cedula, string tipo)
         {
             var fecha_iniParameter = fecha_ini.HasValue ?
@@ -1818,19 +1809,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
-        }
-    
-        public virtual ObjectResult<spReporteResidualCloro> spReporteResidualCloro(Nullable<System.DateTime> fecha, string area)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var areaParameter = area != null ?
-                new ObjectParameter("Area", area) :
-                new ObjectParameter("Area", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteResidualCloro>("spReporteResidualCloro", fechaParameter, areaParameter);
         }
     
         public virtual ObjectResult<spConsultaResidualCloroDetalle> spConsultaResidualCloroDetalle(Nullable<int> idControl)
@@ -2269,6 +2247,28 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Area", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaResidualCloro>("spConsultaResidualCloro", fechaParameter, areaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteResidualCloro> spReporteResidualCloro(Nullable<System.DateTime> fecha, string area)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteResidualCloro>("spReporteResidualCloro", fechaParameter, areaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMonitoreoDescongelado> spConsultaMonitoreoDescongelado(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
         }
     }
 }

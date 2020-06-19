@@ -179,9 +179,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="11.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MORETON" Width="1.5" PointX="42.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="45.625" PointY="10.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Width="1.5" PointX="43.375" PointY="10.875" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_CTRL" Width="1.5" PointX="40.375" PointY="41" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="46.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" Width="1.5" PointX="43.375" PointY="21" />
@@ -242,6 +240,8 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO" Width="1.5" PointX="7.375" PointY="60" />
         <AssociationConnector Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="45.625" PointY="10.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
