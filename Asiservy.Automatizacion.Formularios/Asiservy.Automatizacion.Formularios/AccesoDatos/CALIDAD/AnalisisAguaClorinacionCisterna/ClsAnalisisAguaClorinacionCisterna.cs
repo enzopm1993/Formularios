@@ -47,6 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCl
                     }
                     else
                     {
+                        model.NombreCisterna = guardarmodificar.NombreCisterna;
                         model.DescripcionCisterna = guardarmodificar.DescripcionCisterna;
                         model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;

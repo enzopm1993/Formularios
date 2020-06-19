@@ -3438,6 +3438,7 @@
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionProductoEnfundado\clsDEvaluacionProductoEnfundado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\HigieneComedorCocina\clsDHigieneComedorCocina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\KardexReactivo\ClsdKardexReactivo.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\ClsDLaboratorioAnalisisQuimico.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LimpiezaDesinfeccionPlanta\clsDLimpiezaDesinfeccionPlanta.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
@@ -3540,6 +3541,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\LaboratorioAnalisisQuimicoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
@@ -4180,12 +4182,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\LaboratorioAnalisisQuimico\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
