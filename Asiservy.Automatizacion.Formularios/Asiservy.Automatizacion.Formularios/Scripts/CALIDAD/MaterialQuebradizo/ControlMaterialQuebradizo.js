@@ -261,7 +261,7 @@ function CargarDetalle() {
                 $('#selectVerificacion').prop('disabled', false);
             } else {
                 $('#divMostarTablaDetallesVer').prop('hidden', false);
-                $('#divBotonCrearDetalle').prop('hidden',true);
+                //$('#divBotonCrearDetalle').prop('hidden',true);
                 $('#divMostarTablaDetallesVer').html(resultado);
             }
             $('#cargac').hide();
@@ -372,7 +372,7 @@ async function ActualizarDetalle(jModel) {
     ModalIngresoDetalle();    
     $('#cargac').show();
     setTimeout(function () {
-        $('#selectVerificacion').prop('disabled', true);
+        //$('#selectVerificacion').prop('disabled', true);
         jModel.forEach(function (rowModel) {
             $('#checkMateriales_' + rowModel.IdMantenimiento + '_' + rowModel.IdMantMaterial).prop('checked', rowModel.EstadoVerificacion);
             document.getElementById('txtObservacion_' + rowModel.IdMantenimiento).value = rowModel.Observaciones;
