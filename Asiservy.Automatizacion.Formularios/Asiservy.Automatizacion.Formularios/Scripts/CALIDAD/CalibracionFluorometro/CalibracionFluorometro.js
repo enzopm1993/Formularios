@@ -10,7 +10,7 @@ function MascaraInputs() {
     json.forEach(function (row) {
         $('#Estandar_' + row.IdEstandar).val('');
         $('#Estandar_' + row.IdEstandar).css('border', '');
-        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '999.99' });
+        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99' });
     });
 }
 
@@ -97,6 +97,8 @@ function GuardarCabecera(siAprobar) {
                 return;
             } else if (resultado == 5) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            } else if (resultado == 6) {
+                MensajeAdvertencia('¡No existen ESTANDARES ingresados!', 5);
             }
             $('#ModalIngresoCabecera').modal('hide');
             $('#divMostarTablaDetalle').prop('hidden', false);
