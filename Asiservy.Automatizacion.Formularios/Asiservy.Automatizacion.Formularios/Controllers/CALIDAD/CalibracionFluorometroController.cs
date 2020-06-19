@@ -311,10 +311,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                if (detalle.Count == 0)
+                if (detalle ==null || detalle.Count == 0)
                 {
                     return Json("6", JsonRequestBehavior.AllowGet);//SIN DETALLE
                 }
+
                 if (siAprobar)
                 {
                     var estadoReporte = ClsDCalibracionFluorometro.ConsultarCalibracionFluorIdFecha(model.IdCalibracionFluor);

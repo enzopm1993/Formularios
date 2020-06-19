@@ -95,7 +95,6 @@
                 <h4 class="modal-title" id="myModalLabel"></h4>
                 <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
@@ -120,21 +119,30 @@
                     <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
                         <div class="form-group">
                             <label>COEFICIENTE DETERMINACION</label>
-                            <input type="text" name="name" value="" id="txtCoeficiente" autofocus class="form-control" onchange="OnChangeTextBox()"/>
+                            <input type="text" name="name" value="" id="txtCoeficiente" autofocus class="form-control" onchange="OnChangeTextBox()" />
                         </div>
                     </div>
-
-                    @foreach (var item in ViewBag.ListaEstandar)
+                    @if (ViewBag.ListaEstandar.Count > 0)
+                    {
+                        foreach (var item in ViewBag.ListaEstandar)
+                        {
+                            <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
+                                <div class="form-group">
+                                    <label>@item.NombEstandar.ToUpper()</label>
+                                    <input type="tel" name="name" value="" id="Estandar_@item.IdEstandar" maxlength="8" class="form-control" onchange="OnChangeTextBox()" />
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
                     {
                         <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
                             <div class="form-group">
-                                <label>@item.NombEstandar.ToUpper()</label>
-                                <input type="text" name="name" value=""id="Estandar_@item.IdEstandar" class="form-control" onchange="OnChangeTextBox()"/>
-                                
+                                <label><span class="badge badge-danger">NO EXISTEN ESTANDARES INGRESADOS</span></label>                                
                             </div>
                         </div>
                     }
-                    <input type="hidden" id="inpTotalEstandar" value="@json"/>
+                    <input type="hidden" id="inpTotalEstandar" value="@json" />
                     <div class="col-md-12 col-12 col-sm-12" style="font-size:12px">
                         <div class="form-group">
                             <label>FECHA-HORA</label>
@@ -147,9 +155,7 @@
                             <input type="text" disabled name="name" value="@ViewBag.Analista" id="txtAnalista" class="form-control" />
                         </div>
                     </div>
-
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(false)" id="btnGenerarControlRegistro">Guardar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Limpiar()">Cancelar</button>

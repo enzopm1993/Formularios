@@ -27,35 +27,39 @@
             var itemColumna = (from x in Model
                                where x.Hora == subListaHora.Hora
                                select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora }).ToList();
-            <tr>
-                <td>
-                    @subListaHora.Hora
-                </td>
-                @foreach (var lc in listaColumnasCabecera)
-                {
+        <tr>
+            <td>
+                @subListaHora.Hora
+            </td>
+            @foreach (var lc in listaColumnasCabecera)
+            {
 
-                    int dibujarTDDiNo = 0;
-                    foreach (var ic in itemColumna)
+                int dibujarTDDiNo = 0;
+                foreach (var ic in itemColumna)
+                {
+                    if (ic.CodigoLinea == lc.Codigo)
                     {
-                        if (ic.CodigoLinea == lc.Codigo)
+                        dibujarTDDiNo = 1;
+                        if (ic.EstadoCumplimiento == true)
                         {
-                            dibujarTDDiNo = 1;
-                            if (ic.EstadoCumplimiento == true)
-                            {
-                                <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
-                            }
-                            else if (ic.EstadoCumplimiento == false)
-                            {
-                                <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
-                            }
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
+                        }
+                        else if (ic.EstadoCumplimiento == false)
+                        {
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
+                        }
+                        else if (ic.EstadoCumplimiento == null)
+                        {
+                            <td><center><span class="badge badge-info">N/A</span></center></td>
                         }
                     }
-                    if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
-                    {
-                        <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>
-                    }
-                }                
-            </tr>
+                }
+                if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
+                {
+                    <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>
+                }
+            }
+        </tr>
         }
     </tbody>
 </table>

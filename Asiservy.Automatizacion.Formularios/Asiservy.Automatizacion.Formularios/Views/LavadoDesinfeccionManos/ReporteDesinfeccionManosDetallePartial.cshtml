@@ -50,13 +50,13 @@
                 @subListaHora.Hora.ToString("HH:mm")
             </td>
             @*@if (!string.IsNullOrEmpty(subListaHora.Observacion))
-            {
-                <td>@subListaHora.Observacion.ToUpper()</td>
-            }
-            else
-            {
-                <td></td>
-            }*@
+        {
+            <td>@subListaHora.Observacion.ToUpper()</td>
+        }
+        else
+        {
+            <td></td>
+        }*@
             @foreach (var lc in listaColumnasCabecera)
             {
                 int dibujarTDDiNo = 0;
@@ -73,6 +73,10 @@
                         {
                             <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
                         }
+                        else if (ic.EstadoCumplimiento == null)
+                        {
+                            <td><center><span class="badge badge-info">N/A</span></center></td>
+                        }
                     }
                     usuarioAprobacion = ic.UsuarioModificacionLog;
                     estadoReporte = ic.EstadoReporteCB;
@@ -81,7 +85,7 @@
                 {
                     <td id="@lc.Codigo"><span class="badge badge-primary">SIN DATOS</span></td>
                 }
-            }           
+            }
         </tr>
         }
     </tbody>
