@@ -1400,7 +1400,7 @@
           </Key>
           <Property Name="IdOperatividadMetalDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdOperatividadMetal" Type="int" Nullable="false" />
-          <Property Name="Hora" Type="datetime" Nullable="false" />
+          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
           <Property Name="Ferroso" Type="bit" Nullable="false" />
           <Property Name="NoFerroso" Type="bit" Nullable="false" />
           <Property Name="AceroInoxidable" Type="bit" Nullable="false" />
@@ -5773,7 +5773,6 @@
           <EntitySet Name="CC_CUCHILLOS_PREPARACION" EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" />
           <EntitySet Name="CC_INTERMEDIA_CTRL_MANT_CISTERNA" EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" />
           <EntitySet Name="CC_MANTENIMIENTO_CISTERNA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" />
-          <EntitySet Name="CC_OPERATIVIDAD_METAL_DETALLE" EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" />
           <EntitySet Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" />
           <EntitySet Name="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" />
           <EntitySet Name="MANTENIMIENTO_CONDICION" EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" />
@@ -5873,10 +5872,6 @@
           <AssociationSet Name="FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL">
             <End Role="CC_OPERATIVIDAD_METAL" EntitySet="CC_OPERATIVIDAD_METAL" />
             <End Role="CC_OPERATIVIDAD_DETECTOR_METAL" EntitySet="CC_OPERATIVIDAD_DETECTOR_METAL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL">
-            <End Role="CC_OPERATIVIDAD_METAL" EntitySet="CC_OPERATIVIDAD_METAL" />
-            <End Role="CC_OPERATIVIDAD_METAL_DETALLE" EntitySet="CC_OPERATIVIDAD_METAL_DETALLE" />
           </AssociationSet>
           <EntitySet Name="CC_HIGIENE_COMEDOR_COCINA_CTRL" EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL" />
           <EntitySet Name="CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" />
@@ -6253,6 +6248,11 @@
           <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
             <End Role="CC_MONITOREO_DESCONGELADO_CONTROL" EntitySet="CC_MONITOREO_DESCONGELADO_CONTROL" />
             <End Role="CC_MONITOREO_DESCONGELADO" EntitySet="CC_MONITOREO_DESCONGELADO" />
+          </AssociationSet>
+          <EntitySet Name="CC_OPERATIVIDAD_METAL_DETALLE" EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" />
+          <AssociationSet Name="FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL">
+            <End Role="CC_OPERATIVIDAD_METAL" EntitySet="CC_OPERATIVIDAD_METAL" />
+            <End Role="CC_OPERATIVIDAD_METAL_DETALLE" EntitySet="CC_OPERATIVIDAD_METAL_DETALLE" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -9277,26 +9277,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_INTERMEDIA_CTRL_MANT_CISTERNA" Relationship="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" FromRole="CC_MANTENIMIENTO_CISTERNA" ToRole="CC_INTERMEDIA_CTRL_MANT_CISTERNA" />
         </EntityType>
-        <EntityType Name="CC_OPERATIVIDAD_METAL_DETALLE">
-          <Key>
-            <PropertyRef Name="IdOperatividadMetalDetalle" />
-          </Key>
-          <Property Name="IdOperatividadMetalDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdOperatividadMetal" Type="Int32" Nullable="false" />
-          <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Ferroso" Type="Boolean" Nullable="false" />
-          <Property Name="NoFerroso" Type="Boolean" Nullable="false" />
-          <Property Name="AceroInoxidable" Type="Boolean" Nullable="false" />
-          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_OPERATIVIDAD_METAL" Relationship="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" FromRole="CC_OPERATIVIDAD_METAL_DETALLE" ToRole="CC_OPERATIVIDAD_METAL" />
-        </EntityType>
         <EntityType Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE">
           <Key>
             <PropertyRef Name="Id" />
@@ -9907,18 +9887,6 @@
               <PropertyRef Name="IdOperatividadMetal" />
             </Principal>
             <Dependent Role="CC_OPERATIVIDAD_DETECTOR_METAL">
-              <PropertyRef Name="IdOperatividadMetal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL">
-          <End Type="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Role="CC_OPERATIVIDAD_METAL" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Role="CC_OPERATIVIDAD_METAL_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_OPERATIVIDAD_METAL">
-              <PropertyRef Name="IdOperatividadMetal" />
-            </Principal>
-            <Dependent Role="CC_OPERATIVIDAD_METAL_DETALLE">
               <PropertyRef Name="IdOperatividadMetal" />
             </Dependent>
           </ReferentialConstraint>
@@ -12212,6 +12180,38 @@
             </Principal>
             <Dependent Role="CC_MONITOREO_DESCONGELADO">
               <PropertyRef Name="IdMonitoreoDescongeladoControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CC_OPERATIVIDAD_METAL_DETALLE">
+          <Key>
+            <PropertyRef Name="IdOperatividadMetalDetalle" />
+          </Key>
+          <Property Name="IdOperatividadMetalDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOperatividadMetal" Type="Int32" Nullable="false" />
+          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Ferroso" Type="Boolean" Nullable="false" />
+          <Property Name="NoFerroso" Type="Boolean" Nullable="false" />
+          <Property Name="AceroInoxidable" Type="Boolean" Nullable="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_OPERATIVIDAD_METAL" Relationship="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" FromRole="CC_OPERATIVIDAD_METAL_DETALLE" ToRole="CC_OPERATIVIDAD_METAL" />
+        </EntityType>
+        <Association Name="FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL">
+          <End Type="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Role="CC_OPERATIVIDAD_METAL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Role="CC_OPERATIVIDAD_METAL_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_OPERATIVIDAD_METAL">
+              <PropertyRef Name="IdOperatividadMetal" />
+            </Principal>
+            <Dependent Role="CC_OPERATIVIDAD_METAL_DETALLE">
+              <PropertyRef Name="IdOperatividadMetal" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -15473,26 +15473,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_OPERATIVIDAD_METAL_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE">
-              <MappingFragment StoreEntitySet="CC_OPERATIVIDAD_METAL_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="AceroInoxidable" ColumnName="AceroInoxidable" />
-                <ScalarProperty Name="NoFerroso" ColumnName="NoFerroso" />
-                <ScalarProperty Name="Ferroso" ColumnName="Ferroso" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="IdOperatividadMetal" ColumnName="IdOperatividadMetal" />
-                <ScalarProperty Name="IdOperatividadMetalDetalle" ColumnName="IdOperatividadMetalDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE">
               <MappingFragment StoreEntitySet="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE">
@@ -18097,6 +18077,26 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdMonitoreoDescongeladoControl" ColumnName="IdMonitoreoDescongeladoControl" />
                 <ScalarProperty Name="IdMonitoreoDescongelado" ColumnName="IdMonitoreoDescongelado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_OPERATIVIDAD_METAL_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE">
+              <MappingFragment StoreEntitySet="CC_OPERATIVIDAD_METAL_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="AceroInoxidable" ColumnName="AceroInoxidable" />
+                <ScalarProperty Name="NoFerroso" ColumnName="NoFerroso" />
+                <ScalarProperty Name="Ferroso" ColumnName="Ferroso" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdOperatividadMetal" ColumnName="IdOperatividadMetal" />
+                <ScalarProperty Name="IdOperatividadMetalDetalle" ColumnName="IdOperatividadMetalDetalle" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

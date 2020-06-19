@@ -110,7 +110,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_CISTERNA> CC_MANTENIMIENTO_CISTERNA { get; set; }
-        public virtual DbSet<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
         public virtual DbSet<DETALLE_PRODUCTO_POUCH_CUARENTENA> DETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
         public virtual DbSet<MANTENIMIENTO_CONDICION> MANTENIMIENTO_CONDICION { get; set; }
@@ -192,6 +191,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
+        public virtual DbSet<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
