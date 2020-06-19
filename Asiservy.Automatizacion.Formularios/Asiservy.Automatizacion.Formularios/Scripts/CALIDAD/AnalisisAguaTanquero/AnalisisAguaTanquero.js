@@ -77,7 +77,7 @@ function SeleccionarControl(model) {
    // console.log(model);
     $("#txtFecha").prop("disabled", true);
     $("#txtIdAnalisisAguaTanquero").val(model.IdAnalisisAguaTanquero);
-    $("#txtHora").val(moment(model.Hora).format("YYYY-MM-DDTHH:mm"));
+    $("#txtHora").val(model.Hora);
     $("#txtObservacion").val(model.Observacion);
     $("#txtPlaca").val(model.Placa);
     $("#txtStd").val(model.Std);
@@ -93,7 +93,7 @@ function SeleccionarControl(model) {
 function NuevoControl() {
     $("#txtFecha").prop("disabled", false);
     $("#txtIdAnalisisAguaTanquero").val('0');
-    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
+    $("#txtHora").val(moment().format("HH:mm"));
     $("#txtObservacion").val('');
     $("#txtPlaca").val('');
     $("#txtStd").val('');
