@@ -149,8 +149,11 @@
                     <h5 class="text-center text-primary"><b>@BD</b></h5>
                     &nbsp; &nbsp;
 
-                    @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "browser-default custom-select", @onchange = "cargarvista()" })
+                    @if (Busqueda != null)
+                    {
+                        @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "browser-default custom-select", @onchange = "cargarvista()" })
 
+                    }
 
 
                     <ul class="navbar-nav ml-auto">
