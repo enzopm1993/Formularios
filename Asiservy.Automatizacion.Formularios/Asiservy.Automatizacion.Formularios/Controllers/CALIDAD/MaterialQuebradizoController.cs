@@ -684,7 +684,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult EliminarDetalle(CC_MATERIAL_QUEBRADIZO_DET model)
+        public JsonResult EliminarDetalle(List<CC_MATERIAL_QUEBRADIZO_DET> listaDetalle)
         {
             try
             {
@@ -694,17 +694,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
-                var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(model.IdMaterial, DateTime.MinValue);
+                var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(listaDetalle[0].IdMaterial, DateTime.MinValue);
+                if (estadoReporte==null)
+                {
+                    return Json("3", JsonRequestBehavior.AllowGet);//IDMANTERIAL NO ENCONTRADO
+                }
                 if (estadoReporte.EstadoReporte)
                 {
                     return Json("2", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
                 }
                 var valor = 0;
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                valor = ClsMaterialQuebradizo.EliminarDetalle(model);
+                foreach (var model in listaDetalle)
+                {
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    valor = ClsMaterialQuebradizo.EliminarDetalle(model);
+                }               
 
                 if (valor == 0)
                 {

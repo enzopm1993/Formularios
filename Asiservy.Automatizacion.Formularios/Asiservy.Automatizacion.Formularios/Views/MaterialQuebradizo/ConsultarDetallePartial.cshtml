@@ -14,8 +14,8 @@
 {
 <div class="row">
     <div class="col-md-10 col-12 col-sm-12 text-md-left text-center">
-        <button id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@JsonConvert.SerializeObject(Model))">Actualizar</button>
-        <button id="btnEliminarDetalle" class="btn btn-outline-danger" style="color:#00264c" onclick="EliminarConfirmarDetalle(@JsonConvert.SerializeObject(Model.FirstOrDefault()))">Eliminar</button>
+        <button id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@JsonConvert.SerializeObject(Model.Where(v=> v.TipoVerificacion==tabla.TipoVerificacion)))">Actualizar</button>
+        <button id="btnEliminarDetalle" class="btn btn-outline-danger" style="color:#00264c" onclick="EliminarConfirmarDetalle(@JsonConvert.SerializeObject(Model.Where(v=> v.TipoVerificacion==tabla.TipoVerificacion)))">Eliminar</button>
     </div>
 </div>
 <br />

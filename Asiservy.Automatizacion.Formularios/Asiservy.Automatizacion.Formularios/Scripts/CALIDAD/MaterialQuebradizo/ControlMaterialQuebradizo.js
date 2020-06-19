@@ -425,11 +425,22 @@ function EliminarConfirmarDetalle(jdata) {
 }
 
 function EliminarDetalleSi() {
+    var model = [];
+    itemDetalle.forEach(function (det) {
+        var detalle = {};
+        detalle.IdMaterial = det.IdMaterial;
+        detalle.IdMaterialDetalle = det.IdMaterialDetalle;
+        detalle.IdMantMaterial = det.IdMantMaterial;
+        detalle.IdMantenimiento = det.IdMantenimiento;
+        detalle.EstadoVerificacion = det.EstadoVerificacion;
+        detalle.Observaciones = det.Observaciones;
+        model.push(detalle);
+    });   
     $.ajax({
         url: "../MaterialQuebradizo/EliminarDetalle",
         type: "POST",
         data: {
-            IdMaterial: itemDetalle.IdMaterial
+            listaDetalle: model
         },
         success: function (resultado) {
             itemDetalle = [];
@@ -446,8 +457,12 @@ function EliminarDetalleSi() {
                 CargarDetalle();
                 MensajeCorrecto("Registro eliminado con Éxito");                
                 $('#cargac').hide();
-            } else if (resultado == '3') {
+            } else if (resultado == '2') {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+                $('#cargac').hide();
+                return;
+            } else if (resultado == '3') {
+                MensajeAdvertencia('¡No se encontro ningun registro Cabecera en esta fecha!');
                 $('#cargac').hide();
                 return;
             }
