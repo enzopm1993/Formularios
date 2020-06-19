@@ -66,6 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Session["Padre"] = resultado[0];
                 Session["Hijo"] = resultado[1];
                 Session["Modulos"] = resultado[2];
+                Session["Busqueda"] = resultado[3];
                 var Roles = PsLogin.ConsultaRolesUsuario(lsUsuario[1]);
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 if (Empleado != null)

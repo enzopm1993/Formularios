@@ -1,8 +1,8 @@
 ﻿IdControl = 0;
 $(document).ready(function () {
-    $('#txtPh4').mask("9.9?9");
-    $('#txtPh7').mask("9.9?9");
-    $('#txtPh10').mask("99.9?9");
+    $('#txtPh4').mask("9?.99");
+    $('#txtPh7').mask("9?.99");
+    $('#txtPh10').mask("99?.99");
     ConsultarControl();
 });
 function Validar() {
