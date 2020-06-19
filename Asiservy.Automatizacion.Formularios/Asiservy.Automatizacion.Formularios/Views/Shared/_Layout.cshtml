@@ -164,7 +164,8 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span style="white-space:normal" class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0] <b class="text-primary">@BD</b></span>
+                                
+                                <span style="white-space:normal" class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0] <br /> <b class="text-primary">@BD</b></span>
                                 <input type="hidden" id="usernameLogin" value="@User.Identity.Name.Split('_')[0]" />
                                 <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                             </a>
