@@ -151,8 +151,11 @@
 
                     @if (Busqueda != null)
                     {
-                        @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "browser-default custom-select", @onchange = "cargarvista()" })
-
+                    
+                        <div class="select-box choose-position col-md-4 col-sm-6" style="padding-top:10px;margin-bottom:10px">
+                            @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "position-select", @onchange = "cargarvista()" })
+                        </div>
+                    
                     }
 
 
@@ -350,8 +353,9 @@
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     <script>
         $('#Searchbar').select2({
-            width: '100%',
-            placeholder: "Buscar Opción",
+            //width: '100%',
+            placeholder: "Buscar Opción.."
+            //theme: "bootstrap4"
         });
         function cargarvista() {
             if ($('#Searchbar').prop('selectedIndex') != 0) {
