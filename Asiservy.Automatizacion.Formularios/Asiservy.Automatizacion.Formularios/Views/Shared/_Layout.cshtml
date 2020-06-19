@@ -151,7 +151,7 @@
                     @if (Busqueda != null)
                     {
                     
-                        <div class="select-box choose-position col-md-4 col-sm-6" style="padding-top:10px;margin-bottom:10px">
+                        <div class="select-box choose-position col-md-4 col-sm-6" style="padding-top:10px;margin-bottom:10px" id="divsearchbtn">
                             @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "position-select", @onchange = "cargarvista()" })
                         </div>
                     
@@ -354,7 +354,7 @@
     <script>
         $('#Searchbar').select2({
             //width: '100%',
-            placeholder: "Buscar Opción.."
+            placeholder: "Buscar.."
             //theme: "bootstrap4"
         });
         function cargarvista() {
