@@ -50,6 +50,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                     }
                     else
                     {
+                        model.Nombre = guardarmodificar.Nombre;
                         model.TipoVerificacion = guardarmodificar.TipoVerificacion;
                         model.Descripcion = guardarmodificar.Descripcion;
                         model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
