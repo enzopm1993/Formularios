@@ -136,7 +136,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 //oresultado[1] = pListHijostotal;
 
                 //**
-                List<ConsultaOpcionesxRolViewModel> pListHijosPadre = pListHijosfilter;
+                List<ConsultaOpcionesxRolViewModel> pListHijosPadre = (from h in pListHijosfilter
+                                                                      select new ConsultaOpcionesxRolViewModel {Nombre=h.Nombre,Url=h.Url,Padre=h.Padre,
+                                                                      Clase=h.Clase,Formulario=h.Formulario,IdModulo=h.IdModulo,IdOpcion=h.IdOpcion,Orden=h.Orden} ).ToList();
                 foreach (var item in pListHijosPadre)
                 {
                     string padre = (from p in pListPadresfilter.Where(x => x.IdOpcion == item.Padre)
