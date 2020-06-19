@@ -671,7 +671,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarBandeja(idControlCuchillo, op);
-                if (poCloroCisterna != null)
+                if (poCloroCisterna.Count != 0)
                 {
                     clsDEmpleado empleado = new clsDEmpleado();
                     var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");

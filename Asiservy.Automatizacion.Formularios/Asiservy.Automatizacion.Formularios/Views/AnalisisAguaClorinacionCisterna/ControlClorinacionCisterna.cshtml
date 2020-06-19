@@ -270,31 +270,31 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <label>CISTERNA</label>
                         <div class="form-group">
-                            @Html.DropDownList("selectCisterna", new SelectList(ViewBag.ListaCisternas, "IdCisterna", "NombreCisterna",1), new {@class = "form-control", @onchange = "" })
+                            @Html.DropDownList("selectCisterna", new SelectList(ViewBag.ListaCisternas, "IdCisterna", "NombreCisterna", 1), new { @class = "form-control", @onchange = "" })
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>STD</label>
-                            <input type="text" name="name" value="" onchange="" id="txtStd" maxlength="20" class="form-control" />
+                            <input type="tel" name="name" value="" onchange="" id="txtStd" maxlength="10" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>DT</label>
-                            <input type="text" name="name" value="" onchange="" id="txtDt" maxlength="20" class="form-control" />
+                            <input type="tel" name="name" value="" onchange="" id="txtDt" maxlength="10" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>CL</label>
-                            <input type="text" name="name" value="" onchange="" id="txtCl" maxlength="20" class="form-control" />
+                            <input type="tel" name="name" value="" onchange="" id="txtCl" maxlength="10" class="form-control" />
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="GuardarDetalle()" id="btnGuardarAccion">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarDetalle()" id="btnGuardarAccion">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
                 </div>
             </div>
         </div>

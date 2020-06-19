@@ -115,6 +115,7 @@ function EliminarCabeceraSi() {
             } else if (resultado == "2") {               
                 MensajeAdvertencia('Ya existe una CISTERNA activa con el Nombre: <span class="badge badge-danger">' + itemEditar.NombreCisterna.toUpperCase() + '</span>');
                 $('#cargac').hide();
+                $("#modalEliminarControl").modal("hide");
             }
             itemEditar = 0;
         },
@@ -130,7 +131,7 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabecera(jdata) {
-    $("#txtNombre").prop('disabled',true);
+    //$("#txtNombre").prop('disabled',true);
     $("#txtNombre").val(jdata.NombreCisterna);
     $("#txtDescripcion").val(jdata.DescripcionCisterna);   
     $('#ModalIngresoCabecera').modal('show');
@@ -138,7 +139,7 @@ function ActualizarCabecera(jdata) {
 }
 
 function ModalIngresoCabecera() {
-    $("#txtNombre").prop('disabled', false);
+    //$("#txtNombre").prop('disabled', false);
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = [];
