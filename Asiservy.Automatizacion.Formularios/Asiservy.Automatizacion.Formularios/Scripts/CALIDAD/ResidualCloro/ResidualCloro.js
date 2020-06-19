@@ -76,7 +76,7 @@ function CargarResidualCloro() {
     $("#chartCabecera2").html('');
     $("#btnGenerar").prop("disabled", false);
     $("#lblAprobadoPendiente").html("");
-    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
+    $("#txtHora").val(moment().format("HH:mm"));   
     $("#divCabecera2").prop("hidden", false);
     if ($("#txtFecha").val() == '' || $("#selectArea").val() == '') {
         return;
@@ -122,7 +122,7 @@ function CargarResidualCloro() {
 
 function NuevoControl() {    
     $("#txtObservacion").val('');   
-    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
+    $("#txtHora").val(moment().format("HH:mm"));   
     $("#selectArea").css('borderColor', '#ced4da');
 }
 
@@ -157,18 +157,22 @@ function GuardarControl() {
     if (!Validar()) {
         return;
     }
-    var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
-    var fecha2 = moment($("#txtHora").val()).format('YYYY-MM-DD');
-    var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
-    if (fecha2 > fecha1) {
-        MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
+    if (moment($("#txtFecha").val()).format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) {
+        MensajeAdvertencia("No puede ingresar una fecha mayor a: " + moment().format('YYYY-MM-DD'));
         return;
     }
+    //var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
+    //var fecha2 = moment($("#txtHora").val()).format('YYYY-MM-DD');
+    //var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
+    //if (fecha2 > fecha1) {
+    //    MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
+    //    return;
+    //}
 
-    if (fecha2 < fecha3) {
-        MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
-        return;
-    }
+    //if (fecha2 < fecha3) {
+    //    MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
+    //    return;
+    //}
     MostrarModalCargando();
     $.ajax({
         url: "../ResidualCloro/ResidualCloro",

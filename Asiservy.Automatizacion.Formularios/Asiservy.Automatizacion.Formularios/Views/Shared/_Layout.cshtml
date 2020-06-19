@@ -146,14 +146,17 @@
                         List<ConsultaOpcionesxRolViewModel> Busqueda = new List<ConsultaOpcionesxRolViewModel>();
                         Busqueda = (List<ConsultaOpcionesxRolViewModel>)Session["Busqueda"];
                     }
-                    <h5 class="text-center text-primary"><b>@BD</b></h5>
+                 
                     &nbsp; &nbsp;
-
                     @if (Busqueda != null)
                     {
-                        @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "browser-default custom-select", @onchange = "cargarvista()" })
-
+                    
+                        <div class="select-box choose-position col-md-4 col-sm-6" style="padding-top:10px;margin-bottom:10px" id="divsearchbtn">
+                            @Html.DropDownList("Searchbar", Busqueda.Select(a => new SelectListItem { Value = a.Url, Text = a.Nombre }), "", new { @class = "position-select", @onchange = "cargarvista()" })
+                        </div>
+                    
                     }
+
 
 
                     <ul class="navbar-nav ml-auto">
@@ -161,7 +164,8 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0]</span>
+                                
+                                <span style="white-space:normal" class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0] <br /> <b class="text-primary">@BD</b></span>
                                 <input type="hidden" id="usernameLogin" value="@User.Identity.Name.Split('_')[0]" />
                                 <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                             </a>
@@ -350,8 +354,9 @@
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     <script>
         $('#Searchbar').select2({
-            width: '100%',
-            placeholder: "Buscar Opción",
+            //width: '100%',
+            placeholder: "Buscar.."
+            //theme: "bootstrap4"
         });
         function cargarvista() {
             if ($('#Searchbar').prop('selectedIndex') != 0) {
@@ -607,6 +612,9 @@
         string url = "/Scripts/" + js + ".js?v=1.8";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
+        <script>
+            $.fn.select2.defaults.set("theme", "classic");
+        </script>
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>
             <link href="~/Content/css/select2.css" rel="stylesheet" />*@

@@ -107,7 +107,7 @@ function SeleccionarControl(model) {
     //console.log(DatosCabecera);
     $("#txtTanque").val(DatosCabecera.U_SYP_TANQUE);
     $("#txtLote").val(DatosCabecera.U_SYP_LOTE);    
-    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));    
+    $("#txtHora").val(moment().format("HH:mm"));    
     $("#txtTipo").val($("#selectTipo option:selected").text());
     if ($("#selectTipo").val() == "C") {
         $("#divTemperaturaAgua").prop("hidden", true);
@@ -135,7 +135,7 @@ function ConsultarMonitoreoDetalle() {
             }
             if (resultado == "0") {
                 $("#txtIdControl").val(0);
-                $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
+                $("#txtHora").val(moment().format("HH:mm"));
                 $("#txtTemperaturaAgua").val('');
                 $("#txtMuestra1").val('');
                 $("#txtMuestra2").val('');
@@ -144,7 +144,7 @@ function ConsultarMonitoreoDetalle() {
                 $("#btnEliminar").prop("hidden", true);
                 model = [];
             } else {
-                $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
+                $("#txtHora").val(moment(resultado.Hora).format("HH:mm"));
                 $("#txtTemperaturaAgua").val(resultado.TemperaturaAgua);
                 $("#txtMuestra1").val(resultado.Muestra1);
                 $("#txtMuestra2").val(resultado.Muestra2);
@@ -265,7 +265,7 @@ function EliminarControl() {
 
     $("#txtModalTanque").val(DatosCabecera.U_SYP_TANQUE);
     $("#txtModalLote").val(DatosCabecera.U_SYP_LOTE);
-    $("#txtModalHora").val(moment(model.Hora).format("YYYY-MM-DD HH:mm"));
+    $("#txtModalHora").val(moment(model.Hora).format("HH:mm"));
 }
 
 
