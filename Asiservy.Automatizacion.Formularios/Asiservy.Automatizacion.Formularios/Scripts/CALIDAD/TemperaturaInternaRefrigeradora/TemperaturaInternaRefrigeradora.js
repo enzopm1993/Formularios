@@ -76,7 +76,7 @@ function SeleccionarControl(model) {
    // console.log(model);
     $("#txtFecha").prop("disabled", true);
     $("#txtIdTemperaturaInternaRefrigeradora").val(model.IdTemperaturaInternaRefrigeradora);
-    $("#txtHora").val(moment(model.Hora).format("YYYY-MM-DDTHH:mm"));
+    $("#txtHora").val(model.Hora);
     $("#txtObservacion").val(model.Observacion);
     $("#txtTemperatura").val(model.Temperatura);
     $("#btnEliminar").prop("hidden", false);
@@ -85,7 +85,7 @@ function SeleccionarControl(model) {
 function NuevoControl() {
     $("#txtFecha").prop("disabled", false);
     $("#txtIdTemperaturaInternaRefrigeradora").val('0');
-    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
+    $("#txtHora").val(moment().format("HH:mm"));
     $("#txtObservacion").val('');
     $("#txtTemperatura").val('');
     $("#btnEliminar").prop("hidden", true);

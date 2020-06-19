@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public int IdResidualCloro { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.DateTime Hora { get; set; }
+        public System.TimeSpan Hora { get; set; }
         public string CodArea { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }

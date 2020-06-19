@@ -103,7 +103,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="29.375" PointY="51.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Width="1.5" PointX="31.625" PointY="52.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO" Width="1.5" PointX="7.375" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="28.375" PointY="6" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="3.375" PointY="17.75" />
@@ -118,7 +117,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="22.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Width="1.5" PointX="33" PointY="17" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="30.75" PointY="57.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="34" PointY="11.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="6" PointY="35" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33" PointY="1.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="36.75" PointY="6.75" />
@@ -139,7 +137,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_PHMETRO" Width="1.5" PointX="0.75" PointY="39.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="31.75" PointY="8.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL" Width="1.5" PointX="3.375" PointY="44.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" Width="1.5" PointX="5.625" PointY="39.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_CTRL" />
@@ -153,7 +150,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO_CONTROL" Width="1.5" PointX="40.375" PointY="29.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" Width="1.5" PointX="9.625" PointY="30.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="3.75" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
@@ -181,9 +177,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="11.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MORETON" Width="1.5" PointX="42.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="45.625" PointY="10.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Width="1.5" PointX="43.375" PointY="10.875" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_CTRL" Width="1.5" PointX="40.375" PointY="41" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="46.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" Width="1.5" PointX="43.375" PointY="21" />
@@ -200,11 +194,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO_CONTROL" Width="1.5" PointX="38.375" PointY="21.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO" Width="1.5" PointX="40.625" PointY="21.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA" Width="1.5" PointX="36.625" PointY="44" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" Width="1.5" PointX="34.375" PointY="44" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL_CC_TEMPERATURA_INTERNA_REFRIGERADORA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Width="1.5" PointX="42.375" PointY="29.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" Width="1.5" PointX="45.625" PointY="29.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Width="1.5" PointX="47.875" PointY="24" />
@@ -242,6 +232,16 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO" Width="1.5" PointX="7.375" PointY="60" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="45.625" PointY="10.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="34" PointY="10.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO" Width="1.5" PointX="40.625" PointY="21.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA" Width="1.5" PointX="36.625" PointY="44" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL_CC_TEMPERATURA_INTERNA_REFRIGERADORA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

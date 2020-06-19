@@ -98,8 +98,8 @@
 
 @{
     var listaAccionCorrectiva = (from x in Model
-                                 group x by new { x.DescripcionAccion, x.IdAccion, x.RutaFoto, x.Rotation, x.Nombre } into v
-                                 select new { v.Key.DescripcionAccion, v.Key.IdAccion, v.Key.RutaFoto, v.Key.Rotation, v.Key.Nombre }).ToList();
+                                 group x by new { x.DescripcionAccion, x.IdAccion, x.RutaFoto, x.Rotation, x.Nombre, x.TipoVerificacion } into v
+                                 select new { v.Key.DescripcionAccion, v.Key.IdAccion, v.Key.RutaFoto, v.Key.Rotation, v.Key.Nombre, v.Key.TipoVerificacion }).ToList();
 }
 <div class="row align-center"s style="margin:3px">
     @foreach (var item in listaAccionCorrectiva)
@@ -116,6 +116,7 @@
                             validarImg('@item.Rotation','@item.IdAccion','@item.RutaFoto');
                     </script>
                     <div>
+                        <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>VERIFICACION: </b> @item.TipoVerificacion.ToUpper()</label><br />
                         <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>AREA: </b> @item.Nombre.ToUpper()</label><br />
                         <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>ACCION CORRECTIVA: </b> @item.DescripcionAccion.ToUpper()</label><br />
                     </div>

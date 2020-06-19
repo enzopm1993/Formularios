@@ -20,7 +20,7 @@
         @foreach (var item in horas)
         {
         <tr>
-            <td>@item.ToString("HH:mm")</td>
+            <td>@item.ToString()</td>
             @foreach(var x in pediluvios)
             {
                 var cantidad = Model.FirstOrDefault(y => y.Hora == item && y.CodPeliduvio == x.IdMantenimientoPediluvio);

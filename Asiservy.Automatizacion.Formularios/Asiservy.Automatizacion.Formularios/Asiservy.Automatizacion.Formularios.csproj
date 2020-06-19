@@ -4180,6 +4180,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />

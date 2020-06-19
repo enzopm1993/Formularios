@@ -146,9 +146,8 @@
                         List<ConsultaOpcionesxRolViewModel> Busqueda = new List<ConsultaOpcionesxRolViewModel>();
                         Busqueda = (List<ConsultaOpcionesxRolViewModel>)Session["Busqueda"];
                     }
-                    <h5 class="text-center text-primary"><b>@BD</b></h5>
+                 
                     &nbsp; &nbsp;
-
                     @if (Busqueda != null)
                     {
                     
@@ -159,12 +158,13 @@
                     }
 
 
+
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0]</span>
+                                <span style="white-space:normal" class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0] <b class="text-primary">@BD</b></span>
                                 <input type="hidden" id="usernameLogin" value="@User.Identity.Name.Split('_')[0]" />
                                 <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                             </a>

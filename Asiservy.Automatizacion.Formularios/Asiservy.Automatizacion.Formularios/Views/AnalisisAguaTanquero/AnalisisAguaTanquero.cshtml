@@ -30,7 +30,7 @@
         <div class="col-md-3 col-7 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
-                <input type="datetime-local" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
             </div>
         </div>
         <div class="col-md-2 col-4 col-sm-4">
@@ -58,7 +58,7 @@
         <div class="col-md-1 col-4 col-sm-4">
             <div class="form-group">
                 <label>Ph</label>
-                <input type="text" class="form-control" id="txtPh" autocomplete="off" min="0" name="name" value="" />
+                <input type="tel" class="form-control" id="txtPh" autocomplete="off" min="0" name="name" value="" />
             </div>
         </div>
         <div class="col-md-2 col-4 col-sm-4">

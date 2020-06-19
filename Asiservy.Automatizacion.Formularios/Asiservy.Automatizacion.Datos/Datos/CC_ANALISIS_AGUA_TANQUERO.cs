@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdAnalisisAguaTanquero { get; set; }
         public int IdAnalisisAguaTanqueroControl { get; set; }
-        public System.DateTime Hora { get; set; }
+        public System.TimeSpan Hora { get; set; }
         public string Placa { get; set; }
         public int Std { get; set; }
         public int Dureza { get; set; }

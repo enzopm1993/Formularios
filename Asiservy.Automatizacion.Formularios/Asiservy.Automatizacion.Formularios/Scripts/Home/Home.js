@@ -1,8 +1,8 @@
 ﻿var Com = [];
 $(document).ready(function () {
     ConsultaComunicados();
-    console.log(vacacion);
-
+    //  console.log(vacacion);
+    if (vacacion != null){
     $("#TotalDiasVacciones").html(vacacion.TotalDias);
     var options = {
         series: [vacacion.DiasTomados,vacacion.Saldo],
@@ -30,7 +30,7 @@ $(document).ready(function () {
     };
     var chart = new ApexCharts(document.querySelector("#divOtros"), options);
     chart.render();
-
+    }
 });
 
 function ConsultaComunicados() {
