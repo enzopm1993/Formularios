@@ -122,6 +122,9 @@ textarea {
 }
 @media (max-width: 500px) /*and (max-heigth: 600px)*/ {
     .select2-selection__placeholder {
-        font-size: 2px;
+        font-size: 12px;
+    }
+    .select2-results__option{
+        font-size:10px;
     }
 }
