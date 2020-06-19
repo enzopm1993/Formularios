@@ -1820,27 +1820,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaResidualCloroDetalle>("spConsultaResidualCloroDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<sp_Reporte_Lavado_Desinfeccion_Manos> sp_Reporte_Lavado_Desinfeccion_Manos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idDesinfeccionManos, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
-                new ObjectParameter("idDesinfeccionManos", idDesinfeccionManos) :
-                new ObjectParameter("idDesinfeccionManos", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Lavado_Desinfeccion_Manos>("sp_Reporte_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, idDesinfeccionManosParameter, opParameter);
-        }
-    
         public virtual ObjectResult<sp_Control_Desechos_Liquidos_Peligrosos> sp_Control_Desechos_Liquidos_Peligrosos(Nullable<int> anioBusqueda, Nullable<int> mesBusqueda, Nullable<int> idDesechosLiquidos, Nullable<int> op)
         {
             var anioBusquedaParameter = anioBusqueda.HasValue ?
@@ -2269,6 +2248,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FechaHasta", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteTemperaturaInternaRefrigeradora>("spReporteTemperaturaInternaRefrigeradora", fechaDesdeParameter, fechaHastaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_Lavado_Desinfeccion_Manos> sp_Reporte_Lavado_Desinfeccion_Manos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idDesinfeccionManos, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
+                new ObjectParameter("idDesinfeccionManos", idDesinfeccionManos) :
+                new ObjectParameter("idDesinfeccionManos", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Lavado_Desinfeccion_Manos>("sp_Reporte_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, idDesinfeccionManosParameter, opParameter);
         }
     }
 }

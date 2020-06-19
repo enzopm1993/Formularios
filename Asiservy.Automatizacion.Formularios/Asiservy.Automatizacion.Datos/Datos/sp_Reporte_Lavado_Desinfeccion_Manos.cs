@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public string Observacion { get; set; }
         public string CodigoLinea { get; set; }
-        public bool EstadoCumplimiento { get; set; }
+        public Nullable<bool> EstadoCumplimiento { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public bool EstadoReporteCB { get; set; }

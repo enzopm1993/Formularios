@@ -5926,12 +5926,6 @@
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="CC_CONTROL_LAVADO_DESINFECCION_MANOS" EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
-          <FunctionImport Name="sp_Reporte_Lavado_Desinfeccion_Manos" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_Lavado_Desinfeccion_Manos)">
-            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
-            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
-            <Parameter Name="idDesinfeccionManos" Mode="In" Type="Int32" />
-            <Parameter Name="op" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
           <AssociationSet Name="FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO">
             <End Role="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" EntitySet="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
@@ -6253,6 +6247,12 @@
           <FunctionImport Name="spReporteTemperaturaInternaRefrigeradora" ReturnType="Collection(ASIS_PRODModel.spReporteTemperaturaInternaRefrigeradora)">
             <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Reporte_Lavado_Desinfeccion_Manos" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_Lavado_Desinfeccion_Manos)">
+            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="idDesinfeccionManos" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -10203,18 +10203,6 @@
           <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Relationship="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" FromRole="CC_CONTROL_LAVADO_DESINFECCION_MANOS" ToRole="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" />
         </EntityType>
-        <ComplexType Name="sp_Reporte_Lavado_Desinfeccion_Manos">
-          <Property Type="Int32" Name="IdDesinfeccionManosDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdDesinfeccionManos" Nullable="false" />
-          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="2" />
-          <Property Type="Boolean" Name="EstadoCumplimiento" Nullable="false" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="Boolean" Name="EstadoReporteCB" Nullable="false" />
-        </ComplexType>
         <EntityType Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO">
           <Key>
             <PropertyRef Name="Id" />
@@ -12214,6 +12202,18 @@
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_Reporte_Lavado_Desinfeccion_Manos">
+          <Property Type="Int32" Name="IdDesinfeccionManosDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdDesinfeccionManos" Nullable="false" />
+          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="2" />
+          <Property Type="Boolean" Name="EstadoCumplimiento" Nullable="true" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="EstadoReporteCB" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -16372,22 +16372,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Reporte_Lavado_Desinfeccion_Manos" FunctionName="ASIS_PRODModel.Store.sp_Reporte_Lavado_Desinfeccion_Manos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_Lavado_Desinfeccion_Manos">
-                <ScalarProperty Name="IdDesinfeccionManosDetalle" ColumnName="IdDesinfeccionManosDetalle" />
-                <ScalarProperty Name="IdDesinfeccionManos" ColumnName="IdDesinfeccionManos" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
-                <ScalarProperty Name="EstadoCumplimiento" ColumnName="EstadoCumplimiento" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="EstadoReporteCB" ColumnName="EstadoReporteCB" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO">
               <MappingFragment StoreEntitySet="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO">
@@ -18097,6 +18081,22 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Reporte_Lavado_Desinfeccion_Manos" FunctionName="ASIS_PRODModel.Store.sp_Reporte_Lavado_Desinfeccion_Manos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_Lavado_Desinfeccion_Manos">
+                <ScalarProperty Name="IdDesinfeccionManosDetalle" ColumnName="IdDesinfeccionManosDetalle" />
+                <ScalarProperty Name="IdDesinfeccionManos" ColumnName="IdDesinfeccionManos" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
+                <ScalarProperty Name="EstadoCumplimiento" ColumnName="EstadoCumplimiento" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="EstadoReporteCB" ColumnName="EstadoReporteCB" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
