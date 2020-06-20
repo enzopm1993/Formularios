@@ -38,6 +38,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 ViewBag.MascaraInput = "1";
+                ViewBag.MaskedInput = "1";
                 return View();
             }
             catch (DbEntityValidationException e)

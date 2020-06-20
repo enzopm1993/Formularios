@@ -120,7 +120,7 @@ textarea {
 .mr-3, .mx-3 {
      margin-right: 0rem !important; 
 }
-@media (max-width: 500px) /*and (max-heigth: 600px)*/ {
+@media (max-width: 700px) /*and (max-heigth: 600px)*/ {
     .select2-selection__placeholder {
         font-size: 12px;
     }
