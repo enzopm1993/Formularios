@@ -297,7 +297,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_MATERIAL_QUEBRADIZO_DET.Where(x => x.IdMaterial == guardarmodificar.IdMaterial && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var model = db.CC_MATERIAL_QUEBRADIZO_DET.Where(x => x.IdMaterialDetalle == guardarmodificar.IdMaterialDetalle && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
                     foreach(var item in model) {
@@ -305,8 +305,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                         item.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                         item.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
                         item.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
-                        valor = 1;
-                       
+                        valor = 1;                       
                     }
                     db.SaveChanges();
                 }
