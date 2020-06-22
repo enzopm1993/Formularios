@@ -193,6 +193,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_AGUA_TANQUERO> CC_ANALISIS_AGUA_TANQUERO { get; set; }
         public virtual DbSet<CC_TEMPERATURA_INTERNA_REFRIGERADORA> CC_TEMPERATURA_INTERNA_REFRIGERADORA { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_TURNO> CC_ANALISIS_QUIMICO_PRECOCCION_TURNO { get; set; }
+        public virtual DbSet<CC_ANALISIS_AGUA_CALDEROS> CC_ANALISIS_AGUA_CALDEROS { get; set; }
+        public virtual DbSet<CC_ANALISIS_AGUA_CALDEROS_DETALLE> CC_ANALISIS_AGUA_CALDEROS_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2270,6 +2272,28 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Lavado_Desinfeccion_Manos>("sp_Reporte_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, idDesinfeccionManosParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaAnalisisAguaCaldero> spConsultaAnalisisAguaCaldero(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAnalisisAguaCaldero>("spConsultaAnalisisAguaCaldero", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteAnalisisAguaCaldero> spReporteAnalisisAguaCaldero(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAnalisisAguaCaldero>("spReporteAnalisisAguaCaldero", fechaDesdeParameter, fechaHastaParameter);
         }
     }
 }

@@ -14,6 +14,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_MANTENIMIENTO_EQUIPO_AAC
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_MANTENIMIENTO_EQUIPO_AAC()
+        {
+            this.CC_ANALISIS_AGUA_CALDEROS_DETALLE = new HashSet<CC_ANALISIS_AGUA_CALDEROS_DETALLE>();
+        }
+    
         public int IdEquipo { get; set; }
         public int IdGrupo { get; set; }
         public string Descripcion { get; set; }
@@ -27,5 +33,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         public virtual CC_MANTENIMIENTO_GRUPO_AAC CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_ANALISIS_AGUA_CALDEROS_DETALLE> CC_ANALISIS_AGUA_CALDEROS_DETALLE { get; set; }
     }
 }
