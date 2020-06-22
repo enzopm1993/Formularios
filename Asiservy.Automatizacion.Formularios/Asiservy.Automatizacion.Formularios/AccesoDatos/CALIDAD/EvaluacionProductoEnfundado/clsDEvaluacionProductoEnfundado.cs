@@ -162,7 +162,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 }
                 else
                 {
-                    var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Where(x => x.Hora == poDetalleControl.Hora).FirstOrDefault();
+                    var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Where(x => x.Hora == poDetalleControl.Hora&&poDetalleControl.IdCabeceraEvaluacionProductoEnfundado==x.IdCabeceraEvaluacionProductoEnfundado && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                     if (buscarDetalle == null)
                     {
                         db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Add(poDetalleControl);
