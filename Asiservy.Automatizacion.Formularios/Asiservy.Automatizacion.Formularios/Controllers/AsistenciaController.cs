@@ -824,12 +824,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(liststring[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 ClsDPeriodo = new clsDPeriodo();
                 if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha))
                 {
                     return Json("888", JsonRequestBehavior.AllowGet);
                 }
                 liststring = User.Identity.Name.Split('_');
+                
                 clsDAsistencia = new clsDAsistencia();
                 string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA
                 {

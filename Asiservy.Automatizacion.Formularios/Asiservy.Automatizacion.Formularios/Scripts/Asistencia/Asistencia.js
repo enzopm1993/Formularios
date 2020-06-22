@@ -461,6 +461,9 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno:$('#TurnoGen').val()
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 if (resultado == '888') {
                     MensajeError("no se puede grabar la asistencia, el periodo se encuentra cerrado");
                 } else {
