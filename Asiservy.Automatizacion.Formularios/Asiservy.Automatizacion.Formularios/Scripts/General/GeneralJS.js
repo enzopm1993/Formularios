@@ -1,4 +1,7 @@
-﻿function sololetras(e) {
+﻿
+
+
+function sololetras(e) {
     tecla = (document.all) ? e.keyCode : e.which;
 
     //Tecla de retroceso para borrar, siempre la permite

@@ -41,7 +41,7 @@
             <div class="col-md-3 col-6 col-sm-6">
                 <div class="form-group">
                     <label>Equipo</label>
-                    @Html.DropDownList("selectEquipo", new SelectList(ViewBag.Equipos,"IdEquipo", "Descripcion"),"seleccione",new { @class="form-control"})
+                    @Html.DropDownList("selectEquipo", new SelectList(ViewBag.Equipos,"IdEquipo", "Descripcion"),"seleccione",new { @class = "form-control", @onchange = "ConsultarControl()" })
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                 <div class="col-md-3 col-6 col-sm-6">
                     <div class="form-group">
                         <label>@x.Abreviatura</label>
-                        <input type="number" class="form-control" id="txtReactivo-@x.IdParametro" name="name" onchange="" value="" />
+                        <input type="number" class="form-control" autocomplete="off" id="txt-@x.IdParametro" name="name" onchange="" value="" />
                     </div>
                 </div>
             }

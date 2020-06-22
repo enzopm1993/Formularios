@@ -2195,6 +2195,7 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\AnalisisAguaCalderos.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.js" />
