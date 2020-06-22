@@ -164,6 +164,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         #region REPORTE
+        [Authorize]
         public ActionResult ReporteControlBalanza()
         {
             try
