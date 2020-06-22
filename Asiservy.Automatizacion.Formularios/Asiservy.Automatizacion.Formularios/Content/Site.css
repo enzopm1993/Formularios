@@ -117,9 +117,7 @@ textarea {
     top: auto !important;
     left: auto !important;
 }
-.mr-3, .mx-3 {
-     margin-right: 0rem !important; 
-}
+
 @media (max-width: 700px) /*and (max-heigth: 600px)*/ {
     .select2-selection__placeholder {
         font-size: 12px;
@@ -127,4 +125,11 @@ textarea {
     .select2-results__option{
         font-size:10px;
     }
+    #userDropdown {
+        font-size: 10px;
+    }
+}
+#divsearchbtn {
+    padding-left: 0rem;
+    padding-right: 0rem;
 }

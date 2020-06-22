@@ -826,13 +826,13 @@ function EliminarSubDetalle() {
 
         }
 
-        $('#cargac').show();
+        $('#cargac').hide();
     })
         .catch(function (resultado) {
             //console.log('error');
             //console.log(resultado);
             MensajeError(resultado.responseText, false);
-            $('#cargac').show();
+            $('#cargac').hide();
         })
 }
 function ConfirmarEliminarDetalle() {
@@ -885,12 +885,12 @@ function EliminarDetalle() {
 
         }
 
-        $('#cargac').show();
+        $('#cargac').hide();
     })
         .catch(function (resultado) {
             //console.log('error');
             //console.log(resultado);
             MensajeError(resultado.responseText, false);
-            $('#cargac').show();
+            $('#cargac').hide();
         })
 }
