@@ -321,10 +321,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
-                var poCloroCisterna = ClsdKardexReactivo.ConsultaKardexReactivo(fecha);
-                if (poCloroCisterna != null && poCloroCisterna.Any())
+                var PoControl = ClsdKardexReactivo.ConsultaKardexReactivo(fecha);
+                if (PoControl != null && PoControl.Any())
                 {
-                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                    return Json(PoControl, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

@@ -1,29 +1,29 @@
 ﻿@using Asiservy.Automatizacion.Datos.Datos
+
 @{
-    ViewBag.Title = "KardexReactivo";
+    ViewBag.Title = "AnalisisAguaCalderos";
 }
-
-
 
 <style>
     input, select, textarea {
         max-width: 100%;
     }
-
-
 </style>
 
-@{ 
-    List<CC_MANTENIMIENTO_REACTIVO> ListReactivos = (List<CC_MANTENIMIENTO_REACTIVO>)ViewBag.Reactivos;
- }
+@{
+    List<CC_MANTENIMIENTO_PARAMETRO_AAC> ListParametros = (List<CC_MANTENIMIENTO_PARAMETRO_AAC>)ViewBag.Parametros;
+    List<CC_MANTENIMIENTO_EQUIPO_AAC> ListEquipos = (List<CC_MANTENIMIENTO_EQUIPO_AAC>)ViewBag.Equipos;
+}
 <script>
-    var mantenimientos = [];
+    var parametros = [];
+    var equipos = [];
 
-    mantenimientos = @Html.Raw(Json.Encode(ListReactivos.Select(x => x.IdReactivo)));
+    parametros = @Html.Raw(Json.Encode(ListParametros.Select(x => x.IdParametro)));
+    equipos = @Html.Raw(Json.Encode(ListEquipos.Select(x => x.IdEquipo)));
    // console.log(mantenimientos);
 </script>
+<h4>Analisis de agua de calderos y torre de enfriamiento   <label id="lblAprobadoPendiente" class="badge"> </label></h4>
 
-<h4>Kardex de Reactivo  <label id="lblAprobadoPendiente" class="badge"> </label></h4>
 
 
 <hr />
@@ -38,12 +38,21 @@
                 </div>
             </div>
 
-            @foreach (var x in ListReactivos)
+            <div class="col-md-3 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Equipo</label>
+                    @Html.DropDownList("selectEquipo", new SelectList(ViewBag.Equipos,"IdEquipo", "Descripcion"),"seleccione",new { @class="form-control"})
+                </div>
+            </div>
+
+
+            @foreach (var x in ListParametros)
             {
+                
                 <div class="col-md-3 col-6 col-sm-6">
                     <div class="form-group">
-                        <label>@x.Descripcion (@x.Abreviatura)</label>
-                        <input type="number" class="form-control" id="txtReactivo-@x.IdReactivo" name="name" onchange="" value="" />
+                        <label>@x.Abreviatura</label>
+                        <input type="number" class="form-control" id="txtReactivo-@x.IdParametro" name="name" onchange="" value="" />
                     </div>
                 </div>
             }
@@ -92,7 +101,7 @@
             <div class="modal-header">
                 <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control de kardex reactivo?</h4>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>

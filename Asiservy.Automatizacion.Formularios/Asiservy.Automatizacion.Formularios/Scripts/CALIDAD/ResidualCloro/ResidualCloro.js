@@ -220,7 +220,7 @@ function SeleccionarControl(model) {
     $("#txtObservacion2").val(model.Observacion);
     $("#txtIdResidualCloro").val(model.IdResidualCloro);
 
-    $("#txtDescripcionCabecera").html(moment(model.Hora).format("DD/MM/YYYY HH:mm"));
+    $("#txtDescripcionCabecera").html(model.Hora);
     DatosCabecera = model;
     CargarResidualCloroDetalle();
 }
@@ -312,18 +312,18 @@ function EditarResidualCloro() {
     if (!ValidarEditar()) {
         return;
     }
-    var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
-    var fecha2 = moment($("#txtHora2").val()).format('YYYY-MM-DD');
-    var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
-    if (fecha2 > fecha1) {
-        MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
-        return;
-    }
+    //var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
+    //var fecha2 = moment($("#txtHora2").val()).format('YYYY-MM-DD');
+    //var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
+    //if (fecha2 > fecha1) {
+    //    MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
+    //    return;
+    //}
 
-    if (fecha2 < fecha3) {
-        MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
-        return;
-    }
+    //if (fecha2 < fecha3) {
+    //    MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
+    //    return;
+    //}
     $.ajax({
         url: "../ResidualCloro/ResidualCloro",
         type: "POST",
@@ -347,7 +347,7 @@ function EditarResidualCloro() {
             }
             MensajeCorrecto(resultado);
             $("#ModalEditarControl").modal("hide");
-            $("#txtDescripcionCabecera").html(DatosCabecera.Hora);         
+            $("#txtDescripcionCabecera").html($("#txtHora2").val());         
         },
         error: function (resultado) {
             MensajeError(Mensajes.Error, false);
