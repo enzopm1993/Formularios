@@ -2195,6 +2195,9 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\AnalisisAguaCalderos.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\BandejaAnalisisAguaCalderos.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\ReporteAnalisisAguaCalderos.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.js" />
@@ -3424,6 +3427,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaCaldero\ClsdAnalisisAguaCaldero.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaClorinacionCisterna\ClsAnalisisAguaClorinacionCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaTanquero\ClsdAnalisisAguaTanquero.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\ClsDAnalisisQuimicoProductoSemielaborado.cs" />
@@ -3535,6 +3539,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\AnalisisAguaCalderosController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaClorinacionCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaTanqueroController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisQuimicoProductoSemielaboradoController.cs" />
@@ -4176,6 +4181,12 @@
     <Content Include="Views\MantenimientoGrupoAac\MantenimientoGrupoPartial.cshtml" />
     <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAac.cshtml" />
     <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAacPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\BandejaAnalisisAguaCalderos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\BandejaAnalisisAguaCalderosPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosDetallePartial.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurno.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurnoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.cshtml" />

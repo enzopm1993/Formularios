@@ -117,14 +117,34 @@ textarea {
     top: auto !important;
     left: auto !important;
 }
-.mr-3, .mx-3 {
-     margin-right: 0rem !important; 
-}
-@media (max-width: 500px) /*and (max-heigth: 600px)*/ {
+
+@media (max-width: 700px) /*and (max-heigth: 600px)*/ {
     .select2-selection__placeholder {
         font-size: 12px;
     }
     .select2-results__option{
         font-size:10px;
     }
+    #userDropdown {
+        font-size: 10px;
+    }
+}
+#divsearchbtn {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+#sidebarToggleTop{
+    padding-left:0;
+}
+.select2-selection
+{
+    padding-left:0rem;
+}
+.select2-selection--single {
+    padding-left: 0rem;
+}
+.choose-position .select2-container--default .select2-selection--single {
+
+    height: 40px;
+
 }

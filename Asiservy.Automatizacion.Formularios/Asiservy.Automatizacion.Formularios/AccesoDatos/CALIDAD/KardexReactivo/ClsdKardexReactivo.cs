@@ -42,7 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo
                     foreach(var x in detalle)
                     {
                         var modelDetalle = entities.CC_KARDEX_REACTIVO_DETALLE.FirstOrDefault(y=> y.IdKardexReactivo == idReactivo
-                                           && y.IdReactivo == x.IdReactivo);
+                                           && y.IdReactivo == x.IdReactivo && y.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
                         if (modelDetalle != null)
                         {

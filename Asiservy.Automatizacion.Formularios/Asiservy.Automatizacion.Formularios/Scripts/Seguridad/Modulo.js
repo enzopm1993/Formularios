@@ -5,11 +5,12 @@ $(document).ready(function () {
 });
 
 
-function CargarModulo(id, nombre, estado,orden) {
+function CargarModulo(id, nombre, estado,orden,icono) {
     $("#txtId").val(id);
     $("#txtNombre").val(nombre);
     $("#txtOrden").val(orden);
-
+    $('#output').prop('hidden', false);
+    $('#output').attr("src", icono);
     if (estado == "A") {
         CambioEstado(true);
         $("#CheckEstadoRegistro").prop('checked', true);
@@ -27,7 +28,7 @@ function Limpiar() {
 
     $('#LabelEstado').text('Activo');
     $("#CheckEstadoRegistro").prop('checked', true);
-
+    $('#output').prop('hidden', true);
 }
 
 function CambioEstado(valor) {
@@ -64,7 +65,7 @@ function GuargarModulo() {
     else
         Estado = "I";
 
-
+    var base64 = getBase64Image(document.getElementById("output"));
     $.ajax({
         url: "../Seguridad/Modulo",
         type: "POST",
@@ -72,11 +73,12 @@ function GuargarModulo() {
             IdModulo: $("#txtId").val(),
             Nombre: Nombre,
             EstadoRegistro: Estado,
-            Orden: Orden
+            Orden: Orden,
+            icono: base64
         },
         success: function (resultado) {
             if (resultado == "0") {
-                MensajeAdvertencia("Faltan Parametros");
+                MensajeAdvertencia("Faltan Parámetros");
                 return;
             }
             CargarOpciones();
@@ -113,4 +115,22 @@ function CargarOpciones() {
 
         }
     });
+}
+var loadFile = function (event) {
+    $('#output').prop('hidden', false);
+    var image = document.getElementById('output');
+    image.src = URL.createObjectURL(event.target.files[0]);
+ 
+    $('#lblfoto').text(event.target.files[0].name);
+    
+    //console.log(base64);
+};
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL();
+    return dataURL;
 }

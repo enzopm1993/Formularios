@@ -12,18 +12,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_PARAMETRO_AAC
+    public partial class CC_ANALISIS_AGUA_CALDEROS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_PARAMETRO_AAC()
+        public CC_ANALISIS_AGUA_CALDEROS()
         {
             this.CC_ANALISIS_AGUA_CALDEROS_DETALLE = new HashSet<CC_ANALISIS_AGUA_CALDEROS_DETALLE>();
         }
     
-        public int IdParametro { get; set; }
-        public string Descripcion { get; set; }
-        public string Abreviatura { get; set; }
-        public string MaximoPermitido { get; set; }
+        public int IdAnalisisAguaCalderos { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public bool EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

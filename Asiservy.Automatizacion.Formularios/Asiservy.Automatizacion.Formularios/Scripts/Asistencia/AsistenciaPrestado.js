@@ -372,6 +372,10 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                 //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);

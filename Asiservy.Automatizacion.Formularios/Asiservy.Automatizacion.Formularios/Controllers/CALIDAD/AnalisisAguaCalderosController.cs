@@ -1,7 +1,9 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ClsdMantenimientoReactivo;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCaldero;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoEquipoAac;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoGrupoAac;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoParametroAac;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -13,18 +15,21 @@ using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class KardexReactivoController : Controller
+    public class AnalisisAguaCalderosController : Controller
     {
-        private ClsdKardexReactivo ClsdKardexReactivo { get; set; } = null;
+
+        private ClsdAnalisisAguaCaldero ClsdAnalisisAguaCaldero { get; set; } = null;
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
-        private ClsdMantenimientoReactivo ClsdMantenimientoReactivo { get; set; } = null;
+        private ClsdMantenimientoParametroAac ClsdMantenimientoParametroAac { get; set; } = null;
+        private ClsdMantenimientoEquipoAac ClsdMantenimientoEquipoAac { get; set; } = null;
+        private ClsdMantenimientoGrupoAac ClsdMantenimientoGrupoAac { get; set; } = null;
 
         #region CONTROL 
         [Authorize]
-        public ActionResult KardexReactivo()
+        public ActionResult AnalisisAguaCalderos()
         {
             try
             {
@@ -32,8 +37,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 ViewBag.MaskedInput = "1";
-                ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
-                ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x=> x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ClsdMantenimientoParametroAac = new ClsdMantenimientoParametroAac();
+                ClsdMantenimientoEquipoAac = new ClsdMantenimientoEquipoAac();
+                ViewBag.Parametros = ClsdMantenimientoParametroAac.ConsultaManteminetoParametroAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Equipos = ClsdMantenimientoEquipoAac.ConsultaManteminetoEquipoAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -58,7 +65,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
 
         [HttpPost]
-        public ActionResult KardexReactivo(CC_KARDEX_REACTIVO model, List<CC_KARDEX_REACTIVO_DETALLE> detalle)
+        public ActionResult AnalisisAguaCalderos(CC_ANALISIS_AGUA_CALDEROS model, List<CC_ANALISIS_AGUA_CALDEROS_DETALLE> detalle)
         {
             try
             {
@@ -68,16 +75,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                ClsdKardexReactivo = new ClsdKardexReactivo();
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                if (ClsdKardexReactivo.ConsultaKardexReactivoControl(model.Fecha).Any(x => x.EstadoReporte))
+                if (ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(model.Fecha).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo.GuardarModificarKardexReactivo(model, detalle);
+                ClsdAnalisisAguaCaldero.GuardarModificarAnalisisAguaCaldero(model, detalle);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
@@ -101,7 +108,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult KardexReactivoPartial(DateTime Fecha)
+        public JsonResult AnalisisAguaCalderosPartial(DateTime Fecha, int IdEquipo)
         {
             try
             {
@@ -110,8 +117,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                var model = ClsdKardexReactivo.ConsultaKardexReactivo(Fecha);
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                var model = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(Fecha).Where(x=> x.IdEquipo== IdEquipo);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -138,7 +145,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public ActionResult EliminarKardexReactivo(CC_KARDEX_REACTIVO model)
+        public ActionResult EliminarAnalisisAguaCalderos(CC_ANALISIS_AGUA_CALDEROS_DETALLE model,DateTime Fecha)
         {
             try
             {
@@ -155,12 +162,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                if (ClsdKardexReactivo.ConsultaKardexReactivoControl(model.Fecha).Any(x => x.EstadoReporte))
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                if (ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(Fecha).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo.EliminarKardexReactivo(model);
+                ClsdAnalisisAguaCaldero.EliminarAnalisisAguaCaldero(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -191,8 +198,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                var control = ClsdKardexReactivo.ConsultaKardexReactivoControl(Fecha).FirstOrDefault();
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                var control = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(Fecha).FirstOrDefault();
                 if (control != null)
                 {
                     if (control.EstadoReporte)
@@ -233,17 +240,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         #region BANDEJA DE APORBACION
         //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
         [Authorize]
-        public ActionResult BandejaKardexReactivo()
+        public ActionResult BandejaAnalisisAguaCalderos()
         {
             try
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
-                ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
-                ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -266,19 +269,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult BandejaKardexReactivoPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
+        public ActionResult BandejaAnalisisAguaCalderosPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
         {
             try
             {
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                List<CC_KARDEX_REACTIVO> poCloroCisterna = null;
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                List<CC_ANALISIS_AGUA_CALDEROS> poCloroCisterna = null;
                 if (FechaDesde != null && FechaHasta != null)
                 {
-                    poCloroCisterna = ClsdKardexReactivo.ConsultaKardexReactivoControl(FechaDesde.Value, FechaHasta.Value, Estado);
+                    poCloroCisterna = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(FechaDesde.Value, FechaHasta.Value, Estado);
                 }
                 else
                 {
-                    poCloroCisterna = ClsdKardexReactivo.ConsultaKardexReactivoControlPendiente();
+                    poCloroCisterna = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControlPendiente();
 
                 }
                 if (poCloroCisterna != null && poCloroCisterna.Any())
@@ -311,7 +314,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public ActionResult BandejaAprobarKardexReactivo(DateTime fecha)
+        public ActionResult BandejaAprobarAnalisisAguaCalderos(DateTime fecha)
         {
             try
             {
@@ -320,11 +323,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                var PoControl = ClsdKardexReactivo.ConsultaKardexReactivo(fecha);
-                if (PoControl != null && PoControl.Any())
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                var poCloroCisterna = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(fecha);
+                if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
-                    return Json(PoControl, JsonRequestBehavior.AllowGet);
+                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -351,7 +354,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult AprobarBandejaControlCloro(CC_KARDEX_REACTIVO model)
+        public ActionResult AprobarBandejaControl(CC_ANALISIS_AGUA_CALDEROS model)
         {
             try
             {
@@ -360,7 +363,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo = new ClsdKardexReactivo();
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
                 model.FechaAprobacion = DateTime.Now;
                 model.AprobadoPor = lsUsuario[0];
                 model.EstadoReporte = clsAtributos.EstadoReporteActivo;
@@ -369,7 +372,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                ClsdKardexReactivo.Aprobar_ReporteKardexReactivo(model);
+                ClsdAnalisisAguaCaldero.Aprobar_ReporteAnalisisAguaCaldero(model);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -392,7 +395,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReversarBandejaControl(CC_KARDEX_REACTIVO model)
+        public ActionResult ReversarBandejaControl(CC_ANALISIS_AGUA_CALDEROS model)
         {
             try
             {
@@ -401,7 +404,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo = new ClsdKardexReactivo();
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
                 model.FechaAprobacion = null;
                 model.AprobadoPor = null;
                 model.EstadoReporte = clsAtributos.EstadoReportePendiente;
@@ -410,7 +413,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                ClsdKardexReactivo.Aprobar_ReporteKardexReactivo(model);
+                ClsdAnalisisAguaCaldero.Aprobar_ReporteAnalisisAguaCaldero(model);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -434,14 +437,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
         #endregion
 
-
         #region REPORTE 
         [Authorize]
-        public ActionResult ReporteKardexReactivo()
+        public ActionResult ReporteAnalisisAguaCalderos()
         {
             try
             {
-             
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JqueryRotate = "1";
@@ -477,16 +478,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReporteKardexReactivoPartial(DateTime FechaDesde, DateTime FechaHasta)
+        public ActionResult ReporteAnalisisAguaCalderosPartial(DateTime FechaDesde, DateTime FechaHasta)
         {
             try
             {
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                List<spReporteKardexReactivo> poControl = null;
-                ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
-                ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
 
-                poControl = ClsdKardexReactivo.ConsultaKardexReactivoControl(FechaDesde, FechaHasta);
+               var poControl = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(FechaDesde, FechaHasta);
 
 
                 if (poControl != null && poControl.Any())
@@ -518,44 +516,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //public JsonResult ReporteKardexReactivoPartial(DateTime Fecha)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDKardexReactivo = new clsDKardexReactivo();
-        //        var model = clsDKardexReactivo.ConsultaKardexReactivo(Fecha);
-        //        if (model == null)
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //        return Json(model, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        public ActionResult ReporteKardexReactivoDetallePartial(DateTime Fecha)
+       
+        public ActionResult ReporteAnalisisAguaCalderosDetallePartial(DateTime Fecha)
         {
             try
             {
@@ -564,8 +526,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsdKardexReactivo = new ClsdKardexReactivo();
-                var model = ClsdKardexReactivo.ConsultaKardexReactivo(Fecha);
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                ClsdMantenimientoParametroAac = new ClsdMantenimientoParametroAac();
+                ClsdMantenimientoEquipoAac = new ClsdMantenimientoEquipoAac();
+                ClsdMantenimientoGrupoAac = new ClsdMantenimientoGrupoAac();
+                ViewBag.Parametros = ClsdMantenimientoParametroAac.ConsultaManteminetoParametroAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Equipos = ClsdMantenimientoEquipoAac.ConsultaManteminetoEquipoAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Grupos = ClsdMantenimientoGrupoAac.ConsultaManteminetoGrupo().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+
+                var model = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(Fecha);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -595,7 +564,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
 
         #endregion
-
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

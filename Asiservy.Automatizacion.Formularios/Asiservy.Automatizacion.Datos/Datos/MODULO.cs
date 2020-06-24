@@ -24,5 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<int> Orden { get; set; }
+        public string icono { get; set; }
     }
 }

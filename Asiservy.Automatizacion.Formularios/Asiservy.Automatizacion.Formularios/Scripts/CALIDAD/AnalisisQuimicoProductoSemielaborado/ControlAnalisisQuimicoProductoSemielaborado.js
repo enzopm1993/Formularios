@@ -5,11 +5,52 @@ var Error = 0;
 var DatosDetalle;
 var ListaLotes;
 $(document).ready(function () {
-    $('#txtSalProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
-    $('#txtSalEmpaque').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
-    $('#txtHistaminaEmpaque').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtHistaminaProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtHumedadProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
+    
+    $('#txtSalProceso').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 99.99,
+        rightAlign: false
+    });
+    $('#txtSalEmpaque').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 99.99,
+        rightAlign: false
+    });
+    $('#txtHistaminaEmpaque').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 999.99,
+        rightAlign: false
+    });
+    $('#txtHistaminaProceso').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 999.99,
+        rightAlign: false
+    });
+    $('#txtHumedadProceso').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 99.99,
+        rightAlign: false
+    });
+   
+    //$('#txtSalEmpaque').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00','max': '99.99' });
+    //$('#txtHistaminaEmpaque').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
+    //$('#txtHistaminaProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
+    //$('#txtHumedadProceso').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
 
 
     ConsultarCabControl();
@@ -785,13 +826,13 @@ function EliminarSubDetalle() {
 
         }
 
-        $('#cargac').show();
+        $('#cargac').hide();
     })
         .catch(function (resultado) {
             //console.log('error');
             //console.log(resultado);
             MensajeError(resultado.responseText, false);
-            $('#cargac').show();
+            $('#cargac').hide();
         })
 }
 function ConfirmarEliminarDetalle() {
@@ -844,12 +885,12 @@ function EliminarDetalle() {
 
         }
 
-        $('#cargac').show();
+        $('#cargac').hide();
     })
         .catch(function (resultado) {
             //console.log('error');
             //console.log(resultado);
             MensajeError(resultado.responseText, false);
-            $('#cargac').show();
+            $('#cargac').hide();
         })
 }

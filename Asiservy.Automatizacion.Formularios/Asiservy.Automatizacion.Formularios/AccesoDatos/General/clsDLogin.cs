@@ -129,7 +129,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     IdModulo=x.IdModulo,
                     NombreModulo=x.NombreModulo,
-                    Orden=x.OrdenModulo
+                    Orden=x.OrdenModulo,
+                    Icono=x.IconoModulo
                 });
                 object[] oresultado = new object[4];
                 //oresultado[0] = pListPadrestotal;

@@ -12,18 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_PARAMETRO_AAC
+    public partial class CC_ANALISIS_QUIMICO_PRECOCCION_TURNO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_PARAMETRO_AAC()
-        {
-            this.CC_ANALISIS_AGUA_CALDEROS_DETALLE = new HashSet<CC_ANALISIS_AGUA_CALDEROS_DETALLE>();
-        }
-    
-        public int IdParametro { get; set; }
-        public string Descripcion { get; set; }
-        public string Abreviatura { get; set; }
-        public string MaximoPermitido { get; set; }
+        public int IdTurno { get; set; }
+        public string Nombre { get; set; }
+        public string DescripcionMant { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -31,8 +24,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_AGUA_CALDEROS_DETALLE> CC_ANALISIS_AGUA_CALDEROS_DETALLE { get; set; }
     }
 }

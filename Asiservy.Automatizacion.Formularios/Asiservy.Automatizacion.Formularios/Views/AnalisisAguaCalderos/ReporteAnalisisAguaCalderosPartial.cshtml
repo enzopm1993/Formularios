@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteAnalisisAguaCaldero>
+@using Newtonsoft.Json
+@using Asiservy.Automatizacion.Datos.Datos
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Terminal Ingreso
+            </th>
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario Modificación
+            </th>
+            <th>
+                Terminal Modificación
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+           
+
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("yyyy-MM-dd")
+                </td>
+
+                @if (item.EstadoReporte == true)
+                {
+                    <td><span class="badge badge-success">Aprobado</span></td>
+                }
+                else
+                {
+                    <td><span class="badge badge-danger">Pendiente</span></td>
+                }
+
+
+                <td>
+                    @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                </td>
+                <td>
+                    @if (item.FechaModificacionLog != null)
+                    {
+                        @item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
