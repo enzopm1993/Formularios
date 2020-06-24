@@ -24,13 +24,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
         }
 
 
-        public void GuardarModificarCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE model, DateTime Fecha)
+        public void GuardarModificarCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE model, DateTime Fecha,string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
-                    CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha 
+                                                                                                                                && x.Turno == Turno
+                                                                                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     int idControl = 0;
                     if (poControlReporte != null)
                     {
