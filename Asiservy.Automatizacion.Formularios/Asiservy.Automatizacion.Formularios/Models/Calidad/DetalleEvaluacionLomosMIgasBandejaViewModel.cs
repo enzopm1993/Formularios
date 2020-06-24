@@ -10,7 +10,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Calidad
         public DateTime? FechaControl { get; set; }
         public int IdCabecera { get; set; }
         public int IdDetalle {get;set;}
-        public TimeSpan? Hora { get; set; }
+        public DateTime? Hora { get; set; }
         public string Linea { get; set; }
         public string Buque { get; set; }
         public string Lote { get; set; }
