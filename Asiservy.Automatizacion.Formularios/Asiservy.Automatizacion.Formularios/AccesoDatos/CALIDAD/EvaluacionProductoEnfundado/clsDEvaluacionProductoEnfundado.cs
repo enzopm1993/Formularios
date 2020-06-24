@@ -339,7 +339,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      Escamas = d.Escamas,
                                      Espinas = d.Espinas,
                                      //HematomasProfundos = d.HematomasProfundos,
-                                     Hora = d.Hora,
+                                    // Hora = d.Hora,
                                      empacador=d.Empacador,
                                      Lote = d.Lote,
                                      Moretones = mo.Descripcion,
@@ -710,7 +710,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                              on new { id=f.IdDetalleEvaluacionProductoEnfundado.Value,estado=f.EstadoRegistro} equals new {id=d.IdDetalleEvaluacionProductoEnfundado,estado=clsAtributos.EstadoRegistroActivo }
                              where f.EstadoRegistro == clsAtributos.EstadoRegistroActivo && ListDetallesCab.Contains(f.IdDetalleEvaluacionProductoEnfundado.Value)
                              orderby d.Hora
-                             select new ReporteFotosEvaluacionProductoEnfundadoViewModel { IdFoto = f.IdFotoEvaluacioProductoEnfundado, Hora = d.Hora, Imagen = f.Imagen, Novedad = f.Observacion, Rotacion = f.Rotacion.Value }).ToList();
+                             select new ReporteFotosEvaluacionProductoEnfundadoViewModel { IdFoto = f.IdFotoEvaluacioProductoEnfundado, /*Hora = d.Hora*/ Imagen = f.Imagen, Novedad = f.Observacion, Rotacion = f.Rotacion.Value }).ToList();
                 return query;
             }
         }
@@ -718,7 +718,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.spConsultaMovimientoPersonalDiarioxCargo(Fecha, Hora, clsAtributos.CargoEmpacado).ToList();
+                return null;
+              //  return db.spConsultaMovimientoPersonalDiarioxCargo(Fecha, Hora, clsAtributos.CargoEmpacado).ToList();
             }
         }
       

@@ -500,8 +500,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.sp_Limpieza_Desinfeccion_Planta(idLimpiezaDesinfeccionPlanta, turno, op, idAuditoria).ToList();
-                return lista;
+              //  var lista = db.sp_Limpieza_Desinfeccion_Planta(idLimpiezaDesinfeccionPlanta, turno, op, idAuditoria).ToList();
+                return null;
             }                 
         }
 

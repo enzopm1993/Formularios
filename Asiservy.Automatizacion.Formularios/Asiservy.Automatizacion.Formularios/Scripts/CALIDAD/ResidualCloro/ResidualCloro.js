@@ -1,5 +1,6 @@
 ﻿
 var DatosCabecera = [];
+var turno = 0;
 
 $(document).ready(function () {
     CargarResidualCloro();
@@ -40,13 +41,14 @@ function ConsultarPeliduvios() {
 }
 
 
-function ValidaEstadoReporte(Fecha,Area) {
+function ValidaEstadoReporte(Fecha,Area,Turno) {
     $.ajax({
         url: "../ResidualCloro/ValidaEstadoReporte",
         type: "GET",
         data: {
             Fecha: Fecha,
-            Area: Area
+            Area: Area,
+            Turno: Turno
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -76,9 +78,9 @@ function CargarResidualCloro() {
     $("#chartCabecera2").html('');
     $("#btnGenerar").prop("disabled", false);
     $("#lblAprobadoPendiente").html("");
-    $("#txtHora").val(moment().format("HH:mm"));   
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
     $("#divCabecera2").prop("hidden", false);
-    if ($("#txtFecha").val() == '' || $("#selectArea").val() == '') {
+    if ($("#txtFecha").val() == '' || $("#selectArea").val() == '' || $("#selectTurno").val() == '') {
         return;
     }
     if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
@@ -87,14 +89,15 @@ function CargarResidualCloro() {
         return;
     }
     $("#spinnerCargando").prop("hidden", false);
-    ValidaEstadoReporte($("#txtFecha").val(), $("#selectArea").val());
+    ValidaEstadoReporte($("#txtFecha").val(), $("#selectArea").val(), $("#selectTurno").val());
     ConsultarPeliduvios();
     $.ajax({
         url: "../ResidualCloro/ResidualCloroPartial",
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
-            Area: $("#selectArea").val()
+            Area: $("#selectArea").val(),
+            Turno: $("#selectTurno").val()
             
         },
         success: function (resultado) {
@@ -122,7 +125,7 @@ function CargarResidualCloro() {
 
 function NuevoControl() {    
     $("#txtObservacion").val('');   
-    $("#txtHora").val(moment().format("HH:mm"));   
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));   
     $("#selectArea").css('borderColor', '#ced4da');
 }
 
@@ -133,6 +136,13 @@ function Validar() {
         valida = false;
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
     }
     
     if ($("#txtHora").val() == "") {
@@ -161,24 +171,14 @@ function GuardarControl() {
         MensajeAdvertencia("No puede ingresar una fecha mayor a: " + moment().format('YYYY-MM-DD'));
         return;
     }
-    //var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
-    //var fecha2 = moment($("#txtHora").val()).format('YYYY-MM-DD');
-    //var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
-    //if (fecha2 > fecha1) {
-    //    MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
-    //    return;
-    //}
-
-    //if (fecha2 < fecha3) {
-    //    MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
-    //    return;
-    //}
+    
     MostrarModalCargando();
     $.ajax({
         url: "../ResidualCloro/ResidualCloro",
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
             Hora: $("#txtHora").val(),
             CodArea: $("#selectArea").val(),
             Observacion: $("#txtObservacion").val()
@@ -220,8 +220,9 @@ function SeleccionarControl(model) {
     $("#txtObservacion2").val(model.Observacion);
     $("#txtIdResidualCloro").val(model.IdResidualCloro);
 
-    $("#txtDescripcionCabecera").html(model.Hora);
+    $("#txtDescripcionCabecera").html(moment(model.Hora).format("DD-MM-YYYY HH:mm"));
     DatosCabecera = model;
+   // console.log($("#selectTurno").val());
     CargarResidualCloroDetalle();
 }
 
@@ -329,7 +330,8 @@ function EditarResidualCloro() {
         type: "POST",
         data: {
             IdResidualCloro: $("#txtIdResidualCloro").val(),
-            Hora: $("#txtHora2").val(),     
+            Hora: $("#txtHora2").val(), 
+            Turno: $("#selectTurno").val(),
             Observacion: $("#txtObservacion2").val(),
             Fecha: DatosCabecera.Fecha,
             CodArea: $("#selectArea").val()
@@ -431,17 +433,7 @@ function GuardarResidualCloroDetalle() {
     if (!ValidarDetalle()) {
         return;
     }
-    //var fecha1 = moment(DatosCabecera.Fecha).add(1, 'days').format('YYYY-MM-DD');
-    //var fecha2 = moment($("#txtHoraInicio").val()).format('YYYY-MM-DD');
-    //// console.log(fecha1);
-    ////s console.log(fecha2);
-    //if (fecha2 > fecha1) {
-    //    MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
-    //    return;
-    //}
-
-
-    $.ajax({
+     $.ajax({
         url: "../ResidualCloro/ResidualCloroDetalle",
         type: "POST",
         data: {

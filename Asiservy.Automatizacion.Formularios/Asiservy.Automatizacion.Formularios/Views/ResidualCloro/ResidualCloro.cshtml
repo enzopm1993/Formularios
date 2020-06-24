@@ -18,28 +18,33 @@
 
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
-        <div class="col-md-4 col-6 col-sm-6">
+        <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarResidualCloro()" id="txtFecha" class="form-control" />
             </div>
         </div>
-
-        <div class="col-md-4 col-6 col-sm-6">
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno",new SelectList(ViewBag.Turno,"Codigo","Descripcion"),"Seleccione",new {@class="form-control", @onchange= "CargarResidualCloro()" })
+            </div>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Area</label>
                 @Html.DropDownList("Area", new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @Id = "selectArea", @onchange = "CargarResidualCloro()" })
             </div>
         </div>
 
-        <div class="col-md-4 col-6 col-sm-6">
+        <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
-                <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="" id="txtHora" class="form-control" />
+                <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="" id="txtHora" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-8 col-6">
+        <div class="col-md-8 col-12 col-sm-12">
             <div class="form-group">
                 <label>Observacion</label>
                 <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
@@ -154,7 +159,7 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Hora</label>
-                            <input class="form-control" autocomplete="off" id="txtHora2" type="time" name="name" value="" />
+                            <input class="form-control" autocomplete="off" id="txtHora2" type="datetime-local" name="name" value="" />
                         </div>
                     </div>
 
