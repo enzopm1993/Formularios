@@ -18,10 +18,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public bool EstadoReporte { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public string AprobadoPor { get; set; }
-        public int IdAnalisisAguaCalderosDetalle { get; set; }
-        public int IdParametro { get; set; }
-        public int IdEquipo { get; set; }
-        public decimal Valor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
