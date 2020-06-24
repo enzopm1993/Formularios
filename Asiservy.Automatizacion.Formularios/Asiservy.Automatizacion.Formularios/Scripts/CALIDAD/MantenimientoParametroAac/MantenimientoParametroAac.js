@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 function ConsultarReporte() {
     $("#chartCabecera2").html('');
-    $("#spinnerCargando").prop("hidden", false);
+    $("#spinnerCargandoMantenimiento").prop("hidden", false);
     $.ajax({
         url: "../MantenimientoParametroAac/MantenimientoParametroAacPartial",
         type: "GET",
@@ -13,12 +13,12 @@ function ConsultarReporte() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#divCabecera2").prop("hidden", false);
+            //$("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
                 $("#chartCabecera2").html("No existen registros");
-                $("#spinnerCargando").prop("hidden", true);
+                $("#spinnerCargandoMantenimiento").prop("hidden", true);
             } else {
-                $("#spinnerCargando").prop("hidden", true);
+                $("#spinnerCargandoMantenimiento").prop("hidden", true);
                 $("#chartCabecera2").html(resultado);
                 config.opcionesDT.pageLength = -1;
                 config.opcionesDT.order = false;
@@ -31,7 +31,7 @@ function ConsultarReporte() {
             console.log(resultado);
             MensajeError("Error: Comuníquese con sistemas", false);
             $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargando").prop("hidden", true);
+            $("#spinnerCargandoMantenimiento").prop("hidden", true);
         }
     });
 }
