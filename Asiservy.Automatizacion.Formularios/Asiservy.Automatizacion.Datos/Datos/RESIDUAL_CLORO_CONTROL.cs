@@ -14,8 +14,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class RESIDUAL_CLORO_CONTROL
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RESIDUAL_CLORO_CONTROL()
+        {
+            this.RESIDUAL_CLORO = new HashSet<RESIDUAL_CLORO>();
+        }
+    
         public int IdResidualCloroControl { get; set; }
         public System.DateTime Fecha { get; set; }
+        public string Turno { get; set; }
         public string Area { get; set; }
         public bool EstadoReporte { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
@@ -27,5 +34,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
     }
 }
