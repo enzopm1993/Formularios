@@ -7,28 +7,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.Models;
-using RestSharp;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
-using Newtonsoft.Json;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System.Net;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Validation;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class SeguridadController : Controller
     {
-        clsDOpcion clsDopcion = null;
-        clsDRol clsDRol = null;
-        clsDError clsDError = null;
-        clsDUsuarioRol clsDUsuarioRol = null;
-        clsApiUsuario clsApiUsuario = null;
-        clsDNivelUsuario clsDNivelUsuario = null;
-        clsDOpcionRol OpcionesRol = null;
-        clsDClasificador clsDClasificador = null;
-        clsDModulo clsDModulo = null;
-        clsDParametro clsDParametro = null;
+        clsDOpcion clsDopcion { get; set; } = null;
+        clsDRol clsDRol { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDUsuarioRol clsDUsuarioRol { get; set; } = null;
+        clsApiUsuario clsApiUsuario { get; set; } = null;
+        clsDNivelUsuario clsDNivelUsuario { get; set; } = null;
+        clsDOpcionRol OpcionesRol { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
+        clsDModulo clsDModulo { get; set; } = null;
+        clsDParametro clsDParametro { get; set; } = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {

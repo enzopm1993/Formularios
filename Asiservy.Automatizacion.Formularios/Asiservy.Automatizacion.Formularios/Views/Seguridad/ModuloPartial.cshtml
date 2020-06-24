@@ -46,7 +46,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr onclick="CargarModulo('@item.IdModulo','@item.Nombre','@item.EstadoRegistro','@item.Orden')">
+        <tr onclick="CargarModulo('@item.IdModulo','@item.Nombre','@item.EstadoRegistro','@item.Orden','@item.icono')">
             <td>
                 @Html.DisplayFor(modelItem => item.IdModulo)
             </td>

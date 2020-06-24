@@ -7,6 +7,7 @@
     input, select, textarea {
         max-width: 100%;
     }
+
 </style>
 <h4>Matenimiento de Modulos</h4>
 
@@ -39,6 +40,20 @@
                     @Html.LabelFor(model => model.Orden, htmlAttributes: new { @class = "control-label" })
                     <input type="number" autocomplete="off" class="form-control" id="txtOrden" name="name" value="" />
                     <p id="ValidaOrden" hidden class="text-warning">Ingrese un orden</p>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <label>Adjuntar Ícono</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="file-upload" accept="image/*" onchange="loadFile(event)" >
+                    <label class="custom-file-label" for="customFile" id="lblfoto">Seleccione archivo</label>
+                </div>
+               
+                
+            </div>
+            <div class="col-sm-2 col-md-1" >
+                <div style="border:none"><br />
+                    <img id="output" width="20" height="20" hidden />
                 </div>
             </div>
             <div class="col-2">
