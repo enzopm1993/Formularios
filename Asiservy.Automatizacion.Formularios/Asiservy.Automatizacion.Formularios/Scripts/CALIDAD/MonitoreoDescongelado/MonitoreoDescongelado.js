@@ -21,7 +21,8 @@ function ValidaEstadoReporte(Fecha){
         url: "../MonitoreoDescongelado/ValidaEstadoReporte",
         type: "GET",
         data: {
-            Fecha: Fecha
+            Fecha: Fecha,
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -49,7 +50,7 @@ function ValidaEstadoReporte(Fecha){
 
 function ConsultarMonitoreoDescongelado() {
     $("#chartCabecera2").html('');
-    if ($("#txtFecha").val() == '') {
+    if ($("#txtFecha").val() == '' || $("#selectTurno").val()=='') {
         $("#divCabecera2").prop("hidden", true);
         return;
     }
@@ -66,7 +67,8 @@ function ConsultarMonitoreoDescongelado() {
         url: "../MonitoreoDescongelado/MonitoreoDescongeladoPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()     
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -106,14 +108,22 @@ function SeleccionarControl(model) {
     DatosCabecera = model;
     //console.log(DatosCabecera);
     $("#txtTanque").val(DatosCabecera.U_SYP_TANQUE);
-    $("#txtLote").val(DatosCabecera.U_SYP_LOTE);    
-    $("#txtHora").val(moment().format("HH:mm"));    
+    $("#txtLote").val(DatosCabecera.U_SYP_LOTE);
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));    
     $("#txtTipo").val($("#selectTipo option:selected").text());
     if ($("#selectTipo").val() == "C") {
         $("#divTemperaturaAgua").prop("hidden", true);
     } else {
         $("#divTemperaturaAgua").prop("hidden", false);
     }
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+
+   
     ConsultarMonitoreoDetalle();
     
 }
@@ -124,6 +134,7 @@ function ConsultarMonitoreoDetalle() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
             Tanque: DatosCabecera.U_SYP_TANQUE,
             Lote: DatosCabecera.U_SYP_LOTE,
             Tipo: $("#selectTipo").val()
@@ -135,7 +146,7 @@ function ConsultarMonitoreoDetalle() {
             }
             if (resultado == "0") {
                 $("#txtIdControl").val(0);
-                $("#txtHora").val(moment().format("HH:mm"));
+                $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
                 $("#txtTemperaturaAgua").val('');
                 $("#txtMuestra1").val('');
                 $("#txtMuestra2").val('');
@@ -144,7 +155,7 @@ function ConsultarMonitoreoDetalle() {
                 $("#btnEliminar").prop("hidden", true);
                 model = [];
             } else {
-                $("#txtHora").val(moment(resultado.Hora).format("HH:mm"));
+                $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
                 $("#txtTemperaturaAgua").val(resultado.TemperaturaAgua);
                 $("#txtMuestra1").val(resultado.Muestra1);
                 $("#txtMuestra2").val(resultado.Muestra2);
@@ -215,6 +226,7 @@ function GuardarMonitoreoDescongelado() {
         data: {
             IdMonitoreoDescongelado: $("#txtIdControl").val(),
             Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
             Tanque: DatosCabecera.U_SYP_TANQUE,
             Lote: DatosCabecera.U_SYP_LOTE,
             Especie: DatosCabecera.U_SYP_ESPECIE,
@@ -285,7 +297,8 @@ function InactivarControl() {
         type: "POST",
         data: {
             IdMonitoreoDescongelado: $("#txtIdControl").val(),
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

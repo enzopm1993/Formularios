@@ -9,8 +9,10 @@
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
-        <tr>
-            <th>Control</th>
+        <tr class="text-center">
+            <th>D</th>
+            <th>E</th>
+            <th>C</th>
             <th>
                 Tanque
             </th>
@@ -18,12 +20,12 @@
                 Lote
             </th>
             <th>
-               Especie
+                Especie
             </th>
             <th>
-              Talla
-            </th>      
-            
+                Talla
+            </th>
+
         </tr>
     </thead>
     <tbody>
@@ -35,34 +37,48 @@
             var Cocina = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "C");
 
 
-        <tr onclick="SeleccionarControl(@json)">
-            <td>
-                @if (Descongelado != null)
-                {
-                    <i class="fas fa-check-circle" style="color: dodgerblue"></i>
-                }
-                else
-                {
-                    <i class="fas fa-check-circle" style="color: darkgray"></i>
-                }
-                @if (Emparrillado != null)
-                {
-                    <i class="fas fa-check-circle" style="color:royalblue"></i>
-                }
-                else
-                {
-                    <i class="fas fa-check-circle" style="color: darkgray"></i>
-                }
-                @if (Cocina != null)
-                {
-                    <i class="fas fa-check-circle" style="color:darkblue"></i>
-                }
-                else
-                {
-                    <i class="fas fa-check-circle" style="color: darkgray"></i>
-                }
+        <tr onclick="SeleccionarControl(@json)" class="text-center">
 
-            </td>
+            @if (Descongelado != null)
+            {
+                <td>
+                    <i class="fas fa-check-circle" style="color: dodgerblue"></i>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <i class="fas fa-check-circle" style="color: darkgray"></i>
+                </td>
+            }
+            @if (Emparrillado != null)
+            {
+                <td>
+                    <i class="fas fa-check-circle" style="color:royalblue"></i>
+                </td>
+
+            }
+            else
+            {
+
+                <td>
+                    <i class="fas fa-check-circle" style="color: darkgray"></i>
+                </td>
+            }
+            @if (Cocina != null)
+            {
+                <td>
+                    <i class="fas fa-check-circle" style="color:forestgreen"></i>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <i class="fas fa-check-circle" style="color: darkgray"></i>
+                </td>
+            }
+
+
             <td>
                 @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)
             </td>
@@ -74,7 +90,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.U_SYP_TALLA)
-            </td>           
+            </td>
         </tr>
         }
     </tbody>

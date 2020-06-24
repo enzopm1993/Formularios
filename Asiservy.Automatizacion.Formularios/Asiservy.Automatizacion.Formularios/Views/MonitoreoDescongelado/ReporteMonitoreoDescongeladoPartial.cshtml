@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMonitoreoDescongelado>
 
-
+<h6><b>Turno:</b>@ViewBag.Turno</h6>
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
-    <thead>
+    <thead class="letra10">
         <tr>
             <th rowspan="3" class="text-center">@Html.DisplayNameFor(model => model.Tanque)</th>
             <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Lote)</th>
@@ -75,7 +75,7 @@
            
         </tr>
     </thead>
-    <tbody>
+    <tbody class="letra9">
         @foreach (var item in Model)
         {
             var Descongelado = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "D");
@@ -99,7 +99,7 @@
             @if (Descongelado != null)
             {
                 <td>
-                    @Descongelado.Hora.ToString()
+                    @Descongelado.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
                     @Descongelado.TemperaturaAgua
@@ -126,7 +126,7 @@
             @if (Emparrillado != null)
             {
                 <td>
-                    @Emparrillado.Hora
+                    @Emparrillado.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
                     @Emparrillado.TemperaturaAgua
@@ -153,7 +153,7 @@
             @if (Cocina != null)
             {
                 <td>
-                    @Cocina.Hora
+                    @Cocina.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
 
                 <td>

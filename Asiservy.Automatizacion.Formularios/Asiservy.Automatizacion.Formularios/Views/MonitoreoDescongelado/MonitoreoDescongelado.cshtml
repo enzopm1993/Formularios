@@ -19,6 +19,12 @@
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
             </div>
         </div>
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno",new SelectList(ViewBag.Turno, "Codigo","Descripcion"),"seleccione",new { @class="form-control",@onchange= "ConsultarMonitoreoDescongelado()" })
+            </div>
+        </div>
         <div class="col-md-4 col-sm-6 col-6">
             <label>Tipo</label>
             <select class="form-control" id="selectTipo" onchange="">
@@ -40,17 +46,20 @@
             <table class="table table-bordered" style="width:100px">
                 <tr>
                     <td>Descongelado</td>
+                    <td>D</td>
                     <td><i class="fas fa-check-circle" style="color: dodgerblue"></i></td>
                 </tr>
 
                 <tr>
                     <td>Emparrillado</td>
+                    <td>E</td>
                     <td> <i class="fas fa-check-circle" style="color:royalblue"></i></td>
                 </tr>
 
                 <tr>
                     <td>Ingreso Cocina</td>
-                    <td> <i class="fas fa-check-circle" style="color:darkblue"></i></td>
+                    <td>C</td>
+                    <td> <i class="fas fa-check-circle" style="color:forestgreen"></i></td>
                 </tr>
             </table>
         </div>
@@ -112,7 +121,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-6 col-sm-6">
                                         <label>Hora</label>
-                                        <input type="time" autocomplete="off" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
+                                        <input type="datetime-local" autocomplete="off" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
                                     </div>
                                     <div class="col-md-2 col-6 col-sm-6" id="divTemperaturaAgua">
                                         <label>Temperatura de Agua</label>
