@@ -42,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                     {
                         CC_CLORO_AGUA_AUTOCLAVE_CONTROL control = new CC_CLORO_AGUA_AUTOCLAVE_CONTROL();
                         control.Fecha = Fecha;
+                        control.Turno = Turno;
                         control.EstadoReporte = false;
                         control.FechaIngresoLog = model.FechaIngresoLog;
                         control.TerminalIngresoLog = model.TerminalIngresoLog;
@@ -143,11 +144,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                 return entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
-        public void Aprobar_ReporteCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE_CONTROL controlCloro)
+        public void Aprobar_ReporteCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE_CONTROL controlCloro, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.IdCloroAguaAutoclaveControl == controlCloro.IdCloroAguaAutoclaveControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.IdCloroAguaAutoclaveControl == controlCloro.IdCloroAguaAutoclaveControl || (x.Fecha == controlCloro.Fecha && x.Turno ==Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (model != null)
                 {
                     model.EstadoReporte = controlCloro.EstadoReporte;

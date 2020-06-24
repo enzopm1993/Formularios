@@ -38,13 +38,8 @@ function FiltrarAprobadosFecha() {
 }
 
 function SeleccionarBandeja(Control) {
-    //console.log(Control);
-    model = Control;
-
-    //if (!model.EstadoReporte) {
-    //    MensajeAdvertencia("Reporte se encuentra pendiente.");
-    //    return;
-    //}
+   
+    model = Control;  
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
     $("#btnConsultar").prop("hidden", true);
@@ -52,9 +47,7 @@ function SeleccionarBandeja(Control) {
     $("#divCabeceras").prop("hidden", true);
     $("#divDetalle").prop("hidden", true);
     $("#lblLomos").html('');
-    $("#divDetalle").prop("hidden", false);
-
-    // console.log(model);
+    $("#divDetalle").prop("hidden", false);    
 
     $("#divMensaje").html('');
     if (model.Lomos) {
@@ -62,13 +55,7 @@ function SeleccionarBandeja(Control) {
     }
     if (model.Latas) {
         $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
-    }
-    //$("#lblFerroro").html(model.Ferroso);
-    //$("#lblPCC").html(model.Pcc);
-    //$("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
-    //$("#lblNoFerroso").html(model.NoFerroso);
-    //$("#lblAceroInoxidable").html(model.AceroInoxidable);
-    //$("#pObservacion").html(model.Observacion);
+    }   
 
     if (model.EstadoReporte) {
         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
@@ -80,7 +67,7 @@ function SeleccionarBandeja(Control) {
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
     $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
 
-
+    
     CargarControlDetalle();
 }
 
@@ -101,7 +88,8 @@ function CargarControlDetalle() {
         url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclaveDetallePartial",
         type: "GET",
         data: {
-            Fecha: model.Fecha
+            Fecha: model.Fecha,
+            Turno: model.Turno
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {
