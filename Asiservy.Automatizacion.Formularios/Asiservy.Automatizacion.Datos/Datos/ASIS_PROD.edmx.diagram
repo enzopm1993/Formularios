@@ -131,7 +131,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="39.625" PointY="1" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Width="1.5" PointX="40.625" PointY="11" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="0.75" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_MANT" Width="1.5" PointX="3.375" PointY="39.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_PHMETRO" Width="1.5" PointX="0.75" PointY="39.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL" Width="1.5" PointX="3.375" PointY="44.25" />
@@ -203,7 +202,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE" Width="1.5" PointX="48.625" PointY="30.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Width="1.5" PointX="50.625" PointY="24.625" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" />
@@ -248,6 +246,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="32.625" PointY="11.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="25.625" PointY="47" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="23.375" PointY="47.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -557,8 +557,8 @@
             <PropertyRef Name="IdCondicionPersonal" />
           </Key>
           <Property Name="IdCondicionPersonal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="IdCondicionPersonalControl" Type="int" Nullable="false" />
+          <Property Name="Hora" Type="datetime" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="13" />
           <Property Name="CodCondicion" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Observacion" Type="varchar" MaxLength="250" />
@@ -577,6 +577,7 @@
           </Key>
           <Property Name="IdCondicionPersonalControl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="EstadoReporte" Type="bit" Nullable="false" />
           <Property Name="FechaAprobacion" Type="datetime" />
           <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
@@ -3271,6 +3272,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL">
+          <End Role="CC_CONDICION_PERSONAL_CONTROL" Type="Self.CC_CONDICION_PERSONAL_CONTROL" Multiplicity="1" />
+          <End Role="CC_CONDICION_PERSONAL" Type="Self.CC_CONDICION_PERSONAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_CONDICION_PERSONAL_CONTROL">
+              <PropertyRef Name="IdCondicionPersonalControl" />
+            </Principal>
+            <Dependent Role="CC_CONDICION_PERSONAL">
+              <PropertyRef Name="IdCondicionPersonalControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS">
           <End Role="CC_CONTROL_LAVADO_DESINFECCION_MANOS" Type="Self.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Multiplicity="1" />
           <End Role="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Type="Self.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Multiplicity="*" />
@@ -4860,6 +4873,10 @@
             <End Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntitySet="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
             <End Role="CC_CLORO_AGUA_AUTOCLAVE" EntitySet="CC_CLORO_AGUA_AUTOCLAVE" />
           </AssociationSet>
+          <AssociationSet Name="FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" Association="Self.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL">
+            <End Role="CC_CONDICION_PERSONAL_CONTROL" EntitySet="CC_CONDICION_PERSONAL_CONTROL" />
+            <End Role="CC_CONDICION_PERSONAL" EntitySet="CC_CONDICION_PERSONAL" />
+          </AssociationSet>
           <AssociationSet Name="FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" Association="Self.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS">
             <End Role="CC_CONTROL_LAVADO_DESINFECCION_MANOS" EntitySet="CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
             <End Role="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" EntitySet="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" />
@@ -5973,7 +5990,6 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" />
-          <EntitySet Name="CC_CONDICION_PERSONAL_CONTROL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" />
           <EntitySet Name="CC_HIGIENE_COMEDOR_COCINA_MANT" EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_MANT" />
           <EntitySet Name="CC_CALIBRACION_PHMETRO" EntityType="ASIS_PRODModel.CC_CALIBRACION_PHMETRO" />
           <EntitySet Name="CC_HIGIENE_COMEDOR_COCINA_CTRL" EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL" />
@@ -6212,10 +6228,6 @@
             <End Role="CC_MANTENIMIENTO_REACTIVO" EntitySet="CC_MANTENIMIENTO_REACTIVO" />
             <End Role="CC_KARDEX_REACTIVO_DETALLE" EntitySet="CC_KARDEX_REACTIVO_DETALLE" />
           </AssociationSet>
-          <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" />
-          <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
-          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaControlAvanceDiarioPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea)">
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
@@ -6387,6 +6399,15 @@
             <End Role="CC_OPERATIVIDAD_METAL" EntitySet="CC_OPERATIVIDAD_METAL" />
             <End Role="CC_OPERATIVIDAD_METAL_DETALLE" EntitySet="CC_OPERATIVIDAD_METAL_DETALLE" />
           </AssociationSet>
+          <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" />
+          <EntitySet Name="CC_CONDICION_PERSONAL_CONTROL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" />
+          <AssociationSet Name="FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" Association="ASIS_PRODModel.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL">
+            <End Role="CC_CONDICION_PERSONAL_CONTROL" EntitySet="CC_CONDICION_PERSONAL_CONTROL" />
+            <End Role="CC_CONDICION_PERSONAL" EntitySet="CC_CONDICION_PERSONAL" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -9899,23 +9920,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS" Relationship="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" FromRole="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" ToRole="CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
         </EntityType>
-        <EntityType Name="CC_CONDICION_PERSONAL_CONTROL">
-          <Key>
-            <PropertyRef Name="IdCondicionPersonalControl" />
-          </Key>
-          <Property Name="IdCondicionPersonalControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
-          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
-          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="CC_HIGIENE_COMEDOR_COCINA_MANT">
           <Key>
             <PropertyRef Name="IdMantenimiento" />
@@ -11457,35 +11461,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CC_CONDICION_PERSONAL">
-          <Key>
-            <PropertyRef Name="IdCondicionPersonal" />
-          </Key>
-          <Property Name="IdCondicionPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="CodCondicion" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <ComplexType Name="spConsultaCondicionesPersonal">
-          <Property Type="Int32" Name="IdCondicionPersonal" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Time" Name="Hora" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodCondicion" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-        </ComplexType>
         <ComplexType Name="spConsultaControlAvanceDiarioPorLinea">
           <Property Type="DateTime" Name="Fecha" Nullable="true" />
           <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
@@ -12483,6 +12458,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CC_CONDICION_PERSONAL">
+          <Key>
+            <PropertyRef Name="IdCondicionPersonal" />
+          </Key>
+          <Property Name="IdCondicionPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCondicionPersonalControl" Type="Int32" Nullable="false" />
+          <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CodCondicion" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_CONDICION_PERSONAL_CONTROL" Relationship="ASIS_PRODModel.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" FromRole="CC_CONDICION_PERSONAL" ToRole="CC_CONDICION_PERSONAL_CONTROL" />
+        </EntityType>
+        <EntityType Name="CC_CONDICION_PERSONAL_CONTROL">
+          <Key>
+            <PropertyRef Name="IdCondicionPersonalControl" />
+          </Key>
+          <Property Name="IdCondicionPersonalControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_CONDICION_PERSONAL" Relationship="ASIS_PRODModel.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" FromRole="CC_CONDICION_PERSONAL_CONTROL" ToRole="CC_CONDICION_PERSONAL" />
+        </EntityType>
+        <Association Name="FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL">
+          <End Type="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Role="CC_CONDICION_PERSONAL_CONTROL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_CONDICION_PERSONAL" Role="CC_CONDICION_PERSONAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_CONDICION_PERSONAL_CONTROL">
+              <PropertyRef Name="IdCondicionPersonalControl" />
+            </Principal>
+            <Dependent Role="CC_CONDICION_PERSONAL">
+              <PropertyRef Name="IdCondicionPersonalControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaCondicionesPersonal">
+          <Property Type="Int32" Name="IdCondicionPersonal" Nullable="false" />
+          <Property Type="Int32" Name="IdCondicionPersonalControl" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodCondicion" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16246,24 +16284,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_CONDICION_PERSONAL_CONTROL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL">
-              <MappingFragment StoreEntitySet="CC_CONDICION_PERSONAL_CONTROL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdCondicionPersonalControl" ColumnName="IdCondicionPersonalControl" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_HIGIENE_COMEDOR_COCINA_MANT">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_MANT">
               <MappingFragment StoreEntitySet="CC_HIGIENE_COMEDOR_COCINA_MANT">
@@ -17607,40 +17627,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_CONDICION_PERSONAL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONDICION_PERSONAL">
-              <MappingFragment StoreEntitySet="CC_CONDICION_PERSONAL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaCondicionesPersonal" FunctionName="ASIS_PRODModel.Store.spConsultaCondicionesPersonal">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCondicionesPersonal">
-                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
-                <ScalarProperty Name="Condicion" ColumnName="Condicion" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaControlAvanceDiarioPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaControlAvanceDiarioPorLinea">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea">
@@ -18472,6 +18458,61 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CC_CONDICION_PERSONAL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONDICION_PERSONAL">
+              <MappingFragment StoreEntitySet="CC_CONDICION_PERSONAL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdCondicionPersonalControl" ColumnName="IdCondicionPersonalControl" />
+                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_CONDICION_PERSONAL_CONTROL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL">
+              <MappingFragment StoreEntitySet="CC_CONDICION_PERSONAL_CONTROL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCondicionPersonalControl" ColumnName="IdCondicionPersonalControl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCondicionesPersonal" FunctionName="ASIS_PRODModel.Store.spConsultaCondicionesPersonal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCondicionesPersonal">
+                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
+                <ScalarProperty Name="IdCondicionPersonalControl" ColumnName="IdCondicionPersonalControl" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
+                <ScalarProperty Name="Condicion" ColumnName="Condicion" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

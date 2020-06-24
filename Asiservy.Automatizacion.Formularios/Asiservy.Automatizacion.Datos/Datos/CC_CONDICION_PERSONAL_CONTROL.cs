@@ -14,8 +14,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_CONDICION_PERSONAL_CONTROL
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_CONDICION_PERSONAL_CONTROL()
+        {
+            this.CC_CONDICION_PERSONAL = new HashSet<CC_CONDICION_PERSONAL>();
+        }
+    
         public int IdCondicionPersonalControl { get; set; }
         public System.DateTime Fecha { get; set; }
+        public string Turno { get; set; }
         public bool EstadoReporte { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public string AprobadoPor { get; set; }
@@ -26,5 +33,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
     }
 }
