@@ -155,9 +155,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Width="1.5" PointX="40.375" PointY="35.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="39.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
@@ -186,12 +184,10 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="23.375" PointY="39.5" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="25.625" PointY="39.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" Width="1.5" PointX="25.375" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="33.375" PointY="36.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Width="1.5" PointX="35.625" PointY="36.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO" Width="1.5" PointX="38.375" PointY="16.75" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO_CONTROL" Width="1.5" PointX="38.375" PointY="21.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" Width="1.5" PointX="34.375" PointY="44" />
@@ -248,6 +244,10 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_ANALISIS_AGUA_CALDEROS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Width="1.5" PointX="40.375" PointY="35.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="25.625" PointY="39.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

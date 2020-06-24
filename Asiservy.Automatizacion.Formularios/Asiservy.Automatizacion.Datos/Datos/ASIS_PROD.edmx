@@ -540,6 +540,7 @@
           </Key>
           <Property Name="IdCloroAguaAutoclaveControl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="EstadoReporte" Type="bit" Nullable="false" />
           <Property Name="FechaAprobacion" Type="datetime" />
           <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
@@ -758,7 +759,7 @@
             <PropertyRef Name="IdDetalleEvaluacionLomoyMigasEnBandeja" />
           </Key>
           <Property Name="IdDetalleEvaluacionLomoyMigasEnBandeja" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Hora" Type="time" Precision="7" />
+          <Property Name="Hora" Type="datetime" />
           <Property Name="Linea" Type="varchar" MaxLength="5" />
           <Property Name="Lote" Type="varchar" MaxLength="5" />
           <Property Name="buque" Type="varchar" MaxLength="50" />
@@ -6053,12 +6054,7 @@
             <Parameter Name="idLavadoCisterna" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
           <EntitySet Name="CC_CLORO_AGUA_AUTOCLAVE" EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" />
-          <AssociationSet Name="FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-            <End Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntitySet="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
-            <End Role="CC_CLORO_AGUA_AUTOCLAVE" EntitySet="CC_CLORO_AGUA_AUTOCLAVE" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaPersonalMovidoaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaPersonalMovidoaLinea)">
             <Parameter Name="LINEA" Mode="In" Type="String" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
@@ -6156,15 +6152,10 @@
             <End Role="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntitySet="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" />
           </AssociationSet>
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
-          <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_FOTO" EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" />
           <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" />
           <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
           <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO" EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO" />
-          <AssociationSet Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
-            <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
-            <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
-          </AssociationSet>
           <AssociationSet Name="FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO">
             <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO" />
             <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
@@ -6382,8 +6373,18 @@
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
-            <Parameter Name="IDROL" Mode="In" Type="Int32" />
+          <Parameter Name="IDROL" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
+          <AssociationSet Name="FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+            <End Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntitySet="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
+            <End Role="CC_CLORO_AGUA_AUTOCLAVE" EntitySet="CC_CLORO_AGUA_AUTOCLAVE" />
+          </AssociationSet>
+          <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
+          <AssociationSet Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
+            <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
+            <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -10425,24 +10426,6 @@
           <Property Type="DateTime" Name="FechaAprobado" Nullable="true" Precision="23" />
           <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <EntityType Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-          <Key>
-            <PropertyRef Name="IdCloroAguaAutoclaveControl" />
-          </Key>
-          <Property Name="IdCloroAguaAutoclaveControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
-          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
-          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_CLORO_AGUA_AUTOCLAVE" Relationship="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" FromRole="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" ToRole="CC_CLORO_AGUA_AUTOCLAVE" />
-        </EntityType>
         <EntityType Name="CC_CLORO_AGUA_AUTOCLAVE">
           <Key>
             <PropertyRef Name="IdCloroAguaAutoclave" />
@@ -10466,18 +10449,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Relationship="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" FromRole="CC_CLORO_AGUA_AUTOCLAVE" ToRole="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
         </EntityType>
-        <Association Name="FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-          <End Type="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Role="CC_CLORO_AGUA_AUTOCLAVE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-              <PropertyRef Name="IdCloroAguaAutoclaveControl" />
-            </Principal>
-            <Dependent Role="CC_CLORO_AGUA_AUTOCLAVE">
-              <PropertyRef Name="IdCloroAguaAutoclaveControl" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaPersonalMovidoaLinea">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -11068,37 +11039,6 @@
           <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Relationship="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" FromRole="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" ToRole="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
         </EntityType>
-        <EntityType Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
-          <Key>
-            <PropertyRef Name="IdDetalleEvaluacionLomoyMigasEnBandeja" />
-          </Key>
-          <Property Name="IdDetalleEvaluacionLomoyMigasEnBandeja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Hora" Type="Time" Precision="7" />
-          <Property Name="Linea" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Lote" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="buque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sabor" Type="Int32" Nullable="false" />
-          <Property Name="Textura" Type="Int32" Nullable="false" />
-          <Property Name="Color" Type="Int32" Nullable="false" />
-          <Property Name="Olor" Type="Int32" Nullable="false" />
-          <Property Name="Moretones" Type="Int32" />
-          <Property Name="Proteina" Type="Int32" Nullable="false" />
-          <Property Name="Trozo" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="Venas" Type="Int32" />
-          <Property Name="Espinas" Type="Int32" />
-          <Property Name="Sangre" Type="Int32" />
-          <Property Name="Escamas" Type="Int32" />
-          <Property Name="Piel" Type="Int32" />
-          <Property Name="IdCabeceraEvaluacionLomosYMigasEnBandeja" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Relationship="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" FromRole="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" ToRole="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
-        </EntityType>
         <EntityType Name="CC_EVALUACION_LOMO_MIGA_FOTO">
           <Key>
             <PropertyRef Name="IdFotoEvaluacioLomosyMigas" />
@@ -11196,18 +11136,6 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
-          <End Type="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
-              <PropertyRef Name="IdEvaluacionDeLomosYMigasEnBandejas" />
-            </Principal>
-            <Dependent Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
-              <PropertyRef Name="IdCabeceraEvaluacionLomosYMigasEnBandeja" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO">
           <End Type="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" Multiplicity="1" />
           <End Type="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Multiplicity="*" />
@@ -12474,6 +12402,80 @@
           <Property Type="Int32" Name="OrdenModulo" Nullable="true" />
           <Property Type="String" Name="IconoModulo" Nullable="true" />
         </ComplexType>
+        <EntityType Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+          <Key>
+            <PropertyRef Name="IdCloroAguaAutoclaveControl" />
+          </Key>
+          <Property Name="IdCloroAguaAutoclaveControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_CLORO_AGUA_AUTOCLAVE" Relationship="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" FromRole="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" ToRole="CC_CLORO_AGUA_AUTOCLAVE" />
+        </EntityType>
+        <Association Name="FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+          <End Type="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Role="CC_CLORO_AGUA_AUTOCLAVE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+              <PropertyRef Name="IdCloroAguaAutoclaveControl" />
+            </Principal>
+            <Dependent Role="CC_CLORO_AGUA_AUTOCLAVE">
+              <PropertyRef Name="IdCloroAguaAutoclaveControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDetalleEvaluacionLomoyMigasEnBandeja" />
+          </Key>
+          <Property Name="IdDetalleEvaluacionLomoyMigasEnBandeja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hora" Type="DateTime" Precision="3" />
+          <Property Name="Linea" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Lote" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="buque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sabor" Type="Int32" Nullable="false" />
+          <Property Name="Textura" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="Int32" Nullable="false" />
+          <Property Name="Olor" Type="Int32" Nullable="false" />
+          <Property Name="Moretones" Type="Int32" />
+          <Property Name="Proteina" Type="Int32" Nullable="false" />
+          <Property Name="Trozo" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Venas" Type="Int32" />
+          <Property Name="Espinas" Type="Int32" />
+          <Property Name="Sangre" Type="Int32" />
+          <Property Name="Escamas" Type="Int32" />
+          <Property Name="Piel" Type="Int32" />
+          <Property Name="IdCabeceraEvaluacionLomosYMigasEnBandeja" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Relationship="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" FromRole="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" ToRole="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
+        </EntityType>
+        <Association Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
+          <End Type="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
+              <PropertyRef Name="IdEvaluacionDeLomosYMigasEnBandejas" />
+            </Principal>
+            <Dependent Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
+              <PropertyRef Name="IdCabeceraEvaluacionLomosYMigasEnBandeja" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16703,24 +16705,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-              <MappingFragment StoreEntitySet="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdCloroAguaAutoclaveControl" ColumnName="IdCloroAguaAutoclaveControl" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_CLORO_AGUA_AUTOCLAVE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE">
               <MappingFragment StoreEntitySet="CC_CLORO_AGUA_AUTOCLAVE">
@@ -17265,37 +17249,6 @@
                 <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
                 <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
                 <ScalarProperty Name="IdEvaluacionDeLomosYMigasEnBandejas" ColumnName="IdEvaluacionDeLomosYMigasEnBandejas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
-              <MappingFragment StoreEntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdCabeceraEvaluacionLomosYMigasEnBandeja" ColumnName="IdCabeceraEvaluacionLomosYMigasEnBandeja" />
-                <ScalarProperty Name="Piel" ColumnName="Piel" />
-                <ScalarProperty Name="Escamas" ColumnName="Escamas" />
-                <ScalarProperty Name="Sangre" ColumnName="Sangre" />
-                <ScalarProperty Name="Espinas" ColumnName="Espinas" />
-                <ScalarProperty Name="Venas" ColumnName="Venas" />
-                <ScalarProperty Name="Trozo" ColumnName="Trozo" />
-                <ScalarProperty Name="Proteina" ColumnName="Proteina" />
-                <ScalarProperty Name="Moretones" ColumnName="Moretones" />
-                <ScalarProperty Name="Olor" ColumnName="Olor" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="Textura" ColumnName="Textura" />
-                <ScalarProperty Name="Sabor" ColumnName="Sabor" />
-                <ScalarProperty Name="buque" ColumnName="buque" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="IdDetalleEvaluacionLomoyMigasEnBandeja" ColumnName="IdDetalleEvaluacionLomoyMigasEnBandeja" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -18457,6 +18410,56 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+              <MappingFragment StoreEntitySet="CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCloroAguaAutoclaveControl" ColumnName="IdCloroAguaAutoclaveControl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
+              <MappingFragment StoreEntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdCabeceraEvaluacionLomosYMigasEnBandeja" ColumnName="IdCabeceraEvaluacionLomosYMigasEnBandeja" />
+                <ScalarProperty Name="Piel" ColumnName="Piel" />
+                <ScalarProperty Name="Escamas" ColumnName="Escamas" />
+                <ScalarProperty Name="Sangre" ColumnName="Sangre" />
+                <ScalarProperty Name="Espinas" ColumnName="Espinas" />
+                <ScalarProperty Name="Venas" ColumnName="Venas" />
+                <ScalarProperty Name="Trozo" ColumnName="Trozo" />
+                <ScalarProperty Name="Proteina" ColumnName="Proteina" />
+                <ScalarProperty Name="Moretones" ColumnName="Moretones" />
+                <ScalarProperty Name="Olor" ColumnName="Olor" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Textura" ColumnName="Textura" />
+                <ScalarProperty Name="Sabor" ColumnName="Sabor" />
+                <ScalarProperty Name="buque" ColumnName="buque" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdDetalleEvaluacionLomoyMigasEnBandeja" ColumnName="IdDetalleEvaluacionLomoyMigasEnBandeja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
