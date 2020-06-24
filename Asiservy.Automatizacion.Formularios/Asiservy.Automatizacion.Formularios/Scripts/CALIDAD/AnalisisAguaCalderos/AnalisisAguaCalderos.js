@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿model = [];
+$(document).ready(function () {
    ValidaEstadoReporte($("#txtFecha").val());
 });
 
@@ -16,6 +17,8 @@ function ValidaEstadoReporte(Fecha) {
             }
             if (resultado == 0) {
                 $("#lblAprobadoPendiente").html("");
+                $("#h4Mensaje").html(Mensajes.SinRegistros);
+               
 
             } else if (resultado == 1) {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
@@ -36,6 +39,7 @@ function ConsultarControl() {
     if ($("#txtFecha").val() == '') {
         return;
     }
+    model = [];
     ValidaEstadoReporte($("#txtFecha").val());
     MostrarModalCargando();
     $("#h4Mensaje").html("");
@@ -43,7 +47,8 @@ function ConsultarControl() {
         url: "../AnalisisAguaCalderos/AnalisisAguaCalderosPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            IdEquipo: $("#selectEquipo").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -56,17 +61,17 @@ function ConsultarControl() {
                     $("#txt-" + x).val("");
                     $("#txt-" + x).prop("disabled", false);
                 });
-                $("#h4Mensaje").html(Mensajes.SinRegistros);
                 $("#btnGenerar").prop("hidden", false);
                 $("#btnEditar").prop("hidden", true);
                 $("#btnEliminar").prop("hidden", true);
             } else {
+                model = resultado;
                 parametros.forEach(function (x) {
-                    $("#txtReactivo-" + x).val("");
-                    $("#txtReactivo-" + x).prop("disabled", true);
+                    $("#txt-" + x).val("");
+                    $("#txt-" + x).prop("disabled", true);
                     resultado.forEach(function (y) {
-                        if (x = y.IdReactivo) {
-                            $("#txtReactivo-" + x).val(y.Valor);
+                        if (x = y.IdParametro) {
+                            $("#txt-" + x).val(y.Valor);
                         }
                     });
                 });
@@ -89,9 +94,9 @@ function ConsultarControl() {
 }
 
 function EditarControl() {
-    mantenimientos.forEach(function (x) {
+    parametros.forEach(function (x) {
         //data here
-        $("#txtReactivo-" + x).prop("disabled", false);
+        $("#txt-" + x).prop("disabled", false);
         //console.log(object);
     });
     $("#btnGenerar").prop("hidden", false);
@@ -109,16 +114,24 @@ function Validar() {
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
     }
+
+    if ($("#selectEquipo").val() == "") {
+        $("#selectEquipo").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectEquipo").css('borderColor', '#ced4da');
+    }
+
     var contador = 0;
-    mantenimientos.forEach(function (x) {
-        if ($("#txtReactivo-" + x).val() > 9999.9999) {
-            $("#txtReactivo-" + x).css('borderColor', '#FA8072');
+    parametros.forEach(function (x) {
+        if ($("#txt-" + x).val() > 9999.9999) {
+            $("#txt-" + x).css('borderColor', '#FA8072');
             valida = false;
         } else {
-            $("#txtReactivo-" + x).css('borderColor', '#ced4da');
+            $("#txt-" + x).css('borderColor', '#ced4da');
         }
 
-        if ($("#txtReactivo-" + x).val() != "") {
+        if ($("#txt-" + x).val() != "") {
             contador += 1;
         }
 
@@ -147,21 +160,22 @@ function GuardarControl() {
     formdata.append("Fecha", $("#txtFecha").val());
 
     var obj = [];
-    mantenimientos.forEach(function (x) {
-        if ($("#txtReactivo-" + x).val() > 0) {
-            obj.push({ IdReactivo: x, Valor: $("#txtReactivo-" + x).val() });
+    parametros.forEach(function (x) {
+        if ($("#txt-" + x).val() > 0) {
+            obj.push({ IdParametro: x, Valor: $("#txt-" + x).val(), IdEquipo: $("#selectEquipo").val()});
         }
     });
 
     formdata.append("detalle", obj);
-    // console.log(obj);
-    // return;
+     //console.log(obj);
+     //return;
     $.ajax({
         url: "../AnalisisAguaCalderos/AnalisisAguaCalderos",
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            Detalle: obj
+            Detalle: obj,
+           
 
         },
         success: function (resultado) {
@@ -191,10 +205,13 @@ function GuardarControl() {
 
 
 function InactivarControl() {
+    console.log(model);
     $.ajax({
         url: "../AnalisisAguaCalderos/EliminarAnalisisAguaCalderos",
         type: "POST",
         data: {
+            IdAnalisisAguaCalderos: model[0].IdAnalisisAguaCalderos,
+            IdEquipo: $("#selectEquipo").val(),
             Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
@@ -210,7 +227,6 @@ function InactivarControl() {
                 MensajeAdvertencia(Mensajes.ControlAprobado);
             } else {
                 ConsultarControl();
-                NuevoControl();
             }
             $("#modalEliminarControl").modal("hide");
         },

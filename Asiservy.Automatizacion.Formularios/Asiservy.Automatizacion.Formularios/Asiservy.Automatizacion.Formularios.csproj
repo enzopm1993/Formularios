@@ -2196,6 +2196,8 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\AnalisisAguaCalderos.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\BandejaAnalisisAguaCalderos.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisAguaCalderos\ReporteAnalisisAguaCalderos.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\BandejaClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\MantenimientoClorinacionCisterna.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ReporteClorinacionCisterna.js" />
@@ -4178,6 +4180,11 @@
     <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAac.cshtml" />
     <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAacPartial.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\BandejaAnalisisAguaCalderos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\BandejaAnalisisAguaCalderosPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosDetallePartial.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

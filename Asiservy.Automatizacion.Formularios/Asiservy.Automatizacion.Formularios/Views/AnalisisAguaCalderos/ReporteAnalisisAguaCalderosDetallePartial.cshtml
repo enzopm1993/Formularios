@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaAnalisisAguaCaldero>
+@using Asiservy.Automatizacion.Datos.Datos
+
+@{
+    List<CC_MANTENIMIENTO_PARAMETRO_AAC> ListParametros = (List<CC_MANTENIMIENTO_PARAMETRO_AAC>)ViewBag.Parametros;
+    List<CC_MANTENIMIENTO_EQUIPO_AAC> ListEquipos = (List<CC_MANTENIMIENTO_EQUIPO_AAC>)ViewBag.Equipos;
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Paramtro</th>
+        @foreach (var x in ListParametros)
+        {
+            <th>@x.Abreviatura</th>
+        }
+    </tr>
+
+
+        @foreach (var equipo in ListEquipos)
+        {
+            <tr>
+                <td>@equipo.Descripcion</td>
+
+                @foreach (var x in ListParametros)
+                {
+                    var p = Model.FirstOrDefault(m => m.IdEquipo == equipo.IdEquipo && m.IdParametro == x.IdParametro);
+                    if (p != null)
+                    {
+                        
+                    <td>@p.Valor.ToString("#.##")</td>}
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+
+            </tr>
+        }
+
+    </table>

@@ -70,19 +70,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCa
             }
         }
 
-        public void EliminarAnalisisAguaCaldero(CC_ANALISIS_AGUA_CALDEROS model)
+        public void EliminarAnalisisAguaCaldero(CC_ANALISIS_AGUA_CALDEROS_DETALLE  model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_ANALISIS_AGUA_CALDEROS.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var poControl = entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.Where(x => x.IdAnalisisAguaCalderos == model.IdAnalisisAguaCalderos && x.IdEquipo == model.IdEquipo && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 if (poControl != null)
                 {
-                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
-                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    var poControl2 = entities.CC_ANALISIS_AGUA_CALDEROS.FirstOrDefault(x => x.IdAnalisisAguaCalderos == model.IdAnalisisAguaCalderos);
+                    if (poControl2 != null && poControl.Count == 1)
+                    {
+                        poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControl2.FechaModificacionLog = model.FechaIngresoLog;
+                    }
+                    foreach (var x in poControl)
+                    {
+                        x.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        x.TerminalModificacionLog = model.TerminalIngresoLog;
+                        x.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        x.FechaModificacionLog = model.FechaIngresoLog;
+                        
+                    }
                     entities.SaveChanges();
                 }
+
+               
+
 
             }
         }
