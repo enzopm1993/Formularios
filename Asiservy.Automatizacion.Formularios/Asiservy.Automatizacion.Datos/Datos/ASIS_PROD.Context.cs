@@ -1702,15 +1702,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spConsultaOpcionesPorRol> spConsultaOpcionesPorRol(Nullable<int> iDROL)
-        {
-            var iDROLParameter = iDROL.HasValue ?
-                new ObjectParameter("IDROL", iDROL) :
-                new ObjectParameter("IDROL", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionesPorRol>("spConsultaOpcionesPorRol", iDROLParameter);
-        }
-    
         public virtual ObjectResult<spConsultaReporteDetalle> spConsultaReporteDetalle(Nullable<int> idControl)
         {
             var idControlParameter = idControl.HasValue ?
@@ -2294,6 +2285,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FechaHasta", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAnalisisAguaCaldero>("spReporteAnalisisAguaCaldero", fechaDesdeParameter, fechaHastaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaOpcionesPorRol> spConsultaOpcionesPorRol(Nullable<int> iDROL)
+        {
+            var iDROLParameter = iDROL.HasValue ?
+                new ObjectParameter("IDROL", iDROL) :
+                new ObjectParameter("IDROL", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionesPorRol>("spConsultaOpcionesPorRol", iDROLParameter);
         }
     }
 }

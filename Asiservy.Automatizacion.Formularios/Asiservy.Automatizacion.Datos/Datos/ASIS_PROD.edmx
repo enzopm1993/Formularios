@@ -5958,9 +5958,6 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
-          <Parameter Name="IDROL" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="REPORTE_DETALLE" EntityType="ASIS_PRODModel.REPORTE_DETALLE" />
           <FunctionImport Name="spConsultaReporteDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteDetalle)">
           <Parameter Name="idControl" Mode="In" Type="Int32" />
@@ -6383,6 +6380,9 @@
           <FunctionImport Name="spReporteAnalisisAguaCaldero" ReturnType="Collection(ASIS_PRODModel.spReporteAnalisisAguaCaldero)">
             <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
+            <Parameter Name="IDROL" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -9819,18 +9819,6 @@
           <Property Type="String" Name="Linea5" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spConsultaOpcionesPorRol">
-          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Clase" Nullable="true" MaxLength="1" />
-          <Property Type="Int32" Name="Padre" Nullable="true" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="Orden" Nullable="true" />
-          <Property Type="Int32" Name="IdModulo" Nullable="true" />
-          <Property Type="String" Name="NombreModulo" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="OrdenModulo" Nullable="true" />
-        </ComplexType>
         <EntityType Name="REPORTE_DETALLE">
           <Key>
             <PropertyRef Name="IdReporteDetalle" />
@@ -12472,6 +12460,19 @@
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaOpcionesPorRol">
+          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Clase" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="Padre" Nullable="true" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="Int32" Name="IdModulo" Nullable="true" />
+          <Property Type="String" Name="NombreModulo" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="OrdenModulo" Nullable="true" />
+          <Property Type="String" Name="IconoModulo" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -16150,22 +16151,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaOpcionesPorRol" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionesPorRol">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionesPorRol">
-                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
-                <ScalarProperty Name="Clase" ColumnName="Clase" />
-                <ScalarProperty Name="Padre" ColumnName="Padre" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Orden" ColumnName="Orden" />
-                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
-                <ScalarProperty Name="NombreModulo" ColumnName="NombreModulo" />
-                <ScalarProperty Name="OrdenModulo" ColumnName="OrdenModulo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="REPORTE_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_DETALLE">
               <MappingFragment StoreEntitySet="REPORTE_DETALLE">
@@ -18452,6 +18437,23 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaOpcionesPorRol" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionesPorRol">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionesPorRol">
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="NombreModulo" ColumnName="NombreModulo" />
+                <ScalarProperty Name="OrdenModulo" ColumnName="OrdenModulo" />
+                <ScalarProperty Name="IconoModulo" ColumnName="IconoModulo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
