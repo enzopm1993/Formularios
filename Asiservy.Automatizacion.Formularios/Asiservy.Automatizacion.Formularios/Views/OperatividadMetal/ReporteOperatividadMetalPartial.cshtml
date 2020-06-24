@@ -2,13 +2,14 @@
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
 
-
+@{ var poTurno = (List<CLASIFICADOR>)ViewBag.Turno;}
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
+            <th>Turno</th>
             <th>
                 @Html.DisplayNameFor(model => model.Pcc)
             </th>
@@ -22,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Ferroso)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NoFerroso)
+               No Ferroso
             </th>
             <th>
                 Acero Inoxidable
@@ -58,24 +59,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-
+            var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
             var m = new CC_OPERATIVIDAD_METAL
             {
                 AceroInoxidable = item.AceroInoxidable,
                 IdOperatividadMetal = item.IdOperatividadMetal,
                 Fecha = item.Fecha,
+                Turno = T.Descripcion,
                 AprobadoPor = item.AprobadoPor,
                 DetectorMetal = item.DetectorMetal,
                 EstadoReporte = item.EstadoReporte,
                 FechaAprobacion = item.FechaAprobacion,
-                FechaIngresoLog= item.FechaIngresoLog,
+                FechaIngresoLog = item.FechaIngresoLog,
                 FechaModificacionLog = item.FechaModificacionLog,
                 Ferroso = item.Ferroso,
                 Latas = item.Latas,
                 Lomos = item.Lomos,
                 NoFerroso = item.NoFerroso,
                 Observacion = item.Observacion,
-                Pcc=item.Pcc,
+                Pcc = item.Pcc,
                 UsuarioIngresoLog = item.UsuarioIngresoLog,
                 UsuarioModificacionLog = item.UsuarioModificacionLog
             };
@@ -85,6 +87,15 @@
             <tr onclick="SeleccionarBandeja(@json)">
                 <td>
                     @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @{
+                        
+                        if (T != null)
+                        {
+                            @T.Descripcion
+                        }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Pcc)
@@ -135,7 +146,8 @@
                     @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
                 </td>
                 <td>
-                    @if (item.FechaModificacionLog != null) {
+                    @if (item.FechaModificacionLog != null)
+                    {
                         item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
                     }
                 </td>

@@ -7,12 +7,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
 {
     public class clsDOperatividadMetal
     {
-        public List<CC_OPERATIVIDAD_METAL> ConsultaOperatividadMetal(DateTime Fecha)
+        public List<CC_OPERATIVIDAD_METAL> ConsultaOperatividadMetal(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var lista = entities.CC_OPERATIVIDAD_METAL.Where(x =>
                             x.Fecha == Fecha
+                            && x.Turno == Turno
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 return lista;
             }
@@ -23,7 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var poControl = entities.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == model.IdOperatividadMetal
-                                || (x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                                || (x.Fecha == model.Fecha &&x.Turno == model.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
 
                 if (poControl != null && poControl.EstadoReporte==clsAtributos.EstadoReporteActivo)
                 {

@@ -11,7 +11,7 @@ var rotation = 0;
     
 
 function ConsultarControl() {
-    MostrarModalCargando();
+   
     $("#divMensaje").html('');
     $("#divDetalle").prop("hidden", true);
     $("#divDetalle2").prop("hidden", true);
@@ -26,11 +26,19 @@ function ConsultarControl() {
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
     }
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+    MostrarModalCargando();
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -191,6 +199,7 @@ function GenerarControl() {
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
             IdOperatividadMetal: Model.IdOperatividadMetal,
             Pcc: $("#txtPcc").val(),
             Lomos: $("#chkLomo").prop("checked"),
