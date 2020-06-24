@@ -8,7 +8,8 @@ function ValidaEstadoReporte(Fecha) {
         url: "../CloroAguaAutoClave/ValidaEstadoReporte",
         type: "GET",
         data: {
-            Fecha: Fecha
+            Fecha: Fecha,
+            Truno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -34,7 +35,7 @@ function ValidaEstadoReporte(Fecha) {
 
 function ConsultarControl() {
     $("#chartCabecera2").html('');
-    if ($("#txtFecha").val() == '') {
+    if ($("#txtFecha").val() == '' || $("#selectTurno").val() == '') {
         return;
     }
     $("#spinnerCargando").prop("hidden", false);
@@ -43,7 +44,8 @@ function ConsultarControl() {
         url: "../CloroAguaAutoclave/CloroAguaAutoclavePartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(), 
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -113,6 +115,13 @@ function Validar() {
         $("#txtHora").css('borderColor', '#ced4da');
     }
 
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         valida = false;
@@ -179,7 +188,8 @@ function GuardarControl() {
         type: "POST",
         data: {
             IdCloroAguaAutoclave: $("#txtIdCloroAguaAutoclave").val(),
-            Fecha: $("#txtFecha").val(),
+            Fecha: $("#txtFecha").val(), 
+            Turno: $("#selectTurno").val(), 
             Hora: $("#txtHora").val(),
             Parada: $("#txtParada").val(),
             Autoclave: $("#selectAutoclave").val(),

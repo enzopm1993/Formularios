@@ -8,13 +8,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
     public class ClsDCloroAguaAutoclave
     {
 
-        public List<CC_CLORO_AGUA_AUTOCLAVE> ConsultaCloroAguaAutoclave(DateTime Fecha)
+        public List<CC_CLORO_AGUA_AUTOCLAVE> ConsultaCloroAguaAutoclave(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var query = (from x in entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL
                             join y in entities.CC_CLORO_AGUA_AUTOCLAVE on x.IdCloroAguaAutoclaveControl equals y.IdCloroAguaAutoclaveControl
                             where x.Fecha == Fecha && y.EstadoRegistro == clsAtributos.EstadoRegistroActivo 
+                            && x.Turno == Turno
                             && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
                             select y);
  
@@ -123,11 +124,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
             }
         }
 
-        public List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> ConsultaCloroAguaAutoclaveControl(DateTime Fecha)
+        public List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> ConsultaCloroAguaAutoclaveControl(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 return entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.Where(x => x.Fecha == Fecha
+                                                                && x.Turno == Turno
                                                                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }

@@ -23,6 +23,13 @@
                 <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno",new SelectList(ViewBag.Turnos,"Codigo","Descripcion"),"Seleccione", new { @class="form-control", @onchange= "ConsultarControl()" })
+            </div>
+        </div>
+
         <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>

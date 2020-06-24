@@ -35,6 +35,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 ClsDClasificador = new clsDClasificador();
                 ViewBag.AutoClaves = ClsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave);
+                ViewBag.Turnos = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -103,7 +104,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult CloroAguaAutoClavePartial(DateTime Fecha)
+        public ActionResult CloroAguaAutoClavePartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -116,7 +117,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 //var control = ClsDCloroAguaAutoclave.con
-                var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha);
+                var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha, Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -187,7 +188,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult ValidaEstadoReporte(DateTime Fecha)
+        public JsonResult ValidaEstadoReporte(DateTime Fecha, string Turno)
         {
             try
             {
@@ -197,7 +198,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                var control = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(Fecha).FirstOrDefault();
+                var control = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(Fecha, Turno).FirstOrDefault();
                 if (control != null)
                 {
                     if (control.EstadoReporte)
