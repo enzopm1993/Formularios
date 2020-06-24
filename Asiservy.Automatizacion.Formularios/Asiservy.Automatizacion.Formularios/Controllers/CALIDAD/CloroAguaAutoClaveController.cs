@@ -353,7 +353,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult AprobarBandejaControlCloro(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model)
+        public ActionResult AprobarBandejaControlCloro(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model, string Turno)
         {
             try
             {
@@ -371,7 +371,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model);
+                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model, Turno);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -394,7 +394,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReversarBandejaControl(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model)
+        public ActionResult ReversarBandejaControl(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model,string Turno)
         {
             try
             {
@@ -412,7 +412,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model);
+                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model, Turno);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -563,6 +563,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                ClsDClasificador = new clsDClasificador();
+                var poTurno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno,Turno).FirstOrDefault();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno.Descripcion;
+                }
                 var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha, Turno);
                 if (!model.Any())
                 {

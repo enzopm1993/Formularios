@@ -9,7 +9,7 @@ function ValidaEstadoReporte(Fecha) {
         type: "GET",
         data: {
             Fecha: Fecha,
-            Truno: $("#selectTurno").val()
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -236,7 +236,8 @@ function InactivarControl() {
         type: "POST",
         data: {
             IdCloroAguaAutoclave: $("#txtIdCloroAguaAutoclave").val(),
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
