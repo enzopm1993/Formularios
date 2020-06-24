@@ -1,12 +1,12 @@
 ﻿var itemEditar = [];
 $(document).ready(function () {
-    CargarCabecera();
+    CargarCabecera();    
 });
 
 function CargarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../MaterialQuebradizo/MantenimientoMaterialQuebradizoPartial",
+        url: "../LaboratorioAnalisisQuimico/MantenimientoTurnoPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
@@ -29,19 +29,18 @@ function CargarCabecera() {
 
 function GuardarCabecera() {
     $('#cargac').show();
-    if ($('#txtNombre').val().length > 100 || $('#txtDescripcion').val().length > 100) {
+    if ($('#txtNombre').val().length > 50 || $('#txtDescripcion').val().length > 200) {
         $('#cargac').hide();
         MensajeAdvertencia('Paso e límite de caracteres en la Capacidad');
         return;
     }
     $.ajax({
-        url: "../MaterialQuebradizo/GuardarModificarMantenimiento",
+        url: "../LaboratorioAnalisisQuimico/GuardarModificarMantenimiento",
         type: "POST",
         data: {
-            IdMantenimiento: itemEditar.IdMantenimiento,
+            IdTurno: itemEditar.IdTurno,
             Nombre: $("#txtNombre").val(),
-            TipoVerificacion: document.getElementById('selectVerificacion').value,
-            Descripcion: $("#txtDescripcion").val()
+            DescripcionMant: $("#txtDescripcion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -53,7 +52,7 @@ function GuardarCabecera() {
             } else if (resultado == 2) {
                 MensajeAdvertencia('El registro no se pudo Actualizar ¡Por favor ACTIVE y vuelva a intentar!');
             } else if (resultado == 3) {
-                MensajeAdvertencia('!El nombre ya existe:! <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span>');                
+                MensajeAdvertencia('!El nombre ya existe:! <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span>');
                 $('#cargac').hide();
                 return;
             } else if (resultado == 4) {
@@ -92,10 +91,10 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     $('#cargac').show();
     $.ajax({
-        url: "../MaterialQuebradizo/EliminarMantenimiento",
+        url: "../LaboratorioAnalisisQuimico/EliminarMantenimiento",
         type: "POST",
         data: {
-            IdMantenimiento: itemEditar.IdMantenimiento,
+            IdTurno: itemEditar.IdTurno,
             Nombre: itemEditar.Nombre,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
@@ -104,7 +103,7 @@ function EliminarCabeceraSi() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdCisterna");
+                MensajeAdvertencia("Falta Parametro IdTurno");
                 $("#modalEliminarControl").modal("hide");
                 CerrarModalCargando();
                 return;
@@ -114,7 +113,7 @@ function EliminarCabeceraSi() {
                 MensajeCorrecto("Registro Actualizado con Éxito");
                 $('#cargac').hide();
             } else if (resultado == "2") {
-                MensajeAdvertencia('Ya existe una AREA activa con el Nombre: <span class="badge badge-danger">' + itemEditar.Nombre.toUpperCase() + '</span>');
+                MensajeAdvertencia('Ya existe un TURNO activo con el Nombre: <span class="badge badge-danger">' + itemEditar.Nombre.toUpperCase() + '</span>');
                 $("#modalEliminarControl").modal("hide");
                 $('#cargac').hide();
             }
@@ -133,19 +132,17 @@ function EliminarCabeceraNo() {
 
 function ActualizarCabecera(jdata) {
     if (jdata.EstadoRegistro != 'I') {
-        //$("#txtNombre").prop('disabled', true);
         $("#txtNombre").val(jdata.Nombre);
-        $("#txtDescripcion").val(jdata.Descripcion);
+        $("#txtDescripcion").val(jdata.DescripcionMant);
+        $("#txtOrden").val(jdata.Orden);
         $('#ModalIngresoCabecera').modal('show');
         itemEditar = jdata;
     } else {
         MensajeAdvertencia('¡Por favor <span class="badge badge-danger">ACTIVE</span> el AREA y vuelva a intentar!');
     }
-   
 }
 
 function ModalIngresoCabecera() {
-    //$("#txtNombre").prop('disabled', false);
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = [];
@@ -155,7 +152,7 @@ function LimpiarCabecera() {
     $('#txtNombre').val('');
     $('#txtDescripcion').val('');
     $("#txtNombre").css('border', '');
-    $("#txtDescripcion").css('border', '');
+    $("#txtDescripcion").css('border', '');   
 }
 
 function ValidarDatosVacios() {
@@ -172,6 +169,5 @@ function OnChangeTextBox() {
         $("#txtNombre").css('border', '1px dashed red');
         con = 1;
     } else $("#txtNombre").css('border', '');
-
     return con;
 }

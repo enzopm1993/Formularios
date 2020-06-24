@@ -1,7 +1,7 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.CC_CALIBRACION_FLUOROMETRO_CTRL
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL
 
 @{
-    ViewBag.Title = "ControlClorinacionCisterna";
+    ViewBag.Title = "ControlAnalisisQuimico";
 }
 
 
@@ -103,7 +103,7 @@
 
 <div class="row">
     <div class="col-12  text-md-left text-center">
-        <h4 style="float:left">Analisis Agua Clorinacion Cisterna<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
+        <h4 style="float:left">Control Análisis Químico<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
         <div class=" box_filters ">
             <div class="itemFilter">
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
@@ -174,7 +174,7 @@
 <br />
 
 @*MODAL MOSTRAR TABLA DETALLE*@
-<div id="divMostarTablaDetallesVer" class="table-responsive card">
+<div id="divMostarTablaDetallesVer" class="table-responsive">
 </div>
 
 @*MODAL ELIMINAR REGISTRO CABECERA*@
@@ -231,14 +231,14 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>OBSERVACION</label>
-                            <input type="text" name="name" value="" maxlength="100" id="txtIngresoObservacion" class="form-control" />
+                            <input type="text" name="name" value="" maxlength="200" id="txtIngresoObservacion" class="form-control" />
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -255,44 +255,115 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>HORA</label>
-                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="OnChangeTextBoxDetalle()" id="txtIngresoFechaDetalle" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <label>CISTERNA</label>
-                        <div class="form-group">
-                            @Html.DropDownList("selectCisterna", new SelectList(ViewBag.ListaCisternas, "IdCisterna", "NombreCisterna", 1), new { @class = "form-control", @onchange = "" })
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>STD</label>
-                            <input type="tel" name="name" value="" onchange="" id="txtStd" maxlength="10" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>DT</label>
-                            <input type="tel" name="name" value="" onchange="" id="txtDt" maxlength="10" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>CL</label>
-                            <input type="tel" name="name" value="" onchange="" id="txtCl" maxlength="10" class="form-control" />
-                        </div>
+
+                <div class="col-md-12 col-12 col-sm-12">
+                    <label>COCINADOR</label>
+                    <div class="form-group">
+                        <input type="text" name="name" value="" id="txtCocinador" maxlength="5" onchange="OnChangeTextBoxDetalle()" class="form-control" />
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="GuardarDetalle()" id="btnGuardarAccion">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+
+                <div class="col-md-12 col-12 col-sm-12">
+                    <label>PARADA</label>
+                    <div class="form-group">
+                        <input type="tel" name="name" value="" id="txtParada" maxlength="2" onchange="OnChangeTextBoxDetalle()" class="form-control" />
+                    </div>
                 </div>
+                <div class="col-md-12 col-12 col-sm-12">
+                    <label>TURNO</label>
+                    <div class="form-group">
+                        @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "IdTurno", "Nombre", 1), new { @class = "form-control", @onchange = "" })
+                    </div>
+                </div>
+                <div class="col-md-12 col-12 col-sm-12">
+                    <label>ANALISTA</label>
+                    <div class="form-group">
+                        <input type="text" disabled name="name" value="@ViewBag.usuarioAnalista" id="txtAnalista" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-12 col-12 col-sm-12">
+                    <label>OBSERVACIONES</label>
+                    <div class="form-group">
+                        <textarea type="text"  name="name" value="" rows="3" id="txtObservacionesDet" class="form-control" ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarDetalle()" id="btnGuadarDetalle">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
 
+@* MODAL PARA EL INGRESO/EDITAR ACCION CORRECTIVA DETALLE *@
+<div class="modal" tabindex="-1" id="modalAccionCorrectiva" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fotos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="SalirAccicionCorrectiva()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="GuardarAccionCorrectiva()" id="btnAccionCorrectiva">Agregar</button>
+                            <button data-toggle="tooltip" data-placement="top" title="Nueva Foto" class="btn" id="btnNuevo" onclick="NuevaFoto()" style="border-color:#2c3e50; padding:0px" type="button">
+                                <img style="width:100%" src="~/Content/icons/clear24.png" />
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Acción Correctiva</label>
+                            <input class="form-control" id="txtAccionCorrectiva" onchange="OnChangeTextBoxAccion()" maxlength="200" type="text" size="500" name="name" value="" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Adjuntar imagen</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file-upload" onclick="OnChangeTextBoxAccion()" accept="image/*">
+                            <label class="custom-file-label" for="customFile" onclick="OnChangeTextBoxAccion()" id="lblfoto">Seleccione archivo</label>
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <br />
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+
+                </div>
+                <div id="divListarFotos" class="table-responsive"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoimg">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+
+                <button type="button" class="btn btn-secondary" onclick="SalirAccicionCorrectiva()" data-dismiss="modal" id="btncancelarguardarfoto">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR REGISTRO ACCION CORRECTIVA*@
+<div class="modal" style="background-color:rgba(224, 224, 235, .4)" id="modalEliminarAccionCorrectiva" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accionCorrectiva"></h5>
+                <button type="button" class="close" onclick="EliminarAccionCorrectivaNo()" aria-label="Close"><span>&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarAccionCorrectiva()" id="btnEliminarSi">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarAccionCorrectivaNo()" id="btnEliminarNo">No</button>
+            </div>
+        </div>
+    </div>
+</div>

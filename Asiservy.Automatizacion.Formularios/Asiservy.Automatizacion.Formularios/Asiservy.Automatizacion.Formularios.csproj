@@ -2238,6 +2238,8 @@
     <Content Include="Scripts\CALIDAD\KardexReactivo\BandejaKardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\KardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\ReporteKardexReactivo.js" />
+    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.js" />
+    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\MantenimientoTurno.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -4174,6 +4176,10 @@
     <Content Include="Views\MantenimientoGrupoAac\MantenimientoGrupoPartial.cshtml" />
     <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAac.cshtml" />
     <Content Include="Views\MantenimientoEquipoAac\MantenimientoEquipoAacPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurno.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurnoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimicoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4187,7 +4193,6 @@
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\LaboratorioAnalisisQuimico\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
