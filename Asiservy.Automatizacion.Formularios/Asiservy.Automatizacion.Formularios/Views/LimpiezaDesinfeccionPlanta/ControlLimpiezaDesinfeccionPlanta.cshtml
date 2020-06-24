@@ -131,27 +131,32 @@
 
 <div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-3 col-12 col-sm-12" style="float:left">
+        <div class="col-md-2 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>FECHA</label>
                 <input type="date" name="name" disabled value="@DateTime.Now.ToString("dd-MM-yyyy")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-3 col-12 col-sm-12" style="float:left">
+        <div class="col-md-2 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>INSPECTOR</label>
                 <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtInspectorVer" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-6 col-12 col-sm-12" style="float:left">
+        <div class="col-md-5 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>OBSERVACION</label>
                 <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" />
             </div>
         </div>
-
+        <div class="col-md-5 col-12 col-sm-12">
+            <label>TURNO</label>
+            <div class="form-group">
+                @Html.DropDownList("selectTurno", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"), new { @onchange = "CargarDetalle(2)" })
+            </div>
+        </div>
         <div class="col-md-12 col-12 col-sm-12 text-md-center text-center">
             <div class="form-group">
                 <label>ACCIONES</label><br />
@@ -186,14 +191,14 @@
     </div>
     <br />
 
-    <div class="col-md-3 col-12 col-sm-12 text-center text-md-left">
+    @*<div class="col-md-3 col-12 col-sm-12 text-center text-md-left">
         <label>TURNO</label>
         <select id="selectTurnoFiltro" class="form-control" onchange="CargarDetalle(2)">
             <option value="TURNO_A" selected>TURNO A</option>
             <option value="TURNO_B">TURNO B</option>
             <option value="TURNO_C">TURNO C</option>
         </select>
-    </div>
+    </div>*@
 </div>
 <br />
 
@@ -309,7 +314,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-12 col-sm-12">
+                    @*<div class="col-md-3 col-12 col-sm-12">
                         <div class="form-group">
                             <label>TURNO</label>
                             <select id="selectTurno" class="form-control">
@@ -318,7 +323,7 @@
                                 <option value="TURNO_C">TURNO C</option>
                             </select>
                         </div>
-                    </div>
+                    </div>*@
                     <div id="divMostarTablaDetalles" class="table-responsive">
 
                     </div>

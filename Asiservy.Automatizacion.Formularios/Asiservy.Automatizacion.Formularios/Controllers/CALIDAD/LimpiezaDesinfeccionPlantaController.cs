@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class LimpiezaDesinfeccionPlantaController : Controller
     {
+        ClsDClasificador ClsDClasificador { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         clsDLimpiezaDesinfeccionPlanta clsDLimpiezaDesinfeccionPlanta { get; set; } = null;
@@ -485,6 +486,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarAreaAuditoriaActivos("A");
                 ViewBag.ListaAreasAuditar = lista;
+                ClsDClasificador = new clsDClasificador();
+                var poTurno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno, Turno).FirstOrDefault();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno.Descripcion;
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
