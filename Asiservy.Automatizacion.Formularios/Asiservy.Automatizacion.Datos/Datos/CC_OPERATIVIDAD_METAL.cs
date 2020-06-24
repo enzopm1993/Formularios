@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public int IdOperatividadMetal { get; set; }
         public System.DateTime Fecha { get; set; }
+        public string Turno { get; set; }
         public string Pcc { get; set; }
         public bool Lomos { get; set; }
         public bool Latas { get; set; }
