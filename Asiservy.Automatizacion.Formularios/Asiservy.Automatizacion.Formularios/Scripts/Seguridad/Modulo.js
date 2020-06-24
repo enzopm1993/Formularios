@@ -28,7 +28,7 @@ function Limpiar() {
 
     $('#LabelEstado').text('Activo');
     $("#CheckEstadoRegistro").prop('checked', true);
-
+    $('#output').prop('hidden', true);
 }
 
 function CambioEstado(valor) {

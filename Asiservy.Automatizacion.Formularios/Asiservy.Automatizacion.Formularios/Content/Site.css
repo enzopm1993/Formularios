@@ -133,3 +133,18 @@ textarea {
     padding-left: 0rem;
     padding-right: 0rem;
 }
+#sidebarToggleTop{
+    padding-left:0;
+}
+.select2-selection
+{
+    padding-left:0rem;
+}
+.select2-selection--single {
+    padding-left: 0rem;
+}
+.choose-position .select2-container--default .select2-selection--single {
+
+    height: 40px;
+
+}
