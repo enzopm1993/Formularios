@@ -60,7 +60,8 @@ function ConsultarReporte(model) {
         url: "../CondicionPersonal/ReporteCondicionPersonalPartial",
         type: "GET",
         data: {
-            Fecha: model.Fecha
+            Fecha: model.Fecha,
+            Turno: model.Turno
         },
         success: function (resultado) {
             if (resultado == "101") {

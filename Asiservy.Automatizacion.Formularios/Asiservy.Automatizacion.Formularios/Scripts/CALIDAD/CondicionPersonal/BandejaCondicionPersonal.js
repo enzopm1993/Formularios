@@ -17,6 +17,10 @@ function CargarBandeja() {
             } else {
                 $('#MensajeRegistros').hide();
                 $('#divPartialControlCloro').html(resultado);
+                config.opcionesDT.pageLength = 10;
+                config.opcionesDT.order = [[0, "asc"], [1, "asc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
+
             }
             $("#btnPendiente").prop("hidden", true);
             $("#btnAprobado").prop("hidden", false);
@@ -43,7 +47,8 @@ function SeleccionarBandeja(model) {
         url: "../CondicionPersonal/BandejaAprobarCondicionPersonal",
         type: "GET",
         data: {
-            Fecha: model.Fecha          
+            Fecha: model.Fecha,
+            Turno: model.Turno
         },
         success: function (resultado) {
             console.log(resultado);
@@ -92,7 +97,8 @@ function AprobarControlCloroDetalle(data) {
         type: "POST",
         data: {
             IdCondicionPersonal: listaDatos.IdCondicionPersonal,
-            Fecha: listaDatos.Fecha        
+            Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno
 
         },
         success: function (resultado) {
@@ -115,7 +121,8 @@ function ReversarControl() {
         type: "POST",
         data: {
             IdCloroAguaAutoclave: listaDatos.IdCloroAguaAutoclave,
-            Fecha: listaDatos.Fecha
+            Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno
         },
         success: function (resultado) {
             if (resultado == "101") {
