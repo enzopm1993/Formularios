@@ -4,13 +4,12 @@ using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
 {
     public class clsDMapeoProductoTunel
     {
-        clsDApiProduccion clsDApiProduccion = null;
+        clsDApiProduccion clsDApiProduccion { get; set; } = null;
         public List<spConsultaMapeoProductoTunel> ConsultaMapeoProductoTunel(DateTime Fecha,string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -70,8 +69,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                clsDApiProduccion = new clsDApiProduccion();
+                var texturas = clsDApiProduccion.ConsultarObservaciones();
                 var lista = entities.spConsultaMapeoProductoTunelDetalle(IdControl).ToList();
-                return lista;
+                foreach (var x in lista)
+                {
+                    var poTextura = texturas.FirstOrDefault(y => y.Codigo == x.codTextura);
+                    x.Textura = poTextura != null ? poTextura.Descripcion : "";
+                }
+
+                return lista; 
             }
         }
         public RespuestaGeneral GuardarModificarControlDetalle(MAPEO_PRODUCTO_TUNEL_DETALLE control)
@@ -84,6 +91,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
                     //result.FechaVencimiento = control.FechaVencimiento;
                     //result.CodigoProducto = control.CodigoProducto;
                     result.Textura = control.Textura;
+                    result.Observacion = control.Observacion;
                     result.Tunel = control.Tunel;
                     result.Coche = control.Coche;
                     result.Producto = control.Producto;
