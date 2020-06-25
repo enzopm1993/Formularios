@@ -12,6 +12,9 @@
                 Orden de fabricación
             </th>
             <th>
+                Turno
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Cliente)
             </th>
             <th>
@@ -71,6 +74,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.OrdenFabricacion)
                 </td>
+                <td>@item.Turno</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cliente)
                 </td>

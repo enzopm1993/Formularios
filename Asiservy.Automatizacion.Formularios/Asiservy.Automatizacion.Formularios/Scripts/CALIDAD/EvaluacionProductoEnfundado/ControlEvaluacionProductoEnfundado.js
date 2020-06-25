@@ -475,6 +475,8 @@ async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('Turno', $("#cmbTurno").val());
+
     data.append('Lomo', $("#Lomo").is(':checked'));
     data.append('Miga', $("#Miga").is(':checked'));
     data.append('Trozo', $("#Trozo").is(':checked'));
@@ -498,6 +500,13 @@ async function ConsultarCabControl(/*bandera*/) {
             return;
         } else {
             $('#msjerrorordenfb').prop('hidden', true);
+        }
+        if ($('#cmbTurno').prop('selectedIndex') == 0) {
+    
+            $('#msjTurno').prop('hidden', false);
+            return;
+        } else {
+            $('#msjTurno').prop('hidden', true);
         }
         //if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
         //{
@@ -703,6 +712,13 @@ function GuardarCabceraControl() {
     } else {
         $('#msjErrorOrdenFabricacion').prop('hidden', true);
     }
+    if ($('#cmbTurno').prop('selectedIndex') == 0) {
+
+        $('#msjTurno').prop('hidden', false);
+        return;
+    } else {
+        $('#msjTurno').prop('hidden', true);
+    }
 
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
@@ -733,6 +749,7 @@ function GuardarCabceraControl() {
     data.append('Lote', $('#txtLoteProveedor').val());
     data.append('Batch', $('#txtBatch').val());
     data.append('Observacion', $('#Observacion').val());
+    data.append('Turno', $('#cmbTurno').val());
     if ($('#Lomo').is(":checked")) {
         Lomo = true;
     }
@@ -1391,8 +1408,9 @@ function LlenarComboEmpacadores() {
     $('#cmbEmpacador').append('<option>Seleccione..</option>');
 
     let params = {
-        Fecha: $('#txtFechaProduccion').val(),
-        Hora: $('#txtHora').val()
+        //Fecha: $('#txtFechaProduccion').val(),
+        Fecha: $('#txtHora').val(),
+        Turno: $('#cmbTurno').val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))

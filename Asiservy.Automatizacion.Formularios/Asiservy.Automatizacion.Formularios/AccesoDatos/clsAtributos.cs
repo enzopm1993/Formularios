@@ -281,5 +281,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string Lomo { get; } = "L";
         public static string Miga { get; } = "M";
         public static string Trozo { get; } = "T";
+
+        //GRUPO CLASIFICADOR TURNOS
+        public static string Turnos { get; set; } = "039";
     }
 }

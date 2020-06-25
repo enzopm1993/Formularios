@@ -824,6 +824,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(liststring[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
@@ -833,7 +834,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("888", JsonRequestBehavior.AllowGet);
                 }
-                liststring = User.Identity.Name.Split('_');
+                
                 
                 clsDAsistencia = new clsDAsistencia();
                 string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA
