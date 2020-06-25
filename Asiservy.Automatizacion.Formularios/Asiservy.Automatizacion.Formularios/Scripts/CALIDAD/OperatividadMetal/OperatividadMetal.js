@@ -305,7 +305,7 @@ function CargarControlDetalle() {
 
 function ModalGenerarControlDetalle() {
     $("#txtIdControlDetalle").val(0);
-    $("#txtHora").val(moment().format("HH:mm"));
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
     //$("#txtHoraFinDetalle").val("");
     $("#ModalGenerarControlDetalle").modal("show");
 
@@ -339,14 +339,14 @@ function GenerarControlDetalle() {
         return;
     }
 
-    //if (moment($("#txtHora").val()) < moment(Model.Fecha)) {
-    //    MensajeAdvertencia("Hora no puede ser menor a la fecha del control");
-    //    return;
-    //}
-    //if (moment($("#txtHora").val()) > moment(Model.Fecha).add(1, 'days')) {
-    //    MensajeAdvertencia("Hora no puede ser mayor a la fecha del control");
-    //    return;
-    //}
+    if (moment($("#txtHora").val()).format("YYYY-MM-DD") < moment(Model.Fecha).format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Hora no puede ser menor a la fecha del control");
+        return;
+    }
+    if (moment($("#txtHora").val()).format("YYYY-MM-DD") > moment(Model.Fecha).add(1, 'days').format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Hora no puede ser mayor a la fecha del control");
+        return;
+    }
 
 
  //   $("#spinnerCargandoDetalle").prop("hidden", false);
