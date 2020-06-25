@@ -167,7 +167,7 @@ function validarImg(rotacion, id, imagen) {
         }
 
     }
-    img.src = "/Content/Img/" + imagen;
+    img.src = "../ImagenSiaa/" + imagen;
 
 }
 function Atras() {

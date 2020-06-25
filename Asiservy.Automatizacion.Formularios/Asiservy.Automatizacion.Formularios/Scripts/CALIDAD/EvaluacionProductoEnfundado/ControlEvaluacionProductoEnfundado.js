@@ -1274,8 +1274,9 @@ async function ModificarDetalle(data) {
     IdDetalle = data.IdDetalle;
 
     await CargarControlDetalle2();
-  
+    
     $('#txtHora').val(data.Hora);
+    LlenarComboEmpacadores(data.empacador);
     $('#txtBuque').val(data.Buque);
     $('#cmbMoreton').val(data.CodMoretones);
 
@@ -1296,7 +1297,7 @@ async function ModificarDetalle(data) {
     $('#btnEliminarDetalleControl').prop('disabled', false);
     $('#txtOtros').val(data.Otro);
     $('#txtMiga').val(data.Miga);
-    $('#cmbEmpacador').val(data.empacador).change();
+    //$('#cmbEmpacador').val(data.empacador).change();
 }
 function SlideCabecera() {
 $("#DivCabecera").slideToggle("fast");
@@ -1324,7 +1325,7 @@ function ModificarFoto(data) {
 
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + data.Imagen;
+        filePreview.src = "../ImagenSiaa/" + data.Imagen;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
@@ -1348,7 +1349,7 @@ function ModificarFoto(data) {
             $("#ModalGenerarControlDetalle2").modal("show");
 
         }
-        img.src = "/Content/Img/" + data.Imagen;
+        img.src = "../ImagenSiaa/" + data.Imagen;
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");
@@ -1402,7 +1403,7 @@ function readFile(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-function LlenarComboEmpacadores() {
+function LlenarComboEmpacadores(empacador) {
     Error = 0;
     $('#cmbEmpacador').empty();
     $('#cmbEmpacador').append('<option>Seleccione..</option>');
@@ -1442,6 +1443,9 @@ function LlenarComboEmpacadores() {
                         $.each(resultado, function (key, value) {
                             $('#cmbEmpacador').append('<option value=' + value.Cedula + '>' + value.NOMBRES + '</option>');
                         });
+                    }
+                    if (empacador != null) {
+                        $('#cmbEmpacador').val(empacador).change();
                     }
 
                 }

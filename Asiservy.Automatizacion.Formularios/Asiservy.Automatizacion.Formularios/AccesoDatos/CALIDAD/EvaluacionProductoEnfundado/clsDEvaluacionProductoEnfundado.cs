@@ -356,8 +356,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      Aprobado = cab.EstadoControl,
                                      Miga=d.Miga,
                                      Otro=d.Otro,
-                                     FechaControl=cab.FechaProduccion
-
+                                     FechaControl=cab.FechaProduccion, Hora=d.Hora
+                                     
                                  }).ToList();
                 var ResultadoFInal = (from r in resultado
                                       join e in pListEmpleados on r.empacador equals e.CEDULA
@@ -394,7 +394,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                           Aprobado = r.Aprobado,
                                           Miga = r.Miga,
                                           Otro = r.Otro,
-                                          FechaControl = r.FechaControl
+                                          FechaControl = r.FechaControl,
+                                          
                                       }).ToList();
                 return ResultadoFInal;
             }

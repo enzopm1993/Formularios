@@ -1121,7 +1121,7 @@ function ModificarFoto(data) {
 
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + data.Imagen;
+        filePreview.src = "../ImagenSiaa/" + data.Imagen;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
@@ -1145,7 +1145,7 @@ function ModificarFoto(data) {
             $("#ModalGenerarControlDetalle2").modal("show");
 
         }
-        img.src = "/Content/Img/" + data.Imagen;
+        img.src = "../ImagenSiaa/" + data.Imagen;
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");

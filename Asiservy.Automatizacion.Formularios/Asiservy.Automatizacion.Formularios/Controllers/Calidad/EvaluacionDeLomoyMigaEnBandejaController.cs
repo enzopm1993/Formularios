@@ -789,7 +789,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/Content/Img/EvaluacionDeLomosYMigasEnBandeja/");
+                    path = Server.MapPath(clsAtributos.UrlImagen +"EvaluacionDeLomosYMigasEnBandeja/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
