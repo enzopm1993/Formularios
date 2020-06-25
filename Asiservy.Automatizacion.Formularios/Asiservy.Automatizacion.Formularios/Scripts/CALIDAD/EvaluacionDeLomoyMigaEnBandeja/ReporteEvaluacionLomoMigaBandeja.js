@@ -207,6 +207,7 @@ function CargarCabReportes() {
                     { data: 'IdEvaluacionDeLomosYMigasEnBandejas' },
                     { data: 'FechaProduccion' },
                     { data: 'OrdenFabricacion' },
+                    { data: 'Turno' },
                     { data: 'Cliente' },
                     { data: 'Lomo' },
                     { data: 'Miga' },
@@ -278,7 +279,7 @@ function CargarCabReportes() {
                 });
                 config.opcionesDT.columnDefs = [
                 {
-                    "targets": [0,10,12,15,18],
+                    "targets": [0,11,13,16,19],
                     "visible": false,
                     "searchable": false
                 }

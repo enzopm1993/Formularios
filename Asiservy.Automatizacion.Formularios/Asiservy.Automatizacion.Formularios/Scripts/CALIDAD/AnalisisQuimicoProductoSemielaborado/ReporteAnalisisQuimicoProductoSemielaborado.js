@@ -1,4 +1,5 @@
 ﻿function MostrarReporte(data) {
+    console.log(data);
     $('#cargac').show();
     Error = 0;
     let params = {
@@ -31,7 +32,7 @@
                 $('#lblFechaAprobacion').text(data.FechaAprobacion);
                 $('#lblFechap').text(data.Fecha);
                 $('#lblObservacionp').text(data.Observacion);
-                
+                $('#lblturno').text(data.turno);
                 $('#mensajeRegistros').prop('hidden', true);
                 //config.opcionesDT.pageLength = 30;
                 //$('#tblReporte').DataTable(config.opcionesDT);
@@ -87,14 +88,14 @@ function CargarCabReportes() {
                 window.location.reload();
             }
             if (resultado != '0') {
-           
+                console.log(resultado);
                 $('#mensajeRegistros').prop('hidden', true);
                 $("#tblDataTableReporte tbody").empty();
                 $('#DivCabReportes').prop('hidden', false);
                 config.opcionesDT.columns = [
                     { data: 'IdAnalisisQuimicoProductoSe' },
                     { data: 'Fecha' },
-                    
+                    { data: 'turno' },
                     { data: 'Observacion' },
                     { data: 'EstadoRegistro' },
                     { data: 'FechaIngresoLog' },
@@ -134,7 +135,7 @@ function CargarCabReportes() {
                 });
                 config.opcionesDT.columnDefs = [
                     {
-                        "targets": [0,3],
+                        "targets": [0,4],
                         "visible": false,
                         "searchable": false
                     }

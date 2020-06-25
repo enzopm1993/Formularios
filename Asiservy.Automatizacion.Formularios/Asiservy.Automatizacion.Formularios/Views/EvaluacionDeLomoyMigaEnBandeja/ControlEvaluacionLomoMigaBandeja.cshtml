@@ -92,9 +92,16 @@
                 </div>
                 <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
-                        <option>Seleccione..</option>
-                    </select>
-                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+                    <option>Seleccione..</option>
+                </select>
+                <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control",@onchange= "ConsultarCabControl()" })
+                <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
             </div>
         </div>
         <div class="col-md-4">
@@ -110,15 +117,15 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
-                                </label>
-                            </div>*@
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                            </label>
+                        </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
@@ -147,20 +154,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Empaque" value="">Empaque
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Enlatado" value="">Enlatado
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Pouch" value="">Pouch
-                                </label>
-                            </div>*@
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Empaque" value="">Empaque
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Enlatado" value="">Enlatado
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Pouch" value="">Pouch
+                            </label>
+                        </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
@@ -251,7 +258,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="time" id="txtHora" class=" form-control" />
+                                <input type="datetime-local" id="txtHora" class=" form-control" />
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>

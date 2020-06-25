@@ -49,7 +49,10 @@
                                     <td colspan="2">
                                         <strong>ORDEN FABRICACIÓN:</strong> @Model.FirstOrDefault().OrdenFabricacion
                                     </td>
-                                    <td colspan="11">
+                                    <td colspan="2">
+                                        <strong>Turno:</strong> @Model.FirstOrDefault().Turno
+                                    </td>
+                                    <td colspan="9">
                                         <strong>CLIENTE:</strong> @*@Model.FirstOrDefault().Cliente*@@ViewBag.Cliente
                                     </td>
                                 </tr>
@@ -149,7 +152,7 @@
                                     <td>Hora</td>
                                     @foreach (var item in Model)
                                     {
-                                        <td>@item.Hora</td>
+                                        <td>@item.Hora.Value.ToString("dd-MM-yyy HH:mm")</td>
                                     }
                                 </tr>
                                 <tr>

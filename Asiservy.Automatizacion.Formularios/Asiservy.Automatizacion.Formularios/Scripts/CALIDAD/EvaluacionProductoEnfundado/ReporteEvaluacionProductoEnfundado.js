@@ -216,6 +216,7 @@ function CargarCabReportes() {
                     { data:'IdEvaluacionProductoEnfundado'},
                     { data: 'FechaProduccion' },
                     { data: 'OrdenFabricacion' },
+                    { data: 'Turno' },
                     { data: 'Cliente' },
                     { data: 'Marca' },
                     { data: 'Destino' },

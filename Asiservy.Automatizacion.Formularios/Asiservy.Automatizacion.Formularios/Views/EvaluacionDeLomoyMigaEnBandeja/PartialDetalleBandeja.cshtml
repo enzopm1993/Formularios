@@ -91,7 +91,7 @@
 
                     <tr style="cursor:pointer">
                         <td class="text-center">
-                            @item.Hora
+                            @item.Hora.Value.ToString("dd-MM-yyyy HH:mm")
                         </td>
                         <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Linea)

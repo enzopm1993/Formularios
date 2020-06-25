@@ -355,11 +355,13 @@
     <script src="~/Scripts/select2.js"></script>
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     <script>
+       
         $('#Searchbar').select2({
             //width: '100%',
             placeholder: "Buscar.."
             //theme: "bootstrap4"
         });
+  
         function cargarvista() {
             if ($('#Searchbar').prop('selectedIndex') != 0) {
                 window.location.href = "../" + $('#Searchbar').val();

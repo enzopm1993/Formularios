@@ -9,7 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
         public bool? TTrozo { get; set; }
         public int IdCabecera { get; set; }
         public int IdDetalle { get; set; }
-        public TimeSpan? Hora { get; set; }
+        public DateTime? Hora { get; set; }
         public string NombreEmpacador { get; set; }
         public string Buque { get; set; }
         public string Lote { get; set; }

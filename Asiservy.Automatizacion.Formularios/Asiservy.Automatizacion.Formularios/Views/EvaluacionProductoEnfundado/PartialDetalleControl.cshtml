@@ -81,7 +81,7 @@
             var json = JsonConvert.SerializeObject(item);
             <tr onclick="ModificarDetalle(@json)" style="cursor:pointer">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Hora)
+                    @item.Hora.Value.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NombreEmpacador)
