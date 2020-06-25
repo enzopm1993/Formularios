@@ -4,10 +4,13 @@
 @{
     List<CC_MANTENIMIENTO_PARAMETRO_AAC> ListParametros = (List<CC_MANTENIMIENTO_PARAMETRO_AAC>)ViewBag.Parametros;
     List<CC_MANTENIMIENTO_EQUIPO_AAC> ListEquipos = (List<CC_MANTENIMIENTO_EQUIPO_AAC>)ViewBag.Equipos;
+    List<CC_MANTENIMIENTO_GRUPO_AAC> ListGrupos = (List<CC_MANTENIMIENTO_GRUPO_AAC>)ViewBag.Grupos;
+    ListEquipos = ListEquipos.OrderBy(x => x.IdGrupo).ToList();
+    var equipos = ListEquipos.Select(x => x.IdGrupo);
 }
 
-<table class="table table-bordered">
-    <tr>
+<table id="tablaReporte" class="table table-bordered">
+    <tr class="letra10" >
         <th>Paramtro</th>
         @foreach (var x in ListParametros)
         {
@@ -15,10 +18,23 @@
         }
     </tr>
 
-
+        @{
+            int valor = 0;          
+            int totalParametros = ListParametros.Count + 1;
+            }
         @foreach (var equipo in ListEquipos)
         {
-            <tr>
+            if(valor != equipo.IdGrupo)
+            {
+                valor = equipo.IdGrupo;
+               
+                var grupo = ListGrupos.FirstOrDefault(x => x.IdGrupo == valor).Descripcion;
+                <tr style="background-color:aliceblue" class="text-center">
+                    <td style="" colspan="@totalParametros"><b>@grupo</b></td>
+                </tr>
+               
+            }
+            <tr class="letra10" >
                 <td>@equipo.Descripcion</td>
 
                 @foreach (var x in ListParametros)
@@ -38,3 +54,39 @@
         }
 
     </table>
+
+<br />
+<table id="tablaReporte" class="table table-bordered">
+
+    <tr class="letra10">
+        <th colspan="6">Nomenclatura</th>
+    </tr>
+    <tr class="letra10">
+        <th colspan="2">Análisis</th>
+        <th>Max. Perm.</th>
+
+        <th colspan="2">Análisis</th>
+        <th>Max. Perm.</th>
+    </tr>
+
+    <tr class="letra10">
+        @{int cont = 1; }
+        @foreach (var p in ListParametros)
+        {
+            <td>@p.Descripcion</td>
+            <td>@p.Abreviatura</td>
+            <td>@p.MaximoPermitido</td>
+
+            if (cont == 2)
+            {
+                @:</tr><tr class="letra10">
+                cont = 0;
+            }
+            cont++;
+
+        }
+    </tr>
+
+</table>
+
+<h6>* Mantener purgos normales en calderos.</h6>

@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCaldero;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoEquipoAac;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoGrupoAac;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoParametroAac;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
@@ -24,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private string[] lsUsuario { get; set; } = null;
         private ClsdMantenimientoParametroAac ClsdMantenimientoParametroAac { get; set; } = null;
         private ClsdMantenimientoEquipoAac ClsdMantenimientoEquipoAac { get; set; } = null;
+        private ClsdMantenimientoGrupoAac ClsdMantenimientoGrupoAac { get; set; } = null;
 
         #region CONTROL 
         [Authorize]
@@ -527,8 +529,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
                 ClsdMantenimientoParametroAac = new ClsdMantenimientoParametroAac();
                 ClsdMantenimientoEquipoAac = new ClsdMantenimientoEquipoAac();
+                ClsdMantenimientoGrupoAac = new ClsdMantenimientoGrupoAac();
                 ViewBag.Parametros = ClsdMantenimientoParametroAac.ConsultaManteminetoParametroAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Equipos = ClsdMantenimientoEquipoAac.ConsultaManteminetoEquipoAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Grupos = ClsdMantenimientoGrupoAac.ConsultaManteminetoGrupo().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
 
                 var model = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(Fecha);
                 if (!model.Any())

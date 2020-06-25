@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_PARAMETRO_AAC>
 @using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos
 
 <table class="table table-light table-striped table-hover" id="tblDataTable">
     <thead>
@@ -64,7 +65,12 @@
                 }
             </td>
             <td>
-                @{string json = JsonConvert.SerializeObject(item);
+                @{string json = JsonConvert.SerializeObject(new CC_MANTENIMIENTO_PARAMETRO_AAC {
+                      Abreviatura = item.Abreviatura,
+                      Descripcion= item.Descripcion,
+                      IdParametro = item.IdParametro,
+                      EstadoRegistro=item.EstadoRegistro
+                    } );
                 }
                 <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
                 @if (item.EstadoRegistro == "A")

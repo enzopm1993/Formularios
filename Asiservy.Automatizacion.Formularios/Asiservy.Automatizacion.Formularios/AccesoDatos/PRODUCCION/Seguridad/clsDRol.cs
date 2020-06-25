@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                 if (piBuscarRol.Count() > 0)
                 {
                     var poRolU = db.ROL.Find(piBuscarRol.FirstOrDefault());
-                    poRolU.Descripcion = poRol.Descripcion;
+                    poRolU.Descripcion = poRol.Descripcion.ToUpper();
                     poRolU.EstadoRegistro = poRol.EstadoRegistro;
                     poRolU.UsuarioModificacionLog = usuario;
                     poRolU.TerminalModificacionLog = terminal;

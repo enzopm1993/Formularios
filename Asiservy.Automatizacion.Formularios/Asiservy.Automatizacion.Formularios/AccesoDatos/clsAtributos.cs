@@ -220,6 +220,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string GrupoCodLineaEnlatado { get; } = "021";
 
         //TURNOS
+        public static string GrupoCodTurno { get; } = "039";
         public static string TurnoUno { get; } = "1";
         public static string TurnoDos { get; } = "2";
 

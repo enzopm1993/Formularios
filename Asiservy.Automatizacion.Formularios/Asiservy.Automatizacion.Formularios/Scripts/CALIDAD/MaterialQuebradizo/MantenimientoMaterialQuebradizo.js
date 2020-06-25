@@ -29,7 +29,7 @@ function CargarCabecera() {
 
 function GuardarCabecera() {
     $('#cargac').show();
-    if ($('#txtNombre').val().length > 50 || $('#txtDescripcion').val().length > 100) {
+    if ($('#txtNombre').val().length > 100 || $('#txtDescripcion').val().length > 100) {
         $('#cargac').hide();
         MensajeAdvertencia('Paso e límite de caracteres en la Capacidad');
         return;

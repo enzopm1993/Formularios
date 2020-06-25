@@ -8,7 +8,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-
+            <th>Turno</th>
             <th>
                 Estado
             </th>
@@ -41,6 +41,7 @@
             {
                 IdCloroAguaAutoclaveControl = item.IdCloroAguaAutoclaveControl,
                 Fecha = item.Fecha,
+                Turno = item.Turno,
                 AprobadoPor = item.AprobadoPor,
                 EstadoReporte = item.EstadoReporte,
                 FechaAprobacion = item.FechaAprobacion,
@@ -56,7 +57,10 @@
                 <td>
                     @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
-             
+                <td>
+                    @item.Turno
+
+                </td>
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>

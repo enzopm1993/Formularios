@@ -33,7 +33,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Areas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasResidualCloro);
-
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
                 return View();
             }
@@ -57,7 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ResidualCloroPartial(DateTime Fecha, string Area)
+        public ActionResult ResidualCloroPartial(DateTime Fecha, string Area, string Turno)
         {
             try
             {
@@ -67,7 +68,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro = new clsDResidualCloro();
-                var model = clsDResidualCloro.ConsultaResidualCloro(Fecha, Area);
+                var model = clsDResidualCloro.ConsultaResidualCloro(Fecha, Area).Where(x=> x.Turno==Turno);
                 
                 if (!model.Any())
                 {
@@ -95,7 +96,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public ActionResult ResidualCloro(RESIDUAL_CLORO model)
+        public ActionResult ResidualCloro(RESIDUAL_CLORO model, DateTime Fecha, string CodArea, string Turno)
         {
             try
             {
@@ -110,13 +111,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                clsDResidualCloro.GuardarModificarResidualCloroControl(model);
-                if (clsDResidualCloro.ConsultaResidualCloroControl(model.Fecha).Any(x => x.EstadoReporte && x.Area== model.CodArea))
+                if (clsDResidualCloro.ValidaResidualCloroControl(Fecha,Turno).Any(x => x.EstadoReporte && x.Area== CodArea))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
-                clsDResidualCloro.GuardarModificarResidualCloro(model);
-               
+                clsDResidualCloro.GuardarModificarResidualCloroControl(model, Fecha, CodArea, Turno);
+
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -140,7 +140,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarResidualCloro(RESIDUAL_CLORO model)
+        public ActionResult EliminarResidualCloro(RESIDUAL_CLORO model, DateTime Fecha,string CodArea, string Turno)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDResidualCloro = new clsDResidualCloro();
-                if (clsDResidualCloro.ConsultaResidualCloroControl(model.Fecha).Any(x => x.EstadoReporte && x.Area==model.CodArea))
+                if (clsDResidualCloro.ValidaResidualCloroControl(Fecha, Turno).Any(x => x.EstadoReporte && x.Area==CodArea))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
@@ -186,7 +186,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult ValidaEstadoReporte(DateTime Fecha, string Area)
+        public JsonResult ValidaEstadoReporte(DateTime Fecha, string Area, string Turno)
         {
             try
             {
@@ -196,7 +196,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro = new clsDResidualCloro();
-                var control = clsDResidualCloro.ConsultaResidualCloroControl(Fecha).FirstOrDefault(x=>x.Area==Area);
+                var control = clsDResidualCloro.ConsultaResidualCloroControl(Fecha,Area,Turno);
                 if (control != null)
                 {
                     if (control.EstadoReporte)
@@ -274,7 +274,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public ActionResult ResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model,DateTime Fecha, string Area)
+        public ActionResult ResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model,DateTime Fecha, string Area, string Turno)
         {
             try
             {
@@ -293,7 +293,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                if (clsDResidualCloro.ConsultaResidualCloroControl(Fecha).Any(x => x.EstadoReporte && x.Area== Area))
+                if (clsDResidualCloro.ValidaResidualCloroControl(Fecha,Turno).Any(x => x.EstadoReporte && x.Area== Area))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
@@ -322,7 +322,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model, DateTime Fecha, string Area)
+        public ActionResult EliminarResidualCloroDetalle(RESIDUAL_CLORO_DETALLE model, DateTime Fecha, string Area, string Turno)
         {
             try
             {
@@ -340,7 +340,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDResidualCloro = new clsDResidualCloro();
-                if (clsDResidualCloro.ConsultaResidualCloroControl(Fecha).Any(x => x.EstadoReporte && x.Area== Area))
+                if (clsDResidualCloro.ValidaResidualCloroControl(Fecha,Turno).Any(x => x.EstadoReporte && x.Area== Area))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
@@ -412,7 +412,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReporteResidualCloroPartial(DateTime Fecha, string Area)
+        public ActionResult ReporteResidualCloroPartial(DateTime Fecha, string Area, string Turno)
         {
             try
             {
@@ -426,10 +426,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 ViewBag.Pediluvios = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x=> x.Area== Area && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 
-                var model = clsDResidualCloro.ConsultaReporteResidualCloro(Fecha, Area);
+                var model = clsDResidualCloro.ConsultaReporteResidualCloro(Fecha, Area).Where(x=> x.Turno == Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno, Turno).FirstOrDefault();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno.Descripcion;
                 }
                 return PartialView(model);
             }
@@ -466,6 +472,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 if (poControl != null && poControl.Any())
                 {
+
+                    clsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                     return PartialView(poControl);
                 }
                 else
@@ -545,6 +554,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
+                    clsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                     return PartialView(poCloroCisterna);
                 }
                 else

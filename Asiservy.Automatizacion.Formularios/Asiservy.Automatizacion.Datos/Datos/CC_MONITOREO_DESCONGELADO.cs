@@ -21,12 +21,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public System.DateTime Hora { get; set; }
         public string Tipo { get; set; }
         public Nullable<decimal> TemperaturaAgua { get; set; }
         public decimal Muestra1 { get; set; }
         public decimal Muestra2 { get; set; }
         public decimal Muestra3 { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

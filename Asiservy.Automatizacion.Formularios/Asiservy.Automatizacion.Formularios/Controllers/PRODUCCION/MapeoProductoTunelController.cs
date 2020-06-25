@@ -16,13 +16,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class MapeoProductoTunelController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDClasificador clsDClasificador = null;
-        clsDMapeoProductoTunel clsDMapeoProductoTunel = null;
-        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
-        clsDApiProduccion clsDApiProduccion = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
+        clsDMapeoProductoTunel clsDMapeoProductoTunel { get; set; } = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
+        clsDApiProduccion clsDApiProduccion { get; set; } = null;
 
         #region MAPEO CONTROL
         // GET: MapeoProductoTunel
@@ -40,9 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.TipoLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado);
                 ViewBag.Especies = clsDApiProduccion.ConsultarEspecies();
                 ViewBag.Observaciones = clsDApiProduccion.ConsultarObservaciones(null);
-                //var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                //ViewBag.Linea = Empleado.LINEA;
-
+             
                 return View();
             }
             catch (DbEntityValidationException e)

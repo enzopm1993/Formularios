@@ -19,6 +19,12 @@
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
             </div>
         </div>
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno",new SelectList(ViewBag.Turno, "Codigo","Descripcion"),"seleccione",new { @class="form-control",@onchange= "ConsultarMonitoreoDescongelado()" })
+            </div>
+        </div>
         <div class="col-md-4 col-sm-6 col-6">
             <label>Tipo</label>
             <select class="form-control" id="selectTipo" onchange="">
@@ -40,17 +46,20 @@
             <table class="table table-bordered" style="width:100px">
                 <tr>
                     <td>Descongelado</td>
+                    <td>D</td>
                     <td><i class="fas fa-check-circle" style="color: dodgerblue"></i></td>
                 </tr>
 
                 <tr>
                     <td>Emparrillado</td>
+                    <td>E</td>
                     <td> <i class="fas fa-check-circle" style="color:royalblue"></i></td>
                 </tr>
 
                 <tr>
                     <td>Ingreso Cocina</td>
-                    <td> <i class="fas fa-check-circle" style="color:darkblue"></i></td>
+                    <td>C</td>
+                    <td> <i class="fas fa-check-circle" style="color:forestgreen"></i></td>
                 </tr>
             </table>
         </div>
@@ -112,23 +121,28 @@
                                 <div class="row">
                                     <div class="col-md-4 col-6 col-sm-6">
                                         <label>Hora</label>
-                                        <input type="time" autocomplete="off" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
+                                        <input type="datetime-local" autocomplete="off" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
                                     </div>
                                     <div class="col-md-2 col-6 col-sm-6" id="divTemperaturaAgua">
                                         <label>Temperatura de Agua</label>
-                                        <input type="tel" autocomplete="off" class="form-control" min="0" id="txtTemperaturaAgua" name="name" value="" />
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtTemperaturaAgua" name="name" value="" />
                                     </div>
                                     <div class="col-md-2 col-6 col-sm-6">
                                         <label>Muestra 1</label>
-                                        <input type="tel" autocomplete="off" class="form-control" min="0" id="txtMuestra1" name="name" value="" />
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtMuestra1" name="name" value="" />
                                     </div>
                                     <div class="col-md-2 col-6 col-sm-6">
                                         <label>Muestra 2</label>
-                                        <input type="tel" autocomplete="off" class="form-control" min="0" id="txtMuestra2" name="name" value="" />
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtMuestra2" name="name" value="" />
                                     </div>
                                     <div class="col-md-2 col-6 col-sm-6">
                                         <label>Muestra 3</label>
-                                        <input type="tel" autocomplete="off" class="form-control" min="0" id="txtMuestra3" name="name" value="" />
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtMuestra3" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-12 col-12 col-sm-12">
+                                        <label>Observación</label>
+                                        <input type="text" autocomplete="off" maxlength="250" class="form-control" min="0" id="txtObservacion" name="name" value="" />
+
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +151,7 @@
                 </div>
                 <div class="modal-footer text-left" >
                     <div>
-                        <label><b>Nota:</b> Valores deben ser (-+) segun corresponda. (-00.0 | +00.0)</label>
+                        <label><b>Nota:</b> Valores deben ser (mayor a -999.99 | menor a 999.99)</label>
                     </div>
                     <button type="button" hidden id="btnEliminar" onclick="EliminarControl()" class="btn btn-danger">Eliminar</button>
                     <button type="button" disabled id="btnGuardarMonitoreo" onclick="GuardarMonitoreoDescongelado()" class="btn btn-primary">Guardar</button>

@@ -9,7 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
     {
         public int IdOperatividadMetalDetalle { get; set; }
         public int IdOperatividadMetal { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public System.DateTime Hora { get; set; }
         public bool Ferroso { get; set; }
         public bool NoFerroso { get; set; }
         public bool AceroInoxidable { get; set; }

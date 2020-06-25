@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿Datos = [];
+$(document).ready(function () {
     $("#selectCondicion").select2();
     $('#selectCondicion').select2({
         width: '100%'
@@ -11,7 +12,9 @@ function ValidaEstadoReporte(Fecha) {
         url: "../CondicionPersonal/ValidaEstadoReporte",
         type: "GET",
         data: {
-            Fecha: Fecha
+            Fecha: Fecha,
+            Turno: $("#selectTurno").val()
+            
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -39,7 +42,7 @@ function ValidaEstadoReporte(Fecha) {
 
 function ConsultarControl() {
     $("#chartCabecera2").html('');
-    if ($("#txtFecha").val() == '') {
+    if ($("#txtFecha").val() == '' || $("#selectTurno").val()=='') {
         return;
     }
     ValidaEstadoReporte($("#txtFecha").val());
@@ -48,13 +51,13 @@ function ConsultarControl() {
         url: "../CondicionPersonal/CondicionPersonalPartial",
         type: "GET",
         data: {
-            Fecha:$("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
                 $("#chartCabecera2").html('<div class="text-center"><h4 class="text-warning">'+Mensajes.SinRegistros+'</h4></div>');
                 $("#spinnerCargando").prop("hidden", true);
@@ -131,7 +134,7 @@ function SeleccionarControl(model) {
     $("#txtObservacion").val(model.Observacion);
     $("#selectCondicion").val(model.CodCondicion).change();
     $("#btnEliminar").prop("hidden", false);
-    //$("#Lineas").prop("selectedIndex", 0);
+    Datos = model;
 }
 
 function NuevoControl() {
@@ -142,11 +145,13 @@ function NuevoControl() {
     $("#Cedula").val('');
     $("#Nombre").val('');
     $("#txtIdCondicionPersonal").val('0');
-    $("#txtHora").val(moment().format("HH:mm"));
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
     $("#txtObservacion").val('');
     $("#selectCondicion").prop("selectedIndex", 0).change();
     $("#Lineas").prop("selectedIndex", 0);
     $("#btnEliminar").prop("hidden", true);
+    Datos = [];
+
 
 }
 
@@ -170,6 +175,13 @@ function Validar() {
         valida = false;
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
     }
     if ($("#selectCondicion").val() == "") {
         //$("#SelectTextura").css('borderColor', '#FA8072');
@@ -203,7 +215,9 @@ function GuardarControl() {
         type: "POST",
         data: {
             IdCondicionPersonal: $("#txtIdCondicionPersonal").val(),
+            IdCondicionPersonalControl: Datos.IdCondicionPersonalControl,
             Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
             Hora: $("#txtHora").val(),
             Cedula: $("#Cedula").val(),
             CodCondicion: $("#selectCondicion").val(),

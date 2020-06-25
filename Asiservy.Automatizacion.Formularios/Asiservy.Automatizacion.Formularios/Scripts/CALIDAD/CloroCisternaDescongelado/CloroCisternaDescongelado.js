@@ -5,8 +5,8 @@ var estadoReporte = [];
 //ListaDatosDetalle.IdCloroCisternaDetalle = 0;
 $(document).ready(function () {
     CargarCabecera();
-    $('#txtPpm').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '9.99' });
-    $('#txtCisterna').inputmask({ 'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'max': '9' });
+    $('#txtPpm').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '9.99' });
+    $('#txtCisterna').inputmask({ 'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': true, 'max': '9' });
 });
 
 function ConsultarEstadoReporte() {

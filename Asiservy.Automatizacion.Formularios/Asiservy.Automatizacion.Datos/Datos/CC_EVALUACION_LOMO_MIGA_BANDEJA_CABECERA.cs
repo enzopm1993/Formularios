@@ -41,6 +41,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<bool> EstadoControl { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }

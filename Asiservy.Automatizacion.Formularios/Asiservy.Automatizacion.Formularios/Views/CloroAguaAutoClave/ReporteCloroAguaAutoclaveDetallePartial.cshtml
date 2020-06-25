@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_AGUA_AUTOCLAVE>
 
+<h6>Turno: @ViewBag.Turno</h6>
 <table class="table table-bordered">
     <tr>
         <th>
@@ -31,7 +32,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @item.Hora.ToShortTimeString()
+            @item.Hora.ToString("dd-MM-yyyy HH:mm")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Parada)

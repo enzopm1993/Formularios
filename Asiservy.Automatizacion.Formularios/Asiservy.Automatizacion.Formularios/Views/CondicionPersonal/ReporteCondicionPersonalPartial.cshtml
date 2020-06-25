@@ -8,7 +8,7 @@
     //   var condicionesJSON = JsonConvert.SerializeObject(ViewBag.Condiciones);
 }
 
-
+<h6><b>Turno:</b>@ViewBag.Turno</h6>
 <table class="table table-bordered" cellspacing="4" cellpadding="4" style="cursor: pointer; width:100%" id="">
     <thead>
         <tr>
@@ -34,7 +34,7 @@
         {
             <tr>
                 <td width="10%">
-                    <label>@item.Hora</label>
+                    <label>@item.Hora.ToString("dd-MM-yyyy HH:mm")</label>
 
                 </td>
                 <td width="10%">

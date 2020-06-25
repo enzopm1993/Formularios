@@ -24,6 +24,7 @@ function CargarBandeja() {
             $("#btnReversar").prop("hidden", true);
             $("#spinnerCargando").prop("hidden", true);
             config.opcionesDT.pageLength = 10;
+            config.opcionesDT.order = [[0, "asc"], [1, "asc"]];
             $('#tblDataTable').DataTable(config.opcionesDT);
 
         },
@@ -66,6 +67,7 @@ function AprobarControl() {
         data: {
             IdCloroAguaAutoclave: listaDatos.IdCloroAguaAutoclave,
             Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno,
             FechaAprobacion: $("#txtFechaAprobacion").val()
         },
         success: function (resultado) {
@@ -90,7 +92,8 @@ function ReversarControl() {
         type: "POST",
         data: {
             IdCloroAguaAutoclave: listaDatos.IdCloroAguaAutoclave,
-            Fecha: listaDatos.Fecha
+            Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -120,6 +123,7 @@ function FiltrarAprobadosFecha() {
             data: {
                 FechaDesde: $("#fechaDesde").val(),
                 FechaHasta: $("#fechaHasta").val(),
+                Turno: listaDatos.Turno,
                 Estado: $("#selectEstadoRegistro").val()
             },
             success: function (resultado) {
@@ -154,7 +158,8 @@ function CargarControlDetalle() {
         url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclaveDetallePartial",
         type: "GET",
         data: {
-            Fecha: listaDatos.Fecha
+            Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {

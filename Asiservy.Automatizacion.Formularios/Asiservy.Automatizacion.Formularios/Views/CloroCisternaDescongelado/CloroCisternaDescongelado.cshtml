@@ -3,7 +3,7 @@
     ViewBag.Title = "CloroCisternaDescongelado";
 }
 
-<h4 class="text-lg-left text-center" style="color:black">CONTROL DE CLORO EN CISTERNA DESCONGELADO <label id="txtEstado"></label></h4>
+<h4 class="text-lg-left text-center" style="color:black">Control de Cloro en Cisterna Descongelado <label id="txtEstado"></label></h4>
 <style>
     input, select, textarea {
         max-width: 100%;
@@ -109,13 +109,13 @@
                     <div class="col-md-3 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Ppm Cloro</label>
-                            <input class="form-control" id="txtPpm" type="text" name="name" />
+                            <input class="form-control" id="txtPpm" type="tel" name="name" />
                         </div>
                     </div>
                     <div class="col-md-3 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Cisterna</label>
-                            <input class="form-control " id="txtCisterna" type="text" name="name" value="1" />
+                            <input class="form-control " id="txtCisterna" type="tel" name="name" value="1" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
@@ -142,14 +142,14 @@
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-1 col-sm-3 col-4">
+                        <div class="col-md-2 col-sm-2 col-12">
                             <div class="form-group">
                                 <button data-toggle="tooltip" data-placement="top" title="Crear Registro Hora" class="btn" id="btnModalGenerar" onclick="ModalGenerarHoraControlCloroCisterna()" style="border-color:#2c3e50" type="button">
                                     <img style="width:100%" src="~/Content/icons/add24.png" />
                                 </button>
                             </div>
                         </div>
-                        <div class="col-md-10 col-sm-2 col-12">
+                        <div class="col-md-10 col-sm-10 col-12">
                             <h4>Hora de Control</h4>
                         </div>
                     </div>

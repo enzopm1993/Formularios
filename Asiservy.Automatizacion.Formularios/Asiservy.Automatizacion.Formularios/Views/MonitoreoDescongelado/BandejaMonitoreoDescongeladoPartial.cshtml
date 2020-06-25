@@ -8,7 +8,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-
+            <th>
+                Turno
+            </th>
             <th>
                 Estado
             </th>
@@ -41,47 +43,50 @@
             {
                 IdMonitoreoDescongeladoControl = item.IdMonitoreoDescongeladoControl,
                 Fecha = item.Fecha,
+                Turno= item.Turno
             };
 
 
             var json = JsonConvert.SerializeObject(m);
-            <tr onclick="SeleccionarBandeja(@json)">
-                <td>
-                    @item.Fecha.ToString("yyyy-MM-dd")
-                </td>
+        <tr onclick="SeleccionarBandeja(@json)">
+            <td>
+                @item.Fecha.ToString("yyyy-MM-dd")
+            </td>
+
+            <td>
+                @item.Turno
+            </td>
+            @if (item.EstadoReporte == true)
+            {
+                <td><span class="badge badge-success">Aprobado</span></td>
+            }
+            else
+            {
+                <td><span class="badge badge-danger">Pendiente</span></td>
+            }
 
 
-                @if (item.EstadoReporte == true)
-                {
-                    <td><span class="badge badge-success">Aprobado</span></td>
-                }
-                else
-                {
-                    <td><span class="badge badge-danger">Pendiente</span></td>
-                }
+            <td>
+                @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @if (item.FechaModificacionLog != null)
+                {@item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm")}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+            </td>
 
-
-                <td>
-                    @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                </td>
-                <td>
-                    @if (item.FechaModificacionLog != null)
-                    {@item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm")}
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
-
-            </tr>
+        </tr>
         }
     </tbody>
 </table>

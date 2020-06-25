@@ -15,12 +15,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class CC_CONDICION_PERSONAL
     {
         public int IdCondicionPersonal { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public int IdCondicionPersonalControl { get; set; }
+        public System.DateTime Hora { get; set; }
         public string Cedula { get; set; }
         public string CodCondicion { get; set; }
         public string Observacion { get; set; }
-        public bool EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -28,5 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual CC_CONDICION_PERSONAL_CONTROL CC_CONDICION_PERSONAL_CONTROL { get; set; }
     }
 }

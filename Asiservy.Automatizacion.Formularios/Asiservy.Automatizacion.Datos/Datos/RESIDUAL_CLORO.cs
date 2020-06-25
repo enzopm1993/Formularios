@@ -21,9 +21,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         }
     
         public int IdResidualCloro { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
-        public string CodArea { get; set; }
+        public int IdResidualCloroControl { get; set; }
+        public System.DateTime Hora { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -35,5 +34,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
+        public virtual RESIDUAL_CLORO_CONTROL RESIDUAL_CLORO_CONTROL { get; set; }
     }
 }

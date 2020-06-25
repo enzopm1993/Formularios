@@ -11,7 +11,7 @@ var rotation = 0;
     
 
 function ConsultarControl() {
-    MostrarModalCargando();
+   
     $("#divMensaje").html('');
     $("#divDetalle").prop("hidden", true);
     $("#divDetalle2").prop("hidden", true);
@@ -26,11 +26,19 @@ function ConsultarControl() {
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
     }
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+    MostrarModalCargando();
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -191,6 +199,7 @@ function GenerarControl() {
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
             IdOperatividadMetal: Model.IdOperatividadMetal,
             Pcc: $("#txtPcc").val(),
             Lomos: $("#chkLomo").prop("checked"),
@@ -296,7 +305,7 @@ function CargarControlDetalle() {
 
 function ModalGenerarControlDetalle() {
     $("#txtIdControlDetalle").val(0);
-    $("#txtHora").val(moment().format("HH:mm"));
+    $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
     //$("#txtHoraFinDetalle").val("");
     $("#ModalGenerarControlDetalle").modal("show");
 
@@ -330,14 +339,14 @@ function GenerarControlDetalle() {
         return;
     }
 
-    //if (moment($("#txtHora").val()) < moment(Model.Fecha)) {
-    //    MensajeAdvertencia("Hora no puede ser menor a la fecha del control");
-    //    return;
-    //}
-    //if (moment($("#txtHora").val()) > moment(Model.Fecha).add(1, 'days')) {
-    //    MensajeAdvertencia("Hora no puede ser mayor a la fecha del control");
-    //    return;
-    //}
+    if (moment($("#txtHora").val()).format("YYYY-MM-DD") < moment(Model.Fecha).format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Hora no puede ser menor a la fecha del control");
+        return;
+    }
+    if (moment($("#txtHora").val()).format("YYYY-MM-DD") > moment(Model.Fecha).add(1, 'days').format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Hora no puede ser mayor a la fecha del control");
+        return;
+    }
 
 
  //   $("#spinnerCargandoDetalle").prop("hidden", false);

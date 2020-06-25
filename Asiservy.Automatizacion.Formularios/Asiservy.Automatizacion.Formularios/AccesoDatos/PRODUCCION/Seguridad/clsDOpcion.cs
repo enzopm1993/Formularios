@@ -56,7 +56,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                 if (poOpcion != null)
                 {
                     poOpcion.Reporte = doOpcion.Reporte; 
-                    poOpcion.Nombre = doOpcion.Nombre;
+                    poOpcion.Nombre = doOpcion.Nombre.ToUpper();
                     poOpcion.IdModulo = doOpcion.IdModulo;
                     poOpcion.Formulario = doOpcion.Formulario;
                     poOpcion.Clase = doOpcion.Clase;

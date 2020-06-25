@@ -8,13 +8,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
     public class ClsDCloroAguaAutoclave
     {
 
-        public List<CC_CLORO_AGUA_AUTOCLAVE> ConsultaCloroAguaAutoclave(DateTime Fecha)
+        public List<CC_CLORO_AGUA_AUTOCLAVE> ConsultaCloroAguaAutoclave(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var query = (from x in entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL
                             join y in entities.CC_CLORO_AGUA_AUTOCLAVE on x.IdCloroAguaAutoclaveControl equals y.IdCloroAguaAutoclaveControl
                             where x.Fecha == Fecha && y.EstadoRegistro == clsAtributos.EstadoRegistroActivo 
+                            && x.Turno == Turno
                             && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
                             select y);
  
@@ -23,13 +24,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
         }
 
 
-        public void GuardarModificarCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE model, DateTime Fecha)
+        public void GuardarModificarCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE model, DateTime Fecha,string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
-                    CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha 
+                                                                                                                                && x.Turno == Turno
+                                                                                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     int idControl = 0;
                     if (poControlReporte != null)
                     {
@@ -39,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                     {
                         CC_CLORO_AGUA_AUTOCLAVE_CONTROL control = new CC_CLORO_AGUA_AUTOCLAVE_CONTROL();
                         control.Fecha = Fecha;
+                        control.Turno = Turno;
                         control.EstadoReporte = false;
                         control.FechaIngresoLog = model.FechaIngresoLog;
                         control.TerminalIngresoLog = model.TerminalIngresoLog;
@@ -123,11 +127,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
             }
         }
 
-        public List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> ConsultaCloroAguaAutoclaveControl(DateTime Fecha)
+        public List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> ConsultaCloroAguaAutoclaveControl(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 return entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.Where(x => x.Fecha == Fecha
+                                                                && x.Turno == Turno
                                                                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
@@ -139,11 +144,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                 return entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
-        public void Aprobar_ReporteCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE_CONTROL controlCloro)
+        public void Aprobar_ReporteCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE_CONTROL controlCloro, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.IdCloroAguaAutoclaveControl == controlCloro.IdCloroAguaAutoclaveControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.IdCloroAguaAutoclaveControl == controlCloro.IdCloroAguaAutoclaveControl || (x.Fecha == controlCloro.Fecha && x.Turno ==Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (model != null)
                 {
                     model.EstadoReporte = controlCloro.EstadoReporte;

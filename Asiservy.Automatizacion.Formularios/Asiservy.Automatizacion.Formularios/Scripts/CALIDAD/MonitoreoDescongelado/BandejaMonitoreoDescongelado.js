@@ -19,6 +19,7 @@ function CargarBandeja() {
                 $('#MensajeRegistros').hide();
                 $('#divPartialControl').html(resultado);
                 config.opcionesDT.pageLength = 10;
+                config.opcionesDT.order = [[0, "asc"],[1, "asc"]];
                 $('#tblDataTable').DataTable(config.opcionesDT);
             }
             $("#btnPendiente").prop("hidden", true);
@@ -65,6 +66,7 @@ function AprobarControl() {
         data: {
             IdMonitoreoDescongelado: listaDatos.IdMonitoreoDescongelado,
             Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno,
             FechaAprobacion: $("#txtFechaAprobacion").val()
         },
         success: function (resultado) {
@@ -89,6 +91,7 @@ function ReversarControl() {
         type: "POST",
         data: {
             IdMonitoreoDescongelado: listaDatos.IdMonitoreoDescongelado,
+            Turno: listaDatos.Turno,
             Fecha: listaDatos.Fecha
         },
         success: function (resultado) {
@@ -153,7 +156,8 @@ function CargarControlDetalle() {
         url: "../MonitoreoDescongelado/ReporteMonitoreoDescongeladoPartial",
         type: "GET",
         data: {
-            Fecha: listaDatos.Fecha
+            Fecha: listaDatos.Fecha,
+            Turno: listaDatos.Turno
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {
