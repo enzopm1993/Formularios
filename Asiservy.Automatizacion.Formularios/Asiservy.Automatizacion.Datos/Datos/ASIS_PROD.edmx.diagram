@@ -91,7 +91,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="43.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Width="1.5" PointX="31.625" PointY="45.875" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Width="1.5" PointX="11.375" PointY="44.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" />
@@ -124,8 +123,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="29.375" PointY="46" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="36.375" PointY="21.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
@@ -250,6 +247,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="25.625" PointY="47.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Width="1.5" PointX="48.625" PointY="10.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="46.375" PointY="10.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

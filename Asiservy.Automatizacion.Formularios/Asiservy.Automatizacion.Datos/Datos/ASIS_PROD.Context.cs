@@ -94,7 +94,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<DETALLE_USO_CONTROL_PESO_CODIFICACION> DETALLE_USO_CONTROL_PESO_CODIFICACION { get; set; }
         public virtual DbSet<CABECERA_CONTROL_PESO_CODIFICACION> CABECERA_CONTROL_PESO_CODIFICACION { get; set; }
         public virtual DbSet<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> DETALLE_LOTE_CONTROL_PESO_CODIFICACION { get; set; }
-        public virtual DbSet<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
         public virtual DbSet<COCHE_AUTOCLAVE> COCHE_AUTOCLAVE { get; set; }
         public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
@@ -114,7 +113,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<DETALLE_PRODUCTO_POUCH_CUARENTENA> DETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
         public virtual DbSet<MANTENIMIENTO_CONDICION> MANTENIMIENTO_CONDICION { get; set; }
         public virtual DbSet<SUBDETALLE_PRODUCTO_POUCH_CUARENTENA> SUBDETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
-        public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
@@ -195,6 +193,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
+        public virtual DbSet<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
+        public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1318,15 +1318,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlConsumoInsumo>("spConsultaControlConsumoInsumo", fechaParameter, lineaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spConsultaMapeoProductoTunelDetalle> spConsultaMapeoProductoTunelDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultarAsistenciasGeneradas> spConsultarAsistenciasGeneradas(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -2303,6 +2294,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaNotificacionesSiaa>("spConsultaNotificacionesSiaa", cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMapeoProductoTunelDetalle> spConsultaMapeoProductoTunelDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
         }
     }
 }
