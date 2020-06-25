@@ -26,5 +26,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public decimal Muestra1 { get; set; }
         public decimal Muestra2 { get; set; }
         public decimal Muestra3 { get; set; }
+        public string Observacion { get; set; }
     }
 }
