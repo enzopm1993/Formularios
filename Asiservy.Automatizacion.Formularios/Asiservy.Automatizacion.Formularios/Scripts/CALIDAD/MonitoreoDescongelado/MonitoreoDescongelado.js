@@ -6,14 +6,14 @@ $(document).ready(function () {
     //$("#txtMuestra1").mask("99?.9");
     //$("#txtMuestra2").mask("99?.9");
    // $("#txtMuestra3").mask("99?.9");
-    $.mask.definitions['~'] = '[+-]';
-    $("#txtTemperaturaAgua").mask("~99?.9");
-    $.mask.definitions['~'] = '[+-]';
-    $("#txtMuestra1").mask("~99?.9");
-    $.mask.definitions['~'] = '[+-]';
-    $("#txtMuestra2").mask("~99?.9");
-    $.mask.definitions['~'] = '[+-]';
-    $("#txtMuestra3").mask("~99?.9");
+    //$.mask.definitions['~'] = '[+-]';
+    //$("#txtTemperaturaAgua").mask("~99?.9");
+    //$.mask.definitions['~'] = '[+-]';
+    //$("#txtMuestra1").mask("~99?.9");
+    //$.mask.definitions['~'] = '[+-]';
+    //$("#txtMuestra2").mask("~99?.9");
+    //$.mask.definitions['~'] = '[+-]';
+    //$("#txtMuestra3").mask("~99?.9");
 });
 
 function ValidaEstadoReporte(Fecha){
@@ -111,6 +111,7 @@ function SeleccionarControl(model) {
     $("#txtLote").val(DatosCabecera.U_SYP_LOTE);
     $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));    
     $("#txtTipo").val($("#selectTipo option:selected").text());
+
     if ($("#selectTipo").val() == "C") {
         $("#divTemperaturaAgua").prop("hidden", true);
     } else {
@@ -151,6 +152,7 @@ function ConsultarMonitoreoDetalle() {
                 $("#txtMuestra1").val('');
                 $("#txtMuestra2").val('');
                 $("#txtMuestra3").val('');
+                $("#txtObservacion").val('');
                 $("#ModalMonitoreo").modal("show");
                 $("#btnEliminar").prop("hidden", true);
                 model = [];
@@ -161,6 +163,8 @@ function ConsultarMonitoreoDetalle() {
                 $("#txtMuestra2").val(resultado.Muestra2);
                 $("#txtMuestra3").val(resultado.Muestra3);
                 $("#txtIdControl").val(resultado.IdMonitoreoDescongelado);
+                $("#txtObservacion").val(resultado.Observacion);
+
                 $("#ModalMonitoreo").modal("show");
                 $("#btnEliminar").prop("hidden", false);
                 model = resultado;
@@ -185,28 +189,28 @@ function Validar() {
         $("#txtHora").css('borderColor', '#ced4da');
     }
     if ($("#selectTipo").val() != 'C') {
-        if ($("#txtTemperaturaAgua").val() == "") {
+        if ($("#txtTemperaturaAgua").val() == "" || $("#txtTemperaturaAgua").val() > 999.99 || $("#txtTemperaturaAgua").val() < -999.99) {
             $("#txtTemperaturaAgua").css('borderColor', '#FA8072');
             valida = false;
         } else {
             $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
         }
     }
-    if ($("#txtMuestra1").val() == "") {
+    if ($("#txtMuestra1").val() == "" || $("#txtMuestra1").val() > 999.99 || $("#txtMuestra1").val() < -999.99) {
         $("#txtMuestra1").css('borderColor', '#FA8072');
         valida = false;
     } else {
         $("#txtMuestra1").css('borderColor', '#ced4da');
     }
 
-    if ($("#txtMuestra2").val() == "") {
+    if ($("#txtMuestra2").val() == "" || $("#txtMuestra2").val() > 999.99 || $("#txtMuestra2").val() < -999.99) {
         $("#txtMuestra2").css('borderColor', '#FA8072');
         valida = false;
     } else {
         $("#txtMuestra2").css('borderColor', '#ced4da');
     }
 
-    if ($("#txtMuestra3").val() == "") {
+    if ($("#txtMuestra3").val() == "" || $("#txtMuestra3").val() > 999.99 || $("#txtMuestra3").val() < -999.99) {
         $("#txtMuestra3").css('borderColor', '#FA8072');
         valida = false;
     } else {
@@ -236,7 +240,8 @@ function GuardarMonitoreoDescongelado() {
             TemperaturaAgua: $("#txtTemperaturaAgua").val(),
             Muestra1: $("#txtMuestra1").val(),
             Muestra2: $("#txtMuestra2").val(),
-            Muestra3: $("#txtMuestra3").val()
+            Muestra3: $("#txtMuestra3").val(),
+            Observacion: $("#txtObservacion").val()
 
         },
         success: function (resultado) {

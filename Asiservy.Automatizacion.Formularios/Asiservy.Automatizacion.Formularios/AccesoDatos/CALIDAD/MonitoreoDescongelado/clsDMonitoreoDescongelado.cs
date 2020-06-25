@@ -43,6 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                         Muestra1 = model.Muestra1,
                         Muestra2 = model.Muestra2,
                         Muestra3 = model.Muestra3,
+                        Observacion = model.Observacion,
                         Talla = model.Talla,
                         Tanque = model.Tanque,
                         TemperaturaAgua = model.TemperaturaAgua,
@@ -93,6 +94,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     if (poControl != null)
                     {
                         poControl.Hora = model.Hora;
+                        poControl.Muestra1 = model.Muestra1;
+                        poControl.Muestra2 = model.Muestra2;
+                        poControl.TemperaturaAgua = model.TemperaturaAgua;
+                        poControl.Muestra3 = model.Muestra3;
+                        poControl.Observacion = model.Observacion;
                         poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                         poControl.FechaModificacionLog = model.FechaIngresoLog;
