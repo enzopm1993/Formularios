@@ -4,35 +4,15 @@
 }
 
 <style>
-    /*div.relativeContenido {
-            position: relative;
-            width: 400px;
-            height: 200px;
-            border: 3px solid #73AD21;
-        }
-
-        div.absoluteMensajes {
-            position: absolute;
-            top: 10px;
-            right: 5px;
-            left: 1%;
-            width: 100%;
-            height: 100%;
-            overflow-x: auto;
-        }*/
-    #divComucados2 {
-       
-         /*height: 280px;
-        max-height: 300px;*/
-        
+    .card-header {
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
-    @@media only screen and (max-width: 600px) {
-        /*#divComucados2 {
-            font-size: 12px;
-            height: 350px;
-        }*/
-}
-   
+
+    .alert {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
 </style>
 
 @if (@ViewBag.Vacaciones != null)
@@ -104,11 +84,11 @@
         <div class="col-md-6 col-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header" style="background-color: #4286f4;color:white">
-                 
+
                     <div class="text-center">
                         @if (ViewBag.Garita != null)
                         {
-                        <b>GARITA</b>
+                            <b>GARITA</b>
                         }
                         else
                         {
@@ -117,30 +97,34 @@
                         }
                     </div>
                 </div>
-                <div class="card-body">
-                    @if (ViewBag.Garita != null)
-                    {
-                        <div class="text-center">
-                            <img  style="height:150px;width:120px" src="~/Content/images/garita.jfif" alt="Alternate Text" />
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row" style="font-size:13px  ">
-                            <div class="col-md-9 col-12 col-sm-6" style="border-right:inset 1px">
+
+                @if (ViewBag.Garita != null)
+                {
+                <div class="card-body" style="padding:0px">
+                    <div class="text-center">
+                        <img style="height:140px" src="~/Content/images/garita.jpg" alt="Alternate Text" />
+                    </div>
+                </div>
+                }
+                else
+                {
+                    <div class="card-body">
+                        <div class="row" style="font-size:12px  ">
+                            <div class="col-md-9 col-12 col-sm-12" style="border-right:inset 1px; padding:1px">
                                 <div class="text-center"><b><label>VACACIONES</label></b> (<label id="TotalDiasVacciones"></label> días)</div>
                                 <div class="text-center" id="divOtros">
                                 </div>
 
                             </div>
-                            <div class="col-md-3 col-12 col-sm-6">
+                            <div class="col-md-3 col-12 col-sm-12">
                                 <div class="text-center"><b><label>MARCACIÓN DE ENTRADA</label></b></div>
 
                                 <div class="card shadow text-center" style="padding:0.5px">
                                     <div class="card-body text-info" style="font-size:12px medium; padding:0px">
                                         @if (ViewBag.Marcacion != null && ViewBag.Marcacion.Hora != null)
                                         {
-                                           @ViewBag.Marcacion.Hora 
+                                            TimeSpan hora = @ViewBag.Marcacion.Hora;
+                                            <label>@hora.ToString()</label>
                                         }
                                         else
                                         {
@@ -152,12 +136,13 @@
                                 </div>
                             </div>
                         </div>
-                    }
+                    </div>
+                        }
 
+                    
                 </div>
-            </div>
         </div>
-        <div class="col-md-6 col-12 col-sm-12">
+        <div class="col-md-6 col-12 col-sm-12" id="divComunicado">
             <div class="card shadow">
                 <div class="card-header" style="background-color: #4286f4;color:white">
 
@@ -167,7 +152,7 @@
                 </div>
                 <div class="card-body">
                     <div class="text-center">
-                        <p style="font-size:12px; margin-bottom:0px">De click en uno de los asuntos para leer el comunicado completo.</p>
+                        <p id="pNotaComunicados" style="font-size:12px; margin-bottom:0px">De click en uno de los asuntos para leer el comunicado completo.</p>
                     </div>
                     <div id="divComunicados" class="table-responsive">
                         <div id="spinnerCargando" hidden class="text-center">
@@ -194,16 +179,17 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="overflow-auto" style="height:200px">
+                        <div class="overflow-auto" style="max-height:200px">
                             @{
                                 if (ViewBag.MensajeUrgente != null)
                                 {
-                                    <div class="alert alert-danger  alert-dismissible fade show" role="alert">
-                                        <strong>Urgente!</strong> @ViewBag.MensajeUrgente
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
+                            <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Urgente!</strong> @ViewBag.MensajeUrgente
+
+                            </div>
                                 }
 
 
@@ -211,12 +197,28 @@
                                 {
                                     foreach (var mensaje in ViewBag.MensajesNotificaciones)
                                     {
-                                        <div class="alert alert-dark    alert-dismissible fade show" role="alert">
+                                        <div class="alert alert-dark  alert-dismissible fade show" role="alert">
                                             <strong>Alerta!</strong><a href=@mensaje.Observacion> @mensaje.Mensaje </a>
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
+
+                                        @*<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <img src="..." class="rounded mr-2" alt="...">
+                                                <strong class="mr-auto">Bootstrap</strong>
+                                                <small>11 mins ago</small>
+                                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                            </div>
+                                        </div>*@
+
+
                                     }
 
                                 }

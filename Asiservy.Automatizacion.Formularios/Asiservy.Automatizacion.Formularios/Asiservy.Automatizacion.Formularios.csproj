@@ -2073,6 +2073,7 @@
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
     <Content Include="Content\images\garita.jfif" />
+    <Content Include="Content\images\garita.jpg" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pageError.png" />

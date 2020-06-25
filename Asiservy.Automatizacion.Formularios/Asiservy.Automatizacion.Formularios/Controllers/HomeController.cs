@@ -75,7 +75,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 ViewBag.Vacaciones = JsonConvert.SerializeObject(clsVacaciones.ConsultarVacaciones(lsUsuario[1], "E").FirstOrDefault());
                 ViewBag.Marcacion = clsDGeneral.ConsultarBiometricoxFecha(lsUsuario[1], DateTime.Now);
-                Notificaciones(Roles);
+                Notificaciones(Roles, lsUsuario[1]);
                 var BD = clsDGeneral.getDataBase();
                 if (BD == clsAtributos.DesarrolloBD)
                 {
@@ -182,11 +182,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public void Notificaciones(List<int?> Roles)
+        public void Notificaciones(List<int?> Roles,string Cedula)
         {
             clsDParametro = new clsDParametro();
+            clsDGeneral = new clsDGeneral();
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             List<RespuestaGeneral> MensajesNotificaciones = new List<RespuestaGeneral>();
+
+            //INICIO -- NOTIFICACIONES ENVIADOS DESDE LA BASE DE DATOS 2020-06-25
+            var Notificaciones = clsDGeneral.ConsultaNotificaciones(Cedula);
+                        foreach(var x in Notificaciones)
+            {
+                MensajesNotificaciones.Add(new RespuestaGeneral { Mensaje = x.Mensaje, Observacion = x.Url });
+            }
+            //2020-06-25 -- FIN
+
 
             var MensajeUrgente = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = clsAtributos.ParaMensajeUrgente,
                 EstadoRegistro = clsAtributos.EstadoRegistroActivo }).FirstOrDefault();

@@ -282,5 +282,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             return dbname;
         }
 
+
+        public List<spConsultaNotificacionesSiaa> ConsultaNotificaciones (string Cedula)
+        {
+            using ( ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaNotificacionesSiaa(Cedula).ToList();
+            }
+        }
+
     }
 }
