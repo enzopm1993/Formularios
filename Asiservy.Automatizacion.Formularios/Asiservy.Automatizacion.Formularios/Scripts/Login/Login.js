@@ -79,7 +79,7 @@ function ConsultaDB()
         url: "../Login/ConsultarBD",        
         success: function (resultado) {
             BD = resultado;
-            console.log(resultado);
+            //console.log(resultado);
             if (!$.isEmptyObject(resultado)) {
                 $("#EnlaceBase").prop("href",resultado[0].Descripcion);
                 $("#EnlaceBase").text("Ir ambiente de "+resultado[0].Mensaje);
