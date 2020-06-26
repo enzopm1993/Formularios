@@ -42,7 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 ViewBag.MascaraInput = "1";
                 ViewBag.MaskedInput = "1";
-                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.Turnos), "Codigo", "Descripcion");
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -108,7 +108,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 List<dynamic> DRespuesta = new List<dynamic>();
                 clsDClasificador = new clsDClasificador();
-                List<CLASIFICADOR> ListaTurnos = clsDClasificador.ConsultarClasificador(clsAtributos.Turnos);
+                List<CLASIFICADOR> ListaTurnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarCabReportes(FechaDesde, FechaHasta);
@@ -199,7 +199,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarBandejaAnalisisQuimicoProductoSemielaborado(FechaInicio, FechaFin, EstadoControl);
                 clsDClasificador = new clsDClasificador();
-                ViewBag.Turnos = clsDClasificador.ConsultarClasificador(clsAtributos.Turnos);
+                ViewBag.Turnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

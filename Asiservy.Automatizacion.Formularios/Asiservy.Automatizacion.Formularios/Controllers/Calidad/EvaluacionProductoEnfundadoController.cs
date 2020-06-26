@@ -79,7 +79,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Color = new SelectList(Color, "IdColor", "Descripcion");
                 ViewBag.Proteina = new SelectList(Proteina, "IdProteina", "Descripcion");
                 ViewBag.NivelLimpieza = new SelectList(ListaTiposLimpieza, "Codigo", "Descripcion");
-                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.Turnos), "Codigo", "Descripcion");
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
 
                 //ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
                 return View();
