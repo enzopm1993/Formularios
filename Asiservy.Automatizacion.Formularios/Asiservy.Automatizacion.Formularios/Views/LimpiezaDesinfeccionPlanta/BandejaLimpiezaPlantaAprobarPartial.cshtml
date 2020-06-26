@@ -13,12 +13,12 @@
 {
     <div class="card table-responsive">
         <div class="row">
-            <div style="font-size:13px;margin-left:5px" class="float-md-right col-md-2 col-12 col-sm-12">
+            <div style="font-size:13px;margin-left:5px" class="float-md-right col-md-3 col-12 col-sm-12">
                 @if (!string.IsNullOrEmpty(tabla.Turno))
                 {
                     <b>@tabla.Turno.Replace("_", " ").ToUpper()</b>
                 }<br />
-                <b>HORA:</b> @tabla.HoraAuditoria.ToString("HH:mm")
+                <b>FECHA-HORA:</b><br /> @tabla.HoraAuditoria.ToString("dd-MM-yyyy HH:mm")
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                         OBSERVACION
                     </th>
                     <th>
-                        HORA
+                        HORA_AC
                     </th>
                     <th>
                         ACCION CORRECTIVA
@@ -84,7 +84,7 @@
                             </td>
                             <td>
                                 @item.PersonaAccionCorrectiva
-                            </td>
+                            </td>                            
                         </tr>
                     }
                 }

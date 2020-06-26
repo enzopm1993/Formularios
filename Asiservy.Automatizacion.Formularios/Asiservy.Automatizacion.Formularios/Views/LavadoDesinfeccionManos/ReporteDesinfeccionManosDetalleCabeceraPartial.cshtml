@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CONTROL_LAVADO_DESINFECCION_MANOS>
+@using Asiservy.Automatizacion.Datos.Datos;
 @using Newtonsoft.Json;
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead style="font-size:12px">
@@ -11,8 +12,9 @@
             </th>
             <th>APROBADO POR</th>
             <th>F. APROBADO</th>
+            <th>TURNO</th>
             <th style="width:25%">
-                <center> ESTADO APROBACION</center>
+                <center> ESTADO</center>
             </th>
         </tr>
     </thead>
@@ -38,6 +40,17 @@
                         @date.ToString("dd-MM-yyyy")
                     }
                 </td>
+                @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                 where x.Codigo == item.Turno.ToString()
+                                 select new { x.Descripcion }).FirstOrDefault();
+                    }
+                <td>
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
+                </td>
+
                 <td>
                     @if (item.EstadoReporte == true)
                     {
@@ -52,4 +65,5 @@
         }
     </tbody>
 </table>
+
 

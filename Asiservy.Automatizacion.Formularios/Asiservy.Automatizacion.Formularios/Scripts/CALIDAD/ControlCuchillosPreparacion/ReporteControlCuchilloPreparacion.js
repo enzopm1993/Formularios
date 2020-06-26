@@ -46,6 +46,8 @@ function CargarCabecera() {
     });
 }
 
+var turno = ['', "A", "B"];
+
 function SeleccionarCabecera(jdata) {
     $('#cargac').show();
     var op = 0;
@@ -61,6 +63,11 @@ function SeleccionarCabecera(jdata) {
     } else if (jdata.FechaAprobado == null) {
         jdata.FechaAprobado = '';
     }
+    if (jdata.Turno != null || jdata.Turno!='') {
+        $('#lblMostrarHora').text(turno[jdata.Turno]);
+        $('#lblMostrarHoraM').text(turno[jdata.Turno]);
+    }
+   
     $('#txtUsuarioAprobacion').text('\u00a0' + jdata.AprobadoPor);
     $('#txtFechaAprobacion').text('\u00a0' + jdata.FechaAprobado);
     $.ajax({

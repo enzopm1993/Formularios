@@ -1,18 +1,20 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CUCHILLOS_PREPARACION_CTRL>
-@using Newtonsoft.Json;
+    @using Asiservy.Automatizacion.Datos.Datos;
+         @using Newtonsoft.Json;
 <table class="table-hover table-bordered table-striped table" style="font-size:13px;width:100%" id="tblDataTable">
     <thead>
         <tr>
             <th>
                 FECHA
-            </th>           
+            </th>
             <th>
                 OBSERVACION
             </th>
             <th>USUARIO CREACION</th>
             <th>F. CREACION</th>
+            <th>TURNO</th>
             <th style="width:25%">
-                <center> ESTADO APROBACION</center>
+                <center> ESTADO</center>
             </th>
         </tr>
     </thead>
@@ -23,7 +25,7 @@
             <tr onclick="SeleccionarBandeja(@json)">
                 <td>
                     @item.Fecha.ToString("dd-MM-yyyy")
-                </td>                
+                </td>
                 <td>
                     @if (!string.IsNullOrEmpty(item.Observacion))
                     {
@@ -33,14 +35,24 @@
                 <td>@item.UsuarioIngresoLog.ToUpper()</td>
                 <td>@item.FechaIngresoLog.ToString("dd-MM-yyyy")</td>
                 <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno.ToString()
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
+                    </td>
+                <td>
                     @if (item.EstadoReporte == true)
                     {
                         <center><span class="badge badge-success">APROBADO</span></center>
                     }
-                    else {
+                    else
+                    {
                         <center><span class="badge badge-danger">PENDIENTE</span></center>
                     }
-                </td>                
+                </td>
             </tr>
         }
     </tbody>

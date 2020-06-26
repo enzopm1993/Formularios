@@ -171,14 +171,14 @@
             <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50;" type="button">
                 <img style="width:100%" src="~/Content/icons/atras24.png" />
             </button>
-            <br /><br />
+            @*<br /><br />
             <center>
                 <select id="selectTurnoFiltro" class="form-control col-md-3" onchange="SeleccionarFiltroTurno()">
                     <option value="TURNO_A" selected>TURNO A</option>
                     <option value="TURNO_B">TURNO B</option>
                     <option value="TURNO_C">TURNO C</option>
                 </select>
-            </center>
+            </center>*@
         </div>
     </div>       
     
@@ -197,7 +197,7 @@
                     <td width="80%" colspan="3" class="text-center">
                         <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                     </td>
-                    <td rowspan="2" width="10%" class="text-center text-right">
+                    <td rowspan="2" width="20%" class="text-center text-right">
                         <div style="font-size:11px">
                             <b>
                                 @ViewBag.CodigoReporte
@@ -207,11 +207,10 @@
                                 @ViewBag.VersionReporte
                             </b>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
-                    <td width="90%" colspan="3" class="text-center">
+                    <td width="80%" colspan="3" class="text-center">
                         <strong>@ViewBag.NombreReporte</strong>
                     </td>
                 </tr>
@@ -219,7 +218,7 @@
                     <td>FECHA:</td>
                     <td style="width:70%"><label id="lblMostrarFechaM"></label></td>
                     <td>TURNO:</td>
-                    <td style="width:45%" colspan="1">
+                    <td style="width:75%" colspan="1">
                         <label id="lblMostrarHoraM"></label>
                     </td>
                 </tr>
@@ -236,7 +235,7 @@
                     <td width="80%" colspan="3" class="text-center">
                         <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                     </td>
-                    <td rowspan="2" width="10%" class="text-center text-right">
+                    <td rowspan="2" width="20%" colspan="3" class="text-center text-right">
                         <div style="font-size:11px">
                             <b>
                                 @ViewBag.CodigoReporte
@@ -246,22 +245,20 @@
                                 @ViewBag.VersionReporte
                             </b>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
-                    <td width="90%" colspan="3" class="text-center">
+                    <td width="70%" colspan="3" class="text-center">
                         <strong>@ViewBag.NombreReporte</strong>
                     </td>
                 </tr>
                 <tr>
                     <td>FECHA:</td>
-                    <td style="width:50%"><label id="lblMostrarFecha"></label></td>
-                    <td>TURNO:</td>
-                    <td style="width:45%">
+                    <td style="width:70%"><label id="lblMostrarFecha"></label></td>
+                    <td colspan="3">TURNO:</td>
+                    <td style="width:30%">
                         <label id="lblMostrarHora"></label>
                     </td>
-                    <td></td>
                 </tr>
             </tbody>
         </table>

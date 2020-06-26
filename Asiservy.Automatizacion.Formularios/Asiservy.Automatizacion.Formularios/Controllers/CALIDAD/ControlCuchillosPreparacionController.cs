@@ -7,11 +7,13 @@ using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using System.Linq;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class ControlCuchillosPreparacionController : Controller
     {
+        clsDClasificador clsDClasificador { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
         clsDControlCuchillosPreparacion clsDControlCuchillosPreparacion { get; set; } = null;
@@ -175,6 +177,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.listaEmpleadoLinea = listaEmpleadoLinea;
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(codigoCuchillo, op);
                 ViewBag.Cuchillos = poCloroCisterna;
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -197,7 +205,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }        
 
-        public JsonResult ConsultarCabecera(DateTime fecha, int idControlCuchillo=0)
+        public JsonResult ConsultarCabecera(DateTime fecha, int turno, int idControlCuchillo=0)
         {
             try
             {
@@ -207,7 +215,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCabecera(fecha,idControlCuchillo);
+                var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCabecera(fecha,idControlCuchillo, turno);
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -237,7 +245,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult GuardarModificarControlCuchilloPreparacion(CC_CUCHILLOS_PREPARACION_CTRL model, bool siAprobar=false)
+        public JsonResult GuardarModificarControlCuchilloPreparacion(CC_CUCHILLOS_PREPARACION_CTRL model,int turno, bool siAprobar=false)
         {
             try
             {
@@ -251,14 +259,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, model.IdControlCuchillo);
-                if (validarEstadoReporte!=null)
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, model.IdControlCuchillo, turno);
+                if (validarEstadoReporte != null && validarEstadoReporte.EstadoReporte)
                 {
-                    if(validarEstadoReporte.EstadoReporte)
-                    {
-                        return Json("3", JsonRequestBehavior.AllowGet);
-                    }
-                }
+                    return Json("3", JsonRequestBehavior.AllowGet);//CONTROL APROBADO
+                }                
                
                 var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloPreparacion(model, siAprobar);
                 if (valor == 0)
@@ -266,7 +271,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
-                else return Json("2", JsonRequestBehavior.AllowGet);
+                else if (valor == 2) return Json("2", JsonRequestBehavior.AllowGet);
+                else return Json("4", JsonRequestBehavior.AllowGet);// TURNO REPETIDO
             }
             catch (DbEntityValidationException e)
             {
@@ -329,7 +335,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult GuardarModificarHora(CC_CUCHILLOS_PREPARACION_HORA model, int idControlCuchillo)
+        public JsonResult GuardarModificarHora(CC_CUCHILLOS_PREPARACION_HORA model, int idControlCuchillo, int turno)
         {
             try
             {
@@ -343,7 +349,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
                 if (consultarEstado.EstadoReporte)
                 {
                     return Json("2", JsonRequestBehavior.AllowGet);
@@ -377,7 +383,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarrHora(CC_CUCHILLOS_PREPARACION_HORA model, int idControlCuchillo)
+        public ActionResult EliminarrHora(CC_CUCHILLOS_PREPARACION_HORA model, int idControlCuchillo, int turno)
         {
             try
             {
@@ -391,7 +397,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
                 if (consultarEstado.EstadoReporte)
                 {
                     return Json("2", JsonRequestBehavior.AllowGet);
@@ -428,7 +434,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarControlCuchilloPreparacion(CC_CUCHILLOS_PREPARACION_CTRL model)
+        public ActionResult EliminarControlCuchilloPreparacion(CC_CUCHILLOS_PREPARACION_CTRL model, int turno)
         {
             try
             {
@@ -438,7 +444,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.Now, model.IdControlCuchillo);
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.Now, model.IdControlCuchillo, turno);
                 if (!validarEstadoReporte.EstadoReporte)
                 {
                     var poCloroCisterna = clsDControlCuchillosPreparacion.EliminarControlCuchilloPreparacion(model);
@@ -530,7 +536,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult GuardarModificarControlCuchilloDetalle(CC_CUCHILLOS_PREPARACION_CTRL_DET model, int idControlCuchillo)
+        public JsonResult GuardarModificarControlCuchilloDetalle(CC_CUCHILLOS_PREPARACION_CTRL_DET model, int idControlCuchillo, int turno)
         {
             try
             {
@@ -544,7 +550,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
                 if (!validarEstadoReporte.EstadoReporte)
                 {
                     var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloDetalle(model);
@@ -577,7 +583,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarControlCuchilloDetalle(CC_CUCHILLOS_PREPARACION_CTRL_DET model, int idControlCuchillo)
+        public ActionResult EliminarControlCuchilloDetalle(CC_CUCHILLOS_PREPARACION_CTRL_DET model, int idControlCuchillo, int turno)
         {
             try
             {
@@ -587,7 +593,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo);
+                var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
                
                     if (!validarEstadoReporte.EstadoReporte)
                     {
@@ -722,7 +728,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarcabeceraFechaID(fechaDesde, fechaHasta, false,op);
                 if (poCloroCisterna != null)
                 {
@@ -783,7 +794,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult BandejaCuchilloPreparacionPartial(DateTime fechaDesde, DateTime fechaHasta, bool estado)
+        public ActionResult BandejaCuchilloPreparacionPartial(DateTime fechaDesde, DateTime fechaHasta, bool estado, int op)
         {
             try
             {
@@ -793,7 +804,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                var cabeceraTabla = clsDControlCuchillosPreparacion.ConsultarcabeceraFechaID(fechaDesde, fechaHasta, estado);
+                var cabeceraTabla = clsDControlCuchillosPreparacion.ConsultarcabeceraFechaID(fechaDesde, fechaHasta, estado,op);
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 if (cabeceraTabla != null)
                 {
                     return PartialView(cabeceraTabla);

@@ -4,7 +4,7 @@
     <thead style="font-size:12px">
         <tr>
             <th>
-                HORA
+                FECHA-HORA
             </th>
             @foreach (var item in ViewBag.cabeceraTable)
             {
@@ -17,19 +17,19 @@
     @{
         var listaColumnasCabecera = ViewBag.cabeceraTable;
         var listaHora = (from ssi in Model
-                         group ssi by new { ssi.Hora } into g
-                         select new { Hora = g.Key.Hora, Count = g.Count() }).ToList();
+                         group ssi by new { ssi.FechaHora } into g
+                         select new { Hora = g.Key.FechaHora, Count = g.Count() }).ToList();
         var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
     }
     <tbody style="font-size:11px">
         @foreach (var subListaHora in listaHora)
         {
             var itemColumna = (from x in Model
-                               where x.Hora == subListaHora.Hora
-                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora }).ToList();
+                               where x.FechaHora == subListaHora.Hora
+                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.FechaHora }).ToList();
         <tr>
             <td>
-                @subListaHora.Hora
+                @subListaHora.Hora.ToString("dd-MM-yyyy HH:mm")
             </td>
             @foreach (var lc in listaColumnasCabecera)
             {
