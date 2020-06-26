@@ -1154,7 +1154,7 @@ function LimpiarDetalleControles() {
     $('#divDetalle2').prop('hidden', true);
     $('#txtHora').prop('disabled', false);
     $('#btnEliminarDetalleControl').prop('disabled', true);
-    $('#txtHora').val(moment().format("HH:mm"));
+    $('#txtHora').val(moment().format("YYYY-MM-DDTHH:mm"));
     $('#txtBuque').val('');
     $('#cmbMoreton').prop('selectedIndex', 0);
     //$('#txtMoretones').val('');

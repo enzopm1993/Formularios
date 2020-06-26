@@ -373,7 +373,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                      Espinas = d.Espinas,
                                      //HematomasProfundos = d.HematomasProfundos,
                                      Moretones=mo.Descripcion,
-                                     //Hora = d.Hora,
+                                     Hora = d.Hora,
                                      Linea = d.Linea,
                                      Lote = d.Lote,
                                      CodMoretones = d.Moretones,

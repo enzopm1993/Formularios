@@ -104,7 +104,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Color = clsDMantenimientoColor.ConsultarMantenimientoColor().Where(x=>x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 var Moretones = ClsDMantenimientoMoreton.ConsultaManteminetoMoreton();
-                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.Turnos), "Codigo", "Descripcion");
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 ViewBag.Moreton = new SelectList(Moretones, "IdMoreton", "Descripcion");
                 ViewBag.Olor = new SelectList(Olor, "IdOlor", "Descripcion");
                 ViewBag.Textura = new SelectList(Textura, "IdTextura", "Descripcion");
