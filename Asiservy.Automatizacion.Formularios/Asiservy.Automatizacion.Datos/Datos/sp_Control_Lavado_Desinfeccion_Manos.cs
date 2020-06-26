@@ -20,5 +20,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioIngresoLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public bool EstadoReporte { get; set; }
+        public string Turno { get; set; }
     }
 }
