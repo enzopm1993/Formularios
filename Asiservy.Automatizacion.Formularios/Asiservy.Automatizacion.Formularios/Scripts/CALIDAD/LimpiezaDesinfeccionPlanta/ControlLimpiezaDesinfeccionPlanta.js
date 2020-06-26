@@ -233,6 +233,7 @@ function ActualizarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
     itemEditar = [];
 }
 
