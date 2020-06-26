@@ -416,7 +416,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                      join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                      join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja=x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new {d.IdCabeceraEvaluacionLomosYMigasEnBandeja,  d.EstadoRegistro }
-                                     join clt in db.CLASIFICADOR on new { Codigo=x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo,Grupo=clsAtributos.Turnos } equals new {clt.Codigo, clt.EstadoRegistro,clt.Grupo }
+                                     join clt in db.CLASIFICADOR on new { Codigo=x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo,Grupo=clsAtributos.GrupoCodTurno } equals new {clt.Codigo, clt.EstadoRegistro,clt.Grupo }
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl==null) && cl.Codigo != "0"
                                      select new CabeceraEvaluacionLomosMigasViewModel
                                      {
@@ -508,7 +508,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                  join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                  join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
-                                 join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.Turnos } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
+                                 join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.GrupoCodTurno } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
                                  where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaProduccion>=FechaDesde&&x.FechaProduccion<=FechaHasta) && cl.Codigo != "0"
                                  select new CabeceraEvaluacionLomosMigasViewModel
                                  {
