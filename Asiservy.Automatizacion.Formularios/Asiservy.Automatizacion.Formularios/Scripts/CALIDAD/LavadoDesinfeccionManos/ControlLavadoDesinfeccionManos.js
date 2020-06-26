@@ -6,6 +6,27 @@ $(document).ready(function () {
     CargarCabecera(0);
 });
 
+function ConsultarEstadoRegistro() {
+    $.ajax({
+        url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
+        data: {
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            ListaDatos = resultado;
+            CambiarMensajeEstado(resultado.EstadoReporte);
+        },
+        error: function () {
+            MensajeError(Mensajes.Error, false);
+        }
+    });
+}
+
 function CargarCabecera(opcion) {
     $("#divTableEntregaProductoDetalle").html('');
     var op = opcion;
@@ -17,17 +38,16 @@ function CargarCabecera(opcion) {
         $.ajax({
             url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
             type: "GET",
-            data: {
-                fechaDesde: $("#txtFecha").val(),
-                fechaHasta: $("#txtFecha").val(),
-                opcion:op
+            data: {               
+                fechaControl: $("#txtFecha").val(),
+                turno:document.getElementById('selectTurno').value
             },
             success: function (resultado) {
                 if (resultado == "101") {
                     window.location.reload();
                 }
                 $("#txtObservacion").val('');
-                if (resultado.length == 0) {
+                if (resultado == 0) {
                     $("#txtObservacion").prop("disabled", false);
                     $("#divDetalleControlCloro").prop("hidden", true);
                     $("#btnModalEditar").prop("hidden", true);
@@ -43,16 +63,9 @@ function CargarCabecera(opcion) {
                     $("#btnModalEliminar").prop("hidden", false);                    
                     $("#txtObservacion").prop("disabled", true);
                     $("#btnModalGenerarRegistro").prop("hidden", true);
-                    $("#txtObservacion").val(resultado[0].Observacion);
+                    $("#txtObservacion").val(resultado.Observacion);
                     ListaDatos = resultado;
-                    if (resultado[0].EstadoReporte == true) {
-                        $("#lblAprobadoPendiente").text("APROBADO");
-                        $("#lblAprobadoPendiente").removeClass('badge-danger');
-                        $("#lblAprobadoPendiente").addClass('badge badge-success');
-                    } else {
-                        $("#lblAprobadoPendiente").text("PENDIENTE");
-                        $("#lblAprobadoPendiente").removeClass('badge-success');
-                        $("#lblAprobadoPendiente").addClass('badge badge-danger');}
+                    CambiarMensajeEstado(resultado.EstadoReporte);
                     CargarDetalle(0);                    
                 }         
             },
@@ -67,7 +80,7 @@ function CargarCabecera(opcion) {
 function GuardarCabecera() {
     var idDesinfeccionManos = 0;
     if (ListaDatos.length != 0) {
-        idDesinfeccionManos = ListaDatos[0].IdDesinfeccionManos;
+        idDesinfeccionManos = ListaDatos.IdDesinfeccionManos;
     }
     $('#cargac').show();  
     $.ajax({
@@ -76,11 +89,23 @@ function GuardarCabecera() {
         data: {
             IdDesinfeccionManos: idDesinfeccionManos,
             Fecha: moment($("#txtFecha").val()).format("YYYY-MM-DD"),
-            Observacion: $("#txtObservacion").val()
+            Observacion: $("#txtObservacion").val(),
+            Turno: document.getElementById('selectTurno').value
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            }
+            if (resultado == 0) {
+                MensajeCorrecto('Registro guardado correctamente');
+            }
+            if (resultado == 1) {
+                MensajeCorrecto('Registro actualizado correctamente');
+            }
+            if (resultado==3) {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+                $('#cargac').hide();
+                return;
             }
             CargarCabecera(0);
             $("#txtObservacion").prop("disabled", true);
@@ -100,9 +125,9 @@ function GuardarCabecera() {
 }
 
 function EliminarConfirmar() {
-    CargarCabecera(0);
+    ConsultarEstadoRegistro();
     setTimeout(function () {
-        if (ListaDatos[0].EstadoReporte == true) {
+        if (ListaDatos.EstadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
@@ -117,7 +142,7 @@ function EliminarCabeceraSi() {
         url: "../LavadoDesinfeccionManos/EliminarControlLavadoDesinfeccionManos",
         type: "POST",
         data: {
-            IdDesinfeccionManos: ListaDatos[0].IdDesinfeccionManos
+            IdDesinfeccionManos: ListaDatos.IdDesinfeccionManos
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -159,9 +184,9 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabeceraActivarCotroles() {
-    CargarCabecera(0);
+    ConsultarEstadoRegistro();
     setTimeout(function () {
-        if (ListaDatos[0].EstadoReporte == true) {
+        if (ListaDatos.EstadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
@@ -175,9 +200,9 @@ function ActualizarCabeceraActivarCotroles() {
 
 //DETALLE INGRESO DE LINEAS (SE LISTA EL CLASIFICADOR PARA PODER ARMAR LA CABECERA DE LA TABLA)
 function ModalGenerarDetalle() {    
-    CargarCabecera(0);    
+    ConsultarEstadoRegistro();    
     setTimeout(function () {
-        if (ListaDatos[0].EstadoReporte == true) {
+        if (ListaDatos.EstadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
@@ -253,7 +278,7 @@ function CargarDetalle(opcion) {
     var op = opcion; 
     var idDesinfeccionManos = 0;
     if (ListaDatos.length!=0) {
-        idDesinfeccionManos = ListaDatos[0].IdDesinfeccionManos;
+        idDesinfeccionManos = ListaDatos.IdDesinfeccionManos;
     }
     $.ajax({
         url: "../LavadoDesinfeccionManos/LavadoDesinfeccionManosDetallePartial",
@@ -278,19 +303,20 @@ function CargarDetalle(opcion) {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);            
+            MensajeError(Mensajes.Error, false);            
         }
     });
 }
 
 function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
-    CargarCabecera(0);
+    ConsultarEstadoRegistro();
+    $('#cargac').show();
     setTimeout(function () {
-    if (ListaDatos[0].EstadoReporte == true) {
+    if (ListaDatos.EstadoReporte == true) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        $('#cargac').hide();
         return;
-    } else {
-        $('#cargac').show();
+    } else {        
         ListaDatosDetalle = jFilaSeleccionada;//Con esto Guardo el json para usarlo en el metodo prepararAntesGuardar(jdata)
         $.ajax({
             url: "../LavadoDesinfeccionManos/IngresoLavadoDesinfeccionManosDetallePartial",
@@ -308,7 +334,7 @@ function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
                 }
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+                MensajeError(Mensajes.Error, false);
             }
         });
         
@@ -317,15 +343,15 @@ function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
                 for (var j in jFilaSeleccionada) {
                     if (jordenColumnasTabla[i].Codigo == jFilaSeleccionada[j].CodigoLinea) {
                         var nomElemento = 'selectLinea_' + jFilaSeleccionada[j].CodigoLinea;
-                        document.getElementById('txtHora').setAttribute("value", jFilaSeleccionada[j].Hora);
-                        horaActualizar = jFilaSeleccionada[j].Hora;//Guardo la hora para validarla al momento de Actualizar el registro
+                        document.getElementById('txtHora').setAttribute("value", jFilaSeleccionada[j].FechaHora);
+                        horaActualizar = moment(jFilaSeleccionada[j].FechaHora).format('DD-MM-YYYY HH:mm');//Guardo la hora para validarla al momento de Actualizar el registro
                         document.getElementById(nomElemento).value = jFilaSeleccionada[j].EstadoCumplimiento;
                     }
                 }
             }
             $("#ModalGenerarDetalle").modal("show");
             $('#cargac').hide();
-        }, 2000);
+        }, 200);
     }
     },500);
 }
@@ -333,14 +359,14 @@ function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
 function ValidarHoraRepetida() {
     var tblObj = $("#tblDataTable").DataTable();
     var form_data = tblObj.rows().data();
-    var h = moment($("#txtFecha").val()+' '+$("#txtHora").val()).format('HH:mm:ss');    
+    var h = moment($("#txtHora").val()).format('DD-MM-YYYY HH:mm');    
     for (var i in form_data) {
         if (h == horaActualizar) {//horaActualizar la almaceno al momento de dar click en EDITAR, solo si uso el evento onChange la hora se valida caso contrario se
                                   //entiende que no ha cambiado la hora y se la actualiza con la misma hora
             return false;
         }
-        if (form_data[i][1] == h) {
-            MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe una HORA:    " + form_data[i][1] + "    resgistrada¡</span>",10);
+        if (form_data[i][0] == h.toString()) {
+            MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe una FECHA-HORA:    " + form_data[i][0] + "    resgistrada¡</span>",10);
             return true;
         }
     }    
@@ -371,8 +397,8 @@ function prepararAntesGuardar(jdata) {//jdata tare el orden en la que se van a g
     if (ValidarHoraRepetida() == true) {
         return;
     } else {
-        var Hora = moment($("#txtFecha").val() + ' ' + $("#txtHora").val()).format("YYYY-MM-DDTHH:mm")
-        var listaData = [{}, {}, {}, {}, {}, {}, {}, {}];
+        var Hora = moment($("#txtHora").val()).format("YYYY-MM-DDTHH:mm")
+        var listaDataArray = new Array();
         var estado;
         var selectText = $('table#tblDataTableIngreso td').map(function () {
             return $(this).find(':selected').map(function () {
@@ -381,6 +407,7 @@ function prepararAntesGuardar(jdata) {//jdata tare el orden en la que se van a g
         }).get();
 
         for (var i = 0; i < selectText.length; i++) {
+            var listaData = {};
             estado = "false";
             if (selectText[i] == "Seleccione..") {
                 $("#selectLinea_" + jdata[i]).css('border', '2px dashed red');
@@ -398,19 +425,20 @@ function prepararAntesGuardar(jdata) {//jdata tare el orden en la que se van a g
             if (ListaDatosDetalle != '') {
                 for (var j in ListaDatosDetalle) {
                     if (jdata[i] == ListaDatosDetalle[j].CodigoLinea) {
-                        listaData[i].IdDesinfeccionManosDetalle = ListaDatosDetalle[j].IdDesinfeccionManosDetalle;//Para el ingreso(Guardar) no es necesario que tenga datos.
+                        listaData.IdDesinfeccionManosDetalle = ListaDatosDetalle[j].IdDesinfeccionManosDetalle;//Para el ingreso(Guardar) no es necesario que tenga datos.
                     }
                 }
             } else {
-                listaData[i].IdDesinfeccionManosDetalle = ListaDatosDetalle.IdDesinfeccionManosDetalle;
+                listaData.IdDesinfeccionManosDetalle = ListaDatosDetalle.IdDesinfeccionManosDetalle;
             }
-            listaData[i].IdDesinfeccionManos = ListaDatos[0].IdDesinfeccionManos;
-            listaData[i].Hora = Hora;
-            listaData[i].CodigoLinea = jdata[i];
-            listaData[i].EstadoCumplimiento = estado;
+            listaData.IdDesinfeccionManos = ListaDatos.IdDesinfeccionManos;
+            listaData.Hora = Hora;
+            listaData.CodigoLinea = jdata[i];
+            listaData.EstadoCumplimiento = estado;
+            listaDataArray.push(listaData);
         }
         ListaDatosDetalle = '';
-        GuardarDetalle(listaData);
+        GuardarDetalle(listaDataArray);
         horaActualizar = '';
     }
 }
@@ -421,9 +449,9 @@ function quitarEstiloSelect(numSelect) {
 }
 
 function EliminarConfirmarDetalle(jdata) {
-    CargarCabecera(0);
+    ConsultarEstadoRegistro();
     setTimeout(function () {
-        if (ListaDatos[0].EstadoReporte == true) {
+        if (ListaDatos.EstadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
@@ -466,6 +494,22 @@ function EliminarDetalleSi() {
 function EliminarDetalleNo() {
     ListaDatosDetalle = [];
     $("#modalEliminarDetalle").modal("hide");
+}
+
+function CambiarMensajeEstado(estadoReporteParametro) {
+    if (estadoReporteParametro == true) {
+        $("#lblAprobadoPendiente").text("APROBADO");
+        $("#lblAprobadoPendiente").removeClass('badge-danger');
+        $("#lblAprobadoPendiente").addClass('badge badge-success');
+    } else if (estadoReporteParametro == false) {
+        $("#lblAprobadoPendiente").text("PENDIENTE");
+        $("#lblAprobadoPendiente").removeClass('badge-success');
+        $("#lblAprobadoPendiente").addClass('badge badge-danger');
+    } else if (estadoReporteParametro == 'nada') {
+        $("#lblAprobadoPendiente").text("");
+        $("#lblAprobadoPendiente").removeClass('badge-success');
+        $("#lblAprobadoPendiente").removeClass('badge badge-danger');
+    }
 }
 
 

@@ -2,7 +2,7 @@
 $(document).ready(function () {
     CargarCabecera();
 });
-
+var turno = ['',"A","B"];
 function CargarCabecera() {
     Atras();
     $('#lblMostrarFecha').text('');
@@ -53,8 +53,11 @@ function SeleccionarCabecera(jdata) {
     itemSeleccionar = jdata;
     $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
     $('#lblMostrarFechaM').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
-    $('#lblMostrarHora').text($('#selectTurnoFiltro').val().replace('_', ' '));
-    $('#lblMostrarHoraM').text($('#selectTurnoFiltro').val().replace('_',' '));
+    
+    if (jdata.Turno != null || jdata.Turno != '') {
+        $('#lblMostrarHora').text(turno[jdata.Turno]);
+        $('#lblMostrarHoraM').text(turno[jdata.Turno]);
+    }
     if (jdata.ObservacionControl != null) {
         $('#lblMostrarObservacion').text('\u00a0' + jdata.ObservacionControl.toUpperCase());
     }

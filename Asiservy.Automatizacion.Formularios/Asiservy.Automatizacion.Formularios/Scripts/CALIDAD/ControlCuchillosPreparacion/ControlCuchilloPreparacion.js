@@ -15,7 +15,8 @@ function ConsultarEstadoReporte() {
         type: "GET",
         data: {
             fecha: pFecha,
-            idControlCuchillo: datosCabecera.IdControlCuchillo
+            idControlCuchillo: datosCabecera.IdControlCuchillo,
+            turno: document.getElementById('selectTurno').value
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -53,7 +54,8 @@ function CargarCabecera() {
         url: "../ControlCuchillosPreparacion/ConsultarCabecera",
         type: "GET",
         data: {
-            fecha: pFecha           
+            fecha: pFecha,
+            turno: document.getElementById('selectTurno').value
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -88,7 +90,7 @@ function CargarCabecera() {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -110,7 +112,7 @@ function ConsultarHora() {
                 $('#divIngresoHora').prop('hidden', true);
             } else {
                 $('#divHora').html(resultado);
-                $('#divIngresoHora').prop('hidden', false);
+                $('#divIngresoHora').prop('hidden', false); 
             }
             $('#divHora').prop('hidden', false); 
             $('#cargac').hide();
@@ -122,7 +124,7 @@ function ConsultarHora() {
     });
 }
 
-function NuevoRegistroHora() {
+function NuevoRegistroHora(actualizar) {
     ConsultarEstadoReporte();
     setTimeout(function () {
         if (estadoR == true) {
@@ -130,13 +132,16 @@ function NuevoRegistroHora() {
         } else {
             LimpiarCabecera();
             $('#modalIngresoHora').modal('show');
-            $("#txtHora").val();
+            var date = new Date();
+            if (actualizar==0) {
+                $("#txtHora").val(moment(date).format('YYYY-MM-DDTHH:mm'));
+            }            
         }
     },200);
 }
 
 function GuardarHora() {
-    var hora = $("#txtFecha").val() + ' ' + $("#txtHora").val();
+    //var hora =$("#txtHora").val();
     $('#cargac').show();
     if (ValidarHoraExiste() == true) {
         $('#cargac').hide();
@@ -148,8 +153,9 @@ function GuardarHora() {
             data: {
                 IdHora: datosHora.IdHora,
                 IdControlCuchillo: datosCabecera.IdControlCuchillo,
-                Hora: moment(hora).format('YYYY-MM-DDTHH:mm'),
-                Descripcion: $("#txtDescripcion").val()
+                Hora: $("#txtHora").val(),
+                Descripcion: $("#txtDescripcion").val(),
+                turno:document.getElementById('selectTurno').value
             },
             success: function (resultado) {
                 if (resultado == 0) {
@@ -178,10 +184,10 @@ function ActualizarHora(jdata) {
         if (estadoR == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         } else {
-            NuevoRegistroHora();
+            NuevoRegistroHora(1);
             datosHora.IdHora = jdata.IdHora
-            datosHora.Hora = moment(jdata.Hora).format('HH:mm');
-            $("#txtHora").val(moment(jdata.Hora).format('HH:mm'));
+            datosHora.Hora = moment(jdata.Hora).format('DD-MM-YYYY HH:mm');
+            $("#txtHora").val(moment(jdata.Hora).format('YYYY-MM-DDTHH:mm'));
             $("#txtDescripcion").val(jdata.Descripcion);
         }
     }, 200);
@@ -206,7 +212,8 @@ function EliminarHoraSi() {
         type: "POST",
         data: {
             IdHora: datosHora.IdHora,
-            idControlCuchillo: datosCabecera.IdControlCuchillo
+            idControlCuchillo: datosCabecera.IdControlCuchillo,
+            turno: document.getElementById('selectTurno').value
         },
         success: function (resultado) {
             $("#modalHoraEliminar").modal("hide");
@@ -238,26 +245,33 @@ function EliminarHoraNo() {
 function GuardarCabecera() {    
     var pFecha = moment($("#txtFechaFiltro").val()).format("YYYY-MM-DD");
     if ($("#txtFechaIngresoCabecera").val() != '') {
-        $('#ModalIngresoRegistroCabecera').modal('hide');
+        
         $.ajax({
             url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloPreparacion",
             type: "POST",
             data: {
                 IdControlCuchillo: datosCabecera.IdControlCuchillo,
                 Fecha: pFecha,
+                Turno:document.getElementById('selectTurnoIngresar').value,
                 Observacion: $("#txtObservacionCabecera").val()
             },
             success: function (resultado) {
                 if (resultado == 0) {
                     limpiar();
-                    MensajeCorrecto("Registro Exitoso");
+                    MensajeCorrecto("Registro guardado con éxito");
                 } else if (resultado == 1)  {                    
-                    MensajeCorrecto("Actualización Exitoso");                    
+                    MensajeCorrecto("Actualización Exitosa");                    
                     $("#txtObservacion").val($("#txtObservacionCabecera").val());
                     $("#txtFecha").val($("#txtFechaIngresoCabecera").val());
                 } else if (resultado == 3) {
                     MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');                   
+                } else if (resultado == 4) {
+                    var e = document.getElementById("selectTurnoIngresar");
+                    var strUser = e.options[e.selectedIndex].text;
+                    MensajeAdvertencia('Error el TURNO ya esta ingresado  : <span class="badge badge-danger">' + strUser + '</span>');
+                    return;
                 }
+                $('#ModalIngresoRegistroCabecera').modal('hide');
                 CargarCabecera();
                 $('#divBotonNuevo').hide();
                 $('#divCabecera').prop('hidden', false);
@@ -317,18 +331,20 @@ function ValidarHora() {
 
 function ValidarHoraExiste() {     
     var table = $("#tblCargarHora").DataTable();
-        var form_data = table.rows().data();
+    var form_data = table.rows().data();
     for (var i in form_data) {
-        if ($('#txtHora').val() == datosHora.Hora) {
-            
+        if (moment($('#txtHora').val()).format('DD-MM-YYYY HH:mm') == datosHora.Hora) {
+
             return false;
         }
-            if (form_data[i][0] == $('#txtHora').val()) {
-                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe una HORA registrada:    " + form_data[i][0] + "</span>", 10);
-                return true;
-            }
-           
+        //console.log(moment($('#txtHora').val()).format('DD-MM-YYYY HH:mm'));
+        if (form_data[i][0] == moment($('#txtHora').val()).format('DD-MM-YYYY HH:mm')) {
+            MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe una HORA registrada:    " + form_data[i][0] + "</span>", 10);
+            table.destroy();
+            return true;
         }
+    }
+    table.destroy();
     return false;
 }
 
@@ -348,7 +364,8 @@ function EliminarCabeceraSi() {
         url: "../ControlCuchillosPreparacion/EliminarControlCuchilloPreparacion",
         type: "POST",
         data: {
-            IdControlCuchillo: datosCabecera.IdControlCuchillo
+            IdControlCuchillo: datosCabecera.IdControlCuchillo,
+            turno: document.getElementById('selectTurno').value
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -393,6 +410,7 @@ function ActualizarCabecera() {
         } else {
             $("#txtObservacionCabecera").val($("#txtObservacion").val());
             $("#txtFechaIngresoCabecera").val($("#txtFecha").val());
+            document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
             $("#divCargarCuchillos").prop("hidden", true);
             $('#ModalIngresoRegistroCabecera').modal('show');
         }
@@ -403,6 +421,7 @@ function NuevoRegistroCabecera() {
     LimpiarCabecera();
     $('#ModalIngresoRegistroCabecera').modal('show');
     $("#txtFechaIngresoCabecera").val($("#txtFechaFiltro").val());
+    document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
 }
 
 //GUARDAR DETALLE
@@ -411,23 +430,11 @@ function GuardarControlDetalle() {
         return;
     }
     else {
-        //var estado = $("#CheckEstadoRegistroOp").prop('checked');
-        //var idCuchillopreparacion = $('#txtCodigoCuchillo').val();
-        //var cedulaEmpleado = $('#txtEmpleado').val();
-        //if ($('#txtActualizar').val() == '1') {
-        //    if ($('#txtCodigoCuchilloDetalle').val() != '') {
-        //        idCuchillopreparacion = $('#txtCodigoCuchilloDetalle').val();
-        //        estado = $("#CheckEstadoRegistroOpD").prop('checked');
-        //    }
-        //    if ($('#txtEmpleadoDetalle').val() != '') {
-        //        cedulaEmpleado = $('#txtEmpleadoDetalle').val();
-        //    }
-        //} else {
+
             if ($('#txtCodigoCuchillo').val() == "" || $('#txtEmpleado').val() == "") {
                 MensajeAdvertencia('Seleccione el CUCHILLO o EMPLEADO ');
                 return;
             }
-        //}
         if ($("#CheckEstadoRegistroOp").prop('checked') == false && $('#txtObservacionDetalle').val() == '') {
             $("#txtObservacionDetalle").css('border', '1px dashed red');
                 MensajeAdvertencia('La observación es obligatoria');
@@ -443,7 +450,8 @@ function GuardarControlDetalle() {
                 CedulaEmpleado: $('#txtEmpleado').val(),
                 idControlCuchillo: datosCabecera.IdControlCuchillo,
                 Estado: $("#CheckEstadoRegistroOp").prop('checked'),
-                Observacion: $('#txtObservacionDetalle').val()
+                Observacion: $('#txtObservacionDetalle').val(),
+                turno: document.getElementById('selectTurno').value
             },
             success: function (resultado) {
                 if (resultado == 0) {
@@ -534,12 +542,13 @@ function ConsultarDetalle(jdata) {
                             resultado[conRow].Cedula = colummCedula[0];//Añado la propiedad Cedula al JSon para poder usarlo cuando edito el registro.
                             row.CedulaEmpleado = colummCedula[1];
                         } else { row.CedulaEmpleado = "<center><span class='badge badge-danger'>NO ASIGNADO</span></center>"; }
-                        row.Acciones = '<button type = "button" class="btn btn-link" data-dismiss="modal" onclick="SeleccionarDetalle(' + row.IdCuchilloPreparacion + ',' + row.Cedula + ',' + row.EstadoParametro + ',' + row.IdControlCuchilloDetalle + ')">Editar</button>\
-                    <button id = "btnEliminar" class="btn btn-link" onclick="EliminarDetalleConfirmar('+ row.IdControlCuchilloDetalle + ',' + row.IdHora + ')"> Eliminar</button>';
+                        row.Acciones = "<button type = 'button' class='btn btn-link' data-dismiss='modal' onclick='SeleccionarDetalle(" + row.IdCuchilloPreparacion + "," + row.Cedula + "," + row.EstadoParametro + "," + row.IdControlCuchilloDetalle + ",\"" + row.Observacion +"\")'>Editar</button>\
+                    <button id = 'btnEliminar' class='btn btn-link' onclick='EliminarDetalleConfirmar("+ row.IdControlCuchilloDetalle + "," + row.IdHora + ")'> Eliminar</button>";
                         conRow++;
                     });
                     table.DataTable().rows.add(resultado);
                     table.DataTable().draw();
+                    table.DataTable().destroy();
                     $('#divHora').prop('hidden', true);
                     $('#divIngresoHora').prop('hidden', true);
                     $('#divCargarCuchillosDetalle').prop('hidden', false);
@@ -593,7 +602,7 @@ function ModalGenerarDetalle() {
     }, 400);
 }
 
-function SeleccionarDetalle(idCuchilloP, ced, est, idDetalle) {
+function SeleccionarDetalle(idCuchilloP, ced, est, idDetalle, obser) {
     ConsultarEstadoReporte();
     setTimeout(function () {
         if (estadoR == true) {
@@ -605,12 +614,17 @@ function SeleccionarDetalle(idCuchilloP, ced, est, idDetalle) {
             datosDetalle = [];
             $("#txtCodigoCuchillo").val(idCuchilloP);
             $("#txtEmpleado").val(ced);
-            $("#EstadoRegistro").val(est);
-            CambioEstado(est);
+            $("#EstadoRegistro").val(est);            
             $("#CheckEstadoRegistroOp").prop('checked', est);
+            if (obser == "null" || obser == '') {
+                document.getElementById('txtObservacionDetalle').value = '';
+            } else {
+                document.getElementById('txtObservacionDetalle').value = obser;
+            }
             datosDetalle.IdCuchilloPreparacion = idCuchilloP;
             datosDetalle.Cedula = ced;
             datosDetalle.IdControlCuchilloDetalle = idDetalle;
+            CambioEstado(est);
         }
     }, 200);
 }
@@ -627,13 +641,16 @@ function ValidarCuchilloExiste() {
         var form_data = table.rows().data();
         for (var i in form_data) {
             if (selectedValue == datosDetalle.IdCuchilloPreparacion) {
+                table.destroy();
                 return false;
             }
             if (form_data[i].CodigoCuchillo == selected) {
-                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un cuchillo con ese código registrado:    " + form_data[i].CodigoCuchillo +"</span>", 10);
+                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un cuchillo con ese código registrado:    " + form_data[i].CodigoCuchillo + "</span>", 10);
+                table.destroy();
                 return true;                
             }
         }
+        table.destroy();
     }
     return false;
 }
@@ -648,15 +665,18 @@ function ValidarEmpleadoExiste() {
         var table = $("#tblDataTableCargarDetalle").DataTable();
         var form_data = table.rows().data();
         for (var i in form_data) {  
-            if (form_data[i].Cedula == datosDetalle.Cedula) {            
+            if (form_data[i].Cedula == datosDetalle.Cedula) {
+                table.destroy();
                 return false;
             }
             if (form_data[i].Cedula == selected) {
                 MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un EMPLEADO asignado:    " + form_data[i].CedulaEmpleado + "</span>", 10);
+                table.destroy();
                 return true;
             }
         }
-    }
+        table.destroy();
+    }    
     return false;
 }
 
@@ -666,7 +686,8 @@ function EliminarDetalleSi() {
         type: "POST",
         data: {
             IdControlCuchilloDetalle: datosDetalle.IdControlCuchilloDetalle,
-            idControlCuchillo: datosHora.IdControlCuchillo
+            idControlCuchillo: datosHora.IdControlCuchillo,
+            turno: document.getElementById('selectTurnoIngresar').value,
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -726,6 +747,25 @@ function CambiarMensajeEstado(estadoReporteParametro) {
         $("#lblAprobadoPendiente").removeClass('badge-success');
         $("#lblAprobadoPendiente").removeClass('badge badge-danger');
     }
+}
+
+$("#txtObservacionCabecera").keypress(function (event) {
+    var character = String.fromCharCode(event.keyCode);
+    return isValid(character);
+});
+
+$("#txtDescripcion").keypress(function (event) {
+    var character = String.fromCharCode(event.keyCode);
+    return isValid(character);
+});
+
+$("#txtObservacionDetalle").keypress(function (event) {
+    var character = String.fromCharCode(event.keyCode);
+    return isValid(character);
+});
+
+function isValid(str) {
+    return !/["']/g.test(str);
 }
 
 var configDetalle = {

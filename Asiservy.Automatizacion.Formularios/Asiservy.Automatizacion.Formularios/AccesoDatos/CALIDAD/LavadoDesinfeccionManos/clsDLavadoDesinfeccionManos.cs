@@ -16,11 +16,56 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
             }
         }
 
+        public CC_CONTROL_LAVADO_DESINFECCION_MANOS ConsultarCabeceraTurno(int turno, DateTime fechaControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                CC_CONTROL_LAVADO_DESINFECCION_MANOS listado;
+
+                if (turno == 0)
+                {
+                    listado = db.CC_CONTROL_LAVADO_DESINFECCION_MANOS.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                   && x.Fecha.Day == fechaControl.Day
+                                                                                   && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                else
+                {
+                    listado = db.CC_CONTROL_LAVADO_DESINFECCION_MANOS.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                        && x.Fecha.Day == fechaControl.Day && x.Turno == turno
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                CC_CONTROL_LAVADO_DESINFECCION_MANOS cabecera;
+                if (listado != null)
+                {
+                    cabecera = new CC_CONTROL_LAVADO_DESINFECCION_MANOS();
+                    cabecera.IdDesinfeccionManos = listado.IdDesinfeccionManos;
+                    cabecera.Fecha = listado.Fecha;
+                    cabecera.Observacion = listado.Observacion;
+                    cabecera.EstadoReporte = listado.EstadoReporte;
+                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = listado.FechaAprobado;
+                    cabecera.AprobadoPor = listado.AprobadoPor;
+                    cabecera.Turno = listado.Turno;
+                    return cabecera;
+                }
+                return listado;
+
+            }
+        }
+
         public int GuardarModificarControlLavadoDesinfeccionManos(CC_CONTROL_LAVADO_DESINFECCION_MANOS GuardarModigicar, bool siAprobar)
         {
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                var validarNombreRepetido = db.CC_CONTROL_LAVADO_DESINFECCION_MANOS.FirstOrDefault(x => x.Turno == GuardarModigicar.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (siAprobar&& validarNombreRepetido != null && GuardarModigicar.IdDesinfeccionManos != validarNombreRepetido.IdDesinfeccionManos)
+                {
+                    valor = 3;
+                    return valor;
+                }
+
                 var model = db.CC_CONTROL_LAVADO_DESINFECCION_MANOS.FirstOrDefault(x => x.IdDesinfeccionManos == GuardarModigicar.IdDesinfeccionManos && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
@@ -33,6 +78,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
                     }
                     else
                     {
+                        model.Turno = GuardarModigicar.Turno;
                         model.Fecha = GuardarModigicar.Fecha;
                         model.Observacion = GuardarModigicar.Observacion;
                         model.EstadoReporte = GuardarModigicar.EstadoReporte;                       
@@ -139,7 +185,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
                 var lista = (from c in db.CC_CONTROL_LAVADO_DESINFECCION_MANOS
                              where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                              orderby c.Fecha descending
-                             select new { c.IdDesinfeccionManos, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                             select new { c.IdDesinfeccionManos, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor,c.Turno }).ToList();
                 List<CC_CONTROL_LAVADO_DESINFECCION_MANOS> listacabecera = new List<CC_CONTROL_LAVADO_DESINFECCION_MANOS>();
                 CC_CONTROL_LAVADO_DESINFECCION_MANOS cabecera;
                 foreach (var item in lista)
@@ -154,6 +200,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
                     cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
                     cabecera.FechaAprobado = item.FechaAprobado;
                     cabecera.AprobadoPor = item.AprobadoPor;
+                    cabecera.Turno = item.Turno;
                     listacabecera.Add(cabecera);
                 }
                 return listacabecera;

@@ -19,14 +19,15 @@
                 <button id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@JsonConvert.SerializeObject(jsonModel))">Actualizar</button>
                 <button id="btnEliminarDetalle" class="btn btn-outline-danger" style="color:#00264c" onclick="EliminarConfirmarDetalle(@JsonConvert.SerializeObject(jsonModel))">Eliminar</button>
             </div>
-          
             <div style="font-size:13px;" class="float-md-right col-md-2 col-12 col-sm-12">
+
                 @if (!string.IsNullOrEmpty(tabla.Turno))
                 {
                     <b>@tabla.Turno.Replace("_", " ").ToUpper()</b>
                 }<br />
-                <b>HORA:</b> @tabla.HoraAuditoria.ToString("HH:mm")
+                 <b>FECHA: @tabla.HoraAuditoria.ToString("dd-MM-yyyy")<br />HORA: @tabla.HoraAuditoria.ToString("HH:mm")</b>
             </div>
+            
         </div>
 
         <table class="table table-bordered table-striped">

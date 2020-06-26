@@ -37,9 +37,14 @@
     ._bloque {
         margin-bottom: 10px;
     }
+    #tblDataTableCargarDetalle td {
+        white-space: normal;
+        font-size:10px;
+        text-transform:uppercase;
+    }
 </style>
 
-<div class="row">
+<div class="row ">
     <div class="col-md-12 ">
         <h4 class="text-md-left text-center" style="float:left">Control de Cuchillo Preparación <label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
         <div class="box_filters">
@@ -52,8 +57,9 @@
         </div>
     </div>
 </div>
-<div class="row" id="divBotonNuevo">
-    <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
+
+<div class="row">
+    <div class="col-md-2 col-12 col-sm-12" id="divBotonNuevo">
         <label class="" id="lblAcciones">Nuevo Registro</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnGenerarRegistro" onclick="NuevoRegistroCabecera()" style="border-color:#2c3e50" type="button">
@@ -61,7 +67,16 @@
             </button>
         </div>
     </div>
+
+    <div class="col-md-2 col-12 col-sm-12">
+        <label>Turno</label>
+        <div class="form-group">
+            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
+        </div>
+    </div>
 </div>
+
+
 
 @* DIV CABECERA CUANDO SE SELECCIONA EL DETALLE *@
 <div class="card" hidden id="divCabecera">
@@ -72,13 +87,19 @@
                 <input type="date" name="name" value="@DateTime.Now.ToString("dd-MM-yyyy")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
             </div>
         </div>
-        <div class="col-md-5 col-12 col-sm-12">
+        <div class="col-md-6 col-12 col-sm-12">
             <div class="form-group">
                 <label>Observación</label>
-                <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
+                <textarea type="text" name="name" value="" id="txtObservacion" class="form-control" rows="2"></textarea>
             </div>
         </div>
-        <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
+        @*<div class="col-md-2 col-12 col-sm-12">
+                <label>TURNO</label>
+                <div class="form-group">
+                    @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
+                </div>
+            </div>*@
+        <div class="col-md-3 col-12 col-sm-12 text-md-center text-center">
             <label class="" id="lblAcciones">Acciones</label>
             <div class="form-group">
                 <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
@@ -99,20 +120,21 @@
     <div class="col-md-12 col-12 col-sm-12 text-md-left text-center">
         <label class="" id="lblAcciones">Nueva Hora</label>
         <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Crear nueva hora" class="btn" id="btnGenerarRegistro" onclick="NuevoRegistroHora()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nueva hora" class="btn" id="btnGenerarRegistro" onclick="NuevoRegistroHora(0)" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
         </div>
     </div>
 </div>
 @*<div class="card">*@
-    <div class="table-responsive card" id="divHora">
 
-    </div>
+<div class="table-responsive card" id="divHora">
+
+</div>
 @*</div>*@
 <div class="modal" tabindex="-1" id="modalIngresoHora" role="dialog" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content modal-sm">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Crear Nueva Hora</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="limpiarHora()" aria-label="Close">
@@ -124,13 +146,13 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Hora</label>
-                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="ValidarHora()" id="txtHora" class="form-control" />
+                            <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="ValidarHora()" id="txtHora" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>DESCRIPCION</label>
-                            <input type="text" name="name" value="" id="txtDescripcion" class="form-control" />
+                            <textarea type="text" name="name" value="" maxlength="200" id="txtDescripcion" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                 </div>
@@ -211,7 +233,7 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Observación</label>
-                            <input type="text" name="name" value="" id="txtObservacionDetalle" class="form-control" />
+                            <textarea type="text" name="name" value="" maxlength="200" id="txtObservacionDetalle" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="col-md-12 col-12 text-center" id="ModalCheckBox">
@@ -272,14 +294,14 @@
 <div class="card">
     <div class="table-responsive" id="divCargarCuchillosDetalle" hidden>
         <table class="table table-bordered table-striped" style="width:100%" id="tblDataTableCargarDetalle">
-            <thead style="font-size:12px">
+            <thead style="font-size:12px;white-space:normal">
                 <tr>
                     <th>CODIGO CUCHILLO</th>
                     <th>ESTADO</th>
                     <th>EMPLEADO</th>
-                    <th>OBSERVACION</th>
+                    <th >OBSERVACION</th>
                     <th>USUARIO CREACION</th>
-                    <td>ACCIONES</td>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <tbody style="font-size:11px"></tbody>
@@ -289,7 +311,7 @@
 
 @* MODAL PARA EL INGRESO NUEVO REGISTRO CABECERA*@
 <div class="modal" tabindex="-1" id="ModalIngresoRegistroCabecera" role="dialog" data-backdrop="static">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Crear Nuevo Registro</h5>
@@ -299,16 +321,22 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5 col-12 col-sm-12">
+                    <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Fecha</label>
                             <input type="date" name="name" value="@DateTime.Now.ToString("dd-MM-yyyy")" id="txtFechaIngresoCabecera" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-md-7 col-12 col-sm-12">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <label>TURNO</label>
+                        <div class="form-group">
+                            @Html.DropDownList("selectTurnoIngresar", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Observación</label>
-                            <input type="text" name="name" value="" id="txtObservacionCabecera" class="form-control" />
+                            <textarea type="text" name="name" value="" maxlength="200" id="txtObservacionCabecera" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                 </div>

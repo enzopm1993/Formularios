@@ -20,7 +20,7 @@
     <tbody style="font-size:11px">
         <tr>
             <td>
-                <input id="txtHora" onchange="ValidarHoraRepetida();" class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
+                <input id="txtHora" onchange="ValidarHoraRepetida();" class="form-control" type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
             </td>
             @foreach (var item in Model)
             {

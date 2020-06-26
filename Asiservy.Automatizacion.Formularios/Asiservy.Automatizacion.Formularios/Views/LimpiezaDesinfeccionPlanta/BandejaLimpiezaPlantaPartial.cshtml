@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>
 @using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
 <table class="table table-bordered table-hover table-striped" id="tblDataTable">
     <thead style="font-size:14px">
         <tr>
@@ -15,6 +16,7 @@
             <th>
                 FECHA CREACION
             </th>
+            <th>TURNO</th>
             <th>
                 ESTADO
             </th>
@@ -36,6 +38,15 @@
                 </td>
                 <td>
                     @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno.ToString()
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno!=null)
+                    {
+                        @turno.Descripcion
+                    }
                 </td>
                 <td>
                     @if (item.EstadoReporte == true)

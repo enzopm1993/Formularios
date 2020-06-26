@@ -287,6 +287,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             int valor = 0;//GUARDDADO NUEVO
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                var validarNombreRepetido = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x =>x.Fecha==guardarModificar.Fecha && x.Turno== guardarModificar.Turno && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                if (siAprobar != 1 && validarNombreRepetido != null && guardarModificar.IdLimpiezaDesinfeccionPlanta != validarNombreRepetido.IdLimpiezaDesinfeccionPlanta)
+                {
+                    valor = 4;
+                    return valor;
+                }
+
                 var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.IdLimpiezaDesinfeccionPlanta == guardarModificar.IdLimpiezaDesinfeccionPlanta && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
@@ -301,6 +308,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                     {
                         if (guardarModificar.Fecha != DateTime.MinValue)
                         {
+                            model.Turno = guardarModificar.Turno;
                             model.Fecha = guardarModificar.Fecha;
                             model.ObservacionControl = guardarModificar.ObservacionControl;
                             valor = 1;//ACTUALIZAR
@@ -363,7 +371,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                 var model = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdDetalle == guardarModificar.IdDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
-                    model.Turno = guardarModificar.Turno;
+                    //model.Turno = guardarModificar.Turno;
                     model.HoraAuditoria = guardarModificar.HoraAuditoria;
                     model.Limpieza = guardarModificar.Limpieza;
                     model.Desinfeccion = guardarModificar.Desinfeccion;
@@ -458,6 +466,44 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             }
         }
 
+        public CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA ConsultarCabeceraTurno(int turno, DateTime fechaControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA listado;
+
+                if (turno == 0)
+                {
+                    listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                   && x.Fecha.Day == fechaControl.Day
+                                                                                   && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                else
+                {
+                    listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                        && x.Fecha.Day == fechaControl.Day && x.Turno == turno
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA cabecera;
+                if (listado != null)
+                {
+                    cabecera = new CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA();
+                    cabecera.IdLimpiezaDesinfeccionPlanta = listado.IdLimpiezaDesinfeccionPlanta;
+                    cabecera.Fecha = listado.Fecha;
+                    cabecera.ObservacionControl = listado.ObservacionControl;
+                    cabecera.EstadoReporte = listado.EstadoReporte;
+                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = listado.FechaAprobado;
+                    cabecera.AprobadoPor = listado.AprobadoPor;
+                    cabecera.Turno = listado.Turno;
+                    return cabecera;
+                }
+                return listado;
+
+            }
+        }
+
         public CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE ConsultarHoraAuditoria(DateTime hora, int idMantenimiento)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -496,12 +542,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             }
         }       
 
-        public List<sp_Limpieza_Desinfeccion_Planta> ConsultarJoinDetalle(int idLimpiezaDesinfeccionPlanta, int op, string turno, int idAuditoria)
+        public List<sp_Limpieza_Desinfeccion_Planta> ConsultarJoinDetalle(int idLimpiezaDesinfeccionPlanta, int op, int idAuditoria)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-              //  var lista = db.sp_Limpieza_Desinfeccion_Planta(idLimpiezaDesinfeccionPlanta, turno, op, idAuditoria).ToList();
-                return null;
+                var lista = db.sp_Limpieza_Desinfeccion_Planta(idLimpiezaDesinfeccionPlanta, op, idAuditoria).ToList();
+                return lista;
             }                 
         }
 
@@ -536,6 +582,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                         cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
                         cabecera.FechaAprobado = item.FechaAprobado;
                         cabecera.AprobadoPor = item.AprobadoPor;
+                        cabecera.Turno = item.Turno;
                         listaCabecera.Add(cabecera);
                     }                    
                 }
@@ -568,6 +615,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                         cabecera.FechaModificacionLog = item.FechaModificacionLog;
                         cabecera.FechaAprobado = item.FechaAprobado;
                         cabecera.AprobadoPor = item.AprobadoPor;
+                        cabecera.Turno = item.Turno;
                         listaCabecera.Add(cabecera);
                     }
                 }

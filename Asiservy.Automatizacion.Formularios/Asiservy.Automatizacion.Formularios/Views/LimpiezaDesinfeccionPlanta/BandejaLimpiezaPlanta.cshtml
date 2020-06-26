@@ -49,7 +49,7 @@
 <div class="row">
     <div class="col-md-3 col-12 col-sm-12">
         <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
-            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
@@ -90,7 +90,7 @@
                     <label>FECHA</label>
                     <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
                 </div>
-                <div class="col-md-3 col-12 col-sm-12 text-center text-md-left float-md-right">
+                @*<div class="col-md-3 col-12 col-sm-12 text-center text-md-left float-md-right">
                     <label>TURNO</label>
                     <select id="selectTurnoFiltro" class="form-control" onchange="SeleccionarBandejaOnChange()">
                         <option value="TURNO_A" selected>TURNO A</option>
@@ -98,7 +98,7 @@
                         <option value="TURNO_C">TURNO C</option>
                     </select>
                 </div>
-                <br /><br />
+                <br /><br />*@
                 <br />
                 <div class="table-responsive" id="divAprobarPendientePartial" style="padding:3px">
 

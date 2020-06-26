@@ -48,13 +48,13 @@
     <div class="col-md-3 col-12 col-sm-12">
 
         <select id="selectEstadoReporte" style=" float:right" class="form-control" onchange="CargarBandeja()">
-            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>            
     
     <div class="box_filters col-md-5 col-12 col-sm-12">
-        <div class="itemFilter">
+        <div id="divFiltroFecha" hidden class="itemFilter">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -71,13 +71,14 @@
 
 <br />
 @* DIV MOSTRAR PARTIAL VIEW *@
-<div class="table-responsive" id="divTablaAplrobados">
+<div class="table-responsive text-uppercase" id="divTablaAplrobados">
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableDetalle">
         <thead style="font-size:12px">
             <tr>
                 <th>FECHA</th>
                 <th>OBSERVACION</th>
                 <th style="width:200px">USUARIO CREACION</th>
+                <th>TURNO</th>
                 <th style="width:200px"><center>ESTADO APROBACION</center></th>
             </tr>
         </thead>
