@@ -26,7 +26,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<int> IdOpcion { get; set; }
-    
-        public virtual OPCION OPCION { get; set; }
     }
 }
