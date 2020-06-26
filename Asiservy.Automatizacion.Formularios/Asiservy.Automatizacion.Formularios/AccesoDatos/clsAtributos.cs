@@ -285,5 +285,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //GRUPO CLASIFICADOR TURNOS
         public static string Turnos { get; set; } = "039";
+
+
+        //GRUPO CLASIFICADOR DE TIPO DE CONTROL EN EL MENU
+        public static string CodGrupoTipoControl { get; } = "040";
+        public static string CodTipoControlReporte { get; } = "R";
+
     }
 }

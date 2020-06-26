@@ -142,7 +142,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.Select2 = "1";
-
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Tipo = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoTipoControl);
                 ConsultaOpciones();
                 return View();
 
@@ -185,6 +186,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 }
                 if (model.Clase == "0" && string.IsNullOrEmpty(model.Url))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                if (model.Clase == "0" && string.IsNullOrEmpty(model.Tipo))
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
 

@@ -69,16 +69,22 @@
                     <input type="number" class="form-control" id="txtOrden" autocomplete="off" name="name" value="" />
                 </div>
             </div>
-            <div class="col-md-2 col-6" id="divReporte">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Reporte, htmlAttributes: new { @class = "control-label" })
-                    <div class="custom-control custom-checkbox mb-3">
-                        @Html.CheckBox("Reporte", false, new { @id = "CheckReporte", @class = "custom-control-input" })
-                        <label class="custom-control-label" for="CheckReporte" id=""></label>
-                    </div>
+            @*<div class="col-md-2 col-6" id="divReporte">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reporte, htmlAttributes: new { @class = "control-label" })
+                <div class="custom-control custom-checkbox mb-3">
+                    @Html.CheckBox("Reporte", false, new { @id = "CheckReporte", @class = "custom-control-input" })
+                    <label class="custom-control-label" for="CheckReporte" id=""></label>
                 </div>
             </div>
-            
+        </div>*@
+            <div class="col-md-2 col-6" id="divTipo">
+                <div class="form-group">
+                    <label>Tipo</label>
+                    @Html.DropDownList("selectTipo", new SelectList(ViewBag.Tipo,"Codigo","Descripcion"),"Seleccione", new { @class = "form-control" })
+                </div>
+            </div>
+
             <div class="col-md-2 col-6">
                 <div class="form-group">
                     <label>Estado</label>

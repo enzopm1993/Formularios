@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 var query = (from o in entities.OPCION
                              where !opciones.Contains(o.IdOpcion) 
                              && o.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                             && o.Reporte == true
+                             && o.Tipo == "R"
                              select new 
                              {
                                  IdOpcion = o.IdOpcion,
