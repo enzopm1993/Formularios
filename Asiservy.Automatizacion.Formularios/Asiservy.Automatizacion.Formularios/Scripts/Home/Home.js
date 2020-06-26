@@ -43,10 +43,13 @@ function ConsultaComunicados() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divComunicados").html('')
+                $("#pNotaComunicados").prop("hidden", true);
+                $("#divComunicados").html('<div class="text-center"><h5 class="text-warning">  NO EXISTE NINGUN COMUNICADO.</h5></div>');
                 return;
             }
             $("#divComunicados").html(resultado);
+            $("#pNotaComunicados").prop("hidden", false);
+
             //$("#divComunicados").css("height", "100px");
             $("#spinnerCargando").prop("hidden", true);
 

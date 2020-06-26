@@ -29,7 +29,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-3 col-6 col-sm-6">
         <div class="form-group">
             <label>Orden Fabricación</label>
             <div class="input-group">
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-3 col-6 col-sm-6">
         <div class="form-group">
             <label>Lote</label>
             <select id="SelectLote" class="form-control">
@@ -48,13 +48,13 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3 col-6">
+    @*<div class="col-md-3 col-6">
         <div class="form-group">
             <label>Tipo Limpieza</label>
             @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
         </div>
-    </div>
-    <div class="col-md-9 col-6">
+    </div>*@
+    <div class="col-md-12 col-6 col-sm-6">
         <div class="form-group">
             <label>Observacion</label>
             <input type="text" size="250" class="form-control" id="txtObservacion" name="name" value="" />
@@ -220,19 +220,19 @@
             <div class="modal-body">
                 <div class="row">
                     <input type="hidden" id="txtIdDetalle" name="name" value="0" />
-                    <div class="col-6 col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-2">
                         <label>Lote</label>
                         <select id="SelectLote2" class="form-control">
                             <option value="">Seleccione</option>
                         </select>
                     </div>
-                    <div class="col-6 col-sm-12 col-md-6">
+                    @*<div class="col-6 col-sm-12 col-md-6">
                         <label>Limpieza</label>
                         @Html.DropDownList("SelectTipoLimpieza2", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
-                    </div>
-                    <div class="col-8 col-sm-6 col-md-10">
+                    </div>*@
+                    <div class="col-8 col-sm-6 col-md-8">
                         <label>Observación</label>
-                        <input type="text" class="form-control" id="txtObservacionModal" maxlength="250" name="name" value="" />
+                        <input type="text" class="form-control" autocomplete="off" id="txtObservacionModal" maxlength="250" name="name" value="" />
                     </div>
                     <div class="col-4 col-sm-6 col-md-2">
                         <label>Fin</label>
@@ -329,6 +329,18 @@
                         <div class="col-6 col-sm-12 col-md-6">
                             <label>Total Fundas</label>
                             <input type="text" class="form-control" id="txtTotalFundas" size="30" name="name" value="" />
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>Tipo Limpieza</label>
+                                @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>Observación</label>
+                                <input type="text" class="form-control" maxlength="250" id="txtObservacion2" name="name" value="" />
+                            </div>
                         </div>
                     </div>
                 </form>

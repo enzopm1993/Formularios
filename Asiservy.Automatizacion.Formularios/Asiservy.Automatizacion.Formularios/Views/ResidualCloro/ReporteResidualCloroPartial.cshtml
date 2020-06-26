@@ -5,6 +5,7 @@
     var horas = Model.Select(x => x.Hora).Distinct().ToList();
 }
 
+<h6><b>Turno:</b>@ViewBag.Turno</h6>
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="">
     <thead>
         <tr>           
@@ -20,7 +21,7 @@
         @foreach (var item in horas)
         {
         <tr>
-            <td>@item.ToString()</td>
+            <td>@item.ToString("dd-MM-yyyy HH:mm")</td>
             @foreach(var x in pediluvios)
             {
                 var cantidad = Model.FirstOrDefault(y => y.Hora == item && y.CodPeliduvio == x.IdMantenimientoPediluvio);

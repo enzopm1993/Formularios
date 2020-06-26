@@ -75,6 +75,7 @@ function SeleccionarBandeja(Control) {
     $("#lblFerroro").html(model.Ferroso);
     $("#lblPCC").html(model.Pcc);
     $("#lblFecha").html(moment(model.Fecha).format("DD-MM-YYYY"));
+    $("#lblTurno").html(model.Turno);
     $("#lblNoFerroso").html(model.NoFerroso);
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);

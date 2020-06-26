@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteEvaluacionProductoEnfundado
     {
+        public string Turno { get; set; }
         public string AprobadoPor { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -32,7 +33,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string LoteCabecera { get; set; }
         public string TipoLimpieza { get; set; }
         public Nullable<int> Otro { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
+        public Nullable<System.DateTime> Hora { get; set; }
         public string buque { get; set; }
         public string Lote { get; set; }
         public string Sabor { get; set; }

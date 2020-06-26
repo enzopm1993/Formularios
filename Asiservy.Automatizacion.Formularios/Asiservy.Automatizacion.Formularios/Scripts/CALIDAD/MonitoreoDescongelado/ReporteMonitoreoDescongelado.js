@@ -96,7 +96,8 @@ function CargarControlDetalle() {
         url: "../MonitoreoDescongelado/ReporteMonitoreoDescongeladoPartial",
         type: "GET",
         data: {
-            Fecha: model.Fecha
+            Fecha: model.Fecha,
+            Turno: model.Turno
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {

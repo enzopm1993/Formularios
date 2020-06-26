@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA>
+@using Asiservy.Automatizacion.Datos.Datos
 <style>
     #tbltitulo {
         display: none;
@@ -36,6 +37,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
+            <th>Turno</th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
@@ -76,6 +78,10 @@
                 <td>
                     @item.Fecha.Value.ToString("dd-MM-yyyy")
                 </td>
+                <td>@{ string Turno = (from t in ViewBag.Turnos as List<CLASIFICADOR>
+                                    where t.Codigo == item.Turno
+                                    select t.Descripcion).FirstOrDefault();}
+                @Turno</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>

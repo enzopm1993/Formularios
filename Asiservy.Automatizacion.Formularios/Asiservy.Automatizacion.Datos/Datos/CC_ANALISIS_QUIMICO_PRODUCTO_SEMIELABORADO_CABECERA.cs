@@ -22,6 +22,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public int IdAnalisisQuimicoProductoSe { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
+        public string Turno { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

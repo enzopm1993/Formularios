@@ -148,7 +148,7 @@ function validarImg(rotacion, id, imagen) {
         }
 
     }
-    img.src = "/Content/Img/" + imagen;
+    img.src = "../ImagenSiaa/" + imagen;
 
 }
 function AbrirModalDetalle(IdCabecera,NivelLimpieza) {
@@ -435,7 +435,7 @@ function CargarImagenes(imagen, Rotacion, Npreview) {
     if (imagen != null && imagen != '') {
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview' + Npreview;
-        filePreview.src = "/Content/Img/" + imagen;
+        filePreview.src = "../ImagenSiaa/" + imagen;
         var previewZone = document.getElementById('file-preview-zone' + Npreview);
         previewZone.appendChild(filePreview);
 
@@ -459,7 +459,7 @@ function CargarImagenes(imagen, Rotacion, Npreview) {
 
 
         }
-        img.src = "/Content/Img/" + imagen;
+        img.src = "../ImagenSiaa/" + imagen;
 
     }
 }

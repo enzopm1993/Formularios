@@ -3,6 +3,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDescongelado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -20,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDMonitoreoDescongelado clsDMonitoreoDescongelado { get; set; } = null;
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
         clsDReporte clsDReporte { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         #region Control
         // GET: MonitoreoDescongelado
         [Authorize]
@@ -31,7 +33,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.MaskedInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
-               
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
                 return View();
             }
@@ -54,7 +57,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult MonitoreoDescongeladoPartial(DateTime Fecha)
+        public ActionResult MonitoreoDescongeladoPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -65,7 +68,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDApiProduccion = new clsDApiProduccion();
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
+               
+               
+                ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x=> x.Turno== Turno).ToList();
                 var model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
                 if (!model.Any())
                 {
@@ -129,7 +134,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control)
+        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control, string Turno)
         {
             try
             {
@@ -143,12 +148,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                if( clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha).Any(x => x.EstadoReporte))
+                if( clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha, Turno).Any(x => x.EstadoReporte))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
 
-                clsDMonitoreoDescongelado.GuardarModificarMonitoreoDescongelado(control);
+                clsDMonitoreoDescongelado.GuardarModificarMonitoreoDescongelado(control,Turno);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -171,7 +176,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult ValidaEstadoReporte(DateTime Fecha)
+        public JsonResult ValidaEstadoReporte(DateTime Fecha,string Turno)
         {
             try
             {
@@ -181,7 +186,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                var control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(Fecha).FirstOrDefault();
+                var control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(Fecha, Turno).FirstOrDefault();
                 if (control!=null)
                 {
                     if (control.EstadoReporte)
@@ -219,7 +224,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model)
+        public ActionResult EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model, string Turno)
         {
             try
             {
@@ -237,7 +242,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                if (clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha).Any(x => x.EstadoReporte))
+                if (clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha,Turno).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
                 }
@@ -382,7 +387,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult AprobarBandejaControlCloro(CC_MONITOREO_DESCONGELADO_CONTROL model)
+        public ActionResult AprobarBandejaControlCloro(CC_MONITOREO_DESCONGELADO_CONTROL model,string Turno)
         {
             try
             {
@@ -400,7 +405,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model);
+                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model,Turno);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -423,7 +428,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReversarBandejaControl(CC_MONITOREO_DESCONGELADO_CONTROL model)
+        public ActionResult ReversarBandejaControl(CC_MONITOREO_DESCONGELADO_CONTROL model,string Turno)
         {
             try
             {
@@ -441,7 +446,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model);
+                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model,Turno);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -505,7 +510,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult ReporteMonitoreoDescongeladoPartial(DateTime Fecha)
+        public ActionResult ReporteMonitoreoDescongeladoPartial(DateTime Fecha,string Turno)
         {
             try
             {
@@ -515,7 +520,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno, Turno).FirstOrDefault();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno.Descripcion;
+                }
+                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x=> x.Turno==Turno).ToList();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

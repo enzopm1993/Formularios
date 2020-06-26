@@ -9,6 +9,6 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
         public string Novedad { get; set; }
         public string Imagen { get; set; }
         public int Rotacion { get; set; }
-        public TimeSpan? Hora { get; set; }
+        public DateTime? Hora { get; set; }
     }
 }

@@ -28,7 +28,7 @@
             string json = JsonConvert.SerializeObject(item);
         <tr onclick="SeleccionarControl(@json)">
             <td>
-                @Html.DisplayFor(modelItem => item.Hora)
+                @item.Hora.ToString("dd-MM-yyyy HH:mm")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cedula)

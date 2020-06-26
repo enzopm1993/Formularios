@@ -70,11 +70,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
         }
-        public CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion,int OrdenFabricacion)
+        public CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion,int OrdenFabricacion,string Turno)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => x.FechaProduccion == FechaProduccion&&x.OrdenFabricacion== OrdenFabricacion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => x.FechaProduccion == FechaProduccion&&x.OrdenFabricacion== OrdenFabricacion&&x.Turno==Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
             }
         }
         public object[] GuardarCabeceraControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA poCabeceraControl)
@@ -83,7 +83,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => x.FechaProduccion == poCabeceraControl.FechaProduccion &&
-                x.OrdenFabricacion==poCabeceraControl.OrdenFabricacion&&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                x.OrdenFabricacion==poCabeceraControl.OrdenFabricacion
+                &&x.Turno==poCabeceraControl.Turno
+                &&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Add(poCabeceraControl);
@@ -371,7 +373,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                      Espinas = d.Espinas,
                                      //HematomasProfundos = d.HematomasProfundos,
                                      Moretones=mo.Descripcion,
-                                     //Hora = d.Hora,
+                                     Hora = d.Hora,
                                      Linea = d.Linea,
                                      Lote = d.Lote,
                                      CodMoretones = d.Moretones,
@@ -414,6 +416,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                      join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                      join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja=x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new {d.IdCabeceraEvaluacionLomosYMigasEnBandeja,  d.EstadoRegistro }
+                                     join clt in db.CLASIFICADOR on new { Codigo=x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo,Grupo=clsAtributos.GrupoCodTurno } equals new {clt.Codigo, clt.EstadoRegistro,clt.Grupo }
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl==null) && cl.Codigo != "0"
                                      select new CabeceraEvaluacionLomosMigasViewModel
                                      {
@@ -438,7 +441,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                          UsuarioModificacionLog = x.UsuarioModificacionLog,
                                          NivelLimpiezaDescripcion=cl.Descripcion,
                                          AprobadoPor=x.AprobadoPor,
-                                         FechaAprobacion=x.FechaAprobacion
+                                         FechaAprobacion=x.FechaAprobacion,
+                                         Turno=clt.Descripcion
                                      }).Distinct().ToList();
 
                     return respuesta;
@@ -504,6 +508,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                  join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                  join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
+                                 join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.GrupoCodTurno } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
                                  where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaProduccion>=FechaDesde&&x.FechaProduccion<=FechaHasta) && cl.Codigo != "0"
                                  select new CabeceraEvaluacionLomosMigasViewModel
                                  {
@@ -528,7 +533,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                      UsuarioModificacionLog = x.UsuarioModificacionLog,
                                      NivelLimpiezaDescripcion = cl.Descripcion,
                                      AprobadoPor = x.AprobadoPor,
-                                     FechaAprobacion = x.FechaAprobacion
+                                     FechaAprobacion = x.FechaAprobacion,
+                                     Turno=clt.Descripcion
                                  }).Distinct().ToList();
 
                 return respuesta;

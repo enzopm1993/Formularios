@@ -6,11 +6,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
 {
     public class ClsDAnalisisQuimicoProductoSemielaborado
     {
-        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion)
+        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion,string Turno)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Where(x => x.Fecha == FechaProduccion&& x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                return db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Where(x => x.Fecha == FechaProduccion&&x.Turno==Turno&& x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
             }
         }
         public object[] GuardarCabeceraControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA poCabeceraControl)
@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Where(x => x.Fecha == poCabeceraControl.Fecha &&
-                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                x.Turno==poCabeceraControl.Turno&&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Add(poCabeceraControl);
@@ -414,6 +414,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
                                  join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { Id = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = d.IdCabeceraAnalisisQuimicoProductoSe, d.EstadoRegistro }
                                  join t in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { Id = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = t.IdDetalleAnalisisQuimicoProductoSe, t.EstadoRegistro }
+
                                  where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaDesde && x.Fecha <= FechaHasta)
                                  select new
                                  {
@@ -429,7 +430,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                                      x.TerminalIngresoLog,
                                      x.TerminalModificacionLog,
                                      x.UsuarioIngresoLog,
-                                     x.UsuarioModificacionLog
+                                     x.UsuarioModificacionLog,
+                                     x.Turno
                                  }).Distinct().ToList();
 
                 List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> b = (from x in respuesta
@@ -446,7 +448,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                                                                                    TerminalIngresoLog = x.TerminalIngresoLog,
                                                                                    TerminalModificacionLog = x.TerminalModificacionLog,
                                                                                    UsuarioIngresoLog = x.UsuarioIngresoLog,
-                                                                                   UsuarioModificacionLog = x.UsuarioModificacionLog
+                                                                                   UsuarioModificacionLog = x.UsuarioModificacionLog,
+                                                                                   Turno=x.Turno
                                                                                }).ToList();
                                                                        
                 return b;

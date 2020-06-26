@@ -105,7 +105,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
                                                                 }).OrderBy(a => a.Fecha).ToList();
 
                 List<ControlCocheLineaViewModel> listaFinal = new List<ControlCocheLineaViewModel>();
-                if (listaRegistros.Count() > 0)
+                if (listaRegistros.Count > 0)
                 {
                     foreach (var item in listaRegistros)
                     {

@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdEvaluacionDeLomosYMigasEnBandejas { get; set; }
         public Nullable<System.DateTime> FechaProduccion { get; set; }
         public Nullable<int> OrdenFabricacion { get; set; }
+        public string Turno { get; set; }
         public string Cliente { get; set; }
         public Nullable<bool> Lomo { get; set; }
         public Nullable<bool> Miga { get; set; }

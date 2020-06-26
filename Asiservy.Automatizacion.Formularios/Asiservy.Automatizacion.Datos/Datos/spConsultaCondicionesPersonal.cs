@@ -14,8 +14,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class spConsultaCondicionesPersonal
     {
         public int IdCondicionPersonal { get; set; }
+        public int IdCondicionPersonalControl { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public string Turno { get; set; }
+        public System.DateTime Hora { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public string CodCondicion { get; set; }

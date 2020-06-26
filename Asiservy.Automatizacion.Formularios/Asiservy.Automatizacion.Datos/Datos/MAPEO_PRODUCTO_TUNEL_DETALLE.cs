@@ -33,6 +33,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string Textura { get; set; }
+        public string TipoLimpieza { get; set; }
+        public string Observacion { get; set; }
     
         public virtual MAPEO_PRODUCTO_TUNEL MAPEO_PRODUCTO_TUNEL { get; set; }
     }

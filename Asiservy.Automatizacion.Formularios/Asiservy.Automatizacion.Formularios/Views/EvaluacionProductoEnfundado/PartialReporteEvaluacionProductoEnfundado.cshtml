@@ -38,10 +38,12 @@
                     <table class="table table-bordered" id="tablaCab">
                         <tbody>
                             <tr>
-                                <td colspan="8">
+                                <td colspan="5">
                                     <strong>FECHA DE PRODUCCIÓN: </strong>  @Model.FirstOrDefault().FechaProduccion.Value.ToString("yyyy/MM/dd")
                                 </td>
-
+                                <td colspan="3">
+                                    <strong>Turno: </strong>  @Model.FirstOrDefault().Turno
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2"><strong>NIVEL DE LIMPIEZA</strong></td>

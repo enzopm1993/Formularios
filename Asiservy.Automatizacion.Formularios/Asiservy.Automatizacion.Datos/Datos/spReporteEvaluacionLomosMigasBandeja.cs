@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioIngresoLog { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaProduccion { get; set; }
+        public string Turno { get; set; }
         public string Cliente { get; set; }
         public string Observacion { get; set; }
         public Nullable<bool> Lomo { get; set; }
@@ -27,7 +28,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<bool> Enlatado { get; set; }
         public Nullable<bool> Pouch { get; set; }
         public string TipoLimpieza { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
+        public Nullable<System.DateTime> Hora { get; set; }
         public string Linea { get; set; }
         public string buque { get; set; }
         public string Lote { get; set; }

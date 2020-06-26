@@ -79,6 +79,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Color = new SelectList(Color, "IdColor", "Descripcion");
                 ViewBag.Proteina = new SelectList(Proteina, "IdProteina", "Descripcion");
                 ViewBag.NivelLimpieza = new SelectList(ListaTiposLimpieza, "Codigo", "Descripcion");
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
+
                 //ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
                 return View();
             }
@@ -231,7 +233,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarCabeceraControl(CC_EVALUACION_PRODUCTO_ENFUNDADO poCabeceraControl, HttpPostedFileBase dataImg, HttpPostedFileBase dataImg1, HttpPostedFileBase dataImg2, HttpPostedFileBase dataImg3)
+        public JsonResult GuardarCabeceraControl(CC_EVALUACION_PRODUCTO_ENFUNDADO poCabeceraControl)
         {
             try
             {
@@ -291,7 +293,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 CC_EVALUACION_PRODUCTO_ENFUNDADO resultado = null;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                resultado = clsDEvaluacionProductoEnfundado.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value,poCabControl.OrdenFabricacion.Value,poCabControl.Lomo.Value, poCabControl.Miga.Value, poCabControl.Trozo.Value);
+                resultado = clsDEvaluacionProductoEnfundado.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value,poCabControl.OrdenFabricacion.Value,poCabControl.Turno,poCabControl.Lomo.Value, poCabControl.Miga.Value, poCabControl.Trozo.Value);
                 if (resultado != null)
                 {
                     return Json(new
@@ -606,7 +608,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/Content/Img/EvaluacionProductoEnfundado/");
+                    path = Server.MapPath(clsAtributos.UrlImagen + "EvaluacionProductoEnfundado/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
@@ -791,7 +793,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 List<CabeceraEvaluacionProductoEnfundadoViewModel> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                resultado = clsDEvaluacionProductoEnfundado.ConsultarBandejaEvaluacionLomosyMiga(FechaInicio, FechaFin, EstadoControl);
+                resultado = clsDEvaluacionProductoEnfundado.ConsultarBandejaEvaluacionProductoEnfundado(FechaInicio, FechaFin, EstadoControl);
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -1046,10 +1048,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult ConsultarEmpacadores(DateTime Fecha, TimeSpan Hora)
+        public JsonResult ConsultarEmpacadores(DateTime Fecha,string Turno)
         {
             try
             {
+                DateTime pFecha = Convert.ToDateTime(Fecha.ToShortDateString());
+                TimeSpan tHora = Fecha.TimeOfDay;
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
@@ -1057,7 +1061,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
 
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                List<spConsultaMovimientoPersonalDiarioxCargo> Respuesta = clsDEvaluacionProductoEnfundado.ConsultarEmpacadores(Fecha,Hora);
+                List<spConsultaMovimientoPersonalDiarioxCargo> Respuesta = clsDEvaluacionProductoEnfundado.ConsultarEmpacadores(pFecha, tHora,Turno);
                 if (Respuesta.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

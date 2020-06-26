@@ -104,6 +104,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Color = clsDMantenimientoColor.ConsultarMantenimientoColor().Where(x=>x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 var Moretones = ClsDMantenimientoMoreton.ConsultaManteminetoMoreton();
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 ViewBag.Moreton = new SelectList(Moretones, "IdMoreton", "Descripcion");
                 ViewBag.Olor = new SelectList(Olor, "IdOlor", "Descripcion");
                 ViewBag.Textura = new SelectList(Textura, "IdTextura", "Descripcion");
@@ -227,7 +228,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA resultado = null;
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value,poCabControl.OrdenFabricacion.Value);
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value,poCabControl.OrdenFabricacion.Value,poCabControl.Turno);
                 if (resultado != null)
                 {
                     return Json(new
@@ -788,7 +789,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/Content/Img/EvaluacionDeLomosYMigasEnBandeja/");
+                    path = Server.MapPath(clsAtributos.UrlImagen +"EvaluacionDeLomosYMigasEnBandeja/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);

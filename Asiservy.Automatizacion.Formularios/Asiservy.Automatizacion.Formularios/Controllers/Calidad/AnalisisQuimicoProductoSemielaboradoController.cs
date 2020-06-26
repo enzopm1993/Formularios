@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -20,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         ClsDAnalisisQuimicoProductoSemielaborado ClsDAnalisisQuimicoProductoSemielaborado { get; set; } = null;
         clsDReporte clsDReporte { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -33,12 +35,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                clsDClasificador = new clsDClasificador();
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 ViewBag.MascaraInput = "1";
                 ViewBag.MaskedInput = "1";
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -102,8 +106,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
-                //byte[] Firma = Convert.FromBase64String(imagen);
+                List<dynamic> DRespuesta = new List<dynamic>();
+                clsDClasificador = new clsDClasificador();
+                List<CLASIFICADOR> ListaTurnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+                
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarCabReportes(FechaDesde, FechaHasta);
                 if (Respuesta.Count == 0)
@@ -112,11 +118,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 else
                 {
+                    
+                    string turno;
+                    foreach (var item in Respuesta)
+                    {
+                        turno = (from t in ListaTurnos
+                                 where t.Codigo == item.Turno
+                                 select t.Descripcion).FirstOrDefault();
+                        DRespuesta.Add(new { item.AprobadoPor, item.EstadoControl, item.EstadoRegistro, item.Fecha,
+                            item.FechaAprobacion, item.FechaIngresoLog, item.FechaModificacionLog, item.IdAnalisisQuimicoProductoSe, item.Observacion,
+                            item.TerminalIngresoLog, item.TerminalModificacionLog, item.UsuarioIngresoLog, item.UsuarioModificacionLog,turno });
+                    }
                     clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                     var ordenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(FechaDesde, FechaHasta);
                     //ordenes.FirstOrDefault().
                 }
-                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+                return Json(DRespuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -181,6 +198,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> resultado;
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarBandejaAnalisisQuimicoProductoSemielaborado(FechaInicio, FechaFin, EstadoControl);
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Turnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -267,7 +286,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA resultado = null;
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
-                resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarCabeceraControl(poCabControl.Fecha.Value);
+                resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarCabeceraControl(poCabControl.Fecha.Value,poCabControl.Turno);
                 if (resultado != null)
                 {
                     return Json(new

@@ -475,6 +475,8 @@ async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('Turno', $("#cmbTurno").val());
+
     data.append('Lomo', $("#Lomo").is(':checked'));
     data.append('Miga', $("#Miga").is(':checked'));
     data.append('Trozo', $("#Trozo").is(':checked'));
@@ -498,6 +500,13 @@ async function ConsultarCabControl(/*bandera*/) {
             return;
         } else {
             $('#msjerrorordenfb').prop('hidden', true);
+        }
+        if ($('#cmbTurno').prop('selectedIndex') == 0) {
+    
+            $('#msjTurno').prop('hidden', false);
+            return;
+        } else {
+            $('#msjTurno').prop('hidden', true);
         }
         //if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
         //{
@@ -703,6 +712,13 @@ function GuardarCabceraControl() {
     } else {
         $('#msjErrorOrdenFabricacion').prop('hidden', true);
     }
+    if ($('#cmbTurno').prop('selectedIndex') == 0) {
+
+        $('#msjTurno').prop('hidden', false);
+        return;
+    } else {
+        $('#msjTurno').prop('hidden', true);
+    }
 
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
@@ -733,6 +749,7 @@ function GuardarCabceraControl() {
     data.append('Lote', $('#txtLoteProveedor').val());
     data.append('Batch', $('#txtBatch').val());
     data.append('Observacion', $('#Observacion').val());
+    data.append('Turno', $('#cmbTurno').val());
     if ($('#Lomo').is(":checked")) {
         Lomo = true;
     }
@@ -1137,7 +1154,7 @@ function LimpiarDetalleControles() {
     $('#divDetalle2').prop('hidden', true);
     $('#txtHora').prop('disabled', false);
     $('#btnEliminarDetalleControl').prop('disabled', true);
-    $('#txtHora').val(moment().format("HH:mm"));
+    $('#txtHora').val(moment().format("YYYY-MM-DDTHH:mm"));
     $('#txtBuque').val('');
     $('#cmbMoreton').prop('selectedIndex', 0);
     //$('#txtMoretones').val('');
@@ -1257,8 +1274,9 @@ async function ModificarDetalle(data) {
     IdDetalle = data.IdDetalle;
 
     await CargarControlDetalle2();
-  
+    
     $('#txtHora').val(data.Hora);
+    LlenarComboEmpacadores(data.empacador);
     $('#txtBuque').val(data.Buque);
     $('#cmbMoreton').val(data.CodMoretones);
 
@@ -1279,7 +1297,7 @@ async function ModificarDetalle(data) {
     $('#btnEliminarDetalleControl').prop('disabled', false);
     $('#txtOtros').val(data.Otro);
     $('#txtMiga').val(data.Miga);
-    $('#cmbEmpacador').val(data.empacador).change();
+    //$('#cmbEmpacador').val(data.empacador).change();
 }
 function SlideCabecera() {
 $("#DivCabecera").slideToggle("fast");
@@ -1307,7 +1325,7 @@ function ModificarFoto(data) {
 
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + data.Imagen;
+        filePreview.src = "../ImagenSiaa/" + data.Imagen;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
@@ -1331,7 +1349,7 @@ function ModificarFoto(data) {
             $("#ModalGenerarControlDetalle2").modal("show");
 
         }
-        img.src = "/Content/Img/" + data.Imagen;
+        img.src = "../ImagenSiaa/" + data.Imagen;
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");
@@ -1385,14 +1403,15 @@ function readFile(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-function LlenarComboEmpacadores() {
+function LlenarComboEmpacadores(empacador) {
     Error = 0;
     $('#cmbEmpacador').empty();
     $('#cmbEmpacador').append('<option>Seleccione..</option>');
 
     let params = {
-        Fecha: $('#txtFechaProduccion').val(),
-        Hora: $('#txtHora').val()
+        //Fecha: $('#txtFechaProduccion').val(),
+        Fecha: $('#txtHora').val(),
+        Turno: $('#cmbTurno').val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -1424,6 +1443,9 @@ function LlenarComboEmpacadores() {
                         $.each(resultado, function (key, value) {
                             $('#cmbEmpacador').append('<option value=' + value.Cedula + '>' + value.NOMBRES + '</option>');
                         });
+                    }
+                    if (empacador != null) {
+                        $('#cmbEmpacador').val(empacador).change();
                     }
 
                 }

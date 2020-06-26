@@ -17,6 +17,10 @@ function CargarBandeja() {
             } else {
                 $('#MensajeRegistros').hide();
                 $('#divPartialControlCloro').html(resultado);
+                config.opcionesDT.pageLength = 10;
+                config.opcionesDT.order = [[0, "asc"], [1, "asc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
+
             }
             $("#btnPendiente").prop("hidden", true);
             $("#btnAprobado").prop("hidden", false);
@@ -42,7 +46,8 @@ function SeleccionarBandejaControl(model) {
         type: "GET",
         data: {
             Fecha: model.Fecha,
-            Area: model.Area
+            Area: model.Area,
+            Turno:model.Turno
         },
         success: function (resultado) {
             if (resultado == "101") {

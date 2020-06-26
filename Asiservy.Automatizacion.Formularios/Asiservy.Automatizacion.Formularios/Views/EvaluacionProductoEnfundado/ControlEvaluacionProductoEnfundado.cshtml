@@ -90,14 +90,14 @@
 </div>
 <div class="card" id="DivCabecera">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 Fecha de producción:
                 <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 Orden de Fabricación:
                 <div class="input-group">
@@ -109,9 +109,16 @@
                 </div>
                 <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
-                        <option>Seleccione..</option>
-                    </select>
-                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+                    <option>Seleccione..</option>
+                </select>
+                <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
+                <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
             </div>
         </div>
         <div class="col-md-4">
@@ -121,20 +128,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
-                                </label>
-                            </div>*@
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
+                            </label>
+                        </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
@@ -230,8 +237,8 @@
             </div>
         </div>
         @*<div class="col-md-3 col-sm-3">
-                <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()" />
-            </div>*@
+            <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()" />
+        </div>*@
     </div>
     <br />
     <div class="row">
@@ -283,7 +290,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="time" id="txtHora" class=" form-control" onchange="LlenarComboEmpacadores()"/>
+                                <input type="datetime-local" id="txtHora" class=" form-control" onchange="LlenarComboEmpacadores()"/>
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>

@@ -166,7 +166,7 @@ function MostarModalColumns() {
         if (v.sTitle.trim() != '') {
             var col = parseInt(i);
             columnas.push(i);
-            console.log(columnas);
+            //console.log(columnas);
 
             // Get the column API object
             var column = $('#tblDataTable').DataTable().column(col);
@@ -208,8 +208,8 @@ function OcultarColumnas(col) {
 }
 
 function TodosColumna(check, columnas) {
-    console.log(check);
-    console.log(columnas);
+    //console.log(check);
+    //console.log(columnas);
     if (check) {
         $.each(columnas, function (index,value) {
             var column = $('#tblDataTable').DataTable().column(value);

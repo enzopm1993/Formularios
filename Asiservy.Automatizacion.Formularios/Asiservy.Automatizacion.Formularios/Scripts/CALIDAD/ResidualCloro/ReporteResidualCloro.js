@@ -102,7 +102,8 @@ function ConsultarReporte() {
         type: "GET",
         data: {
             Fecha: model.Fecha,
-            Area: model.Area
+            Area: model.Area,
+            Turno:model.Turno
         },
         success: function (resultado) {
             if (resultado == "101") {

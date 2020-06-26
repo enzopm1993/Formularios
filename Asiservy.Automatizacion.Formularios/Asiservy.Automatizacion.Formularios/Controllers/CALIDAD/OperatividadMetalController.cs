@@ -21,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDError clsDError { get; set; } = null;
         private clsDOperatividadMetal clsDOperatividadMetal { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
+        public clsDClasificador clsDClasificador { get; set; } = null;
 
 
         #region CONTROL
@@ -35,6 +36,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.MaskedInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
 
                 return View();
@@ -60,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public ActionResult OperatividadMetalPartial(DateTime Fecha)
+        public ActionResult OperatividadMetalPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -70,11 +73,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDOperatividadMetal = new clsDOperatividadMetal();
-                 var model = clsDOperatividadMetal.ConsultaOperatividadMetal(Fecha);
+                 var model = clsDOperatividadMetal.ConsultaOperatividadMetal(Fecha,Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
@@ -482,6 +488,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 if (poControl != null && poControl.Any())
                 {
+                    clsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
                     return PartialView(poControl);
                 }
                 else
@@ -647,6 +656,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 
                 if (poControl != null && poControl.Any())
                 {
+                    clsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
                     return PartialView(poControl);
                 }
                 else

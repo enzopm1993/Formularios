@@ -54,7 +54,12 @@
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" id="txtFecha" class="form-control" />
             </div>
         </div>
-
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno,"Codigo","Descripcion"),"Seleccione",new {@class="form-control",@onchange= "ConsultarControl()" })
+            </div>
+        </div>
 
         <div class="col-md-3 text-md-left col-sm-6 col-6 text-center">
             <label class="">Acción</label>
@@ -280,7 +285,7 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Hora</label>
-                            <input class="form-control" id="txtHora" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
+                            <input class="form-control" id="txtHora" type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">

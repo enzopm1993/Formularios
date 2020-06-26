@@ -41,7 +41,7 @@
             {
             <tr id="trFila" onclick="EditarFilaRol('@item.IdRol','@item.Descripcion','@item.EstadoRegistro')">
                 <td>@item.IdRol</td>
-                <td>@item.Descripcion</td>
+                <td>@item.Descripcion.ToUpper()</td>
                 <td>@item.EstadoRegistro</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaCreacionLog)

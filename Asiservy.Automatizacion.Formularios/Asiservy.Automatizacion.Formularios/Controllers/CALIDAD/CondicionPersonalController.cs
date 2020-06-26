@@ -146,6 +146,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 ClsDClasificador = new clsDClasificador();
                 ViewBag.Lineas = ClsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                ViewBag.Turno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -171,7 +172,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
 
 
         [HttpPost]
-        public ActionResult CondicionPersonal(CC_CONDICION_PERSONAL model)
+        public ActionResult CondicionPersonal(CC_CONDICION_PERSONAL model,DateTime Fecha , string Turno)
         {
             try
             {
@@ -182,17 +183,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 }
 
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                model.EstadoReporte = false;
+                //model.EstadoReporte = false;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(model.Fecha).Any(x => x.EstadoReporte))
+                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha,Turno).Any(x => x.EstadoReporte))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
 
-                clsDCondicionPersonal.GuardarModificarCondicionPersonal(model);
+                clsDCondicionPersonal.GuardarModificarCondicionPersonal(model,Fecha,Turno);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
@@ -216,7 +217,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        public ActionResult CondicionPersonalPartial(DateTime Fecha)
+        public ActionResult CondicionPersonalPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -226,9 +227,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDCondicionPersonal.ConsultaCondicionPersonal(Fecha);
+                var model = clsDCondicionPersonal.ConsultaCondicionPersonal(Fecha).Where(x=> x.Turno == Turno).ToList();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -255,7 +254,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
         [HttpPost]
-        public ActionResult EliminarCondicionPersonal(CC_CONDICION_PERSONAL model)
+        public ActionResult EliminarCondicionPersonal(CC_CONDICION_PERSONAL model,DateTime Fecha,string Turno)
         {
             try
             {
@@ -273,7 +272,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(model.Fecha).Any(x => x.EstadoReporte))
+                if (clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha, Turno).Any(x => x.EstadoReporte))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
@@ -300,7 +299,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        public JsonResult ValidaEstadoReporte(DateTime Fecha)
+        public JsonResult ValidaEstadoReporte(DateTime Fecha, string Turno)
         {
             try
             {
@@ -310,7 +309,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                var control = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha).FirstOrDefault();
+                var control = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha, Turno).FirstOrDefault();
                 if (control != null)
                 {
                     if (control.EstadoReporte)
@@ -349,128 +348,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
 
         #endregion
 
-        #region REPORTE
-
-        [Authorize]
-        public ActionResult ReporteCondicionPersonal()
-        {
-            try
-            {
-                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                ViewBag.dataTableJS = "1";
-                ViewBag.DateRangePicker = "1";
-                clsDReporte = new clsDReporte();
-                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
-                if (rep != null)
-                {
-                    ViewBag.CodigoReporte = rep.Codigo;
-                    ViewBag.VersionReporte = rep.UltimaVersion;
-                    ViewBag.NombreReporte = rep.Nombre;
-                }
-                clsDCondicionPersonal = new clsDCondicionPersonal();
-                ClsDClasificador = new clsDClasificador();
-                ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                lsUsuario = User.Identity.Name.Split('_');
-                return View();
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-        }
-
-        public ActionResult ReporteControlCondicionPersonalPartial(DateTime FechaDesde, DateTime FechaHasta)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDCondicionPersonal = new clsDCondicionPersonal();
-                var model = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde,FechaHasta);
-                if (!model.Any())
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                return PartialView(model);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-        public ActionResult ReporteCondicionPersonalPartial(DateTime Fecha)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDCondicionPersonal = new clsDCondicionPersonal();
-                ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                var model = clsDCondicionPersonal.ConsultaCondicionPersonal(Fecha);
-                ViewBag.Control = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha).FirstOrDefault();
-                if (!model.Any())
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                return PartialView(model);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-        #endregion
-
         #region BANDEJA DE APORBACION
         //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
         public ActionResult BandejaCondicionPersonal()
@@ -480,6 +357,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+              
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -502,24 +380,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        public ActionResult BandejaCondicionPersonalPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado=false)
+        public ActionResult BandejaCondicionPersonalPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
         {
             try
             {
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                List<CC_CONDICION_PERSONAL_CONTROL> poCloroCisterna = null;
-                if (FechaDesde != null && FechaHasta !=null)
+                List<CC_CONDICION_PERSONAL_CONTROL> poControl = null;
+                if (FechaDesde != null && FechaHasta != null)
                 {
-                     poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde.Value, FechaHasta.Value, Estado);
+                    poControl = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde.Value, FechaHasta.Value, Estado);
                 }
                 else
                 {
-                     poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControlPendiente();
-                    
+                    poControl = clsDCondicionPersonal.ConsultaCondicionPersonalControlPendiente();
+
                 }
-                if (poCloroCisterna != null && poCloroCisterna.Any())
+                if (poControl != null && poControl.Any())
                 {
-                    return PartialView(poCloroCisterna);
+                    ClsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
+                    return PartialView(poControl);
                 }
                 else
                 {
@@ -547,7 +428,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         }
 
 
-        public ActionResult BandejaAprobarCondicionPersonal(DateTime fecha)
+        public ActionResult BandejaAprobarCondicionPersonal(DateTime fecha, string Turno)
         {
             try
             {
@@ -557,10 +438,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                var poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonal(fecha);
-                if (poCloroCisterna != null && poCloroCisterna.Any())
+                var poControl = clsDCondicionPersonal.ConsultaCondicionPersonal(fecha).Where(x=> x.Turno== Turno).ToList();
+                if (poControl != null && poControl.Any())
                 {
-                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                    ClsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+                    return Json(poControl, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -599,7 +482,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 model.FechaAprobacion = DateTime.Now;
                 model.AprobadoPor = lsUsuario[0];
-                model.EstadoReporte = clsAtributos.EstadoReporteActivo; 
+                model.EstadoReporte = clsAtributos.EstadoReporteActivo;
 
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -667,6 +550,140 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
         #endregion
+
+        #region REPORTE
+
+        [Authorize]
+        public ActionResult ReporteCondicionPersonal()
+        {
+            try
+            {
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                ClsDClasificador = new clsDClasificador();
+                ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                lsUsuario = User.Identity.Name.Split('_');
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteControlCondicionPersonalPartial(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                var model = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde,FechaHasta);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                ClsDClasificador = new clsDClasificador();
+                ViewBag.Turno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
+
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult ReporteCondicionPersonalPartial(DateTime Fecha, string Turno)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var model = clsDCondicionPersonal.ConsultaCondicionPersonal(Fecha).Where(x=> x.Turno == Turno);
+                ViewBag.Control = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha, Turno).FirstOrDefault();
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                ClsDClasificador = new clsDClasificador();
+                var poTurno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno, Turno).FirstOrDefault();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno.Descripcion;
+                }
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+     
 
 
         protected void SetSuccessMessage(string message)

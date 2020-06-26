@@ -100,7 +100,7 @@
                                                 {
                                                     <div>
 
-                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text class=""></text>@MenuHijo.Nombre</a>
+                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text style="font-size:10px">@MenuHijo.Nombre.ToUpper()</text></a>
 
                                                     </div>
                                                 }
@@ -355,11 +355,13 @@
     <script src="~/Scripts/select2.js"></script>
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     <script>
+       
         $('#Searchbar').select2({
             //width: '100%',
             placeholder: "Buscar.."
             //theme: "bootstrap4"
         });
+  
         function cargarvista() {
             if ($('#Searchbar').prop('selectedIndex') != 0) {
                 window.location.href = "../" + $('#Searchbar').val();
@@ -611,7 +613,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=1.8";
+        string url = "/Scripts/" + js + ".js?v=2.0";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>

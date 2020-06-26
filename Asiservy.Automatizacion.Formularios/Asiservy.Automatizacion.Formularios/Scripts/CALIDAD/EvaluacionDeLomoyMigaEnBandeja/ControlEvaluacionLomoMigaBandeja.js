@@ -383,6 +383,7 @@ async function ConsultarCabControlAjax() {
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
+    data.append('Turno', $("#cmbTurno").val());
     var promesa=fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
         method: 'POST',
         body: data
@@ -408,6 +409,14 @@ async function ConsultarCabControl(bandera) {
         } else {
             $('#msjerrorordenfb').prop('hidden', true);
         }
+        if ($('#cmbTurno').prop('selectedIndex') == 0) {
+            console.log("hola");
+            $('#msjTurno').prop('hidden', false);
+            return;
+        } else {
+            $('#msjTurno').prop('hidden', true);
+        }
+        
         if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
         {
             await LLenarComboOrdenes();
@@ -529,6 +538,7 @@ function GuardarCabceraControl() {
     const data = new FormData();
     data.append('IdEvaluacionDeLomosYMigasEnBandejas', IdCabecera);
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
+    data.append('Turno', $("#cmbTurno").val());
     data.append('Cliente', $("#txtCliente").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     data.append('NivelLimpieza', $("#cmbNivelLimpieza").val());
@@ -969,7 +979,7 @@ function LimpiarDetalleControles() {
     $('#divDetalle2').prop('hidden', true);
     $('#txtHora').prop('disabled', false);
     $('#btnEliminarDetalleControl').prop('disabled', true);
-    $('#txtHora').val(moment().format("HH:mm"));
+    $('#txtHora').val(moment().format("YYYY-MM-DDTHH:mm"));
     $('#txtBuque').val('');
     $('#cmbMoreton').prop('selectedIndex',0);
     //$('#txtHematomas').val('');
@@ -1111,7 +1121,7 @@ function ModificarFoto(data) {
 
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
-        filePreview.src = "/Content/Img/" + data.Imagen;
+        filePreview.src = "../ImagenSiaa/" + data.Imagen;
         var previewZone = document.getElementById('file-preview-zone');
         previewZone.appendChild(filePreview);
 
@@ -1135,7 +1145,7 @@ function ModificarFoto(data) {
             $("#ModalGenerarControlDetalle2").modal("show");
 
         }
-        img.src = "/Content/Img/" + data.Imagen;
+        img.src = "../ImagenSiaa/" + data.Imagen;
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");

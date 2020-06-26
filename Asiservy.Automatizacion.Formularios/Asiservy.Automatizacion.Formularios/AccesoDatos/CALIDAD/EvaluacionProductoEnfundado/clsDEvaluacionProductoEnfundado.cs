@@ -14,7 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Where(x => x.FechaProduccion == poCabeceraControl.FechaProduccion 
-                &&x.OrdenFabricacion==poCabeceraControl.OrdenFabricacion
+                &&x.OrdenFabricacion==poCabeceraControl.OrdenFabricacion&&x.Turno==poCabeceraControl.Turno
                 &&(x.Lomo==poCabeceraControl.Lomo&&x.Miga==poCabeceraControl.Miga&&x.Trozo==poCabeceraControl.Trozo)
                 &&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
@@ -34,12 +34,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return resultado;
             }
         }
-        public CC_EVALUACION_PRODUCTO_ENFUNDADO ConsultarCabeceraControl(DateTime FechaProduccion,int orden,bool Lomo,bool Miga, bool Trozo)
+        public CC_EVALUACION_PRODUCTO_ENFUNDADO ConsultarCabeceraControl(DateTime FechaProduccion,int orden,string Turno,bool Lomo,bool Miga, bool Trozo)
         {
             using (var db = new ASIS_PRODEntities())
             {
                 return db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Where(x => x.FechaProduccion == FechaProduccion 
-                &&x.OrdenFabricacion==orden&&(x.OrdenFabricacion==orden&&x.Lomo==Lomo&& x.Trozo==Trozo)
+                &&x.OrdenFabricacion==orden&&x.Turno==Turno&&(x.OrdenFabricacion==orden&&x.Lomo==Lomo&& x.Trozo==Trozo)
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo ).FirstOrDefault();
             }
         }
@@ -339,7 +339,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      Escamas = d.Escamas,
                                      Espinas = d.Espinas,
                                      //HematomasProfundos = d.HematomasProfundos,
-                                     Hora = d.Hora,
+                                    // Hora = d.Hora,
                                      empacador=d.Empacador,
                                      Lote = d.Lote,
                                      Moretones = mo.Descripcion,
@@ -356,8 +356,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      Aprobado = cab.EstadoControl,
                                      Miga=d.Miga,
                                      Otro=d.Otro,
-                                     FechaControl=cab.FechaProduccion
-
+                                     FechaControl=cab.FechaProduccion, Hora=d.Hora
+                                     
                                  }).ToList();
                 var ResultadoFInal = (from r in resultado
                                       join e in pListEmpleados on r.empacador equals e.CEDULA
@@ -394,7 +394,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                           Aprobado = r.Aprobado,
                                           Miga = r.Miga,
                                           Otro = r.Otro,
-                                          FechaControl = r.FechaControl
+                                          FechaControl = r.FechaControl,
+                                          
                                       }).ToList();
                 return ResultadoFInal;
             }
@@ -427,7 +428,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
         //        return buscarControl.FirmaControl;
         //    }
         //}
-        public List<CabeceraEvaluacionProductoEnfundadoViewModel> ConsultarBandejaEvaluacionLomosyMiga(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
+        public List<CabeceraEvaluacionProductoEnfundadoViewModel> ConsultarBandejaEvaluacionProductoEnfundado(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
         {
             using (var db = new ASIS_PRODEntities())
             {
@@ -437,6 +438,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                     var respuesta = (from x in db.CC_EVALUACION_PRODUCTO_ENFUNDADO
                                      join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                      join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE on new { IdCabeceraEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionProductoEnfundado, d.EstadoRegistro }
+                                     join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.GrupoCodTurno } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente||x.EstadoControl==null) && cl.Codigo != "0"
                                      select new CabeceraEvaluacionProductoEnfundadoViewModel
                                      {
@@ -465,7 +467,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                          Destino=x.Destino,
                                          Lote=x.Lote,
                                          Marca=x.Marca,
-                                         Proveedor=x.Proveedor
+                                         Proveedor=x.Proveedor,
+                                         Turno=clt.Descripcion
                                      }).Distinct().ToList();
 
                     return respuesta;
@@ -475,6 +478,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                     var respuesta = (from x in db.CC_EVALUACION_PRODUCTO_ENFUNDADO
                                      join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                      join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE on new { IdCabeceraEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionProductoEnfundado, d.EstadoRegistro }
+                                     join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.GrupoCodTurno } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
+
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaProduccion >= FechaInicio && x.FechaProduccion <= FechaFin) && x.EstadoControl == clsAtributos.EstadoReporteActivo && cl.Codigo != "0"
                                      select new CabeceraEvaluacionProductoEnfundadoViewModel
                                      {
@@ -502,7 +507,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                          Destino = x.Destino,
                                          Lote = x.Lote,
                                          Marca = x.Marca,
-                                         Proveedor = x.Proveedor
+                                         Proveedor = x.Proveedor,
+                                         Turno=clt.Descripcion
                                      }).Distinct().ToList();
                     return respuesta;
                 }
@@ -570,6 +576,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 var respuesta = (from x in db.CC_EVALUACION_PRODUCTO_ENFUNDADO
                                  join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                  join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE on new { IdCabeceraEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionProductoEnfundado, d.EstadoRegistro }
+                                 join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.GrupoCodTurno } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
+
                                  where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaProduccion >= FechaDesde && x.FechaProduccion <= FechaHasta) && cl.Codigo != "0"
                                  select new CabeceraEvaluacionProductoEnfundadoViewModel
                                  {
@@ -597,7 +605,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      UsuarioModificacionLog = x.UsuarioModificacionLog,
                                      NivelLimpiezaDescripcion = cl.Descripcion,
                                      AprobadoPor = x.AprobadoPor,
-                                     FechaAprobacion = x.FechaAprobacion
+                                     FechaAprobacion = x.FechaAprobacion,
+                                     Turno=clt.Descripcion
                                  }).Distinct().ToList();
 
                 return respuesta;
@@ -710,15 +719,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                              on new { id=f.IdDetalleEvaluacionProductoEnfundado.Value,estado=f.EstadoRegistro} equals new {id=d.IdDetalleEvaluacionProductoEnfundado,estado=clsAtributos.EstadoRegistroActivo }
                              where f.EstadoRegistro == clsAtributos.EstadoRegistroActivo && ListDetallesCab.Contains(f.IdDetalleEvaluacionProductoEnfundado.Value)
                              orderby d.Hora
-                             select new ReporteFotosEvaluacionProductoEnfundadoViewModel { IdFoto = f.IdFotoEvaluacioProductoEnfundado, Hora = d.Hora, Imagen = f.Imagen, Novedad = f.Observacion, Rotacion = f.Rotacion.Value }).ToList();
+                             select new ReporteFotosEvaluacionProductoEnfundadoViewModel { IdFoto = f.IdFotoEvaluacioProductoEnfundado, /*Hora = d.Hora*/ Imagen = f.Imagen, Novedad = f.Observacion, Rotacion = f.Rotacion.Value }).ToList();
                 return query;
             }
         }
-        public List<spConsultaMovimientoPersonalDiarioxCargo> ConsultarEmpacadores(DateTime Fecha, TimeSpan Hora)
+        public List<spConsultaMovimientoPersonalDiarioxCargo> ConsultarEmpacadores(DateTime Fecha, TimeSpan Hora,string Turno)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.spConsultaMovimientoPersonalDiarioxCargo(Fecha, Hora, clsAtributos.CargoEmpacado).ToList();
+                return db.spConsultaMovimientoPersonalDiarioxCargo(Fecha, Hora, clsAtributos.CargoEmpacado, Turno).ToList();
             }
         }
       

@@ -5,7 +5,7 @@ var Error = 0;
 var DatosDetalle;
 var ListaLotes;
 $(document).ready(function () {
-    
+    $('#cmbTurno').prop('selectedIndex', 1);
     $('#txtSalProceso').inputmask({
         alias: "decimal",
         clearMaskOnLostFocus: true,
@@ -262,8 +262,11 @@ async function LLenarComboOrdenes(/*orden*/) {
 
 }
 async function ConsultarCabControlAjax() {
+    
+  
     const data = new FormData();
     data.append('Fecha', $("#txtFechaProduccion").val());
+    data.append('Turno', $("#cmbTurno").val());
     var promesa = fetch("../AnalisisQuimicoProductoSemielaborado/ConsultarCabeceraControl", {
         method: 'POST',
         body: data
@@ -275,13 +278,19 @@ async function ConsultarCabControl(bandera) {
     try {
 
 
-        if ($('#txtFechaProduccion').val() == '') {
+        if ($("#txtFechaProduccion").val() == '') {
+
             $('#msjErrorFechaProduccion').prop('hidden', false);
             return;
-        }
-        else {
-
+        } else {
             $('#msjErrorFechaProduccion').prop('hidden', true);
+        }
+        if ($('#cmbTurno').prop('selectedIndex') == 0) {
+
+            $('#msjTurno').prop('hidden', false);
+            return;
+        } else {
+            $('#msjTurno').prop('hidden', true);
         }
        
         //if (bandera != 'of')//bandera para que solo se ejecute si se llama desde onchange de fecha, y no por onchange de orden de fabricacion
@@ -356,6 +365,7 @@ function GuardarCabceraControl() {
     const data = new FormData();
     data.append('IdAnalisisQuimicoProductoSe', IdCabecera);
     data.append('Fecha', $("#txtFechaProduccion").val());
+    data.append('Turno', $("#cmbTurno").val());
     data.append('Observacion', $('#Observacion').val());
     fetch("../AnalisisQuimicoProductoSemielaborado/GuardarCabeceraControl", {
         method: 'POST',
@@ -383,7 +393,9 @@ function GuardarCabceraControl() {
                 MensajeCorrecto(resultado[1]);
                 //$('#brespacio').remove();
                 $('#mensajeRegistros').text('');
+                $('#DivDetalle').empty();
                 $('#CardDetalle').prop('hidden', false);
+                $('#brespacio').remove();
                 //SlideCabecera();
             }
             $('#CardDetalle').prop('hidden', false);
