@@ -11,7 +11,8 @@ function CambioClase() {
     if ($("#selectClase").val() == "1") {
         $('#Padre').prop('selectedIndex', 0);
         $('#Url').val('');
-        $('#divPadre1').hide();
+        $('#divPadre1').hide(); 
+        $('#divTipo').hide(); 
         $('#divPadre2').hide();
         $('#divReporte').hide();
         $('#divUrl').hide();
@@ -23,6 +24,8 @@ function CambioClase() {
         $('#divReporte').show();
         $('#divPadre1').show();
         $('#divPadre2').show();
+        $('#divTipo').show(); 
+
 
     }
 
@@ -52,10 +55,11 @@ function Nuevo() {
         $('#txtOrden').val('');
         $('#txtFormulario').val('');
         $('#selectPadre').prop('selectedIndex', 0).change();
+        $('#selectTipo').prop('selectedIndex', 0).change();
         // $('#selectClase').prop('selectedIndex', 0);
         $('#txtUrl').val('');
         $('#CheckEstadoRegistroOp').prop('checked', true);
-        $('#CheckReporte').prop('checked', false);
+        //$('#CheckReporte').prop('checked', false);
         $('#LabelEstado').text('Activo');
     } else {
         $('#txtIdOpcion').val('0');
@@ -63,8 +67,10 @@ function Nuevo() {
         $('#txtOrden').val('');
         $('#txtFormulario').val('');
         $('#selectPadre').prop('selectedIndex', 0).change();
+        $('#selectTipo').prop('selectedIndex', 0).change();
+
         // $('#selectClase').prop('selectedIndex', 0);
-        $('#CheckReporte').prop('checked', false);
+       // $('#CheckReporte').prop('checked', false);
         $('#txtUrl').val('');
         $('#CheckEstadoRegistroOp').prop('checked', true);
         $('#LabelEstado').text('Activo');
@@ -83,7 +89,8 @@ function CargarOpcion(model) {
     $('#txtNombre').val(model.Nombre);
     $('#txtOrden').val(model.Orden);
     $('#txtFormulario').val(model.Formulario);
-    $('#CheckReporte').prop('checked',model.Reporte);
+    $('#selectTipo').val(model.Tipo).change();
+    //$('#CheckReporte').prop('checked',model.Reporte);
     
     if (model.Clase == 'P') {
         $('#selectClase').prop('selectedIndex', 2);
@@ -144,7 +151,8 @@ function GuargarOpcion() {
             Url: $("#txtUrl").val(),
             Orden: $("#txtOrden").val(),
             EstadoRegistro: Estado,
-            Reporte: $("#CheckReporte").prop("checked")
+            Tipo: $("#selectTipo").val()
+            //Reporte: $("#CheckReporte").prop("checked")
         },
         success: function (resultado) {
             if (resultado == "0") {

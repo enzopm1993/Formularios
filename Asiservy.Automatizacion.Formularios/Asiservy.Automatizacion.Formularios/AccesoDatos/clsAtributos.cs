@@ -283,6 +283,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string Miga { get; } = "M";
         public static string Trozo { get; } = "T";
 
+        
+        //GRUPO CLASIFICADOR DE TIPO DE CONTROL EN EL MENU
+        public static string CodGrupoTipoControl { get; } = "040";
+        public static string CodTipoControlReporte { get; } = "R";
 
     }
 }

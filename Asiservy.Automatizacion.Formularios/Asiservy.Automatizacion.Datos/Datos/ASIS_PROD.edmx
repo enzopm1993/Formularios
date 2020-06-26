@@ -2701,7 +2701,7 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
           <Property Name="IdModulo" Type="int" />
-          <Property Name="Reporte" Type="bit" />
+          <Property Name="Tipo" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="OPCION_ROL">
           <Key>
@@ -6025,16 +6025,7 @@
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="OPCION" EntityType="ASIS_PRODModel.OPCION" />
-          <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION">
-            <End Role="OPCION" EntitySet="OPCION" />
-            <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
-          </AssociationSet>
           <EntitySet Name="REPORTE_MAESTRO" EntityType="ASIS_PRODModel.REPORTE_MAESTRO" />
-          <AssociationSet Name="FK_REPORTE_MAESTRO_OPCION" Association="ASIS_PRODModel.FK_REPORTE_MAESTRO_OPCION">
-            <End Role="OPCION" EntitySet="OPCION" />
-            <End Role="REPORTE_MAESTRO" EntitySet="REPORTE_MAESTRO" />
-          </AssociationSet>
           <EntitySet Name="CC_MANTENIMIENTO_PEDILUVIO" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PEDILUVIO" />
           <EntitySet Name="CC_CLORO_CISTERNA_DESCONGELADO" EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" />
           <AssociationSet Name="FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO">
@@ -6437,11 +6428,16 @@
             <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spReporteEvaluacionProductoEnfundado" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionProductoEnfundado)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="OPCION" EntityType="ASIS_PRODModel.OPCION" />
+          <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION">
+            <End Role="OPCION" EntitySet="OPCION" />
+            <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -10003,41 +9999,6 @@
           <Property Type="String" Name="Categoria" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="ObservacionMantenimiento" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <EntityType Name="OPCION">
-          <Key>
-            <PropertyRef Name="IdOpcion" />
-          </Key>
-          <Property Name="IdOpcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Formulario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Clase" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Padre" Type="Int32" />
-          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Orden" Type="Int32" />
-          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="IdModulo" Type="Int32" />
-          <Property Name="Reporte" Type="Boolean" />
-          <NavigationProperty Name="OPCION_ROL" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION" ToRole="OPCION_ROL" />
-          <NavigationProperty Name="REPORTE_MAESTRO" Relationship="ASIS_PRODModel.FK_REPORTE_MAESTRO_OPCION" FromRole="OPCION" ToRole="REPORTE_MAESTRO" />
-        </EntityType>
-        <Association Name="FK_OPCION_ROL_OPCION">
-          <End Type="ASIS_PRODModel.OPCION" Role="OPCION" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.OPCION_ROL" Role="OPCION_ROL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPCION">
-              <PropertyRef Name="IdOpcion" />
-            </Principal>
-            <Dependent Role="OPCION_ROL">
-              <PropertyRef Name="IdOpcion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="REPORTE_MAESTRO">
           <Key>
             <PropertyRef Name="IdReporteMaestro" />
@@ -10054,20 +10015,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdOpcion" Type="Int32" />
-          <NavigationProperty Name="OPCION" Relationship="ASIS_PRODModel.FK_REPORTE_MAESTRO_OPCION" FromRole="REPORTE_MAESTRO" ToRole="OPCION" />
         </EntityType>
-        <Association Name="FK_REPORTE_MAESTRO_OPCION">
-          <End Type="ASIS_PRODModel.OPCION" Role="OPCION" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.REPORTE_MAESTRO" Role="REPORTE_MAESTRO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPCION">
-              <PropertyRef Name="IdOpcion" />
-            </Principal>
-            <Dependent Role="REPORTE_MAESTRO">
-              <PropertyRef Name="IdOpcion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CC_MANTENIMIENTO_PEDILUVIO">
           <Key>
             <PropertyRef Name="IdMantenimientoPediluvio" />
@@ -12589,6 +12537,40 @@
           <Property Type="Int32" Name="Piel" Nullable="true" />
           <Property Type="Int32" Name="SumaScorch" Nullable="true" />
         </ComplexType>
+        <EntityType Name="OPCION">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Formulario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Clase" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Padre" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IdModulo" Type="Int32" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="OPCION_ROL" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION" ToRole="OPCION_ROL" />
+        </EntityType>
+        <Association Name="FK_OPCION_ROL_OPCION">
+          <End Type="ASIS_PRODModel.OPCION" Role="OPCION" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.OPCION_ROL" Role="OPCION_ROL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPCION">
+              <PropertyRef Name="IdOpcion" />
+            </Principal>
+            <Dependent Role="OPCION_ROL">
+              <PropertyRef Name="IdOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16389,28 +16371,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="OPCION">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
-              <MappingFragment StoreEntitySet="OPCION">
-                <ScalarProperty Name="Reporte" ColumnName="Reporte" />
-                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="Orden" ColumnName="Orden" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Padre" ColumnName="Padre" />
-                <ScalarProperty Name="Clase" ColumnName="Clase" />
-                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="REPORTE_MAESTRO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_MAESTRO">
               <MappingFragment StoreEntitySet="REPORTE_MAESTRO">
@@ -18605,6 +18565,28 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="OPCION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
+              <MappingFragment StoreEntitySet="OPCION">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
