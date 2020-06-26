@@ -319,6 +319,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 if (poControl != null && poControl.Any())
                 {
+                    clsDClasificador = new clsDClasificador();
+                    ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                     return PartialView(poControl);
                 }
                 else

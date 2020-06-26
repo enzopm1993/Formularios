@@ -30,7 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
-           
+           <th></th>
         </tr>
         </thead>
     <tbody>
@@ -51,8 +51,7 @@
                 Temperatura= item.Temperatura,
                 TipoConserva = item.TipoConserva
             };
-             string json = JsonConvert.SerializeObject(obj);
-            <tr onclick="SeleccionarControl(@json)">
+            <tr onclick="">
 
 
                 <td>
@@ -65,7 +64,14 @@
                     @Html.DisplayFor(modelItem => item.Autoclave)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TipoConserva)
+                    @if (item.TipoConserva == "P")
+                    {
+                        @: Pouch
+                    }
+                    else
+                    {
+                          @: Latas
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Producto)
@@ -76,11 +82,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Cloro)
                 </td>
-                <td>
+                <td style="white-space:normal">
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>
 
-
+                <td>
+                    @{string json = JsonConvert.SerializeObject(obj);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="EditarControl(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarControl(@json)">Eliminar</button>
+                   
+                </td>
             </tr>
         }
     </tbody>

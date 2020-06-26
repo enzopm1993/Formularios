@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdControlCuchillo { get; set; }
         public System.DateTime Fecha { get; set; }
         public string Observacion { get; set; }
+        public int Turno { get; set; }
         public bool EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -33,7 +34,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobado { get; set; }
-        public int Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_CUCHILLOS_PREPARACION_HORA> CC_CUCHILLOS_PREPARACION_HORA { get; set; }

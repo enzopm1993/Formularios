@@ -1,4 +1,17 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMonitoreoDescongelado>
+@using Asiservy.Automatizacion.Datos.Datos
+@{ 
+    var groupedCustomerList = Model
+     .GroupBy(u => new { u.IdMonitoreoDescongeladoControl, u.Tanque, u.Talla, u.Especie, u.Lote})
+     .Select(g=> new spConsultaMonitoreoDescongelado { IdMonitoreoDescongeladoControl=g.Key.IdMonitoreoDescongeladoControl,
+     Tanque = g.Key.Tanque,
+     Talla = g.Key.Talla,
+     Lote=g.Key.Lote,
+     Especie=g.Key.Especie
+
+     })
+     .ToList();
+}
 
 <h6><b>Turno:</b>@ViewBag.Turno</h6>
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
@@ -80,25 +93,25 @@
         </tr>
     </thead>
     <tbody class="letra6">
-        @foreach (var item in Model)
+        @foreach (var control in groupedCustomerList)
         {
-            var Descongelado = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "D");
-            var Emparrillado = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "E");
-            var Cocina = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "C");
+            var Descongelado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "D");
+            var Emparrillado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "E");
+            var Cocina = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "C");
 
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Tanque)
+                @control.Tanque
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lote)
+                @control.Lote
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Especie)
+                @control.Especie
 
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Talla)
+                @control.Tanque
             </td>
             @if (Descongelado != null)
             {
@@ -149,7 +162,7 @@
                     @Emparrillado.Muestra3
                 </td>
                 <td style="white-space:normal">
-                    @Descongelado.Observacion
+                    @Emparrillado.Observacion
                 </td>
             }
             else
@@ -178,7 +191,7 @@
                     @Cocina.Muestra3
                 </td>
                 <td style="white-space:normal">
-                    @Descongelado.Observacion
+                    @Cocina.Observacion
                 </td>
             }
             else

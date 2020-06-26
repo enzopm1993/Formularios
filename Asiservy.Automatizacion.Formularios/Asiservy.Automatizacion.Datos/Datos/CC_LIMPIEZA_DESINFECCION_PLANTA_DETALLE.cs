@@ -35,7 +35,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
         public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
+        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
     }
 }
