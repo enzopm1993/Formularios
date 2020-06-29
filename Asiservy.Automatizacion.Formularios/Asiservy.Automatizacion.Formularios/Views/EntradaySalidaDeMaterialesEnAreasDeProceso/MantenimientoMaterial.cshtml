@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "MantenimientoMaterial";
+}
+
+<h4>MantenimientoMaterial</h4>
+
+<div class="row">
+    <input type="hidden" id="txtIdMaterial" name="name" value="" />
+    <div class="col-md-4 col-6">
+        <label>Material</label>
+        @Html.DropDownList("SelectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccion", new { @class = "form-control" })
+    </div>
+    <div class="col-md-4 col-6">
+        <label>Nombre</label>
+        <input type="text" id="txtNombre" maxlength="30" class="form-control" name="name" value="" />
+    </div>
+    <div class="col-md-4 text-md-left text-center col-12">
+        <div class="form-group">
+            <label>Estado Registro</label>
+            <div class="custom-control custom-checkbox mb-3">
+                @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Activo</label>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <button data-toggle="tooltip" data-placement="top" title="Guargar" class="btn" id="Guargar" onclick="GuargarMaterial()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/save20.png" />
+        </button>
+    </div>
+</div>
+
+
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div id="Mensaje" class="text-center">
+
+</div>
+<div id="DivTableMateriales" class="table-responsive">
+
+</div>

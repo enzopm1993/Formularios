@@ -240,7 +240,12 @@ function Mover(result) {
             
 
             $('#ModalMensajeCP').modal('show');
-            ConsultarEmpleadosRegresar();
+            if ($('#optcambiaremp').val() == 'prestar') {
+                ConsultarEmpleados();
+            } else {
+                ConsultarEmpleadosRegresar();
+            }
+            
         }
         ,
         error: function (resultado) {

@@ -128,6 +128,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             CAMBIO_PERSONAL BuscarPerCambioPersonal;
                             CAMBIO_PERSONAL BuscarCPFalse;
                             DateTime? FechaIngresada;
+                            DateTime? ptFechaInicioCP=null;
                             foreach (var item in pListCambioPersonal.ToArray())
                             {
                                 Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
@@ -136,7 +137,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 BuscarCPFalse = db.CAMBIO_PERSONAL.Where(z => z.Cedula == item.Cedula && z.EstadoRegistro == clsAtributos.EstadoRegistroActivo).OrderByDescending(x=>x.IdCambioPersonal).FirstOrDefault();
 
                                 BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && !x.Vigente.Value&& x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).OrderByDescending(z=>z.IdCambioPersonal).FirstOrDefault();
-                                if (!BuscarCPFalse.Vigente.Value && BuscarPerCambioPersonal != null && (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value)))
+
+                                if (BuscarPerCambioPersonal != null && !BuscarCPFalse.Vigente.Value &&  (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value)))
                                 {
                                         pListCambioPersonal.Remove(item);
                                         NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada.");
@@ -144,7 +146,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 //**agregado 04-06-2020 requerimiento de prestar personal sin necesidad de regresar
                                 
                                 BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && x.Vigente.Value &&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();
-                               if (BuscarPerCambioPersonal != null && (FechaIngresada <= BuscarPerCambioPersonal.Fecha.Value.Add(BuscarPerCambioPersonal.HoraInicio.Value)))
+                                if (BuscarPerCambioPersonal!=null)
+                                {
+                                    ptFechaInicioCP = BuscarPerCambioPersonal.HoraInicio != null ? BuscarPerCambioPersonal.Fecha.Value.Add(BuscarPerCambioPersonal.HoraInicio.Value) : BuscarPerCambioPersonal.Fecha.Value;
+                                }
+                                if (BuscarPerCambioPersonal != null && (FechaIngresada <= ptFechaInicioCP))
                                 {
                                         pListCambioPersonal.Remove(item);
                                         NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada.");
@@ -153,7 +159,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 {
                                     pListCambioPersonal.Remove(item);
                                     NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No puede ser prestado al mismo centro de costo, recurso, línea y cargo al que pertenece, debe ir a la opción regresar empleados.");
-                                }else if (BuscarPerCambioPersonal != null && (FechaIngresada > BuscarPerCambioPersonal.Fecha.Value.Add(BuscarPerCambioPersonal.HoraInicio.Value)))
+                                }else if (BuscarPerCambioPersonal != null && (FechaIngresada > ptFechaInicioCP))
                                 {
                                     BuscarPerCambioPersonal.Vigente = false;
                                     BuscarPerCambioPersonal.FechaFin = FechaIngresada;
