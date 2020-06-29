@@ -708,6 +708,9 @@
     <Compile Include="Datos\spConsultaKardexReactivo.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaKpiEnvaseLata.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaLimpiadorasControlHueso.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

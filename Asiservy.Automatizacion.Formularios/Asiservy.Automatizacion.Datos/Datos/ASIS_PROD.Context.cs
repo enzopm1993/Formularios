@@ -2326,5 +2326,26 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaNotificacionesSiaa>("spConsultaNotificacionesSiaa", cedulaParameter);
         }
+    
+        public virtual ObjectResult<spConsultaKpiEnvaseLata> spConsultaKpiEnvaseLata(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string lineaNegocio)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var lineaNegocioParameter = lineaNegocio != null ?
+                new ObjectParameter("LineaNegocio", lineaNegocio) :
+                new ObjectParameter("LineaNegocio", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaKpiEnvaseLata>("spConsultaKpiEnvaseLata", fechaDesdeParameter, fechaHastaParameter, turnoParameter, lineaNegocioParameter);
+        }
     }
 }
