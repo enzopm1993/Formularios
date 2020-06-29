@@ -459,7 +459,16 @@
     <Compile Include="Datos\EMPLEADO_TURNO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\ENTRADA_SALIDA_MATERIAL_CABECERA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\ENTRADA_SALIDA_MATERIAL_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\ENTRADA_SALIDA_MATERIAL_SUBDETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\ENTREGA_UNIFORME.cs">

@@ -12,11 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL
+    public partial class ENTRADA_SALIDA_MATERIAL_SUBDETALLE
     {
-        public int IdMaterial { get; set; }
-        public string Descripcion { get; set; }
-        public string Nombre { get; set; }
+        public int IdSubDetalleEntradaSalidaMaterial { get; set; }
+        public System.DateTime Hora { get; set; }
+        public int Salida { get; set; }
+        public int IdDetalleEntradaSalidaMaterial { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -24,5 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual ENTRADA_SALIDA_MATERIAL_DETALLE ENTRADA_SALIDA_MATERIAL_DETALLE { get; set; }
     }
 }

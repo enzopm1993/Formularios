@@ -12,11 +12,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL
+    public partial class ENTRADA_SALIDA_MATERIAL_DETALLE
     {
-        public int IdMaterial { get; set; }
-        public string Descripcion { get; set; }
-        public string Nombre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ENTRADA_SALIDA_MATERIAL_DETALLE()
+        {
+            this.ENTRADA_SALIDA_MATERIAL_SUBDETALLE = new HashSet<ENTRADA_SALIDA_MATERIAL_SUBDETALLE>();
+        }
+    
+        public int IdDetalleEntradaSalidaMateriales { get; set; }
+        public int Material { get; set; }
+        public int Ingreso { get; set; }
+        public int IdCabeceraEntradaSalidaMaterial { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -24,5 +31,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual ENTRADA_SALIDA_MATERIAL_CABECERA ENTRADA_SALIDA_MATERIAL_CABECERA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ENTRADA_SALIDA_MATERIAL_SUBDETALLE> ENTRADA_SALIDA_MATERIAL_SUBDETALLE { get; set; }
     }
 }
