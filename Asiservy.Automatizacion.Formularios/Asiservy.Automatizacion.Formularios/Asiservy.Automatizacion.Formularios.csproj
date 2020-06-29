@@ -4194,6 +4194,7 @@
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

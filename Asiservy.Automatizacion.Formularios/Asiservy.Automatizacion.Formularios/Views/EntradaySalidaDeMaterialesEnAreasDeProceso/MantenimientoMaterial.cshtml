@@ -3,17 +3,18 @@
     ViewBag.Title = "MantenimientoMaterial";
 }
 
-<h4>MantenimientoMaterial</h4>
+<h4>Mantenimiento Material</h4>
 
 <div class="row">
-    <input type="hidden" id="txtIdMaterial" name="name" value="" />
-    <div class="col-md-4 col-6">
-        <label>Material</label>
-        @Html.DropDownList("SelectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccion", new { @class = "form-control" })
-    </div>
+    <input type="hidden" id="txtIdMaterial" name="name" value="0" />
+
     <div class="col-md-4 col-6">
         <label>Nombre</label>
         <input type="text" id="txtNombre" maxlength="30" class="form-control" name="name" value="" />
+    </div>
+    <div class="col-md-4 col-6">
+        <label>Descripción</label>
+        <input type="text" id="txtDescripcion" maxlength="100" class="form-control" name="name" value="" />
     </div>
     <div class="col-md-4 text-md-left text-center col-12">
         <div class="form-group">
@@ -31,6 +32,9 @@
     <div class="col-12 text-center">
         <button data-toggle="tooltip" data-placement="top" title="Guargar" class="btn" id="Guargar" onclick="GuargarMaterial()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/save20.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/clear24.png" />
         </button>
     </div>
 </div>

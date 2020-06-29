@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                 return entities.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL.ToList();
             }
         }
-        public void ModificarMaterialQuebradizo(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
+        public void ModificarMaterial(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                 if (material != null)
                 {
                     material.Nombre = model.Nombre;
+                    material.Descripcion = model.Descripcion;
                     material.EstadoRegistro = model.EstadoRegistro;
                     material.FechaModificacionLog = DateTime.Now;
                     material.TerminalModificacionLog = model.TerminalIngresoLog;
@@ -30,6 +31,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                     entities.SaveChanges();
                 }
 
+            }
+        }
+        public void GuardarMaterial(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                entities.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL.Add(model);
+                entities.SaveChanges();
             }
         }
     }
