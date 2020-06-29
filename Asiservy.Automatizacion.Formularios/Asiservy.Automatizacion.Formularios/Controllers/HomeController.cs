@@ -197,8 +197,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 MensajesNotificaciones.Add(new RespuestaGeneral { Mensaje = x.Mensaje, Observacion = "/"+x.Url });
             }
-
-            ViewBag.MensajesNotificacionesMenu = Notificaciones;
+            Session["MensajesNotificacionesMenu"] = Notificaciones;
+            //ViewBag.MensajesNotificacionesMenu = Notificaciones;
             //2020-06-25 -- FIN
 
 
