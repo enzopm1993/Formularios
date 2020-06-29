@@ -6366,9 +6366,6 @@
             <End Role="CC_CONDICION_PERSONAL_CONTROL" EntitySet="CC_CONDICION_PERSONAL_CONTROL" />
             <End Role="CC_CONDICION_PERSONAL" EntitySet="CC_CONDICION_PERSONAL" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaNotificacionesSiaa" ReturnType="Collection(ASIS_PRODModel.spConsultaNotificacionesSiaa)">
-          <Parameter Name="Cedula" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" />
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" />
           <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
@@ -6449,6 +6446,9 @@
             <Parameter Name="idControlCuchilloDetalle" Mode="In" Type="Int32" />
             <Parameter Name="idControlCuchillo" Mode="In" Type="Int32" />
             <Parameter Name="opcion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaNotificacionesSiaa" ReturnType="Collection(ASIS_PRODModel.spConsultaNotificacionesSiaa)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -11999,11 +11999,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaNotificacionesSiaa">
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <EntityType Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
           <Key>
             <PropertyRef Name="IdMapeoProductoTunelDetalle" />
@@ -12584,6 +12579,12 @@
           <Property Type="Boolean" Name="EstadoCumplimiento" Nullable="true" />
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaNotificacionesSiaa">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Cantidad" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -18094,15 +18095,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaNotificacionesSiaa" FunctionName="ASIS_PRODModel.Store.spConsultaNotificacionesSiaa">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaNotificacionesSiaa">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE">
               <MappingFragment StoreEntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE">
@@ -18604,6 +18596,16 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Control_Cuchillos_Preparacion_Detalle" FunctionName="ASIS_PRODModel.Store.sp_Control_Cuchillos_Preparacion_Detalle" />
+          <FunctionImportMapping FunctionImportName="spConsultaNotificacionesSiaa" FunctionName="ASIS_PRODModel.Store.spConsultaNotificacionesSiaa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaNotificacionesSiaa">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
