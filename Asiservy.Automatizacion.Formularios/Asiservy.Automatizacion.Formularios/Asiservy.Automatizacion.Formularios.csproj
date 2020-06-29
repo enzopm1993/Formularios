@@ -3352,6 +3352,7 @@
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
+    <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ReporteControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\ProductoPouchCuarentena\ProductoDePouchEnCuarentena.js" />
@@ -3507,6 +3508,7 @@
     <Compile Include="AccesoDatos\Nomina\ModelViewDatosEmpleados.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ClsDEntradaSalidaMateriales.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\EsterilizacionConserva\clsDEsterilizacionConserva.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\ProductoPouchCuarentena\clsDProductoPouchCuarentena.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
@@ -3582,6 +3584,7 @@
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlConsumoInsumoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProcesoController.cs" />
     <Compile Include="Controllers\PRODUCCION\ControlCuchilloController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
@@ -4191,6 +4194,8 @@
     <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurnoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimicoPartial.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialQuebradizoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
