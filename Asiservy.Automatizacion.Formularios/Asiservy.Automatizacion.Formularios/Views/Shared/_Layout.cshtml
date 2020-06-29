@@ -40,72 +40,6 @@
 </head>
 <body id="page-top">
 
-    <style>
-        .animacion {
-            -webkit-animation: tiembla 0.5s infinite;
-        }
-        @@-webkit-keyframes tiembla{
-          0%  { -webkit-transform:rotateZ(-5deg); }
-          50% { -webkit-transform:rotateZ( 0deg) scale(.8); }
-          100%{ -webkit-transform:rotateZ( 5deg); }
-        }
-
-
-        /*.animacion {
-    animation-name: parpadeo;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    -webkit-animation-name: parpadeo;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-}
-
-@@-moz-keyframes parpadeo {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-@@-webkit-keyframes parpadeo {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-@@keyframes parpadeo {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}*/
-    </style>
-
-
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -204,8 +138,7 @@
                                             }
                                             if (Menupadre.IdOpcion != Padre.Where(x => x.IdModulo == MenusModulos.IdModulo).LastOrDefault().IdOpcion)
                                             {
-                                                <br />
-                                                @*<hr style="color:black;border: solid blue;" />*@
+                                                <br />                                             
                                             }
                                         }
                                     </div>

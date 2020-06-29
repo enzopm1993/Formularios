@@ -117,3 +117,20 @@ div.absolute1 {
     background:white;
 }
 
+.animacion {
+    -webkit-animation: tiembla 0.5s infinite;
+}
+
+@-webkit-keyframes tiembla {
+    0% {
+        -webkit-transform: rotateZ(-5deg);
+    }
+
+    50% {
+        -webkit-transform: rotateZ( 0deg) scale(.8);
+    }
+
+    100% {
+        -webkit-transform: rotateZ( 5deg);
+    }
+}

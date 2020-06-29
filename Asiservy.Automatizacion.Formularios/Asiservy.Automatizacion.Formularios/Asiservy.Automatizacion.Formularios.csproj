@@ -3355,6 +3355,7 @@
     <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ReporteControlEsterilizacionConserva.js" />
+    <Content Include="Scripts\PRODUCCION\KpiProduccion\KpiEnvaseLata.js" />
     <Content Include="Scripts\PRODUCCION\ProductoPouchCuarentena\ProductoDePouchEnCuarentena.js" />
     <Content Include="Scripts\PRODUCCION\ProductoPouchCuarentena\ReporteProductoPouchCuarentena.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
@@ -3509,6 +3510,7 @@
     <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ClsDEntradaSalidaMateriales.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\EsterilizacionConserva\clsDEsterilizacionConserva.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\KpiProduccion\CldsKpiProduccion.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\ProductoPouchCuarentena\clsDProductoPouchCuarentena.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDModulo.cs" />
@@ -3599,6 +3601,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PRODUCCION\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PRODUCCION\KpiProduccionController.cs" />
     <Compile Include="Controllers\PRODUCCION\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MarcacionesController.cs" />
     <Compile Include="Controllers\MemorandumController.cs" />
@@ -4194,6 +4197,7 @@
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\KpiProduccion\KpiEnvaseLata.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
