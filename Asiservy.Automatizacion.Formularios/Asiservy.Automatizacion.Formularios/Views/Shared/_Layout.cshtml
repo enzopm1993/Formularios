@@ -1,4 +1,5 @@
 ﻿@using Asiservy.Automatizacion.Formularios.Models.Seguridad;
+@using Asiservy.Automatizacion.Datos.Datos;
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +40,72 @@
 </head>
 <body id="page-top">
 
+    <style>
+        .animacion {
+            -webkit-animation: tiembla 0.5s infinite;
+        }
+        @@-webkit-keyframes tiembla{
+          0%  { -webkit-transform:rotateZ(-5deg); }
+          50% { -webkit-transform:rotateZ( 0deg) scale(.8); }
+          100%{ -webkit-transform:rotateZ( 5deg); }
+        }
+
+
+        /*.animacion {
+    animation-name: parpadeo;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: parpadeo;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@@-moz-keyframes parpadeo {
+    0% {
+        opacity: 1.0;
+    }
+
+    50% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 1.0;
+    }
+}
+
+@@-webkit-keyframes parpadeo {
+    0% {
+        opacity: 1.0;
+    }
+
+    50% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 1.0;
+    }
+}
+
+@@keyframes parpadeo {
+    0% {
+        opacity: 1.0;
+    }
+
+    50% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 1.0;
+    }
+}*/
+    </style>
+
+
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -51,10 +118,10 @@
 
             Hijo = (List<ConsultaOpcionesxRolViewModel>)Session["Hijo"];
 
-            
-
             List<ModuloViewModel> Modulos = new List<ModuloViewModel>();
             Modulos = (List<ModuloViewModel>)Session["Modulos"];
+
+            List<spConsultaNotificacionesSiaa> notificaciones = (List<spConsultaNotificacionesSiaa>)ViewBag.MensajesNotificacionesMenu;
 
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
@@ -108,11 +175,22 @@
                                             {
                                                 foreach (var MenuHijo in Hijo.Where(x => x.Padre == Menupadre.IdOpcion))
                                                 {
-                                                    <div>
+                                            <div class="">
+                                                @{
+                                                    var noti = notificaciones.FirstOrDefault(x => x.Url == MenuHijo.Url);
+                                                    if (noti != null)
+                                                    {
+                                                <a class="collapse-item border-top " href="/@MenuHijo.Url"><span class="animacion badge badge-danger">@noti.Cantidad</span> <text style="font-size:10px"> @MenuHijo.Nombre.ToUpper() </text></a>
 
-                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text style="font-size:10px">@MenuHijo.Nombre.ToUpper()</text></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text style="font-size:10px">@MenuHijo.Nombre.ToUpper()  </text></a>
 
-                                                    </div>
+                                                    }
+                                                }
+
+                                            </div>
                                                 }
 
                                             }
@@ -623,7 +701,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=2.0";
+        string url = "/Scripts/" + js + ".js?v=2.1";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>

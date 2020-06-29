@@ -16,5 +16,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int Id { get; set; }
         public string Url { get; set; }
         public string Mensaje { get; set; }
+        public Nullable<int> Cantidad { get; set; }
     }
 }

@@ -4,6 +4,7 @@ $(document).ready(function () {
 });
 
 //CARGAR BANDEJA
+
 function CargarBandeja() {
     var dateAux = '';
     dateAux = $('#fechaHasta').val() + ' 23:59';

@@ -176,14 +176,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         {
             try
             {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                lsUsuario = User.Identity.Name.Split('_');
+               
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                //model.EstadoReporte = false;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
