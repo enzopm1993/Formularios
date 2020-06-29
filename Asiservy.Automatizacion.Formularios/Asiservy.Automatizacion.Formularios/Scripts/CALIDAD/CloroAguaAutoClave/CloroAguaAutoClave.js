@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     ConsultarControl();
     $("#txtCloro").mask("9?.99");
+    $("#txtCloro2").mask("9?.99");
 });
 
 function ValidaEstadoReporte(Fecha) {
@@ -77,17 +78,7 @@ function ConsultarControl() {
 
 function SeleccionarControl(model) {
    // console.log(model);
-    $("#txtFecha").prop("disabled", true);
-    $("#txtIdCloroAguaAutoclave").val(model.IdCloroAguaAutoclave);
-    $("#txtHora").val(moment(model.Hora).format("YYYY-MM-DDTHH:mm"));
-    $("#txtObservacion").val(model.Observacion);
-    $("#txtParada").val(model.Parada);
-    $("#txtProducto").val(model.Producto);
-    $("#txtTemperatura").val(model.Temperatura);
-    $("#txtCloro").val(model.Cloro);
-    $("#selectAutoclave").val(model.Autoclave);
-    $("#selectConserva").val(model.TipoConserva);
-    $("#btnEliminar").prop("hidden", false);
+   
 }
 
 function NuevoControl() {
@@ -101,8 +92,36 @@ function NuevoControl() {
     $("#txtCloro").val('');
     $("#selectAutoclave").prop("selectedIndex", 0);
     $("#selectConserva").prop("selectedIndex", 0);
-    $("#btnEliminar").prop("hidden", true);
 
+    $("#txtFecha").css('borderColor', '#ced4da');
+    $("#txtHora").css('borderColor', '#ced4da');
+    $("#txtParada").css('borderColor', '#ced4da');
+    $("#txtProducto").css('borderColor', '#ced4da');
+    $("#txtTemperatura").css('borderColor', '#ced4da');
+    $("#txtCloro").css('borderColor', '#ced4da');
+    $("#selectAutoclave").css('borderColor', '#ced4da');
+    $("#selectConserva").css('borderColor', '#ced4da');
+
+}
+
+function NuevoControlEdita() {
+    $("#txtIdCloroAguaAutoclave").val('0');
+    $("#txtHora2").val(moment().format("YYYY-MM-DDTHH:mm"));
+    $("#txtObservacion2").val('');
+    $("#txtParada2").val('');
+    $("#txtProducto2").val('');
+    $("#txtTemperatura2").val('');
+    $("#txtCloro2").val('');
+    $("#selectAutoclave2").prop("selectedIndex", 0);
+    $("#selectConserva2").prop("selectedIndex", 0);
+
+    $("#txtHora2").css('borderColor', '#ced4da');
+    $("#txtParada2").css('borderColor', '#ced4da');
+    $("#txtProducto2").css('borderColor', '#ced4da');
+    $("#txtTemperatura2").css('borderColor', '#ced4da');
+    $("#txtCloro2").css('borderColor', '#ced4da');
+    $("#selectAutoclave2").css('borderColor', '#ced4da');
+    $("#selectConserva2").css('borderColor', '#ced4da');
 }
 
 function Validar() {
@@ -229,6 +248,148 @@ function GuardarControl() {
 }
 
 
+function EditarControl(model)
+{
+    NuevoControlEdita();
+    $("#modalEditar").modal("show");
+    $("#txtIdCloroAguaAutoclave").val(model.IdCloroAguaAutoclave);
+    $("#txtHora2").val(moment(model.Hora).format("YYYY-MM-DDTHH:mm"));
+    $("#txtObservacion2").val(model.Observacion);
+    $("#txtParada2").val(model.Parada);
+    $("#txtProducto2").val(model.Producto);
+    $("#txtTemperatura2").val(model.Temperatura);
+    $("#txtCloro2").val(model.Cloro);
+    $("#selectAutoclave2").val(model.Autoclave);
+    $("#selectConserva2").val(model.TipoConserva);
+    $("#btnEliminar2").prop("hidden", false);
+
+}
+
+function ValidarEdita() {
+    var valida = true;
+
+    if ($("#txtHora2").val() == "") {
+        $("#txtHora2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtHora2").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtParada2").val() == "") {
+        $("#txtParada2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtParada2").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectAutoclave2").val() == "") {
+        $("#selectAutoclave2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectAutoclave2").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtProducto2").val() == "") {
+        $("#txtProducto2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtProducto2").css('borderColor', '#ced4da');
+    }
+    if ($("#txtTemperatura2").val() == "") {
+        $("#txtTemperatura2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtTemperatura2").css('borderColor', '#ced4da');
+    }
+    
+    if ($("#txtCloro2").val() == "") {
+        $("#txtCloro2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCloro2").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectConserva2").val() == "") {
+        $("#selectConserva2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectConserva2").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+
+function GuardarControlEdita() {
+    if (!ValidarEdita()) {
+        return;
+    }
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+        $("#txtFecha").val("");
+        MensajeAdvertencia("Fecha no permitida");
+        return;
+    }
+    MostrarModalCargando();
+    $.ajax({
+        url: "../CloroAguaAutoclave/CloroAguaAutoclave",
+        type: "POST",
+        data: {
+            IdCloroAguaAutoclave: $("#txtIdCloroAguaAutoclave").val(),
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
+            Hora: $("#txtHora2").val(),
+            Parada: $("#txtParada2").val(),
+            Autoclave: $("#selectAutoclave2").val(),
+            TipoConserva: $("#selectConserva2").val(),
+            Producto: $("#txtProducto2").val(),
+            Temperatura: $("#txtTemperatura2").val(),
+            Cloro: $("#txtCloro2").val(),
+            Observacion: $("#txtObservacion2").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CerrarModalCargando();
+
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+            if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                NuevoControlEdita();
+                ConsultarControl();
+            }
+            $("#modalEditar").modal("hide");
+            //  $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            CerrarModalCargando();
+        }
+    });
+
+    //alert("generado");
+}
+
+
 
 function InactivarControl() {
     $.ajax({
@@ -252,7 +413,7 @@ function InactivarControl() {
                 MensajeAdvertencia(Mensajes.ControlAprobado);
             } else {
                 ConsultarControl();
-                NuevoControl();
+                NuevoControlEdita();
             }
             $("#modalEliminarControl").modal("hide");
         },
@@ -264,14 +425,12 @@ function InactivarControl() {
     });
 }
 
-function EliminarControl() {
+function EliminarControl(model) {
     //  $("#txtEliminarDetalle").val($("#txtIdCloroAguaAutoclave").val());
     //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
-    if ($("#txtIdCloroAguaAutoclave").val() > 0) {
+    $("#txtIdCloroAguaAutoclave").val(model.IdCloroAguaAutoclave);
         $("#modalEliminarControlDetalle").modal('show');
-    } else {
-        MensajeAdvertencia("Seleccione un control.");
-    }
+   
 }
 
 $("#modal-detalle-si").on("click", function () {

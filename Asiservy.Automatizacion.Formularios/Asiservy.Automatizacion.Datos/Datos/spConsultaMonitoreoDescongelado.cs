@@ -14,6 +14,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class spConsultaMonitoreoDescongelado
     {
         public int IdMonitoreoDescongelado { get; set; }
+        public int IdMonitoreoDescongeladoControl { get; set; }
         public System.DateTime Fecha { get; set; }
         public string Turno { get; set; }
         public string Tanque { get; set; }

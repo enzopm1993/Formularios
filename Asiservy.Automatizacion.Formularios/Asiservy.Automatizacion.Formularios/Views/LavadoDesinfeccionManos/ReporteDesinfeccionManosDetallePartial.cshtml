@@ -4,26 +4,19 @@
 <table class="table table-bordered" id="tblDataTable">
     <thead style="height:15px; font-size:12px">
         <tr>
-            @*<th style="border-right:0.4px solid #e3e6f0"></th>
-            <th style="border-right:0.4px solid #e3e6f0"></th>*@
             <th></th>
             <th style="border:0.4px solid #e3e6f0" colspan="5"><center>LIMIEZA DE ATUN</center></th>
             <th><center>EMPAQUE</center></th>
             <th colspan="2" style="border:0.4px solid #e3e6f0"><center>CONSERVAS</center></th>
-            @*<th style="border-right:0.4px solid #e3e6f0"></th>
-            <th></th>*@
         </tr>
         <tr>
             
-            <th style="border-right:0.4px solid #e3e6f0">
-                HORA
+            <th style="border-right:0.4px solid #e3e6f0; text-align:center">
+                FECHA-HORA
             </th>
-            @*<th>
-                OBSERVACION
-            </th>*@
             @foreach (var item in ViewBag.cabeceraTable)
             {
-                <th style="border:0.4px solid #e3e6f0">
+                <th style="border:1px solid #e3e6f0">
                     @item.Descripcion.ToUpper()
                 </th>
             }
@@ -46,17 +39,9 @@
                                where x.Hora == subListaHora.Hora
                                select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.UsuarioModificacionLog, x.EstadoReporteCB}).ToList();
         <tr>
-            <td>
-                @subListaHora.Hora.ToString("HH:mm")
+            <td style="text-align:center;font-size:10px">
+                <b>@subListaHora.Hora.ToString("dd-MM-yyyy HH:mm")</b>
             </td>
-            @*@if (!string.IsNullOrEmpty(subListaHora.Observacion))
-        {
-            <td>@subListaHora.Observacion.ToUpper()</td>
-        }
-        else
-        {
-            <td></td>
-        }*@
             @foreach (var lc in listaColumnasCabecera)
             {
                 int dibujarTDDiNo = 0;

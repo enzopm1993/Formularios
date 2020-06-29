@@ -25,7 +25,13 @@
             <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
         </div>
     </div>
-    <div class="col-md-2 col-12  text-md-left text-center">
+    <div class="col-md-2 col-12 col-sm-12">
+        <label>TURNO</label>
+        <div class="form-group">
+            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera(0)" })
+        </div>
+    </div>
+    <div class="col-md-12 col-12 col-sm-12 text-md-center text-center">
         <label class="" id="lblAcciones">Acciones</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear/Actualizar registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">

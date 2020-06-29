@@ -7,6 +7,10 @@
     input, select, textarea {
         max-width: 100%;
     }
+    .btn-link:hover {
+        color: white;
+        text-decoration: underline;
+    }
       
 </style>
 
@@ -113,10 +117,7 @@
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
 
-            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/cancel24.png" />
-            </button>
-
+         
 
         </div>
     </div>
@@ -159,3 +160,87 @@
 
 
 
+<div class="modal" tabindex="-1" role="dialog" id="modalEditar">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="datetime-local" class="form-control" id="txtHora2" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-4 col-sm-6">
+                        <div class="form-group">
+                            <label>Parada</label>
+                            <input type="number" class="form-control" id="txtParada2" autocomplete="off" min="0" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-4 col-sm-6">
+                        <div class="form-group">
+                            <label>Autoclave</label>
+                            @if (ViewBag.AutoClaves != null)
+                            {
+                                @Html.DropDownList("selectAutoclave2", new SelectList(ViewBag.AutoClaves, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            }
+                            else
+                            {
+                                <select class="form-control" id="selectAutoclave2">
+                                    <option value="">Sin registros, Clasificador(Grupo:019)</option>
+                                </select>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-4 col-sm-6">
+                        <div class="form-group">
+                            <label>Conserva</label>
+                            <select class="form-control" id="selectConserva2">
+                                <option value="">Seleccione</option>
+                                <option value="P">Pouch</option>
+                                <option value="L">Latas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-8 col-sm-6">
+                        <div class="form-group">
+                            <label>Producto</label>
+                            <input type="text" maxlength="100" class="form-control" autocomplete="off" id="txtProducto2" min="0" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-4 col-sm-6">
+                        <div class="form-group">
+                            <label>Temperatura</label>
+                            <input type="number" class="form-control" id="txtTemperatura2" autocomplete="off" min="0" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cloro</label>
+                            <input type="text" class="form-control" id="txtCloro2" autocomplete="off" min="0" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label class="label-control"> Observacion</label>
+                            <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion2" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarControlEdita()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

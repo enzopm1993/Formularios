@@ -6,13 +6,19 @@ $(document).ready(function () {
 //CARGAR BANDEJA
 function CargarBandeja() {
     $('#cargac').show();
-    
+    var op = 2;
+    document.getElementById('divFiltroFecha').hidden = true;
+    if ($('#selectEstadoReporte').val() == 'true') {
+        op = 0;
+        document.getElementById('divFiltroFecha').hidden = false;
+    } 
     $.ajax({
         url: "../ControlCuchillosPreparacion/BandejaCuchilloPreparacionPartial",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            estado: $('#selectEstadoReporte').val()
+            estado: $('#selectEstadoReporte').val(),
+            op:op
         },
         type: "GET",
         success: function (resultado) {

@@ -5,6 +5,7 @@ var siActualizar = false;
 var eliminarDetalle = [];
 var accionCorrectiva = [];
 $(document).ready(function () {
+    document.getElementById('selectTurno').value = 0;
     CargarCabecera();
     $('.js-example-basic-single').select2();
     $('#selectAreaAuditarFiltro').select2({
@@ -19,9 +20,10 @@ $(document).ready(function () {
 
 function ConsultarEstadoRegistro() {
     $.ajax({
-        url: "../LimpiezaDesinfeccionPlanta/ConsultarEstadoReporte",
+        url: "../LimpiezaDesinfeccionPlanta/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val()
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
         },
         type: "GET",
         success: function (resultado) {
@@ -45,9 +47,10 @@ function CargarCabecera() {
         return;
     }
     $.ajax({
-        url: "../LimpiezaDesinfeccionPlanta/ConsultarEstadoReporte",
+        url: "../LimpiezaDesinfeccionPlanta/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val()
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
         },
         type: "GET",
         success: function (resultado) {
@@ -72,6 +75,7 @@ function CargarCabecera() {
                 $('#divBotonCrear').prop('hidden', true);
                 $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
                 $("#txtObservacionVer").val(resultado.ObservacionControl);
+                document.getElementById('selectTurno').value = resultado.Turno;
                 $('#txtInspectorVer').val(resultado.UsuarioIngresoLog);
                 $('#selectAreaAuditarFiltro').val('galo').trigger('change');             
                 CargarDetalle(1);                
@@ -102,6 +106,7 @@ function GuardarCabecera(siAprobar) {
                     IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta,
                     Fecha: $("#txtIngresoFecha").val(),    
                     ObservacionControl: $("#txtIngresoObservacion").val(),
+                    Turno: document.getElementById('selectTurnoIngresar').value,
                     siAprobar: siAprobar
                 },
                 success: function (resultado) {
@@ -116,9 +121,17 @@ function GuardarCabecera(siAprobar) {
                         MensajeAdvertencia('Error al ingresar la FECHA  : <span class="badge badge-danger">' + moment($("#txtIngresoFecha").val()).format('DD-MM-YYYY') + '</span>');
                         return;
                     } else if (resultado == 4) {
+                        var e = document.getElementById("selectTurnoIngresar");
+                        var strUser = e.options[e.selectedIndex].text;
+                        MensajeAdvertencia('Error el TURNO ya esta ingresado  : <span class="badge badge-danger">' + strUser + '</span>');
+                        $('#cargac').hide();
+                        return;
+                    } else if (resultado == 5) {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                        $('#cargac').hide();
                         return;
                     }
+                    document.getElementById('selectTurno').value = document.getElementById('selectTurnoIngresar').value;
                     $('#ModalIngresoCabecera').modal('hide');
                     $('#divBotonesCRUD').prop('hidden', false);
                     $('#divMostarTablaDetalle').prop('hidden', false);
@@ -200,7 +213,7 @@ function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-function ActualizarCabecera() {
+function ActualizarCabecera() {    
     ConsultarEstadoRegistro();
     setTimeout(function () {
         if (estadoReporte == true) {
@@ -209,7 +222,8 @@ function ActualizarCabecera() {
         } else {
             LimpiarModalIngresoCabecera();
             $("#txtIngresoFecha").val(moment(itemEditar.Fecha).format("YYYY-MM-DD"));
-            $("#txtIngresoObservacion").val(itemEditar.ObservacionControl);
+            $("#txtIngresoObservacion").val(itemEditar.ObservacionControl);        
+            document.getElementById('selectTurnoIngresar').value = itemEditar.Turno;
             $("#txtIngresoInspector").val(itemEditar.UsuarioIngresoLog);
             $('#ModalIngresoCabecera').modal('show');
         }
@@ -219,6 +233,7 @@ function ActualizarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
     itemEditar = [];
 }
 
@@ -256,7 +271,6 @@ function CargarDetalle(op) {
         data: {
             idLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta,
             op: op,
-            turno: $('#selectTurnoFiltro').val(),
             idAuditoria: $('#selectAreaAuditarFiltro').val()
         },
         type: "GET",
@@ -297,7 +311,7 @@ function ModalIngresoDetalleV() {
 
 function ModalIngresoDetalle() {
     //var estadoRegistro = 'A';
-    $('#selectTurno').val($('#selectTurnoFiltro').val())
+    //$('#selectTurno').val($('#selectTurnoFiltro').val())
     //$.ajax({
     //    url: "../LimpiezaDesinfeccionPlanta/ConsultarAreaAuditoriaActivos",
     //    type: "GET",
@@ -321,7 +335,7 @@ function ModalIngresoDetalle() {
                 $('#selectAreaAuditar').prop('disabled', false);
                 setTimeout(function () {
                     var date = new Date();
-                    document.getElementById('txtIngresoFechaDetalle').value = moment(date).format('HH:mm');
+                    document.getElementById('txtIngresoFechaDetalle').value = moment(date).format('YYYY-MM-DDTHH:mm');
                     $('#ModalIngresoDetalle').modal('show');
                     siActualizar = false;
                     $('#cargac').hide();
@@ -376,7 +390,7 @@ function GuardarDetalle(jdata) {
                 detalle.Limpieza = document.getElementById('selectLimpieza-' + rowMantenimiento.IdObjeto).value;
                 detalle.Desinfeccion = document.getElementById('selectDesinfeccion-' + rowMantenimiento.IdObjeto).value;
                 detalle.ObservacionDetalle = document.getElementById('txtObservacionDetalle-' + rowMantenimiento.IdObjeto).value;
-                detalle.Turno = document.getElementById('selectTurno').value;
+                //detalle.Turno = document.getElementById('selectTurno').value;
                 detalle.IdLimpiezaDesinfeccionPlanta = itemEditar.IdLimpiezaDesinfeccionPlanta;
                 detalle.IdMantenimiento = rowMantenimiento.IdMantenimiento;
                 detalle.IdDetalle = document.getElementById('txtIdDetalle-' + rowMantenimiento.IdObjeto).value;
@@ -413,7 +427,7 @@ function GuardarDetalle(jdata) {
                         $('#cargac').hide();
                         return;
                     }
-                    $('#selectTurnoFiltro').val($('#selectTurno').val());
+                    //$('#selectTurnoFiltro').val($('#selectTurno').val());
                     $('#selectAreaAuditarFiltro').val($('#selectAreaAuditar').val()).trigger('change');
 
                     CargarDetalle(2);
@@ -442,14 +456,14 @@ function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL LimpiezaDesinfecci
             setTimeout(function () {
                 $('#selectAreaAuditar').val(jdata[0].IdAuditoria).trigger('change');
                 $('#selectAreaAuditar').prop('disabled',true);
-                $('#selectTurno').val(jdata[0].Turno);
-                document.getElementById('txtIngresoFechaDetalle').value = moment(jdata[0].HoraAuditoria).format('HH:mm');
+                //$('#selectTurno').val(jdata[0].Turno);
+                document.getElementById('txtIngresoFechaDetalle').value = moment(jdata[0].HoraAuditoria).format('YYYY-MM-DDTHH:mm');
                 setTimeout(function () {
                     jdata.forEach(function (rowMantenimiento) {
                         document.getElementById('selectLimpieza-' + rowMantenimiento.IdObjeto).value = rowMantenimiento.Limpieza;
                         document.getElementById('selectDesinfeccion-' + rowMantenimiento.IdObjeto).value = rowMantenimiento.Desinfeccion;
                         document.getElementById('txtObservacionDetalle-' + rowMantenimiento.IdObjeto).value = rowMantenimiento.ObservacionDetalle;
-                        document.getElementById('selectTurno').value = rowMantenimiento.Turno;
+                        //document.getElementById('selectTurno').value = rowMantenimiento.Turno;
                         document.getElementById('txtIdDetalle-' + rowMantenimiento.IdObjeto).value = rowMantenimiento.IdDetalle;
                     });
                     siActualizar = true;

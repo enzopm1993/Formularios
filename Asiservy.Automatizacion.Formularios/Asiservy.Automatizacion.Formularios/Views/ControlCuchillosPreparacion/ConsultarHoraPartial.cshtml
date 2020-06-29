@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CUCHILLOS_PREPARACION_HORA>
 @using Newtonsoft.Json;
 
-<table class="table table-bordered table-striped" id="tblCargarHora">
+<table style="width:100%" class="table table-bordered table-striped" id="tblCargarHora">
     <thead style="font-size:12px">
         <tr>
             <th>
-                HORA
+                FECHA-HORA
             </th>
             <th>
                 DESCRIPCION
@@ -24,9 +24,9 @@
         {
             <tr>
                 <td>
-                    @item.Hora.ToString("HH:mm")
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
-                <td>
+                <td style="white-space:normal">
                     @if (!string.IsNullOrEmpty(item.Descripcion))
                     {
                         @item.Descripcion.ToUpper()

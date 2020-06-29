@@ -12,19 +12,21 @@ $(document).ready(function () {
 function CargarBandeja() {
     $('#cargac').show();
     var op = 3;
+    document.getElementById('divFiltroFecha').hidden = true;
     if ($('#selectEstadoReporte').val() == 'true') {
         op = 2;
+        document.getElementById('divFiltroFecha').hidden = false;
     }
     var table = $("#tblDataTableDetalle");
     table.DataTable().clear();
     table.DataTable().destroy();
     table.DataTable().draw();
     $.ajax({
-        url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
+        url: "../LavadoDesinfeccionManos/BandejaLavadoDesinfeccionManosJson",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            opcion: op
+            op: op
         },
         type: "GET",
         success: function (resultado) {
@@ -44,6 +46,7 @@ function CargarBandeja() {
                     { data: 'Fecha' },
                     { data: 'Observacion' },
                     { data: 'UsuarioIngresoLog' },
+                    { data: 'tr' },
                     { data: 'EstadoReporteControl' }
                 ];
                 table.DataTable().destroy();

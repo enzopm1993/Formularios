@@ -8,7 +8,7 @@
                      group ssi by new { ssi.Hora, ssi.Fecha } into g
                      select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
 }
-<table class="table table-bordered table-hover" style="cursor: pointer" id="tblDataTable">
+<table class="table table-bordered" style="cursor: pointer" id="tblDataTable">
     <thead style="font-size:11px">
         <tr>
             <th>

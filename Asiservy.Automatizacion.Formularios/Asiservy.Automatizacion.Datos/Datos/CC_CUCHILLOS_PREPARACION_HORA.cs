@@ -32,8 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_CUCHILLOS_PREPARACION_CTRL CC_CUCHILLOS_PREPARACION_CTRL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_CUCHILLOS_PREPARACION_CTRL_DET> CC_CUCHILLOS_PREPARACION_CTRL_DET { get; set; }
+        public virtual CC_CUCHILLOS_PREPARACION_CTRL CC_CUCHILLOS_PREPARACION_CTRL { get; set; }
     }
 }

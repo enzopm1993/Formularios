@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdDesinfeccionManos { get; set; }
         public System.DateTime Fecha { get; set; }
         public Nullable<System.DateTime> Hora { get; set; }
+        public int Turno { get; set; }
         public string Observacion { get; set; }
         public bool EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
@@ -34,7 +35,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobado { get; set; }
-        public int Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
