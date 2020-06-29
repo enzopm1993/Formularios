@@ -4,14 +4,18 @@
 
 function Limpiar() {
     $("#txtIdMaterial").val('');
-    $("#SelectMaterial").prop("selectedIndex",0);
+    //$("#SelectMaterial").prop("selectedIndex",0);
     $("#txtNombre").val('');
+    $("#txtDescripcion").val('');
+    $("#txtIdMaterial").val("0");
+
 }
 
 function CargarMaterial(model) {
    // console.log(model);
     $("#txtIdMaterial").val(model.IdMaterial);
-    $("#SelectMaterial").val(model.Codigo);
+    //$("#SelectMaterial").val(model.Codigo);
+    $("#txtDescripcion").val(model.Descripcion);
     $("#txtNombre").val(model.Nombre);
     if (model.EstadoRegistro == "A") {
         CambioEstado(true);
@@ -36,13 +40,14 @@ function CargarMateriales() {
     $('#Mensaje').html('');
 
     $.ajax({
-        url: "../EntradaySalidaDeMaterialesEnAreasDeProceso/MantenimientoMaterialQuebradizoPartial",
+        url: "../EntradaySalidaDeMaterialesEnAreasDeProceso/MantenimientoMaterialPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             } else if (resultado == "0") {
                 $('#Mensaje').html('<h3 class="text-warning">No existen registros.</h3>');
+                $("#spinnerCargando").prop("hidden", true);
                 return;
             }
             var div = $('#DivTableMateriales');
@@ -62,11 +67,11 @@ function CargarMateriales() {
 
 
 function GuargarMaterial() {
-    if ($("SelectMaterial").val() == "") {
-        $("SelectMaterial").css("border-color", "#DC143C");
-        return;
-    }
-    $("SelectMaterial").css("border-color", "#d1d3e2");
+    //if ($("SelectMaterial").val() == "") {
+    //    $("SelectMaterial").css("border-color", "#DC143C");
+    //    return;
+    //}
+    //$("SelectMaterial").css("border-color", "#d1d3e2");
     var Estado = $("#CheckEstadoRegistro").prop('checked');
     if (Estado == true)
         Estado = "A";
@@ -74,11 +79,12 @@ function GuargarMaterial() {
         Estado = "I";
 
     $.ajax({
-        url: "../EntradaySalidaDeMaterialesEnAreasDeProceso/MantenimientoMaterialQuebradizo",
+        url: "../EntradaySalidaDeMaterialesEnAreasDeProceso/MantenimientoMaterial",
         type: "POST",
         data: {
             IdMaterial: $("#txtIdMaterial").val(),
             Nombre: $("#txtNombre").val(),
+            Descripcion: $("#txtDescripcion").val(),
             EstadoRegistro: Estado
         },
         success: function (resultado) {

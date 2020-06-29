@@ -238,14 +238,12 @@ function Mover(result) {
                 $('#BodyMensajeCp').html(resultado);
             }
             
-
-            $('#ModalMensajeCP').modal('show');
             if ($('#optcambiaremp').val() == 'prestar') {
                 ConsultarEmpleados();
             } else {
                 ConsultarEmpleadosRegresar();
             }
-            
+            $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {

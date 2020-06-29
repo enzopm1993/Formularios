@@ -63,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         [Authorize]
         [HttpPost]
-        public ActionResult MantenimientoMaterialQuebradizo(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
+        public ActionResult MantenimientoMaterial(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
         {
             try
             {
@@ -75,7 +75,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ClsDEntradaSalidaMateriales = new ClsDEntradaSalidaMateriales();
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                ClsDEntradaSalidaMateriales.ModificarMaterialQuebradizo(model);
+                model.FechaIngresoLog = DateTime.Now;
+                if (model.IdMaterial == 0)
+                {
+                    ClsDEntradaSalidaMateriales.GuardarMaterial(model);
+                }
+                else
+                {
+                    ClsDEntradaSalidaMateriales.ModificarMaterial(model);
+                }
+                
                 return Json("Registro exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -99,7 +108,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public ActionResult MantenimientoMaterialQuebradizoPartial()
+        public ActionResult MantenimientoMaterialPartial()
         {
             try
             {
