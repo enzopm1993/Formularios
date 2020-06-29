@@ -3,24 +3,22 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebradizo;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class ControlMaterialQuebradizoController : Controller
     {
-        string[] lsUsuario;
-        clsDError clsDError = null;
-        clsDControlMaterialQuebradizo clsDControlMaterialQuebradizo = null;
-        clsDGeneral clsDGeneral = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDLogin clsDLogin = null;
-        clsDClasificador clsDClasificador = null;
+        string[] lsUsuario { get; set; }
+        clsDError clsDError { get; set; } = null;
+        clsDControlMaterialQuebradizo clsDControlMaterialQuebradizo { get; set; } = null;
+        clsDGeneral clsDGeneral { get; set; } = null;
+        clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {

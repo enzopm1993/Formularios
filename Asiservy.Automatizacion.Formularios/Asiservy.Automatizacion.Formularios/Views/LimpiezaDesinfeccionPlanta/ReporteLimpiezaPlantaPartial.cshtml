@@ -1,6 +1,21 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>
 @using Newtonsoft.Json;
 @using Asiservy.Automatizacion.Datos.Datos;
+
+<style>
+    textarea {
+        font-size: 11px;
+        border: none;
+        resize: none;
+        overflow: hidden;
+        min-height: 0px;
+        width: 500px;
+        background: none;
+        padding-top: 10px;
+        padding-bottom: 0.1rem;
+        vertical-align: middle;
+    }
+</style>
 <table class="table table-bordered table-hover table-striped" id="tblDataTable">
     <thead style="font-size:14px">
         <tr>
@@ -36,10 +51,10 @@
                 <td>
                     @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
-                <td style="white-space:normal">
+                <td>
                     @if (!string.IsNullOrEmpty(item.ObservacionControl))
                     {
-                        @item.ObservacionControl.ToUpper()
+                    <textarea type="text" name="name" disabled oninput="auto_grow(this)" id="note">@item.ObservacionControl.ToUpper()</textarea>
                     }
                 </td>
                 <td>

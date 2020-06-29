@@ -5,12 +5,13 @@ var siActualizar = false;
 var eliminarDetalle = [];
 var accionCorrectiva = [];
 $(document).ready(function () {
-    document.getElementById('selectTurno').value = 0;
+    //document.getElementById('selectTurno').value = 0;
     CargarCabecera();
     $('.js-example-basic-single').select2();
     $('#selectAreaAuditarFiltro').select2({
         width: '100%'
     });
+    
     var x = document.getElementById("selectAreaAuditarFiltro");
     var option = document.createElement("option");
     option.text = 'TODOS LOS RESGISTROS';
@@ -64,6 +65,7 @@ function CargarCabecera() {
                 $('#divBotonCrearDetalle').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').html(resultado);
+                CambiarMensajeEstado(false);
                 itemEditar = 0;
                 LimpiarModalIngresoCabecera();
             } else {
@@ -233,6 +235,7 @@ function ActualizarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
     itemEditar = [];
 }
 

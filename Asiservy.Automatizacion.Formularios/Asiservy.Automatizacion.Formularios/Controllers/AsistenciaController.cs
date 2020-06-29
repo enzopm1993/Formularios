@@ -1475,28 +1475,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (tipo=="prestar" &&(dCedulas.Count()==0 &&string.IsNullOrEmpty(dlinea)&& string.IsNullOrEmpty(darea)&& string.IsNullOrEmpty(drecurso)&& string.IsNullOrEmpty(dcargo)))
+                if (tipo == "prestar" && (dCedulas.Count() == 0 && string.IsNullOrEmpty(dlinea) && string.IsNullOrEmpty(darea) && string.IsNullOrEmpty(drecurso) && string.IsNullOrEmpty(dcargo)))
                 {
                     return Json("5555", JsonRequestBehavior.AllowGet);
                 }
-                if (tipo == "regresar" && (dCedulas.Count() == 0 && string.IsNullOrEmpty(dlinea) && string.IsNullOrEmpty(darea) && string.IsNullOrEmpty(drecurso) && string.IsNullOrEmpty(dcargo)&& dhora==null))
+                if (tipo == "regresar" && (dCedulas.Count() == 0 && string.IsNullOrEmpty(dlinea) && string.IsNullOrEmpty(darea) && string.IsNullOrEmpty(drecurso) && string.IsNullOrEmpty(dcargo) && dhora == null))
                 {
                     return Json("5555", JsonRequestBehavior.AllowGet);
                 }
                 //List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
                 List<spConsutaEmpleadosCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosCambioPersonal>;
-                
+
 
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
                 //List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();
-                
+
                 string psRespuesta = string.Empty;
+                
                 if (dCedulas != null && dCedulas.Length > 0)
                 {
                     foreach (var pscedulas in dCedulas)
                     {
                         if (!string.IsNullOrEmpty(pscedulas))
                         {
+                            var a = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOAREA;
+                            var b = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOLINEA;
+                            var c = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).RECURSO;
+                            var d = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOCARGO;
                             pListCambioPersonal.Add(new CAMBIO_PERSONAL
                             {
                                 Cedula = pscedulas,
@@ -1554,18 +1559,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
