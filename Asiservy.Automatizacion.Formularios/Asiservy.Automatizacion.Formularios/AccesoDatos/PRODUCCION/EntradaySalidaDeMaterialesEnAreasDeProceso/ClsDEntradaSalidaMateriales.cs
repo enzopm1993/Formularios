@@ -58,7 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.ENTRADA_SALIDA_MATERIAL_CABECERA.Where(x => x.Fecha == poCabeceraControl.Fecha &&
-                x.Turno == poCabeceraControl.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                x.Turno == poCabeceraControl.Turno&&x.Linea==poCabeceraControl.Linea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.ENTRADA_SALIDA_MATERIAL_CABECERA.Add(poCabeceraControl);
