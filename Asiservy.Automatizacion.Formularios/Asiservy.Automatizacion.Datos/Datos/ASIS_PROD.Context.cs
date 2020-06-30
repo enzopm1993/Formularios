@@ -199,6 +199,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_DETALLE> ENTRADA_SALIDA_MATERIAL_DETALLE { get; set; }
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_SUBDETALLE> ENTRADA_SALIDA_MATERIAL_SUBDETALLE { get; set; }
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL> ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL { get; set; }
+        public virtual DbSet<CC_PARAMETRO_CALIDAD> CC_PARAMETRO_CALIDAD { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

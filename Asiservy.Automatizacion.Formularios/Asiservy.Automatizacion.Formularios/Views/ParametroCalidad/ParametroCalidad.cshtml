@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ParametroCalidad";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .btn-link:hover {
+        color: white;
+        text-decoration: underline;
+    }
+</style>
+
+<h4>Parametros de Calidad</h4>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR REGISTRO*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEditarControl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Editar Parametro de Calidad</h4>
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <DIV class="modal-body">
+
+                <hr />
+                <div class="" id="divCabecera" style="padding:10px">
+                    <div class="row" id="divCabecera1">
+
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Id</label>
+                                <input type="text" disabled class="form-control" id="txtIdControl" name="name" value="0" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-10 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Descripción</label>
+                                <input type="text" class="form-control" maxlength="150" id="txtDescripcion" autocomplete="off" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Minimo</label>
+                                <input type="number" class="form-control" id="txtMinimo" autocomplete="off" name="name" value="" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Minimo</label>
+                                <input type="number" class="form-control" id="txtMaximo" autocomplete="off" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Observacion</label>
+                                <input type="text" class="form-control" maxlength="250" id="txtObservacion" autocomplete="off" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </DIV>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarControl()" id="modal-detalle-si">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
