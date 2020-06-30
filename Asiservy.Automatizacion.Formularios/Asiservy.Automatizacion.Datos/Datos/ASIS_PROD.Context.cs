@@ -1727,27 +1727,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Higine_Comedor_Cocina>("sp_Control_Higine_Comedor_Cocina", idControlHigieneParameter, fechaDesdeParameter, fechaHastaParameter, opParameter);
         }
     
-        public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
-                new ObjectParameter("idCloroCisterna", idCloroCisterna) :
-                new ObjectParameter("idCloroCisterna", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
-        }
-    
         public virtual ObjectResult<spConsultaResidualCloroDetalle> spConsultaResidualCloroDetalle(Nullable<int> idControl)
         {
             var idControlParameter = idControl.HasValue ?
@@ -2327,6 +2306,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CC_Cuchillos_MovimientoPersonalDiario>("sp_CC_Cuchillos_MovimientoPersonalDiario", fechaParameter, codLineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
+                new ObjectParameter("idCloroCisterna", idCloroCisterna) :
+                new ObjectParameter("idCloroCisterna", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
         }
     }
 }
