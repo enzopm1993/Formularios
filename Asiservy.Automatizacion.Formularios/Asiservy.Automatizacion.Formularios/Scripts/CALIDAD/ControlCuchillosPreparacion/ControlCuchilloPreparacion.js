@@ -501,7 +501,10 @@ function ConsultarDetalle(jdata) {
                 type: "GET",
                 data: {
                     idHora: jdata.IdHora,
-                    op: 0
+                    op: 0,
+                    fecha: $('#txtFecha').val(),
+                    codLinea: 46,
+                    turno: document.getElementById('selectTurno').value
                 },
                 success: function (resultado) {
                     if (resultado == "101") {

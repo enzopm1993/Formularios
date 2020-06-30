@@ -137,6 +137,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             }
         }
 
+        public List<sp_CC_Cuchillos_MovimientoPersonalDiario> ConsultaMovimientoPersonalDiario(DateTime fecha, string codLinea, string turno)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                List<sp_CC_Cuchillos_MovimientoPersonalDiario> pListEmpleados = null;               
+
+                pListEmpleados = db.sp_CC_Cuchillos_MovimientoPersonalDiario(fecha, codLinea, turno).ToList();
+                return pListEmpleados;
+            }
+        }
+
         //--------------------------------------HORA--------------------------------------------------------------------------
         public int GuardarModificarHora(CC_CUCHILLOS_PREPARACION_HORA guardarModificar)
         {
