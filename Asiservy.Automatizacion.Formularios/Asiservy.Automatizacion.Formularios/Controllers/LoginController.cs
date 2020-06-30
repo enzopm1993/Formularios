@@ -62,6 +62,7 @@ namespace ProyectoWeb.Controllers
             {
                 respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = clsAtributos.BDPreProduccion });
             }
+           
             return Json(respuesta, JsonRequestBehavior.AllowGet);
         }
 

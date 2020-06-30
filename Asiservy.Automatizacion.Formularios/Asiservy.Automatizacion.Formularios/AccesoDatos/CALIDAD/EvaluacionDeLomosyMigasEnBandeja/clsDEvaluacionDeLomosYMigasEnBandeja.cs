@@ -551,7 +551,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                              on new { IdDetalleEvaluacionLomoyMigasEnBandeja= f.IdDetalleEvaluacionLomosyMigas.Value, estado=clsAtributos.EstadoRegistroActivo } equals new { d.IdDetalleEvaluacionLomoyMigasEnBandeja,estado=d.EstadoRegistro }
                              where f.EstadoRegistro==clsAtributos.EstadoRegistroActivo && ListDetallesCab.Contains(f.IdDetalleEvaluacionLomosyMigas.Value)
                              orderby d.Hora
-                             select new ReporteFotosEvaluacionLomosyMigasViewModel { IdFoto=f.IdFotoEvaluacioLomosyMigas,/*Hora = d.Hora,*/ Imagen = f.Imagen, Novedad = f.Observacion ,Rotacion=f.Rotacion.Value}).ToList();
+                             select new ReporteFotosEvaluacionLomosyMigasViewModel { IdFoto=f.IdFotoEvaluacioLomosyMigas, Hora = d.Hora, Imagen = f.Imagen, Novedad = f.Observacion ,Rotacion=f.Rotacion.Value}).ToList();
                 return query;
             }
         }

@@ -33,6 +33,9 @@
         {
             var json = JsonConvert.SerializeObject(item);
             var Descongelado = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "D");
+            if (item.U_SYP_TANQUE == "AS2556") {
+                var x = 0;
+            }
             var Emparrillado = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "E");
             var Cocina = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "C");
 

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMaterial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoRegistro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaModificacionLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item);
+        <tr onclick="CargarMaterial(@json)">
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMaterial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoRegistro)
+            </td>
+            <td>
+                @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm:ss")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @if (item.FechaModificacionLog != null)
+                {
+                    @item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

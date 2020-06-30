@@ -14,6 +14,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         string[] lsUsuario { get; set; }
         clsDError clsDError { get; set; } = null;
+        clsDGeneral clsDGeneral { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         ClsDEntradaSalidaMateriales ClsDEntradaSalidaMateriales { get; set; }
         #region Métodos
         protected void SetSuccessMessage(string message)
@@ -26,10 +28,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
         // GET: EntradaySalidaDeMaterialesEnAreasDeProceso
-        public ActionResult Index()
-        {
-            return View();
-        }
+     
         #region MANTENIMIENTO DE MATERIAL
         [Authorize]
         public ActionResult MantenimientoMaterial()
@@ -63,7 +62,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         [Authorize]
         [HttpPost]
-        public ActionResult MantenimientoMaterialQuebradizo(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
+        public ActionResult MantenimientoMaterial(ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL model)
         {
             try
             {
@@ -75,7 +74,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ClsDEntradaSalidaMateriales = new ClsDEntradaSalidaMateriales();
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                ClsDEntradaSalidaMateriales.ModificarMaterialQuebradizo(model);
+                model.FechaIngresoLog = DateTime.Now;
+                if (model.IdMaterial == 0)
+                {
+                    ClsDEntradaSalidaMateriales.GuardarMaterial(model);
+                }
+                else
+                {
+                    ClsDEntradaSalidaMateriales.ModificarMaterial(model);
+                }
+                
                 return Json("Registro exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -99,7 +107,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public ActionResult MantenimientoMaterialQuebradizoPartial()
+        public ActionResult MantenimientoMaterialPartial()
         {
             try
             {
@@ -137,6 +145,44 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
+        #endregion
+        #region Control
+        [Authorize]
+        public ActionResult ControlEntradaySalidaDeMateriales()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDClasificador = new clsDClasificador();
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.JqueryRotate = "1";
+                ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
+                ViewBag.MascaraInput = "1";
+                ViewBag.MaskedInput = "1";
+                ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(lsUsuario[0]);
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using Asiservy.Automatizacion.Formularios.Models.Seguridad;
+@using Asiservy.Automatizacion.Datos.Datos;
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,10 +52,10 @@
 
             Hijo = (List<ConsultaOpcionesxRolViewModel>)Session["Hijo"];
 
-            
-
             List<ModuloViewModel> Modulos = new List<ModuloViewModel>();
             Modulos = (List<ModuloViewModel>)Session["Modulos"];
+
+            List<spConsultaNotificacionesSiaa> notificaciones = (List<spConsultaNotificacionesSiaa>)Session["MensajesNotificacionesMenu"];
 
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
@@ -108,18 +109,36 @@
                                             {
                                                 foreach (var MenuHijo in Hijo.Where(x => x.Padre == Menupadre.IdOpcion))
                                                 {
-                                                    <div>
+                                            <div class="">
+                                                @{
+                                                    if (notificaciones != null)
+                                                    {
+                                                        var noti = notificaciones.FirstOrDefault(x => x.Url == MenuHijo.Url);
+                                                        if (noti != null)
+                                                        {
+                                                            <a class="collapse-item border-top " href="/@MenuHijo.Url"><span class="animacion badge badge-danger">@noti.Cantidad</span> <text style="font-size:10px"> @MenuHijo.Nombre.ToUpper() </text></a>
 
-                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text style="font-size:10px">@MenuHijo.Nombre.ToUpper()</text></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="collapse-item border-top " href="/@MenuHijo.Url"><text style="font-size:10px">@MenuHijo.Nombre.ToUpper()  </text></a>
 
-                                                    </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text style="font-size:10px">@MenuHijo.Nombre.ToUpper()  </text></a>
+
+                                                    }
+                                                }
+
+                                            </div>
                                                 }
 
                                             }
                                             if (Menupadre.IdOpcion != Padre.Where(x => x.IdModulo == MenusModulos.IdModulo).LastOrDefault().IdOpcion)
                                             {
-                                                <br />
-                                                @*<hr style="color:black;border: solid blue;" />*@
+                                                <br />                                             
                                             }
                                         }
                                     </div>
@@ -623,7 +642,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=2.0";
+        string url = "/Scripts/" + js + ".js?v=2.1";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>

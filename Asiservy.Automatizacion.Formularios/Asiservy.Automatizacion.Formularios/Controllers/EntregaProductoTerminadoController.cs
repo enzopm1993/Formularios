@@ -85,9 +85,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }

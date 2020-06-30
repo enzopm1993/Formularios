@@ -89,6 +89,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     Session["BaseDatos"] = clsAtributos.BDProduccion;
                 }
+
+              
                 return View();
 
             }
@@ -191,10 +193,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             //INICIO -- NOTIFICACIONES ENVIADOS DESDE LA BASE DE DATOS 2020-06-25
             var Notificaciones = clsDGeneral.ConsultaNotificaciones(Cedula);
-                        foreach(var x in Notificaciones)
+            foreach(var x in Notificaciones)
             {
-                MensajesNotificaciones.Add(new RespuestaGeneral { Mensaje = x.Mensaje, Observacion = x.Url });
+                MensajesNotificaciones.Add(new RespuestaGeneral { Mensaje = x.Mensaje, Observacion = "/"+x.Url });
             }
+            Session["MensajesNotificacionesMenu"] = Notificaciones;
+            //ViewBag.MensajesNotificacionesMenu = Notificaciones;
             //2020-06-25 -- FIN
 
 

@@ -195,7 +195,7 @@ function CargarReporteAvanceKPI() {
         },
         success: function (resultado) {
             ListadoGeneral = resultado;
-          //  console.log(resultado);   
+         
             var Lineas = []; 
             var Avance = []; 
 
@@ -206,15 +206,7 @@ function CargarReporteAvanceKPI() {
                 .OrderBy(function (x) { return x.Linea })
                 .ToArray();
 
-            //$.each(resultado, function (i, item) {
-            //   console.log($.inArray(item.Linea, Lineas));
-            //    if ($.inArray(item.Linea, Lineas) == -1)
-            //    { Lineas[i] = item.Linea; }
-            //});
-            ///console.log(Lineas);
-            //Lineas = Lineas.unique();
-           // console.log(Lineas);
-
+          
             $.each(Lineas, function (i, linea) {
                 var TotalAvance = 0;
                 var cont = 0;
