@@ -4267,11 +4267,6 @@
           <Parameter Name="cedula" Type="varchar" Mode="In" />
           <Parameter Name="tipo" Type="char" Mode="In" />
         </Function>
-        <Function Name="sp_Reporte_CloroCisternaDescongeladoBandeja" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fechaInicio" Type="date" Mode="In" />
-          <Parameter Name="fechaFin" Type="date" Mode="In" />
-        </Function>
         <Function Name="sp_Reporte_Lavado_Desinfeccion_Manos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
           <Parameter Name="fechaHasta" Type="date" Mode="In" />
@@ -5982,10 +5977,6 @@
           <FunctionImport Name="spReporteCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteCocheAutoclaveDetalle)">
           <Parameter Name="Of" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spKpiAvancePorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spKpiAvancePorLimpiadora)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="cedula" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" />
           <FunctionImport Name="sp_Reporte_CloroCisternaDescongelado" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongelado)">
           <Parameter Name="FechaCab" Mode="In" Type="DateTime" />
@@ -6587,6 +6578,10 @@
           </AssociationSet>
           <EntitySet Name="ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" />
           <EntitySet Name="CC_PARAMETRO_CALIDAD" EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" />
+          <FunctionImport Name="spKpiAvancePorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spKpiAvancePorLimpiadora)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -9139,10 +9134,6 @@
           <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
           <Property Type="String" Name="Coche" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="LineaProduccion" Nullable="true" MaxLength="5" />
-        </ComplexType>
-        <ComplexType Name="spKpiAvancePorLimpiadora">
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="6" Scale="2" />
         </ComplexType>
         <EntityType Name="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE">
           <Key>
@@ -12850,6 +12841,22 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spKpiAvancePorLimpiadora">
+          <Property Type="DateTime" Name="Hora" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="IdControlDetalle" Nullable="true" />
+          <Property Type="String" Name="OrdenFabricacion" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Especie" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="Promedio" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="Int32" Name="HuesoReal" Nullable="true" />
+          <Property Type="Int32" Name="HuesoTeorico" Nullable="true" />
+          <Property Type="Decimal" Name="KiloReal" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="KiloTeoricoLimpiadora" Nullable="true" />
+          <Property Type="Decimal" Name="Avance" Nullable="false" Precision="6" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15620,14 +15627,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spKpiAvancePorLimpiadora" FunctionName="ASIS_PRODModel.Store.spKpiAvancePorLimpiadora">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spKpiAvancePorLimpiadora">
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Avance" ColumnName="Avance" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE">
               <MappingFragment StoreEntitySet="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE">
@@ -16693,38 +16692,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandeja" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandeja">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja">
-                <ScalarProperty Name="IdCloroCisterna" ColumnName="IdCloroCisterna" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
-                <ScalarProperty Name="IdCloroCisterna" ColumnName="IdCloroCisterna" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_CloroCisternaDescongelado" FunctionName="ASIS_PRODModel.Store.sp_CloroCisternaDescongelado">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_CloroCisternaDescongelado">
@@ -18951,6 +18918,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spKpiAvancePorLimpiadora" FunctionName="ASIS_PRODModel.Store.spKpiAvancePorLimpiadora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spKpiAvancePorLimpiadora">
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdControlDetalle" ColumnName="IdControlDetalle" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="HuesoReal" ColumnName="HuesoReal" />
+                <ScalarProperty Name="HuesoTeorico" ColumnName="HuesoTeorico" />
+                <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
+                <ScalarProperty Name="KiloTeoricoLimpiadora" ColumnName="KiloTeoricoLimpiadora" />
+                <ScalarProperty Name="Avance" ColumnName="Avance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1363,19 +1363,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteCocheAutoclaveDetalle>("spReporteCocheAutoclaveDetalle", ofParameter);
         }
     
-        public virtual ObjectResult<spKpiAvancePorLimpiadora> spKpiAvancePorLimpiadora(Nullable<System.DateTime> fecha, string cedula)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var cedulaParameter = cedula != null ?
-                new ObjectParameter("cedula", cedula) :
-                new ObjectParameter("cedula", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spKpiAvancePorLimpiadora>("spKpiAvancePorLimpiadora", fechaParameter, cedulaParameter);
-        }
-    
         public virtual ObjectResult<sp_Reporte_CloroCisternaDescongelado> sp_Reporte_CloroCisternaDescongelado(Nullable<System.DateTime> fechaCab)
         {
             var fechaCabParameter = fechaCab.HasValue ?
@@ -2350,6 +2337,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("LineaNegocio", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaKpiEnvaseLata>("spConsultaKpiEnvaseLata", fechaDesdeParameter, fechaHastaParameter, turnoParameter, lineaNegocioParameter);
+        }
+    
+        public virtual ObjectResult<spKpiAvancePorLimpiadora> spKpiAvancePorLimpiadora(Nullable<System.DateTime> fecha, string cedula)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spKpiAvancePorLimpiadora>("spKpiAvancePorLimpiadora", fechaParameter, cedulaParameter);
         }
     }
 }

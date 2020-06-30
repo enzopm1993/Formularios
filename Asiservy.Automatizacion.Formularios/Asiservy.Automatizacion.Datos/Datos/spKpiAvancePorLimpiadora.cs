@@ -13,7 +13,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spKpiAvancePorLimpiadora
     {
-        public Nullable<System.TimeSpan> Hora { get; set; }
-        public Nullable<decimal> Avance { get; set; }
+        public Nullable<System.DateTime> Hora { get; set; }
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public Nullable<int> IdControlDetalle { get; set; }
+        public string OrdenFabricacion { get; set; }
+        public string Especie { get; set; }
+        public string Talla { get; set; }
+        public Nullable<decimal> Miga { get; set; }
+        public Nullable<decimal> Promedio { get; set; }
+        public Nullable<int> HuesoReal { get; set; }
+        public Nullable<int> HuesoTeorico { get; set; }
+        public Nullable<decimal> KiloReal { get; set; }
+        public Nullable<int> KiloTeoricoLimpiadora { get; set; }
+        public decimal Avance { get; set; }
     }
 }
