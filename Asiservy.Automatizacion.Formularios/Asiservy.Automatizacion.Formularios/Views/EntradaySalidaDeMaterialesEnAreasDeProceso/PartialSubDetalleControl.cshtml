@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.ENTRADA_SALIDA_MATERIAL_SUBDETALLE>
+@using Newtonsoft.Json
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+
+            <th>
+                Hora
+            </th>
+            <th>
+                Salida
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(new
+            {
+                item.IdDetalleEntradaSalidaMaterial,
+                item.IdSubDetalleEntradaSalidaMaterial,
+                item.Hora,
+                item.Salida
+            });
+            <tr>
+
+               <td>@item.Hora.ToString("yyyy-MM-dd HH:mm")</td>
+
+                <td>
+                    @item.Salida
+                </td>
+                <td>
+                    <a href="#" onclick="EditarSubDetalle(@json)">Editar</a>|
+                    <a href="#" onclick="ConfirmarEliminarSubDetalle(@json)">Eliminar</a>|
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
