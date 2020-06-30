@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "ControlEntradaySalidaDeMateriales";
+}
+<style>
+    #divmin {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        background-color: #00447A;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+   
+</style>
+<h4>Control de entrada y salida de materiales</h4>
+
+<div class="card" id="DivCabecera">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                Fecha:
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
+                <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
+                <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
+            </div>
+        </div>
+       
+        <div class="col-md-4">
+            <div class="form-group">
+                Observación:
+                <textarea id="Observacion" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
+<br />
+<div class="card" id="botonessubdetalle" hidden>
+    <div class="row">
+
+        <div class="col-12">
+            <center>
+                <div class="form-group">
+
+                    <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarDetalle()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/edit24.png">
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="ConfirmarEliminarDetalle()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/cancel24.png">
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/atras24.png">
+                    </button>
+
+                </div>
+            </center>
+        </div>
+    </div>
+</div>
+
+<div class="card" id="CardDetalle" hidden>
+    <div class="row">
+        <div class="col-3">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="AbrirModalDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 table-responsive" id="DivDetalle">
+
+        </div>
+
+    </div>
+</div>
+
+<div class="card" id="CardSubDetalle" hidden>
+    <div class="row">
+        <div class="col-3">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="AbrirModalSubDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 table-responsive" id="DivSubDetalle">
+
+        </div>
+
+    </div>
+</div>

@@ -4199,6 +4199,7 @@
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialQuebradizoPartial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialPartial.cshtml" />
     <Content Include="Views\KpiProduccion\KpiEnvaseLata.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\ControlEntradaySalidaDeMateriales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

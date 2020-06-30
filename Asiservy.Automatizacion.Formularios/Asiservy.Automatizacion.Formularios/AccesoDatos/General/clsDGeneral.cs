@@ -1,13 +1,9 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
-using System.Web;
+
 
 
 
