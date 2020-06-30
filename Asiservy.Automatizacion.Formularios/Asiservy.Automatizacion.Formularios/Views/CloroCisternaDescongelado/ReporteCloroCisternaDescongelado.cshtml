@@ -1,4 +1,4 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongelado
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_CLORO_CISTERNA_DESCONGELADO
 
 @{
     ViewBag.Title = "ReporteCloroCisternaDescongelado";
@@ -163,7 +163,7 @@
                 <td width="80%" colspan="3" class="text-center">
                     <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                 </td>
-                <td rowspan="2" width="10%" class="text-center text-right">
+                <td rowspan="2" width="10%" colspan="3" class="text-center text-right">
                     <div style="font-size:11px">
                         <b>
                             @ViewBag.CodigoReporte
@@ -184,6 +184,10 @@
             <tr>
                 <td width="100px">FECHA:</td>
                 <td colspan="3" style="width:90%"><label id="lblMostrarFechaM"></label></td>
+                <td>TURNO:</td>
+                <td style="width:75%" colspan="1">
+                    <label id="lblMostrarHoraM"></label>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -196,7 +200,7 @@
                 <td width="80%" colspan="3" class="text-center">
                     <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                 </td>
-                <td rowspan="2" width="10%" class="text-center text-right">
+                <td rowspan="2" width="10%" colspan="3" class="text-center text-right">
                     <div style="font-size:11px">
                         <b>
                             @ViewBag.CodigoReporte
@@ -217,6 +221,10 @@
             <tr>
                 <td>FECHA:</td>
                 <td colspan="4" style="width:50%"><label id="lblMostrarFecha"></label></td>
+                <td>TURNO:</td>
+                <td style="width:45%">
+                    <label id="lblMostrarHora"></label>
+                </td>
             </tr>
         </tbody>
     </table>

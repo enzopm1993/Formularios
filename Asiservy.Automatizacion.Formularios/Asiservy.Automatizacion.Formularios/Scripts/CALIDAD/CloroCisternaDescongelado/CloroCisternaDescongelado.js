@@ -5,8 +5,8 @@ var estadoReporte = [];
 //ListaDatosDetalle.IdCloroCisternaDetalle = 0;
 $(document).ready(function () {
     CargarCabecera();
-    $('#txtPpm').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '9.99' });
-    $('#txtCisterna').inputmask({ 'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': true, 'max': '9' });
+    $('#txtPpm').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '9999.99' });
+    $('#txtCisterna').inputmask({ 'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': true, 'max': '999' });
 });
 
 function ConsultarEstadoReporte() {
@@ -47,7 +47,8 @@ function CargarCabecera() {
             url: "../CloroCisternaDescongelado/ValidarCloroCisternaDescongelado",
             type: "GET",
             data: {
-                Fecha: $("#txtFecha").val()
+                fecha: $("#txtFecha").val(),
+                turno: document.getElementById('selectTurno').value
             },
             success: function (resultado) {
                 if (resultado == "101") {
@@ -63,6 +64,7 @@ function CargarCabecera() {
                     $("#btnModalEditar").prop("hidden", true); 
                     $("#divCabecera2").prop("hidden", false); 
                     CambiarMensajeEstado('nada');
+                    ListaDatos = [];
                 } else { 
                     $("#divCabecera2").prop("hidden", false); 
                     $("#btnModalEditar").prop("hidden", false);
@@ -78,7 +80,7 @@ function CargarCabecera() {
                 }
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+                MensajeError(Mensajes.Error, false);
             }
         });
     }
@@ -90,16 +92,21 @@ function GuardarCabecera() {
         type: "POST",
         data: {
             IdCloroCisterna: ListaDatos.IdCloroCisterna,
-            Fecha: $("#txtFecha").val(),            
-            Observaciones: $("#txtObservacion").val()
+            Fecha: $("#txtFecha").val(),
+            Observaciones: $("#txtObservacion").val(),
+            Turno: document.getElementById('selectTurno').value
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } else if (resultado == 0) {
+                MensajeCorrecto('Registro GUARDADO correctamente');
+            } else if (resultado == 1) {
+                MensajeCorrecto('Registro ACTUALIZADO correctamente');
             } else if (resultado == 2) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                 return;
-            }      
+            } 
             CargarCabecera();
                 $("#txtObservacion").prop("disabled", true);
                 $("#btnModalGenerar").prop("hidden", true);
@@ -197,7 +204,7 @@ function ModalGenerarHoraControlCloroCisterna() {
 
 function CargarHora() {
     var fechaactual = new Date();
-    var horaactual = moment(fechaactual).format('HH:mm');
+    var horaactual = moment(fechaactual).format('YYYY-MM-DDTHH:mm');
     $("#txtHora").val(horaactual); 
 }
 
@@ -221,7 +228,7 @@ function GuardarControlCloroDetalle() {
                 IdCloroCisternaCabecera: ListaDatos.IdCloroCisterna,
                 IdCloroCisternaDetalle: ListaDatosDetalle.IdCloroCisternaDetalle,
                 Hora: $("#txtHora").val(),
-                Ppm_Cloro: $("#txtPpm").val(),
+                Ppm_Cloro: parseFloat($("#txtPpm").val()),
                 Cisterna: $("#txtCisterna").val(),
                 Observaciones: $("#txtObservacionDetalle").val()
             },
@@ -251,8 +258,7 @@ function CargarControlCloroCisternaDetalle() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
-            IdCloroCisterna: ListaDatos.IdCloroCisterna,
-            Estado: ListaDatos.EstadoReporte
+            IdCloroCisterna: ListaDatos.IdCloroCisterna
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -317,14 +323,14 @@ function controlDiaMayorMenor() {
 }
 
 function ControlMayorA() {
-    if ($("#txtCisterna").val()>10) {
-        MensajeAdvertencia('El número de la CISTERNA no puede ser mayor a 10');
-        return false;
-    }
-    if ($("#txtPpm").val() > 5) {
-        MensajeAdvertencia('El PPM CLORO no puede ser mayor a 5');
-        return false;
-    }
+    //if ($("#txtCisterna").val()>10) {
+    //    MensajeAdvertencia('El número de la CISTERNA no puede ser mayor a 10');
+    //    return false;
+    //}
+    //if ($("#txtPpm").val() > 5) {
+    //    MensajeAdvertencia('El PPM CLORO no puede ser mayor a 5');
+    //    return false;
+    //}
 }
 
 function ActulizarControlCloroCisternaDetalle(jdata) {
@@ -336,7 +342,7 @@ function ActulizarControlCloroCisternaDetalle(jdata) {
             var data = jdata;
             ListaDatosDetalle = jdata;
             $("#ModalGenerarHoraControlCloroCisterna").modal('show');
-            $("#txtHora").val(moment($("#txtFecha").val() + " " + data.Hora).format("HH:mm"));
+            $("#txtHora").val(moment(data.Hora).format("YYYY-MM-DDTHH:mm"));
             $("#txtPpm").val(data.Ppm_Cloro);
             $("#txtCisterna").val(data.Cisterna);
             $("#txtObservacionDetalle").val(data.Observaciones);

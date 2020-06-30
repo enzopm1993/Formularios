@@ -4,13 +4,15 @@ $(document).ready(function () {
     CargarCabecera();
 });
 
+var turno = ['', "A", "B"];
+
 function CargarCabecera() {
     Atras();
     $('#lblMostrarFecha').text('');
     $('#lblMostrarHora').text('');
     $('#lblMostrarObservacion').text('');
     $('#cargac').show();
-
+   
     if ($("#fechaDesde").val() == '' || $("#fechaHasta").val() == '') {
         var date = new Date();
         var shortDate = moment(date).format('YYYY-MM-DD');
@@ -50,7 +52,10 @@ function CargarCabecera() {
 function SeleccionarCabecera(jdata) {
     $('#cargac').show();
     var op = 4;
-
+    if (jdata.Turno != null || jdata.Turno != '') {
+        $('#lblMostrarHora').text(turno[jdata.Turno]);
+        $('#lblMostrarHoraM').text(turno[jdata.Turno]);
+    }
     $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
     $('#lblMostrarFechaM').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
     //$('#lblMostrarHora').text(moment(jdata.Fecha).format('HH:mm'));

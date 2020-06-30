@@ -3958,7 +3958,6 @@
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.cshtml" />
-    <Content Include="Views\CloroCisternaDescongelado\BandejaAprobadosCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\MonitoreoDescongeladoPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\MonitoreoDescongelado.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialDetalleControl.cshtml" />

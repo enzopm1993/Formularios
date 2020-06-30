@@ -4,7 +4,7 @@
     <thead style="font-size:14px">
         <tr>           
             <th>
-                HORA
+                FECHA - HORA
             </th>
             <th>
                 PPM CLORO
@@ -24,7 +24,7 @@
             <tr style="page-break-inside: avoid;">
                 
                 <td>
-                    @item.HoraDet.ToString("HH:mm")
+                    @item.HoraDet.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
                     @if (item.Ppm_CloroDet >= 0.3M && item.Ppm_CloroDet <= 1.5M)
@@ -39,7 +39,7 @@
                 <td>
                     @item.IdCisternaDet
                 </td>
-                <td>
+                <td style="white-space:normal">
                     @if (!string.IsNullOrEmpty(item.ObservacionDet))
                     {
                         @item.ObservacionDet.ToUpper()

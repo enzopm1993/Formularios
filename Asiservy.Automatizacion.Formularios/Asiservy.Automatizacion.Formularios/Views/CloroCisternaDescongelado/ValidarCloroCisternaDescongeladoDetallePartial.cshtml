@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongeladoDetalle>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE>
 @using Newtonsoft.Json;
 <table class="table table-light table-striped" style="font-size:12px" id="tblDataTable">
     <thead>
         <tr>
             <th>
-               HORA
+               FECHA - HORA
             </th>
             <th>
                 PPM CLORO
@@ -16,19 +16,19 @@
                 USUARIO CREACION
             </th>
             <th>
-                OBSERVACIONES
+                OBSERVACION
             </th>           
                 <th>ACCIONES</th>           
         </tr>
     </thead>
-    <tbody>
+    <tbody style="font-size:11px">
         @foreach (var item in Model)
         {
             decimal men = 0.3m;
             decimal may = 1.5m;
             <tr>
                 <td>                    
-                    @item.Hora
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 @if (item.Ppm_Cloro >= men && item.Ppm_Cloro <= may)
                 {
@@ -48,8 +48,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observaciones)
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.Observaciones))
+                    {
+                        @item.Observaciones.ToUpper()
+                    }
                 </td>
                 
                     <td>
