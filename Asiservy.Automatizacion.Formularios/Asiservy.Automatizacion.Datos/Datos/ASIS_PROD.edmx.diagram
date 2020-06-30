@@ -255,6 +255,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" Width="1.5" PointX="7.375" PointY="29.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
