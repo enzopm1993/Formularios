@@ -13,7 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class CloroCisternaDescongeladoController : Controller
     {
         clsDError clsDError { get; set; } = null;
-        
+        clsDClasificador clsDClasificador { get; set; } = null;
         clsDCloroCisternaDescongelado clsDCloroCisternaDescongelado { get; set; } = null;
         string[] lsUsuario { get; set; }=null;
         public clsDReporte ClsDReporte { get; set; } = null;
@@ -24,7 +24,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {              
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/"+RouteData.Values["controller"] + "/" + RouteData.Values["action"];                ViewBag.MascaraInput = "1";
-
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -96,7 +101,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ValidarCloroCisternaDescongelado(DateTime fecha)
+        public ActionResult ValidarCloroCisternaDescongelado(DateTime fecha, string turno)
         {
             try
             {
@@ -106,11 +111,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
-                var poCloroCisterna=clsDCloroCisternaDescongelado.Consultar_ReporteCloroCisternaDescongelado(fecha).FirstOrDefault();
+                var poCloroCisterna=clsDCloroCisternaDescongelado.ConsultarCabeceraTurno(turno, fecha);
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-
                 }
                 else {
                    return Json("0", JsonRequestBehavior.AllowGet);
@@ -154,9 +158,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisterna);
                 if (!estadoReporte.EstadoReporte)
                 {
-                    clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
-                    return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
-                }else return Json("2", JsonRequestBehavior.AllowGet);
+                    int result=clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
+                    if(result==0)return Json("0", JsonRequestBehavior.AllowGet);
+                    else return Json("1", JsonRequestBehavior.AllowGet);
+                    //else return Json("3", JsonRequestBehavior.AllowGet);
+
+                }
+                else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -220,7 +228,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ValidarCloroCisternaDescongeladoDetallePartial(DateTime fecha, int IdCloroCisterna, bool Estado)
+        public ActionResult ValidarCloroCisternaDescongeladoDetallePartial(DateTime fecha, int IdCloroCisterna)
         {
             try
             {
@@ -230,10 +238,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
-                var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_ReporteCloroCisternaDescongeladoDetalle(fecha, IdCloroCisterna);
+                var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarDetalle(IdCloroCisterna);
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
-                    ViewBag.Estado = Estado;
                     return PartialView(poCloroCisterna);
                 }
                 else
@@ -336,12 +343,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult BandejaCloroCisternaDescongeladoPartial()
+        public ActionResult BandejaCloroCisternaDescongeladoPartial(DateTime fechaDesde, DateTime fechaHasta, bool estadoReporte)
         {           
             try
             {
-                clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();               
-                   var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_PendientesCloroCisternaDescongelado();                
+                clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                ViewBag.Turno = poTurno;
+                var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarBadejaEstado(fechaDesde, fechaHasta, estadoReporte);                
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return PartialView(poCloroCisterna);
@@ -371,45 +381,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult BandejaAprobadosCloroCisternaDescongeladoPartial(DateTime fechaInicio, DateTime fechaFin)
-        {
-            try
-            {
-                clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();                
-                var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_AprobadosCloroCisternaDescongelado(fechaInicio, fechaFin);               
-                if (poCloroCisterna != null && poCloroCisterna.Any())
-                {
-                    return PartialView(poCloroCisterna);
-                }
-                else if (poCloroCisterna.Any())
-                {
-                    return PartialView(poCloroCisterna);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult BandejaAprobarCloroCisternaDescongelado(DateTime fecha, int IdCloroCisterna)
+        //public ActionResult BandejaAprobadosCloroCisternaDescongeladoPartial(DateTime fechaInicio, DateTime fechaFin)
+        //{
+        //    try
+        //    {
+        //        clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();                
+        //        var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_AprobadosCloroCisternaDescongelado(fechaInicio, fechaFin);               
+        //        if (poCloroCisterna != null && poCloroCisterna.Any())
+        //        {
+        //            return PartialView(poCloroCisterna);
+        //        }
+        //        else if (poCloroCisterna.Any())
+        //        {
+        //            return PartialView(poCloroCisterna);
+        //        }
+        //        else
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        SetErrorMessage(Mensaje);
+        //        return RedirectToAction("Home", "Home");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        SetErrorMessage(Mensaje);
+        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+        public ActionResult BandejaAprobarCloroCisternaDescongelado(int idCloroCisterna)
         {
             try
             {
@@ -419,7 +429,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
-                var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_ReporteCloroCisternaDescongeladoDetalle(fecha, IdCloroCisterna);
+                var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarDetalle(idCloroCisterna);
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -462,7 +472,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.AprobadoPor= lsUsuario[0];
                 model.UsuarioIngresoLog = lsUsuario[0];
                 clsDCloroCisternaDescongelado.Aprobar_ReporteCloroCisternaDescongelado(model);
-                return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
+                return Json("Cambio de ESTADO realizado  exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -532,7 +542,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
-                }
+                }                
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarCloroCisternaRangoFecha(fechaDesde, fechaHasta, idCloroCisterna, op);
                 if (poCloroCisterna.Count!=0)
@@ -573,6 +583,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                ViewBag.Turno = poTurno;
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var poCloroCisterna = clsDCloroCisternaDescongelado.ReporteConsultarcabecera(fechaDesde, fechaHasta);
                 if (poCloroCisterna != null)

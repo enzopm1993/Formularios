@@ -1,6 +1,6 @@
 ﻿var listaDatos = [];
     $(document).ready(function () {
-        FiltrarAprobadosFecha();
+        CargarBandeja();
 });
 var configModal = {
     wsUrl: 'http://192.168.0.31:8870',
@@ -43,10 +43,18 @@ var configModal = {
 }
 //CARGAR BANDEJA
 function CargarBandeja() {
-    //$("#spinnerCargando").prop("hidden", false);
+    $("#divDateRangePicker").prop('hidden', true);
+    if (document.getElementById('selectEstadoRegistro').value=='true') {
+        $("#divDateRangePicker").prop('hidden', false);
+    }
     $.ajax({
         url: "../CloroCisternaDescongelado/BandejaCloroCisternaDescongeladoPartial",
-        type: "GET",       
+        type: "GET",  
+        data: {
+            fechaDesde: document.getElementById('fechaDesde').value,
+            fechaHasta: document.getElementById('fechaHasta').value,
+            estadoReporte: document.getElementById('selectEstadoRegistro').value
+        },
         success: function (resultado) {
             $('#divPartialControlCloro').empty();
             if (resultado == '0') {
@@ -66,6 +74,15 @@ function CargarBandeja() {
 }
 
 function SeleccionarBandeja(model) {
+    if (model.EstadoReporte == true) {
+        $('#txtFechaAprobado').prop('hidden', true);
+        $('#btnAprobado').prop('hidden', true);
+        $('#btnPendiente').prop('hidden', false);
+    } else {
+        $('#txtFechaAprobado').prop('hidden', false);
+        $('#btnPendiente').prop('hidden', true);
+        $('#btnAprobado').prop('hidden', false);
+    }
     var date = new Date();
     $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
     var table = $("#tblDataTableAprobar");        
@@ -99,15 +116,31 @@ function SeleccionarBandeja(model) {
                     { data: 'UsuarioIngresoLog'},
                     { data: 'Observaciones' }
                 ];
+                resultado.forEach(function (row) {
+                    row.Hora = moment(row.Hora).format('DD-MM-YYYY HH:mm');
+                    var estilo = 'badge-danger';
+                    if (row.Ppm_Cloro >= 0.3 && row.Ppm_Cloro<=1.5) {
+                        estilo = 'badge-success';
+                    }
+                    row.Ppm_Cloro = '<span class="badge ' + estilo +'">'+row.Ppm_Cloro+'</span>';
+                });
                 table.DataTable().destroy();
-                table.DataTable(configModal.opcionesDT);                
+                table.DataTable(configModal.opcionesDT);      
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
+                table.DataTable().destroy();
+                var tr = document.getElementById("acoplar");
+                var tds = tr.getElementsByTagName("td");
+
+                for (var i = 4; i < tds.length; i++) {
+                    tds[i].style.whiteSpace = 'normal';
+                }
+
                 $("#ModalApruebaCntrolCloro").modal("show");
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
             //$("#spinnerCargandoMaterial").prop("hidden", true);
         }
     });
@@ -139,7 +172,8 @@ function AprobarControlCloroDetalle(data) {
                 window.location.reload();
             }
             MensajeCorrecto(resultado);
-            FiltrarAprobadosFecha();
+            CargarBandeja();
+            listaDatos = [];
             $("#ModalApruebaCntrolCloro").modal("hide");
         },
         error: function (resultado) {
@@ -148,50 +182,50 @@ function AprobarControlCloroDetalle(data) {
     });
 }
 
-function FiltrarAprobadosFecha() {
-    LimpiarFecha();
-    if ($("#selectEstadoRegistro").val() == 'false') {
-        $("#divDateRangePicker").prop('hidden', true);
-        $('#txtFechaAprobado').prop('hidden', false);
-        $("#btnPendiente").prop("hidden", true);
-        $("#btnAprobado").prop("hidden", false);
-        CargarBandeja();
-    } else {
-        $("#divDateRangePicker").prop('hidden', false);
-        $('#txtFechaAprobado').prop('hidden', true);
-        $('#txtFechaAprobado').val('');
-        $("#btnPendiente").prop("hidden", false);
-        $("#btnAprobado").prop("hidden", true);
-        $.ajax({
-            url: "../CloroCisternaDescongelado/BandejaAprobadosCloroCisternaDescongeladoPartial",
-            type: "GET",
-            data: {
-                fechaInicio: $("#fechaDesde").val(),
-                fechaFin: $("#fechaHasta").val(),
-                estadoRegistro: $("#selectEstadoRegistro").val()
-            },
-            success: function (resultado) {
-                $('#divPartialControlCloro').empty();
-                if (resultado == '0') {
-                    $('#MensajeRegistros').show();
-                    $('#divPartialControlCloro').html('');
+//function FiltrarAprobadosFecha() {
+//    LimpiarFecha();
+//    if ($("#selectEstadoRegistro").val() == 'false') {
+//        $("#divDateRangePicker").prop('hidden', true);
+//        $('#txtFechaAprobado').prop('hidden', false);
+//        $("#btnPendiente").prop("hidden", true);
+//        $("#btnAprobado").prop("hidden", false);
+//        CargarBandeja();
+//    } else {
+//        $("#divDateRangePicker").prop('hidden', false);
+//        $('#txtFechaAprobado').prop('hidden', true);
+//        $('#txtFechaAprobado').val('');
+//        $("#btnPendiente").prop("hidden", false);
+//        $("#btnAprobado").prop("hidden", true);
+//        $.ajax({
+//            url: "../CloroCisternaDescongelado/BandejaAprobadosCloroCisternaDescongeladoPartial",
+//            type: "GET",
+//            data: {
+//                fechaInicio: $("#fechaDesde").val(),
+//                fechaFin: $("#fechaHasta").val(),
+//                estadoRegistro: $("#selectEstadoRegistro").val()
+//            },
+//            success: function (resultado) {
+//                $('#divPartialControlCloro').empty();
+//                if (resultado == '0') {
+//                    $('#MensajeRegistros').show();
+//                    $('#divPartialControlCloro').html('');
 
-                } else {
-                    $('#MensajeRegistros').hide();
-                    $('#divPartialControlCloro').html(resultado);
-                }
-                //$("#spinnerCargando").prop("hidden", true);
-                $("#btnPendiente").prop("hidden", false);
-                $("#btnAprobado").prop("hidden", true);
-                //$("#divDateRangePicker").prop('hidden', false);
-            },
-            error: function (resultado) {
-                //$("#spinnerCargando").prop("hidden", true);
-                MensajeError(resultado.responseText, false);
-            }
-        });
-    }
-}
+//                } else {
+//                    $('#MensajeRegistros').hide();
+//                    $('#divPartialControlCloro').html(resultado);
+//                }
+//                //$("#spinnerCargando").prop("hidden", true);
+//                $("#btnPendiente").prop("hidden", false);
+//                $("#btnAprobado").prop("hidden", true);
+//                //$("#divDateRangePicker").prop('hidden', false);
+//            },
+//            error: function (resultado) {
+//                //$("#spinnerCargando").prop("hidden", true);
+//                MensajeError(resultado.responseText, false);
+//            }
+//        });
+//    }
+//}
 
 function validar() {
     if ($('#txtFechaAprobado').val() == '') {

@@ -21,15 +21,17 @@
     .btnWait {
         cursor: no-drop !important;
     }
-   
+   .white{
+       white-space:normal;
+   }
 </style>
 
 <h5>Bandeja Control de Cloro en Cisterna</h5>
 <br />
 <div class="row" id="DivFiltros">
     <div class="col-md-2 col-sm-6 form-group">
-        <label>Estado del Registro</label>
-        <select id="selectEstadoRegistro" class="form-control" onchange="FiltrarAprobadosFecha()">
+        <label>Estado</label>
+        <select id="selectEstadoRegistro" class="form-control" onchange="CargarBandeja()">
             <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
@@ -37,8 +39,8 @@
 
     <div hidden class="col-md-5 col-sm-6 form-group" id="divDateRangePicker" >
         <label>Filtrar por Fecha:</label>
-        <input type="hidden" id="fechaDesde" value="" />
-        <input type="hidden" id="fechaHasta" value="" />
+        <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <div id="reportrange" class="selectbox">
             <i class="fa fa-calendar"></i>&nbsp;
             <span></span> <i class="fa fa-caret-down"></i>
@@ -48,7 +50,7 @@
     <div class="col-5">
         <label>Acciones</label>
         <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="FiltrarAprobadosFecha()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarBandeja()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
             </button>
         </div>
@@ -66,7 +68,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Detalle Control Cloro en Cisterna Descongelado</h5>
@@ -80,17 +82,17 @@
                 </div>
                 <br />
                 <div class="table-responsive">
-                    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
-                        <thead>
+                    <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
+                        <thead style="font-size:12px">
                             <tr>
-                                <th>HORA</th>
+                                <th>FECHA - HORA</th>
                                 <th>PPM_CLORO</th>
                                 <th>CISTERNA</th>
                                 <th>USUARIO CREACION</th>
-                                <th>OBSERVACION</th>
+                                <th >OBSERVACION</th>
                             </tr>
                         </thead>
-                        <tbody style="font-size:14px"></tbody>
+                        <tbody style="font-size:11px" id="acoplar"></tbody>
                     </table>
                 </div>
             </div>
