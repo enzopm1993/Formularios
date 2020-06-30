@@ -312,6 +312,9 @@
     <Compile Include="Datos\CC_OPERATIVIDAD_METAL_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_PARAMETRO_CALIDAD.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -960,6 +963,9 @@
     <Compile Include="Datos\sp_Calibracion_Fluorometro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_CC_Cuchillos_MovimientoPersonalDiario.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sp_CloroCisternaDescongelado.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -1027,18 +1033,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\SP_PKI_SOLICITUDES.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_Reporte_CloroCisternaDescongelado.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_Reporte_CloroCisternaDescongeladoBandeja.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_Reporte_CloroCisternaDescongeladoBandejaAprobados.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_Reporte_CloroCisternaDescongeladoDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Reporte_Lavado_Desinfeccion_Manos.cs">

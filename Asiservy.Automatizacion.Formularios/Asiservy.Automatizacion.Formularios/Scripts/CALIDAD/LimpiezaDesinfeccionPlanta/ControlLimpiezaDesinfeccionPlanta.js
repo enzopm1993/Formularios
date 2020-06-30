@@ -68,6 +68,7 @@ function CargarCabecera() {
                 CambiarMensajeEstado(false);
                 itemEditar = 0;
                 LimpiarModalIngresoCabecera();
+                $("#lblAprobadoPendiente").text("");
             } else {
                 itemEditar = resultado;
                 CambiarMensajeEstado(resultado.EstadoReporte);

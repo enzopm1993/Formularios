@@ -171,9 +171,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-                clsDEmpleado empleado = new clsDEmpleado();
-                var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46","0","0");
+                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();                
+                var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(DateTime.Now, "46", "1");
                 ViewBag.listaEmpleadoLinea = listaEmpleadoLinea;
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(codigoCuchillo, op);
                 ViewBag.Cuchillos = poCloroCisterna;
@@ -481,7 +480,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-----------------------------------------------------CONTROL CUCHILLO PREPARACION DETALLE----------------------------------------------------------------------
-        public JsonResult ConsultarControlCuchilloDetalle(int idHora, int op)
+        public JsonResult ConsultarControlCuchilloDetalle(int idHora, int op, DateTime fecha, string codLinea, string turno)
         {
             try
             {
@@ -494,15 +493,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarDetalle(idHora,op);
                 if (poCloroCisterna != null)
                 {
-                    clsDEmpleado empleado = new clsDEmpleado();
-                    var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");
+                    var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(fecha, codLinea, turno);
                     List<string> listaCedula = new List<string>();
                     foreach (var itemCuchillo in poCloroCisterna)
                     {
                         listaCedula.Add(itemCuchillo.CedulaEmpleado);
                         foreach (var itemEmpleado in listaEmpleadoLinea)
                         {
-                            if (itemCuchillo.CedulaEmpleado == itemEmpleado.CEDULA)
+                            if (itemCuchillo.CedulaEmpleado == itemEmpleado.Cedula)
                             {
                                 itemCuchillo.CedulaEmpleado += "-" + itemEmpleado.NOMBRES;
                             }

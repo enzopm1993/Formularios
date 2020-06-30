@@ -288,5 +288,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodGrupoTipoControl { get; } = "040";
         public static string CodTipoControlReporte { get; } = "R";
 
+
+        //PARAMETROS DE CALIDAD
+        public static int CodigoParametroCloroAguaAutoclave { get; } = 1;
+
     }
 }

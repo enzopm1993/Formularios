@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoclave;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalidad;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
         private ClsDCloroAguaAutoclave ClsDCloroAguaAutoclave { get; set; } = null;
         private clsDClasificador ClsDClasificador { get; set; } = null;
+        private ClsdParametroCalidad ClsdParametroCalidad { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
@@ -114,9 +116,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                //var control = ClsDCloroAguaAutoclave.con
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                ViewBag.Parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CodigoParametroCloroAguaAutoclave);
                 var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha, Turno);
                 if (!model.Any())
                 {
@@ -483,7 +484,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> poControl = null;
-
+              
                 poControl = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde, FechaHasta);
 
 
@@ -564,6 +565,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 ClsDClasificador = new clsDClasificador();
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                ViewBag.Parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CodigoParametroCloroAguaAutoclave);
                 var poTurno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno,Turno).FirstOrDefault();
                 if (poTurno != null)
                 {

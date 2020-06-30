@@ -102,7 +102,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="29.375" PointY="51.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Width="1.5" PointX="31.625" PointY="52.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="28.375" PointY="6" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="3.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="35.875" PointY="29.25" />
@@ -136,8 +135,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="10.625" PointY="39.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PEDILUVIO" Width="1.5" PointX="0.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Width="1.5" PointX="21.375" PointY="30" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="3.75" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
@@ -255,6 +252,10 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" Width="1.5" PointX="7.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Width="1.5" PointX="23.375" PointY="40" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="25.625" PointY="40.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

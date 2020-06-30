@@ -2282,6 +2282,7 @@
     <Content Include="Scripts\CALIDAD\OperatividadMetal\BandejaOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
+    <Content Include="Scripts\CALIDAD\ParametroCalidad\ParametroCalidad.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\BandejaResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
@@ -3465,6 +3466,7 @@
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ParametroCalidad\ClsdParametroCalidad.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaInternaRefrigeradora\ClsdTemperaturaInternaRefrigeradora.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
@@ -3576,6 +3578,7 @@
     <Compile Include="Controllers\CALIDAD\MonitoreoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
+    <Compile Include="Controllers\CALIDAD\ParametroCalidadController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaInternaRefrigeradoraController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
@@ -3960,7 +3963,6 @@
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.cshtml" />
-    <Content Include="Views\CloroCisternaDescongelado\BandejaAprobadosCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\MonitoreoDescongeladoPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\MonitoreoDescongelado.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialDetalleControl.cshtml" />
@@ -4204,6 +4206,8 @@
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\ControlEntradaySalidaDeMateriales.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialDetalleControl.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialSubDetalleControl.cshtml" />
+    <Content Include="Views\ParametroCalidad\ParametroCalidad.cshtml" />
+    <Content Include="Views\ParametroCalidad\MantenimientoParametroCalidadPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
