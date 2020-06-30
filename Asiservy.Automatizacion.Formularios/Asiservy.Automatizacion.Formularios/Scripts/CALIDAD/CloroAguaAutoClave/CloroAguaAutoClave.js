@@ -155,12 +155,22 @@ function Validar() {
         $("#txtParada").css('borderColor', '#ced4da');
     }
 
+    if ($("#txtParada").val() == "" || $("#txtParada").val() > 99999999 || $("#txtParada").val() < -99999999) {
+        $("#txtParada").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtParada").css('borderColor', '#ced4da');
+    }
+
+
     if ($("#selectAutoclave").val() == "") {
         $("#selectAutoclave").css('borderColor', '#FA8072');
         valida = false;
     } else {
         $("#selectAutoclave").css('borderColor', '#ced4da');
     }
+
+   
 
     if ($("#txtProducto").val() == "") {
         $("#txtProducto").css('borderColor', '#FA8072');
@@ -169,6 +179,13 @@ function Validar() {
         $("#txtProducto").css('borderColor', '#ced4da');
     }
     if ($("#txtTemperatura").val() == "") {
+        $("#txtTemperatura").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtTemperatura").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtTemperatura").val() == "" || $("#txtTemperatura").val() > 999999999 || $("#txtTemperatura").val() < -999999999) {
         $("#txtTemperatura").css('borderColor', '#FA8072');
         valida = false;
     } else {
@@ -296,6 +313,14 @@ function ValidarEdita() {
         $("#txtParada2").css('borderColor', '#ced4da');
     }
 
+    if ($("#txtParada2").val() == "" || $("#txtParada2").val() > 99999999 || $("#txtParada2").val() < -99999999) {
+        $("#txtParada2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtParada2").css('borderColor', '#ced4da');
+    }
+
+
     if ($("#selectAutoclave2").val() == "") {
         $("#selectAutoclave2").css('borderColor', '#FA8072');
         valida = false;
@@ -303,6 +328,7 @@ function ValidarEdita() {
         $("#selectAutoclave2").css('borderColor', '#ced4da');
     }
 
+   
     if ($("#txtProducto2").val() == "") {
         $("#txtProducto2").css('borderColor', '#FA8072');
         valida = false;
@@ -315,6 +341,14 @@ function ValidarEdita() {
     } else {
         $("#txtTemperatura2").css('borderColor', '#ced4da');
     }
+
+    if ($("#txtTemperatura2").val() == "" || $("#txtTemperatura2").val() > 99999999 || $("#txtTemperatura2").val() < -99999999) {
+        $("#txtTemperatura2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtTemperatura2").css('borderColor', '#ced4da');
+    }
+
     
     if ($("#txtCloro2").val() == "") {
         $("#txtCloro2").css('borderColor', '#FA8072');
