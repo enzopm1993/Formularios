@@ -17,16 +17,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public CC_MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,string Tipo)
+        public CC_MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,string Tipo, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var model = entities.CC_MONITOREO_DESCONGELADO.Where(x=> 
-                            x.Fecha==Fecha
-                            &&x.Tanque == Tanque 
-                            && x.Tipo == Tipo
-                            && x.Lote == Lote
-                            && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+
+                var model = (from x in entities.CC_MONITOREO_DESCONGELADO
+                             join y in entities.CC_MONITOREO_DESCONGELADO_CONTROL on x.IdMonitoreoDescongeladoControl equals y.IdMonitoreoDescongeladoControl
+                             where x.Fecha == Fecha
+                             && x.Tanque == Tanque
+                             && x.Tipo == Tipo
+                             && x.Lote == Lote
+                             && y.Turno ==  Turno
+                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             select x
+                            ).FirstOrDefault();
+
+              
                 if (model != null)
                 {
                     CC_MONITOREO_DESCONGELADO control = new CC_MONITOREO_DESCONGELADO

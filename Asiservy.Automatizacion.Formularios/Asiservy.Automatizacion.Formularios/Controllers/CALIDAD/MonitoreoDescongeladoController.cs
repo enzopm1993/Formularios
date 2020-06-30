@@ -100,7 +100,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult MonitoreoDescongeladoDetallePartial(DateTime Fecha,string Tanque, string Lote, string Tipo)
+        public JsonResult MonitoreoDescongeladoDetallePartial(DateTime Fecha,string Tanque, string Lote, string Tipo, string Turno)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo);
+                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo, Turno);
                 return model != null ? Json(model, JsonRequestBehavior.AllowGet) : Json("0",JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
