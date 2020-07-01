@@ -83,7 +83,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
                 if (poPeriodo != null)
                 {
-                    poPeriodo.Descripcion = model.Descripcion;     
+                    poPeriodo.Descripcion = model.Descripcion.ToUpper();     
                     poPeriodo.Estado = model.Estado;
                     poPeriodo.FechaDesde = model.FechaDesde;
                     poPeriodo.FechaHasta = model.FechaHasta;
