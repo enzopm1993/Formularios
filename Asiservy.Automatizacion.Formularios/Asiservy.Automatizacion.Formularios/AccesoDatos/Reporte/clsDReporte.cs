@@ -59,7 +59,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 {
                     poReporte.EstadoRegistro = model.EstadoRegistro;
                     poReporte.Nombre = model.Nombre.ToUpper();
-                    poReporte.Codigo = model.Codigo;
+                    poReporte.Codigo = model.Codigo.ToUpper();
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;
@@ -67,6 +67,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 else
                 {
                     model.Nombre = model.Nombre.ToUpper();
+                    model.Codigo = model.Codigo.ToUpper();
                     entities.REPORTE_MAESTRO.Add(model);
                 }
                 entities.SaveChanges();
