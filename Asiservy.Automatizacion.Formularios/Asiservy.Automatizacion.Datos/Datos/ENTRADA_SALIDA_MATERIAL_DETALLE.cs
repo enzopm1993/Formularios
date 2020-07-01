@@ -32,8 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
+        public virtual ENTRADA_SALIDA_MATERIAL_CABECERA ENTRADA_SALIDA_MATERIAL_CABECERA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ENTRADA_SALIDA_MATERIAL_SUBDETALLE> ENTRADA_SALIDA_MATERIAL_SUBDETALLE { get; set; }
-        public virtual ENTRADA_SALIDA_MATERIAL_CABECERA ENTRADA_SALIDA_MATERIAL_CABECERA { get; set; }
     }
 }

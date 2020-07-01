@@ -2449,6 +2449,8 @@
           <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Observacion" Type="varchar" MaxLength="500" />
           <Property Name="EstadoControl" Type="bit" Nullable="false" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
+          <Property Name="FechaAprobacion" Type="datetime" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -4764,6 +4766,9 @@
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
+        <Function Name="spReporteEntradaSalidaMaterialesProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCabecera" Type="int" Mode="In" />
+        </Function>
         <Function Name="spReporteEsterilizacionDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
@@ -6554,12 +6559,6 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="LineaNegocio" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="ENTRADA_SALIDA_MATERIAL_DETALLE" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" />
-          <EntitySet Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
-          <AssociationSet Name="FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-            <End Role="ENTRADA_SALIDA_MATERIAL_DETALLE" EntitySet="ENTRADA_SALIDA_MATERIAL_DETALLE" />
-            <End Role="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" EntitySet="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
-          </AssociationSet>
           <EntitySet Name="ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" />
           <EntitySet Name="CC_PARAMETRO_CALIDAD" EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" />
           <FunctionImport Name="spKpiAvancePorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spKpiAvancePorLimpiadora)">
@@ -6583,11 +6582,6 @@
             <Parameter Name="idCloroCisterna" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="ENTRADA_SALIDA_MATERIAL_CABECERA" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" />
-          <AssociationSet Name="FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA">
-            <End Role="ENTRADA_SALIDA_MATERIAL_CABECERA" EntitySet="ENTRADA_SALIDA_MATERIAL_CABECERA" />
-            <End Role="ENTRADA_SALIDA_MATERIAL_DETALLE" EntitySet="ENTRADA_SALIDA_MATERIAL_DETALLE" />
-          </AssociationSet>
           <EntitySet Name="CONTROL_AVANCE_API" EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" />
           <EntitySet Name="REPORTE_DETALLE" EntityType="ASIS_PRODModel.REPORTE_DETALLE" />
           <EntitySet Name="REPORTE_MAESTRO" EntityType="ASIS_PRODModel.REPORTE_MAESTRO" />
@@ -6600,8 +6594,22 @@
           </FunctionImport>
           <FunctionImport Name="spConsultaReporteMaestro" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteMaestro)" />
           <FunctionImport Name="spConsultaReporteDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteDetalle)">
-            <Parameter Name="idControl" Mode="In" Type="Int32" />
+          <Parameter Name="idControl" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spReporteEntradaSalidaMaterialesProduccion" ReturnType="Collection(ASIS_PRODModel.spReporteEntradaSalidaMaterialesProduccion)">
+          <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="ENTRADA_SALIDA_MATERIAL_CABECERA" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" />
+          <EntitySet Name="ENTRADA_SALIDA_MATERIAL_DETALLE" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" />
+          <EntitySet Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
+          <AssociationSet Name="FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA">
+            <End Role="ENTRADA_SALIDA_MATERIAL_CABECERA" EntitySet="ENTRADA_SALIDA_MATERIAL_CABECERA" />
+            <End Role="ENTRADA_SALIDA_MATERIAL_DETALLE" EntitySet="ENTRADA_SALIDA_MATERIAL_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+            <End Role="ENTRADA_SALIDA_MATERIAL_DETALLE" EntitySet="ENTRADA_SALIDA_MATERIAL_DETALLE" />
+            <End Role="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" EntitySet="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -12557,53 +12565,6 @@
           <Property Type="Int32" Name="TotalLiquido" Nullable="true" />
           <Property Type="Int32" Name="TotalAceite" Nullable="true" />
         </ComplexType>
-        <EntityType Name="ENTRADA_SALIDA_MATERIAL_DETALLE">
-          <Key>
-            <PropertyRef Name="IdDetalleEntradaSalidaMateriales" />
-          </Key>
-          <Property Name="IdDetalleEntradaSalidaMateriales" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Material" Type="Int32" Nullable="false" />
-          <Property Name="Ingreso" Type="Int32" Nullable="false" />
-          <Property Name="IdCabeceraEntradaSalidaMaterial" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" FromRole="ENTRADA_SALIDA_MATERIAL_DETALLE" ToRole="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
-          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_CABECERA" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" FromRole="ENTRADA_SALIDA_MATERIAL_DETALLE" ToRole="ENTRADA_SALIDA_MATERIAL_CABECERA" />
-        </EntityType>
-        <EntityType Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-          <Key>
-            <PropertyRef Name="IdSubDetalleEntradaSalidaMaterial" />
-          </Key>
-          <Property Name="IdSubDetalleEntradaSalidaMaterial" Type="Int32" Nullable="false" />
-          <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Salida" Type="Int32" Nullable="false" />
-          <Property Name="IdDetalleEntradaSalidaMaterial" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_DETALLE" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" FromRole="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" ToRole="ENTRADA_SALIDA_MATERIAL_DETALLE" />
-        </EntityType>
-        <Association Name="FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Role="ENTRADA_SALIDA_MATERIAL_DETALLE" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Role="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ENTRADA_SALIDA_MATERIAL_DETALLE">
-              <PropertyRef Name="IdDetalleEntradaSalidaMateriales" />
-            </Principal>
-            <Dependent Role="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-              <PropertyRef Name="IdDetalleEntradaSalidaMaterial" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL">
           <Key>
             <PropertyRef Name="IdMaterial" />
@@ -12749,37 +12710,6 @@
           <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="Ppm_CloroDet" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
-        <EntityType Name="ENTRADA_SALIDA_MATERIAL_CABECERA">
-          <Key>
-            <PropertyRef Name="IdControlEntradaSalidaMateriales" />
-          </Key>
-          <Property Name="IdControlEntradaSalidaMateriales" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Linea" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoControl" Type="Boolean" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_DETALLE" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" FromRole="ENTRADA_SALIDA_MATERIAL_CABECERA" ToRole="ENTRADA_SALIDA_MATERIAL_DETALLE" />
-        </EntityType>
-        <Association Name="FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA">
-          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" Role="ENTRADA_SALIDA_MATERIAL_CABECERA" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Role="ENTRADA_SALIDA_MATERIAL_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ENTRADA_SALIDA_MATERIAL_CABECERA">
-              <PropertyRef Name="IdControlEntradaSalidaMateriales" />
-            </Principal>
-            <Dependent Role="ENTRADA_SALIDA_MATERIAL_DETALLE">
-              <PropertyRef Name="IdCabeceraEntradaSalidaMaterial" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CONTROL_AVANCE_API">
           <Key>
             <PropertyRef Name="IdControlAvance" />
@@ -12878,6 +12808,93 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="spReporteEntradaSalidaMaterialesProduccion">
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Material" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="Ingreso" Nullable="false" />
+          <Property Type="Int32" Name="Salida" Nullable="true" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="ENTRADA_SALIDA_MATERIAL_CABECERA">
+          <Key>
+            <PropertyRef Name="IdControlEntradaSalidaMateriales" />
+          </Key>
+          <Property Name="IdControlEntradaSalidaMateriales" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Linea" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoControl" Type="Boolean" Nullable="false" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_DETALLE" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" FromRole="ENTRADA_SALIDA_MATERIAL_CABECERA" ToRole="ENTRADA_SALIDA_MATERIAL_DETALLE" />
+        </EntityType>
+        <EntityType Name="ENTRADA_SALIDA_MATERIAL_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDetalleEntradaSalidaMateriales" />
+          </Key>
+          <Property Name="IdDetalleEntradaSalidaMateriales" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Material" Type="Int32" Nullable="false" />
+          <Property Name="Ingreso" Type="Int32" Nullable="false" />
+          <Property Name="IdCabeceraEntradaSalidaMaterial" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_CABECERA" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" FromRole="ENTRADA_SALIDA_MATERIAL_DETALLE" ToRole="ENTRADA_SALIDA_MATERIAL_CABECERA" />
+          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" FromRole="ENTRADA_SALIDA_MATERIAL_DETALLE" ToRole="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
+        </EntityType>
+        <EntityType Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+          <Key>
+            <PropertyRef Name="IdSubDetalleEntradaSalidaMaterial" />
+          </Key>
+          <Property Name="IdSubDetalleEntradaSalidaMaterial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Salida" Type="Int32" Nullable="false" />
+          <Property Name="IdDetalleEntradaSalidaMaterial" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ENTRADA_SALIDA_MATERIAL_DETALLE" Relationship="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" FromRole="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" ToRole="ENTRADA_SALIDA_MATERIAL_DETALLE" />
+        </EntityType>
+        <Association Name="FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA">
+          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" Role="ENTRADA_SALIDA_MATERIAL_CABECERA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Role="ENTRADA_SALIDA_MATERIAL_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ENTRADA_SALIDA_MATERIAL_CABECERA">
+              <PropertyRef Name="IdControlEntradaSalidaMateriales" />
+            </Principal>
+            <Dependent Role="ENTRADA_SALIDA_MATERIAL_DETALLE">
+              <PropertyRef Name="IdCabeceraEntradaSalidaMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Role="ENTRADA_SALIDA_MATERIAL_DETALLE" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Role="ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ENTRADA_SALIDA_MATERIAL_DETALLE">
+              <PropertyRef Name="IdDetalleEntradaSalidaMateriales" />
+            </Principal>
+            <Dependent Role="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+              <PropertyRef Name="IdDetalleEntradaSalidaMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18694,40 +18711,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE">
-              <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdCabeceraEntradaSalidaMaterial" ColumnName="IdCabeceraEntradaSalidaMaterial" />
-                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
-                <ScalarProperty Name="Material" ColumnName="Material" />
-                <ScalarProperty Name="IdDetalleEntradaSalidaMateriales" ColumnName="IdDetalleEntradaSalidaMateriales" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-              <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdDetalleEntradaSalidaMaterial" ColumnName="IdDetalleEntradaSalidaMaterial" />
-                <ScalarProperty Name="Salida" ColumnName="Salida" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="IdSubDetalleEntradaSalidaMaterial" ColumnName="IdSubDetalleEntradaSalidaMaterial" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL">
             <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL">
               <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL">
@@ -18875,25 +18858,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_CABECERA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA">
-              <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_CABECERA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="EstadoControl" ColumnName="EstadoControl" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdControlEntradaSalidaMateriales" ColumnName="IdControlEntradaSalidaMateriales" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CONTROL_AVANCE_API">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_AVANCE_API">
               <MappingFragment StoreEntitySet="CONTROL_AVANCE_API">
@@ -18991,6 +18955,72 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteEntradaSalidaMaterialesProduccion" FunctionName="ASIS_PRODModel.Store.spReporteEntradaSalidaMaterialesProduccion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEntradaSalidaMaterialesProduccion">
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+                <ScalarProperty Name="Salida" ColumnName="Salida" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_CABECERA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA">
+              <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_CABECERA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoControl" ColumnName="EstadoControl" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdControlEntradaSalidaMateriales" ColumnName="IdControlEntradaSalidaMateriales" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE">
+              <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdCabeceraEntradaSalidaMaterial" ColumnName="IdCabeceraEntradaSalidaMaterial" />
+                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="IdDetalleEntradaSalidaMateriales" ColumnName="IdDetalleEntradaSalidaMateriales" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+              <MappingFragment StoreEntitySet="ENTRADA_SALIDA_MATERIAL_SUBDETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdDetalleEntradaSalidaMaterial" ColumnName="IdDetalleEntradaSalidaMaterial" />
+                <ScalarProperty Name="Salida" ColumnName="Salida" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdSubDetalleEntradaSalidaMaterial" ColumnName="IdSubDetalleEntradaSalidaMaterial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

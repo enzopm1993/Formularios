@@ -26,6 +26,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Turno { get; set; }
         public string Observacion { get; set; }
         public bool EstadoControl { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

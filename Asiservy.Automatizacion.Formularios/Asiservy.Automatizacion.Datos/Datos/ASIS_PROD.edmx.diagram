@@ -243,20 +243,20 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CUCHILLOS_PREPARACION_HORA_CC_CUCHILLOS_PREPARACION_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Width="1.5" PointX="50.625" PointY="51" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Width="1.5" PointX="52.875" PointY="51.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" Width="1.5" PointX="7.375" PointY="29.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Width="1.5" PointX="23.375" PointY="40" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="25.625" PointY="40.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" Width="1.5" PointX="48.375" PointY="50.875" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="21.375" PointY="30.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" Width="1.5" PointX="48.375" PointY="51" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Width="1.5" PointX="50.625" PointY="51.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Width="1.5" PointX="52.875" PointY="51.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

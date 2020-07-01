@@ -930,6 +930,9 @@
     <Compile Include="Datos\spReporteControlToalla.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spReporteEntradaSalidaMaterialesProduccion.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spReporteEsterilizacionDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
