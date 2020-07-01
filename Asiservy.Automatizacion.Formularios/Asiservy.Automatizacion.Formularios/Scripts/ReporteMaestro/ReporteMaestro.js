@@ -1,6 +1,17 @@
 ﻿$(document).ready(function () {
     ConsultarReporteMaestros();
-    $("#selectOpcion").select2();
+    $("#selectOpcion").select2({
+        width: '100%'
+    });
+    $('#txtVersionDetalleModal').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100',
+        'min': '1'
+    });
+
 });
 
 var ReporteModel = [];
@@ -21,7 +32,7 @@ function ConsultarOpciones() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            console.log(resultado);
+            //console.log(resultado);
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#selectOpcion").append("<option value='" + row.IdOpcion + "'>" + row.Formulario + "</option>")
@@ -351,15 +362,14 @@ function ValidarDetalle() {
     } else {
         $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
     }
+
     if ($("#file-preview").val() == undefined) {
-        $("#divFileUpload").css('color', '#FA8072');
-        $("#file-preview-zone").css('borderColor', '#FA8072');
+        $("#lblFile").css('border-color', '#FA8072');
         
         valida=false;
     } else {
-        $("#divFileUpload").css('color', '#ced4da');
-        $("#file-preview-zone").css('borderColor', '#ced4da');
-
+        $("#lblFile").css('border-color', '#ced4da');
+       
     }
     return valida;
 }
@@ -422,11 +432,11 @@ function EditarReporteDetalle(model) {
     }
 
     $("#txtIdDetalleModal").val(model.IdReporteDetalle);
-    $("#txtVersionDetalleModal").val(model.Version);
+    $("#txtVersionDetalleModal").val(model.VERSION);
 
     var filePreview = document.createElement('img');
     filePreview.id = 'file-preview';
-    filePreview.src = "/Content/Img/" + model.Imagen;
+    filePreview.src = "/ImagenSiaa/" + model.Imagen;
     var previewZone = document.getElementById('file-preview-zone');
     previewZone.appendChild(filePreview);
  
@@ -450,7 +460,7 @@ function EditarReporteDetalle(model) {
         $("#ModalControlDetalle").modal("show");
 
     }
-    img.src = "/Content/Img/" + model.Imagen;
+    img.src = "/ImagenSiaa/" + model.Imagen;
 
 }
 

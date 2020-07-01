@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.IdReporteMaestro)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @item.Nombre.ToUpper()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Formulario)
