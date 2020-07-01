@@ -41,6 +41,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JqueryRotate = "1";                
                 ViewBag.Select2 = "1";
+                ViewBag.MascaraInput = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 clsDOpcion = new clsDOpcion();
@@ -198,7 +199,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (string.IsNullOrEmpty(model.Version) ||  model.IdReporteMaestro==0)
+                if (model.Version<1 ||  model.IdReporteMaestro==0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
@@ -206,7 +207,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/Content/Img/REPORTE/");
+                    path = Server.MapPath("~/ImagenSiaa/REPORTE/");
                     if (!Directory.Exists(path))
                     { 
                         Directory.CreateDirectory(path);
@@ -224,15 +225,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                if (UltimaVersion)
-                {
-                    clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, model.Version);
-                }
-                else
-                {
-                    clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, "");
+                //if (UltimaVersion)
+                //{
+                //    clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, model.Version);
+                //}
+                //else
+                //{
+                //    clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, "");
 
-                }
+                //}
                 clsDReporte.GuardarModificarReporteMaestroDetalle(model);
                 if (dataImg != null)
                 {

@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdReporteDetalle { get; set; }
         public int IdReporteMaestro { get; set; }
-        public string Version { get; set; }
+        public int VERSION { get; set; }
         public string Imagen { get; set; }
         public int Rotacion { get; set; }
         public string EstadoRegistro { get; set; }

@@ -58,7 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 if (poReporte != null)
                 {
                     poReporte.EstadoRegistro = model.EstadoRegistro;
-                    poReporte.Nombre = model.Nombre;
+                    poReporte.Nombre = model.Nombre.ToUpper();
                     poReporte.Codigo = model.Codigo;
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -66,6 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 }
                 else
                 {
+                    model.Nombre = model.Nombre.ToUpper();
                     entities.REPORTE_MAESTRO.Add(model);
                 }
                 entities.SaveChanges();
@@ -99,18 +100,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
             }
         }
 
-        public void ActualuzarUltimaVersion(int Id, string Version)
-        {
-            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-            {
-                var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == Id);
-                if (poReporte != null)
-                {
-                    poReporte.UltimaVersion = Version;
-                    entities.SaveChanges();
-                }
-            }
-        }
+        //public void ActualuzarUltimaVersion(int Id, int Version)
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == Id);
+        //        if (poReporte != null)
+        //        {
+        //            poReporte.UltimaVersion = Version;
+        //            entities.SaveChanges();
+        //        }
+        //    }
+        //}
 
         public void GuardarModificarReporteMaestroDetalle(REPORTE_DETALLE model)
         {

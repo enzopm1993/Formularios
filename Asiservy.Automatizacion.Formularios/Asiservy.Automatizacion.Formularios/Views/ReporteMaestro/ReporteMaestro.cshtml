@@ -70,13 +70,13 @@
                     <div class="col-md-4 col-sm-6 col-12">
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtNombre" />
+                            <input type="text" autocomplete="off" maxlength="100" class="form-control" name="name" value="" id="txtNombre" />
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
 
                         <div class="form-group">
-                            <label>Codigo</label>
+                            <label>Código</label>
                             <input type="text" maxlength="50" autocomplete="off" class="form-control" name="name" value="" id="txtCodigo" />
                         </div>
                     </div>
@@ -174,21 +174,21 @@
                             <input type="number" disabled id="txtIdControlModal" class="form-control" name="name" value="0" />
                         </div>
                     </div>
-                    <div class="col-md-5 col-5 col-sm-6">
+                    <div class="col-md-6 col-5 col-sm-6">
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text" id="txtNombreModal" class="form-control" name="name" value="" />
+                            <input type="text" maxlength="100" id="txtNombreModal" class="form-control" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-5 col-5 col-sm-6">
+                    <div class="col-md-4 col-5 col-sm-6">
                         <div class="form-group">
-                            <label>Codigo</label>
-                            <input type="text" id="txtCodigoModal" size="50" class="form-control" name="name" value="" />
+                            <label>Código</label>
+                            <input type="text" id="txtCodigoModal"  maxlength="50" class="form-control" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-12 col-5 col-sm-6">
                         <div class="form-group">
-                            <label>Opcion</label>
+                            <label>Opción</label>
                             @*@Html.DropDownList("selectOpcionModal", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })*@
                             <input type="text" readonly class="form-control" id="selectOpcionModal" name="name" value="" />
                         </div>
@@ -218,31 +218,29 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4 col-2 col-sm-2">
+                    <div class="col-md-6 col-2 col-sm-2">
                         <div class="form-group">
                             <label>ID</label>
                             <input type="number" disabled id="txtIdDetalleModal" class="form-control" name="name" value="0" />
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-6 col-sm-6">
+                    <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Versión</label>
-                            <input type="text" id="txtVersionDetalleModal" size="10" autocomplete="off" class="form-control" name="name" value="" />
+                            <label>Versión <span class="badge badge-secondary">(1-100)</span></label>
+                            <input type="text" id="txtVersionDetalleModal" placeholder="" size="10" autocomplete="off" class="form-control" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-4 col-4 col-sm-4">
-                        <br />
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="CheckVersion">
-                            <label class="custom-control-label" for="CheckVersion">Ultima Versión</label>
-                        </div>
-                    </div>
+                   
 
                     <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
                         <label>Reporte</label>
-                        <div id="divFileUpload">
+                        @*<div id="divFileUpload">
                             <input id="file-upload" type="file" accept="image/*" />
+                        </div>*@
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file-upload" required>
+                            <label class="custom-file-label" id="lblFile" for="file-upload">Cargar Imagen</label>
                         </div>
                         <br />
                         <div class="text-center" style="justify-content:center">

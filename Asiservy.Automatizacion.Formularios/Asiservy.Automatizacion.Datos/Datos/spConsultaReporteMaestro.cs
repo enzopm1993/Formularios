@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdReporteMaestro { get; set; }
         public string Nombre { get; set; }
         public string Codigo { get; set; }
-        public string UltimaVersion { get; set; }
+        public Nullable<int> UltimaVersion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

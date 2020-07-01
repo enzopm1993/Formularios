@@ -64,7 +64,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_PESO_ENLATADO_DETALLE> CONTROL_PESO_ENLATADO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_PESO_ENLATADO_SUBDETALLE> CONTROL_PESO_ENLATADO_SUBDETALLE { get; set; }
         public virtual DbSet<AVANCE_KILOS_HORA> AVANCE_KILOS_HORA { get; set; }
-        public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
         public virtual DbSet<BITACORA_MOVER_EMPLEADO> BITACORA_MOVER_EMPLEADO { get; set; }
         public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
@@ -115,13 +114,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
-        public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE> CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_MANT> CC_HIGIENE_COMEDOR_COCINA_MANT { get; set; }
         public virtual DbSet<CC_CALIBRACION_PHMETRO> CC_CALIBRACION_PHMETRO { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL> CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
-        public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PEDILUVIO> CC_MANTENIMIENTO_PEDILUVIO { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
@@ -200,6 +197,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_CABECERA> ENTRADA_SALIDA_MATERIAL_CABECERA { get; set; }
+        public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
+        public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
+        public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1676,15 +1676,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spConsultaReporteDetalle> spConsultaReporteDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("idControl", idControl) :
-                new ObjectParameter("idControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteDetalle>("spConsultaReporteDetalle", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultaMovimientoPersonalDiario> spConsultaMovimientoPersonalDiario(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string codLinea, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1837,11 +1828,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", fechaDesdeParameter, fechaHastaParameter, idCabeceraParameter, opParameter);
         }
     
-        public virtual ObjectResult<spConsultaReporteMaestro> spConsultaReporteMaestro()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
-        }
-    
         public virtual ObjectResult<EmpleadosDatosPersonales_Result> EmpleadosDatosPersonales()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<EmpleadosDatosPersonales_Result>("EmpleadosDatosPersonales");
@@ -1871,15 +1857,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion>("sp_Control_Cuchillos_Preparacion", idControlCuchilloParameter, opParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaCodigoReporte> spConsultaCodigoReporte(string reporte)
-        {
-            var reporteParameter = reporte != null ?
-                new ObjectParameter("Reporte", reporte) :
-                new ObjectParameter("Reporte", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
         }
     
         public virtual ObjectResult<sp_Calibracion_Fluorometro> sp_Calibracion_Fluorometro(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCalibracionFluor, Nullable<int> op)
@@ -2327,6 +2304,29 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCodigoReporte> spConsultaCodigoReporte(string reporte)
+        {
+            var reporteParameter = reporte != null ?
+                new ObjectParameter("Reporte", reporte) :
+                new ObjectParameter("Reporte", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteMaestro> spConsultaReporteMaestro()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
+        }
+    
+        public virtual ObjectResult<spConsultaReporteDetalle> spConsultaReporteDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("idControl", idControl) :
+                new ObjectParameter("idControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteDetalle>("spConsultaReporteDetalle", idControlParameter);
         }
     }
 }
