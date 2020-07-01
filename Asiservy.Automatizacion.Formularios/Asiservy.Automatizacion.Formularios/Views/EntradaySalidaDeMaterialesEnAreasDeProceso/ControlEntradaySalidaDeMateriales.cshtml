@@ -27,7 +27,7 @@
         padding-right: 10px;
     }
 </style>
-<h4>Control de entrada y salida de materiales</h4>
+<h4>Control de entrada y salida de materiales <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
 
 <div class="card" id="DivCabecera">
     <div class="row">
@@ -39,11 +39,18 @@
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="form-group">
                 <label>Turno</label>
                 @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
                 <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
+            </div>
+            
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <div class="form-group">
+                <label>Línea</label>
+                <input type="text" class="form-control" value="@ViewBag.NombreLinea" disabled />
             </div>
         </div>
 

@@ -213,7 +213,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
             {
                 var resultado = (from d in db.ENTRADA_SALIDA_MATERIAL_DETALLE
                                  join cab in db.ENTRADA_SALIDA_MATERIAL_CABECERA on new { IdControlEntradaSalidaMateriales = d.IdCabeceraEntradaSalidaMaterial, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cab.IdControlEntradaSalidaMateriales, cab.EstadoRegistro }
-                                 join mat in db.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL on new {Id=d.IdDetalleEntradaSalidaMateriales, EstadoRegistro= clsAtributos.EstadoRegistroActivo }
+                                 join mat in db.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL on new {Id=d.Material, EstadoRegistro= clsAtributos.EstadoRegistroActivo }
                                  equals new { Id=mat.IdMaterial,mat.EstadoRegistro}
                                  where d.IdCabeceraEntradaSalidaMaterial == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select new EntradaSalidaMaterialDetalleViewModel {IdCabeceraEntradaSalidaMaterial=d.IdCabeceraEntradaSalidaMaterial,
@@ -370,6 +370,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                     resultado[2] = poDetalle;
                 }
                 return resultado;
+            }
+        }
+        public List<ENTRADA_SALIDA_MATERIAL_CABECERA> ConsultarCabReportes(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var respuesta = (from x in db.ENTRADA_SALIDA_MATERIAL_CABECERA
+                                 join d in db.ENTRADA_SALIDA_MATERIAL_DETALLE on new { Id = x.IdControlEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = d.IdCabeceraEntradaSalidaMaterial, d.EstadoRegistro }
+                                 join t in db.ENTRADA_SALIDA_MATERIAL_SUBDETALLE on new { Id = d.IdDetalleEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = t.IdDetalleEntradaSalidaMaterial, t.EstadoRegistro }
+
+                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaDesde && x.Fecha <= FechaHasta)
+                                 select x).Distinct().ToList();
+
+            
+
+                return respuesta;
+            }
+        }
+        public List<spReporteEntradaSalidaMaterialesProduccion> ConsultaReporte(int idCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                return db.spReporteEntradaSalidaMaterialesProduccion(idCabecera).ToList();
             }
         }
 

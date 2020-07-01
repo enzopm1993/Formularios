@@ -165,6 +165,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 clsDEmpleado = new clsDEmpleado();
                 ViewBag.Linea = clsDEmpleado.ConsultarEmpleadoxCedula(lsUsuario[1]).LINEA;
+                ViewBag.NombreLinea = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault().LINEA;
                 ClsDEntradaSalidaMateriales = new ClsDEntradaSalidaMateriales();
                 ViewBag.Producto = new SelectList(ClsDEntradaSalidaMateriales.ConsultaMaterial(), "IdMaterial", "Nombre");
                 return View();
@@ -562,6 +563,108 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ClsDEntradaSalidaMateriales = new ClsDEntradaSalidaMateriales();
                 Respuesta = ClsDEntradaSalidaMateriales.InactivarDetalleControl(poDetalle, IdCabecera);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [Authorize]
+        public ActionResult ReporteEntradaySalidaDeMateriales()
+        {
+            try
+            {
+
+                ViewBag.JavaScrip = "PRODUCCION/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.JqueryRotate = "1";
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        public JsonResult ConsultarCabecerasReporte(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                List<dynamic> DRespuesta = new List<dynamic>();
+                clsDClasificador = new clsDClasificador();
+                List<CLASIFICADOR> ListaTurnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
+                ClsDEntradaSalidaMateriales = new ClsDEntradaSalidaMateriales();
+                List<ENTRADA_SALIDA_MATERIAL_CABECERA> Respuesta = ClsDEntradaSalidaMateriales.ConsultarCabReportes(FechaDesde, FechaHasta);
+                if (Respuesta.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+
+                    string turno;
+                    foreach (var item in Respuesta)
+                    {
+                        turno = (from t in ListaTurnos
+                                 where t.Codigo == item.Turno
+                                 select t.Descripcion).FirstOrDefault();
+                        DRespuesta.Add(new
+                        {
+                            item.AprobadoPor,
+                            item.EstadoControl,
+                            item.EstadoRegistro,
+                            item.Fecha,
+                            item.FechaAprobacion,
+                            item.FechaIngresoLog,
+                            item.FechaModificacionLog,
+                            item.IdControlEntradaSalidaMateriales,
+                            item.Observacion,
+                            item.TerminalIngresoLog,
+                            item.TerminalModificacionLog,
+                            item.UsuarioIngresoLog,
+                            item.UsuarioModificacionLog,
+                            turno
+                        });
+                    }
+                 
+                }
+                return Json(DRespuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
