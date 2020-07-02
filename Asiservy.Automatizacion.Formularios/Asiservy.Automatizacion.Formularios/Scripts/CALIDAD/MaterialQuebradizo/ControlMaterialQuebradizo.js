@@ -13,13 +13,20 @@ $(document).ready(function () {
     option.text = 'Todos';
     option.value = 'galo';
     x.add(option);
+    $('#selectTurno').select2({
+        width: '100%'
+    });
+    $('#selectTurnoIngresar').select2({
+        width: '100%'
+    });
 });
 
 function ConsultarEstadoRegistro() {
     $.ajax({
         url: "../MaterialQuebradizo/ConsultarEstadoReporte",
         data: {
-            fechaControl: $("#txtFecha").val()
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
         },
         type: "GET",
         success: function (resultado) {
@@ -36,6 +43,11 @@ function ConsultarEstadoRegistro() {
 }
 
 function CargarCabecera() {
+    if (document.getElementById('selectTurno')==null) {
+        $('#divBotonCrear').prop('hidden', true);
+        $('#divBotonCrearDetalle').prop('hidden', true);
+        return;
+    }
     $('#cargac').show();
     if ($('#txtFecha').val() == '') {
         MensajeAdvertencia('Fecha invalida');
@@ -45,7 +57,8 @@ function CargarCabecera() {
     $.ajax({
         url: "../MaterialQuebradizo/ConsultarEstadoReporte",
         data: {
-            fechaControl: $("#txtFecha").val()
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
         },
         type: "GET",
         success: function (resultado) {
@@ -61,6 +74,7 @@ function CargarCabecera() {
                 $('#divMostarTablaDetallesVer').html(resultado);
                 itemCabecera = [];
                 LimpiarModalIngresoCabecera();
+                CambiarMensajeEstado('nada');
             } else {
                 itemCabecera = resultado;
                 CambiarMensajeEstado(resultado.EstadoReporte);
@@ -99,6 +113,7 @@ function GuardarCabecera(siAprobar) {
                     IdMaterial: itemCabecera.IdMaterial,
                     Fecha: $("#txtIngresoFecha").val(),
                     ObservacionCtrl: $("#txtIngresoObservacion").val(),
+                    Turno: document.getElementById('selectTurnoIngresar').value,
                     siAprobar: siAprobar
                 },
                 success: function (resultado) {
@@ -114,6 +129,12 @@ function GuardarCabecera(siAprobar) {
                         return;
                     } else if (resultado == 4) {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                        return;
+                    } else if (resultado == 5) {
+                        var e = document.getElementById("selectTurnoIngresar");
+                        var turnoExiste = e.options[e.selectedIndex].text;
+                        MensajeAdvertencia('Error el TURNO ya esta ingresado  : <span class="badge badge-danger">' + turnoExiste + '</span>');
+                        $('#cargac').hide();
                         return;
                     }
                     $('#ModalIngresoCabecera').modal('hide');
@@ -207,13 +228,15 @@ function ActualizarCabecera() {
             LimpiarModalIngresoCabecera();
             $("#txtIngresoFecha").val(moment(itemCabecera.Fecha).format("YYYY-MM-DD"));
             $("#txtIngresoObservacion").val(itemCabecera.ObservacionCtrl);
+            $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value).trigger('change');     
             $('#ModalIngresoCabecera').modal('show');
         }
     }, 200);
 }
 
-function ModalIngresoCabecera() {
+function ModalIngresoCabecera() {    
     LimpiarModalIngresoCabecera();
+    $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value ).trigger('change');
     $('#ModalIngresoCabecera').modal('show');
     itemCabecera = [];
 }
@@ -569,7 +592,7 @@ function GuardarAccionCorrectiva() {
                         $('#cargac').hide();
                         return;
                     } else if (resultado == 4) {
-                        MensajeAdvertencia('¡Solo se permiten imagenes!', 5);
+                        MensajeAdvertencia('¡Solo se permiten imagenes .JPG y .PNG!', 5);
                         $('#cargac').hide();
                         return;
                     } else {

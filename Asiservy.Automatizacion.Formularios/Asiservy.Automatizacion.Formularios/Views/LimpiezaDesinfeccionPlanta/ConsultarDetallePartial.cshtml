@@ -15,11 +15,11 @@
     jsonModel = Model.Where(v => v.IdAuditoria == tabla.IdAuditoria && v.HoraAuditoria == tabla.HoraAuditoria).ToList();
     <div class="card table-responsive">
         <div class="row">
-            <div class="col-md-10 col-12 col-sm-12 text-md-left text-center">
+            <div class="col-md-9 col-12 col-sm-12 text-md-left text-center">
                 <button id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@JsonConvert.SerializeObject(jsonModel))">Actualizar</button>
                 <button id="btnEliminarDetalle" class="btn btn-outline-danger" style="color:#00264c" onclick="EliminarConfirmarDetalle(@JsonConvert.SerializeObject(jsonModel))">Eliminar</button>
             </div>
-            <div style="font-size:13px;" class="float-md-right col-md-2 col-12 col-sm-12">
+            <div style="font-size:13px;" class="float-md-right col-md-3 col-12 col-sm-12 ">
 
                 @if (!string.IsNullOrEmpty(tabla.Turno))
                 {

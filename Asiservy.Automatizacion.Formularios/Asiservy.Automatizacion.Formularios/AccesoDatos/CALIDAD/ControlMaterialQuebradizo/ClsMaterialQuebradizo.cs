@@ -180,6 +180,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
             int valor = 0;//GUARDDADO NUEVO
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                var validarNombreRepetido = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.Fecha == guardarModificar.Fecha && x.Turno == guardarModificar.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (siAprobar != 1 && validarNombreRepetido != null && guardarModificar.IdMaterial != validarNombreRepetido.IdMaterial)
+                {
+                    valor = 5;
+                    return valor;
+                }
+
                 var model = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.IdMaterial == guardarModificar.IdMaterial && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
@@ -194,6 +201,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                     {
                         if (guardarModificar.Fecha != DateTime.MinValue)
                         {
+                            model.Turno = guardarModificar.Turno;
                             model.Fecha = guardarModificar.Fecha;
                             model.ObservacionCtrl = guardarModificar.ObservacionCtrl;
                             valor = 1;//ACTUALIZAR
@@ -216,21 +224,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                 return valor;
             }
         }
-        public CC_MATERIAL_QUEBRADIZO_CTRL ConsultarEstadoReporte(int idMaterial, DateTime fechaControl)
+        public CC_MATERIAL_QUEBRADIZO_CTRL ConsultarEstadoReporte(int idMaterial)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 CC_MATERIAL_QUEBRADIZO_CTRL listado;
-                if (idMaterial == 0 && fechaControl > DateTime.MinValue)
-                {
-                    listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
-                                                                                        && x.Fecha.Day == fechaControl.Day
-                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                }
-                else
-                {
-                    listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.IdMaterial == idMaterial && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                }
+                listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.IdMaterial == idMaterial && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
                 CC_MATERIAL_QUEBRADIZO_CTRL cabecera;
                 if (listado != null)
                 {
@@ -246,6 +246,43 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                     return cabecera;
                 }
                 return listado;
+            }
+        }
+        public CC_MATERIAL_QUEBRADIZO_CTRL ConsultarCabeceraTurno(string turno, DateTime fechaControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                CC_MATERIAL_QUEBRADIZO_CTRL listado;
+
+                if (turno == "0")
+                {
+                    listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                   && x.Fecha.Day == fechaControl.Day
+                                                                                   && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                else
+                {
+                    listado = db.CC_MATERIAL_QUEBRADIZO_CTRL.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                        && x.Fecha.Day == fechaControl.Day && x.Turno == turno
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                CC_MATERIAL_QUEBRADIZO_CTRL cabecera;
+                if (listado != null)
+                {
+                    cabecera = new CC_MATERIAL_QUEBRADIZO_CTRL();
+                    cabecera.IdMaterial = listado.IdMaterial;
+                    cabecera.Fecha = listado.Fecha;
+                    cabecera.ObservacionCtrl = listado.ObservacionCtrl;
+                    cabecera.EstadoReporte = listado.EstadoReporte;
+                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = listado.FechaAprobado;
+                    cabecera.AprobadoPor = listado.AprobadoPor;
+                    cabecera.Turno = listado.Turno;
+                    return cabecera;
+                }
+                return listado;
+
             }
         }
         public int EliminarMaterialQuebradizo(CC_MATERIAL_QUEBRADIZO_CTRL guardarModificar)
@@ -397,6 +434,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                         cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
                         cabecera.FechaAprobado = item.FechaAprobado;
                         cabecera.AprobadoPor = item.AprobadoPor;
+                        cabecera.Turno = item.Turno;
                         listaCabecera.Add(cabecera);
                     }
                 }

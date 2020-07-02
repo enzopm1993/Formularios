@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MATERIAL_QUEBRADIZO_CTRL>
 @using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
 <table class="table table-bordered table-striped table-hover" id="tblDataTable" style="font-size:12px">
     <thead>
         <tr>
@@ -15,6 +16,7 @@
             <th>
                 FECHA CREACION
             </th>
+            <th>TURNO</th>
             <th>
                 ESTADO
             </th>
@@ -39,6 +41,15 @@
                 </td>
                 <td>
                     @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
                 </td>
                 <td>
                     @if (item.EstadoReporte == true)

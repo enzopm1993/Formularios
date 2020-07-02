@@ -381,44 +381,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //public ActionResult BandejaAprobadosCloroCisternaDescongeladoPartial(DateTime fechaInicio, DateTime fechaFin)
-        //{
-        //    try
-        //    {
-        //        clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();                
-        //        var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_AprobadosCloroCisternaDescongelado(fechaInicio, fechaFin);               
-        //        if (poCloroCisterna != null && poCloroCisterna.Any())
-        //        {
-        //            return PartialView(poCloroCisterna);
-        //        }
-        //        else if (poCloroCisterna.Any())
-        //        {
-        //            return PartialView(poCloroCisterna);
-        //        }
-        //        else
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        SetErrorMessage(Mensaje);
-        //        return RedirectToAction("Home", "Home");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        SetErrorMessage(Mensaje);
-        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
         public ActionResult BandejaAprobarCloroCisternaDescongelado(int idCloroCisterna)
         {
             try

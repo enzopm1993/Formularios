@@ -50,8 +50,7 @@ function SeleccionarCabecera(jdata) {
     itemSeleccionar = [];
     $('#cargac').show();
     var op = 0;
-    itemSeleccionar = jdata;
-   
+    itemSeleccionar = jdata;   
 
     $.ajax({
         url: "../MaterialQuebradizo/ReporteMaterialQuebradizoDetallePartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
