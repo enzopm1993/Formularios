@@ -1478,6 +1478,7 @@
             <PropertyRef Name="IdParametro" />
           </Key>
           <Property Name="IdParametro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodParametro" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Maximo" Type="decimal" Precision="10" Scale="2" />
           <Property Name="Minimo" Type="decimal" Precision="10" Scale="2" />
@@ -12886,6 +12887,7 @@
             <PropertyRef Name="IdParametro" />
           </Key>
           <Property Name="IdParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodParametro" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Maximo" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Minimo" Type="Decimal" Precision="10" Scale="2" />
@@ -19023,6 +19025,7 @@
                 <ScalarProperty Name="Minimo" ColumnName="Minimo" />
                 <ScalarProperty Name="Maximo" ColumnName="Maximo" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodParametro" ColumnName="CodParametro" />
                 <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
               </MappingFragment>
             </EntityTypeMapping>
