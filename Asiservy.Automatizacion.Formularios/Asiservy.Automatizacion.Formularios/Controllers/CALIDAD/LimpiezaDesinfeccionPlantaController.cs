@@ -604,12 +604,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
-                var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarCabeceraTurno(turno, fechaControl);
-                //if (lista==null)
-                //{
-                //    turno = 0;
-                //    lista = clsDLimpiezaDesinfeccionPlanta.ConsultarCabeceraTurno(turno, fechaControl);
-                //}
+                var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarCabeceraTurno(turno, fechaControl);                
                 if (lista != null)
                 {
                     return Json(lista, JsonRequestBehavior.AllowGet);

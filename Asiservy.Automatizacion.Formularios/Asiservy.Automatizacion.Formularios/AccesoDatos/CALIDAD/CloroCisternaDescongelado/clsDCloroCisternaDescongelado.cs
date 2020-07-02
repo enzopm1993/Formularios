@@ -7,15 +7,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
 {
     public class clsDCloroCisternaDescongelado
     {
-        //public List<sp_Reporte_CloroCisternaDescongelado> Consultar_ReporteCloroCisternaDescongelado(DateTime fecha)
-        //{
-        //    using (ASIS_PRODEntities db= new ASIS_PRODEntities())
-        //    {
-        //        var listado = db.sp_Reporte_CloroCisternaDescongelado(fecha).ToList();
-        //        return listado;
-        //    }
-        //}
-
+       
         public CC_CLORO_CISTERNA_DESCONGELADO ConsultarCabeceraTurno(string turno, DateTime fechaControl)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -103,14 +95,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                 return 0;
             }
         }
-        //public List<sp_Reporte_CloroCisternaDescongeladoDetalle> Consultar_ReporteCloroCisternaDescongeladoDetalle(DateTime fecha, long IdCloroCisterna)
-        //{
-        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-        //    {
-        //        var listado = db.sp_Reporte_CloroCisternaDescongeladoDetalle(fecha, IdCloroCisterna).ToList();
-        //        return listado;
-        //    }
-        //}
+      
         public List<CC_CLORO_CISTERNA_DESCONGELADO> ConsultarBadejaEstado(DateTime fechaDesde, DateTime FechaHasta, bool estadoReporte)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -214,24 +199,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                 return 0;
             }
         }
-        //public List<sp_Reporte_CloroCisternaDescongeladoBandeja> Consultar_PendientesCloroCisternaDescongelado()
-        //{
-        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-        //    {
-        //        var listado = db.sp_Reporte_CloroCisternaDescongeladoBandeja().ToList();
-        //        return listado;
-        //    }
-        //}
-        
-
-        //public List<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> Consultar_AprobadosCloroCisternaDescongelado(DateTime fechaInicio, DateTime fechaFin)
-        //{
-        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-        //    {
-        //        var listado = db.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(fechaInicio, fechaFin).ToList();
-        //        return listado;
-        //    }
-        //}
+       
         public void Aprobar_ReporteCloroCisternaDescongelado(CC_CLORO_CISTERNA_DESCONGELADO controlCloro)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

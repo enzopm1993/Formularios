@@ -3,6 +3,8 @@ $(document).ready(function () {
     CargarCabecera();
 });
 
+var turno = ['', "A", "B"];
+
 function CargarCabecera() {
     Atras();
     $('#lblMostrarFecha').text('');
@@ -47,11 +49,14 @@ function CargarCabecera() {
 }
 
 function SeleccionarCabecera(jdata) {
+    if (jdata.Turno != null || jdata.Turno != '') {
+        $('#lblMostrarHora').text(turno[jdata.Turno]);
+        $('#lblMostrarHoraM').text(turno[jdata.Turno]);
+    }
     itemSeleccionar = [];
     $('#cargac').show();
     var op = 0;
-    itemSeleccionar = jdata;
-   
+    itemSeleccionar = jdata;   
 
     $.ajax({
         url: "../MaterialQuebradizo/ReporteMaterialQuebradizoDetallePartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA

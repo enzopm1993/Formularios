@@ -11,7 +11,12 @@ $(document).ready(function () {
     $('#selectAreaAuditarFiltro').select2({
         width: '100%'
     });
-    
+    $('#selectTurno').select2({
+        width: '100%'
+    });
+    $('#selectTurnoIngresar').select2({
+        width: '100%'
+    });
     var x = document.getElementById("selectAreaAuditarFiltro");
     var option = document.createElement("option");
     option.text = 'TODOS LOS RESGISTROS';
@@ -41,6 +46,11 @@ function ConsultarEstadoRegistro() {
 }
 
 function CargarCabecera() {
+    if (document.getElementById('selectTurno') == null) {
+        $('#divBotonCrear').prop('hidden', true);
+        $('#divBotonCrearDetalle').prop('hidden', true);
+        return;
+    }
     $('#cargac').show();
     if ($('#txtFecha').val() == '') {
         MensajeAdvertencia('Fecha invalida');
@@ -235,8 +245,8 @@ function ActualizarCabecera() {
 
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
-    $('#ModalIngresoCabecera').modal('show');
-    document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
+    $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value).trigger('change');
+    $('#ModalIngresoCabecera').modal('show');    
     itemEditar = [];
 }
 

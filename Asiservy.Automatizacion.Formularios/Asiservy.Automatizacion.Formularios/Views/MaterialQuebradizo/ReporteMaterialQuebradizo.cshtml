@@ -143,8 +143,8 @@
 
 <br id="brCabecera" />
 <div class="row text-center text-md-left align-self-sm-center" id="divFiltro">
-    <div class="col-12">
-        <h4 style="float:left">Reporte de Material Quebradizo</h4>
+    <div class="col-12 text-uppercase">
+        <h6 style="float:left">Reporte de Material Quebradizo</h6>
         <div class="box_filters text-center text-md-left">
             <div class="itemFilter col-12 col-sm-12 col-md-10">
                 <input type="hidden" id="fechaDesde" value="" />
@@ -190,7 +190,7 @@
                     <td width="80%" colspan="3" class="text-center">
                         <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                     </td>
-                    <td rowspan="2" width="10%" class="text-center text-right">
+                    <td rowspan="2" width="20%" colspan="3" class="text-center text-right">
                         <div style="font-size:11px">
                             <b>
                                 @ViewBag.CodigoReporte
@@ -204,13 +204,17 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="90%" colspan="3" class="text-center">
+                    <td width="80%" colspan="3" class="text-center">
                         <strong>@ViewBag.NombreReporte</strong>
                     </td>
                 </tr>
                 <tr>
-                    <td>FECHA:</td>
-                    <td style="width:90%" colspan="3"><label id="lblMostrarFechaM"></label></td>
+                    <td style="width:10%">FECHA:</td>
+                    <td  colspan="3"><label id="lblMostrarFechaM"></label></td>
+                    <td>TURNO:</td>
+                    <td style="width:100%" colspan="1">
+                        <label id="lblMostrarHoraM"></label>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -224,7 +228,7 @@
                     <td width="80%" colspan="3" class="text-center">
                         <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                     </td>
-                    <td rowspan="2" width="10%" class="text-center text-right">
+                    <td rowspan="2" width="10%" colspan="5" class="text-center text-right">
                         <div style="font-size:11px">
                             <b>
                                 @ViewBag.CodigoReporte
@@ -244,6 +248,10 @@
                 <tr>
                     <td>FECHA:</td>
                     <td style="width:90%" colspan="4"><label id="lblMostrarFecha"></label></td>
+                    <td colspan="3">TURNO:</td>
+                    <td style="width:30%">
+                        <label id="lblMostrarHora"></label>
+                    </td>
                 </tr>
             </tbody>
         </table>
