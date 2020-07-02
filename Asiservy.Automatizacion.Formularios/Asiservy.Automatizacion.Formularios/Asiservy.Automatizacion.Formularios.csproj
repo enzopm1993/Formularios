@@ -2269,6 +2269,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\BandejaMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterial.js" />
@@ -4211,6 +4212,7 @@
     <Content Include="Views\ParametroCalidad\ParametroCalidad.cshtml" />
     <Content Include="Views\ParametroCalidad\MantenimientoParametroCalidadPartial.cshtml" />
     <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.cshtml" />
+    <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongeladoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

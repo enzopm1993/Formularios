@@ -24,8 +24,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 var poControl = entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.FirstOrDefault(x => x.CodTipoMonitoreo == model.CodTipoMonitoreo);
                 if (poControl != null)
                 {
-                    poControl.Descripcion = model.Descripcion;
-                    poControl.Abreviatura = model.Abreviatura;
+                    poControl.Descripcion = model.Descripcion.ToUpper();
+                    poControl.Abreviatura = model.Abreviatura.ToUpper();
                     poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -33,6 +33,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 }
                 else
                 {
+                    model.Descripcion = model.Descripcion.ToUpper();
+                    model.CodTipoMonitoreo = model.CodTipoMonitoreo.ToUpper();
+                    model.Abreviatura = model.Abreviatura.ToUpper();
                     entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.Add(model);
                 }
                 entities.SaveChanges();

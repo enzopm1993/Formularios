@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         ClsdMantenimientoTipoDescongelado ClsdMantenimientoTipoDescongelado { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
 
         // GET: MantenimientoTipoDescongelado
         [Authorize]
@@ -25,7 +26,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                lsUsuario = User.Identity.Name.Split('_');
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Colores = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoColores);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -96,6 +98,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (string.IsNullOrEmpty(model.CodTipoMonitoreo) ||
+                    string.IsNullOrEmpty(model.Descripcion) ||
+                    string.IsNullOrEmpty(model.Abreviatura) ||
+                    string.IsNullOrEmpty(model.Color))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
                 }
 
                 ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
