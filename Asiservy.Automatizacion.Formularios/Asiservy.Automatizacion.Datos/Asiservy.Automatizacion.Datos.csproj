@@ -282,6 +282,9 @@
     <Compile Include="Datos\CC_MANTENIMIENTO_TEXTURA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_TIPO_DESCONGELADO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
