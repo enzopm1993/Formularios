@@ -53,6 +53,9 @@
             <th>
                 Observación
             </th>
+            <th>
+                Observación por coche
+            </th>
 
         </tr>
     </thead>
@@ -84,17 +87,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TipoLimpieza)
             </td>
-            <td>@item.HoraInicio.ToString("HH:mm")</td>
-            <td>@item.HoraFin.ToString("HH:mm")</td>
+            <td>@item.HoraInicio.ToString("dd-MM-yyyy HH:mm")</td>
+            <td>@item.HoraFin.ToString("dd-MM-yyyy HH:mm")</td>
             <td>
                 @if (item.HoraFinLote != null)
                 {
-                    @item.HoraFinLote.Value.ToString("HH:mm")
+                    @item.HoraFinLote.Value.ToString("dd-MM-yyyy HH:mm")
                 }
             </td>
 
             <td style="white-space:normal">
-                @Html.DisplayFor(modelItem => item.Observacion)
+                @Html.DisplayFor(modelItem => item.ObservacionGeneral)
+            </td>
+            <td style="white-space:normal">
+                @Html.DisplayFor(modelItem => item.ObservacionDetalle)
             </td>
         </tr>
             
