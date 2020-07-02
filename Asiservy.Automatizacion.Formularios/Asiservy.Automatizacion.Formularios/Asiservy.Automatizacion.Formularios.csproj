@@ -3463,6 +3463,7 @@
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoTextura.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoTipoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
@@ -3557,6 +3558,7 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoTipoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
     <Compile Include="Controllers\CALIDAD\KardexReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
@@ -4208,6 +4210,7 @@
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialSubDetalleControl.cshtml" />
     <Content Include="Views\ParametroCalidad\ParametroCalidad.cshtml" />
     <Content Include="Views\ParametroCalidad\MantenimientoParametroCalidadPartial.cshtml" />
+    <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
