@@ -1481,7 +1481,7 @@
           <Property Name="Nombre" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Maximo" Type="decimal" Precision="10" Scale="2" />
           <Property Name="Minimo" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="ColorDentroRanfo" Type="varchar" MaxLength="10" />
+          <Property Name="ColorDentroRango" Type="varchar" MaxLength="10" />
           <Property Name="ColorFueraRango" Type="varchar" MaxLength="10" />
           <Property Name="Observacion" Type="varchar" MaxLength="250" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -12889,7 +12889,7 @@
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Maximo" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Minimo" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="ColorDentroRanfo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ColorDentroRango" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ColorFueraRango" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
@@ -19019,7 +19019,7 @@
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="ColorFueraRango" ColumnName="ColorFueraRango" />
-                <ScalarProperty Name="ColorDentroRanfo" ColumnName="ColorDentroRanfo" />
+                <ScalarProperty Name="ColorDentroRango" ColumnName="ColorDentroRango" />
                 <ScalarProperty Name="Minimo" ColumnName="Minimo" />
                 <ScalarProperty Name="Maximo" ColumnName="Maximo" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
