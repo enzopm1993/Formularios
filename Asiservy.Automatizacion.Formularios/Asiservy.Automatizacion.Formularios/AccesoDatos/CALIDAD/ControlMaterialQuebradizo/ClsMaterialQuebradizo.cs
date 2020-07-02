@@ -465,6 +465,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlMateria
                         cabecera.FechaModificacionLog = item.FechaModificacionLog;
                         cabecera.FechaAprobado = item.FechaAprobado;
                         cabecera.AprobadoPor = item.AprobadoPor;
+                        cabecera.Turno = item.Turno;
                         listaCabecera.Add(cabecera);
                     }
                 }

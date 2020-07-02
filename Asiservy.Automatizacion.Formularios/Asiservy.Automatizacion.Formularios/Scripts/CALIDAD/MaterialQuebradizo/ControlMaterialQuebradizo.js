@@ -136,6 +136,8 @@ function GuardarCabecera(siAprobar) {
                         MensajeAdvertencia('Error el TURNO ya esta ingresado  : <span class="badge badge-danger">' + turnoExiste + '</span>');
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {                       
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);                 
                     }
                     $('#ModalIngresoCabecera').modal('hide');
                     $('#divBotonesCRUD').prop('hidden', false);

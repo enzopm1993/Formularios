@@ -10,11 +10,13 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class MaterialQuebradizoController : Controller
     {
+        clsDPeriodo clsDPeriodo { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         public class Verificacion
         {
@@ -502,6 +504,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -513,8 +521,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     if (estadoReporte.EstadoReporte)
                     {
                         return Json("4", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
-                    }
+                    }                   
                 }
+              
                 var valor = ClsMaterialQuebradizo.GuardarModificarMaterialQuebradizo(model, siAprobar);
                 if (valor == 0)
                 {
@@ -555,6 +564,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
                 model.FechaIngresoLog = DateTime.Now;
@@ -640,6 +655,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
                 if (listaDetalle!=null)
                 {
@@ -647,6 +664,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     if (estadoReporte.EstadoReporte)
                     {
                         return Json("3", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
+                    }
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                    if (!periodo)
+                    {
+                        return Json("100", JsonRequestBehavior.AllowGet);
                     }
                     var valor = 0;
                     foreach (var model in listaDetalle)
@@ -701,11 +723,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
                 var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(listaDetalle[0].IdMaterial);
                 if (estadoReporte==null)
                 {
                     return Json("3", JsonRequestBehavior.AllowGet);//IDMANTERIAL NO ENCONTRADO
+                }
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 if (estadoReporte.EstadoReporte)
                 {
@@ -758,12 +787,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+               
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
                 var estadoReporte = ClsMaterialQuebradizo.ConsultarEstadoReporte(model.IdMaterial);
                 if (estadoReporte.EstadoReporte)
                 {
                     return Json("3", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
+                }
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 string path = string.Empty;
                 string NombreImg = string.Empty;
@@ -884,6 +919,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("2", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
+               
                 var valor = 0;
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
@@ -1050,7 +1092,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ClsDReporte = new clsDReporte();
-                var d = RouteData.Values["action"].ToString();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {
@@ -1091,6 +1132,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 ClsMaterialQuebradizo = new ClsMaterialQuebradizo();
                 var lista = ClsMaterialQuebradizo.ConsultarReporteRangoFecha(fechaDesde, fechaHasta);
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 if (lista.Any())
                 {
                     return PartialView(lista);

@@ -111,6 +111,7 @@ function AprobarPendiente(estadoReporte) {
             IdMaterial: listaDatos.IdMaterial,
             EstadoReporte: estadoReporte,
             FechaAprobado: $('#txtFechaAprobado').val(),
+            Fecha: listaDatos.Fecha,
             siAprobar: siAprobar
         },
         success: function (resultado) {
@@ -119,8 +120,10 @@ function AprobarPendiente(estadoReporte) {
             }
             if (resultado == 2 || resultado == 1) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
+            } else if(resultado==100){
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             } else {
-                MensajeError('Error en: model.Fecha!=DateTime.MinValue - GuardarModificarHigieneControl');
+                MensajeError('Error en: model.Fecha!=DateTime.MinValue - GuardarModificarMaterialQuebradizo');
                 return;
             }
             $("#ModalApruebaPendiente").modal("hide");
