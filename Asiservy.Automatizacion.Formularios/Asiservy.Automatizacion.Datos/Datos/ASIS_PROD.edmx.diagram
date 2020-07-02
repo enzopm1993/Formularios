@@ -182,11 +182,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" Width="1.5" PointX="44.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Width="1.5" PointX="5.375" PointY="55.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Width="1.5" PointX="7.625" PointY="46" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" Width="1.5" PointX="5.375" PointY="51.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="46.375" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Width="1.5" PointX="49" PointY="1" />
@@ -258,6 +256,8 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" Width="1.5" PointX="0.75" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TIPO_DESCONGELADO" Width="1.5" PointX="37.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Width="1.5" PointX="8.375" PointY="40" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

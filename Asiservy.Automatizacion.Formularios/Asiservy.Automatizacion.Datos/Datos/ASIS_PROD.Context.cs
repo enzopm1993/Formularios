@@ -154,7 +154,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_KARDEX_REACTIVO_DETALLE> CC_KARDEX_REACTIVO_DETALLE { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_DETALLE> CC_ANALISIS_AGUA_CLORINACION_DETALLE { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA> CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA { get; set; }
-        public virtual DbSet<CC_MATERIAL_QUEBRADIZO_CTRL> CC_MATERIAL_QUEBRADIZO_CTRL { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_DET> CC_MATERIAL_QUEBRADIZO_DET { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_MANT> CC_MATERIAL_QUEBRADIZO_MANT { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL> CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL { get; set; }
@@ -201,6 +200,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_SUBDETALLE> ENTRADA_SALIDA_MATERIAL_SUBDETALLE { get; set; }
         public virtual DbSet<CC_PARAMETRO_CALIDAD> CC_PARAMETRO_CALIDAD { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TIPO_DESCONGELADO> CC_MANTENIMIENTO_TIPO_DESCONGELADO { get; set; }
+        public virtual DbSet<CC_MATERIAL_QUEBRADIZO_CTRL> CC_MATERIAL_QUEBRADIZO_CTRL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

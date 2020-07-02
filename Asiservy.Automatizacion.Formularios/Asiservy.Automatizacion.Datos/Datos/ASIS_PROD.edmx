@@ -6354,14 +6354,9 @@
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" />
-          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_CTRL" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" />
           <EntitySet Name="CC_MATERIAL_QUEBRADIZO_DET" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" />
           <EntitySet Name="CC_MATERIAL_QUEBRADIZO_MANT" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" />
           <EntitySet Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
-          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
-            <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" EntitySet="CC_MATERIAL_QUEBRADIZO_CTRL" />
-            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
-          </AssociationSet>
           <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT">
             <End Role="CC_MATERIAL_QUEBRADIZO_MANT" EntitySet="CC_MATERIAL_QUEBRADIZO_MANT" />
             <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
@@ -6633,6 +6628,11 @@
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="CC_MATERIAL_QUEBRADIZO_CTRL" EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" />
+          <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
+            <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" EntitySet="CC_MATERIAL_QUEBRADIZO_CTRL" />
+            <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -11168,26 +11168,6 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="CC_MATERIAL_QUEBRADIZO_CTRL">
-          <Key>
-            <PropertyRef Name="IdMaterial" />
-          </Key>
-          <Property Name="IdMaterial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ObservacionCtrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
-          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_DET" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" FromRole="CC_MATERIAL_QUEBRADIZO_CTRL" ToRole="CC_MATERIAL_QUEBRADIZO_DET" />
-          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
         <EntityType Name="CC_MATERIAL_QUEBRADIZO_DET">
           <Key>
             <PropertyRef Name="IdMaterialDetalle" />
@@ -11205,9 +11185,9 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_CTRL" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_CTRL" />
           <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_MANT" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_MANT" />
           <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_CTRL" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" FromRole="CC_MATERIAL_QUEBRADIZO_DET" ToRole="CC_MATERIAL_QUEBRADIZO_CTRL" />
         </EntityType>
         <EntityType Name="CC_MATERIAL_QUEBRADIZO_MANT">
           <Key>
@@ -11243,18 +11223,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_DET" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" FromRole="CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" ToRole="CC_MATERIAL_QUEBRADIZO_DET" />
         </EntityType>
-        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
-          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Role="CC_MATERIAL_QUEBRADIZO_CTRL" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Role="CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MATERIAL_QUEBRADIZO_CTRL">
-              <PropertyRef Name="IdMaterial" />
-            </Principal>
-            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
-              <PropertyRef Name="IdMaterial" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT">
           <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" Role="CC_MATERIAL_QUEBRADIZO_MANT" Multiplicity="1" />
           <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Role="CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
@@ -12940,6 +12908,38 @@
           <Property Type="String" Name="CodTextura" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Textura" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="CC_MATERIAL_QUEBRADIZO_CTRL">
+          <Key>
+            <PropertyRef Name="IdMaterial" />
+          </Key>
+          <Property Name="IdMaterial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ObservacionCtrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MATERIAL_QUEBRADIZO_DET" Relationship="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" FromRole="CC_MATERIAL_QUEBRADIZO_CTRL" ToRole="CC_MATERIAL_QUEBRADIZO_DET" />
+        </EntityType>
+        <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Role="CC_MATERIAL_QUEBRADIZO_CTRL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Role="CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MATERIAL_QUEBRADIZO_CTRL">
+              <PropertyRef Name="IdMaterial" />
+            </Principal>
+            <Dependent Role="CC_MATERIAL_QUEBRADIZO_DET">
+              <PropertyRef Name="IdMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17558,26 +17558,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_CTRL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL">
-              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_CTRL">
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="ObservacionCtrl" ColumnName="ObservacionCtrl" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_DET">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET">
               <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_DET">
@@ -19088,6 +19068,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_MATERIAL_QUEBRADIZO_CTRL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL">
+              <MappingFragment StoreEntitySet="CC_MATERIAL_QUEBRADIZO_CTRL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="ObservacionCtrl" ColumnName="ObservacionCtrl" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
