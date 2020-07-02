@@ -1498,10 +1498,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     {
                         if (!string.IsNullOrEmpty(pscedulas))
                         {
-                            var a = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOAREA;
-                            var b = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOLINEA;
-                            var c = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).RECURSO;
-                            var d = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOCARGO;
+                            ////var a = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOAREA;
+                            ////var b = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOLINEA;
+                            ////var c = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).RECURSO;
+                            ////var d = ListEmpleados.FirstOrDefault(x => x.CEDULA == pscedulas).CODIGOCARGO;
                             pListCambioPersonal.Add(new CAMBIO_PERSONAL
                             {
                                 Cedula = pscedulas,

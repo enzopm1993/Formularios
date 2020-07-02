@@ -3355,6 +3355,7 @@
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ControlEntradaySalidaDeMateriales.js" />
     <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.js" />
+    <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ReporteEntradaySalidaDeMateriales.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ReporteControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\KpiProduccion\KpiEnvaseLata.js" />
@@ -4208,6 +4209,7 @@
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialSubDetalleControl.cshtml" />
     <Content Include="Views\ParametroCalidad\ParametroCalidad.cshtml" />
     <Content Include="Views\ParametroCalidad\MantenimientoParametroCalidadPartial.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\ReporteEntradaySalidaDeMateriales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
