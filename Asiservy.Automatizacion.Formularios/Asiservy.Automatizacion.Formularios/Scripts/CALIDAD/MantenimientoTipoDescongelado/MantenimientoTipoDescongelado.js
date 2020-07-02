@@ -29,7 +29,7 @@ function ConsultarReporte() {
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
-            console.log(resultado);
+            //console.log(resultado);
             MensajeError("Error: Comuníquese con sistemas", false);
             $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
@@ -41,12 +41,12 @@ function ConsultarReporte() {
 function Validar() {
     var bool = true;
 
-    if ($("#txtIdControl").val() == "") {
-        $("#txtIdControl").css('borderColor', '#FA8072');
-        bool=false;
-    } else {
-        $("#txtIdControl").css('borderColor', '#ced4da');
-    }
+    //if ($("#txtIdControl").val() == "") {
+    //    $("#txtIdControl").css('borderColor', '#FA8072');
+    //    bool=false;
+    //} else {
+    //    $("#txtIdControl").css('borderColor', '#ced4da');
+    //}
 
     if ($("#txtDescripcion").val() == "") {
         $("#txtDescripcion").css('borderColor', '#FA8072');
@@ -81,7 +81,7 @@ function GuardarModificarControl() {
         url: "../MantenimientoTipoDescongelado/MantenimientoTipoDescongelado",
         type: "POST",
         data: {
-            CodTipoMonitoreo: $("#txtIdControl").val(),
+            IdTipoMonitoreo: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             Abreviatura: $("#txtAbreviatura").val(),
             Color: $("#selectColor1").val(),
@@ -126,14 +126,14 @@ function NuevoControl() {
     $("#txtAbreviatura").val('');
     $("#CheckEstadoRegistro").prop("checked", true);
     $('#LabelEstado').text('Activo');
-    $("#txtIdControl").prop("disabled", false);
+  //  $("#txtIdControl").prop("disabled", false);
     $("#selectColor1").prop("selectedIndex", 0);
 }
 
 
 function ActualizarCabecera(model) {
-    $("#txtIdControl").val(model.CodTipoMonitoreo);
-    $("#txtIdControl").prop("disabled",true);
+    $("#txtIdControl").val(model.IdTipoMonitoreo);
+  //  $("#txtIdControl").prop("disabled",true);
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
     $("#selectColor1").val(model.Color)
@@ -167,7 +167,7 @@ function EliminarCabeceraSi() {
         url: "../MantenimientoTipoDescongelado/EliminarMantenimientoTipoDescongelado",
         type: "POST",
         data: {
-            CodTipoMonitoreo: itemEditar.CodTipoMonitoreo,
+            IdTipoMonitoreo: itemEditar.IdTipoMonitoreo,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {

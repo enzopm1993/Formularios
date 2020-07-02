@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDescongelado
 {
@@ -21,7 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.FirstOrDefault(x => x.CodTipoMonitoreo == model.CodTipoMonitoreo);
+                var poControl = entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.FirstOrDefault(x => x.IdTipoMonitoreo == model.IdTipoMonitoreo);
                 if (poControl != null)
                 {
                     poControl.Descripcion = model.Descripcion.ToUpper();
@@ -34,7 +33,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 else
                 {
                     model.Descripcion = model.Descripcion.ToUpper();
-                    model.CodTipoMonitoreo = model.CodTipoMonitoreo.ToUpper();
                     model.Abreviatura = model.Abreviatura.ToUpper();
                     entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.Add(model);
                 }
@@ -46,7 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.FirstOrDefault(x => x.CodTipoMonitoreo == model.CodTipoMonitoreo);
+                var poControl = entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.FirstOrDefault(x => x.IdTipoMonitoreo == model.IdTipoMonitoreo);
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = model.EstadoRegistro;

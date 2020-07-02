@@ -99,8 +99,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (string.IsNullOrEmpty(model.CodTipoMonitoreo) ||
-                    string.IsNullOrEmpty(model.Descripcion) ||
+                if (string.IsNullOrEmpty(model.Descripcion) ||
                     string.IsNullOrEmpty(model.Abreviatura) ||
                     string.IsNullOrEmpty(model.Color))
                 {
