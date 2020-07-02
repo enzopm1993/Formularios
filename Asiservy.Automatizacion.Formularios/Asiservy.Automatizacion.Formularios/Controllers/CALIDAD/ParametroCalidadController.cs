@@ -25,8 +25,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                // lsUsuario = User.Identity.Name.Split('_');
-                //ViewBag.Colores = clsDClasificador = clsDClasificador.ConsultaClasificador();
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Colores = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoColores);
                 return View();
             }
             catch (DbEntityValidationException e)

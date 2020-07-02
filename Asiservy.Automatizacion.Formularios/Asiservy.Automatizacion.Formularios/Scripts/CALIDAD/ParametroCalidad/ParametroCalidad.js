@@ -56,6 +56,8 @@ function GuardarControl() {
             Nombre: $("#txtDescripcion").val(),
             Minimo: $("#txtMinimo").val(),
             Maximo: $("#txtMaximo").val(),
+            ColorDentroRango: $("#selectColor1").val(),
+            ColorFueraRango: $("#selectColor2").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -106,5 +108,25 @@ function ActualizarCabecera(model) {
     $("#txtDescripcion").val(model.Nombre);
     $("#txtMinimo").val(model.Minimo)
     $("#txtMaximo").val(model.Maximo)
+    if (model.ColorDentroRango != "") {
+        $("#selectColor1").css("color", model.ColorDentroRango);
+        $("#selectColor1").val(model.ColorDentroRango)
+
+    }
+    if (model.ColorFueraRango != "") {
+        $("#selectColor2").css("color", model.ColorFueraRango);
+        $("#selectColor2").val(model.ColorFueraRango)
+
+    }
     $("#txtObservacion").val(model.Observacion)
+}
+
+
+function CambioColor(id) {
+    //console.log($("#" + id).val());
+    if ($("#" + id).val() != "") {
+        $("#" + id).css("color", $("#" + id).val());
+    } else {
+        $("#" + id).css("color",'black');
+    }
 }

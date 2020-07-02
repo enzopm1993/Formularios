@@ -38,7 +38,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalid
                     poControl.Observacion = model.Observacion;
                     poControl.Maximo = model.Maximo;
                     poControl.Minimo = model.Minimo;
-                    poControl.ColorDentroRanfo = model.ColorDentroRanfo;
+                    poControl.ColorDentroRango = model.ColorDentroRango;
                     poControl.ColorFueraRango = model.ColorFueraRango;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;

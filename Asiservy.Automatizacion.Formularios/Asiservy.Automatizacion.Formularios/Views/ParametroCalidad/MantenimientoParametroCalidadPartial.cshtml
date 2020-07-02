@@ -5,28 +5,34 @@
     <thead>
         <tr>
             <th>
-                ID
+                Id
             </th>
             <th>
-                DESCRIPCION
+                Descripción
             </th>
             <th>
-                MINIMO
+                Mínimo
             </th>
             <th>
-                MÁXIMO
+                Máximo
+            </th>
+            <th class="text-center" style="white-space:normal">
+                Color en rango
+            </th>
+            <th class="text-center" style="white-space:normal">
+                Color Fuera de rango
             </th>
             <th>
-                OBSERVACIÓN
+                Observación
             </th>
             <th>
-                FECHA CREACIÓN
+                Fecha Creación
             </th>
 
             <th>
-                FECHA MODIFICACIÓN
+                Fecha Modificación
             </th>
-            <th>ACCIONES</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -40,12 +46,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IdParametro)
             </td>
-            <td>
+            <td style="white-space:normal; font-size:12px">
                 @item.Nombre.ToUpper()
             </td>
             <td>@item.Minimo</td>
             <td>@item.Maximo</td>
-            <td>@item.Observacion</td>
+            <td class="text-center"><span style="background-color:@item.ColorDentroRango" class="badge badge-secondary">COLOR</span></td>
+            <td class="text-center"><span style="background-color:@item.ColorFueraRango" class="badge badge-secondary">COLOR</span></td>
+            <td style="white-space:normal">@item.Observacion</td>
             <td>
                 @fecha
             </td>
@@ -56,7 +64,7 @@
                     @fecham.ToString("dd-MM-yyyy HH:mm")
                 }
             </td>
-          
+
             <td>
                 @{string json = JsonConvert.SerializeObject(item);
                 }
