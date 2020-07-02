@@ -261,6 +261,9 @@
     <Compile Include="Datos\CC_MANTENIMIENTO_MORETON.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_MUESTRA_DESCONGELADO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_OLOR.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
