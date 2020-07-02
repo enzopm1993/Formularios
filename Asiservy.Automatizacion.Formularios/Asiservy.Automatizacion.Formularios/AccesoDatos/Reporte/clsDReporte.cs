@@ -58,14 +58,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 if (poReporte != null)
                 {
                     poReporte.EstadoRegistro = model.EstadoRegistro;
-                    poReporte.Nombre = model.Nombre;
-                    poReporte.Codigo = model.Codigo;
+                    poReporte.Nombre = model.Nombre.ToUpper();
+                    poReporte.Codigo = model.Codigo.ToUpper();
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;
                 }
                 else
                 {
+                    model.Nombre = model.Nombre.ToUpper();
+                    model.Codigo = model.Codigo.ToUpper();
                     entities.REPORTE_MAESTRO.Add(model);
                 }
                 entities.SaveChanges();
@@ -99,18 +101,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
             }
         }
 
-        public void ActualuzarUltimaVersion(int Id, string Version)
-        {
-            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-            {
-                var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == Id);
-                if (poReporte != null)
-                {
-                    poReporte.UltimaVersion = Version;
-                    entities.SaveChanges();
-                }
-            }
-        }
+        //public void ActualuzarUltimaVersion(int Id, int Version)
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == Id);
+        //        if (poReporte != null)
+        //        {
+        //            poReporte.UltimaVersion = Version;
+        //            entities.SaveChanges();
+        //        }
+        //    }
+        //}
 
         public void GuardarModificarReporteMaestroDetalle(REPORTE_DETALLE model)
         {

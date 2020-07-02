@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string Turno { get; set; }
         public int IdCisternaDet { get; set; }
         public string EstadoRegistroDet { get; set; }
         public long IdCloroCisternaDetalle { get; set; }

@@ -199,10 +199,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (string.IsNullOrEmpty(model.Linea)
                     || string.IsNullOrEmpty(model.Lote)
                     || model.Lote == "0"
+                    || model.OrdenFabricacion<1
                     || model.Limpieza == "0"
                     || string.IsNullOrEmpty(model.Limpieza)                   
-                    || model.HoraInicio == null
-                    || model.HoraFin == null
                     )
                 {
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;

@@ -26,13 +26,12 @@
         padding-left: 10px;
         padding-right: 10px;
     }
-
-   
 </style>
-<h4>Control de entrada y salida de materiales</h4>
+<h4>Control de entrada y salida de materiales <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
 
 <div class="card" id="DivCabecera">
     <div class="row">
+        <input type="hidden" id="Linea" value="@ViewBag.Linea" />
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 Fecha:
@@ -40,14 +39,21 @@
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="form-group">
                 <label>Turno</label>
                 @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
                 <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
             </div>
+            
         </div>
-       
+        <div class="col-md-2 col-sm-6">
+            <div class="form-group">
+                <label>Línea</label>
+                <input type="text" class="form-control" value="@ViewBag.NombreLinea" disabled />
+            </div>
+        </div>
+
         <div class="col-md-4">
             <div class="form-group">
                 Observación:
@@ -133,5 +139,150 @@
 
         </div>
 
+    </div>
+</div>
+
+@*@modal Detalle*@
+<div class="modal fade" id="ModalDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Detalle</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row ">
+                   
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                Material:
+                                <div class="input-group">
+                                    @Html.DropDownList("cmbMaterial", (IEnumerable<SelectListItem>)ViewBag.Producto, "Seleccione..", new { @class = "form-control" })
+                                </div>
+                                <label class="text-danger" id="msjerrorIngreso" hidden>Debe seleccionar el material</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Cantidad de materiales Ingreso:</label>
+
+                                <input type="tel" id="txtIngreso" class="form-control">
+                                <label class="text-danger" id="msjerrorMaterial" hidden>El campo cantidad de materiales ingreso es obligatorio</label>
+
+                            </div>
+                        </div>
+                
+                    
+
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarDetalleControl()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*@modal SubDetalle*@
+<div class="modal fade" id="ModalSubDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Cantidad de material salida</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="datetime-local" id="txtHora" class="form-control" />
+                            <label class="text-danger" id="msjerrorHora" hidden>Debe ingresar la hora</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Salida</label>
+                            <input type="tel" id="txtSalida" class="form-control" />
+                            <label class="text-danger" id="msjerrorSalida" hidden>el campo salida es obligatorio</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarSubDetalleControl()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*modal eliminar subdetalle *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarSubDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarSubDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar detalle *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-body">
+                <div id="bodydetallemodal">
+                    <label>Material:</label><label id="lblMaterial"></label><br />
+                    <label>Cantidad Ingreso: </label><label id="lblIngreso"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsidetalle" onclick="EliminarDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnodetalle" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar cabecera *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarControl" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el control?</h6>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
     </div>
 </div>

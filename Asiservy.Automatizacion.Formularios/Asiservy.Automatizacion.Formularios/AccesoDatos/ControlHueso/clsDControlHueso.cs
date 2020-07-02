@@ -114,8 +114,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 clsDAsistencia = new clsDAsistencia();
-                List<spConsultaMovimientoPersonalDiario> detalle = new List<spConsultaMovimientoPersonalDiario>();
-                var FechaActual = DateTime.Now.Date;
+                List<spConsultaMovimientoPersonalDiario> detalle = null;
                 
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                 x.Linea == doControl.Linea              
@@ -211,22 +210,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                     }
                     foreach (var detalle in ListaLotes)
                     {
-                        //  var detalle = detalleOrden.FirstOrDefault(y => int.Parse(y.OrdenFabricacion) == x && y.Lote == detalle.Lote);
                         var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
                         if (modelControlAvanceApi == null)
                         {
-                            ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
+                            if (!ListadoControlAvanceApi.Any(lista => lista.OrdenFabricacion == x && lista.Lote == detalle.Lote))
                             {
-                                OrdenFabricacion = x,
-                                Limpieza = detalle.Limpieza,
-                                Lote = detalle.Lote,
-                                Peso = int.Parse(double.Parse(detalle.Peso).ToString()),
-                                Piezas = int.Parse(double.Parse(detalle.Piezas).ToString()),
-                                Talla = detalle.Talla,
-                                Promedio = decimal.Parse(detalle.Promedio),
-                                Especie = detalle.Especie,
-                                Producto = detalle.Producto
-                            });
+                                ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
+                                {
+                                    OrdenFabricacion = x,
+                                    Limpieza = detalle.Limpieza,
+                                    Lote = detalle.Lote,
+                                    Peso = int.Parse(double.Parse(detalle.Peso).ToString()),
+                                    Piezas = int.Parse(double.Parse(detalle.Piezas).ToString()),
+                                    Talla = detalle.Talla,
+                                    Promedio = decimal.Parse(detalle.Promedio),
+                                    Especie = detalle.Especie,
+                                    Producto = detalle.Producto
+                                });
+                            }
                         }
                         else
                         {
@@ -242,7 +243,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
-                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi);                   
+                    var prueba = ListadoControlAvanceApi.Distinct().ToList();
+                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi.Distinct());                   
                 }
                 entities.SaveChanges();
             }

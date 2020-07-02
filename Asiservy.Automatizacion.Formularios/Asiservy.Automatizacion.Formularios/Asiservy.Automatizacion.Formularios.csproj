@@ -3353,6 +3353,7 @@
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
+    <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ControlEntradaySalidaDeMateriales.js" />
     <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ReporteControlEsterilizacionConserva.js" />
@@ -3665,6 +3666,7 @@
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
     <Compile Include="Models\OrdenFabricacionAvance.cs" />
     <Compile Include="Models\OrdenFabricacionConsumoInsumo.cs" />
+    <Compile Include="Models\Produccion\EntradaYSalidaDeMateriales\EntradaSalidaMaterialDetalleViewModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
@@ -4202,6 +4204,8 @@
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterialPartial.cshtml" />
     <Content Include="Views\KpiProduccion\KpiEnvaseLata.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\ControlEntradaySalidaDeMateriales.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialDetalleControl.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialSubDetalleControl.cshtml" />
     <Content Include="Views\ParametroCalidad\ParametroCalidad.cshtml" />
     <Content Include="Views\ParametroCalidad\MantenimientoParametroCalidadPartial.cshtml" />
     <None Include="Web.Debug.config">

@@ -9,39 +9,39 @@ $(document).ready(function () {
 
 function Valida() {
     var bol = true;
-    if ($('#txtCodigo').val() == '') {
-        $("#pValidaCodigo").prop("hidden", false);
-        bol = false;
+    if ($("#txtCodigo").val() == "") {
+        $("#txtCodigo").css('borderColor', '#FA8072');
+        bol=false;
     } else {
-        $("#pValidaCodigo").prop("hidden", true);
+        $("#txtCodigo").css('borderColor', '#ced4da');
     }
-    if ($('#txtDescripcion').val() == '') {
-        $("#pValidaDescripcion").prop("hidden", false);
+    if ($("#txtDescripcion").val() == "") {
+        $("#txtDescripcion").css('borderColor', '#FA8072');
         bol = false;
     } else {
-        $("#pValidaDescripcion").prop("hidden", true);
+        $("#txtDescripcion").css('borderColor', '#ced4da');
     }
-    if ($('#SelectEstado').val() == "0") {
-        $("#pValidaEstado").prop("hidden", false);
+    if ($("#SelectEstado").val() == "") {
+        $("#SelectEstado").css('borderColor', '#FA8072');
         bol = false;
     } else {
-        $("#pValidaEstado").prop("hidden", true);
+        $("#SelectEstado").css('borderColor', '#ced4da');
     }
-
-
-    if ($('#txtFechaDesde').val() == "") {
-        $("#pValidaFechaDesde").prop("hidden", false);
+    if ($("#txtFechaDesde").val() == "") {
+        $("#txtFechaDesde").css('borderColor', '#FA8072');
         bol = false;
     } else {
-        $("#pValidaFechaDesde").prop("hidden", true);
-    }
-    if ($('#txtFechaHasta').val() == "") {
-        $("#pValidaFechaHasta").prop("hidden", false);
-        bol = false;
-    } else {
-        $("#pValidaFechaHasta").prop("hidden", true);
+        $("#txtFechaDesde").css('borderColor', '#ced4da');
     }
 
+    if ($("#txtFechaHasta").val() == "") {
+        $("#txtFechaHasta").css('borderColor', '#FA8072');
+        bol = false;
+    } else {
+        $("#txtFechaHasta").css('borderColor', '#ced4da');
+    }
+   
+   
     return bol;
 
 }
@@ -82,16 +82,15 @@ function GuardarModificarPeriodo() {
 
 function CargarTablaPeriodo() {
     $("#SpinnerCargando").prop("hidden", false);
-    $('#divTableParametros').html('');
+    $('#divTablePeriodos').html('');
     $.ajax({
         url: "../Periodo/PeriodoPartial",
         type: "GET",
         success: function (resultado) {
 
-            var bitacora = $('#divTablePeriodos');
-            bitacora.html(resultado);
+            $('#divTablePeriodos').html(resultado);
             $("#SpinnerCargando").prop("hidden", true);
-
+            Nuevo();
         },
         error: function (resultado) {
             MensajeError(resultado, false);
@@ -104,10 +103,14 @@ function CargarTablaPeriodo() {
 function Nuevo() {
     $('#IdPeriodo').val('0');    
     $('#txtDescripcion').val('');
-    $('#txtObservacion').val('');
-    $('#SelectEstado').val(0);
+    $('#SelectEstado').val();
     $("#txtFechaDesde").val('');
     $("#txtFechaHasta").val('');
+
+    $("#txtDescripcion").css('borderColor', '#ced4da');
+    $("#SelectEstado").css('borderColor', '#ced4da');
+    $("#txtFechaDesde").css('borderColor', '#ced4da');
+    $("#txtFechaHasta").css('borderColor', '#ced4da');
 
     }
 

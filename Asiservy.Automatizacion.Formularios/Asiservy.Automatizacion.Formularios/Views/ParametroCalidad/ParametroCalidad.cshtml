@@ -1,6 +1,8 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
+
 @{
     ViewBag.Title = "ParametroCalidad";
+    var Colores = (List<CLASIFICADOR>)ViewBag.Colores;
 }
 
 <style>
@@ -61,20 +63,48 @@
                         </div>
                         <div class="col-md-6 col-6 col-sm-6">
                             <div class="form-group">
-                                <label>Minimo</label>
-                                <input type="number" class="form-control" id="txtMinimo" autocomplete="off" name="name" value="" />
+                                <label>Mínimo</label>
+                                <input type="text" class="form-control" id="txtMinimo" autocomplete="off" name="name" value="" />
                             </div>
                         </div>
 
                         <div class="col-md-6 col-6 col-sm-6">
                             <div class="form-group">
-                                <label>Minimo</label>
-                                <input type="number" class="form-control" id="txtMaximo" autocomplete="off" name="name" value="" />
+                                <label>Máximo</label>
+                                <input type="text" class="form-control" id="txtMaximo" autocomplete="off" name="name" value="" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Color en rango</label>
+                                <select class="form-control" id="selectColor1" onchange="CambioColor(this.id)">
+                                    <option value="">Seleccione</option>
+                                    @foreach (var x in Colores)
+                                    {
+                                        <option value="@x.Codigo" style="color:@x.Codigo">@x.Descripcion</option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Color fuera de rango </label>
+                                <select class="form-control" id="selectColor2" onchange="CambioColor(this.id)">
+                                    <option value="">Seleccione</option>
+                                    @foreach (var x in Colores)
+                                    {
+                                        <option value="@x.Codigo" style="color:@x.Codigo">@x.Descripcion</option>
+
+                                    }
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-12 col-6 col-sm-6">
                             <div class="form-group">
-                                <label>Observacion</label>
+                                <label>Observación</label>
                                 <input type="text" class="form-control" maxlength="250" id="txtObservacion" autocomplete="off" name="name" value="" />
                             </div>
                         </div>
