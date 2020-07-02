@@ -824,17 +824,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.Select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
-                List<Clasificador> Grupos = new List<Clasificador>();
-                //List<Clasificador> Clasificador = new List<Clasificador>();
-
-                Grupos = clsDClasificador.ConsultaClasificadorGrupos();
-                //Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());
+                List<Clasificador> Grupos = clsDClasificador.ConsultaClasificadorGrupos();
                 ViewBag.Grupos = Grupos;
-                //ViewBag.Clasificador = Clasificador;
                 
                 return View();
 

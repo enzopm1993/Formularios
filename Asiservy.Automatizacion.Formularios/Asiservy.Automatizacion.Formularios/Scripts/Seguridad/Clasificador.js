@@ -6,6 +6,9 @@ $(document).ready(function () {
     if ($('#CheckGrupo').prop("checked")) {
         $('#Grupo').attr("disabled", true);
     }
+
+    $('#Grupo').select2();
+
    
 });
 
@@ -18,7 +21,7 @@ function SeleccionClasificador(id, grupo, codigo, descripcion, estado) {
     //console.log(descripcion);
     //console.log(estado);
     $('#IdClasificador').val(id);
-    $('#Grupo option').eq(grupo).prop('selected', true);
+    $('#Grupo').val(grupo).change();
     $('#Descripcion').val(descripcion);
     $('#Codigo').val(codigo);
     if (estado == "A")
@@ -30,7 +33,7 @@ function SeleccionClasificador(id, grupo, codigo, descripcion, estado) {
 function Nuevo() {
     $('#IdClasificador').val(0);
     $('#Grupo').attr("disabled", false);
-    $('#Grupo option').eq(0).prop('selected', true);
+    $('#Grupo').prop('selectedIndex', 0).change();
     $('#Descripcion').val("");
     $('#Codigo').val("");
     $('#LabelEstado').text('Activo');
@@ -44,11 +47,10 @@ function Nuevo() {
 
 function CambioEstado(valor) {
     if (valor) {
+       // Nuevo();
         $('#Grupo').attr("disabled", true);
-        //$('#Grupo').val("0");
-        $('#Grupo option').eq(0).prop('selected', true);
+        $('#Grupo').prop('selectedIndex', 0).change();
     } else {
-
         $('#Grupo').attr("disabled", false);
     } 
 

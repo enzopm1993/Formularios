@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     {
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         ClsdParametroCalidad ClsdParametroCalidad { get; set; } = null;
         // GET: MantenimientoParametroCalidad
         [Authorize]
@@ -24,7 +25,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                lsUsuario = User.Identity.Name.Split('_');
+                // lsUsuario = User.Identity.Name.Split('_');
+                //ViewBag.Colores = clsDClasificador = clsDClasificador.ConsultaClasificador();
                 return View();
             }
             catch (DbEntityValidationException e)
