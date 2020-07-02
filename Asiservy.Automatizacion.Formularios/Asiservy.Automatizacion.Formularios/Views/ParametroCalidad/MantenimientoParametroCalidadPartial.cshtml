@@ -5,7 +5,7 @@
     <thead>
         <tr>
             <th>
-                Id
+                Código
             </th>
             <th>
                 Descripción
@@ -44,7 +44,7 @@
             string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdParametro)
+                @Html.DisplayFor(modelItem => item.CodParametro)
             </td>
             <td style="white-space:normal; font-size:12px">
                 @item.Nombre.ToUpper()

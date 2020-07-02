@@ -31,7 +31,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalid
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_PARAMETRO_CALIDAD.FirstOrDefault(x => x.IdParametro == model.IdParametro);
+                var poControl = entities.CC_PARAMETRO_CALIDAD.FirstOrDefault(x => x.CodParametro == model.CodParametro);
                 if (poControl != null)
                 {
                     poControl.Nombre = model.Nombre;
@@ -43,12 +43,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalid
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
                 }
-                else
-                {
-                    entities.CC_PARAMETRO_CALIDAD.Add(model);
-                }
-                entities.SaveChanges();
             }
         }
               

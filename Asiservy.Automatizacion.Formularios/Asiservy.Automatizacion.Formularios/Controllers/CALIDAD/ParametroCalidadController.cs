@@ -25,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.MascaraInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Colores = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoColores);

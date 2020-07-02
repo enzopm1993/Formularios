@@ -1,6 +1,22 @@
 ﻿var itemEditar = [];
 $(document).ready(function () {
     ConsultarReporte();
+    $('#txtMinimo').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '999.99'
+    });
+    $('#txtMaximo').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '999.99'
+    });
 });
 
 function ConsultarReporte() {
@@ -40,10 +56,21 @@ function ConsultarReporte() {
 function GuardarControl() {
        
     if ($("#txtDescripcion").val() == "") {
-        $("#txtDescripcion").css('borderCParametroCalidad', '#FA8072');
+        $("#txtDescripcion").css('borderColor', '#FA8072');
         return;
     } else {
-        $("#txtDescripcion").css('borderCParametroCalidad', '#ced4da');
+        $("#txtDescripcion").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtMinimo").val() > $("#txtMaximo").val()) {
+        $("#txtMinimo").css('borderColor', '#FA8072');
+        $("#txtMaximo").css('borderColor', '#FA8072');
+        MensajeAdvertencia("Valor mínimo no debe ser mayor que valor máximo.")
+        return;
+    } else {
+        $("#txtMinimo").css('borderColor', '#ced4da');
+        $("#txtMaximo").css('borderColor', '#ced4da');
+
     }
 
    
@@ -52,7 +79,7 @@ function GuardarControl() {
         url: "../ParametroCalidad/MantenimientoParametroCalidad",
         type: "POST",
         data: {
-            IdParametro: $("#txtIdControl").val(),
+            CodParametro: $("#txtIdControl").val(),
             Nombre: $("#txtDescripcion").val(),
             Minimo: $("#txtMinimo").val(),
             Maximo: $("#txtMaximo").val(),
@@ -104,7 +131,7 @@ function NuevoControl() {
 
 function ActualizarCabecera(model) {
     $("#ModalEditarControl").modal("show");
-    $("#txtIdControl").val(model.IdParametro);
+    $("#txtIdControl").val(model.CodParametro);
     $("#txtDescripcion").val(model.Nombre);
     $("#txtMinimo").val(model.Minimo)
     $("#txtMaximo").val(model.Maximo)
