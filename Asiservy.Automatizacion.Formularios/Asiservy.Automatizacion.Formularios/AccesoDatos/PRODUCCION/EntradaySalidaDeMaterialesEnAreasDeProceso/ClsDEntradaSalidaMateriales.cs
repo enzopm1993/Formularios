@@ -9,6 +9,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
 {
     public class ClsDEntradaSalidaMateriales
     {
+        public clsDGeneral clsDGeneral { get; private set; }
+        public clsDClasificador clsDClasificador { get; private set; }
         #region Mantenimiento
         public List<ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL> ConsultaMaterial()
         {
@@ -372,7 +374,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                 return resultado;
             }
         }
-        public List<ENTRADA_SALIDA_MATERIAL_CABECERA> ConsultarCabReportes(DateTime FechaDesde, DateTime FechaHasta)
+        public List<ENTRADA_SALIDA_MATERIAL_CABECERA> ConsultarCabReportes(DateTime FechaDesde, DateTime FechaHasta, string CodLinea)
         {
             using (var db = new ASIS_PRODEntities())
             {
@@ -380,7 +382,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                                  join d in db.ENTRADA_SALIDA_MATERIAL_DETALLE on new { Id = x.IdControlEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = d.IdCabeceraEntradaSalidaMaterial, d.EstadoRegistro }
                                  join t in db.ENTRADA_SALIDA_MATERIAL_SUBDETALLE on new { Id = d.IdDetalleEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = t.IdDetalleEntradaSalidaMaterial, t.EstadoRegistro }
 
-                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaDesde && x.Fecha <= FechaHasta)
+                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo&&x.Linea==CodLinea && (x.Fecha >= FechaDesde && x.Fecha <= FechaHasta)
                                  select x).Distinct().ToList();
 
             
@@ -394,6 +396,158 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
             {
                 return db.spReporteEntradaSalidaMaterialesProduccion(idCabecera).ToList();
             }
+        }
+        public string AprobarControl(int idCabecera, string usuario, string terminal, DateTime Fecha)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarCabecera = db.ENTRADA_SALIDA_MATERIAL_CABECERA.Find(idCabecera);
+                buscarCabecera.FechaModificacionLog = DateTime.Now;
+                buscarCabecera.UsuarioModificacionLog = usuario;
+                buscarCabecera.TerminalModificacionLog = terminal;
+                buscarCabecera.AprobadoPor = usuario;
+                buscarCabecera.FechaAprobacion = Fecha;
+                buscarCabecera.EstadoControl = true;
+                //buscarCabecera.FirmaAprobacion = firma;
+                db.SaveChanges();
+
+                return "El control ha sido aprobado";
+            }
+        }
+        public string ReversarControl(int IdControl, string usuario, string terminal)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarControl = db.ENTRADA_SALIDA_MATERIAL_CABECERA.Find(IdControl);
+                buscarControl.FechaModificacionLog = DateTime.Now;
+                buscarControl.UsuarioModificacionLog = usuario;
+                buscarControl.TerminalModificacionLog = terminal;
+                buscarControl.AprobadoPor = null;
+                buscarControl.FechaAprobacion = null;
+                buscarControl.EstadoControl = false;
+
+                db.SaveChanges();
+
+                return "El control ha sido Reversado";
+            }
+        }
+        public List<EntradaSalidaMaterialViewModel> ConsultarBandejaEntradaySalidaDeMateriales(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                clsDGeneral = new clsDGeneral();
+                List<spConsultaLinea> Lineas = clsDGeneral.ConsultaLineas("0");
+                clsDClasificador = new clsDClasificador();
+                List<CLASIFICADOR> ListaTurnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+                if (EstadoControl == clsAtributos.EstadoReportePendiente)
+                {
+                    //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
+                    var respuesta = (from x in db.ENTRADA_SALIDA_MATERIAL_CABECERA
+                                     //join L in Lineas on x.Linea equals L.Codigo
+                                     //join T in ListaTurnos on x.Turno equals T.Codigo
+                                     join d in db.ENTRADA_SALIDA_MATERIAL_DETALLE on new { IdCabecera = x.IdControlEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdCabeceraEntradaSalidaMaterial, d.EstadoRegistro }
+                                     join s in db.ENTRADA_SALIDA_MATERIAL_SUBDETALLE on new { IdDetalle = d.IdDetalleEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleEntradaSalidaMaterial, s.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null)
+                                     select new EntradaSalidaMaterialViewModel { AprobadoPor=x.AprobadoPor
+                                     ,CodLinea=x.Linea,
+                                     CodTurno=x.Turno,
+                                     EstadoControl=x.EstadoControl,
+                                     EstadoRegistro=x.EstadoRegistro,
+                                     Fecha=x.Fecha,
+                                     FechaAprobacion=x.FechaAprobacion,
+                                     FechaIngresoLog=x.FechaIngresoLog,
+                                     FechaModificacionLog=x.FechaModificacionLog,
+                                     IdControlEntradaSalidaMateriales=x.IdControlEntradaSalidaMateriales,
+                                     //Linea=L.Descripcion,
+                                     Observacion=x.Observacion,
+                                     TerminalIngresoLog=x.TerminalIngresoLog,
+                                     TerminalModificacionLog=x.TerminalModificacionLog,
+                                     //Turno=T.Descripcion,
+                                     UsuarioIngresoLog=x.UsuarioIngresoLog,
+                                     UsuarioModificacionLog=x.UsuarioModificacionLog}).Distinct().ToList();
+                    var poRespuesta = (from x in respuesta
+                                       join L in Lineas on x.CodLinea equals L.Codigo
+                                       join T in ListaTurnos on x.CodTurno equals T.Codigo
+                                       select new EntradaSalidaMaterialViewModel
+                                       {
+                                           AprobadoPor = x.AprobadoPor,
+                                           CodLinea = x.Linea,
+                                           CodTurno = x.Turno,
+                                           EstadoControl = x.EstadoControl,
+                                           EstadoRegistro = x.EstadoRegistro,
+                                           Fecha = x.Fecha,
+                                           FechaAprobacion = x.FechaAprobacion,
+                                           FechaIngresoLog = x.FechaIngresoLog,
+                                           FechaModificacionLog = x.FechaModificacionLog,
+                                           IdControlEntradaSalidaMateriales = x.IdControlEntradaSalidaMateriales,
+                                           Linea = L.Descripcion,
+                                           Observacion = x.Observacion,
+                                           TerminalIngresoLog = x.TerminalIngresoLog,
+                                           TerminalModificacionLog = x.TerminalModificacionLog,
+                                           Turno = T.Descripcion,
+                                           UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                           UsuarioModificacionLog = x.UsuarioModificacionLog
+                                       }).ToList();
+
+                    return poRespuesta;
+                }
+                else
+                {
+                    var respuesta = (from x in db.ENTRADA_SALIDA_MATERIAL_CABECERA
+                                   
+                                     join d in db.ENTRADA_SALIDA_MATERIAL_DETALLE on new { IdCabecera = x.IdControlEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdCabeceraEntradaSalidaMaterial, d.EstadoRegistro }
+                                     join s in db.ENTRADA_SALIDA_MATERIAL_SUBDETALLE on new { IdDetalle = d.IdDetalleEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleEntradaSalidaMaterial, s.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaInicio && x.Fecha <= FechaFin) &&
+                                     x.EstadoControl == clsAtributos.EstadoReporteActivo
+                                     select new EntradaSalidaMaterialViewModel
+                                     {
+                                         AprobadoPor = x.AprobadoPor,
+                                         CodLinea = x.Linea,
+                                         CodTurno = x.Turno,
+                                         EstadoControl = x.EstadoControl,
+                                         EstadoRegistro = x.EstadoRegistro,
+                                         Fecha = x.Fecha,
+                                         FechaAprobacion = x.FechaAprobacion,
+                                         FechaIngresoLog = x.FechaIngresoLog,
+                                         FechaModificacionLog = x.FechaModificacionLog,
+                                         IdControlEntradaSalidaMateriales = x.IdControlEntradaSalidaMateriales,
+                                         //Linea = L.Descripcion,
+                                         Observacion = x.Observacion,
+                                         TerminalIngresoLog = x.TerminalIngresoLog,
+                                         TerminalModificacionLog = x.TerminalModificacionLog,
+                                         //Turno = T.Descripcion,
+                                         UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                         UsuarioModificacionLog = x.UsuarioModificacionLog
+                                     }).Distinct().ToList();
+                    var poRespuesta = (from x in respuesta
+                                       join L in Lineas on x.CodLinea equals L.Codigo
+                                       join T in ListaTurnos on x.CodTurno equals T.Codigo
+                                       select new EntradaSalidaMaterialViewModel
+                                       {
+                                           AprobadoPor = x.AprobadoPor,
+                                           CodLinea = x.Linea,
+                                           CodTurno = x.Turno,
+                                           EstadoControl = x.EstadoControl,
+                                           EstadoRegistro = x.EstadoRegistro,
+                                           Fecha = x.Fecha,
+                                           FechaAprobacion = x.FechaAprobacion,
+                                           FechaIngresoLog = x.FechaIngresoLog,
+                                           FechaModificacionLog = x.FechaModificacionLog,
+                                           IdControlEntradaSalidaMateriales = x.IdControlEntradaSalidaMateriales,
+                                           Linea = L.Descripcion,
+                                           Observacion = x.Observacion,
+                                           TerminalIngresoLog = x.TerminalIngresoLog,
+                                           TerminalModificacionLog = x.TerminalModificacionLog,
+                                           Turno = T.Descripcion,
+                                           UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                           UsuarioModificacionLog = x.UsuarioModificacionLog
+                                       }).ToList();
+                    return poRespuesta;
+                }
+            }
+
         }
 
         #endregion

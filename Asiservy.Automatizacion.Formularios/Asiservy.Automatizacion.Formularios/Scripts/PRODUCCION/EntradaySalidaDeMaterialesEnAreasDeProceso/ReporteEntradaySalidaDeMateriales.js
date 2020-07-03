@@ -3,7 +3,7 @@
     $('#cargac').show();
     Error = 0;
     let params = {
-        IdCabecera: data.IdAnalisisQuimicoProductoSe
+        IdCabecera: data.IdControlEntradaSalidaMateriales
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -33,6 +33,7 @@
                 $('#lblFechap').text(data.Fecha);
                 $('#lblObservacionp').text(data.Observacion);
                 $('#lblturno').text(data.turno);
+                $('#lblLinea').text(data.Linea);
                 $('#mensajeRegistros').prop('hidden', true);
                 //config.opcionesDT.pageLength = 30;
                 //$('#tblReporte').DataTable(config.opcionesDT);
@@ -70,7 +71,8 @@ function CargarCabReportes() {
     //    table.DataTable().clear();
     let params = {
         FechaDesde: $('#fechaDesde').val(),
-        FechaHasta: $('#fechaHasta').val()
+        FechaHasta: $('#fechaHasta').val(),
+        CodLinea: $('#codLinea').val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -96,7 +98,7 @@ function CargarCabReportes() {
                     { data: 'IdControlEntradaSalidaMateriales' },
                     { data: 'Fecha' },
                     { data: 'Linea' },
-                    { data: 'Turno' },
+                    { data: 'turno' },
                     { data: 'Observacion' },
                     { data: 'FechaIngresoLog' },
                     { data: 'UsuarioIngresoLog' },

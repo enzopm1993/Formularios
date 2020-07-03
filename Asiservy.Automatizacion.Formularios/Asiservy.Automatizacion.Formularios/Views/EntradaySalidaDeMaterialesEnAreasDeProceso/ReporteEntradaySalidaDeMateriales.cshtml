@@ -5,9 +5,18 @@
 <style>
     @@media print and (color) {
         @@page {
-            size: landscape;
+            size: A4;
+        }
+        #wrapper #content-wrapper {
+            background-color: white;
+        }
+        .card-header {
+            background-color: white;
         }
 
+        .card-footer {
+            background-color: white;
+        }
         * {
             -webkit-print-color-adjust: exact;
         }
@@ -99,11 +108,11 @@
         }
 
         #tablaCab td {
-            font-size: 0.5rem;
+            font-size: 0.8rem;
         }
 
         #tblReporte td {
-            font-size: 0.6rem;
+            font-size: 0.8rem;
         }
 
         #tblReporte th {
@@ -189,7 +198,9 @@
         .btnWait {
             cursor: no-drop !important;
         }
-
+        #tablaCab td {
+            font-size: 0.8rem;
+        }
         #tablaCab {
             /*border-bottom: 1rem;*/
         }
@@ -206,11 +217,11 @@
         }
 
         #tblReporte td {
-            font-size: 0.6rem;
+            font-size: 0.8rem;
         }
 
         #tblReporte th {
-            font-size: 0.6rem;
+            font-size: 0.8rem;
         }
         /*.table tr td {
             border: 1px;
@@ -233,8 +244,8 @@
         }*/
     }
 </style>
-<h4>Reporte de entrada y salida de materiales</h4>
-
+<h4 id="titulo">Reporte de entrada y salida de materiales</h4>
+<input type="hidden" id="codLinea" value="@ViewBag.Linea" />
 <div class="card" id="card1">
     <div class="row">
         <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
@@ -261,29 +272,32 @@
 <center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
 <div id="DivCabReportes" class="card" hidden>
     <div class="row">
-        <div class="table-responsive col-md-12 col-sm-12">
-            <table id="tblDataTableReporte" class="table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>IdControlEntradaSalidaMateriales</th>
-                        <th>Fecha</th>
-                        <th>Linea</th>
-                        <th>Turno</th>
-                        <th>Observacion</th>
-                        <th>FechaIngresoLog</th>
-                        <th>UsuarioIngresoLog</th>
-                        <th>TerminalIngresoLog</th>
-                        <th>FechaModificacionLog</th>
-                        <th>UsuarioModificacionLog</th>
-                        <th>TerminalModificacionLog</th>
-                        <th>Estado control</th>
-                        <th>Aprobado por</th>
-                        <th>Fecha de aprobación</th>
-                    </tr>
+        <div class="col-md-12 col-sm-12">
+            <div class="table-responsive">
+                <table id="tblDataTableReporte" class="table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>IdControlEntradaSalidaMateriales</th>
+                            <th>Fecha</th>
+                            <th>Linea</th>
+                            <th>Turno</th>
+                            <th>Observacion</th>
+                            <th>FechaIngresoLog</th>
+                            <th>UsuarioIngresoLog</th>
+                            <th>TerminalIngresoLog</th>
+                            <th>FechaModificacionLog</th>
+                            <th>UsuarioModificacionLog</th>
+                            <th>TerminalModificacionLog</th>
+                            <th>Estado control</th>
+                            <th>Aprobado por</th>
+                            <th>Fecha de aprobación</th>
+                        </tr>
 
-                </thead>
-                <tbody></tbody>
-            </table>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+           
         </div>
     </div>
 </div>

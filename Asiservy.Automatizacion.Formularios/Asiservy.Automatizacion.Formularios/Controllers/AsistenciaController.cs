@@ -764,8 +764,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula, Fecha, FechaGenAsistencia, Hora.Value, Tipo, IdMovimiento, Turno, CodLinea);
+                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula, Fecha, FechaGenAsistencia, Hora.Value, Tipo, IdMovimiento, Turno, CodLinea,liststring[0], Request.UserHostAddress);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
