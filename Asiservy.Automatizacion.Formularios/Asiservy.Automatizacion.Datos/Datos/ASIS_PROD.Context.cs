@@ -2339,5 +2339,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaDesdeParameter, fechaHastaParameter, turnoParameter);
         }
+    
+        public virtual ObjectResult<ASY_ReporteHorasMovimientoPersonalDetallado_Result> ASY_ReporteHorasMovimientoPersonalDetallado(Nullable<System.DateTime> fechaIni, Nullable<System.DateTime> fechaFin)
+        {
+            var fechaIniParameter = fechaIni.HasValue ?
+                new ObjectParameter("fechaIni", fechaIni) :
+                new ObjectParameter("fechaIni", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ASY_ReporteHorasMovimientoPersonalDetallado_Result>("ASY_ReporteHorasMovimientoPersonalDetallado", fechaIniParameter, fechaFinParameter);
+        }
     }
 }
