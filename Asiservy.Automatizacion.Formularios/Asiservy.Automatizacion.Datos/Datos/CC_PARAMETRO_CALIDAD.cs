@@ -15,9 +15,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class CC_PARAMETRO_CALIDAD
     {
         public int IdParametro { get; set; }
+        public string CodParametro { get; set; }
         public string Nombre { get; set; }
         public Nullable<decimal> Maximo { get; set; }
         public Nullable<decimal> Minimo { get; set; }
+        public string ColorDentroRango { get; set; }
+        public string ColorFueraRango { get; set; }
         public string Observacion { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

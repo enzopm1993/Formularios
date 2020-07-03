@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 || (x.Grupo == model.Grupo && x.Codigo == model.Codigo));
                 if (poClasificador != null)
                 {
-                    poClasificador.Descripcion = model.Descripcion;
+                    poClasificador.Descripcion = model.Descripcion.ToUpper();
                     poClasificador.Grupo = model.Grupo;
                     poClasificador.Codigo = model.Codigo;
                     poClasificador.EstadoRegistro = model.EstadoRegistro;

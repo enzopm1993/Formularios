@@ -22,7 +22,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TipoLimpieza { get; set; }
         public string Talla { get; set; }
         public string Barco { get; set; }
-        public string Observacion { get; set; }
+        public string ObservacionGeneral { get; set; }
+        public string ObservacionDetalle { get; set; }
         public int Tunel { get; set; }
         public int Coche { get; set; }
         public string Producto { get; set; }

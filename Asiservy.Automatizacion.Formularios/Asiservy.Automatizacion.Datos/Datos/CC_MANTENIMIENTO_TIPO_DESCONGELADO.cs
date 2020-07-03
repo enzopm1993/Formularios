@@ -12,14 +12,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MATERIAL_QUEBRADIZO_DET
+    public partial class CC_MANTENIMIENTO_TIPO_DESCONGELADO
     {
-        public int IdMaterialDetalle { get; set; }
-        public int IdMantenimiento { get; set; }
-        public int IdMantMaterial { get; set; }
-        public int IdMaterial { get; set; }
-        public bool EstadoVerificacion { get; set; }
-        public string Observaciones { get; set; }
+        public int IdTipoMonitoreo { get; set; }
+        public string CodTipoMonitoreo { get; set; }
+        public string Descripcion { get; set; }
+        public string Abreviatura { get; set; }
+        public string Color { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -27,9 +26,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual CC_MATERIAL_QUEBRADIZO_MANT CC_MATERIAL_QUEBRADIZO_MANT { get; set; }
-        public virtual CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL { get; set; }
-        public virtual CC_MATERIAL_QUEBRADIZO_CTRL CC_MATERIAL_QUEBRADIZO_CTRL { get; set; }
     }
 }

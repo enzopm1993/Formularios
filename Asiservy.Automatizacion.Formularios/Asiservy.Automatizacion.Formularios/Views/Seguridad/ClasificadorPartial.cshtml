@@ -4,40 +4,40 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdClasificador)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Grupo)
+               Cod. Grupo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GrupoNombre)
+                Grupo 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Codigo)
+               Código
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                Descripción
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoRegistro)
+                Estado
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+                Fecha Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+                Usuario Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+                Terminal Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaModificacionLog)
+                Fecha Modificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+                Usuario Modificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+                Terminal Modificación
             </th>
 
         </tr>
@@ -55,19 +55,22 @@
                         @Html.DisplayFor(modelItem => item.Grupo)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.GrupoNombre)
+                        @item.GrupoNombre
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Codigo)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    <td style="white-space:normal">
+                        @item.Descripcion.ToUpper()
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.EstadoRegistro)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                        @if(item.FechaIngresoLog != null)
+                        {
+                        @item.FechaIngresoLog.Value.ToString("dd-MM-yyyy HH:mm");
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
@@ -76,7 +79,10 @@
                         @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                        @if(item.FechaModificacionLog != null)
+                        {
+                            @item.FechaModificacionLog.Value.ToString("dd-MM-yyyy HH:mm");
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)

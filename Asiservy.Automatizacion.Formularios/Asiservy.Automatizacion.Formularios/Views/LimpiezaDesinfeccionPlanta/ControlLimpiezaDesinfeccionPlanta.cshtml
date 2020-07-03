@@ -102,8 +102,8 @@
 </style>
 
 <div class="row">
-    <div class="col-12  text-md-left text-center">
-        <h4 style="float:left">Control Limpieza y Desinfeccion de Planta<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
+    <div class="col-12  text-md-left text-center text-uppercase">
+        <h6 style="float:left">Control Limpieza y Desinfeccion de Planta<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h6>
         <div class=" box_filters ">
             <div class="itemFilter">
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
@@ -128,9 +128,14 @@
 
     </div>
     <div class="col-md-2 col-12 col-sm-12">
-        <label>Turno</label>
+        <label>TURNO</label>
         <div class="form-group">
-            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
+            @if (ViewBag.Turno != null)
+            {
+                @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" });
+            }
+            else
+            { <label class="badge badge-danger">No existen turnos</label>}
         </div>
     </div>
 </div>
@@ -139,7 +144,7 @@
 
 <div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-2 col-12 col-sm-12" style="float:left">
+        <div class="col-md-3 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>FECHA</label>
                 <input type="date" name="name" disabled value="@DateTime.Now.ToString("dd-MM-yyyy")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
@@ -156,7 +161,7 @@
         <div class="col-md-4 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>OBSERVACION</label>
-                <textarea type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" rows="2"></textarea>
+                <textarea type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control text-uppercase" rows="2"></textarea>
             </div>
         </div>
 
@@ -178,7 +183,7 @@
 @* BOTON INGRESAR DETALLE *@
 <div class="row" id="divBotonCrearDetalle">
     <div class="col-md-7 col-12 col-sm-12 text-center text-md-left">
-        <label class="" id="lblAcciones">Nueva Auditoria</label>
+        <label class="" id="lblAcciones">AUDITORÍA</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistroDetalle" onclick="ModalIngresoDetalleV()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
@@ -192,15 +197,6 @@
             @Html.DropDownList("selectAreaAuditarFiltro", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"), new { @class = "js-example-basic-single", @onchange = "CargarDetalle(2)" })
         </div>
     </div>
-
-    @*<div class="col-md-3 col-12 col-sm-12 text-center text-md-left">
-            <label>TURNO</label>
-            <select id="selectTurnoFiltro" class="form-control" onchange="CargarDetalle(2)">
-                <option value="TURNO_A" selected>TURNO A</option>
-                <option value="TURNO_B">TURNO B</option>
-                <option value="TURNO_C">TURNO C</option>
-            </select>
-        </div>*@
 </div>
 <br />
 
@@ -274,7 +270,12 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <label>TURNO</label>
                         <div class="form-group">
-                            @Html.DropDownList("selectTurnoIngresar", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control" })
+                            @if (ViewBag.Turno != null)
+                            {
+                                @Html.DropDownList("selectTurnoIngresar", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control" })
+                            }
+                            else
+                            { <label class="badge badge-danger">No existen turnos</label>}
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">

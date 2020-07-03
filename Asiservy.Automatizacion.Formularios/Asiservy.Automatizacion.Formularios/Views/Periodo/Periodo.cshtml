@@ -8,78 +8,85 @@
         max-width: 100%;
     }
 </style>
-<h4>Periodo</h4>
+<h4>Control de Periodos</h4>
 
-<div class="row">
+<div class="card shadow">
+    <div class="card-header">
 
-    <div class="col-md-2 col-3">
-        <div class="form-group">
-            <label>Id</label>   
-            <input id="IdPeriodo" class="form-control" type="number" readonly name="name" value="0" />
+        <div class="row">
+
+            <div class="col-md-1 col-sm-6 col-6">
+                <div class="form-group">
+                    <label>Id</label>
+                    <input id="IdPeriodo" class="form-control" type="number" readonly name="name" value="0" />
+
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-6 col-6">
+
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <input id="txtDescripcion" class="form-control" type="text" maxlength="100" name="name" placeholder="Ingrese una Descripción" />
+                    <p class="text-danger" id="pValidaDescripcion" hidden>Ingrese una Descripción</p>
+                </div>
+            </div>
+
+
+            <div class="col-md-2 col-sm-6 col-6">
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="SelectEstado" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="B">BLOQUEADO</option>
+                        <option value="A">ABIERTO</option>
+                    </select>
+                    <p class="text-danger" id="pValidaEstado" hidden>Seleccione un Estado</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-2 col-6">
+
+                <div class="form-group">
+                    <label>Fecha Desde</label>
+                    <input id="txtFechaDesde" class="form-control" type="date" maxlength="20" name="name" placeholder="Ingrese Fecha Desde" />
+                    <p class="text-danger" id="pValidaFechaDesde" hidden>Ingrese una Fecha</p>
+                </div>
+            </div>
+            <div class="col-md-2 col-6">
+                <div class="form-group">
+                    <label>Fecha Hasta</label>
+                    <input id="txtFechaHasta" class="form-control" type="date" maxlength="10" name="name" placeholder="Ingrese Fecha Desde" />
+                    <p class="text-danger" id="pValidaFechaHasta" hidden>Ingrese una Fecha</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Guardar" onclick="GuardarModificarPeriodo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Nuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
 
         </div>
-    </div>
-    <div class="col-md-5 col-9">
 
-        <div class="form-group">
-            <label>Descripción</label>
-            <input id="txtDescripcion" class="form-control" type="text" maxlength="100" name="name" placeholder="Ingrese una Descripción" />
-            <p class="text-danger" id="pValidaDescripcion" hidden>Ingrese una Descripción</p>
+    </div>
+    <div class="card-body">
+
+        <hr />
+        <div id="spinnerCargando" hidden class="text-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
         </div>
+
+
+        <div class="table-responsive" id="divTablePeriodos"></div>
     </div>
 
-
-    <div class="col-md-5 col-6" >
-        <div class="form-group">
-            <label>Estado</label>
-            <select id="SelectEstado" class="form-control">
-                <option value="0">Selecione</option>
-                <option value="B">Bloqueado</option>
-                <option value="A">Abierto</option>
-            </select>
-            <p class="text-danger" id="pValidaEstado" hidden>Seleccione un Estado</p>
-
-        </div>
-        
-    </div>
-   
 </div>
-<div class="row">
-
-    <div class="offset-md-3 col-md-3 col-6">
-
-        <div class="form-group">
-            <label>Fecha Desde</label>
-            <input id="txtFechaDesde" class="form-control" type="date" maxlength="20" name="name" placeholder="Ingrese Fecha Desde" />
-            <p class="text-danger" id="pValidaFechaDesde" hidden>Ingrese una Fecha</p>
-        </div>
-    </div>
-    <div class="col-md-3 col-6">
-        <div class="form-group">
-            <label>Fecha Hasta</label>
-            <input id="txtFechaHasta" class="form-control" type="date" maxlength="10" name="name" placeholder="Ingrese Fecha Desde" />
-            <p class="text-danger" id="pValidaFechaHasta" hidden>Ingrese una Fecha</p>
-
-        </div>
-    </div>  
-</div>
-
-<div class="text-center">
-    <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Guardar" onclick="GuardarModificarPeriodo()" style="border-color:#2c3e50" type="button">
-        <img style="width:100%" src="~/Content/icons/add24.png" />
-    </button>
-    <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Nuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
-        <img style="width:100%" src="~/Content/icons/clear24.png" />
-    </button>
-
-</div>
-
-<hr />
-<div id="spinnerCargando" hidden class="text-center">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Cargando...</span>
-    </div>
-</div>
-
-
-<div class="table-responsive" id="divTablePeriodos"></div>

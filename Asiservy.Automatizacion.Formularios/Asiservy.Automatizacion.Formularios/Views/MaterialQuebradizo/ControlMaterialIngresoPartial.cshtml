@@ -8,7 +8,7 @@
     var jsonMateriales = JsonConvert.SerializeObject(ViewBag.listaMateriales);
 
 }
-    <table class="table table-bordered" style="font-size:8px">
+    <table class="table table-bordered text-uppercase" style="font-size:8px">
         <thead>
             <tr>
                 <th>
@@ -42,7 +42,7 @@
                         </td>
                     }
                         <td>
-                            <input type="text" style="width:350px" class="form-control" maxlength="200" id="txtObservacion_@item.IdMantenimiento" name="name" value="" />
+                            <input type="text" style="width:350px" class="form-control" autocomplete="off" maxlength="200" id="txtObservacion_@item.IdMantenimiento" name="name" value="" />
                         </td>
                 </tr>
             }

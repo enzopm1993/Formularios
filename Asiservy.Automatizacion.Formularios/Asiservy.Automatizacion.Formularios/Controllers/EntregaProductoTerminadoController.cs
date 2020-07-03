@@ -91,6 +91,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
                 clsDEmpleado = new clsDEmpleado();
+                lsUsuario = User.Identity.Name.Split('_');
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(Fecha, LineaNegocio, Empleado.CODIGOLINEA);
                 if (!model.Any())

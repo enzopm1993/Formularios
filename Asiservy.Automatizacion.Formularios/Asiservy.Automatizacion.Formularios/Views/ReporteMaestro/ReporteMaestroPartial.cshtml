@@ -5,7 +5,7 @@
     <thead>
         <tr>
             <th>
-                ID
+                Id
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Formulario)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Codigo)
+                @item.Codigo.ToUpper()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UltimaVersion)
