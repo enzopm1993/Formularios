@@ -2340,5 +2340,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
         }
+    
+        public virtual ObjectResult<spConsultaMonitoreoDescongeladoDetalle> spConsultaMonitoreoDescongeladoDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("idControl", idControl) :
+                new ObjectParameter("idControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongeladoDetalle>("spConsultaMonitoreoDescongeladoDetalle", idControlParameter);
+        }
     }
 }

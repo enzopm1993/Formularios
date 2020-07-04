@@ -753,6 +753,9 @@
     <Compile Include="Datos\spConsultaMonitoreoDescongelado.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaMonitoreoDescongeladoDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaMovimientoPersonalDiario.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
