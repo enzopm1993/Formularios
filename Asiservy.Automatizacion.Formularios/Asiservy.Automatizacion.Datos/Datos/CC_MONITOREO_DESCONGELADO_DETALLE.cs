@@ -12,18 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_TIPO_DESCONGELADO
+    public partial class CC_MONITOREO_DESCONGELADO_DETALLE
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_TIPO_DESCONGELADO()
-        {
-            this.CC_MONITOREO_DESCONGELADO = new HashSet<CC_MONITOREO_DESCONGELADO>();
-        }
-    
-        public int IdTipoMonitoreo { get; set; }
-        public string Descripcion { get; set; }
-        public string Abreviatura { get; set; }
-        public string Color { get; set; }
+        public int IdMonitoreoDescongeladoDetalle { get; set; }
+        public int IdMonitoreoDescongelado { get; set; }
+        public int IdMuestra { get; set; }
+        public decimal Cantidad { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,7 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
+        public virtual CC_MANTENIMIENTO_MUESTRA_DESCONGELADO CC_MANTENIMIENTO_MUESTRA_DESCONGELADO { get; set; }
+        public virtual CC_MONITOREO_DESCONGELADO CC_MONITOREO_DESCONGELADO { get; set; }
     }
 }
