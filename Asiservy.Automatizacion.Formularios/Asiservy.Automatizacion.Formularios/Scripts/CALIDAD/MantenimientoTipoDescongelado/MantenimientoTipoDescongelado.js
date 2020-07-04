@@ -128,6 +128,8 @@ function NuevoControl() {
     $('#LabelEstado').text('Activo');
   //  $("#txtIdControl").prop("disabled", false);
     $("#selectColor1").prop("selectedIndex", 0);
+    $("#selectColor1").css("color", 'black');
+
 }
 
 
@@ -137,6 +139,8 @@ function ActualizarCabecera(model) {
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
     $("#selectColor1").val(model.Color)
+    $("#selectColor1").css("color", model.Color);
+    
 }
 
 function InactivarConfirmar(jdata) {

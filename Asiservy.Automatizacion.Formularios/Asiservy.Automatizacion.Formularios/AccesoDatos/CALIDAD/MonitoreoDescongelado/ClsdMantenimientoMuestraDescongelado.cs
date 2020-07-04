@@ -33,6 +33,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 }
                 else
                 {
+                   // var CodMuestra = entities.Database.SqlQuery<string>("select dbo.fn_RetornaCodigo ('2')").FirstOrDefault(); 
                     model.Descripcion = model.Descripcion.ToUpper();
                     model.Abreviatura = model.Abreviatura.ToUpper();
                     entities.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO.Add(model);

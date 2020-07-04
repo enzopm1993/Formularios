@@ -2,18 +2,19 @@
 var model = [];
 $(document).ready(function () {
     ConsultarMonitoreoDescongelado();
-  //  $("#txtTemperaturaAgua").mask("99?.9");
-    //$("#txtMuestra1").mask("99?.9");
-    //$("#txtMuestra2").mask("99?.9");
-   // $("#txtMuestra3").mask("99?.9");
-    //$.mask.definitions['~'] = '[+-]';
-    //$("#txtTemperaturaAgua").mask("~99?.9");
-    //$.mask.definitions['~'] = '[+-]';
-    //$("#txtMuestra1").mask("~99?.9");
-    //$.mask.definitions['~'] = '[+-]';
-    //$("#txtMuestra2").mask("~99?.9");
-    //$.mask.definitions['~'] = '[+-]';
-    //$("#txtMuestra3").mask("~99?.9");
+    console.log(Muestra);
+
+    Muestra.forEach(function (x, values) {
+        $('#txtMuestra-' + x.IdMuestra).inputmask({
+            'alias': 'decimal',
+            'groupSeparator': ',',
+            'digits': 2,
+            'autoGroup': true,
+            'digitsOptional': true,
+            'max': '100.00'
+        });
+    });
+   
 });
 
 function ValidaEstadoReporte(Fecha){
@@ -188,34 +189,34 @@ function Validar() {
     } else {
         $("#txtHora").css('borderColor', '#ced4da');
     }
-    if ($("#selectTipo").val() != 'C') {
-        if ($("#txtTemperaturaAgua").val() == "" || $("#txtTemperaturaAgua").val() > 999.99 || $("#txtTemperaturaAgua").val() < -999.99) {
-            $("#txtTemperaturaAgua").css('borderColor', '#FA8072');
-            valida = false;
-        } else {
-            $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
-        }
-    }
-    if ($("#txtMuestra1").val() == "" || $("#txtMuestra1").val() > 999.99 || $("#txtMuestra1").val() < -999.99) {
-        $("#txtMuestra1").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtMuestra1").css('borderColor', '#ced4da');
-    }
+    //if ($("#selectTipo").val() != 'C') {
+    //    if ($("#txtTemperaturaAgua").val() == "" || $("#txtTemperaturaAgua").val() > 999.99 || $("#txtTemperaturaAgua").val() < -999.99) {
+    //        $("#txtTemperaturaAgua").css('borderColor', '#FA8072');
+    //        valida = false;
+    //    } else {
+    //        $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
+    //    }
+    //}
+    //if ($("#txtMuestra1").val() == "" || $("#txtMuestra1").val() > 999.99 || $("#txtMuestra1").val() < -999.99) {
+    //    $("#txtMuestra1").css('borderColor', '#FA8072');
+    //    valida = false;
+    //} else {
+    //    $("#txtMuestra1").css('borderColor', '#ced4da');
+    //}
 
-    if ($("#txtMuestra2").val() == "" || $("#txtMuestra2").val() > 999.99 || $("#txtMuestra2").val() < -999.99) {
-        $("#txtMuestra2").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtMuestra2").css('borderColor', '#ced4da');
-    }
+    //if ($("#txtMuestra2").val() == "" || $("#txtMuestra2").val() > 999.99 || $("#txtMuestra2").val() < -999.99) {
+    //    $("#txtMuestra2").css('borderColor', '#FA8072');
+    //    valida = false;
+    //} else {
+    //    $("#txtMuestra2").css('borderColor', '#ced4da');
+    //}
 
-    if ($("#txtMuestra3").val() == "" || $("#txtMuestra3").val() > 999.99 || $("#txtMuestra3").val() < -999.99) {
-        $("#txtMuestra3").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtMuestra3").css('borderColor', '#ced4da');
-    }   
+    //if ($("#txtMuestra3").val() == "" || $("#txtMuestra3").val() > 999.99 || $("#txtMuestra3").val() < -999.99) {
+    //    $("#txtMuestra3").css('borderColor', '#FA8072');
+    //    valida = false;
+    //} else {
+    //    $("#txtMuestra3").css('borderColor', '#ced4da');
+    //}   
     return valida;
 }
 
@@ -224,6 +225,13 @@ function GuardarMonitoreoDescongelado() {
         return;
     }
 
+    var obj = [];
+    Muestra.forEach(function (x) {
+        if ($("#txtMuestra-" + x.IdMuestra).val() > 0) {
+            obj.push({ CodMuestra: x.CodMuestra, Valor: $("#txtMuestra-" + x.IdMuestra).val() });
+        }
+    });
+    //console.log(obj.length);
     $.ajax({
         url: "../MonitoreoDescongelado/MonitoreoDescongelado",
         type: "POST",
@@ -237,11 +245,12 @@ function GuardarMonitoreoDescongelado() {
             Talla: DatosCabecera.U_SYP_TALLA,
             Hora: $("#txtHora").val(),
             Tipo: $("#selectTipo").val(),
-            TemperaturaAgua: $("#txtTemperaturaAgua").val(),
-            Muestra1: $("#txtMuestra1").val(),
-            Muestra2: $("#txtMuestra2").val(),
-            Muestra3: $("#txtMuestra3").val(),
-            Observacion: $("#txtObservacion").val()
+            //TemperaturaAgua: $("#txtTemperaturaAgua").val(),
+            //Muestra1: $("#txtMuestra1").val(),
+            //Muestra2: $("#txtMuestra2").val(),
+            //Muestra3: $("#txtMuestra3").val(),
+            Observacion: $("#txtObservacion").val(),
+            Detalle: obj
 
         },
         success: function (resultado) {

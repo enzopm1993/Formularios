@@ -22,6 +22,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
         clsDReporte clsDReporte { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        ClsdMantenimientoMuestraDescongelado ClsdMantenimientoMuestraDescongelado { get; set; } = null;
+        ClsdMantenimientoTipoDescongelado ClsdMantenimientoTipoDescongelado { get; set; } = null;
         #region Control
         // GET: MonitoreoDescongelado
         [Authorize]
@@ -31,9 +34,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
+                ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
+                ClsdMantenimientoMuestraDescongelado = new ClsdMantenimientoMuestraDescongelado();
+                ViewBag.Muestra = ClsdMantenimientoMuestraDescongelado.ConsultaManteminetoMuestraDescongelado();
+                ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado();
                 ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
                 return View();
@@ -68,8 +75,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDApiProduccion = new clsDApiProduccion();
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-               
-               
+                ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
+                ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado();
+
+
                 ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x=> x.Turno== Turno).ToList();
                 var model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
                 if (!model.Any())
@@ -100,7 +109,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult MonitoreoDescongeladoDetallePartial(DateTime Fecha,string Tanque, string Lote, string Tipo, string Turno)
+        public JsonResult MonitoreoDescongeladoDetallePartial(DateTime Fecha,string Tanque, string Lote, int Tipo, string Turno)
         {
             try
             {
@@ -110,7 +119,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo, Turno);
+               var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo, Turno);
                 return model != null ? Json(model, JsonRequestBehavior.AllowGet) : Json("0",JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -134,7 +143,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control, string Turno)
+        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control,List<CC_MONITOREO_DESCONGELADO_DETALLE> detalle, string Turno)
         {
             try
             {
@@ -153,7 +162,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
 
-                clsDMonitoreoDescongelado.GuardarModificarMonitoreoDescongelado(control,Turno);
+                clsDMonitoreoDescongelado.GuardarModificarMonitoreoDescongelado(control,detalle,Turno);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

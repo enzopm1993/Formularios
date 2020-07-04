@@ -32,6 +32,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 }
                 else
                 {
+                    //Guid g = Guid.NewGuid();
+                    
+                    //model.CodTipoMonitoreo = entities.ret;
                     model.Descripcion = model.Descripcion.ToUpper();
                     model.Abreviatura = model.Abreviatura.ToUpper();
                     entities.CC_MANTENIMIENTO_TIPO_DESCONGELADO.Add(model);

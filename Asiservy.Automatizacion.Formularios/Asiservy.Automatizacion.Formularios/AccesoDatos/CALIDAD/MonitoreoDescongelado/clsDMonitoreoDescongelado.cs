@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public CC_MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,string Tipo, string Turno)
+        public CC_MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,int Tipo, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                              join y in entities.CC_MONITOREO_DESCONGELADO_CONTROL on x.IdMonitoreoDescongeladoControl equals y.IdMonitoreoDescongeladoControl
                              where x.Fecha == Fecha
                              && x.Tanque == Tanque
-                             && x.Tipo == Tipo
+                             && x.IdTipoMonitoreo == Tipo
                              && x.Lote == Lote
                              && y.Turno ==  Turno
                              && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
@@ -47,16 +47,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                         IdMonitoreoDescongelado = model.IdMonitoreoDescongelado,
                         IdMonitoreoDescongeladoControl = model.IdMonitoreoDescongeladoControl,
                         Lote = model.Lote,
-                        Muestra1 = model.Muestra1,
-                        Muestra2 = model.Muestra2,
-                        Muestra3 = model.Muestra3,
+                      
                         Observacion = model.Observacion,
                         Talla = model.Talla,
                         Tanque = model.Tanque,
-                        TemperaturaAgua = model.TemperaturaAgua,
+                      
                         TerminalIngresoLog = model.TerminalIngresoLog,
                         TerminalModificacionLog = model.TerminalModificacionLog,
-                        Tipo = model.Tipo,
+                        IdTipoMonitoreo = model.IdTipoMonitoreo,
                         UsuarioIngresoLog = model.UsuarioIngresoLog,
                         UsuarioModificacionLog = model.UsuarioModificacionLog
                     };
@@ -70,7 +68,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public void GuardarModificarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model, string Turno)
+        public void GuardarModificarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model, List<CC_MONITOREO_DESCONGELADO_DETALLE> detalle, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -80,6 +78,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     && x.Turno==Turno 
                     && x.EstadoRegistro== clsAtributos.EstadoRegistroActivo);
                     int idControl = 0;
+                    int idCabecera = 0;
                     if (poControlReporte != null)
                     {
                         idControl = poControlReporte.IdMonitoreoDescongeladoControl;
@@ -103,20 +102,47 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     if (poControl != null)
                     {
                         poControl.Hora = model.Hora;
-                        poControl.Muestra1 = model.Muestra1;
-                        poControl.Muestra2 = model.Muestra2;
-                        poControl.TemperaturaAgua = model.TemperaturaAgua;
-                        poControl.Muestra3 = model.Muestra3;
+                        //poControl.Muestra1 = model.Muestra1;
+                        //poControl.Muestra2 = model.Muestra2;
+                        //poControl.TemperaturaAgua = model.TemperaturaAgua;
+                        //poControl.Muestra3 = model.Muestra3;
                         poControl.Observacion = model.Observacion;
                         poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                         poControl.FechaModificacionLog = model.FechaIngresoLog;
+                        idCabecera = poControl.IdMonitoreoDescongelado;
                     }
                     else
                     {
                         model.IdMonitoreoDescongeladoControl = idControl;
                         entities.CC_MONITOREO_DESCONGELADO.Add(model);
+                        entities.SaveChanges();
+                        idCabecera = model.IdMonitoreoDescongelado;
                     }
+                    foreach(var d in detalle)
+                    {
+                        //var poMuestra = entities.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO.FirstOrDefault(x=> x.IdMuestra = d.cod);
+                        var poControlDetalle = entities.CC_MONITOREO_DESCONGELADO_DETALLE.FirstOrDefault(x => x.IdMonitoreoDescongeladoDetalle == d.IdMonitoreoDescongeladoDetalle);
+                        if (poControl != null)
+                        {
+                            poControlDetalle.Cantidad = d.Cantidad;
+                            poControlDetalle.TerminalModificacionLog = d.TerminalIngresoLog;
+                            poControlDetalle.UsuarioModificacionLog = d.UsuarioIngresoLog;
+                            poControlDetalle.FechaModificacionLog = d.FechaIngresoLog;
+                        }
+                        else
+                        {
+                            d.IdMonitoreoDescongelado = idCabecera;
+                            d.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                            d.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                            d.FechaIngresoLog = model.FechaIngresoLog;
+                            d.TerminalIngresoLog = model.TerminalIngresoLog;
+                            entities.CC_MONITOREO_DESCONGELADO_DETALLE.Add(d);
+                        }
+                    }
+
+
+
                     entities.SaveChanges();
                     transaction.Commit();
                 }
