@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO>
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.MantenimientoMuestraDescongeladoModel>
 @using Newtonsoft.Json;
 @using Asiservy.Automatizacion.Datos.Datos
 
@@ -68,7 +68,6 @@
                         var x = new CC_MANTENIMIENTO_MUESTRA_DESCONGELADO
                         {
                             IdMuestra = item.IdMuestra,
-                            CodMuestra = item.CodMuestra,
                             Descripcion = item.Descripcion,
                             Abreviatura = item.Abreviatura,
                             EstadoRegistro = item.EstadoRegistro

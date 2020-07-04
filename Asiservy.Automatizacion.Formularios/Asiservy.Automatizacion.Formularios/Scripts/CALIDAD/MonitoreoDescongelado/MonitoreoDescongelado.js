@@ -55,7 +55,7 @@ function ConsultarMonitoreoDescongelado() {
         $("#divCabecera2").prop("hidden", true);
         return;
     }
-    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().add(1, 'days').format("YYYY-MM-DD")) {
         $("#txtFecha").val("");
         MensajeAdvertencia("Fecha no permitida");
         return;
@@ -149,23 +149,24 @@ function ConsultarMonitoreoDetalle() {
             if (resultado == "0") {
                 $("#txtIdControl").val(0);
                 $("#txtHora").val(moment().format("YYYY-MM-DDTHH:mm"));
-                $("#txtTemperaturaAgua").val('');
-                $("#txtMuestra1").val('');
-                $("#txtMuestra2").val('');
-                $("#txtMuestra3").val('');
+                Muestra.forEach(function (x) {
+                    $("#txtMuestra-" + x.IdMuestra).val("");
+                });
+
                 $("#txtObservacion").val('');
                 $("#ModalMonitoreo").modal("show");
                 $("#btnEliminar").prop("hidden", true);
                 model = [];
             } else {
                 $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
-                $("#txtTemperaturaAgua").val(resultado.TemperaturaAgua);
-                $("#txtMuestra1").val(resultado.Muestra1);
-                $("#txtMuestra2").val(resultado.Muestra2);
-                $("#txtMuestra3").val(resultado.Muestra3);
-                $("#txtIdControl").val(resultado.IdMonitoreoDescongelado);
-                $("#txtObservacion").val(resultado.Observacion);
-
+                console.log(resultado);
+                Muestra.forEach(function (x) {
+                    if ($("#txtMuestra-" + x.IdMuestra).val() > 0) {
+                        obj.push({ IdMuestra: x.IdMuestra, Valor: $("#txtMuestra-" + x.IdMuestra).val() });
+                    }
+                });
+                $("#txtIdControl").val(resultado[0].IdMonitoreoDescongelado);
+                $("#txtObservacion").val(resultado[0].Observacion);
                 $("#ModalMonitoreo").modal("show");
                 $("#btnEliminar").prop("hidden", false);
                 model = resultado;
@@ -228,7 +229,7 @@ function GuardarMonitoreoDescongelado() {
     var obj = [];
     Muestra.forEach(function (x) {
         if ($("#txtMuestra-" + x.IdMuestra).val() > 0) {
-            obj.push({ CodMuestra: x.CodMuestra, Valor: $("#txtMuestra-" + x.IdMuestra).val() });
+            obj.push({ IdMuestra: x.IdMuestra, Valor: $("#txtMuestra-" + x.IdMuestra).val() });
         }
     });
     //console.log(obj.length);
@@ -244,7 +245,7 @@ function GuardarMonitoreoDescongelado() {
             Especie: DatosCabecera.U_SYP_ESPECIE,
             Talla: DatosCabecera.U_SYP_TALLA,
             Hora: $("#txtHora").val(),
-            Tipo: $("#selectTipo").val(),
+            IdTipoMonitoreo: $("#selectTipo").val(),
             //TemperaturaAgua: $("#txtTemperaturaAgua").val(),
             //Muestra1: $("#txtMuestra1").val(),
             //Muestra2: $("#txtMuestra2").val(),

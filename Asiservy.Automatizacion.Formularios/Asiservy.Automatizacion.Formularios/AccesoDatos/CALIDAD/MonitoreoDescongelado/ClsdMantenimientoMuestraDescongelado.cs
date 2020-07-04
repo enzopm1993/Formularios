@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
 {
     public class ClsdMantenimientoMuestraDescongelado
     {
-        public List<CC_MANTENIMIENTO_MUESTRA_DESCONGELADO> ConsultaManteminetoMuestraDescongelado()
+        public List<MantenimientoMuestraDescongeladoModel> ConsultaManteminetoMuestraDescongelado()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO.ToList();
-                return lista;
+                var lista = (from x in  entities.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO
+                             select new MantenimientoMuestraDescongeladoModel(){
+                                 Abreviatura= x.Abreviatura,
+                                 Descripcion=x.Descripcion,
+                                 EstadoRegistro = x.EstadoRegistro,
+                                 FechaIngresoLog = x.FechaIngresoLog,
+                                 FechaModificacionLog = x.FechaModificacionLog,
+                                 IdMuestra = x.IdMuestra,
+                                 TerminalIngresoLog= x.TerminalIngresoLog,
+                                 TerminalModificacionLog = x.TerminalModificacionLog,
+                                 UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                 UsuarioModificacionLog = x.UsuarioModificacionLog
+                             }
+                             );
+                return lista.ToList();
             }
         }
 

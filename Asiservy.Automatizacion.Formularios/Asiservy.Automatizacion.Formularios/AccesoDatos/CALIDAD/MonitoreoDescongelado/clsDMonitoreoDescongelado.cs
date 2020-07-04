@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public CC_MONITOREO_DESCONGELADO ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,int Tipo, string Turno)
+        public List<spConsultaMonitoreoDescongeladoDetalle> ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,int Tipo, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -33,38 +33,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                              select x
                             ).FirstOrDefault();
 
-              
-                if (model != null)
-                {
-                    CC_MONITOREO_DESCONGELADO control = new CC_MONITOREO_DESCONGELADO
-                    {
-                        Especie = model.Especie,
-                        EstadoRegistro = model.EstadoRegistro,
-                        Fecha = model.Fecha,
-                        FechaIngresoLog = model.FechaIngresoLog,
-                        FechaModificacionLog = model.FechaModificacionLog,
-                        Hora = model.Hora,
-                        IdMonitoreoDescongelado = model.IdMonitoreoDescongelado,
-                        IdMonitoreoDescongeladoControl = model.IdMonitoreoDescongeladoControl,
-                        Lote = model.Lote,
-                      
-                        Observacion = model.Observacion,
-                        Talla = model.Talla,
-                        Tanque = model.Tanque,
-                      
-                        TerminalIngresoLog = model.TerminalIngresoLog,
-                        TerminalModificacionLog = model.TerminalModificacionLog,
-                        IdTipoMonitoreo = model.IdTipoMonitoreo,
-                        UsuarioIngresoLog = model.UsuarioIngresoLog,
-                        UsuarioModificacionLog = model.UsuarioModificacionLog
-                    };
-                    return control;
-
-                }
-                else
-                {
-                    return null;
-                }
+                return entities.spConsultaMonitoreoDescongeladoDetalle(model.IdMonitoreoDescongelado).ToList();
             }
         }
 
