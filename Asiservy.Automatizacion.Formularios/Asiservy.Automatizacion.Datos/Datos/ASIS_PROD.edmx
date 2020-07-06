@@ -4240,6 +4240,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="ASY_ReporteHorasMovimientoPersonalDetallado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fechaIni" Type="date" Mode="In" />
+          <Parameter Name="fechaFin" Type="date" Mode="In" />
+        </Function>
         <Function Name="EmpleadosDatosPersonales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="fn_RetornaCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="Tabla" Type="varchar" Mode="In" />
@@ -6733,6 +6737,10 @@
             <End Role="CC_MONITOREO_DESCONGELADO" EntitySet="CC_MONITOREO_DESCONGELADO" />
             <End Role="CC_MONITOREO_DESCONGELADO_DETALLE" EntitySet="CC_MONITOREO_DESCONGELADO_DETALLE" />
           </AssociationSet>
+          <FunctionImport Name="ASY_ReporteHorasMovimientoPersonalDetallado" ReturnType="Collection(ASIS_PRODModel.ASY_ReporteHorasMovimientoPersonalDetallado_Result)">
+            <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13122,6 +13130,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="ASY_ReporteHorasMovimientoPersonalDetallado_Result">
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="7" />
+          <Property Type="DateTime" Name="INICIO" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FIN" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="HORAS_RELOJ" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DESCUENTO_ALMUERZO" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DESCUENTO_CENA" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="HORAS_LABORADAS" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="NO_FIN_ASISTENCIA" Nullable="true" />
+          <Property Type="String" Name="TIPO_ROL" Nullable="true" MaxLength="40" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19317,6 +19347,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ASY_ReporteHorasMovimientoPersonalDetallado" FunctionName="ASIS_PRODModel.Store.ASY_ReporteHorasMovimientoPersonalDetallado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.ASY_ReporteHorasMovimientoPersonalDetallado_Result">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="INICIO" ColumnName="INICIO" />
+                <ScalarProperty Name="FIN" ColumnName="FIN" />
+                <ScalarProperty Name="HORAS_RELOJ" ColumnName="HORAS_RELOJ" />
+                <ScalarProperty Name="DESCUENTO_ALMUERZO" ColumnName="DESCUENTO_ALMUERZO" />
+                <ScalarProperty Name="DESCUENTO_CENA" ColumnName="DESCUENTO_CENA" />
+                <ScalarProperty Name="HORAS_LABORADAS" ColumnName="HORAS_LABORADAS" />
+                <ScalarProperty Name="NO_FIN_ASISTENCIA" ColumnName="NO_FIN_ASISTENCIA" />
+                <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
