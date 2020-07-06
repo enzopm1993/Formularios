@@ -124,6 +124,7 @@ function NuevoControl() {
     $("#txtMinimo").val('');
     $("#txtMaximo").val('');
     $("#txtObservacion").val('');
+    $("#selectColor2").css("color", 'black');
     //$("#CheckEstadoRegistro").prop("checked", true);
     //$('#LabelEstado').text('Activo');
 }

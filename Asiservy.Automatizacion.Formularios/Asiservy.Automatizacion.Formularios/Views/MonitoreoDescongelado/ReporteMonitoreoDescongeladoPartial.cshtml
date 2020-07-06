@@ -1,16 +1,22 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMonitoreoDescongelado>
 @using Asiservy.Automatizacion.Datos.Datos
-@{ 
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
+@{
     var groupedCustomerList = Model
-     .GroupBy(u => new { u.IdMonitoreoDescongeladoControl, u.Tanque, u.Talla, u.Especie, u.Lote})
-     .Select(g=> new spConsultaMonitoreoDescongelado { IdMonitoreoDescongeladoControl=g.Key.IdMonitoreoDescongeladoControl,
-     Tanque = g.Key.Tanque,
-     Talla = g.Key.Talla,
-     Lote=g.Key.Lote,
-     Especie=g.Key.Especie
+     .GroupBy(u => new { u.IdMonitoreoDescongeladoControl, u.Tanque, u.Talla, u.Especie, u.Lote })
+     .Select(g => new spConsultaMonitoreoDescongelado
+     {
+         IdMonitoreoDescongeladoControl = g.Key.IdMonitoreoDescongeladoControl,
+         Tanque = g.Key.Tanque,
+         Talla = g.Key.Talla,
+         Lote = g.Key.Lote,
+         Especie = g.Key.Especie
 
      })
      .ToList();
+
+    var Muestra = (List<MantenimientoMuestraDescongeladoModel>)ViewBag.Muestra;
+    var Tipo =(List<MantenimientoTipoDescongeladoModel>) ViewBag.Tipo;
 }
 
 <h6><b>Turno:</b>@ViewBag.Turno</h6>
@@ -22,82 +28,53 @@
             <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Especie)</th>
             <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Talla)</th>
 
-            <th colspan="6" class="text-center">Inicio Descongelado</th>
-            <th colspan="6" class="text-center">Emparrillado</th>
-            <th colspan="5" class="text-center">Ingreso Cocina</th>
+            @foreach (var t in Tipo)
+            {
+                int cont = 2;
+                if(t.TemperaturaAgua)
+                {
+                    cont += 1;
+                }
+                cont += Muestra.Count;
+                <th colspan="@cont" class="text-center">@t.Descripcion</th>
+
+            }
         </tr>
+       
+
         <tr class="text-center">
-            <th rowspan="2">
-                Hora
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Temperatura de agua ºc
-            </th>
-            <th colspan="3" style="white-space:normal">
-                Temperatura de pescado ºc
-            </th>
-            <th rowspan="2">Observación</th>
-            <th rowspan="2">
-                Hora
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Temperatura de agua ºc
-            </th>
-            <th colspan="3" style="white-space:normal">
-                Temperatura de pescado ºc
-            </th>
-            <th rowspan="2">Observación</th>
+            @foreach (var t in Tipo)
+            {
+                <th rowspan="2">
+                    Hora
+                </th>
+                if (t.TemperaturaAgua)
+                {
+                <th rowspan="2" style="white-space:normal">
+                    Temperatura de agua ºc
+                </th>
+                }
+                <th colspan="@Muestra.Count" style="white-space:normal">
+                    Temperatura de pescado ºc
+                </th>
+                <th rowspan="2">Observación</th>
+            }
 
-            <th rowspan="2">
-                Hora
-            </th>
-            <th colspan="3">
-                Temperatura de pescado ºc
-            </th>
-            <th rowspan="2">Observación</th>
-
+           
         </tr>
         <tr>
-          
-            <th>
-                1
-            </th>
-            <th>
-                2
-            </th>
-            <th>
-                3
-            </th>
-
-            <th>
-                 1
-            </th>
-            <th>
-                 2
-            </th>
-            <th>
-                 3
-            </th>
-
-            
-            <th>
-                 1
-            </th>
-            <th>
-                 2
-            </th>
-            <th>
-                 3
-            </th>
-           
+            @foreach (var t in Tipo)
+            {
+                foreach (var m in Muestra)
+                {
+                    <td>@m.Abreviatura</td>
+                }
+            }
         </tr>
     </thead>
     <tbody class="letra6">
         @foreach (var control in groupedCustomerList)
         {
-            var Descongelado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "D");
-            var Emparrillado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "E");
-            var Cocina = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "C");
 
         <tr>
             <td>
@@ -113,97 +90,63 @@
             <td>
                 @control.Tanque
             </td>
-            @if (Descongelado != null)
+
+            @foreach (var d in Tipo)
             {
-                <td>
-                    @Descongelado.Hora.ToString("dd-MM-yyyy HH:mm")
-                </td>
-                <td>
-                    @Descongelado.TemperaturaAgua
-                </td>
-                <td>
-                    @Descongelado.Muestra1
-                </td>
-                <td>
-                    @Descongelado.Muestra2
-                </td>
-                <td>
-                    @Descongelado.Muestra3
-                </td>
-                <td style="white-space:normal">
-                    @Descongelado.Observacion
-                </td>
-            }
-            else
-            {
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                var temperatura = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.IdTipoMonitoreo == d.IdTipoMonitoreo);
+
+                if (temperatura != null)
+                {
+                    <td>@temperatura.Hora.ToString("dd-MM-yyyy HH:mm")</td>
+                }
+                else
+                {
+                    <td>-</td>
+
+                }
+                if (d.TemperaturaAgua)
+                {
+
+                    if (temperatura != null)
+                    {
+                        <td>@temperatura.TemperaturaAgua</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+
+                    }
+                }
+
+                foreach (var m in Muestra)
+                {
+                    var moni = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.IdTipoMonitoreo == d.IdTipoMonitoreo && x.IdMuestra == m.IdMuestra);
+
+                    if (moni != null)
+                    {
+                        <td>@moni.Cantidad</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                if (temperatura != null)
+                {
+                    <td style="white-space:normal">@temperatura.Observacion</td>
+                }
+                else
+                {
+                    <td></td>
+
+                }
             }
 
-            @if (Emparrillado != null)
-            {
-                <td>
-                    @Emparrillado.Hora.ToString("dd-MM-yyyy HH:mm")
-                </td>
-                <td>
-                    @Emparrillado.TemperaturaAgua
-                </td>
-                <td>
-                    @Emparrillado.Muestra1
-                </td>
-                <td>
-                    @Emparrillado.Muestra2
-                </td>
-                <td>
-                    @Emparrillado.Muestra3
-                </td>
-                <td style="white-space:normal">
-                    @Emparrillado.Observacion
-                </td>
-            }
-            else
-            {
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            }
-
-            @if (Cocina != null)
-            {
-                <td>
-                    @Cocina.Hora.ToString("dd-MM-yyyy HH:mm")
-                </td>
-
-                <td>
-                    @Cocina.Muestra1
-                </td>
-                <td>
-                    @Cocina.Muestra2
-                </td>
-                <td>
-                    @Cocina.Muestra3
-                </td>
-                <td style="white-space:normal">
-                    @Cocina.Observacion
-                </td>
-            }
-            else
-            {
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            }
 
         </tr>
+
+
         }
     </tbody>
 </table>

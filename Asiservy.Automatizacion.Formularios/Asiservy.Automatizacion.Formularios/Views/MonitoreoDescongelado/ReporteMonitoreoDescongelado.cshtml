@@ -142,8 +142,20 @@
         border-collapse: collapse;
     }
 </style>
-<h4 id="titulo">Reporte de Control y Monitoreo de Descongelado</h4>
 
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center text-uppercase" style="float:left">Reporte de Control y Monitoreo de Descongelado <label id="titulo" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" target="_blank">Ir al Control</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" target="_blank">Ir al Control</a>}
+        </div>
+    </div>
+</div>
 
 
 <hr />

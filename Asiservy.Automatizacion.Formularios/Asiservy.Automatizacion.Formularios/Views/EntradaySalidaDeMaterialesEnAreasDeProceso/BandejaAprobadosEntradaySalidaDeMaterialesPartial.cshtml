@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.EntradaYSalidaDeMateriales.EntradaSalidaMaterialViewModel>
+<style>
+    #tbltitulo {
+        display: none;
+    }
+
+    #tblReporte td {
+        font-size: 0.6rem;
+    }
+
+    #tblReporte th {
+        font-size: 0.6rem;
+    }
+
+    #tablaCab {
+        display: none;
+    }
+
+    #divfoot {
+        display: none;
+    }
+
+    #divhead {
+        display: none;
+    }
+
+    #divcard1 {
+        border: none;
+        padding: 0rem;
+    }
+
+    #tblparametro {
+        display: none;
+    }
+</style>
+<table class="table table-bordered table-striped table-hover" id="tblBandejaAnalisis">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>Línea</th>
+            <th>Turno</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Terminal Ingreso
+            </th>
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario modificación
+            </th>
+            <th>
+                Aprobado por
+            </th>
+            <th>
+                Fecha Aprobación
+            </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="cursor:pointer" onclick="AbrirModalDetalle('@item.IdControlEntradaSalidaMateriales','@item.Fecha.ToString("yyyy-MM-dd")','@item.EstadoControl.ToString()')">
+
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @item.Linea
+                </td>
+                <td>
+                    @item.Turno
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+
+
+            <td class="text-center">
+                @if (item.EstadoControl)
+                {
+                    <span class="badge badge-success">Aprobado</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">Pendiente</span>
+                }
+            </td>
+            <td>
+                @item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")
+            </td>
+            <td>
+                @item.UsuarioIngresoLog
+            </td>
+            <td>
+                @item.TerminalIngresoLog
+            </td>
+            <td>
+                @item.FechaModificacionLog
+            </td>
+            <td>
+                @item.UsuarioModificacionLog
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AprobadoPor)
+            </td>
+            <td>
+                @{
+                    if (item.FechaAprobacion != null)
+                    {
+                        @item.FechaAprobacion.Value.ToString("dd-MM-yyyy HH:mm")
+                    }
+                }
+            </td>
+
+        </tr>
+    }
+    </tbody>
+
+</table>
+

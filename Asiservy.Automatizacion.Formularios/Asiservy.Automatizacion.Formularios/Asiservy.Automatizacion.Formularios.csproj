@@ -2269,12 +2269,14 @@
     <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\BandejaMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterial.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ReporteMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\BandejaMonitoreoDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -3353,8 +3355,10 @@
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
+    <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\BandejaEntradaySalidaDeMateriales.js" />
     <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ControlEntradaySalidaDeMateriales.js" />
     <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.js" />
+    <Content Include="Scripts\PRODUCCION\EntradaySalidaDeMaterialesEnAreasDeProceso\ReporteEntradaySalidaDeMateriales.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ReporteControlEsterilizacionConserva.js" />
     <Content Include="Scripts\PRODUCCION\KpiProduccion\KpiEnvaseLata.js" />
@@ -3463,6 +3467,8 @@
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoTextura.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoMuestraDescongelado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoTipoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
@@ -3556,7 +3562,9 @@
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoMuestraDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoTipoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
     <Compile Include="Controllers\CALIDAD\KardexReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
@@ -3637,6 +3645,8 @@
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleEvaluacionProductoEnfundadoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\MantenimientoMuestraDescongeladoModel.cs" />
+    <Compile Include="Models\CALIDAD\MantenimientoTipoDescongeladoModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
@@ -3667,6 +3677,7 @@
     <Compile Include="Models\OrdenFabricacionAvance.cs" />
     <Compile Include="Models\OrdenFabricacionConsumoInsumo.cs" />
     <Compile Include="Models\Produccion\EntradaYSalidaDeMateriales\EntradaSalidaMaterialDetalleViewModel.cs" />
+    <Compile Include="Models\Produccion\EntradaYSalidaDeMateriales\EntradaSalidaMaterialViewModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
@@ -4208,6 +4219,14 @@
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialSubDetalleControl.cshtml" />
     <Content Include="Views\ParametroCalidad\ParametroCalidad.cshtml" />
     <Content Include="Views\ParametroCalidad\MantenimientoParametroCalidadPartial.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\ReporteEntradaySalidaDeMateriales.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\PartialReporteControl.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\BandejaEntradaySalidaDeMateriales.cshtml" />
+    <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\BandejaAprobadosEntradaySalidaDeMaterialesPartial.cshtml" />
+    <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.cshtml" />
+    <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongeladoPartial.cshtml" />
+    <Content Include="Views\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongelado.cshtml" />
+    <Content Include="Views\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongeladoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

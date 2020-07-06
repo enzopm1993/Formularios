@@ -28,8 +28,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_MATERIAL_QUEBRADIZO_CTRL CC_MATERIAL_QUEBRADIZO_CTRL { get; set; }
         public virtual CC_MATERIAL_QUEBRADIZO_MANT CC_MATERIAL_QUEBRADIZO_MANT { get; set; }
         public virtual CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL { get; set; }
+        public virtual CC_MATERIAL_QUEBRADIZO_CTRL CC_MATERIAL_QUEBRADIZO_CTRL { get; set; }
     }
 }
