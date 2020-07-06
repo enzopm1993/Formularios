@@ -148,8 +148,10 @@ function AprobarPendiente(estadoReporte) {
             }
             if (resultado == 2 || resultado == 1) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             } else {
-                MensajeError('Error en: model.Fecha!=DateTime.MinValue - GuardarModificarHigieneControl');
+                MensajeError('Error en: model.Fecha!=DateTime.MinValue - IdLimpiezaDesinfeccionPlanta');
                 return;
             }
             $("#ModalApruebaPendiente").modal("hide");

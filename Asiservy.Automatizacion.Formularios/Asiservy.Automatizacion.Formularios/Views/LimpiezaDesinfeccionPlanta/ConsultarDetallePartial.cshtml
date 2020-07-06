@@ -4,10 +4,10 @@
     ViewBag.Title = "ConsultarDetallePartial";
     var listaTablas = (from v in Model
                        group v by new { v.IdAuditoria, v.NombreAuditoria, v.HoraAuditoria, v.Turno } into x
-                       orderby x.Key.HoraAuditoria  descending
+                       orderby x.Key.HoraAuditoria descending
                        select new { x.Key.IdAuditoria, x.Key.NombreAuditoria, x.Key.HoraAuditoria, x.Key.Turno }).ToList();
 
-    IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Limpieza_Desinfeccion_Planta> jsonModel; 
+    IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Limpieza_Desinfeccion_Planta> jsonModel;
 }
 
 @foreach (var tabla in listaTablas)
@@ -25,9 +25,9 @@
                 {
                     <b>@tabla.Turno.Replace("_", " ").ToUpper()</b>
                 }<br />
-                 <b>FECHA: @tabla.HoraAuditoria.ToString("dd-MM-yyyy")<br />HORA: @tabla.HoraAuditoria.ToString("HH:mm")</b>
+                <b>FECHA: @tabla.HoraAuditoria.ToString("dd-MM-yyyy")<br />HORA: @tabla.HoraAuditoria.ToString("HH:mm")</b>
             </div>
-            
+
         </div>
 
         <table class="table table-bordered table-striped">
@@ -46,11 +46,11 @@
                         OBSERVACION
                     </th>
                     <th>
-                        HORA
+                        FECHA - HORA
                     </th>
                     <th>
                         ACCION CORRECTIVA
-                    </th>                    
+                    </th>
                     <th>
                         SUPERVISOR
                     </th>
@@ -82,7 +82,7 @@
                                 @{DateTime date = Convert.ToDateTime(item.HoraAccionCorrectiva);}
                                 @if (date != DateTime.MinValue)
                                 {
-                                    @date.ToString("HH:mm")
+                                    @date.ToString("dd-MM-yyyy HH:mm")
                                 }
                             </td>
                             <td style="white-space:normal">
@@ -90,7 +90,7 @@
                                 {
                                     @item.AccionCorrectiva.ToUpper()
                                 }
-                            </td>                           
+                            </td>
                             <td>
                                 @item.PersonaAccionCorrectiva
                             </td>
@@ -107,3 +107,28 @@
         </table>
     </div><br />
 }
+          <div class="row">
+              <div class="col-md-3 col-12 col-sm-12">
+                  <table class="table table-bordered" style="font-size:8px">
+                      <thead class="text-center text-right" style="height:8px">
+                          <tr>
+                              <th colspan="2">TABLA DE CALIFICACIONES DE <br /> LIMPIEZA Y DESINFECCIÓN</th>
+                          </tr>
+                      </thead>
+                      <tbody style="font-size:10px">
+                          <tr>
+                              <td>SATISFACTORIO</td>
+                              <td>S</td>
+                          </tr>
+                          <tr>
+                              <td>NO SATISFACTORIO</td>
+                              <td>NS</td>
+                          </tr>
+                          <tr>
+                              <td>NO APLICA</td>
+                              <td>N/A</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>

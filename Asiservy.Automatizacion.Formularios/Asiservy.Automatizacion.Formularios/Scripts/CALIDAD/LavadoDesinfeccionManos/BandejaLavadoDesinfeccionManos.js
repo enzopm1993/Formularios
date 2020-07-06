@@ -6,6 +6,9 @@ $(document).ready(function () {
         var dataCabecera = table.row(this).data();
         SeleccionarBandeja(dataCabecera);
     });
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA
@@ -67,6 +70,12 @@ function CargarBandeja() {
                 });
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
+                var tr = document.getElementById("acoplar");
+                var tds = tr.getElementsByTagName("td");
+
+                for (var i = 1; i < tds.length; i++) {
+                    tds[i].style.whiteSpace = 'normal';
+                }
             }
                 $('#cargac').hide();
         },

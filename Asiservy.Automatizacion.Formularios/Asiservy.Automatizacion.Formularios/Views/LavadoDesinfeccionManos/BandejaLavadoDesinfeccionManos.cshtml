@@ -57,7 +57,7 @@
     </div>            
     
     <div class="box_filters col-md-5 col-12 col-sm-12">
-        <div id="divFiltroFecha" hidden class="itemFilter">
+        <div id="divFiltroFecha" hidden class="itemFilter col-12 col-sm-12">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -65,7 +65,7 @@
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="itemFilter">
+        <div class="itemFilter col-12 col-sm-12 text-center text-md-center">
             <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
@@ -78,14 +78,14 @@
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableDetalle">
         <thead style="font-size:12px">
             <tr>
-                <th style="width:70px">FECHA</th>
+                <th >FECHA</th>
                 <th>OBSERVACION</th>
-                <th style="width:100px">USUARIO CREACION</th>
-                <th style="width:50px">TURNO</th>
-                <th style="width:100px"><center>ESTADO APROBACION</center></th>
+                <th>USUARIO CREACION</th>
+                <th >TURNO</th>
+                <th><center>ESTADO APROBACION</center></th>
             </tr>
         </thead>
-        <tbody style="font-size:12px"></tbody>
+        <tbody style="font-size:12px" id="acoplar"></tbody>
     </table>
 </div>
 

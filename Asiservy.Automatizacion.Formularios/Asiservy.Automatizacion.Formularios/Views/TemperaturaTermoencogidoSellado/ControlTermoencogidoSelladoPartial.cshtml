@@ -5,16 +5,16 @@
     <thead style="font-size:12px">
     <tr>       
         <th style="border-right:1px solid #e3e6f0">
-            <center> HORA<br />VERIFICACION</center>
+            <center> FECHA - HORA<br />VERIFICACION</center>
         </th>
         <th style="border-right:1px solid #e3e6f0">
-            <center> TEMPERATURA °C</center>
+            <center> TEMPERATURA C°</center>
         </th>
         <th style="border-right:1px solid #e3e6f0">
-            <center> CORRECTO<br />SELLADO</center>
+            <center>CORRECTO<br />SELLADO</center>
         </th>
         <th style="border-right:1px solid #e3e6f0">
-            <center>OBSERVACION</center>
+            <center>OBSERVACÓN</center>
         </th>
         <th id="tdAccionesHead" style="border-right:1px solid #e3e6f0"><center>ACCIONES</center></th>
     </tr>
@@ -27,12 +27,12 @@
             <tr>              
                 <td>
                     <center>
-                         @item.HoraVerificacion.ToString("HH:mm")
+                         @item.HoraVerificacion.ToString("dd-MM-yyyy HH:mm")
                     </center>
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.Temperatura)
+                        @item.Temperatura.ToString("00.00") C°
                     </center>
                 </td>
                 <td>
@@ -47,7 +47,7 @@
                         }
                     </center>
                 </td>
-                <td>
+                <td style="white-space:normal">
                     @if (!string.IsNullOrEmpty(item.Observacion))
                     {
                     <span> @item.Observacion.ToUpper()</span>
