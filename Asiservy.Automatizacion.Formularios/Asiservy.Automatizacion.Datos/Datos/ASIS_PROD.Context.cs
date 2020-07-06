@@ -197,11 +197,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_PARAMETRO_CALIDAD> CC_PARAMETRO_CALIDAD { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_CTRL> CC_MATERIAL_QUEBRADIZO_CTRL { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_MUESTRA_DESCONGELADO> CC_MANTENIMIENTO_MUESTRA_DESCONGELADO { get; set; }
-        public virtual DbSet<CC_MANTENIMIENTO_TIPO_DESCONGELADO> CC_MANTENIMIENTO_TIPO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_DETALLE> CC_MONITOREO_DESCONGELADO_DETALLE { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_TIPO_DESCONGELADO> CC_MANTENIMIENTO_TIPO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
@@ -2332,24 +2332,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaDesdeParameter, fechaHastaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spConsultaMonitoreoDescongelado> spConsultaMonitoreoDescongelado(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaMonitoreoDescongeladoDetalle> spConsultaMonitoreoDescongeladoDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("idControl", idControl) :
-                new ObjectParameter("idControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongeladoDetalle>("spConsultaMonitoreoDescongeladoDetalle", idControlParameter);
-        }
-    
         public virtual ObjectResult<ASY_ReporteHorasMovimientoPersonalDetallado_Result> ASY_ReporteHorasMovimientoPersonalDetallado(Nullable<System.DateTime> fechaIni, Nullable<System.DateTime> fechaFin)
         {
             var fechaIniParameter = fechaIni.HasValue ?
@@ -2361,6 +2343,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ASY_ReporteHorasMovimientoPersonalDetallado_Result>("ASY_ReporteHorasMovimientoPersonalDetallado", fechaIniParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMonitoreoDescongeladoDetalle> spConsultaMonitoreoDescongeladoDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("idControl", idControl) :
+                new ObjectParameter("idControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongeladoDetalle>("spConsultaMonitoreoDescongeladoDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMonitoreoDescongelado> spConsultaMonitoreoDescongelado(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
         }
     }
 }
