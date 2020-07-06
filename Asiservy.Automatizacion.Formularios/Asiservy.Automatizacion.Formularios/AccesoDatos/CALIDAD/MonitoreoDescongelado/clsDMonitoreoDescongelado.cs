@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-
+                List<spConsultaMonitoreoDescongeladoDetalle> consulta = null;
                 var model = (from x in entities.CC_MONITOREO_DESCONGELADO
                              join y in entities.CC_MONITOREO_DESCONGELADO_CONTROL on x.IdMonitoreoDescongeladoControl equals y.IdMonitoreoDescongeladoControl
                              where x.Fecha == Fecha
@@ -34,12 +34,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                             ).FirstOrDefault();
                 if (model != null)
                 {
-                    return entities.spConsultaMonitoreoDescongeladoDetalle(model.IdMonitoreoDescongelado).ToList();
+                    consulta=  entities.spConsultaMonitoreoDescongeladoDetalle(model.IdMonitoreoDescongelado).ToList();
                 }
-                else
-                {
-                    return null;
-                }
+                return consulta;
             }
         }
 
@@ -79,7 +76,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                         poControl.Hora = model.Hora;
                         //poControl.Muestra1 = model.Muestra1;
                         //poControl.Muestra2 = model.Muestra2;
-                        //poControl.TemperaturaAgua = model.TemperaturaAgua;
+                        poControl.TemperaturaAgua = model.TemperaturaAgua;
                         //poControl.Muestra3 = model.Muestra3;
                         poControl.Observacion = !string.IsNullOrEmpty(model.Observacion)? model.Observacion.ToUpper():model.Observacion;
                         poControl.TerminalModificacionLog = model.TerminalIngresoLog;

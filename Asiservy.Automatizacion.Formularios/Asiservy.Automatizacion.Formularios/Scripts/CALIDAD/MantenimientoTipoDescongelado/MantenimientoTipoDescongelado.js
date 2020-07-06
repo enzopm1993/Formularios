@@ -85,6 +85,7 @@ function GuardarModificarControl() {
             Descripcion: $("#txtDescripcion").val(),
             Abreviatura: $("#txtAbreviatura").val(),
             Color: $("#selectColor1").val(),
+            TemperaturaAgua: $("#CheckTemperaturaAgua").prop("checked"),
             EstadoRegistro: estado
         },
         success: function (resultado) {
@@ -111,35 +112,37 @@ function GuardarModificarControl() {
     //alert("generado");
 }
 
-function CambioEstado(valor) {
-    //  console.log(valor);
-    if (valor)
-        $('#LabelEstado').text('Activo');
-    else
-        $('#LabelEstado').text('Inactivo');
+//function CambioEstado(valor) {
+//    //  console.log(valor);
+//    if (valor)
+//        $('#LabelEstado').text('Activo');
+//    else
+//        $('#LabelEstado').text('Inactivo');
 
-}
+//}
 
 function NuevoControl() {
     $("#txtIdControl").val('');
     $("#txtDescripcion").val('');
     $("#txtAbreviatura").val('');
-    $("#CheckEstadoRegistro").prop("checked", true);
-    $('#LabelEstado').text('Activo');
+    // $("#CheckEstadoRegistro").prop("checked", true);
+    $("#CheckTemperaturaAgua").prop("checked", false);
+   // $('#LabelEstado').text('Activo');
   //  $("#txtIdControl").prop("disabled", false);
     $("#selectColor1").prop("selectedIndex", 0);
     $("#selectColor1").css("color", 'black');
-
+    
 }
 
 
 function ActualizarCabecera(model) {
     $("#txtIdControl").val(model.IdTipoMonitoreo);
-  //  $("#txtIdControl").prop("disabled",true);
+    $("#CheckTemperaturaAgua").prop("checked", model.TemperaturaAgua);
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
     $("#selectColor1").val(model.Color)
     $("#selectColor1").css("color", model.Color);
+    
     
 }
 

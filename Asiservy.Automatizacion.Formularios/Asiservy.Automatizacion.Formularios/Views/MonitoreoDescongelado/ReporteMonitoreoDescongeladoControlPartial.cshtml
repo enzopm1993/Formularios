@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MONITOREO_DESCONGELADO_CONTROL>
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
-
+@{ var poTurno = (List<CLASIFICADOR>)ViewBag.Turnos;}
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-             <th>
+            <th>
                 Turno
             </th>
             <th>
@@ -38,7 +38,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-
+            var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
             var m = new CC_MONITOREO_DESCONGELADO_CONTROL
             {
                 IdMonitoreoDescongeladoControl = item.IdMonitoreoDescongeladoControl,
@@ -55,46 +55,52 @@
 
 
             var json = JsonConvert.SerializeObject(m);
-        <tr onclick="SeleccionarBandeja(@json)">
-            <td>
-                @item.Fecha.ToString("yyyy-MM-dd")
-            </td>
-            <td>
-                @item.Turno
-            </td>
-            @if (item.EstadoReporte == true)
-            {
-                <td><span class="badge badge-success">Aprobado</span></td>
-            }
-            else
-            {
-                <td><span class="badge badge-danger">Pendiente</span></td>
-            }
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @{
 
-
-            <td>
-                @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-            </td>
-            <td>
-                @if (item.FechaModificacionLog != null)
+                        if (T != null)
+                        {
+                            @T.Descripcion
+                        }
+                    }
+                </td>
+                @if (item.EstadoReporte == true)
                 {
-                    item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                    <td><span class="badge badge-success">Aprobado</span></td>
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-            </td>
+                else
+                {
+                    <td><span class="badge badge-danger">Pendiente</span></td>
+                }
 
-        </tr>
+
+                <td>
+                    @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                </td>
+                <td>
+                    @if (item.FechaModificacionLog != null)
+                    {
+                        item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>

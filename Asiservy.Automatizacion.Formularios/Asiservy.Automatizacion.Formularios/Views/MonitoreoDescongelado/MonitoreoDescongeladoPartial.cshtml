@@ -1,22 +1,24 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.BLZ.RegistroDescongeladoEmparrilladoMP>
 @using Asiservy.Automatizacion.Datos.Datos;
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 @using Newtonsoft.Json;
 
-@{ 
+@{
     var Control = ViewBag.Control as List<spConsultaMonitoreoDescongelado>;
-    var Tipo = ViewBag.Tipo as List<CC_MANTENIMIENTO_TIPO_DESCONGELADO>;
+    var Tipo = ViewBag.Tipo as List<MantenimientoTipoDescongeladoModel>;
 
 }
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr class="text-center">
-            @if (Tipo != null) {
+            @if (Tipo != null)
+            {
                 foreach (var t in Tipo)
                 {
-                <th>@t.Abreviatura</th>
+                    <th>@t.Abreviatura</th>
                 }
-            }         
+            }
             <th>
                 Tanque
             </th>
@@ -36,44 +38,44 @@
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
-          
 
 
-        <tr onclick="SeleccionarControl(@json)" class="text-center">
-             @if (Tipo != null)
-             {
-                foreach (var t in Tipo)
+
+            <tr onclick="SeleccionarControl(@json)" class="text-center">
+                @if (Tipo != null)
                 {
-                    var control = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.IdTipoMonitoreo == t.IdTipoMonitoreo);
+                    foreach (var t in Tipo)
+                    {
+                        var control = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.IdTipoMonitoreo == t.IdTipoMonitoreo);
 
-                    if (control != null)
-                    {
-                        <td>
-                            <i class="fas fa-check-circle" style="color: @t.Color"></i>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <i class="fas fa-check-circle" style="color: darkgray"></i>
-                        </td>
+                        if (control != null)
+                        {
+                            <td>
+                                <i class="fas fa-check-circle" style="color: @t.Color"></i>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <i class="fas fa-check-circle" style="color: darkgray"></i>
+                            </td>
+                        }
                     }
                 }
-             }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.U_SYP_LOTE)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.U_SYP_ESPECIE)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.U_SYP_TALLA)
-            </td>
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.U_SYP_LOTE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.U_SYP_ESPECIE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.U_SYP_TALLA)
+                </td>
+            </tr>
         }
     </tbody>
 </table>

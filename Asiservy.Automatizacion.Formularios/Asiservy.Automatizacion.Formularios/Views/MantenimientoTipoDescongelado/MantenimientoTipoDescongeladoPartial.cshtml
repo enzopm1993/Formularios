@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_TIPO_DESCONGELADO>
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.MantenimientoTipoDescongeladoModel>
 @using Newtonsoft.Json;
-@using Asiservy.Automatizacion.Datos.Datos
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
 
 <table class="table table-light table-striped table-bordered" id="tblDataTable">
     <thead>
@@ -16,6 +16,9 @@
             </th>
             <th>
                 Color
+            </th>
+            <th>
+                Temperatura de agua
             </th>
             <th>
                 Fecha Creación
@@ -44,7 +47,15 @@
             </td>
             <td>@item.Abreviatura</td>
             <td class="text-center"><span style="background-color:@item.Color" class="badge badge-secondary">COLOR</span></td>
-
+            <td class="text-center">
+                @if (item.TemperaturaAgua)
+                {
+                    @:SI
+                }
+                else {
+                    @:NO
+                }
+            </td>
             <td>
                 @fecha
             </td>
@@ -68,12 +79,13 @@
             <td>
 
                 @{
-                    var x = new CC_MANTENIMIENTO_TIPO_DESCONGELADO
+                    var x = new MantenimientoTipoDescongeladoModel
                     {
                         IdTipoMonitoreo = item.IdTipoMonitoreo,
                         Descripcion = item.Descripcion,
                         Abreviatura = item.Abreviatura,
                         Color = item.Color,
+                        TemperaturaAgua = item.TemperaturaAgua,
                         EstadoRegistro = item.EstadoRegistro
                     };
                     string json = JsonConvert.SerializeObject(x);

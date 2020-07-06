@@ -73,8 +73,12 @@ function AprobarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            MensajeCorrecto(resultado);
-            CargarBandeja();
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                CargarBandeja();
+            }
             $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
@@ -98,8 +102,12 @@ function ReversarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            MensajeCorrecto(resultado);
-            FiltrarAprobadosFecha();
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                FiltrarAprobadosFecha();
+            }
             $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
