@@ -107,7 +107,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_CISTERNA> CC_MANTENIMIENTO_CISTERNA { get; set; }
-        public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
         public virtual DbSet<DETALLE_PRODUCTO_POUCH_CUARENTENA> DETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
         public virtual DbSet<MANTENIMIENTO_CONDICION> MANTENIMIENTO_CONDICION { get; set; }
         public virtual DbSet<SUBDETALLE_PRODUCTO_POUCH_CUARENTENA> SUBDETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
@@ -120,7 +119,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL> CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PEDILUVIO> CC_MANTENIMIENTO_PEDILUVIO { get; set; }
-        public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE> CC_CLORO_AGUA_AUTOCLAVE { get; set; }
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
@@ -203,6 +201,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TIPO_DESCONGELADO> CC_MANTENIMIENTO_TIPO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
+        public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
+        public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1776,44 +1776,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalMovidoaLinea>("spConsultaPersonalMovidoaLinea", lINEAParameter, fechaParameter, horaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<sp_Control_Termoencogido_Sellado> sp_Control_Termoencogido_Sellado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado>("sp_Control_Termoencogido_Sellado", fechaDesdeParameter, fechaHastaParameter, opParameter);
-        }
-    
-        public virtual ObjectResult<sp_Control_Termoencogido_Sellado_Detalle> sp_Control_Termoencogido_Sellado_Detalle(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCabecera, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", fechaDesdeParameter, fechaHastaParameter, idCabeceraParameter, opParameter);
-        }
-    
         public virtual ObjectResult<EmpleadosDatosPersonales_Result> EmpleadosDatosPersonales()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<EmpleadosDatosPersonales_Result>("EmpleadosDatosPersonales");
@@ -2361,6 +2323,44 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Termoencogido_Sellado> sp_Control_Termoencogido_Sellado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado>("sp_Control_Termoencogido_Sellado", fechaDesdeParameter, fechaHastaParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Termoencogido_Sellado_Detalle> sp_Control_Termoencogido_Sellado_Detalle(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCabecera, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", fechaDesdeParameter, fechaHastaParameter, idCabeceraParameter, opParameter);
         }
     }
 }

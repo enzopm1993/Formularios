@@ -114,7 +114,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="22.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Width="1.5" PointX="33" PointY="17" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="30.75" PointY="57.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="6" PointY="35" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33" PointY="1.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="36.75" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.25" PointY="1.5" />
@@ -132,8 +131,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PEDILUVIO" Width="1.5" PointX="0.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="3.75" PointY="35" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
@@ -263,6 +260,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MONITOREO_DESCONGELADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="28.375" PointY="46" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="30.625" PointY="46.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
