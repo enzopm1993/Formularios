@@ -123,8 +123,8 @@
 
 <hr />
 <div class="row" id="divFiltro">
-    <div class="col-md-12 text-md-left text-center">
-        <h4 style="float:left">Reporte Temperatura Termoencogido y Calidad de Sellado</h4>
+    <div class="col-md-12 text-md-left text-center text-uppercase">
+        <h6 style="float:left">Reporte Temperatura Termoencogido y Calidad de Sellado</h6>
         <div class="box_filters">
             <div class="itemFilter">
                 <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
@@ -134,17 +134,28 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
             </div>
-            <div class="itemFilter col-md-1 col-12 col-sm-12 text-md-left text-center">
+            <div class="itemFilter text-md-left ">
                 <a onclick="CargarCabecera()" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
+    </div>   
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12 col-12 col-sm-12 float-right text-right">
+        @if (ViewBag.Link == null)
+        {
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" target="_blank">Ir al Control</a>
+        }
+        else
+        {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" target="_blank">Ir al Control</a>}
     </div>
 </div>
 <hr />
 <br id="brCabecera" />
 <div hidden class="card" id="divBotones" style="padding:10px;">
     <div class="text-center">
-        <label class="">Acción</label><br />
+        <label class="">ACCIÓN</label><br />
         <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
             <img style="width:100%" src="../../Content/icons/print24.png" />
         </button>
@@ -166,10 +177,10 @@
     <table id="tblNoImprimir" class="table table-bordered">
         <tbody>
             <tr>
-                <td width="80%" colspan="3" class="text-center">
+                <td width="90%" colspan="3" class="text-center">
                     <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                 </td>
-                <td rowspan="2" width="10%" class="text-center text-right">
+                <td rowspan="2" width="10%" colspan="3" class="text-center text-right">
                     <div style="font-size:11px">
                         <b>
                             @ViewBag.CodigoReporte
@@ -188,8 +199,12 @@
                 </td>
             </tr>
             <tr>
-                <td width="100px">FECHA:</td>
-                <td colspan="3" style="width:90%"><label id="lblMostrarFechaM"></label></td>
+                <td width="10%">FECHA:</td>
+                <td colspan="3" style=""><label id="lblMostrarFechaM"></label></td>
+                <td>TURNO:</td>
+                <td style="width:30%" colspan="1">
+                    <label id="lblMostrarHoraM"></label>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -203,7 +218,7 @@
                 <td width="80%" colspan="3" class="text-center">
                     <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                 </td>
-                <td rowspan="2" width="10%" class="text-center text-right">
+                <td rowspan="2" width="10%" colspan="5" class="text-center text-right">
                     <div style="font-size:11px">
                         <b>
                             @ViewBag.CodigoReporte
@@ -222,9 +237,12 @@
                 </td>
             </tr>
             <tr>
-                <td style="font-family:Arial; font-size:10px"><b>FECHA DE PRODUCCION:</b></td>
+                <td style="font-family:Arial; font-size:10px"><b>FECHA:</b></td>
                 <td style="font-family:Arial; font-size:11px" colspan="4"><label id=""><b id="lblMostrarFechaM"></b></label></td>
-
+                <td colspan="3">TURNO:</td>
+                <td style="width:30%">
+                    <label id="lblMostrarHora"></label>
+                </td>
             </tr>
         </tbody>
     </table>

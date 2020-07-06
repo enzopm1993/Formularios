@@ -46,6 +46,7 @@ function ConsultarEstadoRegistro() {
 }
 
 function CargarCabecera() {
+    DatePicker();
     if (document.getElementById('selectTurno') == null) {
         $('#divBotonCrear').prop('hidden', true);
         $('#divBotonCrearDetalle').prop('hidden', true);
@@ -60,7 +61,7 @@ function CargarCabecera() {
     $.ajax({
         url: "../LimpiezaDesinfeccionPlanta/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val(),
+            fechaControl: moment($("#txtFecha").val()).format('YYYY-DD-MM'),
             turno: document.getElementById('selectTurno').value
         },
         type: "GET",
@@ -117,7 +118,7 @@ function GuardarCabecera(siAprobar) {
                 type: "POST",
                 data: {
                     IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta,
-                    Fecha: $("#txtIngresoFecha").val(),    
+                    Fecha: moment($("#txtIngresoFecha").val()).format('YYYY-DD-MM'),    
                     ObservacionControl: $("#txtIngresoObservacion").val(),
                     Turno: document.getElementById('selectTurnoIngresar').value,
                     siAprobar: siAprobar
@@ -143,6 +144,8 @@ function GuardarCabecera(siAprobar) {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
                     }
                     document.getElementById('selectTurno').value = document.getElementById('selectTurnoIngresar').value;
                     $('#ModalIngresoCabecera').modal('hide');
@@ -210,7 +213,12 @@ function EliminarCabeceraSi() {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
+                        $('#cargac').hide();
+                        return;
                     }
+                    
                     itemEditar = 0;
                 },
                 error: function (resultado) {
@@ -226,7 +234,8 @@ function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-function ActualizarCabecera() {    
+function ActualizarCabecera() {
+    DatePicker2();
     ConsultarEstadoRegistro();
     setTimeout(function () {
         if (estadoReporte == true) {
@@ -234,7 +243,7 @@ function ActualizarCabecera() {
             return;
         } else {
             LimpiarModalIngresoCabecera();
-            $("#txtIngresoFecha").val(moment(itemEditar.Fecha).format("YYYY-MM-DD"));
+            $("#txtIngresoFecha").val(moment(itemEditar.Fecha).format("DD-MM-YYYY"));
             $("#txtIngresoObservacion").val(itemEditar.ObservacionControl);        
             document.getElementById('selectTurnoIngresar').value = itemEditar.Turno;
             $("#txtIngresoInspector").val(itemEditar.UsuarioIngresoLog);
@@ -244,6 +253,7 @@ function ActualizarCabecera() {
 }
 
 function ModalIngresoCabecera() {
+    DatePicker2();
     LimpiarModalIngresoCabecera();
     $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value).trigger('change');
     $('#ModalIngresoCabecera').modal('show');    
@@ -251,7 +261,7 @@ function ModalIngresoCabecera() {
 }
 
 function LimpiarModalIngresoCabecera() {
-    $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+    $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('MM-DD-YYYY'));
     $('#txtIngresoObservacion').val('');
 }
 
@@ -439,6 +449,8 @@ function GuardarDetalle(jdata) {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
                     }
                     //$('#selectTurnoFiltro').val($('#selectTurno').val());
                     $('#selectAreaAuditarFiltro').val($('#selectAreaAuditar').val()).trigger('change');
@@ -563,7 +575,10 @@ function EliminarDetalleSi() {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
                     }
+                    $('#cargac').hide();
                     itemEditar = 0;
                 },
                 error: function (resultado) {
@@ -646,6 +661,8 @@ function GuardarAccionCorrectiva() {
                         MensajeAdvertencia('¡Solo se permiten imagenes!', 5);
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
                     } else {
                         var mb =parseFloat(resultado / (1024 * 1024)).toFixed(2);
                         MensajeAdvertencia('¡Exedio el limite de capacidad permitido!:  <span class="badge badge-success">5Mb</span>: Su imagen:<span class="badge badge-danger">' + mb+ 'Mb</span>');
@@ -690,7 +707,7 @@ function OnChangeTextBoxAccion() {
 
 function LimpiarAccionCorrectiva() {
     var date=new Date();
-    $('#txtHoraAccionCorrectiva').val(moment(date).format('HH:mm'));
+    $('#txtHoraAccionCorrectiva').val(moment(date).format('YYYY-MM-DDTHH:mm'));
     $("#txtHoraAccionCorrectiva").css('border', '');
     $('#txtIngresoObservacion').val('');
     $('#txtAuditor').val('');
@@ -706,7 +723,7 @@ function LimpiarAccionCorrectiva() {
 function EditarAccionCorrectiva() {
     LimpiarAccionCorrectiva();
     if (accionCorrectiva.HoraAccionCorrectiva != null) {
-        $("#txtHoraAccionCorrectiva").val(moment(accionCorrectiva.HoraAccionCorrectiva).format('HH:mm'));
+        $("#txtHoraAccionCorrectiva").val(moment(accionCorrectiva.HoraAccionCorrectiva).format('YYYY-MM-DDTHH:mm'));
     } 
     $("#txtAuditor").val(accionCorrectiva.PersonaAccionCorrectiva);
     $("#txtAccionCorrectiva").val(accionCorrectiva.AccionCorrectiva);
@@ -773,3 +790,49 @@ $('#file-preview-zone').on("click", function (e) {
         rotation = 0;
     }
 });
+
+function DatePicker() {
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    $('#datetimepicker1').datetimepicker(
+        {
+            //date: moment().format("DD-MM-YYYY"),
+            format: "DD-MM-YYYY",
+            //minDate: model.Fecha,
+            maxDate: moment(),
+            ignoreReadonly: true
+        });
+}
+
+function DatePicker2() {
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    $('#datetimepicker2').datetimepicker(
+        {
+            format: "DD-MM-YYYY",
+            maxDate: moment(),
+            ignoreReadonly: true
+        });
+}

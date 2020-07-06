@@ -48,13 +48,13 @@
 <div class="row">
     <div class="col-md-3 col-12 col-sm-12">
         <select id="selectEstadoReporte"  class="form-control" onchange="CargarBandeja()">
-            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
 
-    <div class="box_filters col-md-5 col-12 col-sm-12">
-        <div class="itemFilter">
+    <div class="box_filters col-md-8 col-12 col-sm-12">
+        <div class="itemFilter col-md-6  col-12 col-sm-12" id="divCalendar">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -62,7 +62,7 @@
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="itemFilter">
+        <div class="itemFilter col-md-1 col-5 col-sm-12 text-center text-md-center">
             <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
@@ -71,16 +71,17 @@
 
 @* DIV MOSTRAR JSON *@
 <div class="table-responsive" id="divTablaAplrobados">
-    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
-        <thead>
+    <table class="table-hover table-bordered table-striped table text-uppercase" style="cursor: pointer" id="tblDataTable">
+        <thead style="font-size:12px">
             <tr>
-                <th>FECHA</th>
-                <th>OBSERVACION</th>
-                <th style="width:150px">USIARIO CREACION</th>
-                <th style="width:150px"><center>ESTADO APROBACION</center></th>
+                <th style="width:70px">FECHA</th>
+                <th>OBSERVACIÓN</th>
+                <th style="width:80px">USIARIO CREACION</th>
+                <th style="width:50px">TURNO</th>
+                <th style="width:80px"><center>ESTADO</center></th>
             </tr>
         </thead>
-        <tbody style="font-size:14px"></tbody>
+        <tbody style="font-size:11px" id="acoplar"></tbody>
     </table>
 </div>
 
@@ -96,7 +97,15 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-4 col-12 col-sm-12">
-                    <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                    <div class="form-group" id="divfechaap">
+                        <input type="hidden" id="fechacontrol" value="" />
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <input readonly type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" onchange="validar()" id="txtFechaAprobado" />
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br />
                 <div class="table-responsive" id="divAprobarPendientePartial">
@@ -111,6 +120,7 @@
         </div>
     </div>
 </div>
+
 
 
 

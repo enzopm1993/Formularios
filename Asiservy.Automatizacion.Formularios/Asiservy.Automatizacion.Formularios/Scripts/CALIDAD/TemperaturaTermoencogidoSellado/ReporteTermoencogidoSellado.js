@@ -3,13 +3,15 @@
     CargarCabecera();
 });
 
+var turno = ['', "A", "B", "C", "D", "F", "G"];
+
 function CargarCabecera() {
     Atras();
     $('#lblMostrarFecha').text('');
     $('#lblMostrarHora').text('');
     $('#lblMostrarObservacion').text('');
     $('#cargac').show();
-
+   
     if ($("#fechaDesde").val() == '' || $("#fechaHasta").val() == '') {
         var date = new Date();
         var shortDate = moment(date).format('YYYY-MM-DD');
@@ -56,9 +58,12 @@ function SeleccionarCabecera(jdata) {
     if (jdata.AprobadoPor == null) {
         jdata.AprobadoPor = '';
     }
-
+    if (jdata.Turno != null || jdata.Turno != '') {
+        $('#lblMostrarHora').text(turno[jdata.Turno]);
+        $('#lblMostrarHoraM').text(turno[jdata.Turno]);
+    }
     if (jdata.FechaAprobado != null) {
-        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY HH:mm');
+        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('MM-DD-YYYY HH:mm');
     } else if (jdata.FechaAprobado == null) {
         jdata.FechaAprobado = '';
     }

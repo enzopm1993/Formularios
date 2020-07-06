@@ -561,7 +561,7 @@ function ConsultarDetalle(jdata) {
                 },
                 error: function (resultado) {
                     //$('#cargac').hide();
-                    MensajeError(resultado.responseText, false);
+                    MensajeError(Mensajes.Error, false);
                 }
             });
         }

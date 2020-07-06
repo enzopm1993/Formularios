@@ -565,7 +565,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                 else
                 {
                     listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                                                               && x.Fecha <= FechaHasta).ToList();
+                                                                               ).OrderByDescending(v => v.Fecha).ToList();
                 }                   
                 CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA cabecera;
                 List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> listaCabecera = new List<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>();

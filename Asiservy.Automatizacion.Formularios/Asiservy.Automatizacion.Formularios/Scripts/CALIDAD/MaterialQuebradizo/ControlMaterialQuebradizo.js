@@ -204,6 +204,8 @@ function EliminarCabeceraSi() {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
                     }
                     itemCabecera = [];
                 },
@@ -375,6 +377,8 @@ function GuardarDetalle(jdataAreas, jdataMateriales) {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                         $('#cargac').hide();
                         return;
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
                     }
                     $('#selectTurnoFiltro').val($('#selectTurno').val());
                     $('#selectAreaAuditarFiltro').val($('#selectAreaAuditar').val()).trigger('change');
@@ -490,6 +494,8 @@ function EliminarDetalleSi() {
                 MensajeAdvertencia('¡No se encontro ningun registro Cabecera en esta fecha!');
                 $('#cargac').hide();
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
         },
         error: function () {
@@ -597,7 +603,9 @@ function GuardarAccionCorrectiva() {
                         MensajeAdvertencia('¡Solo se permiten imagenes .JPG y .PNG!', 5);
                         $('#cargac').hide();
                         return;
-                    } else {
+                    } else if (resultado == 100) {
+                        MensajeAdvertencia(Mensajes.MensajePeriodo);
+                    }else {
                         var mb = parseFloat(resultado / (1024 * 1024)).toFixed(2);
                         MensajeAdvertencia('¡Exedio el limite de capacidad permitido!:  <span class="badge badge-success">5Mb</span>: Su imagen:<span class="badge badge-danger">' + mb + 'Mb</span>');
                         $('#cargac').hide();
@@ -786,6 +794,8 @@ function EliminarAccionCorrectiva() {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             $("#modalAccionCorrectiva").modal("show");
             $('#cargac').hide();

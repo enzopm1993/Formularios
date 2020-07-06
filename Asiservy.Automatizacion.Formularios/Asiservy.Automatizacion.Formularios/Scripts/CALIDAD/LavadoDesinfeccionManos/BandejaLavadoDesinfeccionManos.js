@@ -6,6 +6,9 @@ $(document).ready(function () {
         var dataCabecera = table.row(this).data();
         SeleccionarBandeja(dataCabecera);
     });
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA
@@ -19,8 +22,8 @@ function CargarBandeja() {
     }
     var table = $("#tblDataTableDetalle");
     table.DataTable().clear();
-    table.DataTable().destroy();
-    table.DataTable().draw();
+    //table.DataTable().destroy();
+    //table.DataTable().draw();
     $.ajax({
         url: "../LavadoDesinfeccionManos/BandejaLavadoDesinfeccionManosJson",
         data: {
@@ -49,8 +52,7 @@ function CargarBandeja() {
                     { data: 'tr' },
                     { data: 'EstadoReporteControl' }
                 ];
-                table.DataTable().destroy();
-                table.DataTable(config.opcionesDT);
+               
                 $('#cargac').hide();
                 var conRow = 0;
                 resultado.forEach(function (row) {
@@ -65,14 +67,24 @@ function CargarBandeja() {
                     resultado[conRow].EstadoReporteControl = "<center><span class='badge " + css + "' >" + estado + "</span></center>";//Aplico estrilos al estadoReporte
                     conRow++;
                 });
+                table.DataTable().destroy();
+                table.DataTable(config.opcionesDT);
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
+                //table.DataTable().destroy();
+                var tr = document.getElementById("acoplar");
+                var tds = tr.getElementsByTagName("td");
+
+                for (var i = 1; i < tds.length; i++) {
+                    tds[i].style.whiteSpace = 'normal';
+                }
+                
             }
                 $('#cargac').hide();
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -151,7 +163,10 @@ function AprobarPendiente(estadoReporte) {
             }
             if (resultado == 1 || resultado==2) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
-            } else if (resultado == 0) { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
+            } else if (resultado == 0) { MensajeError('El registro no debe guardase- solo actualizarce- Controller'); }
+            else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            }
            
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
