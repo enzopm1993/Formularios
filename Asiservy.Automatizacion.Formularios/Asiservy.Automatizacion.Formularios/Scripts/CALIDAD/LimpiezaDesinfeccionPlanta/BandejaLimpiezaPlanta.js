@@ -1,6 +1,9 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA

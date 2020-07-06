@@ -43,21 +43,20 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Lavado Desinfeccion Manos</h4>
+        <h5 class="text-md-left text-center text-uppercase" style="float:left">Bandeja Lavado DesinfecciÓn DE Manos</h5>
     </div>
 </div>
 <br />
 <div class="row">
     <div class="col-md-3 col-12 col-sm-12">
-
         <select id="selectEstadoReporte" style=" float:right" class="form-control" onchange="CargarBandeja()">
             <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>            
     
-    <div class="box_filters col-md-5 col-12 col-sm-12">
-        <div id="divFiltroFecha" hidden class="itemFilter col-12 col-sm-12">
+    <div class="box_filters col-md-8 col-12 col-sm-12">
+        <div id="divFiltroFecha" hidden class="itemFilter col-md-6  col-12 col-sm-12">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -65,7 +64,7 @@
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="itemFilter col-12 col-sm-12 text-center text-md-center">
+        <div class="itemFilter col-md-1 col-5 col-sm-12 text-center text-md-center">
             <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
@@ -75,14 +74,14 @@
 <br />
 @* DIV MOSTRAR PARTIAL VIEW *@
 <div class="table-responsive text-uppercase" id="divTablaAplrobados">
-    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableDetalle">
+    <table class="table-hover table-bordered table-striped table" id="tblDataTableDetalle">
         <thead style="font-size:12px">
             <tr>
                 <th >FECHA</th>
-                <th>OBSERVACION</th>
-                <th>USUARIO CREACION</th>
+                <th>OBSERVACIÓN</th>
+                <th>USUARIO CREACIÓN</th>
                 <th >TURNO</th>
-                <th><center>ESTADO APROBACION</center></th>
+                <th><center>ESTADO</center></th>
             </tr>
         </thead>
         <tbody style="font-size:12px" id="acoplar"></tbody>
