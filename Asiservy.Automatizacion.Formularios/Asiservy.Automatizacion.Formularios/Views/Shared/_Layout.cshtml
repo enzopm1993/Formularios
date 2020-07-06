@@ -26,7 +26,7 @@
 
 
 
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 
     <!-- Custom fonts for this template-->
     <link href="~/Content/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -37,6 +37,14 @@
     <link href="~/Content/Layout/Layout.css" rel="stylesheet" />
 
 
+    <!-- select2 -->
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />*@
+
+    <!-- select2-bootstrap4-theme -->
+    @*<link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">*@ <!-- for live demo page -->
+    @*<link href="select2-bootstrap4.css" rel="stylesheet">*@ <!-- for local development env -->
+
+   
 </head>
 <body id="page-top">
 
@@ -655,8 +663,8 @@
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>
-            $.fn.select2.defaults.set("theme", "classic");
-     
+            $.fn.select2.defaults.set("theme", "bootstrap4");
+            
         </script>
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>

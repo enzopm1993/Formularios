@@ -4227,6 +4227,7 @@
     <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongeladoPartial.cshtml" />
     <Content Include="Views\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongelado.cshtml" />
     <Content Include="Views\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongeladoPartial.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderosPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

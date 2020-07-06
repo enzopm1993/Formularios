@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaAnalisisAguaCaldero>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+
+<table class="table table-bordered">
+    <tr>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.Parametro)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Equipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Grupo)
+        </th>
+        <th>
+            Estado
+        </th>
+
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Parametro)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Equipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Grupo)
+            </td>
+            <td>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <span class="badge badge-success">ACTIVO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">INACTIVO</span>
+                }
+            </td>
+
+            <td>
+                @{
+                    var x = new spConsultaAnalisisAguaCaldero
+                    {
+                        IdAnalisisAguaCalderosDetalle = item.IdAnalisisAguaCalderosDetalle,
+                        IdAnalisisAguaCalderos = item.IdAnalisisAguaCalderos,
+                        IdParametro = item.IdParametro,
+                        IdEquipo = item.IdEquipo,
+                        Parametro = item.Parametro,
+                        Equipo= item.Equipo,
+                        Valor = item.Valor,
+                        EstadoRegistro = item.EstadoRegistro
+                    };
+                    string json = JsonConvert.SerializeObject(x);
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="EditarControl(@json)">Editar</button>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarControl(@json)">Eliminar</button>
+                }
+             
+            </td>
+        </tr>
+    }
+
+</table>
