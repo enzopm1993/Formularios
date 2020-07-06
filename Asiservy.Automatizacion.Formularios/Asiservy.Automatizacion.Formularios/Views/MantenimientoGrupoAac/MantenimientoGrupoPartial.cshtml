@@ -37,9 +37,9 @@
                     @Html.DisplayFor(modelItem => item.IdGrupo)
                 </td>
                 <td>
-                    @item.Descripcion
+                    @item.Descripcion.ToUpper()
                 </td>
-                <td>@item.Abreviatura</td>
+                <td>@item.Abreviatura.ToUpper()</td>
                 <td>
                     @fecha
                 </td>

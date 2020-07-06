@@ -23,8 +23,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoP
                 var poControl = entities.CC_MANTENIMIENTO_PARAMETRO_AAC.FirstOrDefault(x => x.IdParametro == model.IdParametro);
                 if (poControl != null)
                 {
-                    poControl.Descripcion = model.Descripcion;
-                    poControl.Abreviatura = model.Abreviatura;
+                    poControl.Descripcion = model.Descripcion.ToUpper();
+                    poControl.Abreviatura = model.Abreviatura.ToUpper();
                     poControl.MaximoPermitido = model.MaximoPermitido;
                     poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
@@ -33,6 +33,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoP
                 }
                 else
                 {
+                    model.Descripcion = model.Descripcion.ToUpper();
+                    model.Abreviatura = model.Abreviatura.ToUpper();
                     entities.CC_MANTENIMIENTO_PARAMETRO_AAC.Add(model);
                 }
                 entities.SaveChanges();

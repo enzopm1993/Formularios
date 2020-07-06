@@ -11,10 +11,10 @@
 
 <table id="tablaReporte" class="table table-bordered">
     <tr class="letra10" >
-        <th>Paramtro</th>
+        <th>Parámetro</th>
         @foreach (var x in ListParametros)
         {
-            <th>@x.Abreviatura</th>
+            <th>@x.Abreviatura.ToUpper()</th>
         }
     </tr>
 
@@ -30,12 +30,12 @@
                
                 var grupo = ListGrupos.FirstOrDefault(x => x.IdGrupo == valor).Descripcion;
                 <tr style="background-color:aliceblue" class="text-center">
-                    <td style="" colspan="@totalParametros"><b>@grupo</b></td>
+                    <td style="" colspan="@totalParametros"><b>@grupo.ToUpper()</b></td>
                 </tr>
                
             }
             <tr class="letra10" >
-                <td>@equipo.Descripcion</td>
+                <td>@equipo.Descripcion.ToUpper()</td>
 
                 @foreach (var x in ListParametros)
                 {
@@ -43,10 +43,10 @@
                     if (p != null)
                     {
                         
-                    <td>@p.Valor.ToString("#.##")</td>}
+                    <td>@p.Valor</td>}
                     else
                     {
-                        <td></td>
+                        <td>-</td>
                     }
                 }
 
@@ -73,8 +73,8 @@
         @{int cont = 1; }
         @foreach (var p in ListParametros)
         {
-            <td>@p.Descripcion</td>
-            <td>@p.Abreviatura</td>
+            <td>@p.Descripcion.ToUpper()</td>
+            <td>@p.Abreviatura.ToUpper()</td>
             <td>@p.MaximoPermitido</td>
 
             if (cont == 2)

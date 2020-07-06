@@ -97,6 +97,7 @@ function Atras() {
 function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
+    MostrarModalCargando();
     $.ajax({
         url: "../AnalisisAguaCalderos/ReporteAnalisisAguaCalderosDetallePartial",
         type: "GET",
@@ -118,10 +119,13 @@ function CargarControlDetalle() {
                 //      config.opcionesDT.order = [[0, "asc"]];
                 //    $('#tblDataTable').DataTable(config.opcionesDT);
             }
+            CerrarModalCargando();
         },
         error: function (resultado) {
             MensajeError(Mensajes.Error + resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
+            CerrarModalCargando();
+
         }
     });
 }

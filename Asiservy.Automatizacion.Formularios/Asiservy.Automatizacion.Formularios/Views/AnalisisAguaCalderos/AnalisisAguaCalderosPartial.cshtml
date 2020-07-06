@@ -33,18 +33,19 @@
         <tr>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Parametro)
+                @item.Parametro.ToUpper()
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Equipo)
+                @item.Equipo.ToUpper()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Valor)
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Grupo)
+                @item.Grupo.ToUpper()
+
             </td>
             <td>
                 @if (item.EstadoRegistro == "A")
