@@ -532,7 +532,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlDeAsistenciaPrestadosViewModel;
             }
         }
-        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha,DateTime FechaGenAsistencia, TimeSpan Hora, string Tipo, int IdMovimientoPersonalDiario, string Turno, string CodLinea)
+        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha,DateTime FechaGenAsistencia, TimeSpan Hora, string Tipo, int IdMovimientoPersonalDiario, string Turno, string CodLinea,string usuario, string terminal)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -550,6 +550,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             BuscarMovimientoPersonal.HoraFin = Hora;
                             BuscarMovimientoPersonal.FechaFin = Fecha;
                             BuscarMovimientoPersonal.FinalizaAsistencia = true;
+                            BuscarMovimientoPersonal.FechaModificacionLog = DateTime.Now;
+                            BuscarMovimientoPersonal.UsuarioModificacionLog = usuario;
+                            BuscarMovimientoPersonal.TerminalModificacionLog = terminal;
                         }
                         else
                         {
@@ -561,6 +564,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     {
                         BuscarAsistencia.HoraSalida = Hora;
                         BuscarAsistencia.FechaFin = Fecha;
+                        BuscarAsistencia.FechaModificacionLog = DateTime.Now;
+                        BuscarAsistencia.UsuarioModificacionLog = usuario;
+                        BuscarAsistencia.TerminalModificacionLog = terminal;
+
                     }
                 }
                 else

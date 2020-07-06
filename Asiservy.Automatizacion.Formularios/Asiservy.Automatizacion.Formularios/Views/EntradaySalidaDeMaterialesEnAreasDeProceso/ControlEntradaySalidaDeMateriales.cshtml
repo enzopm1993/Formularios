@@ -35,14 +35,14 @@
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 Fecha:
-                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
         <div class="col-md-2 col-sm-6">
             <div class="form-group">
                 <label>Turno</label>
-                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
+                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ValidaVacio(this);ConsultarCabControl()" })
                 <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
             </div>
             
@@ -161,7 +161,7 @@
                             <div class="form-group">
                                 Material:
                                 <div class="input-group">
-                                    @Html.DropDownList("cmbMaterial", (IEnumerable<SelectListItem>)ViewBag.Producto, "Seleccione..", new { @class = "form-control" })
+                                    @Html.DropDownList("cmbMaterial", (IEnumerable<SelectListItem>)ViewBag.Producto, "Seleccione..", new { @class = "form-control",@onchange= "ValidaVacio(this)" })
                                 </div>
                                 <label class="text-danger" id="msjerrorIngreso" hidden>Debe seleccionar el material</label>
                             </div>
@@ -170,7 +170,7 @@
                             <div class="form-group">
                                 <label>Cantidad de materiales Ingreso:</label>
 
-                                <input type="tel" id="txtIngreso" class="form-control">
+                                <input type="tel" id="txtIngreso" class="form-control" onkeyup="ValidaVacio(this)" autocomplete="off">
                                 <label class="text-danger" id="msjerrorMaterial" hidden>El campo cantidad de materiales ingreso es obligatorio</label>
 
                             </div>
@@ -209,14 +209,14 @@
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label>Hora</label>
-                            <input type="datetime-local" id="txtHora" class="form-control" />
+                            <input type="datetime-local" id="txtHora" class="form-control" onchange="ValidaVacio(this)"/>
                             <label class="text-danger" id="msjerrorHora" hidden>Debe ingresar la hora</label>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label>Salida</label>
-                            <input type="tel" id="txtSalida" class="form-control" />
+                            <input type="tel" id="txtSalida" class="form-control" onkeyup="ValidaVacio(this)" autocomplete="off"/>
                             <label class="text-danger" id="msjerrorSalida" hidden>el campo salida es obligatorio</label>
                         </div>
                     </div>

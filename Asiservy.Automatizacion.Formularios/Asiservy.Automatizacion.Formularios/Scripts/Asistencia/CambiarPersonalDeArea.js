@@ -252,7 +252,7 @@ function Mover(result) {
             $("#btnGuardarEspera").prop("hidden", true);
             //**
             //MensajeError("No se pudieron mover", false);
-            MensajeError(resultado, false);
+            MensajeError('Error comuníquese con el departamento de Sistemas', false);
         }
     });
 }
@@ -299,7 +299,7 @@ function ConsultarEmpleadosRegresar() {
     $("#ConsultarEmpleadosRegresar").prop("hidden", true);
     $("#btnConsultarEspera").prop("hidden", false);
     //ConsultarEmpleado = "ConsultarEmpleado";
-    if ($('#SelectAreaRegresar').val() != "") {
+    if ($('#SelectAreaRegresar').prop('selectedIndex')!=0) {
         $.ajax({
             type: "GET",
             data:
