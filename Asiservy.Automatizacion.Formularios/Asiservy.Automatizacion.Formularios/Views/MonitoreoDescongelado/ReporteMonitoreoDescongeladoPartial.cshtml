@@ -95,10 +95,12 @@
     <tbody class="letra6">
         @foreach (var control in groupedCustomerList)
         {
-            var Descongelado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "D");
+            var Descongelado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.IdTipoMonitoreo == "D");
             var Emparrillado = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "E");
             var Cocina = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.Tipo == "C");
 
+            var c = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.IdTipoMonitoreo == control.IdTipoMonitoreo);
+            
         <tr>
             <td>
                 @control.Tanque

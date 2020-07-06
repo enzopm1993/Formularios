@@ -2,7 +2,7 @@
 var model = [];
 $(document).ready(function () {
     ConsultarMonitoreoDescongelado();
-    console.log(Muestra);
+   // console.log(Muestra);
 
     Muestra.forEach(function (x, values) {
         $('#txtMuestra-' + x.IdMuestra).inputmask({
@@ -97,11 +97,6 @@ function ConsultarMonitoreoDescongelado() {
 
 function nuevoControl(){
     $("#txtHora").css('borderColor', '#ced4da');
-    $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
-    $("#txtMuestra1").css('borderColor', '#ced4da');
-    $("#txtMuestra2").css('borderColor', '#ced4da');
-    $("#txtMuestra3").css('borderColor', '#ced4da');
-
 }
 
 function SeleccionarControl(model) {
@@ -131,6 +126,7 @@ function SeleccionarControl(model) {
 }
 
 function ConsultarMonitoreoDetalle() {
+    MostrarModalCargando();
     $.ajax({
         url: "../MonitoreoDescongelado/MonitoreoDescongeladoDetallePartial",
         type: "GET",
@@ -158,25 +154,37 @@ function ConsultarMonitoreoDetalle() {
                 $("#btnEliminar").prop("hidden", true);
                 model = [];
             } else {
-                $("#txtHora").val(moment(resultado.Hora).format("YYYY-MM-DDTHH:mm"));
-                console.log(resultado);
-                Muestra.forEach(function (x) {
-                    if ($("#txtMuestra-" + x.IdMuestra).val() > 0) {
-                        obj.push({ IdMuestra: x.IdMuestra, Valor: $("#txtMuestra-" + x.IdMuestra).val() });
-                    }
+                $("#txtHora").val(moment(resultado[0].Hora).format("YYYY-MM-DDTHH:mm"));
+               // console.log(resultado);
+                Muestra.forEach(function (y) {
+
+                    var queryResult = Enumerable.From(resultado)
+                        .Where(function (x) { return x.IdMuestra == y.IdMuestra})
+                        .Select(function (x) { return x.Cantidad })
+                        .ToArray();
+
+                    $("#txtMuestra-" + y.IdMuestra).val(queryResult[0]);
+
+
+                  //  console.log(queryResult);
+
                 });
                 $("#txtIdControl").val(resultado[0].IdMonitoreoDescongelado);
                 $("#txtObservacion").val(resultado[0].Observacion);
                 $("#ModalMonitoreo").modal("show");
                 $("#btnEliminar").prop("hidden", false);
-                model = resultado;
+                model = resultado[0];
             }
             $("#btnGuardarMonitoreo").prop("disabled", false);
+            CerrarModalCargando();
+
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
             //console.log(resultado);
             MensajeError("Error: Comuníquese con sistemas", false);         
+            CerrarModalCargando();
+
         }
     });
 }
@@ -190,34 +198,7 @@ function Validar() {
     } else {
         $("#txtHora").css('borderColor', '#ced4da');
     }
-    //if ($("#selectTipo").val() != 'C') {
-    //    if ($("#txtTemperaturaAgua").val() == "" || $("#txtTemperaturaAgua").val() > 999.99 || $("#txtTemperaturaAgua").val() < -999.99) {
-    //        $("#txtTemperaturaAgua").css('borderColor', '#FA8072');
-    //        valida = false;
-    //    } else {
-    //        $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
-    //    }
-    //}
-    //if ($("#txtMuestra1").val() == "" || $("#txtMuestra1").val() > 999.99 || $("#txtMuestra1").val() < -999.99) {
-    //    $("#txtMuestra1").css('borderColor', '#FA8072');
-    //    valida = false;
-    //} else {
-    //    $("#txtMuestra1").css('borderColor', '#ced4da');
-    //}
-
-    //if ($("#txtMuestra2").val() == "" || $("#txtMuestra2").val() > 999.99 || $("#txtMuestra2").val() < -999.99) {
-    //    $("#txtMuestra2").css('borderColor', '#FA8072');
-    //    valida = false;
-    //} else {
-    //    $("#txtMuestra2").css('borderColor', '#ced4da');
-    //}
-
-    //if ($("#txtMuestra3").val() == "" || $("#txtMuestra3").val() > 999.99 || $("#txtMuestra3").val() < -999.99) {
-    //    $("#txtMuestra3").css('borderColor', '#FA8072');
-    //    valida = false;
-    //} else {
-    //    $("#txtMuestra3").css('borderColor', '#ced4da');
-    //}   
+       
     return valida;
 }
 
@@ -226,12 +207,18 @@ function GuardarMonitoreoDescongelado() {
         return;
     }
 
+
     var obj = [];
     Muestra.forEach(function (x) {
-        if ($("#txtMuestra-" + x.IdMuestra).val() > 0) {
-            obj.push({ IdMuestra: x.IdMuestra, Valor: $("#txtMuestra-" + x.IdMuestra).val() });
+        if ($("#txtMuestra-" + x.IdMuestra).val() != '') {
+            obj.push({ IdMuestra: x.IdMuestra, Cantidad: $("#txtMuestra-" + x.IdMuestra).val() });
         }
     });
+    if (obj.length == 0) {
+        MensajeAdvertencia("Ingrese al menos una muestra.");
+        return;
+    }
+    MostrarModalCargando();
     //console.log(obj.length);
     $.ajax({
         url: "../MonitoreoDescongelado/MonitoreoDescongelado",
@@ -267,9 +254,13 @@ function GuardarMonitoreoDescongelado() {
                 ConsultarMonitoreoDescongelado();
             }
             $("#ModalMonitoreo").modal("hide");
+            CerrarModalCargando();
+
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
+            CerrarModalCargando();
+
         }
     });
 }

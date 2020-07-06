@@ -28,12 +28,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                              && x.Tanque == Tanque
                              && x.IdTipoMonitoreo == Tipo
                              && x.Lote == Lote
-                             && y.Turno ==  Turno
+                             && y.Turno == Turno
                              && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                              select x
                             ).FirstOrDefault();
-
-                return entities.spConsultaMonitoreoDescongeladoDetalle(model.IdMonitoreoDescongelado).ToList();
+                if (model != null)
+                {
+                    return entities.spConsultaMonitoreoDescongeladoDetalle(model.IdMonitoreoDescongelado).ToList();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -75,7 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                         //poControl.Muestra2 = model.Muestra2;
                         //poControl.TemperaturaAgua = model.TemperaturaAgua;
                         //poControl.Muestra3 = model.Muestra3;
-                        poControl.Observacion = model.Observacion;
+                        poControl.Observacion = !string.IsNullOrEmpty(model.Observacion)? model.Observacion.ToUpper():model.Observacion;
                         poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                         poControl.FechaModificacionLog = model.FechaIngresoLog;
@@ -83,6 +89,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     }
                     else
                     {
+                        model.Observacion = !string.IsNullOrEmpty(model.Observacion) ? model.Observacion.ToUpper() : model.Observacion;
                         model.IdMonitoreoDescongeladoControl = idControl;
                         entities.CC_MONITOREO_DESCONGELADO.Add(model);
                         entities.SaveChanges();
@@ -91,13 +98,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     foreach(var d in detalle)
                     {
                         //var poMuestra = entities.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO.FirstOrDefault(x=> x.IdMuestra = d.cod);
-                        var poControlDetalle = entities.CC_MONITOREO_DESCONGELADO_DETALLE.FirstOrDefault(x => x.IdMonitoreoDescongeladoDetalle == d.IdMonitoreoDescongeladoDetalle);
-                        if (poControl != null)
+                        var poControlDetalle = entities.CC_MONITOREO_DESCONGELADO_DETALLE.FirstOrDefault(x => x.IdMonitoreoDescongelado == idCabecera && x.IdMuestra == d.IdMuestra && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                        if (poControlDetalle != null)
                         {
                             poControlDetalle.Cantidad = d.Cantidad;
-                            poControlDetalle.TerminalModificacionLog = d.TerminalIngresoLog;
-                            poControlDetalle.UsuarioModificacionLog = d.UsuarioIngresoLog;
-                            poControlDetalle.FechaModificacionLog = d.FechaIngresoLog;
+                            poControlDetalle.TerminalModificacionLog = model.TerminalIngresoLog;
+                            poControlDetalle.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                            poControlDetalle.FechaModificacionLog = model.FechaIngresoLog;
                         }
                         else
                         {
