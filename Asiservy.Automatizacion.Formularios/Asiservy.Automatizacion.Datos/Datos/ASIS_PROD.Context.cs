@@ -203,6 +203,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
+        public virtual DbSet<RENDIMIENTO_KILO_HORA> RENDIMIENTO_KILO_HORA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2194,7 +2195,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaKpiEnvaseLata>("spConsultaKpiEnvaseLata", fechaDesdeParameter, fechaHastaParameter, turnoParameter, lineaNegocioParameter);
         }
     
-        public virtual ObjectResult<sp_CC_Cuchillos_MovimientoPersonalDiario> sp_CC_Cuchillos_MovimientoPersonalDiario(Nullable<System.DateTime> fecha, string codLinea, string turno)
+        public virtual ObjectResult<sp_CC_Cuchillos_MovimientoPersonalDiario> sp_CC_Cuchillos_MovimientoPersonalDiario(Nullable<System.DateTime> fecha, string codLinea)
         {
             var fechaParameter = fecha.HasValue ?
                 new ObjectParameter("fecha", fecha) :
@@ -2204,11 +2205,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("codLinea", codLinea) :
                 new ObjectParameter("codLinea", typeof(string));
     
-            var turnoParameter = turno != null ?
-                new ObjectParameter("turno", turno) :
-                new ObjectParameter("turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CC_Cuchillos_MovimientoPersonalDiario>("sp_CC_Cuchillos_MovimientoPersonalDiario", fechaParameter, codLineaParameter, turnoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CC_Cuchillos_MovimientoPersonalDiario>("sp_CC_Cuchillos_MovimientoPersonalDiario", fechaParameter, codLineaParameter);
         }
     
         public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)

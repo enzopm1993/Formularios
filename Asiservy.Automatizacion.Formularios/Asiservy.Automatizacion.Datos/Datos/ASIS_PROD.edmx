@@ -3074,6 +3074,22 @@
           <Property Name="Marea" Type="int" />
           <Property Name="RecetaRoceado" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="RENDIMIENTO_KILO_HORA">
+          <Key>
+            <PropertyRef Name="Periodo" />
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="Talla" />
+          </Key>
+          <Property Name="Periodo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Talla" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LimpiezaSimpleLomo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LimpiezaSimpleMiga" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LimpiezaIntermediaLomo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LimpiezaIntermediaMiga" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LimpiezaDobleLomo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LimpiezaDobleMiga" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="REPORTE_DETALLE">
           <Key>
             <PropertyRef Name="IdReporteDetalle" />
@@ -4262,7 +4278,6 @@
         <Function Name="sp_CC_Cuchillos_MovimientoPersonalDiario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
-          <Parameter Name="turno" Type="char" Mode="In" />
         </Function>
         <Function Name="sp_CloroCisternaDescongelado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
@@ -5066,6 +5081,7 @@
           <EntitySet Name="PRODUCTO_TERMINADO_TIEMPO_PARADAS" EntityType="Self.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="Self.PROYECCION_PROGRAMACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROYECCION_PROGRAMACION_DETALLE" EntityType="Self.PROYECCION_PROGRAMACION_DETALLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RENDIMIENTO_KILO_HORA" EntityType="Self.RENDIMIENTO_KILO_HORA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORTE_DETALLE" EntityType="Self.REPORTE_DETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORTE_MAESTRO" EntityType="Self.REPORTE_MAESTRO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RESIDUAL_CLORO" EntityType="Self.RESIDUAL_CLORO" Schema="dbo" store:Type="Tables" />
@@ -6637,7 +6653,6 @@
           <FunctionImport Name="sp_CC_Cuchillos_MovimientoPersonalDiario" ReturnType="Collection(ASIS_PRODModel.sp_CC_Cuchillos_MovimientoPersonalDiario)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="codLinea" Mode="In" Type="String" />
-            <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_CloroCisternaDescongelado" ReturnType="Collection(ASIS_PRODModel.sp_CloroCisternaDescongelado)">
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
@@ -6742,6 +6757,7 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="RENDIMIENTO_KILO_HORA" EntityType="ASIS_PRODModel.RENDIMIENTO_KILO_HORA" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13159,6 +13175,22 @@
           <Property Type="Decimal" Name="MigaTeorica" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="Miga" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
+        <EntityType Name="RENDIMIENTO_KILO_HORA">
+          <Key>
+            <PropertyRef Name="Periodo" />
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="Talla" />
+          </Key>
+          <Property Name="Periodo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Talla" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LimpiezaSimpleLomo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="LimpiezaSimpleMiga" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="LimpiezaIntermediaLomo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="LimpiezaIntermediaMiga" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="LimpiezaDobleLomo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="LimpiezaDobleMiga" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19386,6 +19418,21 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="RENDIMIENTO_KILO_HORA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.RENDIMIENTO_KILO_HORA">
+              <MappingFragment StoreEntitySet="RENDIMIENTO_KILO_HORA">
+                <ScalarProperty Name="LimpiezaDobleMiga" ColumnName="LimpiezaDobleMiga" />
+                <ScalarProperty Name="LimpiezaDobleLomo" ColumnName="LimpiezaDobleLomo" />
+                <ScalarProperty Name="LimpiezaIntermediaMiga" ColumnName="LimpiezaIntermediaMiga" />
+                <ScalarProperty Name="LimpiezaIntermediaLomo" ColumnName="LimpiezaIntermediaLomo" />
+                <ScalarProperty Name="LimpiezaSimpleMiga" ColumnName="LimpiezaSimpleMiga" />
+                <ScalarProperty Name="LimpiezaSimpleLomo" ColumnName="LimpiezaSimpleLomo" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
