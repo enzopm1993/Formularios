@@ -25,15 +25,25 @@
 <hr />
 <div class="row text-uppercase" id="divCabecera1">
     <div class="col-md-3 col-12 col-sm-12">
-        <div class="form-group">
+        @*<div class="form-group">
             <label>Fecha</label>
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+        </div>*@
+        <br />
+        <div class="form-group" id="divfechaap">
+            <input type="hidden" id="fechacontrol" value="" />
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input readonly type="text" class="form-control datetimepicker-input" value="@DateTime.Now.ToString("dd-MM-yyyy")"  data-target="#datetimepicker1" id="txtFecha" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-7 col-12 col-sm-12">
         <div class="form-group">
             <label>Observación</label>
-            <input type="text" name="name" value="" id="txtObservacion" autocomplete="off" maxlength="200" class="form-control text-uppercase" />
+            <textarea type="text" name="name" value="" id="txtObservacion" autocomplete="off" maxlength="200" class="form-control text-uppercase" rows="2"></textarea>
         </div>
     </div>
     <div class="col-md-2 col-12 col-sm-12">
