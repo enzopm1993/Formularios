@@ -266,7 +266,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {                
-                List<spKpiAvancePorLimpiadora> Listado = new List<spKpiAvancePorLimpiadora>();
+                List<spKpiAvancePorLimpiadora> Listado;
                 Listado = entities.spKpiAvancePorLimpiadora(Fecha, Cedula).ToList();
                 return Listado;
             }

@@ -778,7 +778,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                // lsUsuario = User.Identity.Name.Split('_');
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
