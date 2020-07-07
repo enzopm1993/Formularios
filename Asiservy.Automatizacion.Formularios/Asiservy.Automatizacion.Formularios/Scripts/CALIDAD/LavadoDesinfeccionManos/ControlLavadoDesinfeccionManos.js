@@ -76,7 +76,7 @@ function CargarCabecera(opcion) {
             },
             error: function (resultado) {
                 $('#cargac').hide();
-                MensajeError(resultado.responseText, false);                
+                MensajeError(Mensajes.Error, false);                
             }
         });
     }

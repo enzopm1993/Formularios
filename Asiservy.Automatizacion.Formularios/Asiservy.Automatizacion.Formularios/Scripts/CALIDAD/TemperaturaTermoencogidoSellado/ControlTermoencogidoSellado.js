@@ -184,7 +184,7 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             id: ListaDatos.Id,
-            Fecha: ListaDatos.Fecha
+            Fecha: moment(ListaDatos.Fecha).format('MM-DD-YYYY')
         },
         success: function (resultado) {
             if (resultado == "101") {

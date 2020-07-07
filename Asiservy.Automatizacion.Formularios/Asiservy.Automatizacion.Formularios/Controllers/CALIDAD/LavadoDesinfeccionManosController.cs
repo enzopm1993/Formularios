@@ -253,7 +253,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-
                 }
                 else
                 {

@@ -1,6 +1,9 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA
@@ -32,11 +35,20 @@ function CargarBandeja() {
             
             $('#divTablaAplrobados').empty();
             $('#divTablaAplrobados').html(resultado);
-                $('#cargac').hide();
+            $('#cargac').hide();
+            
+           
+            //$('#tblDataTable').DataTable({               
+            //    ordering: true,
+            //    columnDefs: [{
+            //        orderData: [[0, 'asc'], [1, 'asc']],
+            //        targets: [1]
+            //    }]
+            //});
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -72,7 +84,7 @@ function SeleccionarBandeja(model) {
                 $("#divMostarTablaCabecera").prop('hidden', false);
                 $("#tblAprobarPendientePartial").prop('hidden', true);
                 MensajeAdvertencia('No existen registro de DETALLE');
-            } else {
+            }  else {
                 $("#divMostarTablaCabecera").prop('hidden', true);
                 $("#ModalApruebaPendiente").modal('show');
                 $('#divBotones').prop('hidden', false);
@@ -114,7 +126,9 @@ function AprobarPendiente(estadoReporte) {
                 if (resultado == 1) {
                     MensajeCorrecto('¡Registro aprobado correctamente!');
                 } else if (resultado == 2) { MensajeCorrecto('Estado actualizado correctamente'); }
-                else { MensajeError('El registro no debe guardase - solo actualizarce - Controller: GuardarModificarControlCuchilloPreparacion'); }
+                else if (resultado == 100) {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
+                }else { MensajeError('El registro no debe guardase - solo actualizarce - Controller: GuardarModificarControlCuchilloPreparacion'); }
                 
                 $("#ModalApruebaPendiente").modal("hide");
                 CargarBandeja();                
