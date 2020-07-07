@@ -3,13 +3,20 @@ var datosHora = [];
 var datosDetalle = [];
 var estadoR = [];
 $(document).ready(function () {
-    CargarCabecera();
+    //CargarCabecera();
+    DatePicker();
     datosCabecera = 0;
     CambioEstado(false);  
+    $('#selectTurno').select2({
+        width: '100%'
+    });
+    $('#selectTurnoIngresar').select2({
+        width: '100%'
+    });
 });
 
 function ConsultarEstadoReporte() {
-    var pFecha = moment($("#txtFechaFiltro").val()).format("YYYY-MM-DD");
+    var pFecha = moment($('#datetimepicker1').datetimepicker('viewDate')).format("YYYY-MM-DD");
     $.ajax({
         url: "../ControlCuchillosPreparacion/ConsultarCabecera",
         type: "GET",
@@ -48,7 +55,7 @@ function CargarCabecera() {
         $('#cargac').hide();
         return;
     }    
-    var pFecha = moment($("#txtFechaFiltro").val()).format("YYYY-MM-DD");
+    var pFecha = moment($('#datetimepicker1').datetimepicker('viewDate')).format("YYYY-MM-DD");
     
     $.ajax({
         url: "../ControlCuchillosPreparacion/ConsultarCabecera",
@@ -162,7 +169,9 @@ function GuardarHora() {
                     MensajeCorrecto("Registro guardado Exitosamente");
                 } else if (resultado == 1) {
                     MensajeCorrecto("Actualización Exitoso");
-                } else {
+                } else if (resultado == 100) {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
+                }else {
                     MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                 }
                 $('#cargac').hide();
@@ -228,6 +237,8 @@ function EliminarHoraSi() {
                 CargarCabecera();
                 MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             CargarCabecera();
             MensajeCorrecto("Registro eliminado exitosamente");
@@ -243,7 +254,7 @@ function EliminarHoraNo() {
 }
 
 function GuardarCabecera() {    
-    var pFecha = moment($("#txtFechaFiltro").val()).format("YYYY-MM-DD");
+    var pFecha = moment($('#datetimepicker2').datetimepicker('viewDate')).format("YYYY-MM-DD");
     if ($("#txtFechaIngresoCabecera").val() != '') {
         
         $.ajax({
@@ -262,7 +273,7 @@ function GuardarCabecera() {
                 } else if (resultado == 1)  {                    
                     MensajeCorrecto("Actualización Exitosa");                    
                     $("#txtObservacion").val($("#txtObservacionCabecera").val());
-                    $("#txtFecha").val($("#txtFechaIngresoCabecera").val());
+                    $("#txtFechaFiltro").val($("#txtFechaIngresoCabecera").val());
                 } else if (resultado == 3) {
                     MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');                   
                 } else if (resultado == 4) {
@@ -270,6 +281,8 @@ function GuardarCabecera() {
                     var strUser = e.options[e.selectedIndex].text;
                     MensajeAdvertencia('Error el TURNO ya esta ingresado  : <span class="badge badge-danger">' + strUser + '</span>');
                     return;
+                } else if (resultado == 100) {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
                 }
                 $('#ModalIngresoRegistroCabecera').modal('hide');
                 CargarCabecera();
@@ -278,7 +291,7 @@ function GuardarCabecera() {
                 LimpiarCabecera();
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+                MensajeError(Mensajes.Error, false);
             }
         });
     } else {
@@ -300,8 +313,8 @@ function limpiarHora() {
 
 function LimpiarCabecera() {
     $("#txtObservacionCabecera").val('');
-    var date = new Date();
-    $("#txtFechaIngresoCabecera").val(moment(date).format('YYYY-MM-DD'));
+    //var date = new Date();
+    //$("#txtFechaIngresoCabecera").val(moment(date).format('YYYY-MM-DD'));
 }
 
 function AtrasControlPrincipal() {
@@ -383,6 +396,8 @@ function EliminarCabeceraSi() {
                 return;
             } if (resultado == 1) {
                 MensajeCorrecto('Eliminación correcta');
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             $("#modalEliminarControl").modal("hide");
             limpiar(); 
@@ -408,8 +423,9 @@ function ActualizarCabecera() {
         if (estadoR == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         } else {
+            DatePicker2();
             $("#txtObservacionCabecera").val($("#txtObservacion").val());
-            $("#txtFechaIngresoCabecera").val($("#txtFecha").val());
+            $("#txtFechaIngresoCabecera").val(moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY"));
             document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
             $("#divCargarCuchillos").prop("hidden", true);
             $('#ModalIngresoRegistroCabecera').modal('show');
@@ -419,8 +435,12 @@ function ActualizarCabecera() {
 
 function NuevoRegistroCabecera() {
     LimpiarCabecera();
+    
     $('#ModalIngresoRegistroCabecera').modal('show');
-    $("#txtFechaIngresoCabecera").val($("#txtFechaFiltro").val());
+    //$("#txtFechaIngresoCabecera").val(moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY"));
+    DatePicker2();
+    //$('#datetimepicker2').datetimepicker('viewDate') = moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY");
+   
     document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
 }
 
@@ -468,6 +488,8 @@ function GuardarControlDetalle() {
                     $("#ModalIngresoDetalle").modal('hide');
                     CargarCabecera();
                     return;
+                } else if (resultado == 100) {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
                 }
                 if (datosCabecera.IdControlCuchillo == null) {
                     MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
@@ -522,7 +544,8 @@ function ConsultarDetalle(jdata) {
                         { data: 'CedulaEmpleado' },
                         { data: 'Observacion' },
                         { data: 'UsuarioIngresoLog' },
-                        { data: 'Acciones' }
+                        { data: 'Acciones' },
+                        { data: 'Cedula' }
                     ];
                     table.DataTable().destroy();
                     table.DataTable(configDetalle.opcionesDT);
@@ -557,7 +580,15 @@ function ConsultarDetalle(jdata) {
                     $('#divCargarCuchillosDetalle').prop('hidden', false);
                     $('#divIngresarDetalleHora').prop('hidden', false);
                     $('#btnAtras').prop('hidden', false);
-                    //$('#cargac').hide();
+
+                    var stl = 'none';
+                    var tbl = document.getElementById('tblDataTableCargarDetalle');
+                    var rows = tbl.getElementsByTagName('tr');
+
+                    for (var row = 1; row < rows.length; row++) {
+                        var cels = rows[row].getElementsByTagName('td')
+                        cels[6].style.display = stl;
+                    }
                 },
                 error: function (resultado) {
                     //$('#cargac').hide();
@@ -573,7 +604,7 @@ function LimpiarDetalle() {
     var date = new Date();
     $('#txtHora').val(moment(date).format('HH:mm'));
     $('#txtHora').css('border', '');
-    $('#LabelEstado').text('Estado Registro');
+    
     $('#CheckEstadoRegistroOp').prop('checked', false);
     $('#txtCodigoCuchillo').prop('selectedIndex', 0);
     $('#txtEmpleado').prop('selectedIndex', 0);
@@ -647,8 +678,8 @@ function ValidarCuchilloExiste() {
                 table.destroy();
                 return false;
             }
-            if (form_data[i].CodigoCuchillo == selected) {
-                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un cuchillo con ese código registrado:    " + form_data[i].CodigoCuchillo + "</span>", 10);
+            if (form_data[i][0] == selected) {
+                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un cuchillo con ese código registrado:    " + form_data[i][0] + "</span>", 10);
                 table.destroy();
                 return true;                
             }
@@ -668,12 +699,12 @@ function ValidarEmpleadoExiste() {
         var table = $("#tblDataTableCargarDetalle").DataTable();
         var form_data = table.rows().data();
         for (var i in form_data) {  
-            if (form_data[i].Cedula == datosDetalle.Cedula) {
+            if (form_data[i][6] == datosDetalle[6]) {
                 table.destroy();
                 return false;
             }
-            if (form_data[i].Cedula == selected) {
-                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un EMPLEADO asignado:    " + form_data[i].CedulaEmpleado + "</span>", 10);
+            if (form_data[i][6] == selected) {
+                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un EMPLEADO asignado:    " + form_data[i][2] + "</span>", 10);
                 table.destroy();
                 return true;
             }
@@ -705,7 +736,9 @@ function EliminarDetalleSi() {
                 $("#ModalEliminarActualizarDetalle").modal('hide');
                 AtrasControlPrincipal();
                 return;
-            } 
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            }
             MensajeCorrecto("¡Registro eliminado correctamente!");
             $("#modalEliminarDetalle").modal("hide");
             LimpiarDetalle();
@@ -769,6 +802,61 @@ $("#txtObservacionDetalle").keypress(function (event) {
 
 function isValid(str) {
     return !/["']/g.test(str);
+}
+
+function DatePicker() {
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    $('#datetimepicker1').datetimepicker(
+        {
+            date: moment().format("DD-MM-YYYY"),
+            format: "DD-MM-YYYY",
+            //minDate: model.Fecha,
+            maxDate: moment().add(1,'days'),
+            ignoreReadonly: true
+        });
+}
+
+$("#datetimepicker1").on("change.datetimepicker", ({ date, oldDate }) => {
+    CargarCabecera();
+})
+
+function DatePicker2() {
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    
+    var dates = moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY")
+    //console.log(date);
+    $('#datetimepicker2').datetimepicker(
+        {            
+            date: moment(dates).format('DD-MM-YYYY'),
+            format: "DD-MM-YYYY",
+            //minDate: model.Fecha,
+            maxDate: moment().add(1,'days'),
+            ignoreReadonly: true
+        });
 }
 
 var configDetalle = {

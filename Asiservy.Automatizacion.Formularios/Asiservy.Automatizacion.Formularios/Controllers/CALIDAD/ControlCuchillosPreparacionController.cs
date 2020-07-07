@@ -8,11 +8,14 @@ using System.Data.Entity.Validation;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System.Linq;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class ControlCuchillosPreparacionController : Controller
     {
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsLogin { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
@@ -171,8 +174,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.DateTimePicker = "1";
+                clsLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteControlCuchilloPreparacion");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteControlCuchilloPreparacion";
+                }
+               
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();                
-                var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(DateTime.Now, "46", "1");
+                var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(DateTime.Now, "46");
                 ViewBag.listaEmpleadoLinea = listaEmpleadoLinea;
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion(codigoCuchillo, op);
                 ViewBag.Cuchillos = poCloroCisterna;
@@ -252,6 +264,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 model.FechaIngresoLog = DateTime.Now;
@@ -349,17 +367,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
-                if (consultarEstado.EstadoReporte)
+                if (consultarEstado != null)
                 {
-                    return Json("2", JsonRequestBehavior.AllowGet);
+                    clsDPeriodo = new clsDPeriodo();
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(consultarEstado.Fecha);
+                    if (!periodo)
+                    {
+                        return Json("100", JsonRequestBehavior.AllowGet);
+                    }
+                    if (consultarEstado.EstadoReporte)
+                    {
+                        return Json("2", JsonRequestBehavior.AllowGet);
+                    }
+                    var valor = clsDControlCuchillosPreparacion.GuardarModificarHora(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("1", JsonRequestBehavior.AllowGet);
                 }
-                var valor = clsDControlCuchillosPreparacion.GuardarModificarHora(model);
-                if (valor == 0)
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                else  return Json("1", JsonRequestBehavior.AllowGet);           
-
+                else return Json("10", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -397,6 +424,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var consultarEstado = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(consultarEstado.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 if (consultarEstado.EstadoReporte)
                 {
                     return Json("2", JsonRequestBehavior.AllowGet);
@@ -441,6 +474,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.Now, model.IdControlCuchillo, turno);
@@ -493,7 +532,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarDetalle(idHora,op);
                 if (poCloroCisterna != null)
                 {
-                    var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(fecha, codLinea, turno);
+                    if (fecha>DateTime.Now)
+                    {
+                        fecha = DateTime.Now;
+                    }
+                    var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(fecha, codLinea);
                     List<string> listaCedula = new List<string>();
                     foreach (var itemCuchillo in poCloroCisterna)
                     {
@@ -543,14 +586,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
-                if (!validarEstadoReporte.EstadoReporte)
+                clsDPeriodo = new clsDPeriodo();
+                if (validarEstadoReporte!=null && !validarEstadoReporte.EstadoReporte)
                 {
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(validarEstadoReporte.Fecha);
+                    if (!periodo)
+                    {
+                        return Json("100", JsonRequestBehavior.AllowGet);
+                    }
+                //}
+                
+                //if (!validarEstadoReporte.EstadoReporte)
+                //{
                     var valor = clsDControlCuchillosPreparacion.GuardarModificarControlCuchilloDetalle(model);
                     if (valor == 0)
                     {
@@ -592,8 +646,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 var validarEstadoReporte = clsDControlCuchillosPreparacion.ConsultarCabecera(DateTime.MinValue, idControlCuchillo, turno);
-               
-                    if (!validarEstadoReporte.EstadoReporte)
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(validarEstadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
+                if (!validarEstadoReporte.EstadoReporte)
                     {
                         var poCloroCisterna = clsDControlCuchillosPreparacion.EliminarControlCuchilloDetalle(model);
                         if(poCloroCisterna == 1)
@@ -633,7 +692,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DateRangePicker = "1";
                 ViewBag.dataTableJS = "1";
-                ClsDReporte = new clsDReporte();
+                clsLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlCuchilloPreparacion");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlCuchilloPreparacion";
+                }
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
@@ -677,13 +742,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarBandeja(idControlCuchillo, op);
                 if (poCloroCisterna.Count != 0)
                 {
-                    clsDEmpleado empleado = new clsDEmpleado();
-                    var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");
+                    //clsDEmpleado empleado = new clsDEmpleado();
+                    var listaEmpleadoLinea = clsDControlCuchillosPreparacion.ConsultaMovimientoPersonalDiario(poCloroCisterna[0].Fecha, "46");
                     foreach (var itemCuchillo in poCloroCisterna)
                     {
                         foreach (var itemEmpleado in listaEmpleadoLinea)
                         {
-                            if (itemCuchillo.CedulaEmpleado == itemEmpleado.CEDULA)
+                            if (itemCuchillo.CedulaEmpleado == itemEmpleado.Cedula)
                             {
                                 itemCuchillo.CedulaEmpleado += "-" + itemEmpleado.NOMBRES;
                             }
@@ -846,6 +911,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 model.FechaIngresoLog = DateTime.Now;

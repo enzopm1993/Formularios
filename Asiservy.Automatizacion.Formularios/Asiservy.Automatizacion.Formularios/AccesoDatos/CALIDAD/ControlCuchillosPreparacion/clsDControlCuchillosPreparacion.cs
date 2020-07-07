@@ -61,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                 var model = db.CC_CUCHILLOS_PREPARACION.FirstOrDefault(x => x.IdCuchilloPreparacion == GuardarModigicar.IdCuchilloPreparacion || x.CodigoCuchillo == GuardarModigicar.CodigoCuchillo);
                 if (model != null)
                 {
-                    model.DescripcionCuchillo = GuardarModigicar.DescripcionCuchillo;
+                    model.DescripcionCuchillo = GuardarModigicar.DescripcionCuchillo.ToUpper();
                     //model.CodigoCuchillo = GuardarModigicar.CodigoCuchillo;
                     model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
@@ -103,6 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                     else
                     {
                         model.Turno = GuardarModigicar.Turno;
+                        model.Fecha = GuardarModigicar.Fecha;
                         model.Observacion = GuardarModigicar.Observacion;                
                         valor = 1;
                     }
@@ -137,14 +138,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             }
         }
 
-        public List<sp_CC_Cuchillos_MovimientoPersonalDiario> ConsultaMovimientoPersonalDiario(DateTime fecha, string codLinea, string turno)
+        public List<sp_CC_Cuchillos_MovimientoPersonalDiario> ConsultaMovimientoPersonalDiario(DateTime fecha, string codLinea)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
 
                 List<sp_CC_Cuchillos_MovimientoPersonalDiario> pListEmpleados = null;               
 
-                pListEmpleados = db.sp_CC_Cuchillos_MovimientoPersonalDiario(fecha, codLinea, turno).ToList();
+                pListEmpleados = db.sp_CC_Cuchillos_MovimientoPersonalDiario(fecha, codLinea).ToList();
                 return pListEmpleados;
             }
         }
@@ -283,7 +284,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.sp_Control_Cuchillos_Preparacion(idControlCuchillo, op).ToList();
+                var listado = db.sp_Control_Cuchillos_Preparacion(idControlCuchillo, op).OrderByDescending(v=>v.Fecha).ToList();
                 return listado;
             }
         }

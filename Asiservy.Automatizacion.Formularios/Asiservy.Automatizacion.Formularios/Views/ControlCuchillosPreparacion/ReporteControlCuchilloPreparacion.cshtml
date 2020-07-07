@@ -45,9 +45,11 @@
         .shadow {
             box-shadow: 0 0.15rem 1.75rem 0 #fff !important;
         }
+
         #tbltituloImprimir {
-            display:block;
+            display: block;
         }
+
         .card {
             border: 0px;
         }
@@ -87,8 +89,9 @@
         input, select, textarea {
             max-width: 100%
         }
-        #tblNoImprimir{
-            display:none;
+
+        #tblNoImprimir {
+            display: none;
         }
     }
 
@@ -110,15 +113,16 @@
         .btnWait {
             cursor: no-drop !important;
         }
-        #tbltituloImprimir{
-            display:none;
+
+        #tbltituloImprimir {
+            display: none;
         }
-    }    
+    }
 </style>
 
 <div class="row" id="divFiltro">
     <div class="col-md-12 ">
-        <h4 class="text-md-left text-center" style="float:left">Reporte Cuchillo Preparación</h4>
+        <h5 class="text-md-left text-center text-uppercase" style="float:left">Reporte Cuchillo Preparación</h5>
         <div class="box_filters">
             <div class="itemFilter">
                 <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
@@ -134,11 +138,23 @@
         </div>
     </div>
 </div>
+<br />
+<div class="row">
+    <div class="col-md-12 col-12 col-sm-12 float-right text-right">
+        @if (ViewBag.Link == null)
+        {
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Control</a>
+        }
+        else
+        {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" >Ir al Control</a>}
+    </div>
+</div>
+
 <hr />
 
 <div hidden class="card" id="divBotones" style="padding:10px;">
     <div class="text-center">
-        <label class="">Acción</label><br />
+        <label class="">ACCIÓN</label><br />
         <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
             <img style="width:100%" src="../../Content/icons/print24.png" />
         </button>
@@ -161,7 +177,7 @@
 
     <table id="tblNoImprimir" class="table table-bordered text-uppercase">
         <tbody>
-            <tr>                
+            <tr>
                 <td width="80%" colspan="3" class="text-center">
                     <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                 </td>
@@ -184,9 +200,9 @@
             </tr>
             <tr>
                 <td width="100px">FECHA:</td>
-                <td  style="width:90%"><label id="lblMostrarFechaM"></label></td>
+                <td style="width:90%"><label id="lblMostrarFechaM"></label></td>
                 <td colspan="2">TURNO:</td>
-                <td style="width:100%" >
+                <td style="width:100%">
                     <label id="lblMostrarHoraM"></label>
                 </td>
             </tr>
