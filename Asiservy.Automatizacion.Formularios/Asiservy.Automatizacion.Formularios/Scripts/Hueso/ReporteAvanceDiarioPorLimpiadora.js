@@ -243,6 +243,7 @@ function SeleccionarLimpiadora(model) {
 
 
 function ConsultaKpi() {
+    MostrarModalCargando();
     var txtFecha = $('#txtFecha').val();
     var table = $('#tblTable');
     table.DataTable().clear();    
@@ -313,7 +314,7 @@ function ConsultaKpi() {
                 row.Miga = '<span style="font-size:11px" class=" badge ' + estiloMiga+'">'+ row.Miga +'</span>'
 
             });
-            configModal.opcionesDT.pageLength = 5;
+            configModal.opcionesDT.pageLength = -1;
             table.DataTable().destroy();
             table.DataTable(configModal.opcionesDT);
             table.DataTable().rows.add(resultado);
@@ -342,10 +343,12 @@ function ConsultaKpi() {
                 data: Avance
             }];
             chartAvance.updateSeries(serie)
-                       
+
+            CerrarModalCargando();
         },
         error: function (resultado) {
             MensajeError("Error, Comuniquese con sistemas.", false);           
+            CerrarModalCargando();
 
         }
     });

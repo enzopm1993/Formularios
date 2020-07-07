@@ -179,7 +179,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
         public object ConsultaCantidadesOrdenBodega(int OF)
         {
             var client = new RestClient("http://192.168.0.31:8870");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             var request = new RestRequest("/api/Produccion/CantidadesOrdenBodega/" + OF, Method.GET);
             IRestResponse response = client.Execute(request);

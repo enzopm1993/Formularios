@@ -3664,7 +3664,6 @@
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
-    <Compile Include="Models\Img.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
     <Compile Include="Models\MarcacionesEmpleadoLineaViewModel.cs" />
     <Compile Include="Models\ModelViewMemorandum.cs" />
@@ -3681,6 +3680,7 @@
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
+    <Compile Include="Models\Produccion\Rendimiento.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />

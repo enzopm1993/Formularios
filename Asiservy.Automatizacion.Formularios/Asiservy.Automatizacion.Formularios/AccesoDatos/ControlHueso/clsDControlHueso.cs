@@ -11,8 +11,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 {
     public class clsDControlHueso
     {
-        clsDAsistencia clsDAsistencia = null;
-        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
+        clsDAsistencia clsDAsistencia { get; set; } = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
+        clsDApiProduccion clsDApiProduccion { get;set; } = null;
 
         public RespuestaGeneral GuardarModificarControl(CONTROL_HUESO control)
         {
@@ -255,7 +256,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 GenerarAvanceOrdenesApi(Fecha,null, Linea);
-                List<spConsultaAvanceDiarioPorLimpiadora> Listado = new List<spConsultaAvanceDiarioPorLimpiadora>();
+                clsDApiProduccion = new clsDApiProduccion();
+                var Rendimientos = clsDApiProduccion.ConsultaRendimientos();
+
+                if (Rendimientos != null)
+                {
+                    entities.Database.ExecuteSqlCommand("TRUNCATE TABLE RENDIMIENTO_KILO_HORA");
+                    foreach (var r in Rendimientos)
+                    {
+                        entities.RENDIMIENTO_KILO_HORA.Add(
+                           new RENDIMIENTO_KILO_HORA()
+                           {
+                               Codigo = r.U_SYP_ITEM_CODE,
+                               Periodo = r.U_SYP_PERIODO,
+                               Talla = r.U_SYP_TALLA,
+                               LimpiezaSimpleLomo = r.U_SYP_LS_LOMO,
+                               LimpiezaSimpleMiga = r.U_SYP_LS_MIGA,
+                               LimpiezaIntermediaLomo = r.U_SYP_LI_LOMO,
+                               LimpiezaIntermediaMiga = r.U_SYP_LI_MIGA,
+                               LimpiezaDobleLomo = r.U_SYP_LD_LOMO,
+                               LimpiezaDobleMiga = r.U_SYP_LD_MIGA
+                           }
+                           );
+                    }
+                    entities.SaveChanges();
+                }
+                List<spConsultaAvanceDiarioPorLimpiadora> Listado;
                 Listado = entities.spConsultaAvanceDiarioPorLimpiadora(Fecha, Linea, turno).ToList();
                 return Listado;
             }
@@ -265,7 +291,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         public List<spKpiAvancePorLimpiadora> ConsultaKpiAvanceDiarioPorLimpiadora(DateTime Fecha, string Cedula)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-            {                
+            {
+               
                 List<spKpiAvancePorLimpiadora> Listado;
                 Listado = entities.spKpiAvancePorLimpiadora(Fecha, Cedula).ToList();
                 return Listado;
