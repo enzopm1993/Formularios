@@ -128,9 +128,20 @@
         border-collapse: collapse;
     }
 </style>
-<h4 id="titulo">Reporte de análisis de agua de calderos y torre de enfriamiento</h4>
 
-
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center"  id="titulo" style="float:left">Reporte de análisis de agua de calderos y torre de enfriamiento</h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" target="_blank">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" target="_blank">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">

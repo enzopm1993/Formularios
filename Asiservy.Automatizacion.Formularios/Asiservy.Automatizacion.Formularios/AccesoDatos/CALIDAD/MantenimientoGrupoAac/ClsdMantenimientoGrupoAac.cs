@@ -22,8 +22,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoG
                 var poControl = entities.CC_MANTENIMIENTO_GRUPO_AAC.FirstOrDefault(x => x.IdGrupo == model.IdGrupo);
                 if (poControl != null)
                 {
-                    poControl.Descripcion = model.Descripcion;
-                    poControl.Abreviatura = model.Abreviatura;
+                    poControl.Descripcion = model.Descripcion.ToUpper();
+                    poControl.Abreviatura = model.Abreviatura.ToUpper();
                     poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -31,6 +31,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoG
                 }
                 else
                 {
+                    model.Descripcion = model.Descripcion.ToUpper();
+                    model.Abreviatura = model.Abreviatura.ToUpper();
                     entities.CC_MANTENIMIENTO_GRUPO_AAC.Add(model);
                 }
                 entities.SaveChanges();

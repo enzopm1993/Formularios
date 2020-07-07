@@ -6,26 +6,26 @@
     <thead>
         <tr>
             <th>
-                ID
+                Id
             </th>
             <th>
-                DESCRIPCION
+                Descripción
             </th>
             <th>
-                ABREVIATURA
+               Abreviatura
             </th>
             <th>
-                MAX. PERM.
+                Max. Perm.
             </th>
             <th>
-                FECHA CREACION
+                Fecha Creación
             </th>
 
             <th>
-                FECHA MODIFICACION
+                Fecha Modificación
             </th>
-            <th>ESTADO</th>
-            <th>ACCIONES</th>
+            <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -40,9 +40,9 @@
                 @Html.DisplayFor(modelItem => item.IdParametro)
             </td>
             <td style="white-space:normal">
-                @item.Descripcion
+                @item.Descripcion.ToUpper()
             </td>
-            <td>@item.Abreviatura</td>
+            <td>@item.Abreviatura.ToUpper()</td>
             <td>@item.MaximoPermitido</td>
             <td>
                 @fecha
@@ -69,6 +69,7 @@
                       Abreviatura = item.Abreviatura,
                       Descripcion= item.Descripcion,
                       IdParametro = item.IdParametro,
+                      MaximoPermitido = item.MaximoPermitido,
                       EstadoRegistro=item.EstadoRegistro
                     } );
                 }
