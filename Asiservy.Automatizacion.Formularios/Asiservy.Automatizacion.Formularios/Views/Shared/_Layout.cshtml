@@ -2,6 +2,7 @@
 @using Asiservy.Automatizacion.Datos.Datos;
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +36,14 @@
     <link href="~/Content/admin/css/sb-admin-2.css" rel="stylesheet">
 
     <link href="~/Content/Layout/Layout.css" rel="stylesheet" />
-
+    <style>
+        select {
+            text-transform: uppercase
+        }
+        input[type=text] {
+            text-transform: uppercase
+        }
+    </style>
 
     <!-- select2 -->
     @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />*@
@@ -46,6 +54,7 @@
 
    
 </head>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -478,7 +487,7 @@
             "SinRegistros": "No se ha generado el control",
             "SinRegistrosRangoFecha": "No se encontrarn registros en ese rango de fechas",
             "ReportePendiente": "Reporte aun no ha sido APROBADO.",
-            "Error": "Error,Comuniquese con sistemas. ",
+            "Error": "Error,Comuniquese con el departamento de sistemas. ",
             "ControlAprobado": "Reporte no puede modificarse ya ha sido Aprobado.",
             "MensajePeriodo": '<span style="font-size:14px" class="badge badge-Light">No se pudo completar la acción, por que el periodo se encuentra cerrado</span>'
         }

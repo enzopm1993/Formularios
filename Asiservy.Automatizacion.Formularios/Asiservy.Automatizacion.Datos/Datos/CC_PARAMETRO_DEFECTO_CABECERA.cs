@@ -12,21 +12,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_CLORO_CISTERNA_DESCONGELADO
+    public partial class CC_PARAMETRO_DEFECTO_CABECERA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_CLORO_CISTERNA_DESCONGELADO()
+        public CC_PARAMETRO_DEFECTO_CABECERA()
         {
-            this.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE = new HashSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE>();
+            this.CC_PARAMETRO_DEFECTO_DETALLE = new HashSet<CC_PARAMETRO_DEFECTO_DETALLE>();
         }
     
-        public long IdCloroCisterna { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Observaciones { get; set; }
-        public string Turno { get; set; }
-        public string AprobadoPor { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public bool EstadoReporte { get; set; }
+        public int IdParametroDefecto { get; set; }
+        public string Formulario { get; set; }
+        public string Tipo { get; set; }
+        public string NivelLimpieza { get; set; }
+        public string ColorDentroDeRango { get; set; }
+        public string ColorFueraDeRango { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -34,10 +33,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<decimal> ParamMin { get; set; }
-        public Nullable<decimal> ParamMax { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
+        public virtual ICollection<CC_PARAMETRO_DEFECTO_DETALLE> CC_PARAMETRO_DEFECTO_DETALLE { get; set; }
     }
 }

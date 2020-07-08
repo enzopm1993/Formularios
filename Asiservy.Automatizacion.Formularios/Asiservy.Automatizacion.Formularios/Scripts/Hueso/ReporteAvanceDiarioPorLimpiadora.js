@@ -64,7 +64,133 @@
         ]
     }
 }
+var Datos = [];
+var Horas = [];
+var Avance = [];
+var Real = [];
+var Teorico = [];
+var MigaReal = [];
+var MigaTeorico = [];
 
+var options = {
+    series: [{
+        name: "Avance",
+        data: Avance
+    }],
+    chart: {
+        type: 'bar',
+        height: 350
+    },
+    colors: [function ({ value, seriesIndex, w }) {
+        if (value < 60) {
+            return '#ff0000'
+        } if (value < 80) {
+            return '#ffd800'
+        } else {
+            return '#4cff00'
+        }
+    }],
+    plotOptions: {
+        bar: {
+            horizontal: true,
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    title: {
+        text: 'Avance %',
+        align: 'left'
+    },
+    xaxis: {
+        categories: Horas,
+        title: {
+            text: 'Avance'
+        }
+    },
+    yaxis: {
+        title: {
+            text: 'Horas'
+        }
+
+    }
+};
+
+var chartAvance = new ApexCharts(document.querySelector("#divKpi2"), options);
+chartAvance.render();
+
+
+var options = {
+    series: [{
+        type: 'line',
+        name: "Kl Real",
+        data: Real
+
+    }, {
+        type: 'line',
+        name: "Kl Teorico",
+        data: Teorico
+    }],
+
+    chart: {
+        height: 350,
+        type: 'line',
+        dropShadow: {
+            enabled: true,
+            color: '#000',
+            top: 18,
+            left: 7,
+            blur: 10,
+            opacity: 0.2
+        },
+        toolbar: {
+            show: false
+        }
+    },
+    colors: ['#005FFF', '#70F7D7'],
+    markers: {
+        size: 2,
+        colors: ['#FF0000', '#FF0000']
+    },
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: 'straight'
+    },
+    title: {
+        text: 'KPI KILOS',
+        align: 'left'
+    },
+    grid: {
+        row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+        },
+    },
+    xaxis: {
+        categories: Horas,
+        title: {
+            text: 'Horas'
+        }
+    },
+    yaxis: {
+        title: {
+            text: 'Avance'
+        }
+    },
+    legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true,
+        offsetY: -25,
+        offsetX: -5
+    }
+
+};
+
+var chartKpiLomo = new ApexCharts(document.querySelector("#divKpi"), options);
+chartKpiLomo.render();
 
 function CargarReporteAvanceLimpiadora() {
     var txtFecha = $('#txtFecha').val();
@@ -104,17 +230,20 @@ function CargarReporteAvanceLimpiadora() {
 }
 
 
-var Datos = [];
+
 function SeleccionarLimpiadora(model) {
     $("#ModalKpi").modal("show");
-    $("#divKpi").html("");
+    $("#divKpi").html(""); 
+    $("#divKpiMiga").html(""); 
     $("#divKpi2").html("");
+    $("#selectTipoKpi").prop("selectedIndex", 0);
     Datos = model;
     ConsultaKpi();
 }
 
 
 function ConsultaKpi() {
+    MostrarModalCargando();
     var txtFecha = $('#txtFecha').val();
     var table = $('#tblTable');
     table.DataTable().clear();    
@@ -144,152 +273,106 @@ function ConsultaKpi() {
                 { data: 'HuesoTeorico' },
                 { data: 'KiloReal' },
                 { data: 'KiloTeoricoLimpiadora' },
-                { data: 'Avance' }
+                { data: 'Avance' },
+                { data: 'MigaReal' },
+                { data: 'MigaTeorica' },
+                { data: 'Miga' }
             ];
 
-            var Horas = [];
-            var Avance = [];
-
+          
             resultado.forEach(function (row, i) {
                 var poHora = row.Hora;
                 row.Hora = moment(row.Hora).format('DD-MM-YYYY HH:mm');
                 Horas[i] = moment(poHora).format('HH:mm');
                 Avance[i] = row.Avance;
+                Real[i] = row.KiloReal;
+                Teorico[i] = row.KiloTeoricoLimpiadora;
+                MigaReal[i] = row.MigaReal;
+                MigaTeorico[i] = row.MigaTeorica;
                 var estilo = 'badge-danger';
+                var estiloMiga = 'badge-danger';
+                var flecha = 'up';
+                if (row.Miga < 0) {
+                    estiloMiga = 'badge-ligth';
+                }
+
                 if (row.Avance < 60) {
                     estilo = "#ff0000";
+                    var flecha = 'down';
+
                 } else
                     if (row.Avance < 80) {
                         estilo = "#ffd800";
+                        var flecha = 'right';
+
                     } else {
                         estilo = "#4cff00";
+                        var flecha = 'up';
+
                     }
-                row.Avance = row.Avance + ' <i class="fas fa-arrow-circle-up" style="background:' + estilo + '; border-radius:10px"></i>';
+                row.Avance = '<span style="font-size:12px"  class="badge badge-ligth"> ' + row.Avance + '</span>' + ' <i class="fas fa-arrow-circle-' +flecha+'" style="background:' + estilo + '; border-radius:10px"></i>';
+                row.Miga = '<span style="font-size:11px" class=" badge ' + estiloMiga+'">'+ row.Miga +'</span>'
 
             });
-            configModal.opcionesDT.pageLength = 5;
+            configModal.opcionesDT.pageLength = -1;
             table.DataTable().destroy();
             table.DataTable(configModal.opcionesDT);
             table.DataTable().rows.add(resultado);
             table.DataTable().draw();
-           // table.DataTable().destroy();
 
-            //console.log(Avance);
-            var options = {
-                series: [{
-                    type: 'line',
-                    name: "Avance",
-                    data: Avance
-                     
-                }],
-               
-                chart: {
-                    height: 350,
-                    type: 'line',
-                    dropShadow: {
-                        enabled: true,
-                        color: '#000',
-                        top: 18,
-                        left: 7,
-                        blur: 10,
-                        opacity: 0.2
-                    },
-                    toolbar: {
-                        show: false
-                    }
-                },
-                markers: {
-                    size: 2,
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                title: {
-                    text: Datos.Nombre,
-                    align: 'left'
-                },
-                grid: {
-                    row: {
-                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                        opacity: 0.5
-                    },
-                },
+
+            chartKpiLomo.updateOptions({
                 xaxis: {
-                    categories: Horas,
-                    title: {
-                        text: 'Horas'
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Avance'
-                    }
-                },
-                legend: {
-                    position: 'top',
-                    horizontalAlign: 'right',
-                    floating: true,
-                    offsetY: -25,
-                    offsetX: -5
+                    categories: Horas
                 }
-                
-            };
+            })
+            var serie = [{
+                data: Real
+            }, {
 
-            var chart = new ApexCharts(document.querySelector("#divKpi"), options);
-            chart.render();
+                data: Teorico
+            }];
+            chartKpiLomo.updateSeries(serie)
 
-
-            var options = {
-                series: [{
-                    name: "Avance",
-                    data: Avance
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350
-                },
-                colors: [function ({ value, seriesIndex, w }) {
-                    if (value < 60) {
-                        return '#ff0000'
-                    } if (value < 80) {
-                        return '#ffd800'
-                    } else {
-                        return '#4cff00'
-                    }
-                }],
-                plotOptions: {
-                    bar: {
-                        horizontal: true,
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
+            chartAvance.updateOptions({
                 xaxis: {
-                    categories: Horas,
-                    title: {
-                        text: 'Avance'
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Hotas'
-                    }
-                    
+                    categories: Horas
                 }
-            };
+            })
+            var serie = [{
+                data: Avance
+            }];
+            chartAvance.updateSeries(serie)
 
-            var chart = new ApexCharts(document.querySelector("#divKpi2"), options);
-            chart.render();
-
-
+            CerrarModalCargando();
         },
         error: function (resultado) {
             MensajeError("Error, Comuniquese con sistemas.", false);           
+            CerrarModalCargando();
 
         }
     });
+}
+
+function CambioKpi() {
+    if ($("#selectTipoKpi").val() == "1") {
+        var _serie = [{
+            data: Real
+        }, {
+
+            data: Teorico
+        }];
+        chartKpiLomo.updateSeries(_serie)
+    } else {
+        
+        var _serie = [{
+            data: MigaReal
+        }, {
+
+            data: MigaTeorico
+            }];
+      //  console.log(_serie);
+        chartKpiLomo.updateSeries(_serie)
+
+    }
 }

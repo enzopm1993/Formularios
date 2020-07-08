@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTerminado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class EntregaProductoTerminadoController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDClasificador clsDClasificador = null;
-        // clsDGeneral clsDGeneral = null;
-        clsDLogin clsDLogin = null;
-        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
-        clsDEntregaProductoTerminado clsDEntregaProductoTerminado = null;
-        //clsDApiProduccion clsDApiProduccion = null;
-
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDReporte clsDReporte { get; set; } = null;
+        
+        clsDClasificador clsDClasificador { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
+        clsDEntregaProductoTerminado clsDEntregaProductoTerminado { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        
         #region ENTREGA DE PRODUCTO TERMINADO
         // GET: EntregaProductoTerminado
         [Authorize]
@@ -35,6 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
+                ViewBag.MascaraInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
@@ -44,21 +47,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoProductoTerminado);
                 ViewBag.Material = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMaterialesProductoTerminado);
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
                 clsDLogin = new clsDLogin();
                 var rol = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolEtiquetadoLata);
                 if (rol)
                 {
-                    //ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoPouch);
-                    ViewBag.LineaNegocio = "ENLATADO";
-                  //  ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
-                }
+                     ViewBag.LineaNegocio = "ENLATADO";
+                   }
                 else
                 {
-                    // ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoLata);
                     ViewBag.LineaNegocio = "POUCH";
-                  //  ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioPouch).ToList();
+                 }
+
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteEntregaProductoTerminado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteEntregaProductoTerminado";
+                    }
                 }
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -137,9 +147,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 clsDEmpleado = new clsDEmpleado();
+                clsDPeriodo = new clsDPeriodo();
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado>0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
+
                 var result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(model.OrdenFabricacion+"").FirstOrDefault();
                  if(result==null)
                 {
@@ -187,6 +208,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
@@ -195,8 +218,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-
-                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Mensaje = clsDEntregaProductoTerminado.EliminarProductoTerminado(model);
@@ -269,7 +298,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         [HttpPost]
-        public ActionResult GuardarConsumoMaterial(PRODUCTO_TERMINADO_MATERIALES model)
+        public ActionResult GuardarConsumoMaterial(PRODUCTO_TERMINADO_MATERIALES model, DateTime FechaPaletizado)
         {
             try
             {
@@ -279,6 +308,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
+
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -308,7 +347,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarConsumoMaterial(PRODUCTO_TERMINADO_MATERIALES model)
+        public ActionResult EliminarConsumoMaterial(PRODUCTO_TERMINADO_MATERIALES model, DateTime FechaPaletizado)
         {
             try
             {
@@ -318,6 +357,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
+
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -359,6 +408,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
                 var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoDetalle(IdControl);
                 if (!model.Any())
@@ -390,7 +441,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult EntregaProductoTerminadoDetallePartial(PRODUCTO_TERMINADO_DETALLE model)
+        public ActionResult EntregaProductoTerminadoDetallePartial(PRODUCTO_TERMINADO_DETALLE model, DateTime FechaPaletizado)
         {
             try
             {
@@ -405,6 +456,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
 
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Mensaje = clsDEntregaProductoTerminado.GuardarModificarDetalle(model);
@@ -433,7 +493,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarEntregaProductoTerminadoDetalle(PRODUCTO_TERMINADO_DETALLE model)
+        public ActionResult EliminarEntregaProductoTerminadoDetalle(PRODUCTO_TERMINADO_DETALLE model,DateTime FechaPaletizado)
         {
             try
             {
@@ -448,6 +508,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
 
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Mensaje = clsDEntregaProductoTerminado.EliminarProductoTerminadoDetalle(model);
@@ -522,7 +591,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         [HttpPost]
-        public ActionResult GuardarConsumoDaniado(PRODUCTO_TERMINADO_DANIADOS model)
+        public ActionResult GuardarConsumoDaniado(PRODUCTO_TERMINADO_DANIADOS model, DateTime FechaPaletizado)
         {
             try
             {
@@ -532,6 +601,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -561,7 +639,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarConsumoDaniado(PRODUCTO_TERMINADO_DANIADOS model)
+        public ActionResult EliminarConsumoDaniado(PRODUCTO_TERMINADO_DANIADOS model, DateTime FechaPaletizado)
         {
             try
             {
@@ -571,6 +649,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -644,7 +731,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         [HttpPost]
-        public ActionResult GuardarTiemposMuertos(PRODUCTO_TERMINADO_TIEMPO_PARADAS model)
+        public ActionResult GuardarTiemposMuertos(PRODUCTO_TERMINADO_TIEMPO_PARADAS model, DateTime FechaPaletizado)
         {
             try
             {
@@ -658,6 +745,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -687,7 +783,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarTiemposMuertos(PRODUCTO_TERMINADO_TIEMPO_PARADAS model)
+        public ActionResult EliminarTiemposMuertos(PRODUCTO_TERMINADO_TIEMPO_PARADAS model, DateTime FechaPaletizado)
         {
             try
             {
@@ -697,6 +793,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdProductoTerminado > 0 && clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(model.IdProductoTerminado))
+                {
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Respuesta = clsDEntregaProductoTerminado.EliminarProductoTerminadoTiempoParada(model);
@@ -726,14 +831,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
 
-        #region BANDEJA CC
+        #region BANDEJA DE APROBACION
+        //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
+        [Authorize]
         public ActionResult BandejaControlCalidad()
         {
             try
             {
-                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                ViewBag.select2 = "1";               
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -756,8 +863,91 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
+        public ActionResult BandejaControlCalidadPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
+        {
+            try
+            {
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                List<spConsultaProductoTerminadoBandejaCC> poCloroCisterna = null;
+                if (FechaDesde != null && FechaHasta != null)
+                {
+                    poCloroCisterna = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoBandejaCC(FechaDesde.Value, FechaHasta.Value, Estado);
+                }
+                else
+                {
+                    poCloroCisterna = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoBandejaCC(DateTime.Now, DateTime.Now, clsAtributos.EstadoReportePendiente);
+                }
+                if (poCloroCisterna != null && poCloroCisterna.Any())
+                {
+                    return PartialView(poCloroCisterna);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        public ActionResult BandejaControlCalidadPartial(DateTime Fecha)
+
+        //public ActionResult BandejaAprobarAnalisisAguaCalderos(DateTime fecha)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+        //        var poCloroCisterna = clsDEntregaProductoTerminado.consu(fecha);
+        //        if (poCloroCisterna != null && poCloroCisterna.Any())
+        //        {
+        //            return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        public ActionResult AprobarBandejaControl(PRODUCTO_TERMINADO model)
         {
             try
             {
@@ -767,8 +957,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoBandejaCC(Fecha);
-                return PartialView(model);
+                clsDPeriodo = new clsDPeriodo();
+                model.FechaAprobacion = DateTime.Now;
+                model.AprobadoPor = lsUsuario[0];
+                model.EstadoReporte = clsAtributos.EstadoReporteActivo;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado.Aprobar_ReporteProductoTerminado(model);
+                return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -790,7 +993,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ApruebaEntregaProductoTerminado(int IdControl)
+        public ActionResult ReversarBandejaControl(PRODUCTO_TERMINADO model)
         {
             try
             {
@@ -800,8 +1003,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-                clsDEntregaProductoTerminado.AprobarEntregaProductoTerminado(IdControl);
-                return Json("Producto Aprobado",JsonRequestBehavior.AllowGet);
+                clsDPeriodo = new clsDPeriodo();
+                model.FechaAprobacion = null;
+                model.AprobadoPor = null;
+                model.EstadoReporte = clsAtributos.EstadoReportePendiente;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.FechaPaletizado))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado.Aprobar_ReporteProductoTerminado(model);
+                return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -822,7 +1038,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         #endregion
 
         #region REPORTE
@@ -833,10 +1048,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
                 ViewBag.select2 = "1";
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoLineasEntregaProductoTerminado);
-
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "EntregaProductoTerminado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "EntregaProductoTerminado";
+                    }
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -860,7 +1093,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        public ActionResult ReporteEntregaProductoTerminadoPartial(DateTime Fecha, string Linea)
+        public ActionResult ReporteEntregaProductoTerminadoPartial(DateTime FechaDesde, DateTime FechaHasta, string Linea)
         {
             try
             {
@@ -871,8 +1104,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
                 clsDEmpleado = new clsDEmpleado();
-                var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDEntregaProductoTerminado.ReporteConsultaControlProductoTerminado(Fecha, Linea);
+                var model = clsDEntregaProductoTerminado.ReporteConsultaControlProductoTerminado(FechaDesde, FechaHasta, Linea);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -953,12 +1185,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-
+                clsDClasificador = new clsDClasificador();
                 var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoDetalle(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
                 return PartialView(model);
             }
 

@@ -18,10 +18,10 @@
 @foreach (var item in Model) {
     <tr>       
         <td>
-            @Html.DisplayFor(modelItem => item.HoraInicio)
+            @item.HoraInicio.ToString("yyyy-MM-dd HH:mm")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HoraFin)
+            @item.HoraFin.ToString("yyyy-MM-dd HH:mm")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Causa)

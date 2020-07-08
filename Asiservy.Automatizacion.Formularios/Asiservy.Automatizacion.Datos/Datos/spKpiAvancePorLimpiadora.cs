@@ -20,12 +20,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string OrdenFabricacion { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
-        public Nullable<decimal> Miga { get; set; }
         public Nullable<decimal> Promedio { get; set; }
         public Nullable<int> HuesoReal { get; set; }
         public Nullable<int> HuesoTeorico { get; set; }
         public Nullable<decimal> KiloReal { get; set; }
         public Nullable<int> KiloTeoricoLimpiadora { get; set; }
         public decimal Avance { get; set; }
+        public Nullable<decimal> MigaReal { get; set; }
+        public Nullable<decimal> MigaTeorica { get; set; }
+        public Nullable<decimal> Miga { get; set; }
     }
 }

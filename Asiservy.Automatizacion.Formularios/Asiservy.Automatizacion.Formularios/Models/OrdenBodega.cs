@@ -9,6 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public int UnidadesReproceso { get; set; }
         public int UnidadesConDefecto { get; set; }
         public int CajasEntregadas { get; set; }
+        public int LataSueltas { get; set; }
 
     }
 }

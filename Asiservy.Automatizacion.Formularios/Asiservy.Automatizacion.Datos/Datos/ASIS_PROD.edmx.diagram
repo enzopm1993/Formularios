@@ -263,6 +263,11 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="28.375" PointY="46" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="30.625" PointY="46.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.RENDIMIENTO_KILO_HORA" Width="1.5" PointX="7.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_DEFECTO" Width="1.5" PointX="9.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_DEFECTO_CABECERA" Width="1.5" PointX="16.375" PointY="51" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_DEFECTO_DETALLE" Width="1.5" PointX="18.625" PointY="51.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PARAMETRO_DEFECTO_DETALLE_CC_PARAMETRO_DEFECTO_CABECERA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
