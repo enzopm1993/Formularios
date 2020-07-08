@@ -2,20 +2,20 @@
 @using Asiservy.Automatizacion.Datos.Datos;
 @using Newtonsoft.Json;
 
-<table class="table table-bordered table-hover" id="tblDataTable">
+<table class="table table-bordered table-hover text-uppercase" id="tblDataTable">
     <thead style="font-size:12px">
         <tr>
             <th>
                 FECHA
             </th>
             <th>
-                OBSERVACION
+                OBSERVACIÓN
             </th>
             <th>
                 APROBADO POR
             </th>
             <th>
-                FECHA APROBACION
+                FECHA APROBACIÓN
             </th>
             <th>TURNO</th>
             <th>
@@ -33,10 +33,9 @@
                     @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
                 <td style="white-space:normal">
-                    @if (!string.IsNullOrEmpty(item.Observaciones))
-                    {
-                        @item.Observaciones.ToUpper()
-                    }
+                   
+                        @item.Observaciones
+                   
                 </td>
                 <td>
                     @item.AprobadoPor

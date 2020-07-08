@@ -38,6 +38,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                     cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
                     cabecera.FechaAprobacion = listado.FechaAprobacion;
                     cabecera.AprobadoPor = listado.AprobadoPor;
+                    cabecera.ParamMin = listado.ParamMin;
+                    cabecera.ParamMax = listado.ParamMax;
                     cabecera.Turno = listado.Turno;
                     return cabecera;
                 }

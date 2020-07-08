@@ -7,6 +7,9 @@ $(document).ready(function () {
     CargarCabecera();
     $('#txtPpm').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '9999.99' });
     $('#txtCisterna').inputmask({ 'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': true, 'max': '999' });
+    $('#selectTurno').select2({
+        width: '100%'
+    });
 });
 
 function ConsultarEstadoReporte() {
@@ -37,6 +40,7 @@ function ConsultarEstadoReporte() {
 }
 
 function CargarCabecera() {
+    $('#divParametros').prop('hidden', true);
      ListaDatos = [];
      ListaDatosDetalle = [];
      estadoReporte = [];
@@ -65,7 +69,7 @@ function CargarCabecera() {
                     $("#divCabecera2").prop("hidden", false); 
                     CambiarMensajeEstado('nada');
                     ListaDatos = [];
-                } else { 
+                } else {                     
                     $("#divCabecera2").prop("hidden", false); 
                     $("#btnModalEditar").prop("hidden", false);
                     $("#btnModalEliminar").prop("hidden", false);  
@@ -106,7 +110,9 @@ function GuardarCabecera() {
             } else if (resultado == 2) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                 return;
-            } 
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            }
             CargarCabecera();
                 $("#txtObservacion").prop("disabled", true);
                 $("#btnModalGenerar").prop("hidden", true);
@@ -116,7 +122,7 @@ function GuardarCabecera() {
             $("#divDetalleControlCloro").prop("hidden", false);
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);            
+            MensajeError(Mensajes.Error, false);            
         }
     });
 }
@@ -137,9 +143,11 @@ function EliminarCabeceraSi() {
         url: "../CloroCisternaDescongelado/EliminarCloroCisternaDescongelado",
         type: "POST",
         data: {
-            IdCloroCisterna: ListaDatos.IdCloroCisterna
+            IdCloroCisterna: ListaDatos.IdCloroCisterna,
+            Fecha:moment(ListaDatos.Fecha).format('DD-MM-YYYY')
         },
-        success: function (resultado) {
+         success: function (resultado) {
+             $("#modalEliminarControl").modal("hide");
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -149,12 +157,14 @@ function EliminarCabeceraSi() {
             } else if (resultado == 2) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
             }
             $("#divTableEntregaProductoDetalle").prop("hidden", true);   
             CargarCabecera();
             MensajeCorrecto("Registro Eliminado con Éxito");            
-            $("#txtFecha").prop("disabled", false);
-            $("#modalEliminarControl").modal("hide");
+            $("#txtFecha").prop("disabled", false);            
             $("#btnModalGenerar").prop("hidden", false);
             $("#btnModalEditar").prop("hidden", true);
             $("#btnModalEliminar").prop("hidden", true);
@@ -238,6 +248,8 @@ function GuardarControlCloroDetalle() {
                 } else if (resultado == 2) {
                     MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                     return;
+                } else if (resultado == 100) {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
                 }
                 $("#ModalGenerarHoraControlCloroCisterna").modal("hide");
                 CargarControlCloroCisternaDetalle();
@@ -267,8 +279,10 @@ function CargarControlCloroCisternaDetalle() {
             if (resultado == "0") {
                 $("#divTableEntregaProductoDetalle").html("No existen registros");
                 $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
-                
-            } else {               
+            } else {
+                $('#divParametros').prop('hidden', false);
+                document.getElementById('lblMaximo').innerHTML  = 'MAX: '+ListaDatos.ParamMax+' PPM';
+                document.getElementById('lblMinimo').innerHTML  = 'MIN: '+ListaDatos.ParamMin+' PPM';
                 $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);   
                 $("#divTableEntregaProductoDetalle").html(resultado);                   
@@ -290,6 +304,7 @@ function EliminarControlCloroCisternaDetalle(dato) {
             IdCloroCisternaCabecera: ListaDatosDetalle.IdCloroCisternaCabecera
         },
         success: function (resultado) {
+            $("#modalEliminarDetalle").modal("hide");
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -298,8 +313,11 @@ function EliminarControlCloroCisternaDetalle(dato) {
             } else if (resultado == 2) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
             }
-            $("#modalEliminarDetalle").modal("hide");
+            
             MensajeCorrecto("Registro Eliminado con Éxito");
             CargarControlCloroCisternaDetalle();
         },

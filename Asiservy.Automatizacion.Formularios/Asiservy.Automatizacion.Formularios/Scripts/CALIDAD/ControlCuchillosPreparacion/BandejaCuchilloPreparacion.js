@@ -117,7 +117,8 @@ function AprobarPendiente(estadoReporte) {
                 IdControlCuchillo: listaDatos.IdControlCuchillo,
                 FechaAprobado: $('#txtFechaAprobado').val(),
                 siAprobar: true,
-                EstadoReporte: estadoReporte
+                EstadoReporte: estadoReporte,
+                Fecha: moment(listaDatos.Fecha).format('DD-MM-YYYY')
             },
             success: function (resultado) {
                 if (resultado == "101") {
