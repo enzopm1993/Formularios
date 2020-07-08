@@ -2285,6 +2285,7 @@
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ParametroCalidad\ParametroCalidad.js" />
+    <Content Include="Scripts\CALIDAD\ParametroDefecto\ParametroDefecto.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\BandejaResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
@@ -3473,6 +3474,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ParametroCalidad\ClsdParametroCalidad.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ParametroDefecto\ClsDParametroDefecto.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaInternaRefrigeradora\ClsdTemperaturaInternaRefrigeradora.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
@@ -3587,6 +3589,7 @@
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
     <Compile Include="Controllers\CALIDAD\ParametroCalidadController.cs" />
+    <Compile Include="Controllers\CALIDAD\ParametroDefectoController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaInternaRefrigeradoraController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
@@ -3644,12 +3647,14 @@
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionProductoEnfundadoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\DetalleDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\MantenimientoMuestraDescongeladoModel.cs" />
     <Compile Include="Models\CALIDAD\MantenimientoTipoDescongeladoModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
+    <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
@@ -4227,6 +4232,10 @@
     <Content Include="Views\MantenimientoTipoDescongelado\MantenimientoTipoDescongeladoPartial.cshtml" />
     <Content Include="Views\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongelado.cshtml" />
     <Content Include="Views\MantenimientoMuestraDescongelado\MantenimientoMuestraDescongeladoPartial.cshtml" />
+    <Content Include="Views\ParametroDefecto\ParametroDefecto.cshtml" />
+    <Content Include="Views\ParametroDefecto\PartialCabecerasParametroDefectos.cshtml" />
+    <Content Include="Views\ParametroDefecto\PartialMantDefectos.cshtml" />
+    <Content Include="Views\ParametroDefecto\PartialDetalleParametroDeDefectos.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderosPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

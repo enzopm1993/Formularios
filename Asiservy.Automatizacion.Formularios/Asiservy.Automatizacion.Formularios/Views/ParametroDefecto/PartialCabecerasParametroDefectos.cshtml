@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.ParametroDefectoViewModel>
+@using Newtonsoft.Json;
+
+<table class="table table-striped table-bordered table-hover" id="TableCabeceras">
+    <thead>
+        <tr>
+            <th>
+               Formulario
+            </th>
+            <th>
+                Tipo Producto
+            </th>
+       
+           
+            <th>
+                Nivel de limpieza
+            </th>
+            <th>
+                Color dentro de rango
+            </th>
+            <th>
+                Color fuera de rango
+            </th>
+            <th>
+                Estado de registro
+            </th>
+            <th>
+                Valor máximo
+            </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string Json = JsonConvert.SerializeObject(new {item.ColorDentroDeRango,
+                item.ColorFueraDeRango,item.EstadoRegistro,item.Formulario,item.FormularioNombre,item.IdParametroDefecto,item.Maximo,
+            item.NivelLimpieza, item.NivelLimpiezaNombre, item.Tipo,item.TipoNombre});
+            <tr style="cursor:pointer" onclick="MostrarDetalle(@Json)">
+                <td>
+                    @item.FormularioNombre.ToUpper()
+                </td>
+              
+                <td>
+                    @item.TipoNombre.ToUpper()
+                </td>
+               
+                <td>
+                    @item.NivelLimpiezaNombre.ToUpper()
+                </td>
+                <td class="text-center text-white">
+                    @if (!string.IsNullOrEmpty(item.ColorDentroDeRango))
+                    {
+                        <span class="badge badge-pill" style="background-color:@item.ColorDentroDeRango">@item.ColorDentroDeRangoNombre.ToUpper()</span>
+                    }
+                </td>
+                <td class="text-center text-white">
+                    @if (!string.IsNullOrEmpty(item.ColorFueraDeRango))
+                    {
+                    <span class="badge badge-pill" style="background-color:@item.ColorFueraDeRango">@item.ColorFueraDeRangoNombre.ToUpper()</span>
+                    }
+                </td>
+                <td class="text-center">
+                    @item.EstadoRegistro.ToUpper()
+                </td>
+                <td class="text-center">
+                    @item.Maximo
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>

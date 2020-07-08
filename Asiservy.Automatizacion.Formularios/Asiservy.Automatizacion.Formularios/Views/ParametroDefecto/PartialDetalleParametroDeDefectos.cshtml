@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.DetalleDefectoViewModel>
+@using Newtonsoft.Json
+
+<table class="table table-bordered table-striped" id="TableDetParam">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IdParametroDefectoDetalle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCabeceraParametro)
+            </th>*@
+    
+            <th>
+               Defecto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Maximo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoRegistro)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(new {item.Defecto,item.DefectoNombre,item.EstadoRegistro,item.IdCabeceraParametro,item.IdParametroDefectoDetalle,item.Maximo});
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.IdParametroDefectoDetalle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCabeceraParametro)
+                </td>*@
+
+                <td>
+                    @item.DefectoNombre.ToUpper()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Maximo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                </td>
+                <td>
+                    <a href="#" onclick="EditarDetalle(@json)">EDITAR</a>
+                    @*@Html.ActionLink("EDITAR", "Edit", new { /* id=item.PrimaryKey */@onclick = "EditarDetalle(" + @json + ")" }) |*@
+                  
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

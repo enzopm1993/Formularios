@@ -296,6 +296,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //GRUPO CLASIFICADOR DE COLORES
         public static string CodGrupoColores { get; } = "041";
 
+        //GRUPO CLASIFICADOR FORMULARIOS PARAMETROS CALIDAD
+        public static string CodGrupoFormularios { get; } = "042";
 
+        //GRUPO CLASIFICADOR TIPO PRODUCTO
+        public static string CodGrupoTipoProducto { get; } = "043";
     }
 }
