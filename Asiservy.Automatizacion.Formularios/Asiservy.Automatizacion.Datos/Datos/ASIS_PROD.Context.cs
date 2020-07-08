@@ -1103,15 +1103,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAsistencia>("spReporteAsistencia", fechaInicioParameter, fechaFinParameter, turnoParameter, lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultaProductoTerminadoBandejaCC> spConsultaProductoTerminadoBandejaCC(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoBandejaCC>("spConsultaProductoTerminadoBandejaCC", fechaParameter);
-        }
-    
         public virtual ObjectResult<spReporteCambioPersonal> spReporteCambioPersonal(string codLinea, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var codLineaParameter = codLinea != null ?
@@ -2358,6 +2349,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("codLinea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CC_Cuchillos_MovimientoPersonalDiario>("sp_CC_Cuchillos_MovimientoPersonalDiario", fechaParameter, codLineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoBandejaCC> spConsultaProductoTerminadoBandejaCC(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<bool> estado)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var estadoParameter = estado.HasValue ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoBandejaCC>("spConsultaProductoTerminadoBandejaCC", fechaDesdeParameter, fechaHastaParameter, estadoParameter);
         }
     }
 }
