@@ -3606,7 +3606,7 @@
     <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\DatalifeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
-    <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\EntregaProductoTerminadoController.cs" />
     <Compile Include="Controllers\PRODUCCION\EntregaUniformeController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />

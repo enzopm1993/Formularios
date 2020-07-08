@@ -289,25 +289,42 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
 
 
         #region BANDEJA CC
-        public List<spConsultaProductoTerminadoBandejaCC> ConsultaControlProductoTerminadoBandejaCC(DateTime Fecha)
+       
+       
+
+        public List<spConsultaProductoTerminadoBandejaCC> ConsultaControlProductoTerminadoBandejaCC(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.spConsultaProductoTerminadoBandejaCC(Fecha).ToList();
-                return lista;
+                return entities.spConsultaProductoTerminadoBandejaCC(FechaDesde, FechaHasta, Estado).ToList();
             }
         }
 
-        public void AprobarEntregaProductoTerminado(int IdControl)
+        //public List<PRODUCTO_TERMINADO> ConsultaProductoTerminadoPendiente()
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        return entities.PRODUCTO_TERMINADO.Where(x => x.EstadoReporte==false && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+        //    }
+        //}
+
+
+        public void Aprobar_ReporteProductoTerminado(PRODUCTO_TERMINADO controlCloro)
         {
-            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = entities.PRODUCTO_TERMINADO.FirstOrDefault(x => x.IdProductoTerminado == IdControl);
+                var model = db.PRODUCTO_TERMINADO.FirstOrDefault(x => x.IdProductoTerminado == controlCloro.IdProductoTerminado);
                 if (model != null)
                 {
-                    model.EstadoReporte = true;
-                    entities.SaveChanges();
+                    model.EstadoReporte = controlCloro.EstadoReporte;
+                    model.AprobadoPor = controlCloro.AprobadoPor;
+                    model.FechaAprobacion = controlCloro.FechaAprobacion;
+                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
+                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
+                    db.SaveChanges();
                 }
+
             }
         }
         #endregion
