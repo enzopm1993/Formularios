@@ -8,6 +8,10 @@
     input, select, textarea {
         max-width: 100%;
     }
+    .card-body{
+        padding:0px;
+    }
+
 </style>
 
 
@@ -235,7 +239,7 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Producto</label>
-                            <input class="form-control" id="txtProducto" disabled type="text" name="name" value="0" />
+                            <input class="form-control" maxlength="12" id="txtProducto" disabled type="text" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -247,7 +251,7 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Etiqueta</label>
-                            <input class="form-control" id="txtEtiqueta" type="text" name="name" value="" />
+                            <input class="form-control" maxlength="150" id="txtEtiqueta" type="text" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -342,22 +346,31 @@
                 <div class="row">
                     <input type="hidden" id="txtIdConsumoMaterial" name="name" value="0" />
                     <div class="col-12 col-sm-12 col-md-6">
-                        <label>Material</label>
-                        @Html.DropDownList("selectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                        <div class="form-group">
+                            <label>Material</label>
+                            @Html.DropDownList("selectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                        </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
-                        <label>Recibido</label>
-                        <input type="number" min="0" id="txtRecibido" class="form-control" name="name" value="0" />
+                        <div class="form-group">
+
+                            <label>Recibido <span class="badge badge-secondary">+10.000</span></label>
+                            <input type="text" min="0" id="txtRecibido" class="form-control" name="name" value="0" />
+                        </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
-                        <label>Desechado</label>
-                        <input type="number" min="0" id="txtDesechado" class="form-control" name="name" value="0" />
+                        <div class="form-group">
+                            <label>Desechado <span class="badge badge-secondary">+10.000</span></label>
+                            <input type="text" min="0" id="txtDesechado" class="form-control" name="name" value="0" />
+                        </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
-                        <label>Usado</label>
-                        <input type="number" min="0" id="txtUsado" class="form-control" name="name" value="0" />
+                        <div class="form-group">
+                            <label>Usado <span class="badge badge-secondary">+10.000</span></label>
+                            <input type="text" min="0" id="txtUsado" class="form-control" name="name" value="0" />
+                        </div>
                     </div>
-                </div>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GuardarConsumoMaterial()" id="">Guardar</button>
@@ -386,28 +399,25 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Hora Inicio</label>
-                            <input class="form-control" id="txtHoraInicioDetalle" type="datetime-local" name="name" value="0" />
+                            <input class="form-control" id="txtHoraInicioDetalle" type="datetime-local" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Hora Fin</label>
-                            <input class="form-control" id="txtHoraFinDetalle" type="datetime-local" name="name" value="0" />
+                            <input class="form-control" id="txtHoraFinDetalle" type="datetime-local" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Personal</label>
-                            <input class="form-control" id="txtPersonal" type="number" min="0" name="name" value="0" />
+                            <label>Personal <span class="badge badge-secondary">+100</span></label>
+                            <input class="form-control" id="txtPersonal" type="text" min="0" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Turno</label>
-                            <select class="form-control" id="selectTurno">
-                                <option value="1">A</option>
-                                <option value="2">B</option>
-                            </select>
+                            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @class = "form-control"})
                         </div>
                     </div>
 
@@ -567,22 +577,24 @@
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Unidades Reproceso</label>
-                            <input class="form-control" id="txtReproceso" disabled type="text" name="name" value="" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Unidades con Defecto</label>
+                            <label>Unidades Defectos</label>
                             <input class="form-control" id="txtDefectos" disabled type="text" name="name" value="" />
                         </div>
                     </div>
+
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Cajas Entregadas</label>
                             <input class="form-control" id="txtEntregadas" disabled type="text" name="name" value="" />
                         </div>
                     </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Latas Sueltas</label>
+                            <input class="form-control" id="txtLatasSueltas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">

@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoDetalle>
 @using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos
 
 
-<table class="table table-light table-striped">
+
+@{ var poTurno = (List<CLASIFICADOR>)ViewBag.Turno;}
+
+<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Turno)
@@ -24,16 +28,22 @@
         <tr>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Turno)
+                @{
+                    var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
+                    if (T != null)
+                    {
+                        @T.Descripcion
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Personal)
             </td>
             <td>
-                @item.HoraInicio.ToString("HH:mm")
+                @item.HoraInicio.ToString("yyyy-MM-dd HH:mm")
             </td>
             <td>
-                @item.HoraFin.ToString("HH:mm")
+                @item.HoraFin.ToString("yyyy-MM-dd HH:mm")
             </td>
             <td>
                 @{string json = JsonConvert.SerializeObject(item); }

@@ -65,11 +65,12 @@ function SeleccionarBandeja(model) {
                 // console.log(resultado.UnidadesControlCalidad);
                 $("#txtControlCalidad").val(resultado.UnidadesControlCalidad);
                 $("#txtRechazadas").val(resultado.UnidadesRechazadas);
-                $("#txtReproceso").val(resultado.UnidadesReproceso);
+                //$("#txtReproceso").val(resultado.UnidadesReproceso);
                 $("#txtDefectos").val(resultado.UnidadesConDefecto);
                 $("#txtEntregadas").val(resultado.CajasEntregadas);
                 $("#txtOrdenFrabricacion").val(model.OrdenFabricacion);
                 $("#txtProducto").val(model.Producto);
+                $("#txtLatasSueltas").val(resultado.LataSueltas);
                 $("#txtIdControl").val(model.IdProductoTerminado);
                 
                 $("#ModalApruebaProductoTerminado").modal("show");

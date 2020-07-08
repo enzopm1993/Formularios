@@ -18,6 +18,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 return lista;
             }
         }
+
+        public bool ConsultaControlProductoTerminado(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Control = entities.PRODUCTO_TERMINADO.FirstOrDefault(x=> x.IdProductoTerminado == IdControl);
+                var result = Control.EstadoReporte??false;
+                return result;
+            }
+        }
+
         public RespuestaGeneral GuardarModificarControl(PRODUCTO_TERMINADO control)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -26,14 +37,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 if (result != null)
                 {
                     result.FechaVencimiento = control.FechaVencimiento;
-                    result.CodigoProducto = control.CodigoProducto;
-                    result.Observacion = control.Observacion;
+                    result.CodigoProducto = control.CodigoProducto.ToUpper();
+                    result.Observacion = string.IsNullOrEmpty(control.Observacion)? control.Observacion : control.Observacion.ToUpper();
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = control.TerminalIngresoLog;
                 }
                 else
                 {
+                    control.CodigoProducto = control.CodigoProducto.ToUpper();
+                    control.Observacion = string.IsNullOrEmpty(control.Observacion) ? control.Observacion : control.Observacion.ToUpper();
                     control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     control.FechaIngresoLog = DateTime.Now;
                     entities.PRODUCTO_TERMINADO.Add(control);

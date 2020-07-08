@@ -176,9 +176,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaOrdenes;
         }
 
-        public object ConsultaCantidadesOrdenBodega(int OF)
+        public OrdenBodega ConsultaCantidadesOrdenBodega(int OF)
         {
-            var client = new RestClient("http://192.168.0.31:8870");
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
 
             var request = new RestRequest("/api/Produccion/CantidadesOrdenBodega/" + OF, Method.GET);
             IRestResponse response = client.Execute(request);
