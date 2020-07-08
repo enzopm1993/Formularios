@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTerminado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDReporte clsDReporte { get; set; } = null;
+        
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDLogin clsDLogin { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
@@ -828,7 +831,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
 
-        #region BANDEJA DE APORBACION
+        #region BANDEJA DE APROBACION
         //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
         [Authorize]
         public ActionResult BandejaControlCalidad()
@@ -1045,11 +1048,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
                 ViewBag.select2 = "1";
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoLineasEntregaProductoTerminado);
                 clsDLogin = new clsDLogin();
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
                 if (!string.IsNullOrEmpty(lsUsuario[1]))
                 {
                     var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "EntregaProductoTerminado");
@@ -1081,7 +1093,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        public ActionResult ReporteEntregaProductoTerminadoPartial(DateTime Fecha, string Linea)
+        public ActionResult ReporteEntregaProductoTerminadoPartial(DateTime FechaDesde, DateTime FechaHasta, string Linea)
         {
             try
             {
@@ -1092,8 +1104,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
                 clsDEmpleado = new clsDEmpleado();
-                var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDEntregaProductoTerminado.ReporteConsultaControlProductoTerminado(Fecha, Linea);
+                var model = clsDEntregaProductoTerminado.ReporteConsultaControlProductoTerminado(FechaDesde, FechaHasta, Linea);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -1174,12 +1185,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-
+                clsDClasificador = new clsDClasificador();
                 var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoDetalle(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
                 return PartialView(model);
             }
 
