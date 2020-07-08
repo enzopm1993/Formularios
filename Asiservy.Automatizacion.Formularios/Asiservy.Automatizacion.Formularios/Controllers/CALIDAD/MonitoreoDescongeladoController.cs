@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDReporte clsDReporte { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
         ClsdMantenimientoMuestraDescongelado ClsdMantenimientoMuestraDescongelado { get; set; } = null;
         ClsdMantenimientoTipoDescongelado ClsdMantenimientoTipoDescongelado { get; set; } = null;
         #region Control
@@ -34,15 +35,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.DateTimePicker = "1";
                 ViewBag.MascaraInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
                 ClsdMantenimientoMuestraDescongelado = new ClsdMantenimientoMuestraDescongelado();
-                ViewBag.Muestra = ClsdMantenimientoMuestraDescongelado.ConsultaManteminetoMuestraDescongelado();
-                ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado();
+                ViewBag.Muestra = ClsdMantenimientoMuestraDescongelado.ConsultaManteminetoMuestraDescongelado().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado().Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
-
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteMonitoreoDescongelado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteMonitoreoDescongelado";
+                    }
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -157,7 +167,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                if( clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha, Turno).Any(x => x.EstadoReporte))
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(control.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if ( clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha, Turno).Any(x => x.EstadoReporte))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
@@ -251,6 +266,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+
                 if (clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha,Turno).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -416,6 +437,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model,Turno);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
@@ -457,6 +483,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model,Turno);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
@@ -492,6 +523,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 clsDReporte = new clsDReporte();
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "MonitoreoDescongelado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "MonitoreoDescongelado";
+                    }
+                }
                 var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {
@@ -532,6 +573,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
                 clsDClasificador = new clsDClasificador();
+                ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
+                ClsdMantenimientoMuestraDescongelado = new ClsdMantenimientoMuestraDescongelado();
+                ViewBag.Muestra = ClsdMantenimientoMuestraDescongelado.ConsultaManteminetoMuestraDescongelado().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno, Turno).FirstOrDefault();
                 if (poTurno != null)
                 {
@@ -576,6 +621,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 if (poControl != null && poControl.Any())
                 {
+                    clsDClasificador = new clsDClasificador();
+                    ViewBag.Turnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                     return PartialView(poControl);
                 }
                 else

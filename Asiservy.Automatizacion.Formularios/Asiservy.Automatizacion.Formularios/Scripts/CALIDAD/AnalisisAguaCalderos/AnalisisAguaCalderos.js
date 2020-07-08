@@ -1,6 +1,33 @@
 ﻿model = [];
+modelEliminar = [];
+modelEditar = [];
 $(document).ready(function () {
-   ValidaEstadoReporte($("#txtFecha").val());
+    ValidaEstadoReporte($("#txtFecha").val());
+    $("#selectParametro").select2({
+        width:'100%'
+    });
+    $("#selectEquipo").select2({ width:'100%'});
+
+    $('#txtValor').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10000.00',
+        'min':'0'
+    });
+
+    $('#txtValorModal').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10000.00',
+        'min': '0'
+
+    });
 });
 
 
@@ -35,14 +62,38 @@ function ValidaEstadoReporte(Fecha) {
     });
 }
 
+function getParametros() {
+    $.ajax({
+        type: "GET",
+        url: '../AnalisisAguaCalderos/ConsultaParametros',
+        data: {
+            Fecha: $("#txtFecha").val(),
+            IdEquipo: $("#selectEquipo").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            $("#selectParametro").empty().change();
+            $("#selectParametro").append('<option value=""> Seleccione</option>');
+            $.each(data, function (key, registro) {
+                $("#selectParametro").append('<option value=' + registro.IdParametro + '>' + registro.Descripcion + '</option>');
+            });
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
 function ConsultarControl() {
-    if ($("#txtFecha").val() == '') {
+    if ($("#txtFecha").val() == '' || $("#selectEquipo").val() =='') {
         return;
     }
     model = [];
     ValidaEstadoReporte($("#txtFecha").val());
     MostrarModalCargando();
+    getParametros();
     $("#h4Mensaje").html("");
+    $("#tblPartial").html("");
     $.ajax({
         url: "../AnalisisAguaCalderos/AnalisisAguaCalderosPartial",
         type: "GET",
@@ -55,36 +106,14 @@ function ConsultarControl() {
                 window.location.reload();
             }
             $("#divCabecera2").prop("hidden", false);
-            //console.log(resultado);
             if (resultado == "0") {
-                parametros.forEach(function (x) {
-                    $("#txt-" + x).val("");
-                    $("#txt-" + x).prop("disabled", false);
-                });
-                $("#btnGenerar").prop("hidden", false);
-                $("#btnEditar").prop("hidden", true);
-                $("#btnEliminar").prop("hidden", true);
+                $("#h4Mensaje").html(Mensajes.SinRegistros);
             } else {
-                model = resultado;
-                parametros.forEach(function (x) {
-                    $("#txt-" + x).val("");
-                    $("#txt-" + x).prop("disabled", true);
-                    resultado.forEach(function (y) {
-                        if (x = y.IdParametro) {
-                            $("#txt-" + x).val(y.Valor);
-                        }
-                    });
-                });
-
-                //console.log(resultado);
-                $("#btnGenerar").prop("hidden", true);
-                $("#btnEditar").prop("hidden", false);
-                $("#btnEliminar").prop("hidden", false);
-
-
+                $("#tblPartial").html(resultado);
             }
             CerrarModalCargando();
-            //  $('#btnConsultar').prop("disabled", true);
+            nuevoControl();
+
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
@@ -93,12 +122,14 @@ function ConsultarControl() {
     });
 }
 
+function nuevoControl() {
+    $("#selectParametro").prop("selectedIndex",0).change();
+    $("#txtValor").val('');
+}
+
+
 function EditarControl() {
-    parametros.forEach(function (x) {
-        //data here
-        $("#txt-" + x).prop("disabled", false);
-        //console.log(object);
-    });
+   
     $("#btnGenerar").prop("hidden", false);
     $("#btnEditar").prop("hidden", true);
     $("#btnEliminar").prop("hidden", false);
@@ -116,31 +147,38 @@ function Validar() {
     }
 
     if ($("#selectEquipo").val() == "") {
-        $("#selectEquipo").css('borderColor', '#FA8072');
+        $("#selectEquipo").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+
         valida = false;
     } else {
-        $("#selectEquipo").css('borderColor', '#ced4da');
+        $("#selectEquipo").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
     }
 
-    var contador = 0;
-    parametros.forEach(function (x) {
-        if ($("#txt-" + x).val() > 9999.9999) {
-            $("#txt-" + x).css('borderColor', '#FA8072');
-            valida = false;
-        } else {
-            $("#txt-" + x).css('borderColor', '#ced4da');
-        }
+    if ($("#selectParametro").val() == "") {
 
-        if ($("#txt-" + x).val() != "") {
-            contador += 1;
-        }
+        $("#selectParametro").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
 
-
-    });
-    if (contador == 0) {
-        MensajeAdvertencia("Ingrese al menos un componente.");
         valida = false;
-    }
+    } else {
+        $("#selectParametro").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+
+    }  
+
+    if ($("#txtValor").val() == "") {
+        $("#txtValor").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtValor").css('borderColor', '#ced4da');
+    }  
+
 
     return valida;
 }
@@ -159,24 +197,14 @@ function GuardarControl() {
     var formdata = new FormData();
     formdata.append("Fecha", $("#txtFecha").val());
 
-    var obj = [];
-    parametros.forEach(function (x) {
-        if ($("#txt-" + x).val() > 0) {
-            obj.push({ IdParametro: x, Valor: $("#txt-" + x).val(), IdEquipo: $("#selectEquipo").val()});
-        }
-    });
-
-    formdata.append("detalle", obj);
-     //console.log(obj);
-     //return;
-    $.ajax({
+      $.ajax({
         url: "../AnalisisAguaCalderos/AnalisisAguaCalderos",
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            Detalle: obj,
-           
-
+            IdParametro: $("#selectParametro").val(),
+            IdEquipo: $("#selectEquipo").val(),
+            Valor: $("#txtValor").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -185,14 +213,17 @@ function GuardarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
-            } if (resultado == "1") {
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
+                nuevoControl();
             } else {
                 ConsultarControl();
             }
-            //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
@@ -203,6 +234,72 @@ function GuardarControl() {
 }
 
 
+function EditarControl(model) {
+    $("#modalEditarControl").modal('show');
+    $("#txtParametro").val(model.Parametro);
+    $("#txtEquipo").val(model.Equipo);
+    $("#txtValorModal").val(model.Valor);
+    modelEditar = model;
+}
+
+function ValidaEditar() {
+    var valida = true;
+    if ($("#txtValorModal").val() == "") {
+        $("#txtValorModal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtValorModal").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+
+function ModificarControl() {
+    if (!ValidaEditar()) {
+        return;
+    }
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+        $("#txtFecha").val("");
+        MensajeAdvertencia("Fecha no permitida");
+        return;
+    }
+
+    $.ajax({
+        url: "../AnalisisAguaCalderos/AnalisisAguaCalderos",
+        type: "POST",
+        data: {
+            Fecha: $("#txtFecha").val(),
+            IdParametro: modelEditar.IdParametro,
+            IdEquipo: modelEditar.IdEquipo,
+            Valor: $("#txtValorModal").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                ConsultarControl();
+            }
+            $("#modalEditarControl").modal('hide');
+
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+
+    //alert("generado");
+}
+
 
 function InactivarControl() {
     console.log(model);
@@ -210,18 +307,21 @@ function InactivarControl() {
         url: "../AnalisisAguaCalderos/EliminarAnalisisAguaCalderos",
         type: "POST",
         data: {
-            IdAnalisisAguaCalderos: model[0].IdAnalisisAguaCalderos,
-            IdEquipo: $("#selectEquipo").val(),
+            IdAnalisisAguaCalderosDetalle: modelEliminar.IdAnalisisAguaCalderosDetalle,
+            IdAnalisisAguaCalderos: modelEliminar.IdAnalisisAguaCalderos,
+            IdEquipo: modelEliminar.IdEquipo,
+            IdParametro: modelEliminar.IdParametro,
             Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
-            }
-            if (resultado == "1") {
+            } else  if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
@@ -236,9 +336,9 @@ function InactivarControl() {
     });
 }
 
-function EliminarControl() {
+function EliminarControl(model) {
     $("#modalEliminarControlDetalle").modal('show');
-
+    modelEliminar = model;
 }
 
 $("#modal-detalle-si").on("click", function () {

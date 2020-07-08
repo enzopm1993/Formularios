@@ -570,6 +570,9 @@
     <Compile Include="Datos\PROYECCION_PROGRAMACION_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\RENDIMIENTO_KILO_HORA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\REPORTE_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

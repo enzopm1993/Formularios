@@ -1,8 +1,48 @@
 ﻿
 var ListadoControl = [];
 $(document).ready(function () {
-     CargarProductoTerminado();
-    
+    CargarProductoTerminado();
+    $("#selectMaterial").select2({
+        with:'100%'
+    }); 
+
+    $('#txtPersonal').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100',
+        'min': '0'
+    });
+
+    $('#txtRecibido').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '1000000',
+        'min': '0'
+    });
+
+    $('#txtDesechado').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '1000000',
+        'min': '0'
+
+    });
+
+    $('#txtUsado').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '1000000',
+        'min': '0'
+
+    });
 });
 
 function CargarDatosOrdenFabricacion() {
@@ -209,9 +249,7 @@ function GenerarControlConsumo() {
     if (!ValidarGenerarEntregaProducto()) {
         return;
     }
-    if ($("#txtIdEntregaProductoTerminado").val() == '0') {
-        $("#chartCabecera2").html('');
-    }
+   
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../EntregaProductoTerminado/EntregaProductoTerminado",
@@ -235,11 +273,18 @@ function GenerarControlConsumo() {
             } else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
-            } else if (resultado == "1") {
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+            }else if (resultado == "1") {
                 MensajeAdvertencia("No se encontró información de la OF")
                 return;
 
             } else if ($("#txtIdEntregaProductoTerminado").val() == '0') {
+                $("#chartCabecera2").html('');
                 CargarProductoTerminado();
                 MensajeCorrecto("Registro Generado con Éxito");
 
@@ -303,6 +348,8 @@ function SeleccionarControlEntregaProductoTerminado(model) {
    // $("#selectTurno").prop("disabled", true);
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
+    //console.log(model);
+    $("#txtFecha").val(moment(model.FechaProduccion).format("YYYY-MM-DD"));
 
     CargarProcesoDetalleMaterial();
     CargarEntregaProductoTerminadoDetalle();
@@ -337,13 +384,20 @@ function InactivarControl() {
         url: "../EntregaProductoTerminado/EliminarEntregaProductoTerminado",
         type: "POST",
         data: {
-            IdProductoTerminado: $("#txtEliminarControl").val()
+            IdProductoTerminado: $("#txtEliminarControl").val(),
+            FechaPaletizado: ListadoControl.FechaPaletizado
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
-            }
-            if (resultado == "0") {
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+
+            }else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
             AtrasControlPrincipal();
@@ -376,6 +430,7 @@ $("#modal-no").on("click", function () {
 ///////////////////////////////////////////////////////////BODEGAS////////////////////////////////////////////
 
 function ModalBodegas() {
+    MostrarModalCargando();
     $.ajax({
         url: "../EntregaProductoTerminado/ConsultarBodegas",
         type: "GET",
@@ -392,19 +447,20 @@ function ModalBodegas() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan parametros.");
             } else {
-               // console.log(resultado.UnidadesControlCalidad);
+                //console.log(resultado);
                 $("#txtControlCalidad").val(resultado.UnidadesControlCalidad);
                 $("#txtRechazadas").val(resultado.UnidadesRechazadas);
-                $("#txtReproceso").val(resultado.UnidadesReproceso);
+                $("#txtLatasSueltas").val(resultado.LataSueltas);
                 $("#txtDefectos").val(resultado.UnidadesConDefecto);
                 $("#txtEntregadas").val(resultado.CajasEntregadas);
                 $("#ModalBodegas").modal("show");
-            }
+            } 
+            CerrarModalCargando();
 
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            $("#spinnerCargandoMaterial").prop("hidden", true);
+            CerrarModalCargando();
         }
     });
 
@@ -448,7 +504,7 @@ function CargarProcesoDetalleMaterial() {
 
 function ModalGenerarMaterial() {
     $("#txtIdConsumoMaterial").val(0);
-    $("#selectMaterial").prop("selectedIndex", 0);   
+    $("#selectMaterial").prop("selectedIndex", 0).change();   
     $("#txtUsado").val('0');
     $("#txtDesechado").val('0');
     $("#txtRecibido").val('0');
@@ -458,10 +514,17 @@ function ModalGenerarMaterial() {
 function validarConsumoMaterial() {
     var valida = true;
     if ($("#selectMaterial").val() == "") {
-        $("#selectMaterial").css('borderColor', '#FA8072');
+        $("#selectMaterial").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+
+        //$("#selectMaterial").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#selectMaterial").css('borderColor', '#ced4da');
+        $("#selectMaterial").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+       // $("#selectMaterial").css('borderColor', '#ced4da');
     }
     if ($("#txtRecibido").val() == "") {
         $("#txtRecibido").css('borderColor', '#FA8072');
@@ -498,12 +561,17 @@ function GuardarConsumoMaterial() {
             CodigoMaterial: $("#selectMaterial").val(),
             Recibido: $("#txtRecibido").val(),
             Desechado: $("#txtDesechado").val(),
-            Usado: $("#txtUsado").val()
+            Usado: $("#txtUsado").val(),
+            FechaPaletizado: ListadoControl.FechaPaletizado
 
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
             }
             CargarProcesoDetalleMaterial();
             $("#ModalConsumoMaterial").modal("hide");
@@ -522,13 +590,18 @@ function InactivarConsumoMaterial() {
         url: "../EntregaProductoTerminado/EliminarConsumoMaterial",
         type: "POST",
         data: {
-            IdMateriales: $("#txtEliminarProcesoMaterial").val()
+            IdMateriales: $("#txtEliminarProcesoMaterial").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado, 
+            FechaPaletizado: ListadoControl.FechaPaletizado
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
-            }
-            if (resultado == "0") {
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            }else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
             CargarProcesoDetalleMaterial();
@@ -617,6 +690,8 @@ function ModalGenerarConsumoInsumoDetalle() {
     $("#txtIdEntregaProductoTerminadoDetalle").val(0);
     $("#txtHoraInicioDetalle").val("");
     $("#txtHoraFinDetalle").val("");
+    $("#txtPersonal").val('');
+    $("#selectTurno").prop("selectedIndex",0);
     $("#ModalGenerarEntregaProductoTerminadoDetalle").modal("show");
 
 }
@@ -656,6 +731,22 @@ function GenerarControlConsumoDetalle() {
     if (!ValidarGenerarControlConsumoDetalle()) {
         return;
     }
+
+    if (moment($("#txtHoraInicioDetalle").val()) > moment($("#txtHoraFinDetalle").val())) {
+        MensajeAdvertencia("Fecha de inicio no puede ser mayor a la de reinicio.")
+        return;
+    }
+
+    if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Fecha de inicio no puede ser menor a la de paletizado.")
+        return;
+    }
+
+    if (moment($("#txtHoraFinDetalle").val()).format("YYYY-MM-DD") > moment(ListadoControl.FechaPaletizado).add(1, 'days').format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Fecha de fin no puede ser mayor a la de paletizado.")
+        return;
+    }
+
     $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", false);
     $.ajax({
         url: "../EntregaProductoTerminado/EntregaProductoTerminadoDetallePartial",
@@ -666,12 +757,17 @@ function GenerarControlConsumoDetalle() {
             HoraInicio: $("#txtHoraInicioDetalle").val(),
             HoraFin: $("#txtHoraFinDetalle").val(),
             Personal: $("#txtPersonal").val(),
-            Turno: $("#selectTurno").val()
+            Turno: $("#selectTurno").val(),
+            FechaPaletizado: ListadoControl.FechaPaletizado
         },
         success: function (resultado) {
             $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
             if (resultado == "101") {
                 window.location.reload();
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
             }
             CargarEntregaProductoTerminadoDetalle();
             $("#ModalGenerarEntregaProductoTerminadoDetalle").modal("hide");
@@ -687,8 +783,10 @@ function GenerarControlConsumoDetalle() {
 function EditarConsumoInsumoDetalle(model) {
     //console.log(model);
     $("#txtIdEntregaProductoTerminadoDetalle").val(model.IdProductoTerminadoDetalle);
-    $("#txtHoraInicioDetalle").val(model.HoraInicio);
+    $("#txtHoraInicioDetalle").val(moment(model.HoraInicio).format("YYYY-MM-DDTHH:mm"));
     $("#txtHoraFinDetalle").val(model.HoraFin);
+    $("#txtPersonal").val(model.Personal);
+    $("#selectTurno").val(model.Turno);
     $("#ModalGenerarEntregaProductoTerminadoDetalle").modal("show");
     //ModalGenerarControlDetalle();
 }
@@ -698,7 +796,9 @@ function InactivarControlConsumoDetalle() {
         url: "../EntregaProductoTerminado/EliminarEntregaProductoTerminadoDetalle",
         type: "POST",
         data: {
-            IdProductoTerminadoDetalle: $("#txtEliminarDetalle").val()
+            IdProductoTerminadoDetalle: $("#txtEliminarDetalle").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado, 
+            FechaPaletizado: ListadoControl.FechaPaletizado
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -706,6 +806,10 @@ function InactivarControlConsumoDetalle() {
             }
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
+            } else if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
             }
             CargarEntregaProductoTerminadoDetalle();
             $("#modalEliminarControl").modal("hide");
@@ -805,12 +909,18 @@ function GuardarConsumoDaniado() {
             IdProductosDaniados: $("#txtIdControlDetalleProceso").val(),
             IdProductoTerminado: ListadoControl.IdProductoTerminado,
             Codigo: $("#selectDaniado").val(),
-            Cantidad: $("#txtCantidad").val()
+            Cantidad: $("#txtCantidad").val(),
+            FechaPaletizado: ListadoControl.FechaPaletizado
             
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
             }
             CargarProcesoDetalleDaniado();
             $("#ModalConsumoDaniado").modal("hide");
@@ -829,13 +939,19 @@ function InactivarConsumoDaniado() {
         url: "../EntregaProductoTerminado/EliminarConsumoDaniado",
         type: "POST",
         data: {
-            IdProductosDaniados: $("#txtEliminarProcesoDaniado").val()
+            IdProductosDaniados: $("#txtEliminarProcesoDaniado").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado, 
+            FechaPaletizado: ListadoControl.FechaPaletizado
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            }else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
             CargarProcesoDetalleDaniado();
@@ -939,7 +1055,6 @@ function validarConsumoTiemposMuertos() {
     } else {
         $("#txtHoraReinicio").css('borderColor', '#ced4da');
     }
-   
     return valida;
 }
 
@@ -947,12 +1062,30 @@ function GuardarConsumoTiemposMuertos() {
     if (!validarConsumoTiemposMuertos()) {
         return;
     }
+
+    if (moment($("#txtHoraPara").val()) > moment($("#txtHoraReinicio").val())) {
+        MensajeAdvertencia("Fecha de para no puede ser mayor a la de reinicio.")
+        return;
+    }
+
+    if (moment($("#txtHoraPara").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Fecha de para no puede ser menor a la de paletizado.")
+        return;
+    }
+
+    if (moment($("#txtHoraReinicio").val()).format("YYYY-MM-DD") > moment(ListadoControl.FechaPaletizado).add(1,'days').format("YYYY-MM-DD")) {
+        MensajeAdvertencia("Fecha de reinicio no puede ser mayor a la de paletizado.")
+        return;
+    }
+
+
     $.ajax({
         url: "../EntregaProductoTerminado/GuardarTiemposMuertos",
         type: "POST",
         data: {
             IdTiempoParada: $("#txtIdConsumoTiemposMuertos").val(),
             IdProductoTerminado: ListadoControl.IdProductoTerminado,
+            FechaPaletizado: ListadoControl.FechaPaletizado,
        //     Tipo: $("#selectTipoTiemposMuertos").val(),
             HoraInicio: $("#txtHoraPara").val(),
             HoraFin: $("#txtHoraReinicio").val(),
@@ -963,7 +1096,11 @@ function GuardarConsumoTiemposMuertos() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            }else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
             }
@@ -984,13 +1121,19 @@ function InactivarTiemposMuertos() {
         url: "../EntregaProductoTerminado/EliminarTiemposMuertos",
         type: "POST",
         data: {
-            IdTiempoParada: $("#txtEliminarTiemposMuertos").val()
+            IdTiempoParada: $("#txtEliminarTiemposMuertos").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado,
+            FechaPaletizado: ListadoControl.FechaPaletizado
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 2) {
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            }else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
             CargarProcesoDetalleTiemposMuertos();

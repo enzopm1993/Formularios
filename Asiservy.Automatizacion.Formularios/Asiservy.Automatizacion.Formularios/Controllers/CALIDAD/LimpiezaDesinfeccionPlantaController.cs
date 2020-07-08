@@ -10,11 +10,14 @@ using System.Web.Mvc;
 using System.Web;
 using System.IO;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class LimpiezaDesinfeccionPlantaController : Controller
     {
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsLogin { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; }=null;
         public clsDReporte ClsDReporte { get; set; } = null;
         clsDError clsDError { get; set; } = null;
@@ -482,6 +485,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 ViewBag.JqueryRotate = "1";
                 ViewBag.Inspector= lsUsuario[0];
+                ViewBag.DateTimePicker = "1";
+                clsLogin = new clsDLogin();
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteLimpiezaPlanta");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteLimpiezaPlanta";
+                }
+                
                 ViewBag.Path = clsAtributos.UrlImagen.Replace("~","..");
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarAreaAuditoriaActivos("A");
@@ -643,6 +654,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -696,6 +713,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 model.FechaIngresoLog = DateTime.Now;
@@ -868,38 +891,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (listaDetalle.Any())
                 {
                     var estadoReporte = clsDLimpiezaDesinfeccionPlanta.ConsultarEstadoReporte(listaDetalle[0].IdLimpiezaDesinfeccionPlanta, DateTime.MinValue);
-                    if (estadoReporte.EstadoReporte)
-                    {
-                        return Json("4", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
-                    }
-                    var validarHora = clsDLimpiezaDesinfeccionPlanta.ConsultarHoraAuditoria(listaDetalle[0].HoraAuditoria, listaDetalle[0].IdMantenimiento);
-                    if (validarHora!=null && !siActualizar)
-                    {
-                        return Json("3", JsonRequestBehavior.AllowGet);
-                    }
-                    var valor=0;
-                    foreach (var item in listaDetalle)
-                    {
-                        item.FechaIngresoLog = DateTime.Now;
-                        item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                        item.TerminalIngresoLog = Request.UserHostAddress;
-                        item.UsuarioIngresoLog = lsUsuario[0];
-                        valor = clsDLimpiezaDesinfeccionPlanta.GuardarModificarLimpiezaDetalle(item, idAuditoria);
-                        if (valor==3)
+                   
+                        if (estadoReporte.EstadoReporte)
+                        {
+                            return Json("4", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
+                        }
+                        clsDPeriodo = new clsDPeriodo();
+                        bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                        if (!periodo)
+                        {
+                            return Json("100", JsonRequestBehavior.AllowGet);
+                        }
+                        var validarHora = clsDLimpiezaDesinfeccionPlanta.ConsultarHoraAuditoria(listaDetalle[0].HoraAuditoria, listaDetalle[0].IdMantenimiento);
+                        if (validarHora != null && !siActualizar)
                         {
                             return Json("3", JsonRequestBehavior.AllowGet);
                         }
-                    }
-                    
-                    if (valor == 0)
-                    {
-                        return Json("0", JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json("1", JsonRequestBehavior.AllowGet);
-                    }
-                }else return Json("2", JsonRequestBehavior.AllowGet);
+                        var valor = 0;
+                        foreach (var item in listaDetalle)
+                        {
+                            item.FechaIngresoLog = DateTime.Now;
+                            item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                            item.TerminalIngresoLog = Request.UserHostAddress;
+                            item.UsuarioIngresoLog = lsUsuario[0];
+                            valor = clsDLimpiezaDesinfeccionPlanta.GuardarModificarLimpiezaDetalle(item, idAuditoria);
+                            if (valor == 3)
+                            {
+                                return Json("3", JsonRequestBehavior.AllowGet);
+                            }
+                        }
+
+                        if (valor == 0)
+                        {
+                            return Json("0", JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            return Json("1", JsonRequestBehavior.AllowGet);
+                        }
+                   
+                }
+                else return Json("2", JsonRequestBehavior.AllowGet);
 
             }
             catch (DbEntityValidationException e)
@@ -938,12 +970,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("3", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 string path = string.Empty;
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
                     decimal mb = 1024 * 1024*5;//bytes to Mb; max 5Mb
-                    var supportedTypes = new[] { "jpg", "jpeg" };
+                    var supportedTypes = new[] { "jpg", "jpeg", "png", "PNG" };
                     var fileExt = Path.GetExtension(dataImg.FileName).Substring(1);
                     if (!supportedTypes.Contains(fileExt))
                     {
@@ -1007,12 +1045,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                if (model.Any())
+                {
+                    var estadoReporte = clsDLimpiezaDesinfeccionPlanta.ConsultarEstadoReporte(model[0].IdLimpiezaDesinfeccionPlanta, DateTime.MinValue);
+                    clsDPeriodo = new clsDPeriodo();
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                    if (!periodo)
+                    {
+                        return Json("100", JsonRequestBehavior.AllowGet);
+                    }
+                }
                 var valor = 0;
                 foreach (var item in model)
                 {
@@ -1020,8 +1068,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     item.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                     item.TerminalIngresoLog = Request.UserHostAddress;
                     item.UsuarioIngresoLog = lsUsuario[0];
-                    valor = clsDLimpiezaDesinfeccionPlanta.EliminarLimpiezaDetalle(item);
-                    
+                    valor = clsDLimpiezaDesinfeccionPlanta.EliminarLimpiezaDetalle(item);                    
                 }
                 if (valor == 0)
                 {
@@ -1178,10 +1225,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JqueryRotate = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsLogin = new clsDLogin();
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlLimpiezaDesinfeccionPlanta");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlLimpiezaDesinfeccionPlanta";
+                }
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)

@@ -26,5 +26,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public string Observacion { get; set; }
         public System.DateTime Hora { get; set; }
+        public int TemperaturaAgua { get; set; }
     }
 }

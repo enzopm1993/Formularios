@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
 
-<table class="table table-bordered table-striped" id="tblDataTableOp">
+<table class="table table-bordered table-striped text-uppercase" id="tblDataTableOp">
     <thead style="font-size:12px">
-        <tr style="font-size:12px;">
+        <tr>
             <th>
-                <center> HORA<br />VERIFICACION</center>
+                <center>FECHA - HORA<br />VERIFICACION</center>
             </th>
             <th>
-                <center> TEMPERATURA °C</center>
+                <center> TEMPERATURA C°</center>
             </th>
             <th>
                 <center> CORRECTO<br />SELLADO</center>
@@ -24,12 +24,12 @@
             <tr>
                 <td>
                     <center>
-                        @item.HoraVerificacion.ToString("HH:mm")
+                        @item.HoraVerificacion.ToString("dd-MM-yyyy HH:mm")
                     </center>
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.Temperatura)
+                        @item.Temperatura.ToString("00.00") C°
                     </center>
                 </td>
                 <td>
@@ -44,8 +44,8 @@
                         }
                     </center>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
+                <td style="white-space:normal">
+                    @item.Observacion
                 </td>
             </tr>
         }

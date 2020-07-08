@@ -3609,7 +3609,7 @@
     <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\DatalifeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
-    <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\EntregaProductoTerminadoController.cs" />
     <Compile Include="Controllers\PRODUCCION\EntregaUniformeController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
@@ -3650,6 +3650,7 @@
     <Compile Include="Models\CALIDAD\DetalleDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\MantenimientoMuestraDescongeladoModel.cs" />
+    <Compile Include="Models\CALIDAD\MantenimientoTipoDescongeladoModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
@@ -3668,7 +3669,6 @@
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
-    <Compile Include="Models\Img.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
     <Compile Include="Models\MarcacionesEmpleadoLineaViewModel.cs" />
     <Compile Include="Models\ModelViewMemorandum.cs" />
@@ -3685,6 +3685,7 @@
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
+    <Compile Include="Models\Produccion\Rendimiento.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
@@ -4235,6 +4236,7 @@
     <Content Include="Views\ParametroDefecto\PartialCabecerasParametroDefectos.cshtml" />
     <Content Include="Views\ParametroDefecto\PartialMantDefectos.cshtml" />
     <Content Include="Views\ParametroDefecto\PartialDetalleParametroDeDefectos.cshtml" />
+    <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderosPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

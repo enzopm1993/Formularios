@@ -46,7 +46,7 @@ function CargarCabecera() {
     });
 }
 
-var turno = ['', "A", "B"];
+var turno = ['', "A", "B","C","D","F","G"];
 
 function SeleccionarCabecera(jdata) {
     $('#cargac').show();

@@ -45,6 +45,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<bool> EstadoReporte { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTO_TERMINADO_DANIADOS> PRODUCTO_TERMINADO_DANIADOS { get; set; }

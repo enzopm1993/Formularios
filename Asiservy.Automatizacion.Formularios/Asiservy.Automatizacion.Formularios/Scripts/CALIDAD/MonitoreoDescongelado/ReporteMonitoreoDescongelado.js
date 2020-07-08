@@ -92,6 +92,7 @@ function Atras() {
 function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
+    MostrarModalCargando();
     $.ajax({
         url: "../MonitoreoDescongelado/ReporteMonitoreoDescongeladoPartial",
         type: "GET",
@@ -112,10 +113,13 @@ function CargarControlDetalle() {
                 $("#divTableDetalle").html(resultado);
             
             }
+            CerrarModalCargando();
         },
         error: function (resultado) {
             MensajeError(Mensajes.Error + resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
+            CerrarModalCargando();
+
         }
     });
 }

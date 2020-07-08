@@ -3,26 +3,47 @@
 @{
     ViewBag.Title = "Lavado y desinfección de Manos";
 }
-
-<h4 class="text-md-left text-center">Control Lavado y Desinfección de Manos<label id="lblAprobadoPendiente" class="badge badge-danger">MENSAJES</label> </h4>
 <style>
     input, select, textarea {
         max-width: 100%;
     }
 </style>
 
+<div class="row">
+    <div class="col-12  text-md-left text-center">
+        <h5 style="float:left;" class="text-uppercase">Control Lavado y Desinfección de Manos<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h5>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" >Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" >Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
 <hr />
-<div class="row" id="divCabecera1">
+<div class="row text-uppercase" id="divCabecera1">
     <div class="col-md-3 col-12 col-sm-12">
-        <div class="form-group">
+        @*<div class="form-group">
             <label>Fecha</label>
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+        </div>*@
+        <br />
+        <div class="form-group" id="divfechaap">
+            <input type="hidden" id="fechacontrol" value="" />
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input readonly type="text" class="form-control datetimepicker-input" value="@DateTime.Now.ToString("dd-MM-yyyy")"  data-target="#datetimepicker1" id="txtFecha" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-7 col-12 col-sm-12">
         <div class="form-group">
             <label>Observación</label>
-            <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
+            <textarea type="text" name="name" value="" id="txtObservacion" autocomplete="off" maxlength="200" class="form-control text-uppercase" rows="2"></textarea>
         </div>
     </div>
     <div class="col-md-2 col-12 col-sm-12">
@@ -93,7 +114,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Ingreso Detalle Lavado y Desinfección de Manos</h6>
+                <h6 class="modal-title">DETALLE</h6>
                 <button type="button" class="close" data-dismiss="modal" onclick="limpiarDetalle()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -124,7 +145,7 @@
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-7 col-7">
-                            <h6>Nuevo Detalle</h6>
+                            <h6>NUEVO DETALLE</h6>
                         </div>
                     </div>
                 </div>

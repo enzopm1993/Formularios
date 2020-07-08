@@ -67,9 +67,9 @@
         <div class="col-md-12 col-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header" style="font-size:13px">
-                    <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i> <b> > 80</b> <br />
-                    <i class="fas fa-arrow-circle-up" style="background:#ffd800; border-radius:10px"></i> <b> < 80 & > 60</b><br />
-                    <i class="fas fa-arrow-circle-up" style="background:#ff0000; border-radius:10px"></i>  <b> < 60 </b> <br />
+                    <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i> <b> Mayor a 80%</b> <br />
+                    <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i> <b> Entre 80% y 60%</b><br />
+                    <i class="fas fa-arrow-circle-down" style="background:#ff0000; border-radius:10px"></i>  <b> Menor a 60% </b> <br />
                     <b>Nota:</b> Selecciones una limpiadora para ver detalles y kpi.
                 </div>
                 <div class="card-body">
@@ -108,7 +108,7 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="card shadow">
                             <div class="card-body  table-responsive">
-                                <table class="table table-bordered" id="tblTable">
+                                <table class="table table-bordered" id="tblTable" style="width:300px; overflow-y:auto">
                                     <thead style="font-size:13px">
                                         <tr>
                                             <th>Hora</th>
@@ -116,11 +116,14 @@
                                             <th>Especie</th>
                                             <th>Talla</th>
                                             <th>Promedio</th>
-                                            <th>Hueso Real</th>
-                                            <th>Hueso Teórico</th>
+                                            <th style="white-space:normal">Hueso Real</th>
+                                            <th style="white-space:normal">Hueso Teórico</th>
                                             <th>Kl Real</th>
                                             <th>Kl Teórico</th>
                                             <th>Avance %</th>
+                                            <th style="white-space:normal">Kl Miga Real</th>
+                                            <th style="white-space:normal">Kl Miga Teorica</th>
+                                            <th style="white-space:normal">Diferencia de Miga</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size:12px" id="tblBody"></tbody>
@@ -133,7 +136,17 @@
                 <br />
                 <div class="row">
                     <div class="col-md-6 col-12 col-sm-12">
-                        <div class="card shadow" id="divKpi">
+                        <select class="form-control" id="selectTipoKpi" onchange="CambioKpi()">
+                            <option value="1">Lomo</option>
+                            <option value="2">Miga</option>
+                        </select>
+                        <div id="divKpiPadre">
+                            <div class="card shadow" id="divKpi">
+                            </div>
+                        </div>
+                        <div id="divKpiMigaPadre" hidden>
+                            <div class="card shadow" id="divKpiMiga" >
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-12 col-sm-12">

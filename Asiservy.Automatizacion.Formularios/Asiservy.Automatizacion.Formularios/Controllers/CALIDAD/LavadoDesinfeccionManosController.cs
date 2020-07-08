@@ -8,11 +8,14 @@ using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class LavadoDesinfeccionManosController : Controller
     {
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsLogin { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
@@ -23,10 +26,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                ViewBag.DateTimePicker = "1";
+                clsLogin = new clsDLogin();
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteLavadoDesinfeccionManos");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteLavadoDesinfeccionManos";
+                }
                 if (poTurno != null)
                 {
                     ViewBag.Turno = poTurno;
@@ -242,7 +253,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-
                 }
                 else
                 {
@@ -277,6 +287,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
                 model.FechaIngresoLog = DateTime.Now;
@@ -321,6 +337,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
                 model.FechaIngresoLog = DateTime.Now;
@@ -370,11 +392,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var obtenerPrimerRegistro = (from x in model
                              select new {x.IdDesinfeccionManos}).FirstOrDefault();
                 var estadoReporte = clsDLavadoDesinfeccionManos.ConsultarEstadoReporte(obtenerPrimerRegistro.IdDesinfeccionManos);
-                if (estadoReporte)
+                
+                if (estadoReporte.EstadoReporte)
                 {
                     return Json("2", JsonRequestBehavior.AllowGet);
-                }                
-
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 foreach (var item in model)
                 {
                     clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
@@ -421,7 +449,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                
+                clsDPeriodo = new clsDPeriodo();
+                clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
+                var estadoReporte = clsDLavadoDesinfeccionManos.ConsultarEstadoReporte(model[0].IdDesinfeccionManos);
+
+                if (estadoReporte.EstadoReporte)
+                {
+                    return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 foreach (var item in model)
                 {
                     clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
@@ -462,9 +502,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.DateRangePicker = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsLogin = new clsDLogin();
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlLavadoDesinfeccionManos");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlLavadoDesinfeccionManos";
+                }
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)

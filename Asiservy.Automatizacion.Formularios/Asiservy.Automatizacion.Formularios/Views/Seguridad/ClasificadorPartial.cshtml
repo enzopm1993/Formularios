@@ -54,8 +54,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Grupo)
                     </td>
-                    <td>
-                        @item.GrupoNombre
+                    <td style="white-space:normal">
+                        @if (item.GrupoNombre != null) {
+                            @item.GrupoNombre.ToUpper()
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Codigo)

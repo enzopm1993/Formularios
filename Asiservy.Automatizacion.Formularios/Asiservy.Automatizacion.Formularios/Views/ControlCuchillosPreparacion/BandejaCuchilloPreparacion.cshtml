@@ -40,7 +40,7 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Aprobación Cuchillos</h4>
+        <h5 class="text-md-left text-center text-uppercase" style="float:left">Bandeja Aprobación Cuchillos de PREPACIÓN</h5>
     </div>   
 </div>
 <br />
@@ -52,8 +52,8 @@
         </select>
     </div>
 
-    <div class="box_filters col-md-6 col-12 col-sm-12">
-        <div class="itemFilter" hidden id="divFiltroFecha">
+    <div class="box_filters col-md-8 col-12 col-sm-12">
+        <div class="itemFilter col-md-6  col-12 col-sm-12" hidden id="divFiltroFecha">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -61,7 +61,7 @@
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="itemFilter">
+        <div class="itemFilter col-md-1 col-5 col-sm-12 text-center text-md-center">
             <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
@@ -79,7 +79,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">APROBAR</h5>
                     <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

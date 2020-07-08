@@ -18,24 +18,25 @@
 
     @foreach (var item in Model)
     {
-        <tr>            
-            <td>
-                @item.HoraInicio.ToString("HH:mm")
-            </td>
-            <td>
-                @item.HoraFin.ToString("HH:mm")
-                
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Causa)
-            </td>
-            <td>
-                @{string json = JsonConvert.SerializeObject(item); }
-                <button class="btn btn-link" onclick="EditarConsumoTiemposMuertos(@json)">Editar</button>
-                |
-                <button class="btn btn-link" onclick="EliminarConsumoTiemposMuertos(@json)">Eliminar</button>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @item.HoraInicio.ToString("yyyy-MM-dd HH:mm")
+        </td>
+        <td>
+            @item.HoraFin.ToString("yyyy-MM-dd HH:mm")
+        </td>
+        <td>
+            @if(!string.IsNullOrEmpty(item.Causa)){
+                @item.Causa.ToUpper()
+            }
+        </td>
+        <td>
+            @{string json = JsonConvert.SerializeObject(item); }
+            <button class="btn btn-link" onclick="EditarConsumoTiemposMuertos(@json)">Editar</button>
+            |
+            <button class="btn btn-link" onclick="EliminarConsumoTiemposMuertos(@json)">Eliminar</button>
+        </td>
+    </tr>
     }
 
 </table>

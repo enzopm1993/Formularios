@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public System.DateTime Hora { get; set; }
         public string Tanque { get; set; }
-        public int Temperatura { get; set; }
+        public int TemperaturaAgua { get; set; }
         public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }

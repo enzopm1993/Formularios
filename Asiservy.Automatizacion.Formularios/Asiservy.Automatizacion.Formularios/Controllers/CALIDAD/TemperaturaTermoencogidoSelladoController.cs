@@ -8,11 +8,15 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTermoencogidoSellado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class TemperaturaTermoencogidoSelladoController : Controller
     {
+        clsDLogin clsLogin { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
         clsDTemperaturaTermoencogidoSellado clsDTemperaturaTermoencogidoSellado { get; set; } = null;
@@ -23,7 +27,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.MascaraInput = "1";
+                ViewBag.DateTimePicker = "1";
+                clsLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteTermoencogidoSellado");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteTermoencogidoSellado";
+                }                
 
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -88,7 +107,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //---------------------------------------------------CONTROL CABECERA-----------------------------------------------
-        public JsonResult ConsultarTermoencogidoSellado(DateTime fechaDesde, DateTime fechaHasta, int opcion)
+        public JsonResult ConsultarTermoencogidoSellado(DateTime fechaControl, string turno)
         {
             try
             {
@@ -98,11 +117,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSellado(fechaDesde, fechaHasta,opcion).FirstOrDefault();
+                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarCabeceraTurno(fechaControl, turno);
                 if (poCloroCisterna != null)
                 {                    
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-
                 }
                 else
                 {
@@ -139,18 +157,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                if (model.Id != 0 && !siAprobar)
+                {
+                    var estadoReporte = clsDTemperaturaTermoencogidoSellado.ConsultarEstadoReporte(model.Id);
+                    if (estadoReporte.EstadoReporte)
+                    {
+                        return Json("4", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
+                    }
+                }
+
                 var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSellado(model, siAprobar);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else if (valor==1) { return Json("1", JsonRequestBehavior.AllowGet); }
-                else return Json("2", JsonRequestBehavior.AllowGet);
+                else if (valor == 1)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }
+                else if (valor == 3) return Json("3", JsonRequestBehavior.AllowGet);//ERROR DE FECHA
+                return Json("5", JsonRequestBehavior.AllowGet);//TURNO EXISTE
             }
             catch (DbEntityValidationException e)
             {
@@ -181,6 +219,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
                 model.FechaIngresoLog = DateTime.Now;
@@ -225,6 +269,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+               
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -232,17 +277,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 //PRUEBO SI EL ESTADOREPORTE ES APROBADO, SI ES APROBADO NO GUARDO EL DETALLE CASO CONTRARIO SI
                 var consultarEstadoReporte = clsDTemperaturaTermoencogidoSellado.ConsultarEstadoReporte(model.IdCabecera);
-                if (!consultarEstadoReporte)
+                clsDPeriodo = new clsDPeriodo();
+                if (consultarEstadoReporte != null)
                 {
-                    var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSelladoDetalle(model);
-                    if (valor == 0)
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(consultarEstadoReporte.Fecha);
+                    if (!periodo)
                     {
-                        return Json("0", JsonRequestBehavior.AllowGet);
+                        return Json("100", JsonRequestBehavior.AllowGet);
                     }
-                    else return Json("1", JsonRequestBehavior.AllowGet);
-                }
-                else { return Json("2", JsonRequestBehavior.AllowGet); }
-               
+                    if (!consultarEstadoReporte.EstadoReporte)
+                    {
+                        var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSelladoDetalle(model);
+                        if (valor == 0)
+                        {
+                            return Json("0", JsonRequestBehavior.AllowGet);
+                        }
+                        else return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                    else { return Json("2", JsonRequestBehavior.AllowGet); }
+                }else  { return Json("5", JsonRequestBehavior.AllowGet); }
+
             }
             catch (DbEntityValidationException e)
             {
@@ -279,12 +333,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDTemperaturaTermoencogidoSellado.EliminarTermoencogidoSelladoDetalle(model);
-                if (valor == 0)
+                clsDPeriodo = new clsDPeriodo();
+                var estadoReporte = clsDTemperaturaTermoencogidoSellado.ConsultarEstadoReporte(model.IdCabecera);
+                if (estadoReporte!=null)
                 {
-                    return Json("0", JsonRequestBehavior.AllowGet);
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                    if (!periodo)
+                    {
+                        return Json("100", JsonRequestBehavior.AllowGet);
+                    }
+                    var valor = clsDTemperaturaTermoencogidoSellado.EliminarTermoencogidoSelladoDetalle(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("1", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
+                else return Json("50", JsonRequestBehavior.AllowGet);
+
             }
             catch (DbEntityValidationException e)
             {
@@ -314,6 +380,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlTermoencogidoSellado");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlTermoencogidoSellado";
+                }
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
@@ -394,6 +467,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
                 var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ReporteConsultarcabecera(fechaDesde, fechaHasta);
                 if (poCloroCisterna != null)
@@ -433,6 +512,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
+                ViewBag.DateTimePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
             }
@@ -456,7 +536,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult ConsultarBandejaTermoencogidoSellado(DateTime fechaDesde, DateTime fechaHasta, int id, int opcion)
+        public JsonResult ConsultarBandejaTermoencogidoSellado(DateTime fechaDesde, DateTime fechaHasta, bool estadoReporte)
         {
             try
             {
@@ -466,38 +546,54 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(fechaDesde, fechaHasta, id, opcion);
-                if (poCloroCisterna != null)
-                {
-                    List<sp_Control_Termoencogido_Sellado_Detalle> listaNueva = new List<sp_Control_Termoencogido_Sellado_Detalle>();
-                    sp_Control_Termoencogido_Sellado_Detalle objNuevo;
-                    var listaFecha = (from ssi in poCloroCisterna
-                                      group ssi by new { ssi.Fecha, ssi.ObservacionCAB } into g
-                                      select new { g.Key.Fecha }).ToList();//agrupo por fecha para poder saber el total de las filas 
 
-                    foreach (var item in listaFecha)
+                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarBadejaEstado(fechaDesde, fechaHasta, estadoReporte);
+              
+                    //List<sp_Control_Termoencogido_Sellado_Detalle> listaNueva = new List<sp_Control_Termoencogido_Sellado_Detalle>();
+                    //sp_Control_Termoencogido_Sellado_Detalle objNuevo;
+                    //var listaFecha = (from ssi in poCloroCisterna
+                    //                  group ssi by new { ssi.Fecha, ssi.ObservacionCAB } into g
+                    //                  select new { g.Key.Fecha }).ToList();//agrupo por fecha para poder saber el total de las filas 
+
+                    //foreach (var item in listaFecha)
+                    //{
+                    //    objNuevo = new sp_Control_Termoencogido_Sellado_Detalle();
+                    //    var stringLista = (from x in poCloroCisterna
+                    //                       where x.Fecha == item.Fecha
+                    //                       select new { x.Fecha, x.ObservacionCAB, x.EstadoReporte, x.UsuarioIngresoLog, x.Id, x.IdCabecera, x.HoraVerificacion,
+                    //                       x.Temperatura, x.CorrectoSellado, x.Observacion, x.EstadoRegistroCAB}).First();
+                    //    objNuevo.Fecha = stringLista.Fecha;
+                    //    objNuevo.ObservacionCAB = stringLista.ObservacionCAB;
+                    //    objNuevo.EstadoReporte = stringLista.EstadoReporte;
+                    //    objNuevo.UsuarioIngresoLog = stringLista.UsuarioIngresoLog;
+                    //    objNuevo.Id = stringLista.Id;
+                    //    objNuevo.IdCabecera = stringLista.IdCabecera;
+                    //    objNuevo.HoraVerificacion = stringLista.HoraVerificacion;
+                    //    objNuevo.Temperatura = stringLista.Temperatura;
+                    //    objNuevo.CorrectoSellado = stringLista.CorrectoSellado;
+                    //    objNuevo.Observacion = stringLista.Observacion;
+                    //    objNuevo.EstadoRegistroCAB = stringLista.EstadoRegistroCAB;
+                    //    listaNueva.Add(objNuevo);
+                    //}
+                    clsDClasificador = new clsDClasificador();
+                    var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+
+                    List<dynamic> turno = new List<dynamic>();
+                    string tr = "";
+                    if (poCloroCisterna != null)
                     {
-                        objNuevo = new sp_Control_Termoencogido_Sellado_Detalle();
-                        var stringLista = (from x in poCloroCisterna
-                                           where x.Fecha == item.Fecha
-                                           select new { x.Fecha, x.ObservacionCAB, x.EstadoReporte, x.UsuarioIngresoLog, x.Id, x.IdCabecera, x.HoraVerificacion,
-                                           x.Temperatura, x.CorrectoSellado, x.Observacion, x.EstadoRegistroCAB}).First();
-                        objNuevo.Fecha = stringLista.Fecha;
-                        objNuevo.ObservacionCAB = stringLista.ObservacionCAB;
-                        objNuevo.EstadoReporte = stringLista.EstadoReporte;
-                        objNuevo.UsuarioIngresoLog = stringLista.UsuarioIngresoLog;
-                        objNuevo.Id = stringLista.Id;
-                        objNuevo.IdCabecera = stringLista.IdCabecera;
-                        objNuevo.HoraVerificacion = stringLista.HoraVerificacion;
-                        objNuevo.Temperatura = stringLista.Temperatura;
-                        objNuevo.CorrectoSellado = stringLista.CorrectoSellado;
-                        objNuevo.Observacion = stringLista.Observacion;
-                        objNuevo.EstadoRegistroCAB = stringLista.EstadoRegistroCAB;
-                        listaNueva.Add(objNuevo);
-                    }
-                    return Json(listaNueva, JsonRequestBehavior.AllowGet);
+                        foreach (var item in poCloroCisterna)
+                        {
+                            tr = (from c in poTurno
+                                  where c.Codigo == item.Turno
+                                  select c.Descripcion).FirstOrDefault();
+                            turno.Add(new { item.EstadoReporte, item.Fecha, item.Id, item.Observacion, item.Turno, item.UsuarioIngresoLog, item.UsuarioModificacionLog, tr });
+                        }
+                        return Json(turno, JsonRequestBehavior.AllowGet);
 
-                }
+
+                    }
+                
                 else
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

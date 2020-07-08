@@ -1,6 +1,9 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA
@@ -32,11 +35,20 @@ function CargarBandeja() {
             
             $('#divTablaAplrobados').empty();
             $('#divTablaAplrobados').html(resultado);
-                $('#cargac').hide();
+            $('#cargac').hide();
+            
+           
+            //$('#tblDataTable').DataTable({               
+            //    ordering: true,
+            //    columnDefs: [{
+            //        orderData: [[0, 'asc'], [1, 'asc']],
+            //        targets: [1]
+            //    }]
+            //});
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -72,7 +84,7 @@ function SeleccionarBandeja(model) {
                 $("#divMostarTablaCabecera").prop('hidden', false);
                 $("#tblAprobarPendientePartial").prop('hidden', true);
                 MensajeAdvertencia('No existen registro de DETALLE');
-            } else {
+            }  else {
                 $("#divMostarTablaCabecera").prop('hidden', true);
                 $("#ModalApruebaPendiente").modal('show');
                 $('#divBotones').prop('hidden', false);
@@ -85,87 +97,6 @@ function SeleccionarBandeja(model) {
         }
     });
 }
-
-//function SeleccionarBandeja(model) {
-//    $('#cargac').show();
-//    var table = $("#tblDataTableAprobar");
-//    table.DataTable().clear();
-//    table.DataTable().destroy();
-//    table.DataTable().clear();
-//    table.DataTable().draw(); 
-//    listaDatos = model;
-//    var date = new Date();
-//    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
-//    $('#cargac').show();
-//    if (model.EstadoReporte == true) {
-//        $('#txtFechaAprobado').prop('hidden', true);
-//        $('#btnAprobado').prop('hidden', true);
-//        $('#btnPendiente').prop('hidden', false);
-//    } else {
-//        $('#txtFechaAprobado').prop('hidden', false);
-//        $('#btnPendiente').prop('hidden', true);
-//        $('#btnAprobado').prop('hidden', false);
-//    }
-//    $.ajax({
-//        url: "../ControlCuchillosPreparacion/ConsultarBandeja",
-//        type: "GET",
-//        data: {
-//            idControlCuchillo: model.IdControlCuchillo,
-//            op: 0
-//        },
-//        success: function (resultado) {
-//            if (resultado == "101") {
-//                window.location.reload();
-//            }
-//            if (resultado == "102") {
-//                MensajeAdvertencia("No existen datos para este model.");
-//            }
-//            if (resultado.length == 0) {
-//                MensajeAdvertencia("No existen EMPLEADOS ingresados para este model.");                
-//            } else {
-//                $("#tblDataTableAprobar tbody").empty();
-//                configDetalle.opcionesDT.order = [];
-//                configDetalle.opcionesDT.buttons = [];
-//                configDetalle.opcionesDT.columns = [
-//                    { data: 'Hora' },
-//                    { data: 'CodigoCuchillo' },
-//                    { data: 'Estado' },
-//                    { data: 'CedulaEmpleado' },
-//                    { data: 'UsuarioIngresoLog' }
-//                ];                
-//                table.DataTable().destroy();
-//                table.DataTable(configDetalle.opcionesDT);
-//                resultado.forEach(function (row) {
-//                    row.Hora = moment(row.Hora).format('HH:mm');
-//                    var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
-//                    var checked = '';
-//                    if (row.Estado == true) {
-//                        clscolor = "badge-success";
-//                        checked = 'checked';
-//                    }
-//                    row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
-//                    var colummCedula = "";
-//                    colummCedula = row.CedulaEmpleado;
-//                    var guion = colummCedula.includes("-");//Valido si la cadena tiene algun -, El - significa que hay un Empleado asignado
-//                    if (guion == true) {
-//                        colummCedula = colummCedula.split('-');
-//                        row.CedulaEmpleado = colummCedula[1];
-//                    } else { row.CedulaEmpleado = "<center><span class='badge badge-danger' >NO ASIGNADO</span></center>"; }                   
-//                });
-//                table.DataTable().rows.add(resultado);
-//                table.DataTable().draw();            
-//            }
-//                $('#cargac').hide();
-//                if (resultado.length != 0) {
-//                    $("#ModalApruebaPendiente").modal("show");
-//                }
-//        },
-//        error: function (resultado) {
-//            $('#cargac').hide();
-//            MensajeError(resultado.responseText, false);            
-//        }
-//    });
-//}
 
 function AprobarPendiente(estadoReporte) {
     if ($("#selectEstadoReporte").val() == 'false') {
@@ -195,7 +126,9 @@ function AprobarPendiente(estadoReporte) {
                 if (resultado == 1) {
                     MensajeCorrecto('¡Registro aprobado correctamente!');
                 } else if (resultado == 2) { MensajeCorrecto('Estado actualizado correctamente'); }
-                else { MensajeError('El registro no debe guardase - solo actualizarce - Controller: GuardarModificarControlCuchilloPreparacion'); }
+                else if (resultado == 100) {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
+                }else { MensajeError('El registro no debe guardase - solo actualizarce - Controller: GuardarModificarControlCuchilloPreparacion'); }
                 
                 $("#ModalApruebaPendiente").modal("hide");
                 CargarBandeja();                

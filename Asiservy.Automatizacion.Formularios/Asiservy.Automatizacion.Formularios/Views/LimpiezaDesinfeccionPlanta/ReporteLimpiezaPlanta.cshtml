@@ -143,7 +143,7 @@
 <br id="brCabecera" />
 <div class="row text-center text-md-left align-self-sm-center" id="divFiltro">
     <div class="col-12 text-uppercase">
-        <h6 style="float:left">Reporte General de Limpieza y Desinfeccion de Planta</h6>
+        <h5 style="float:left">Reporte General de Limpieza y Desinfección de Planta</h5>
         <div class="box_filters text-center text-md-left">
             <div class="itemFilter col-12 col-sm-12 col-md-10">
                 <input type="hidden" id="fechaDesde" value="" />
@@ -157,6 +157,17 @@
                 <a href="#" onclick="CargarCabecera()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search text-center"></i></a>
             </div>
         </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12 col-12 col-sm-12 float-right text-right">
+        @if (ViewBag.Link == null)
+        {
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" >Ir al Control</a>
+        }
+        else
+        {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" >Ir al Control</a>}
     </div>
 </div>
 <hr />

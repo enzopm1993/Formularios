@@ -47,17 +47,17 @@ function GuardarControl() {
     //}
 
     if ($("#txtDescripcion").val() == "") {
-        $("#txtDescripcion").css('borderColoor', '#FA8072');
+        $("#txtDescripcion").css('borderColor', '#FA8072');
         return;
     } else {
-        $("#txtDescripcion").css('borderColoor', '#ced4da');
+        $("#txtDescripcion").css('borderColor', '#ced4da');
     }
 
     if ($("#txtAbreviatura").val() == "") {
-        $("#txtAbreviatura").css('borderColoor', '#FA8072');
+        $("#txtAbreviatura").css('borderColor', '#FA8072');
         return;
     } else {
-        $("#txtAbreviatura").css('borderColoor', '#ced4da');
+        $("#txtAbreviatura").css('borderColor', '#ced4da');
     }
 
     var estado = 'A';
@@ -117,10 +117,10 @@ function NuevoControl() {
 
 
 function ActualizarCabecera(model) {
-    $("#txtIdControl").val(model.IdParametroAac);
+    $("#txtIdControl").val(model.IdParametro);
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
-    $("#txtMaximoPermitido").val(model.Abreviatura)
+    $("#txtMaximoPermitido").val(model.MaximoPermitido)
 }
 
 function InactivarConfirmar(jdata) {

@@ -6,14 +6,18 @@ $(document).ready(function () {
         var dataCabecera = table.row(this).data();
         SeleccionarBandeja(dataCabecera);
     });
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA
 function CargarBandeja() {
-    $('#cargac').show();
-    var op = 2;
-    if ($('#selectEstadoReporte').val() == 'true') {
-        op = 1;
+    $('#cargac').show();   
+    var estadoReporte = $('#selectEstadoReporte').val();
+    $('#divCalendar').prop('hidden', true);
+    if (estadoReporte == 'true') {
+        $('#divCalendar').prop('hidden', false);
     }
     var table = $("#tblDataTable");
     table.DataTable().clear();
@@ -25,8 +29,7 @@ function CargarBandeja() {
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            id: 0,
-            opcion: op
+            estadoReporte: estadoReporte
         },
         type: "GET",
         success: function (resultado) {
@@ -44,8 +47,9 @@ function CargarBandeja() {
                 config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
                     { data: 'Fecha' },
-                    { data: 'ObservacionCAB' },
+                    { data: 'Observacion' },
                     { data: 'UsuarioIngresoLog' },
+                    { data: 'tr' },
                     { data: 'EstadoReporteControl' }
                 ];
                 table.DataTable().destroy();
@@ -55,9 +59,7 @@ function CargarBandeja() {
                 resultado.forEach(function (row) {
                     row.FechaComparar = row.Fecha;
                     row.Fecha = moment(row.Fecha).format('DD-MM-YYYY');                    
-                    if (row.ObservacionCAB!=null) {
-                        row.ObservacionCAB = row.ObservacionCAB.toUpperCase();
-                    }                   
+                                 
                     var estado = 'PENDIENTE';
                     var css = 'badge-danger';
                     if (row.EstadoReporte == true) {
@@ -69,31 +71,60 @@ function CargarBandeja() {
                 });
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
+                //table.DataTable().destroy();
+                var tr = document.getElementById("acoplar");
+                var tds = tr.getElementsByTagName("td");
+
+                for (var i = 1; i < tds.length; i++) {
+                    tds[i].style.whiteSpace = 'normal';
+                }
+
             }
                 $('#cargac').hide();
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
 
 function SeleccionarBandeja(model) {
-    $('#cargac').show();
-    listaDatos = model;
-    var date = new Date();
-    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
-    $('#cargac').show();
     if (model.EstadoReporte == true) {
-        $('#txtFechaAprobado').prop('hidden', true);
+        $('#divfechaap').prop('hidden', true);
         $('#btnAprobado').prop('hidden', true);
         $('#btnPendiente').prop('hidden', false);
     } else {
-        $('#txtFechaAprobado').prop('hidden', false);
+        $('#divfechaap').prop('hidden', false);
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    $('#datetimepicker1').datetimepicker(
+        {
+            date: moment().format("DD-MM-YYYY HH:mm"),
+            format: "DD-MM-YYYY HH:mm",
+            minDate: model.Fecha,
+            maxDate: moment(),
+            ignoreReadonly: true
+        });
+    listaDatos = model;
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('DD-MM-YYYY HH:mm'));
+    $('#cargac').show();
+   
     var op = 0;
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/BandejaTermoencogidoSelladoPartial",
@@ -101,7 +132,7 @@ function SeleccionarBandeja(model) {
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            id: listaDatos.IdCabecera,
+            id: listaDatos.Id,
             opcion: op
         },
         success: function (resultado) {
@@ -127,7 +158,7 @@ function SeleccionarBandeja(model) {
 function AprobarPendiente(estadoReporte) {
     if ($("#selectEstadoReporte").val() == 'false') {
         var date = new Date();
-        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-DD-MM') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
             MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaComparar).format('DD-MM-YYYY')+ '</span>');
             return;
         }
@@ -140,8 +171,9 @@ function AprobarPendiente(estadoReporte) {
         url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSellado",
         type: "POST",
         data: {
-            Id: listaDatos.IdCabecera,
+            Id: listaDatos.Id,
             FechaAprobado: $('#txtFechaAprobado').val(),
+            Fecha: listaDatos.Fecha,
             siAprobar: true,
             EstadoReporte: estadoReporte
         },
@@ -154,14 +186,16 @@ function AprobarPendiente(estadoReporte) {
             } else if(resultado == 0){
                 MensajeError('El registro no debe guardarse- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion');
                 return;
-            } 
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            }
 
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
             listaDatos = [];
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }

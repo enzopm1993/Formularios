@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Descripcion { get; set; }
         public string Abreviatura { get; set; }
         public string Color { get; set; }
+        public bool TemperaturaAgua { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

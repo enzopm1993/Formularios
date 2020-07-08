@@ -4,6 +4,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCalder
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoEquipoAac;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoGrupoAac;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoParametroAac;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
         private ClsdMantenimientoParametroAac ClsdMantenimientoParametroAac { get; set; } = null;
         private ClsdMantenimientoEquipoAac ClsdMantenimientoEquipoAac { get; set; } = null;
         private ClsdMantenimientoGrupoAac ClsdMantenimientoGrupoAac { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
 
         #region CONTROL 
         [Authorize]
@@ -36,11 +39,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 ClsdMantenimientoParametroAac = new ClsdMantenimientoParametroAac();
                 ClsdMantenimientoEquipoAac = new ClsdMantenimientoEquipoAac();
                 ViewBag.Parametros = ClsdMantenimientoParametroAac.ConsultaManteminetoParametroAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Equipos = ClsdMantenimientoEquipoAac.ConsultaManteminetoEquipoAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteAnalisisAguaCalderos");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteAnalisisAguaCalderos";
+                    }
+                }
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -65,7 +79,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
 
         [HttpPost]
-        public ActionResult AnalisisAguaCalderos(CC_ANALISIS_AGUA_CALDEROS model, List<CC_ANALISIS_AGUA_CALDEROS_DETALLE> detalle)
+        public ActionResult AnalisisAguaCalderos(CC_ANALISIS_AGUA_CALDEROS model, CC_ANALISIS_AGUA_CALDEROS_DETALLE detalle)
         {
             try
             {
@@ -80,6 +94,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(model.Fecha).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -107,8 +126,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
-        public JsonResult AnalisisAguaCalderosPartial(DateTime Fecha, int IdEquipo)
+        public ActionResult AnalisisAguaCalderosPartial(DateTime Fecha, int IdEquipo)
         {
             try
             {
@@ -118,12 +136,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
-                var model = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(Fecha).Where(x=> x.IdEquipo== IdEquipo);
+                var model = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(Fecha).Where(x => x.IdEquipo == IdEquipo);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                return Json(model, JsonRequestBehavior.AllowGet);
+                return PartialView(model);
             }
             catch (DbEntityValidationException e)
             {
@@ -144,6 +162,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult ConsultaParametros(DateTime Fecha, int IdEquipo)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdMantenimientoParametroAac = new ClsdMantenimientoParametroAac();
+                ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                var Parametros = ClsdMantenimientoParametroAac.ConsultaManteminetoParametroAac().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var control = ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCaldero(Fecha).Where(x => x.IdEquipo == IdEquipo).Select(x=> x.IdParametro).ToList();
+
+                var ParametrosFinal = (from p in Parametros
+                                       where !control.Contains(p.IdParametro)
+                                       select new CC_MANTENIMIENTO_PARAMETRO_AAC() {
+                                           IdParametro= p.IdParametro,
+                                           Descripcion=p.Descripcion,
+                                           Abreviatura=p.Abreviatura
+                                       }).ToList();
+
+                if (!ParametrosFinal.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return Json(ParametrosFinal, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpPost]
         public ActionResult EliminarAnalisisAguaCalderos(CC_ANALISIS_AGUA_CALDEROS_DETALLE model,DateTime Fecha)
         {
@@ -163,6 +231,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 ClsdAnalisisAguaCaldero = new ClsdAnalisisAguaCaldero();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (ClsdAnalisisAguaCaldero.ConsultaAnalisisAguaCalderoControl(Fecha).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -456,6 +529,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.NombreReporte = rep.Nombre;
                 }
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "AnalisisAguaCalderos");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "AnalisisAguaCalderos";
+                    }
+                }
+
                 return View();
             }
             catch (DbEntityValidationException e)

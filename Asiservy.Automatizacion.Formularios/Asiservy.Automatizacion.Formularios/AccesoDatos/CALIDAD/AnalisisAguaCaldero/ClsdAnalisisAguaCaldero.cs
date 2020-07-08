@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCa
         }
 
 
-        public void GuardarModificarAnalisisAguaCaldero(CC_ANALISIS_AGUA_CALDEROS model, List<CC_ANALISIS_AGUA_CALDEROS_DETALLE> detalle)
+        public void GuardarModificarAnalisisAguaCaldero(CC_ANALISIS_AGUA_CALDEROS model,CC_ANALISIS_AGUA_CALDEROS_DETALLE detalle)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -39,30 +39,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCa
                         IControl = model.IdAnalisisAguaCalderos;
                     }
 
-                    foreach (var x in detalle)
+                   
+                    var modelDetalle = entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.FirstOrDefault(y => y.IdAnalisisAguaCalderos == IControl
+                                        && y.IdParametro == detalle.IdParametro && y.IdEquipo == detalle.IdEquipo && y.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                    if (modelDetalle != null)
                     {
-                        var modelDetalle = entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.FirstOrDefault(y => y.IdAnalisisAguaCalderos == IControl
-                                           && y.IdParametro == x.IdParametro && y.IdEquipo == x.IdEquipo && y.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
-                        if (modelDetalle != null)
-                        {
-
-                            x.UsuarioModificacionLog = model.UsuarioModificacionLog;
-                            x.FechaModificacionLog = model.FechaModificacionLog;
-                            x.TerminalModificacionLog = model.TerminalModificacionLog;
-                            x.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                            modelDetalle.Valor = x.Valor;
-                        }
-                        else
-                        {
-                            x.IdAnalisisAguaCalderos = IControl;
-                            x.UsuarioIngresoLog = model.UsuarioIngresoLog;
-                            x.FechaIngresoLog = model.FechaIngresoLog;
-                            x.TerminalIngresoLog = model.TerminalIngresoLog;
-                            x.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                            entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.Add(x);
-                        }
+                        detalle.UsuarioModificacionLog = model.UsuarioModificacionLog;
+                        detalle.FechaModificacionLog = model.FechaModificacionLog;
+                        detalle.TerminalModificacionLog = model.TerminalModificacionLog;
+                        detalle.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        modelDetalle.Valor = detalle.Valor;
                     }
+                    else
+                    {
+                        detalle.IdAnalisisAguaCalderos = IControl;
+                        detalle.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                        detalle.FechaIngresoLog = model.FechaIngresoLog;
+                        detalle.TerminalIngresoLog = model.TerminalIngresoLog;
+                        detalle.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.Add(detalle);
+                    }
+                   
 
                     entities.SaveChanges();
                     transaction.Commit();
@@ -74,25 +73,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaCa
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.Where(x => x.IdAnalisisAguaCalderos == model.IdAnalisisAguaCalderos && x.IdEquipo == model.IdEquipo && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var poControl = entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.FirstOrDefault(x => x.IdAnalisisAguaCalderosDetalle == model.IdAnalisisAguaCalderosDetalle);
                 if (poControl != null)
                 {
+                    var poControl1 = entities.CC_ANALISIS_AGUA_CALDEROS_DETALLE.Count(x => x.IdAnalisisAguaCalderos == model.IdAnalisisAguaCalderos && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     var poControl2 = entities.CC_ANALISIS_AGUA_CALDEROS.FirstOrDefault(x => x.IdAnalisisAguaCalderos == model.IdAnalisisAguaCalderos);
-                    if (poControl2 != null && poControl.Count == 1)
+                    if (poControl2 != null  && poControl1==1)
                     {
                         poControl2.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                         poControl2.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControl2.UsuarioModificacionLog = model.UsuarioIngresoLog;
                         poControl2.FechaModificacionLog = model.FechaIngresoLog;
                     }
-                    foreach (var x in poControl)
-                    {
-                        x.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                        x.TerminalModificacionLog = model.TerminalIngresoLog;
-                        x.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                        x.FechaModificacionLog = model.FechaIngresoLog;
-                        
-                    }
+
+                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
                     entities.SaveChanges();
                 }
 

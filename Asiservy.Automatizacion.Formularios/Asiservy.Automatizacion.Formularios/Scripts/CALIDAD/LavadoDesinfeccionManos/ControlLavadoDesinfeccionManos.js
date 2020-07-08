@@ -3,14 +3,17 @@ var ListaDatosDetalle = [];
 var horaActualizar = '';//0=No, 1=Yes
 
 $(document).ready(function () {
-    CargarCabecera(0);
+    //CargarCabecera(0);
+    DatePicker();
 });
 
 function ConsultarEstadoRegistro() {
+    var fechaingresada = moment($('#datetimepicker1').datetimepicker('viewDate')).format('MM-DD-YYYY');
+    
     $.ajax({
         url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
         data: {
-            fechaControl: $("#txtFecha").val(),
+            fechaControl: fechaingresada,
             turno: document.getElementById('selectTurno').value
         },
         type: "GET",
@@ -35,11 +38,13 @@ function CargarCabecera(opcion) {
         $('#cargac').hide();
         return;
     } else {
+        var fechaingresada = moment($('#datetimepicker1').datetimepicker('viewDate')).format('MM-DD-YYYY');
+        //console.log(fechaingresada);
         $.ajax({
             url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
             type: "GET",
             data: {               
-                fechaControl: $("#txtFecha").val(),
+                fechaControl: fechaingresada,
                 turno:document.getElementById('selectTurno').value
             },
             success: function (resultado) {
@@ -71,7 +76,7 @@ function CargarCabecera(opcion) {
             },
             error: function (resultado) {
                 $('#cargac').hide();
-                MensajeError(resultado.responseText, false);                
+                MensajeError(Mensajes.Error, false);                
             }
         });
     }
@@ -88,7 +93,7 @@ function GuardarCabecera() {
         type: "POST",
         data: {
             IdDesinfeccionManos: idDesinfeccionManos,
-            Fecha: moment($("#txtFecha").val()).format("YYYY-MM-DD"),
+            Fecha: moment($('#datetimepicker1').datetimepicker('viewDate')).format('MM-DD-YYYY'),
             Observacion: $("#txtObservacion").val(),
             Turno: document.getElementById('selectTurno').value
         },
@@ -106,6 +111,8 @@ function GuardarCabecera() {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             CargarCabecera(0);
             $("#txtObservacion").prop("disabled", true);
@@ -142,7 +149,8 @@ function EliminarCabeceraSi() {
         url: "../LavadoDesinfeccionManos/EliminarControlLavadoDesinfeccionManos",
         type: "POST",
         data: {
-            IdDesinfeccionManos: ListaDatos.IdDesinfeccionManos
+            IdDesinfeccionManos: ListaDatos.IdDesinfeccionManos,
+            Fecha: moment(ListaDatos.Fecha).format('DD-MM-YYYY')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -158,7 +166,7 @@ function EliminarCabeceraSi() {
                 CargarCabecera(0);
                 MensajeCorrecto("Registro Eliminado con Éxito");
                 $("#txtFecha").prop("disabled", false);
-                $("#modalEliminarControl").modal("hide");
+                
                 $("#btnModalGenerar").prop("hidden", false);
                 $("#btnModalEditar").prop("hidden", true);
                 $("#btnModalEliminar").prop("hidden", true);
@@ -166,11 +174,12 @@ function EliminarCabeceraSi() {
                 $("#txtObservacion").prop("disabled", false);
                 $("#txtObservacion").val('');
                 $("#divDetalleControlCloro").prop("hidden", true);
-                $("#divCabecera2").prop("hidden", true);
-                setTimeout(function () {
-                    $('#cargac').hide();
-                },500);                
+                $("#divCabecera2").prop("hidden", true);                
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
+            $("#modalEliminarControl").modal("hide");
+            $('#cargac').hide();
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -260,6 +269,8 @@ function GuardarDetalle(jdata) {
                 $('#cargac').hide();
                 CargarCabecera(0);    
                 return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             CargarDetalle(0);
             limpiarDetalle(data);
@@ -479,7 +490,9 @@ function EliminarDetalleSi() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros (IdDesinfeccionManosDetalle)");
                 return;
-            }            
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            }  
             MensajeCorrecto("Registro Eliminado con Éxito");
             CargarDetalle(0);
         },
@@ -512,4 +525,30 @@ function CambiarMensajeEstado(estadoReporteParametro) {
     }
 }
 
+function DatePicker() {
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar-alt',
+            up: 'fas fa-caret-up',
+            down: 'fas fa-caret-down',
+            previous: 'fas fa-backward',
+            next: 'fas fa-forward',
+            today: 'fas fa-calendar-day',
+            clear: 'fas fa-trash-alt',
+            close: 'fas fa-window-close'
+        }
+    });
+    $('#datetimepicker1').datetimepicker(
+        {
+            //date: moment().format("DD-MM-YYYY"),
+            format: "DD-MM-YYYY",
+            //minDate: model.Fecha,
+            maxDate: moment(),
+            ignoreReadonly: true
+        });
+}
 
+$("#datetimepicker1").on("change.datetimepicker", ({ date, oldDate }) => {
+    CargarCabecera();
+})

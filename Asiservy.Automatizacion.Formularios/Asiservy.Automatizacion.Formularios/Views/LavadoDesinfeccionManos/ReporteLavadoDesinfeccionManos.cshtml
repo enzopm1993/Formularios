@@ -4,7 +4,6 @@
     ViewBag.Title = "ReporteLavadoDesinfeccionManos";
 }
 
-<hr />
 <style>
     input, select, textarea {
         max-width: 100%;
@@ -119,15 +118,16 @@
             height: 300px;
             overflow: auto;
         }
+
         #tbltituloImprimir {
             display: none;
         }
-    }   
+    }
 </style>
 
 <div class="row" id="divFiltro">
-    <div class="col-md-12 text-md-left text-center">
-        <h4 style="float:left">Reporte Lavado y Desinfección de Manos</h4>
+    <div class="col-md-12 text-md-left text-center text-uppercase">
+        <h5 style="float:left">Reporte Lavado y Desinfección de Manos</h5>
         <div class="box_filters">
             <div class="itemFilter">
                 <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
@@ -137,18 +137,30 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
             </div>
-            <div class="itemFilter col-md-1 col-12 col-sm-12 text-md-left text-center">
+            <div class="itemFilter col-md-1 col-12 col-sm-1 text-md-left text-center">
                 <a onclick="CargarCabecera()" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
     </div>
 </div>
+<br />
+<div class="row">
+    <div class="col-md-12 col-12 col-sm-12 float-right text-right">
+        @if (ViewBag.Link == null)
+        {
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" >Ir al Control</a>
+        }
+        else
+        {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" >Ir al Control</a>}
+    </div>
+</div>
+
 <hr />
-<br id="brCabecera"/>
+@*<br id="brCabecera" />*@
 
 <div hidden class="card" id="divBotones" style="padding:10px;">
     <div class="text-center">
-        <label class="">Acción</label><br />
+        <label class="">ACCIÓN</label><br />
         <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
             <img style="width:100%" src="../../Content/icons/print24.png" />
         </button>
@@ -157,12 +169,10 @@
         </button>
     </div>
 </div>
-<br id="brCabecera"/>
-
+<br id="brCabecera" />
 
 @*MODAL MOSTRAR TABLA CABECERA*@
 <div class="card table-responsive" id="divMostarTablaCabecera" style="padding:10px;">
-
 </div>
 
 <!-- Modal -->

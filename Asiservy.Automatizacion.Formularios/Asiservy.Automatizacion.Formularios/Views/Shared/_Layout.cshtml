@@ -45,6 +45,14 @@
         }
     </style>
 
+    <!-- select2 -->
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />*@
+
+    <!-- select2-bootstrap4-theme -->
+    @*<link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">*@ <!-- for live demo page -->
+    @*<link href="select2-bootstrap4.css" rel="stylesheet">*@ <!-- for local development env -->
+
+   
 </head>
 
 <body id="page-top">
@@ -481,7 +489,7 @@
             "ReportePendiente": "Reporte aun no ha sido APROBADO.",
             "Error": "Error,Comuniquese con el departamento de sistemas. ",
             "ControlAprobado": "Reporte no puede modificarse ya ha sido Aprobado.",
-            "MensajePeriodo": '<span style="font-size:14px" class="badge badge-info">No se pudo completar la acción, por que el periodo se encuentra cerrado</span>'
+            "MensajePeriodo": '<span style="font-size:14px" class="badge badge-Light">No se pudo completar la acción, por que el periodo se encuentra cerrado</span>'
         }
 
 
@@ -645,8 +653,14 @@
     @if (ViewBag.DateTimePicker == "1")
     {
 
-        <script src="~/Scripts/tempusdominus-bootstrap-4.min.js"></script>
+        <script src="~/Scripts/tempusdominus-bootstrap-4.min.js">
+           
+                
+        </script>
         <link href="~/Content/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+        
+
     }
 
     @if (ViewBag.JavaScrip != null)
@@ -654,12 +668,12 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=2.1";
+        string url = "/Scripts/" + js + ".js?v=2.3";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>
-            $.fn.select2.defaults.set("theme", "classic");
-     
+            $.fn.select2.defaults.set("theme", "bootstrap4");
+            
         </script>
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>

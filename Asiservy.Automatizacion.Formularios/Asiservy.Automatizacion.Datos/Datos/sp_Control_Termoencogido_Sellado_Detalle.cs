@@ -25,5 +25,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string ObservacionCAB { get; set; }
+        public string Turno { get; set; }
     }
 }

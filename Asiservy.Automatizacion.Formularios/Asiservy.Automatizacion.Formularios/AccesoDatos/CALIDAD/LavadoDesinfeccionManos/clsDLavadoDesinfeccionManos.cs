@@ -207,19 +207,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
             }
         }
 
-        public bool ConsultarEstadoReporte(int idDesinfeccionManos)
+        public CC_CONTROL_LAVADO_DESINFECCION_MANOS ConsultarEstadoReporte(int idDesinfeccionManos)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var listado = db.CC_CONTROL_LAVADO_DESINFECCION_MANOS.FirstOrDefault(x=> x.IdDesinfeccionManos== idDesinfeccionManos && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
-                if (listado.EstadoReporte)
-                {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-                
+                return listado;
             }
         }
     }

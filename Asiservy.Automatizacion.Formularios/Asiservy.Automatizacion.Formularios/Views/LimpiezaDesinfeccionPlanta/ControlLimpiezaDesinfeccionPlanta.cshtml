@@ -102,30 +102,27 @@
 </style>
 
 <div class="row">
-    <div class="col-12  text-md-left text-center text-uppercase">
-        <h6 style="float:left">Control Limpieza y Desinfeccion de Planta<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h6>
-        <div class=" box_filters ">
-            <div class="itemFilter">
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
-            </div>
-            <div class="itemFilter">
-                <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera()" id="iconSearch" class="fas fa-search"></i></a>
-            </div>
+    <div class="col-12  text-md-left text-center">
+        <h5 style="float:left;" class="text-uppercase">Control Limpieza y Desinfeccion de Planta<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h5>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
         </div>
     </div>
 </div>
-
+<hr />
 <div class="row">
-    <div class="col-md-2 col-12 col-sm-12" id="divBotonCrear">
-        @*<div class="col-md-3 col-12 float-left">*@
-        <label class="" id="lblAcciones">Nuevo Registro</label>
+    <div class="col-md-1 col-12 col-sm-12" id="divBotonCrear">
+        <label class="" id="lblAcciones">NUEVO</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
         </div>
-        @*</div>*@
-
     </div>
     <div class="col-md-2 col-12 col-sm-12">
         <label>TURNO</label>
@@ -136,6 +133,25 @@
             }
             else
             { <label class="badge badge-danger">No existen turnos</label>}
+        </div>
+    </div>
+    <div class="col-md-4 col-12 col-sm-12 text-md-center ">
+        <br />
+        <div class="box_filters col-sm-12">
+            <div class="itemFilter  col-sm-8">
+                <div class="form-group" id="divfechaap">
+                    <input type="hidden" id="fechacontrol" value="" />
+                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        <input readonly type="text" class="form-control datetimepicker-input" value="@DateTime.Now.ToString("dd-MM-yyyy")" data-target="#datetimepicker1" id="txtFecha" />
+                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="itemFilter col-sm-1">
+                <a onclick="CargarCabecera(0)" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>
         </div>
     </div>
 </div>
@@ -160,7 +176,7 @@
 
         <div class="col-md-4 col-12 col-sm-12" style="float:left">
             <div class="form-group">
-                <label>OBSERVACION</label>
+                <label>OBSERVACIÓN</label>
                 <textarea type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control text-uppercase" rows="2"></textarea>
             </div>
         </div>
@@ -201,13 +217,9 @@
 <br />
 
 @*MODAL MOSTRAR TABLA DETALLE*@
-
-
 <div id="divMostarTablaDetallesVer">
 
 </div>
-
-
 
 @*MODAL ELIMINAR REGISTRO CABECERA*@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
@@ -247,24 +259,29 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Nuevo Registro</h5>
+                <h6 class="modal-title">CABECERA</h6>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row text-uppercase">
                     <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>FECHA</label>
-                            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtIngresoFecha" class="form-control" />
+                        <div class="form-group" id="divfechaap">
+                            <input type="hidden" id="fechacontrol" value="" />
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input readonly type="text" class="form-control datetimepicker-input" value="@DateTime.Now.ToString("dd-MM-yyyy")" data-target="#datetimepicker2" id="txtIngresoFecha" />
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>OBSERVACION</label>
-                            <textarea type="text" name="name" value="" maxlength="100" id="txtIngresoObservacion" class="form-control" rows="3"></textarea>
+                            <label>OBSERVACIÓN</label>
+                            <textarea type="text" name="name" value="" maxlength="100" id="txtIngresoObservacion" class="form-control text-uppercase" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
@@ -300,7 +317,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Nueva Auditoria</h5>
+                <h6 class="modal-title">CREAR NUEVA AUDITORIA</h6>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -346,7 +363,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">AcciónCorrectiva</h5>
+                <h6 class="modal-title">ACCIÓN CORRECTIVA</h6>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarAccionCorrectiva()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -355,21 +372,21 @@
                 <div class="row">
                     <div class="col-md-6 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>HORA</label>
-                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="OnChangeTextBoxAccion()" id="txtHoraAccionCorrectiva" class="form-control" />
+                            <label>FECHA - HORA</label>
+                            <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="OnChangeTextBoxAccion()" id="txtHoraAccionCorrectiva" class="form-control" />
                         </div>
                     </div>
 
                     <div class="col-md-6 col-12 col-sm-12">
                         <div class="form-group">
                             <label>AUDITOR</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBoxAccion()" id="txtAuditor" maxlength="20" class="form-control" />
+                            <input type="text" name="name" value="" autocomplete="off" onchange="OnChangeTextBoxAccion()" id="txtAuditor" maxlength="20" class="form-control text-uppercase" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
-                            <label>ACCION CORRECTIVA</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBoxAccion()" id="txtAccionCorrectiva" maxlength="200" class="form-control" />
+                            <label>ACCIÓN CORRECTIVA</label>
+                            <textarea type="text" name="name" value="" autocomplete="off" onchange="OnChangeTextBoxAccion()" id="txtAccionCorrectiva" maxlength="200" class="form-control text-uppercase" rows="3"></textarea>
                         </div>
                     </div>
                     <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
