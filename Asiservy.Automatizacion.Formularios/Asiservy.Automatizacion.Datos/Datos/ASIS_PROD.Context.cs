@@ -204,6 +204,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
         public virtual DbSet<RENDIMIENTO_KILO_HORA> RENDIMIENTO_KILO_HORA { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_DEFECTO> CC_MANTENIMIENTO_DEFECTO { get; set; }
+        public virtual DbSet<CC_PARAMETRO_DEFECTO_CABECERA> CC_PARAMETRO_DEFECTO_CABECERA { get; set; }
+        public virtual DbSet<CC_PARAMETRO_DEFECTO_DETALLE> CC_PARAMETRO_DEFECTO_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
