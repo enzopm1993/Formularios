@@ -14,15 +14,12 @@
     <div class="card table-responsive">
         <div class="row">
             <div style="font-size:13px;margin-left:5px" class="float-md-right col-md-3 col-12 col-sm-12">
-                @if (!string.IsNullOrEmpty(tabla.Turno))
-                {
-                    <b>@tabla.Turno.Replace("_", " ").ToUpper()</b>
-                }<br />
+                <br />
                 <b>FECHA-HORA:</b><br /> @tabla.HoraAuditoria.ToString("dd-MM-yyyy HH:mm")
             </div>
         </div>
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped text-uppercase">
             <thead style="font-size:11px">
                 <tr>
                     <th>
@@ -32,16 +29,16 @@
                         LIMPIEZA
                     </th>
                     <th>
-                        DESINFECCION
+                        DESINFECCIÓN
                     </th>
                     <th>
-                        OBSERVACION
+                        OBSERVACIÓN
                     </th>
                     <th>
-                        HORA_AC
+                        FECHA - HORA AC
                     </th>
-                    <th>
-                        ACCION CORRECTIVA
+                    <th width="300px">
+                        ACCIÓN CORRECTIVA
                     </th>
                     <th>
                         SUPERVISOR
@@ -64,23 +61,20 @@
                                 @item.Desinfeccion
                             </td>
                             <td style="white-space:normal;">
-                                @if (!string.IsNullOrEmpty(item.ObservacionDetalle))
-                                {
-                                    @item.ObservacionDetalle.ToUpper()
-                                }
+                               
+                                    @item.ObservacionDetalle
                             </td>
                             <td>
                                 @{DateTime date = Convert.ToDateTime(item.HoraAccionCorrectiva);}
                                 @if (date != DateTime.MinValue)
                                 {
-                                    @date.ToString("HH:mm")
+                                    @date.ToString("dd-MM-yyyy HH:mm")
                                 }
                             </td>
-                            <td style="white-space:normal">
-                                @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
-                                {
-                                    @item.AccionCorrectiva.ToUpper()
-                                }
+                            <td style="white-space:normal; width:auto">
+                               
+                                    @item.AccionCorrectiva
+                               
                             </td>
                             <td>
                                 @item.PersonaAccionCorrectiva
@@ -100,14 +94,14 @@
             {
                 <div class="text-center" style="width:240px;border:1px solid;border-radius:20px;margin:3px">
                     <div id="header_@item.IdDetalle">
-                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdDetalle" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdDetalle" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
                     </div>
                     <script>
                             validarImg('@item.Rotation','@item.IdDetalle','@item.RutaFoto');
                     </script>
                     <div>
                         <label class="card-text" style="color:black; font-size:11px"><b>OBJETO AUDITADO: </b> @item.NombreObjeto.ToUpper()</label><br />
-                        <label class="card-text" style="color:black;font-size:11px"><b>ACCION CORRECTIVA: </b> @item.AccionCorrectiva.ToUpper()</label>
+                        <label class="card-text" style="color:black;font-size:11px"><b>ACCIÓN CORRECTIVA: </b> @item.AccionCorrectiva.ToUpper()</label>
                     </div>
                 </div>
             }
@@ -117,14 +111,14 @@
 }
                 <input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />
     <style>
-        img {
+        .img {
             border: 1px solid #ddd;
             border-radius: 20px;
             padding: 5px;
             max-height: 250px;
         }
 
-            img:hover {
+            .img:hover {
                 box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
             }
     </style>

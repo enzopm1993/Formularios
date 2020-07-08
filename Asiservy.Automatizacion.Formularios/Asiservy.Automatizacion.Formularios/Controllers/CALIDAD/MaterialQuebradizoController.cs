@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class MaterialQuebradizoController : Controller
     {
+        clsDLogin clsDLogin { get; set; } =null;
         clsDPeriodo clsDPeriodo { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         public class Verificacion
@@ -362,6 +363,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteMaterialQuebradizo");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteMaterialQuebradizo";
+                }
                 Verificacion verificacion;
                 List<Verificacion> listaV = new List<Verificacion>();
                 foreach (var item in clsAtributos.MaterialQuebradizoVerificacion)
@@ -1091,6 +1099,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JqueryRotate = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlMaterialQuebradizo");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlMaterialQuebradizo";
+                }
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)

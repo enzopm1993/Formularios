@@ -701,7 +701,7 @@ function OnChangeTextBoxAccion() {
     } else { $("#txtAccionCorrectiva").css('border', ''); }
     if ($('#file-upload').val() == '') {
         $("#file-upload").css('border', '1px dashed red');
-        con = 1;
+        //con = 1;
     } else { $("#file-upload").css('border', ''); }
     return con;
 }
