@@ -1,0 +1,306 @@
+﻿
+@{
+    ViewBag.Title = "ParametroDefecto";
+}
+<style>
+
+
+    textarea {
+        resize: none;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+</style>
+<h4>Parámetros defecto</h4>
+
+
+<div class="card" id="botonesdetalle" hidden>
+    <div class="row">
+
+        <div class="col-12">
+            <center>
+                <div class="form-group">
+
+                    <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarCabeceraModal()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/edit24.png">
+                    </button>
+                    @*<button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="ConfirmarEliminarDetalle()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="/Content/icons/cancel24.png">
+                        </button>*@
+                    <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="/Content/icons/atras24.png">
+                    </button>
+
+                </div>
+            </center>
+        </div>
+    </div>
+</div>
+<br id="espacio" hidden />
+<div class="card" id="CardCabeceras">
+    <div class="row">
+        <div class="col-3">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="AbrirModalCabecera()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+
+    </div>
+    <div id="DivCabeceras" class="table-responsive" style="padding-top:10px">
+
+    </div>
+</div>
+<div class="card" id="CardDetalle" hidden>
+
+    <div class="row">
+        <div class="col-3">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="AbrirModalDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 table-responsive" id="DivDetalle">
+
+        </div>
+
+    </div>
+</div>
+
+
+@*@modal Cabecera*@
+<div class="modal fade" id="ModalCabecera" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Parámetros Defectos</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Formulario</label>
+                            @Html.DropDownList("cmbFormulario", (IEnumerable<SelectListItem>)ViewBag.Formulario, "Seleccione..", new { @class = "form-control",@onchange= "ValidaVacio(this)" })
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tipo producto</label>
+                            @Html.DropDownList("cmbProducto", (IEnumerable<SelectListItem>)ViewBag.Producto, "Seleccione..", new { @class = "form-control", @onchange = "ValidaVacio(this)" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Nivel de limpieza</label>
+                            @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control", @onchange = "ValidaVacio(this)" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Color dentro del rango:</label>
+                           @* @Html.DropDownList("cmbColorRangoDentro", (IEnumerable<SelectListItem>)ViewBag.Colores, "Seleccione..", new { @class = "form-control" })*@
+                            <select class="form-control" id="cmbColorRangoDentro" onchange="CambioColor(this.id,'cmbColorRangoDentro')">
+                                <option value="">Seleccione</option>
+                                @foreach (var x in ViewBag.Colores as SelectList)
+                                {
+                                    <option value="@x.Value" style="color:@x.Value">@x.Text</option>
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Color fuera del rango:</label>
+                            @*@Html.DropDownList("cmbColorRangoFuera", (IEnumerable<SelectListItem>)ViewBag.Colores, "Seleccione..", new { @class = "form-control" })*@
+                            <select class="form-control" id="cmbColorRangoFuera" onchange="CambioColor(this.id,'cmbColorRangoFuera')">
+                                <option value="">Seleccione</option>
+                                @foreach (var x in ViewBag.Colores as SelectList)
+                                {
+                                    <option value="@x.Value" style="color:@x.Value">@x.Text</option>
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-3">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div class="custom-control custom-checkbox">
+                                @Html.CheckBox("EstadoRegistro", true, new { @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                                @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                                <label class="custom-control-label" for="EstadoRegistro" id="LabelEstado">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarCabceraControl()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*modal eliminar cabecera *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalConfirmarActualizar" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿El registro ya existe, desea actualizarlo?</h6>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="ActualizarCabecera()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*@modal detalle*@
+<div class="modal fade" id="ModalDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Parámetros Defectos</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Defecto &nbsp;&nbsp;&nbsp;<a href="#" class="text-warning links" onclick="AbrirModalMantDefecto()">Nuevo Defecto</a></label>
+                            @Html.DropDownList("cmbDefecto", (IEnumerable<SelectListItem>)ViewBag.Defectos, "Seleccione..", new { @class = "form-control",@onchange= "ValidaVacio(this)" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Máximo</label><span class="badge badge-secondary">+100</span>
+                            <input type="text" id="txtMaximoDet" class="form-control" onkeyup="ValidaVacio(this)" autocomplete="off" />
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 col-sm-3">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div class="custom-control custom-checkbox">
+                                @Html.CheckBox("EstadoRegistroDetalle", true, new { @class = "custom-control-input", @onchange = "CambioEstadoDetalle(this.checked)" })
+                                @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                                <label class="custom-control-label" for="EstadoRegistroDetalle" id="LabelEstadoDetalle">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarDetalle()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*@modal Mantenimiento Defecto*@
+<div class="modal fade" id="ModalDefecto" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Defectos</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="txtNombreDefecto" autocomplete="off" class="form-control" onkeyup="ValidaVacio(this)"/>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div class="custom-control custom-checkbox">
+                                @Html.CheckBox("EstadoRegistroDefecto", true, new { @class = "custom-control-input", @onchange = "CambioEstadoMant(this.checked)" })
+                                @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                                <label class="custom-control-label" for="EstadoRegistroDefecto" id="LabelEstadoMant">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        Acción
+                        <div class="form-group">
+                            @*<label>Acción</label>*@
+                            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnGuardar" onclick="GuardarMantDefecto()" style="border-color:#2c3e50" type="button">
+                                <img style="width:100%" src="~/Content/icons/add24.png" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive" id="DivDefectos">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-primary" onclick="GuardarDefectoMantenimiento()">Guardar</button>*@
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

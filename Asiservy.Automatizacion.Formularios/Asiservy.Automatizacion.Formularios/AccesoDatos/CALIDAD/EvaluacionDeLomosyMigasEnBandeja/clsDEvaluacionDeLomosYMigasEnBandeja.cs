@@ -555,6 +555,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return query;
             }
         }
+        //public IEnumerable<CC_PARAMETRO_CALIDAD> ConsultarParametro()
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        List<string> codigo = new List<string>()
+        //        {
+        //            "Cod2",
+        //            "Cod3"
+        //        };
+        //        IEnumerable<CC_PARAMETRO_CALIDAD> respuesta=db.CC_PARAMETRO_CALIDAD.Where()
+        //    }
+        //}
         //public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo,string Usuario, string Terminal)
         //{
         //    using (var db = new ASIS_PRODEntities())
