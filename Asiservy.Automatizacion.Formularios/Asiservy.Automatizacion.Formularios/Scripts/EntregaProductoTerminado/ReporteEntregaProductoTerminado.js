@@ -74,6 +74,7 @@ function SeleccionarControlEntregaProductoTerminado(model) {
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
 
+    CargarDatosBodega();
     CargarProcesoDetalleMaterial();
     CargarEntregaProductoTerminadoDetalle();
     CargarProcesoDetalleTiemposMuertos();
@@ -96,6 +97,41 @@ function AtrasControlPrincipal() {
 
     CargarProductoTerminado();
 }
+
+
+//////////// CONSULTA BODEGA ////////////////////////////
+function CargarDatosBodega() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/ConsultarBodegas",
+        type: "GET",
+        data: {
+            OF: ListadoControl.OrdenFabricacion
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableDetalle").html("No existen registros");
+            } else {
+                //$("#divTableDetalle").html(resultado);
+                $("#txtControlCalidad").val(resultado.UnidadesControlCalidad);
+                $("#txtRechazadas").val(resultado.UnidadesRechazadas);
+                //$("#txtReproceso").val(resultado.UnidadesReproceso);
+                $("#txtDefectos").val(resultado.UnidadesConDefecto);
+                $("#txtEntregadas").val(resultado.CajasEntregadas);
+                 $("#txtLatasSueltas").val(resultado.LataSueltas);
+               
+            }
+        },
+        error: function (resultado) {
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
+        }
+    });
+}
+
+
 
 
 
@@ -206,9 +242,9 @@ function CargarProcesoDetalleTiemposMuertos() {
 
 
 function printDiv() {
-    var contenido = document.getElementById('divDetalleProceso').innerHTML;
-    var contenidoOriginal = document.body.innerHTML;
-    document.body.innerHTML = contenido;
+    //var contenido = document.getElementById('divDetalleProceso').innerHTML;
+    //var contenidoOriginal = document.body.innerHTML;
+    //document.body.innerHTML = contenido;
     window.print();
-    document.body.innerHTML = contenidoOriginal;
+    //document.body.innerHTML = contenidoOriginal;
 }
