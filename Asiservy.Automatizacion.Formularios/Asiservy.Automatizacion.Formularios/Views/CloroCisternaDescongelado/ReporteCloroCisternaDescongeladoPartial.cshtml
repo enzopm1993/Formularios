@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_CloroCisternaDescongelado>
 
-<table class="table table-bordered">
+<table class="table table-bordered text-uppercase">
     <thead style="font-size:14px">
-        <tr>           
+        <tr>
             <th>
                 FECHA - HORA
             </th>
@@ -13,29 +13,33 @@
                 CISTERNA
             </th>
             <th>
-                OBSERVACION
+                OBSERVACIÓN
             </th>
-            
+
         </tr>
     </thead>
     <tbody style="font-size:12px">
         @foreach (var item in Model)
         {
+            decimal men = ViewBag.ParamMin;
+            decimal may = ViewBag.ParamMax;
             <tr style="page-break-inside: avoid;">
-                
+
                 <td>
                     @item.HoraDet.ToString("dd-MM-yyyy HH:mm")
                 </td>
-                <td>
-                    @if (item.Ppm_CloroDet >= 0.3M && item.Ppm_CloroDet <= 1.5M)
-                    {
-                        <span class="badge badge-success">@item.Ppm_CloroDet</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">@item.Ppm_CloroDet</span>
-                    }
-                </td>
+                @if (item.Ppm_CloroDet >= men && item.Ppm_CloroDet <= may)
+                {
+                    <td>
+                        <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango">@item.Ppm_CloroDet</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="badge" style="color:white;background-color:@ViewBag.ColorFueraRango ">@item.Ppm_CloroDet</span>
+                    </td>
+                }
                 <td>
                     @item.IdCisternaDet
                 </td>
@@ -48,8 +52,9 @@
                     {
                         @item.ObservacionDet
                     }
-                </td>               
+                </td>
             </tr>
         }
     </tbody>
 </table>
+

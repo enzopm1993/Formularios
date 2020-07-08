@@ -7,11 +7,16 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalidad;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class CloroCisternaDescongeladoController : Controller
     {
+        ClsdParametroCalidad ClsdParametroCalidad { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsLogin { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDCloroCisternaDescongelado clsDCloroCisternaDescongelado { get; set; } = null;
@@ -24,6 +29,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {              
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/"+RouteData.Values["controller"] + "/" + RouteData.Values["action"];                ViewBag.MascaraInput = "1";
+                clsLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteCloroCisternaDescongelado");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteCloroCisternaDescongelado";
+                }
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
+                ViewBag.ColorDentroRango = parametros.ColorDentroRango;
+                ViewBag.ColorFueraRango = parametros.ColorFueraRango;
+                
                 clsDClasificador = new clsDClasificador();
                 var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
                 if (poTurno != null)
@@ -52,7 +69,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-       
         [HttpPost]
         public ActionResult EliminarCloroCisternaDescongelado(CC_CLORO_CISTERNA_DESCONGELADO model)
         {
@@ -62,6 +78,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisterna);
@@ -150,6 +172,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -158,11 +186,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisterna);
                 if (!estadoReporte.EstadoReporte)
                 {
+                    ClsdParametroCalidad = new ClsdParametroCalidad();
+                    var parametros=ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
+                    model.ParamMax = parametros.Maximo;
+                    model.ParamMin = parametros.Minimo;
                     int result=clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
                     if(result==0)return Json("0", JsonRequestBehavior.AllowGet);
                     else return Json("1", JsonRequestBehavior.AllowGet);
-                    //else return Json("3", JsonRequestBehavior.AllowGet);
-
                 }
                 else return Json("2", JsonRequestBehavior.AllowGet);
             }
@@ -202,8 +232,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisternaCabecera);
-                if (!estadoReporte.EstadoReporte)
+                clsDPeriodo = new clsDPeriodo();
+                if (estadoReporte!=null && !estadoReporte.EstadoReporte)
                 {
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                    if (!periodo)
+                    {
+                        return Json("100", JsonRequestBehavior.AllowGet);
+                    }
+                //}
+                
+                
+                //if (!estadoReporte.EstadoReporte)
+                //{
                     clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongeladoDetalle(model);
                     return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
                 }else return Json("2", JsonRequestBehavior.AllowGet);
@@ -239,6 +280,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarDetalle(IdCloroCisterna);
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
+                ViewBag.ColorDentroRango = parametros.ColorDentroRango;
+                ViewBag.ColorFueraRango = parametros.ColorFueraRango;
+                ViewBag.ParamMax = parametros.Maximo;
+                ViewBag.ParamMin = parametros.Minimo;
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return PartialView(poCloroCisterna);
@@ -280,18 +327,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var estadoReporte = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(model.IdCloroCisternaCabecera);
-                if (!estadoReporte.EstadoReporte)
+                if (estadoReporte!=null)
                 {
-                    var poCloroCisterna = clsDCloroCisternaDescongelado.Eliminar_ReporteCloroCisternaDescongeladoDetalle(model);
-                    if (poCloroCisterna == 1)
+                    clsDPeriodo = new clsDPeriodo();
+                    bool periodo = clsDPeriodo.ValidaFechaPeriodo(estadoReporte.Fecha);
+                    if (!periodo)
                     {
-                        return Json("1", JsonRequestBehavior.AllowGet);
+                        return Json("100", JsonRequestBehavior.AllowGet);
                     }
-                    else
+                    if (!estadoReporte.EstadoReporte)
                     {
-                        return Json("0", JsonRequestBehavior.AllowGet);
+                        var poCloroCisterna = clsDCloroCisternaDescongelado.Eliminar_ReporteCloroCisternaDescongeladoDetalle(model);
+                        if (poCloroCisterna == 1)
+                        {
+                            return Json("1", JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            return Json("0", JsonRequestBehavior.AllowGet);
+                        }
                     }
-                }else return Json("2", JsonRequestBehavior.AllowGet);
+                    else return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                return Json("10", JsonRequestBehavior.AllowGet);
+
             }
             catch (DbEntityValidationException e)
             {
@@ -318,6 +377,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
+                ViewBag.ColorDentroRango = parametros.ColorDentroRango;
+                ViewBag.ColorFueraRango = parametros.ColorFueraRango;
+                ViewBag.ParamMax = parametros.Maximo;
+                ViewBag.ParamMin = parametros.Minimo;
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
@@ -430,6 +495,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.Fecha);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 model.AprobadoPor= lsUsuario[0];
                 model.UsuarioIngresoLog = lsUsuario[0];
@@ -461,8 +532,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
+                ViewBag.ColorDentroRango = parametros.ColorDentroRango;
+                ViewBag.ColorFueraRango = parametros.ColorFueraRango;
+                ViewBag.ParamMax = parametros.Maximo;
+                ViewBag.ParamMin = parametros.Minimo;
                 ViewBag.DateRangePicker = "1";
                 ViewBag.dataTableJS = "1";
+                clsLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsLogin.ValidarPermisoOpcion(lsUsuario[1], "CloroCisternaDescongelado");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "CloroCisternaDescongelado";
+                }
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
@@ -500,6 +584,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                ClsdParametroCalidad = new ClsdParametroCalidad();
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
+                ViewBag.ColorDentroRango = parametros.ColorDentroRango;
+                ViewBag.ColorFueraRango = parametros.ColorFueraRango;
+                ViewBag.ParamMax = parametros.Maximo;
+                ViewBag.ParamMin = parametros.Minimo;
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {

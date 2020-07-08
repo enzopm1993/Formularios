@@ -378,7 +378,8 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             IdControlCuchillo: datosCabecera.IdControlCuchillo,
-            turno: document.getElementById('selectTurno').value
+            turno: document.getElementById('selectTurno').value,
+            Fecha: moment(datosCabecera.Fecha).format('DD-MM-YYYY')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -820,7 +821,7 @@ function DatePicker() {
     });
     $('#datetimepicker1').datetimepicker(
         {
-            date: moment().format("DD-MM-YYYY"),
+            date: moment(),
             format: "DD-MM-YYYY",
             //minDate: model.Fecha,
             maxDate: moment().add(1,'days'),

@@ -192,7 +192,8 @@ function EliminarCabeceraSi() {
                 url: "../LimpiezaDesinfeccionPlanta/EliminarLimpiezaCabecera",
                 type: "POST",
                 data: {
-                    IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta
+                    IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta,
+                    Fecha: moment(itemEditar.Fecha).format('DD-MM-YYYY')
                 },
                 success: function (resultado) {
                     if (resultado == "101") {

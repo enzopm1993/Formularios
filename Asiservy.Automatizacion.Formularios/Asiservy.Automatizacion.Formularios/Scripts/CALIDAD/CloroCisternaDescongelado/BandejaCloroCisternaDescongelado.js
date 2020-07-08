@@ -1,6 +1,9 @@
 ﻿var listaDatos = [];
     $(document).ready(function () {
         CargarBandeja();
+        $('#selectEstadoRegistro').select2({
+            width: '100%'
+        });
 });
 var configModal = {
     wsUrl: 'http://192.168.0.31:8870',
@@ -118,11 +121,11 @@ function SeleccionarBandeja(model) {
                 ];
                 resultado.forEach(function (row) {
                     row.Hora = moment(row.Hora).format('DD-MM-YYYY HH:mm');
-                    var estilo = 'badge-danger';
-                    if (row.Ppm_Cloro >= 0.3 && row.Ppm_Cloro<=1.5) {
-                        estilo = 'badge-success';
+                    var estilo = document.getElementById('coloroFuera').value;
+                    if (row.Ppm_Cloro >= document.getElementById('paramMin').value && row.Ppm_Cloro <= document.getElementById('paramMax').value) {
+                        estilo = document.getElementById('colorRango').value;
                     }
-                    row.Ppm_Cloro = '<span class="badge ' + estilo +'">'+row.Ppm_Cloro+'</span>';
+                    row.Ppm_Cloro = '<span class="badge" style="color:white;background-color:'+estilo+'">'+row.Ppm_Cloro+'</span>';
                 });
                 table.DataTable().destroy();
                 table.DataTable(configModal.opcionesDT);      
@@ -165,16 +168,21 @@ function AprobarControlCloroDetalle(data) {
         data: {
             IdCloroCisterna: listaDatos.IdCloroCisterna,
             FechaAprobacion: $('#txtFechaAprobado').val(),
-            EstadoReporte:estadoReporte
+            EstadoReporte: estadoReporte,
+            Fecha: moment(listaDatos.Fecha).format('DD-MM-YYYY')
         },
         success: function (resultado) {
+            $("#ModalApruebaCntrolCloro").modal("hide");
             if (resultado == "101") {
                 window.location.reload();
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
             }
             MensajeCorrecto(resultado);
             CargarBandeja();
             listaDatos = [];
-            $("#ModalApruebaCntrolCloro").modal("hide");
+            
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);

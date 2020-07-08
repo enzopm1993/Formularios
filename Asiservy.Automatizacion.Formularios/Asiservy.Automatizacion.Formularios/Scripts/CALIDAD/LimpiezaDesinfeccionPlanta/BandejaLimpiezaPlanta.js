@@ -37,9 +37,9 @@ function CargarBandeja() {
                 $("#divTablaAprobados").show();
                 $("#divTablaAprobados").html(resultado);
             }
-            setTimeout(function () {
+            
                 $('#cargac').hide();
-            }, 200);
+           
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -143,6 +143,7 @@ function AprobarPendiente(estadoReporte) {
             IdLimpiezaDesinfeccionPlanta: listaDatos.IdLimpiezaDesinfeccionPlanta,
             EstadoReporte: estadoReporte,
             FechaAprobado: $('#txtFechaAprobado').val(),
+            Fecha: moment(listaDatos.Fecha).format('DD-MM-YYYY'),
             siAprobar: siAprobar            
         },
         success: function (resultado) {
