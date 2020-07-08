@@ -1,5 +1,5 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
-
+@using Newtonsoft.Json
 <style>
     #divmin {
         padding-top: 0px;
@@ -68,7 +68,13 @@
 </style>
 <h4>Evaluación de lomos y migas en bandejas <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
 <hr />
-
+@{ 
+    string ParametrosMax = JsonConvert.SerializeObject(@ViewBag.ParametrosMaximo);
+}
+<script>
+    var parametrojs =@Html.Raw(ParametrosMax);
+    console.log(parametrojs);
+</script>
 <div class="card" id="divmin" style="cursor:pointer" onclick="SlideCabecera()">
     <center><i class="fas fa-arrow-alt-circle-down"></i></center>
 </div>
@@ -92,15 +98,15 @@
                 </div>
                 <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
-                    <option>Seleccione..</option>
-                </select>
-                <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+                        <option>Seleccione..</option>
+                    </select>
+                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Turno</label>
-                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control",@onchange= "ConsultarCabControl()" })
+                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
                 <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
             </div>
         </div>
@@ -117,15 +123,15 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
-                            </label>
-                        </div>*@
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                                </label>
+                            </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
@@ -154,20 +160,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Empaque" value="">Empaque
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Enlatado" value="">Enlatado
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Pouch" value="">Pouch
-                            </label>
-                        </div>*@
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Empaque" value="">Empaque
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Enlatado" value="">Enlatado
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Pouch" value="">Pouch
+                                </label>
+                            </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
@@ -200,7 +206,7 @@
                 @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
                 <label class="text-danger" id="msgerrorniveldelimpieza" hidden>Debe seleccionar el nivel de limpieza</label>
                 <label>Parámetro máximo:</label>
-                <label class="badge badge-success" id="lblparametro"></label>
+                <span class="badge bagde-pill" id="lblparametro" style="background-color:green;color:white" ></span>
             </div>
         </div>
         <div class="col-md-4">
