@@ -1,60 +1,65 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_CloroCisternaDescongelado>
+@if (ViewBag.ErrorParametro == "99")
+{
+    <h6 class="text-md-left text-center text-uppercase badge badge-danger" style="float:left">ERROR: NO SE ENCONTRARON PARÁMETROS EN EL MANTENIMIENTO cod2</h6>
+}
+else
+{
+    <table class="table table-bordered text-uppercase">
+        <thead style="font-size:14px">
+            <tr>
+                <th>
+                    FECHA - HORA
+                </th>
+                <th>
+                    PPM CLORO
+                </th>
+                <th>
+                    CISTERNA
+                </th>
+                <th>
+                    OBSERVACIÓN
+                </th>
 
-<table class="table table-bordered text-uppercase">
-    <thead style="font-size:14px">
-        <tr>
-            <th>
-                FECHA - HORA
-            </th>
-            <th>
-                PPM CLORO
-            </th>
-            <th>
-                CISTERNA
-            </th>
-            <th>
-                OBSERVACIÓN
-            </th>
+            </tr>
+        </thead>
+        <tbody style="font-size:12px">
+            @foreach (var item in Model)
+            {
+                decimal men = ViewBag.ParamMin;
+                decimal may = ViewBag.ParamMax;
+                <tr style="page-break-inside: avoid;">
 
-        </tr>
-    </thead>
-    <tbody style="font-size:12px">
-        @foreach (var item in Model)
-        {
-            decimal men = ViewBag.ParamMin;
-            decimal may = ViewBag.ParamMax;
-            <tr style="page-break-inside: avoid;">
-
-                <td>
-                    @item.HoraDet.ToString("dd-MM-yyyy HH:mm")
-                </td>
-                @if (item.Ppm_CloroDet >= men && item.Ppm_CloroDet <= may)
-                {
                     <td>
-                        <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango">@item.Ppm_CloroDet</span>
+                        @item.HoraDet.ToString("dd-MM-yyyy HH:mm")
                     </td>
-                }
-                else
-                {
-                    <td>
-                        <span class="badge" style="color:white;background-color:@ViewBag.ColorFueraRango ">@item.Ppm_CloroDet</span>
-                    </td>
-                }
-                <td>
-                    @item.IdCisternaDet
-                </td>
-                <td style="white-space:normal">
-                    @if (!string.IsNullOrEmpty(item.ObservacionDet))
+                    @if (item.Ppm_CloroDet >= men && item.Ppm_CloroDet <= may)
                     {
-                        @item.ObservacionDet.ToUpper()
+                        <td>
+                            <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango">@item.Ppm_CloroDet</span>
+                        </td>
                     }
                     else
                     {
-                        @item.ObservacionDet
+                        <td>
+                            <span class="badge" style="color:white;background-color:@ViewBag.ColorFueraRango ">@item.Ppm_CloroDet</span>
+                        </td>
                     }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+                    <td>
+                        @item.IdCisternaDet
+                    </td>
+                    <td style="white-space:normal">
+                        @if (!string.IsNullOrEmpty(item.ObservacionDet))
+                        {
+                            @item.ObservacionDet.ToUpper()
+                        }
+                        else
+                        {
+                            @item.ObservacionDet
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -16,8 +16,8 @@
         vertical-align: middle;
     }
 </style>
-<table class="table table-bordered table-hover table-striped" id="tblDataTable">
-    <thead style="font-size:14px">
+<table class="table table-bordered table-hover table-striped text-uppercase" id="tblDataTable">
+    <thead style="font-size:13px">
         <tr>
             <th>
                 FECHA
@@ -43,7 +43,7 @@
             </th>
         </tr>
     </thead>
-    <tbody style="font-size:13px">
+    <tbody style="font-size:12px">
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
@@ -51,11 +51,9 @@
                 <td>
                     @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ObservacionControl))
-                    {
-                    <textarea type="text" name="name" disabled oninput="auto_grow(this)" id="note">@item.ObservacionControl.ToUpper()</textarea>
-                    }
+                <td style="white-space:normal">
+                   
+                   @item.ObservacionControl
                 </td>
                 <td>
                     @item.UsuarioIngresoLog

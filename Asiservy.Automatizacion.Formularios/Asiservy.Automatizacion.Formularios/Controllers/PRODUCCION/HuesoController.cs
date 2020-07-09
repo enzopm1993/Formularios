@@ -971,7 +971,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDControlHueso = new clsDControlHueso();
                 var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(ddFecha.Date, Turno);
                 if (!model.Any())
-                    return Json("1", JsonRequestBehavior.AllowGet);
+                { return Json("1", JsonRequestBehavior.AllowGet); }
+                ViewBag.Model = model;
                 return PartialView(model);
             }
             catch (Exception ex)

@@ -1,7 +1,63 @@
 ﻿$(document).ready(function () {
     ConsultarControl();
-    $("#txtCloro").mask("9?.99");
-    $("#txtCloro2").mask("9?.99");
+    //$("#txtCloro").mask("9?.99");
+    //$("#txtCloro2").mask("9?.99");
+
+    $('#txtCloro').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100.00',
+        'min':'0'
+    });
+    $('#txtCloro2').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100.00',
+        'min': '0'
+    });
+
+
+    $('#txtParada').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100',
+        'min': '0'
+    });
+    $('#txtParada2').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100',
+        'min': '0'
+    });
+
+    $('#txtTemperatura').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digits': 2,
+        'digitsOptional': true,
+        'max': '100.00',
+        'min': '-100.00'
+    });
+    $('#txtTemperatura2').inputmask({
+        'alias': 'integer',
+        'groupSeparator': ',',
+        'autoGroup': true,
+        'digits': 2,
+        'digitsOptional': true,
+        'max': '100',
+        'min': '-100.00'
+    });
 });
 
 function ValidaEstadoReporte(Fecha) {
@@ -245,6 +301,9 @@ function GuardarControl() {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else 
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
@@ -403,6 +462,9 @@ function GuardarControlEdita() {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else 
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
@@ -441,6 +503,9 @@ function InactivarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else 
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
