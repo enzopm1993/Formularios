@@ -163,7 +163,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_TURNO> CC_ANALISIS_QUIMICO_PRECOCCION_TURNO { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CALDEROS> CC_ANALISIS_AGUA_CALDEROS { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CALDEROS_DETALLE> CC_ANALISIS_AGUA_CALDEROS_DETALLE { get; set; }
-        public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_METAL> CC_OPERATIVIDAD_METAL { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
@@ -207,6 +206,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_PARAMETRO_DEFECTO_CABECERA> CC_PARAMETRO_DEFECTO_CABECERA { get; set; }
         public virtual DbSet<CC_PARAMETRO_DEFECTO_DETALLE> CC_PARAMETRO_DEFECTO_DETALLE { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
+        public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
