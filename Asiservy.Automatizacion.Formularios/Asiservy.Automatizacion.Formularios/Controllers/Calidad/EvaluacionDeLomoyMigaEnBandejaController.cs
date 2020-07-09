@@ -27,6 +27,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
+        private clsDLogin clsDLogin { get; set; } = null;
+        private clsDPeriodo clsDPeriodo { get; set; } = null;
         private ClsDParametroDefecto ClsDParametroDefecto { get;set;}=null;
         private clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
         private clsDMantenimientoTextura clsDMantenimientoTextura { get; set; } = null;
@@ -85,13 +87,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteEvaluacionLomoMigaBandeja");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteEvaluacionLomoMigaBandeja";
+                    }
+                }
+                //**
                 ViewBag.MaskedInput = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.JqueryRotate = "1";
                 ViewBag.MascaraInput = "1";
                 //ViewBag.FirmaPad = "1";
-                lsUsuario = User.Identity.Name.Split('_');
+                //lsUsuario = User.Identity.Name.Split('_');
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
                 clsDMantenimientoTextura = new clsDMantenimientoTextura();
                 clsDMantenimientoSabor = new clsDMantenimientoSabor();
@@ -145,13 +159,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
-                
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlEvaluacionLomoMigaBandeja");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlEvaluacionLomoMigaBandeja";
+                    }
+                }
+                //**
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.JqueryRotate = "1";
                 ViewBag.select2 = "1";
-                lsUsuario = User.Identity.Name.Split('_');
+                //lsUsuario = User.Identity.Name.Split('_');
                 
                 return View();
             }
@@ -183,6 +208,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poCabeceraControl.FechaProduccion.Value))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poCabeceraControl;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 poCabeceraControl.FechaIngresoLog = DateTime.Now;
                 poCabeceraControl.UsuarioIngresoLog = lsUsuario[0];
@@ -280,7 +314,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarCabeceraControl(int IdCabecera)
+        public JsonResult EliminarCabeceraControl(int IdCabecera,DateTime poFecha)
         {
             try
             {
@@ -288,6 +322,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA poCabecera = new CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA()
                 {
@@ -321,7 +364,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarFotoDetalle(int IdFoto)
+        public JsonResult EliminarFotoDetalle(int IdFoto,DateTime poFecha)
         {
             try
             {
@@ -329,6 +372,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_EVALUACION_LOMO_MIGA_FOTO poFotoLomosyMigas = new CC_EVALUACION_LOMO_MIGA_FOTO()
                 {
@@ -362,7 +414,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarDetalleControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetalleControl)
+        public JsonResult GuardarDetalleControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetalleControl,DateTime poFecha)
         {
             try
             {
@@ -371,7 +423,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-         
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 poDetalleControl.FechaIngresoLog = DateTime.Now;
                 poDetalleControl.UsuarioIngresoLog = lsUsuario[0];
                 poDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -411,7 +471,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarDetalleControl(int IdDetalle)
+        public JsonResult EliminarDetalleControl(int IdDetalle,DateTime poFecha)
         {
             try
             {
@@ -419,6 +479,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetControl = new CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE()
                 {
@@ -675,7 +744,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdCabecera,DateTime Fecha/*, string imagen*/)
+        public JsonResult AprobarControl(int IdCabecera,DateTime Fecha,DateTime poFecha/*, string imagen*/)
         {
             try
             {
@@ -683,6 +752,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string  respuesta = "444";
+              
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
 
                 //byte[] Firma = Convert.FromBase64String(imagen);
@@ -710,7 +786,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult ReversarControl(int IdCabecera)
+        public JsonResult ReversarControl(int IdCabecera, DateTime poFecha)
         {
             try
             {
@@ -718,6 +794,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
 
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
@@ -788,7 +870,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarFotoDetalle(HttpPostedFileBase dataImg, CC_EVALUACION_LOMO_MIGA_FOTO control)
+        public JsonResult GuardarFotoDetalle(HttpPostedFileBase dataImg, CC_EVALUACION_LOMO_MIGA_FOTO control,DateTime poFecha)
         {
             try
             {
@@ -798,7 +880,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
                 string path = string.Empty;
                 string NombreImg = string.Empty;
