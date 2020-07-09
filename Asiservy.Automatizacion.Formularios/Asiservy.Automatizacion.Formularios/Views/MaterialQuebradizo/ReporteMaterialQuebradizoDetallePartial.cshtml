@@ -16,9 +16,9 @@
         <table class="table table-bordered table-secondary text-uppercase">
             <thead style="font-size:10px">
                 <tr>
-                    <th>VERIFICACION</th>
+                    <th>VERIFICACIÓN</th>
                     <th>
-                        AREA
+                        ÁREA
                     </th>
 
                     @foreach (var item in listaMaterial)
@@ -28,7 +28,7 @@
                         </th>
                     }
                     <th>
-                        OBSERVACION
+                        OBSERVACIÓN
                     </th>
                     @*<th>
                         ACCION CORRECTIVA
@@ -127,7 +127,7 @@
         {
             <div>
                 <div id="header_@item.IdAccion">
-                    <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdAccion" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                    <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdAccion" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
 
                 </div>
 
@@ -135,9 +135,9 @@
                             validarImg('@item.Rotation','@item.IdAccion','@item.RutaFoto');
                 </script>
                 <div>
-                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>VERIFICACION: </b> @item.TipoVerificacion.ToUpper()</label><br />
-                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>AREA: </b> @item.Nombre.ToUpper()</label><br />
-                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>ACCION CORRECTIVA: </b> @item.DescripcionAccion.ToUpper()</label><br />
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>VERIFICACIÓN: </b> @item.TipoVerificacion.ToUpper()</label><br />
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>ÁREA: </b> @item.Nombre.ToUpper()</label><br />
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>ACCIÓN CORRECTIVA: </b> @item.DescripcionAccion.ToUpper()</label><br />
                 </div>
             </div>
         }
@@ -146,14 +146,14 @@
 </div>
 
 <style>
-    img {
+    .img {
         border: 1px solid #ddd;
         border-radius: 4px;
         padding: 5px;
         width: 250px;
     }
 
-        img:hover {
+        .img:hover {
             box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
         }
 </style>

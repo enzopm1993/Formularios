@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaTanquero;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private ClsdAnalisisAguaTanquero ClsdAnalisisAguaTanquero { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
+        private clsDLogin clsDLogin { get; set; } = null;
+        private clsDPeriodo clsDPeriodo { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
+        
 
         // GET: AnalisisAguaTanquero
         #region CONTROL 
@@ -30,7 +34,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteAnalisisAguaTanquero");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteAnalisisAguaTanquero";
+                    }
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -70,6 +84,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (ClsdAnalisisAguaTanquero.ConsultaAnalisisAguaTanqueroControl(Fecha).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -143,6 +162,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 if (model.IdAnalisisAguaTanquero == 0)
                 {
@@ -362,6 +386,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdAnalisisAguaTanquero.Aprobar_ReporteAnalisisAguaTanquero(model);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
@@ -403,6 +432,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdAnalisisAguaTanquero.Aprobar_ReporteAnalisisAguaTanquero(model);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
@@ -438,6 +472,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 clsDReporte = new clsDReporte();
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "AnalisisAguaTanquero");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "AnalisisAguaTanquero";
+                    }
+                }
                 var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {

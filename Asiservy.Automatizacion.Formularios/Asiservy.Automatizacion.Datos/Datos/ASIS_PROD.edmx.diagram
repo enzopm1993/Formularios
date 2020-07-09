@@ -251,10 +251,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" Width="1.5" PointX="53.625" PointY="6.875" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Width="1.5" PointX="51.375" PointY="6.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_DETALLE" Width="1.5" PointX="55.875" PointY="1.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Width="1.5" PointX="23.375" PointY="40" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="25.625" PointY="40.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TIPO_DESCONGELADO" Width="1.5" PointX="51.375" PointY="1.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="53.625" PointY="0.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO" />
@@ -268,6 +266,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_DEFECTO_CABECERA" Width="1.5" PointX="16.375" PointY="51" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_DEFECTO_DETALLE" Width="1.5" PointX="18.625" PointY="51.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_PARAMETRO_DEFECTO_DETALLE_CC_PARAMETRO_DEFECTO_CABECERA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Width="1.5" PointX="23.375" PointY="38.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

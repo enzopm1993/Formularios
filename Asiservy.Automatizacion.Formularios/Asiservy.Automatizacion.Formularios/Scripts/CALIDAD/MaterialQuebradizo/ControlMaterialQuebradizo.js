@@ -19,6 +19,9 @@ $(document).ready(function () {
     $('#selectTurnoIngresar').select2({
         width: '100%'
     });
+    $('#selectVerificacion').select2({
+        width: '100%'
+    });
 });
 
 function ConsultarEstadoRegistro() {
@@ -206,6 +209,8 @@ function EliminarCabeceraSi() {
                         return;
                     } else if (resultado == 100) {
                         MensajeAdvertencia(Mensajes.MensajePeriodo);
+                        $('#cargac').hide();
+                        return;
                     }
                     itemCabecera = [];
                 },
