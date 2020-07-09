@@ -8,7 +8,12 @@
         max-width: 100%;
     }
 </style>
-
+@if (ViewBag.ErrorParametro == "99")
+{
+    <h6 class="text-md-left text-center text-uppercase badge badge-danger" style="float:left">ERROR: NO SE ENCONTRARON PARÁMETROS EN EL MANTENIMIENTO cod2</h6>
+}
+else
+{
 <div class="row">
     <div class="col-md-12 ">
         <h5 class="text-md-left text-center text-uppercase" style="float:left">Control de Cloro en Cisterna Descongelado<label id="txtEstado" class="badge badge-danger"></label></h5>
@@ -111,7 +116,7 @@
                 <h6 class="modal-title">INGRESO HORA</h6>
                 <button type="button" class="close" data-dismiss="modal" onclick="limpiarDetalle()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>               
+                </button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -166,7 +171,7 @@
                                     <img style="width:100%" src="~/Content/icons/add24.png" />
                                 </button>
                             </div>
-                        </div>                  
+                        </div>
                         <div class="col-md-3 col-sm-4 col-2 text-right text-sm-right text-md-right">
                             <div class="card shadow">
                                 <div hidden id="divParametros" class="card-body" style="font-size:12px;padding:4px">
@@ -207,3 +212,4 @@
         </div>
     </div>
 </div>
+}

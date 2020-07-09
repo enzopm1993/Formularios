@@ -61,8 +61,9 @@ function GuardarControl() {
     } else {
         $("#txtDescripcion").css('borderColor', '#ced4da');
     }
-
-    if ($("#txtMinimo").val() > $("#txtMaximo").val()) {
+    var min = parseFloat($("#txtMinimo").val());
+    var max = parseFloat($("#txtMaximo").val());    
+    if (min > max) {
         $("#txtMinimo").css('borderColor', '#FA8072');
         $("#txtMaximo").css('borderColor', '#FA8072');
         MensajeAdvertencia("Valor mínimo no debe ser mayor que valor máximo.")

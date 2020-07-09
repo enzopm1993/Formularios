@@ -232,7 +232,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                 var lista = (from c in db.CC_CLORO_CISTERNA_DESCONGELADO
                              where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                              orderby c.Fecha descending
-                             select new { c.IdCloroCisterna, c.Fecha, c.EstadoReporte, c.Observaciones, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobacion, c.AprobadoPor, c.Turno }).ToList();
+                             select new { c.IdCloroCisterna, c.Fecha, c.EstadoReporte, c.Observaciones, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobacion, c.AprobadoPor, c.Turno, c.ParamMax, c.ParamMin }).ToList();
                 List<CC_CLORO_CISTERNA_DESCONGELADO> listacabecera = new List<CC_CLORO_CISTERNA_DESCONGELADO>();
                 CC_CLORO_CISTERNA_DESCONGELADO cabecera;
                 foreach (var item in lista)
@@ -247,6 +247,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                     cabecera.FechaAprobacion = item.FechaAprobacion;
                     cabecera.AprobadoPor = item.AprobadoPor;
                     cabecera.Turno = item.Turno;
+                    cabecera.ParamMax = item.ParamMax;
+                    cabecera.ParamMin = item.ParamMin;
                     listacabecera.Add(cabecera);
                 }
                 return listacabecera;

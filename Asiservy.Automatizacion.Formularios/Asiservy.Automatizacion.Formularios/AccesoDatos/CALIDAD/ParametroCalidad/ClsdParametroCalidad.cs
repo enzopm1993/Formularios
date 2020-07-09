@@ -27,6 +27,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalid
             }
         }
 
+        public CC_PARAMETRO_CALIDAD ConsultaMantenimientoParametroCalidadCod(string cod)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.CC_PARAMETRO_CALIDAD.FirstOrDefault(x => x.CodParametro == cod);
+                return lista;
+            }
+        }
+
         public void GuardarModificarMantenimientoParametroCalidad(CC_PARAMETRO_CALIDAD model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

@@ -140,7 +140,7 @@
                         var sum = item.Venas + item.Espinas + item.Sangre + item.Escamas + item.Piel;
                         cont++;
                     }
-                    <label id="total@(cont)" class="badge badge-pill">@sum</label>
+                    <label id="total@(cont)" class="badge badge-pill" style="color:white">@sum</label>
 
                     <script>
                         var suma =@Html.Raw(Json.Encode(sum));
@@ -149,9 +149,11 @@
                         //contador = contador - 1;
                         if (suma > TotalMaximo) {
                                 //console.log("assadsd");
-                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                            } else {
-                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                //$('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                            $('#total' + contador).css('background-color', GlobalColorFueraRango)
+                        } else {
+                            $('#total' + contador).css('background-color', GlobalColorDentroRango)
+                                //$('#total' + contador).removeClass('badge-danger').addClass('badge-success');
                             }
                         
                         //if ($('#cmbNivelLimpieza').val() == 1)
