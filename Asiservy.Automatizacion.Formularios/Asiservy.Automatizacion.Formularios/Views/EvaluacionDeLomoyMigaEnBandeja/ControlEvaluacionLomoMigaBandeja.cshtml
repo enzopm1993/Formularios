@@ -73,7 +73,7 @@
 }
 <script>
     var parametrojs =@Html.Raw(ParametrosMax);
-    console.log(parametrojs);
+  
 </script>
 <div class="card" id="divmin" style="cursor:pointer" onclick="SlideCabecera()">
     <center><i class="fas fa-arrow-alt-circle-down"></i></center>
@@ -206,7 +206,7 @@
                 @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
                 <label class="text-danger" id="msgerrorniveldelimpieza" hidden>Debe seleccionar el nivel de limpieza</label>
                 <label>Parámetro máximo:</label>
-                <span class="badge bagde-pill" id="lblparametro" style="background-color:green;color:white" ></span>
+                <span class="badge bagde-pill" id="lblparametro" style="color:white" ></span>
             </div>
         </div>
         <div class="col-md-4">
@@ -346,8 +346,8 @@
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
-                                <label>Trozos</label>
-                                <input type="tel" id="txtTrozos" class="form-control" />
+                                <label>Trozos <span class="badge badge-secondary">+100.00</span></label>
+                                <input type="tel" id="txtTrozos" class="form-control" autocomplete="off" />
                             </div>
                         </div>
                     </div>
@@ -356,32 +356,32 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label>Venas</label>
-                                <input type="tel" id="txtVenas" class="form-control" />
+                                <label>Venas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtVenas" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label>Espinas</label>
-                                <input type="tel" id="txtEspinas" class="form-control" />
+                                <label>Espinas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtEspinas" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label>Sangre</label>
-                                <input type="tel" id="txtSangre" class="form-control" />
+                                <label>Sangre<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtSangre" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <div class="form-group">
-                                <label>Escamas</label>
-                                <input type="tel" id="txtEscamas" class="form-control" />
+                                <label>Escamas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtEscamas" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <div class="form-group">
-                                <label>Piel</label>
-                                <input type="tel" id="txtPiel" class="form-control" />
+                                <label>Piel<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtPiel" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                     </div>

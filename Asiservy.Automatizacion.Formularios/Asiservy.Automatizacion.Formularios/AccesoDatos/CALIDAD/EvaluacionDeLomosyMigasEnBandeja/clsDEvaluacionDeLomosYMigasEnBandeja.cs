@@ -128,6 +128,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     BuscarCabecera.Empaque = poCabControl.Empaque;
                     BuscarCabecera.Enlatado = poCabControl.Enlatado;
                     BuscarCabecera.Pouch = poCabControl.Pouch;
+                    BuscarCabecera.Maximo = poCabControl.Maximo;
                     BuscarCabecera.FechaModificacionLog = poCabControl.FechaIngresoLog;
                     BuscarCabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
                     BuscarCabecera.TerminalIngresoLog = poCabControl.TerminalIngresoLog;

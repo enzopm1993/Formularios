@@ -5,6 +5,8 @@ var IdDetalle = 0;
 var rotation = 0;
 var IdFotoEvaluacioLomosyMigas = 0;
 var TotalMaximo;
+var GlobalColorDentroRango;
+var GlobalColorFueraRango;
 //var ParametrosLomo =
 //{
 //    Limpieza1: {
@@ -60,13 +62,54 @@ var TotalMaximo;
 //    }
 //}
 $(document).ready(function () {
-    
-    $('#txtVenas').mask("9?9");
-    $('#txtEspinas').mask("9?9");
-    $('#txtSangre').mask("9?9");
-    $('#txtEscamas').mask("9?9");
-    $('#txtPiel').mask("9?9");
-    $('#txtTrozos').mask("9?.99");
+    $('#txtVenas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtEspinas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtSangre').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtEscamas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtPiel').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtTrozos').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 100
+    });
+    //$('#txtVenas').mask("9?9");
+    //$('#txtEspinas').mask("9?9");
+    //$('#txtSangre').mask("9?9");
+    //$('#txtEscamas').mask("9?9");
+    //$('#txtPiel').mask("9?9");
+    //$('#txtTrozos').mask("9?.99");
     
     LLenarComboOrdenes();
     //.then(function () {
@@ -107,15 +150,19 @@ $("#modal-orden-si").on("click", function () {
 });
 function ValidarParametro() {
     $('#lblparametro').text("");
-    if ($('#Lomo').is(':checked') || $('#Miga').is(':checked') && ($('#cmbNivelLimpieza').prop('selectedIndex') != 0))
+    if (($('#Lomo').is(':checked') || $('#Miga').is(':checked')) && ($('#cmbNivelLimpieza').prop('selectedIndex') != 0))
     {
         var TipoProd = $('#Lomo').is(':checked') ? 'L' : 'M';
-        TotalMaximo = Enumerable.From(parametrojs)
+        respuesta = Enumerable.From(parametrojs)
             .Where(function (x) { return x.Formulario == "001" && x.Tipo == TipoProd && x.NivelLimpieza == $('#cmbNivelLimpieza').val() })
-            .Select(function (x) { return x.Maximo})
+            .Select(function (x) { return x})
             .FirstOrDefault();
-        //console.log(TotalMaximo);
-        $('#lblparametro').text(TotalMaximo);
+        console.log(respuesta);
+        $('#lblparametro').text(respuesta.Maximo);
+        $('#lblparametro').css('background-color', respuesta.ColorDentroDeRango);
+        TotalMaximo = respuesta.Maximo;
+        GlobalColorDentroRango = respuesta.ColorDentroDeRango;
+        GlobalColorFueraRango = respuesta.ColorFueraDeRango;
         //if ($('#Lomo').is(':checked')) {
         //    if ($('#cmbNivelLimpieza').val() == '1') {
         //        $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
@@ -548,6 +595,7 @@ function GuardarCabceraControl() {
     data.append('Cliente', $("#txtCliente").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     data.append('NivelLimpieza', $("#cmbNivelLimpieza").val());
+    data.append('Maximo', $("#lblparametro").text());
     if ($('#Lomo').is(":checked")) {
         Lomo = true;
     }

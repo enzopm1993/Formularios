@@ -718,7 +718,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null)
                         ) ||
                         (
-                            x.Cedula == psAsistencia.Cedula && x.FechaFin == psAsistencia.Fecha && x.Fecha < psAsistencia.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                            x.Cedula == psAsistencia.Cedula && x.FechaFin == psAsistencia.Fecha && x.Fecha < psAsistencia.Fecha 
+                            &&x.Horafin>psAsistencia.Hora //línea agregada el 2020-07-09 
+                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                         )
                         ).OrderBy(x => x.Fecha).ToList();
                         //**

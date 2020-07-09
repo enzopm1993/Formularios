@@ -289,11 +289,23 @@
                                                 var suma =@Html.Raw(Json.Encode(suma));
                                                 var TipoLimpieza=@Html.Raw(Json.Encode(Model.FirstOrDefault().TipoLimpieza));
                                                 var contador =@Html.Raw(Json.Encode(cont));
+                                                var parametroMax =@Html.Raw(Json.Encode(ViewBag.ParametrosMaximo));
+                                                var Color1=@Html.Raw(Json.Encode(ViewBag.Color1));
+                                                var Color2=@Html.Raw(Json.Encode(ViewBag.Color2));
+                                                
+                                                $('#lblparametro').text(parametroMax);
+                                                if (suma > parametroMax) {
+                                                
+                                                    $('#total' + contador).css('background-color', Color2)
+                                                } else {
+                                                    $('#total' + contador).css('background-color', Color1)
+                                                 
+                                                }
                                                 //console.log(suma);
                                                 //console.log(TipoLimpieza);
                                                 //console.log(contador);
 
-                                                var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().Lomo));
+                                                @*var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().Lomo));
                                                 var Miga =@Html.Raw(Json.Encode(Model.FirstOrDefault().Miga));
                                 
                             
@@ -350,7 +362,7 @@
                                                             }
                                                         }
 
-                                                    } 
+                                                    }*@ 
                                         
 
                                             </script>

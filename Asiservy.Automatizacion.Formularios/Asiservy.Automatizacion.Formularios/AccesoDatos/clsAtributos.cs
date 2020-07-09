@@ -303,5 +303,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //GRUPO CLASIFICADOR TIPO PRODUCTO
         public static string CodGrupoTipoProducto { get; } = "043";
+
+        //CÓDIGOS DE FORMULARIOS CLASIFICADOR
+        public static string EvaluacionLomosMigasBandeja { get; } = "001";
     }
 }
