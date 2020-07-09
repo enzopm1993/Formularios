@@ -66,7 +66,20 @@
         border: 1px solid black;
     }*/
 </style>
-<h4>Evaluación de lomos y migas en bandejas <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+<div class="row">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;" >Evaluación de lomos y migas en bandejas<label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+
 <hr />
 @{ 
     string ParametrosMax = JsonConvert.SerializeObject(@ViewBag.ParametrosMaximo);
@@ -83,7 +96,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -91,7 +104,7 @@
             <div class="form-group">
                 Orden de Fabricación:
                 <div class="input-group">
-                    @Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })
+                    @Html.TextBox("cmbOrdeneFabricacion", null, new {@class="form-control", @readonly = "readonly" })
                     <button type="button" onclick="" id="btnOrden">
                         <img src="~/Content/images/buscar.png" />
                     </button><br />

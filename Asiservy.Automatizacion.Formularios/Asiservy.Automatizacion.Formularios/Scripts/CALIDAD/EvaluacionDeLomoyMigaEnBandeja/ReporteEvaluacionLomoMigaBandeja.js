@@ -1,4 +1,10 @@
 ﻿var Error = 0;
+
+$(document).ready(function () {
+    $('#fechaDesde').val(moment().format("YYYY-MM-DD"));
+    $('#fechaHasta').val(moment().format("YYYY-MM-DD"));
+    CargarCabReportes();
+});
 var ParametrosLomo =
 {
     Limpieza1: {

@@ -76,13 +76,13 @@ textarea {
     align-items: center;
 }
 
-.choose-position .select2-results__option .img-flag {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
+    .choose-position .select2-results__option .img-flag {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
 
 .choose-position .select2-container--default.select2-container--focus .select2-selection--single {
     /*border: 1px solid #c9c9c9 !important;*/
@@ -106,8 +106,10 @@ textarea {
     justify-content: center;
     box-shadow: 0 5px 20px rgba(35, 49, 45, 0.14);
 }
+
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
-    background-image: url(https://cdn0.iconfinder.com/data/icons/essentials-9/128/__Search-512.png);
+    /*background-image: url();*/
+    background-image: url(images/searchicon.png);
     background-color: transparent;
     background-size: contain;
     border: none !important;
@@ -122,29 +124,33 @@ textarea {
     .select2-selection__placeholder {
         font-size: 12px;
     }
-    .select2-results__option{
-        font-size:10px;
+
+    .select2-results__option {
+        font-size: 10px;
     }
+
     #userDropdown {
         font-size: 10px;
     }
 }
+
 #divsearchbtn {
     padding-left: 0rem;
     padding-right: 0rem;
 }
-#sidebarToggleTop{
-    padding-left:0;
+
+#sidebarToggleTop {
+    padding-left: 0;
 }
-.select2-selection
-{
-    padding-left:0rem;
+
+.select2-selection {
+    padding-left: 0rem;
 }
+
 .select2-selection--single {
     padding-left: 0rem;
 }
+
 .choose-position .select2-container--default .select2-selection--single {
-
     height: 40px;
-
 }

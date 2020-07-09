@@ -449,7 +449,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                                      //join T in ListaTurnos on x.Turno equals T.Codigo
                                      join d in db.ENTRADA_SALIDA_MATERIAL_DETALLE on new { IdCabecera = x.IdControlEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdCabecera = d.IdCabeceraEntradaSalidaMaterial, d.EstadoRegistro }
                                      join s in db.ENTRADA_SALIDA_MATERIAL_SUBDETALLE on new { IdDetalle = d.IdDetalleEntradaSalidaMateriales, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { IdDetalle = s.IdDetalleEntradaSalidaMaterial, s.EstadoRegistro }
-                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null)
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente)
                                      select new EntradaSalidaMaterialViewModel { AprobadoPor=x.AprobadoPor
                                      ,CodLinea=x.Linea,
                                      CodTurno=x.Turno,
