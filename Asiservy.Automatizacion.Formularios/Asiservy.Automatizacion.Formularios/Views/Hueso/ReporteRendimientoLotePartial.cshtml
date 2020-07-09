@@ -1,4 +1,14 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteRendimientoLote>
+@using Asiservy.Automatizacion.Datos.Datos
+
+@{ 
+    var modelo = (List<spConsultaReporteRendimientoLote>)ViewBag.Model;
+}
+<script>
+
+    ListadoGeneral = @Html.Raw(Json.Encode(modelo));
+</script>
+
 
 <table class="table table-bordered" id="tblDataTable">
     <thead>
