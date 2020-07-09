@@ -7,7 +7,7 @@
 
     @@media print {
         @@page {
-            size:landscape A4;
+            size: landscape A4;
         }
 
         .shadow {
@@ -110,7 +110,20 @@
         border-collapse: collapse;
     }
 </style>
-<h4 id="titulo">Reporte de Análisis de Agua de Tanquero</h4>
+
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center" id="titulo" style="float:left">Reporte de Análisis de Agua de Tanquero </h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" target="">Ir al Control</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" target="">Ir al Control</a>}
+        </div>
+    </div>
+</div>
 
 
 

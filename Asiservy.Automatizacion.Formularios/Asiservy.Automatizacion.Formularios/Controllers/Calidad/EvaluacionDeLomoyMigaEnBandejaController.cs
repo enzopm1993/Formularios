@@ -89,6 +89,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.JqueryRotate = "1";
+                ViewBag.MascaraInput = "1";
                 //ViewBag.FirmaPad = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
@@ -591,6 +592,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                
 
                 List<spReporteEvaluacionLomosMigasBandeja> resultado;
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
@@ -601,7 +603,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 else
                 {
-                    clsDApiOrdenFabricacion clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                    //**
+                    ClsDParametroDefecto = new ClsDParametroDefecto();
+                    var Color= ClsDParametroDefecto.ConsultarCabecerasParametroDefecto().Where(x =>x.Formulario==clsAtributos.EvaluacionLomosMigasBandeja
+                    &&x.Tipo==resultado.FirstOrDefault().TipoProd&&x.NivelLimpieza==resultado.FirstOrDefault().NivelLimpieza&&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x=>new {x.ColorDentroDeRango,x.ColorFueraDeRango }).FirstOrDefault();
+                    ViewBag.Color1 = Color.ColorDentroDeRango;
+                    ViewBag.Color2 = Color.ColorFueraDeRango;
+                    ViewBag.ParametrosMaximo = resultado.FirstOrDefault().Maximo==null?0: resultado.FirstOrDefault().Maximo;
+                    //**
+                    clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                     ViewBag.Cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(resultado.FirstOrDefault().OrdenFabricacion.ToString()).FirstOrDefault().CLIENTE;
                 }
                 

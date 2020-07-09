@@ -5,7 +5,7 @@
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-          
+
             <th>
                 @Html.DisplayNameFor(model => model.Hora)
             </th>
@@ -36,32 +36,16 @@
             <th>
                 Observación
             </th>
-           
+            <th>Acciones</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
 
-            CC_ANALISIS_AGUA_TANQUERO obj = new CC_ANALISIS_AGUA_TANQUERO
-            {
-                Placa = item.Placa,
-                Std = item.Std,
-                EstadoRegistro = item.EstadoRegistro,
-                FechaIngresoLog = item.FechaIngresoLog,
-                Hora = item.Hora,
-                IdAnalisisAguaTanquero = item.IdAnalisisAguaTanquero,
-                IdAnalisisAguaTanqueroControl = item.IdAnalisisAguaTanqueroControl,
-                Observacion = item.Observacion,
-                Color = item.Color,
-                Destino = item.Destino,
-                Dureza = item.Dureza,
-                Olor = item.Olor,
-                Ph = item.Ph,
-                Sabor = item.Sabor
-            };
-            string json = JsonConvert.SerializeObject(obj);
-        <tr onclick="SeleccionarControl(@json)">
+           
+        <tr onclick="">
 
 
             <td>
@@ -103,7 +87,34 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
+            <td>
+                @{
+                    CC_ANALISIS_AGUA_TANQUERO obj = new CC_ANALISIS_AGUA_TANQUERO
+                    {
+                        Placa = item.Placa,
+                        Std = item.Std,
+                        EstadoRegistro = item.EstadoRegistro,
+                        FechaIngresoLog = item.FechaIngresoLog,
+                        Hora = item.Hora,
+                        IdAnalisisAguaTanquero = item.IdAnalisisAguaTanquero,
+                        IdAnalisisAguaTanqueroControl = item.IdAnalisisAguaTanqueroControl,
+                        Observacion = item.Observacion,
+                        Color = item.Color,
+                        Destino = item.Destino,
+                        Dureza = item.Dureza,
+                        Olor = item.Olor,
+                        Ph = item.Ph,
+                        Sabor = item.Sabor
+                    };
+                    string json = JsonConvert.SerializeObject(obj);
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="EditarControl(@json)">Editar</button>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarControl(@json)">Eliminar</button>
+                }
 
+            </td>
         </tr>
         }
 

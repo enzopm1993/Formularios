@@ -14,20 +14,32 @@
     }
 </style>
 
-<h4>Análisis de Agua de Tanquero <label id="lblAprobadoPendiente" class="badge"></label></h4>
+
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center text-uppercase" style="float:left">Análisis de Agua de Tanquero  <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" target="">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" target="">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
 
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
-        <input type="hidden" id="txtIdAnalisisAguaTanquero" name="name" value="0" />
         <div class="col-md-2 col-5 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
-        <div class="col-md-3 col-7 col-sm-6">
+        <div class="col-md-1 col-7 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
                 <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
@@ -42,26 +54,35 @@
 
 
 
-        <div class="col-md-1 col-4 col-sm-4">
+        <div class="col-md-2 col-4 col-sm-4">
             <div class="form-group">
-                <label>Std</label>
-                <input type="number" class="form-control" autocomplete="off" id="txtStd" min="0" name="name" value="" />
+                <label>
+                    Std
+                    <span class="badge badge-secondary">+-10000</span>
+                </label>
+                <input type="text" class="form-control" autocomplete="off" id="txtStd" min="0" name="name" value="" />
             </div>
         </div>
 
-        <div class="col-md-1 col-4 col-sm-4">
+        <div class="col-md-2 col-4 col-sm-4">
             <div class="form-group">
-                <label>Dureza</label>
-                <input type="number" class="form-control" autocomplete="off" id="txtDureza" min="0" name="name" value="" />
-            </div>
-        </div>
-        <div class="col-md-1 col-4 col-sm-4">
-            <div class="form-group">
-                <label>Ph</label>
-                <input type="tel" class="form-control" id="txtPh" autocomplete="off" min="0" name="name" value="" />
+                <label>
+                    Dureza
+                    <span class="badge badge-secondary">+-1000</span>
+                </label>
+                <input type="text" class="form-control" autocomplete="off" id="txtDureza" min="0" name="name" value="" />
             </div>
         </div>
         <div class="col-md-2 col-4 col-sm-4">
+            <div class="form-group">
+                <label>
+                    Ph
+                    <span class="badge badge-secondary">+-100</span>
+                </label>
+                <input type="text" class="form-control" id="txtPh" autocomplete="off" min="0" name="name" value="" />
+            </div>
+        </div>
+        <div class="col-md-1 col-4 col-sm-4">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="chkOlor">
                 <label class="custom-control-label" for="chkOlor">Olor</label>
@@ -87,7 +108,7 @@
 
         <div class="col-md-8 col-12 col-sm-12">
             <div class="form-group">
-                <label class="label-control"> Observacion</label>
+                <label class="label-control"> Observación</label>
                 <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
             </div>
         </div>
@@ -155,4 +176,88 @@
 
 
 
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEditarControl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtIdAnalisisAguaTanquero" name="name" value="0" />
+                <h5>Editar Control</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="time" class="form-control" id="txtHoraModal"  name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Placa</label>
+                            <input type="text" class="form-control" id="txtPlacaModal" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Std <span class="badge badge-secondary">+-10000</span></label>
+                            <input type="text" class="form-control" id="txtStdModal" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Dureza <span class="badge badge-secondary">+-1000</span></label>
+                            <input type="text" class="form-control" id="txtDurezaModal" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Ph <span class="badge badge-secondary">+-100</span></label>
+                            <input type="text" class="form-control" id="txtPhModal" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkOlorModal">
+                            <label class="custom-control-label" for="chkOlorModal">Olor</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkColorModal">
+                            <label class="custom-control-label" for="chkColorModal">Color</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkSaborModal">
+                            <label class="custom-control-label" for="chkSaborModal">Sabor</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label class="label-control"> Destino</label>
+                            <input type="text" size="100"  autocomplete="off" class="form-control" id="txtDestinoModal" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label class="label-control"> Observación</label>
+                            <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacionModal" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ModificarControl()" id="modal-si">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
