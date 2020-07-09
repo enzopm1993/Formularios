@@ -251,6 +251,74 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
+        public void GenerarAvanceOrdenesApi2(DateTime FechaDesde, DateTime? FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                if (FechaHasta == null)
+                {
+                    FechaHasta = FechaDesde;
+                }
+                List<CONTROL_AVANCE_API> ListadoControlAvanceApi = new List<CONTROL_AVANCE_API>();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                var ordendesFabricacion = entities.CONTROL_HUESO.Where(x =>
+                x.Fecha >= FechaDesde
+               && x.Fecha <= FechaHasta
+               && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x => x.OrdenFabricacion).Distinct();
+
+                //Consulta de servicio 
+                var detalleOrden = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(FechaDesde, FechaHasta ?? FechaDesde);
+
+                //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
+                foreach (int x in ordendesFabricacion)
+                {
+                    var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    if (ListaLotes == null || ListaLotes.Count == 0)
+                    {
+                        ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOF(x);
+                    }
+                    foreach (var detalle in ListaLotes)
+                    {
+                        var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
+                        if (modelControlAvanceApi == null)
+                        {
+                            if (!ListadoControlAvanceApi.Any(lista => lista.OrdenFabricacion == x && lista.Lote == detalle.Lote))
+                            {
+                                ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
+                                {
+                                    OrdenFabricacion = x,
+                                    Limpieza = detalle.Limpieza,
+                                    Lote = detalle.Lote,
+                                    Peso = int.Parse(double.Parse(detalle.Peso).ToString()),
+                                    Piezas = int.Parse(double.Parse(detalle.Piezas).ToString()),
+                                    Talla = detalle.Talla,
+                                    Promedio = decimal.Parse(detalle.Promedio),
+                                    Especie = detalle.Especie,
+                                    Producto = detalle.Producto
+                                });
+                            }
+                        }
+                        else
+                        {
+                            modelControlAvanceApi.Promedio = decimal.Parse(detalle.Promedio);
+                            modelControlAvanceApi.Talla = detalle.Talla;
+                            modelControlAvanceApi.Especie = detalle.Especie;
+                            modelControlAvanceApi.Lote = detalle.Lote;
+                            modelControlAvanceApi.Limpieza = detalle.Limpieza;
+                            modelControlAvanceApi.Peso = int.Parse(double.Parse(detalle.Peso).ToString());
+                            modelControlAvanceApi.Piezas = int.Parse(double.Parse(detalle.Piezas).ToString());
+                        }
+                    }
+                }
+                if (ListadoControlAvanceApi.Any())
+                {
+                    var prueba = ListadoControlAvanceApi.Distinct().ToList();
+                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi.Distinct());
+                }
+                entities.SaveChanges();
+            }
+        }
+
         public List<spConsultaAvanceDiarioPorLimpiadora> ConsultaControlAvanceDiarioPorLimpiadora(DateTime Fecha, string Linea,string turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -305,12 +373,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                clsDClasificador clsDClasificador = new clsDClasificador();
-                var lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion);
-                foreach(var x in lineas)
-                {
-                    GenerarAvanceOrdenesApi(Fecha,null, x.Codigo);
-                }
+                GenerarAvanceOrdenesApi2(Fecha, null);
                 List<spConsultaReporteAvanceDiario> Listado = new List<spConsultaReporteAvanceDiario>();
                 Listado = entities.spConsultaReporteAvanceDiario(Fecha, Turno).ToList();
                 return Listado;
@@ -349,6 +412,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 entities.SaveChanges();
                 
             }
+        }
+
+
+
+        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime Fecha, string Turno)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                GenerarAvanceOrdenesApi2(Fecha, null);
+                List<spConsultaReporteRendimientoLote> Listado;
+                Listado = entities.spConsultaReporteRendimientoLote(Fecha, Turno).ToList();
+                return Listado;
+            }
+
         }
 
     }

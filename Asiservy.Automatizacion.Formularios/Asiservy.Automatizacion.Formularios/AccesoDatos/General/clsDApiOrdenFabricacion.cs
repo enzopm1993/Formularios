@@ -48,10 +48,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
         /// </summary>
         /// <param name="OrdenFabricacion"></param>
         /// <returns></returns>
-        public List<OfLote> ConsultaLotesPorOF(int OrdenFabricacion)
+        public List<OrdenFabricacionAvance> ConsultaLotesPorOF(int OrdenFabricacion)
         {
-            var client = new RestClient("http://192.168.0.31:8003");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
 
             var request = new RestRequest("/api/Produccion/LotesPorOrden/" + OrdenFabricacion, Method.GET);
             IRestResponse response = client.Execute(request);
@@ -60,15 +59,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
                 return null;
             }
             var content = response.Content;
-            var ListaUsuarios = JsonConvert.DeserializeObject<List<OfLote>>(content);
+            var ListaUsuarios = JsonConvert.DeserializeObject<List<OrdenFabricacionAvance>>(content);
             return ListaUsuarios;
         }
 
         public List<OrdenFabricacionAvance> ConsultaLotesPorOrdenFabricacionLinea2(int OrdernFabricacion, string Linea)
         {
-            var client = new RestClient("http://192.168.0.31:8870");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion + "/" + Linea, Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
@@ -82,9 +79,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
         public List<OrdenFabricacionAvance> ConsultaDatosLotePorRangoFecha(DateTime FechaDesde, DateTime FechaHasta)
         {
-            var client = new RestClient("http://192.168.0.31:8870");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Produccion/LotesOrdenesPorFechas/" + FechaDesde.ToString("yyyy-MM-dd") + "/" + FechaHasta.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
