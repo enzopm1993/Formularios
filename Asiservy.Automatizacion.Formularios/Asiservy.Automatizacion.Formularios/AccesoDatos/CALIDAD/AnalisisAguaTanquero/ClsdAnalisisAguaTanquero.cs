@@ -53,11 +53,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaTa
                     var poControl = entities.CC_ANALISIS_AGUA_TANQUERO.FirstOrDefault(x => x.IdAnalisisAguaTanquero == model.IdAnalisisAguaTanquero);
                     if (poControl != null)
                     {
-                        poControl.Observacion = model.Observacion;
+                        poControl.Observacion = string.IsNullOrEmpty(model.Observacion)? model.Observacion : model.Observacion.ToUpper();
                         poControl.Hora = model.Hora;
-                        poControl.Placa = model.Placa;
+                        poControl.Placa = model.Placa.ToUpper();
                         poControl.Std = model.Std;
                         poControl.Dureza = model.Dureza;
+                        poControl.Destino = model.Destino.ToUpper();
                         poControl.Ph = model.Ph;
                         poControl.Olor = model.Olor;
                         poControl.Color = model.Color;
@@ -68,6 +69,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisAguaTa
                     }
                     else
                     {
+                        model.Destino = model.Destino.ToUpper();
+                        model.Placa = model.Placa.ToUpper();
+                        model.Observacion = string.IsNullOrEmpty(model.Observacion) ? model.Observacion : model.Observacion.ToUpper();
                         model.IdAnalisisAguaTanqueroControl = idControl;
                         entities.CC_ANALISIS_AGUA_TANQUERO.Add(model);
                     }
