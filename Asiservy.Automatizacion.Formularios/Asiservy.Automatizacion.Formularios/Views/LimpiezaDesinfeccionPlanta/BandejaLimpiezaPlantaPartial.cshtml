@@ -16,20 +16,20 @@
         vertical-align: middle;
     }
 </style>
-<table class="table table-bordered table-hover table-striped" id="tblDataTable">
+<table class="table table-bordered table-hover table-striped text-uppercase" id="tblDataTable">
     <thead style="font-size:14px">
         <tr>
             <th>
                 FECHA
             </th>
             <th >
-                OBSERVACION
+                OBSERVACIÓN
             </th>
             <th>
-                USUARIO CREACION
+                USUARIO CREACIÓN
             </th>
             <th>
-                FECHA CREACION
+                FECHA CREACIÓN
             </th>
             <th>TURNO</th>
             <th>
@@ -46,10 +46,9 @@
                     @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
                 <td>
-                    @if (!string.IsNullOrEmpty(item.ObservacionControl))
-                    {
-                        <textarea type="text" name="name" disabled id="note" >@item.ObservacionControl.ToUpper()</textarea>
-                    }
+                   
+                        <textarea type="text" name="name" class="text-uppercase" style="color:black" disabled id="note" >@item.ObservacionControl</textarea>
+                   
                 </td>
                 <td>
                     @item.UsuarioIngresoLog

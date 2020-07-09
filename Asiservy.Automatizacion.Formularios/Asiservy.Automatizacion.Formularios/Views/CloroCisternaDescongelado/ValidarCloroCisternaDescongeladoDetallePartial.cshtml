@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE>
 @using Newtonsoft.Json;
-<table class="table table-light table-striped" style="font-size:12px" id="tblDataTable">
+<table class="table table-light table-striped text-uppercase" style="font-size:12px" id="tblDataTable">
     <thead>
         <tr>
             <th>
@@ -13,10 +13,10 @@
                 CISTERNA
             </th>
             <th>
-                USUARIO CREACION
+                USUARIO CREACIÓN
             </th>
             <th>
-                OBSERVACION
+                OBSERVACIÓN
             </th>           
                 <th>ACCIONES</th>           
         </tr>
@@ -24,22 +24,22 @@
     <tbody style="font-size:11px">
         @foreach (var item in Model)
         {
-            decimal men = 0.3m;
-            decimal may = 1.5m;
+            decimal men = ViewBag.ParamMin;
+            decimal may = ViewBag.ParamMax;
             <tr>
                 <td>                    
                     @item.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 @if (item.Ppm_Cloro >= men && item.Ppm_Cloro <= may)
                 {
-                    <td class="">
-                        <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Ppm_Cloro) </span>
+                    <td>
+                        <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango">@item.Ppm_Cloro</span>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <span class="badge badge-danger">@Html.DisplayFor(modelItem => item.Ppm_Cloro) </span>
+                        <span class="badge" style="color:white;background-color:@ViewBag.ColorFueraRango ">@item.Ppm_Cloro</span>
                     </td>
                 }
                 <td>

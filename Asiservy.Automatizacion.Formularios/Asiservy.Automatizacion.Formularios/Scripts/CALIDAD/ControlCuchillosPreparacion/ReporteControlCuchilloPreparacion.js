@@ -148,8 +148,9 @@ $(function () {
             "days": 60
         },
         minDate: moment("01/10/2019", "DD/MM/YYYY"),
-        maxDate: moment(),
+        maxDate: moment().add(1,'days'),
         ranges: {
+            'Mañana':[moment().add(1,'days'), moment().add(1,'days')],
             'Hoy': [moment(), moment()],
             'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
             'Últimos 7 días': [moment().subtract(6, 'days'), moment()],

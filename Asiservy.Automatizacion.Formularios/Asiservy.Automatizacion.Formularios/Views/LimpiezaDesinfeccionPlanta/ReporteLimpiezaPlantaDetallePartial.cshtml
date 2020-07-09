@@ -23,10 +23,10 @@
                 OBSERVACIÓN
             </th>
             <th>
-                HORA_AC
+               FECHA - HORA AC
             </th>
             <th>
-                ACCION CORRECTIVA
+                ACCIÓN CORRECTIVA
             </th>
             <th>
                 SUPERVISOR
@@ -75,7 +75,7 @@
                             @{DateTime date = Convert.ToDateTime(item.HoraAccionCorrectiva);}
                             @if (date != DateTime.MinValue)
                             {
-                                @date.ToString("HH:mm")
+                                @date.ToString("dd-MM-yyyy HH:mm")
                             }
                         </td>
                         <td style="white-space:normal">
@@ -153,15 +153,15 @@
                 {
                     <div class="text-center imgImprimir" style="border:1px solid;border-radius:20px;margin:3px;width:320px">
                         <div id="header_@item.IdDetalle">
-                            <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdDetalle" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom" alt="...">
+                            <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdDetalle" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
                         </div>
                         <script>
                             validarImg('@item.Rotation','@item.IdDetalle','@item.RutaFoto');
                         </script>
                         <div>
-                            <label class="card-text nose" style="color:black;font-size:11px;"><b>AREA AUDITORIA: </b> @item.NombreAuditoria.ToUpper()</label><br />
+                            <label class="card-text nose" style="color:black;font-size:11px;"><b>ÁREA AUDITORIA: </b> @item.NombreAuditoria.ToUpper()</label><br />
                             <label class="card-text nose" style="color:black; font-size:11px;"><b>OBJETO AUDITADO: </b> @item.NombreObjeto.ToUpper()</label><br />
-                            <label class="card-text nose" style="color:black;font-size:11px;"><b>ACCION CORRECTIVA: </b> @item.AccionCorrectiva.ToUpper()</label>
+                            <label class="card-text nose" style="color:black;font-size:11px;"><b>ACCIÓN CORRECTIVA: </b> @item.AccionCorrectiva.ToUpper()</label>
                         </div>
                     </div>
                     if (cont == 7)
@@ -179,13 +179,13 @@ cont++;
     
 </div>
                       <style>
-                          img {
+                          .img {
                               border: 1px solid #ddd;
                               border-radius: 4px;
                               padding: 5px;
                           }
 
-                              img:hover {
+                              .img:hover {
                                   box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
                               }
                       </style>

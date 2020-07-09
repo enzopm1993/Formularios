@@ -4,6 +4,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //PARAMETROS PARA EL CONTROL DE CLORO EN CISTERNA
+        public static int CC_CodParametroCloroCisterna { get; set; } = 2;
         //USADO PARA EL REPORTE DE MATERIAL QUEBRADIZO DE CALIDAD
         public static List<string> MaterialQuebradizoVerificacion { get; set; } = new List<string>() { "Diario", "Semanal","Quincenal"};
         //ID DEL GRUPO DEL CLASIFICADOR PARA EL LAVADO Y DESINFECCION DE MANOS

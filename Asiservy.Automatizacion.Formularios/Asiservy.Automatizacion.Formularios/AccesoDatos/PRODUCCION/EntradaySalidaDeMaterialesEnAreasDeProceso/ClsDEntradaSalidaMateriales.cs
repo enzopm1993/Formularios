@@ -149,7 +149,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EntradaySal
                 }
                 else
                 {
-                    var buscarDetalle = db.ENTRADA_SALIDA_MATERIAL_DETALLE.Where(x => x.Material == poDetalleControl.Material&& x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                    var buscarDetalle = db.ENTRADA_SALIDA_MATERIAL_DETALLE.Where(x =>x.IdCabeceraEntradaSalidaMaterial==poDetalleControl.IdCabeceraEntradaSalidaMaterial&& x.Material == poDetalleControl.Material&& x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
 
                     if (buscarDetalle == null)
                     {

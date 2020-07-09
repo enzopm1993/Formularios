@@ -17,15 +17,17 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System.IO;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroDefecto;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionDeLomoyMigaEnBandejaController : Controller
     {
         // GET: EvaluacionDeLomoyMigaEnBandeja
-        private clsDReporte clsDReporte { get;set;}=null;
+        private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
+        private ClsDParametroDefecto ClsDParametroDefecto { get;set;}=null;
         private clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
         private clsDMantenimientoTextura clsDMantenimientoTextura { get; set; } = null;
         private clsDMantenimientoSabor clsDMantenimientoSabor { get; set; } = null;
@@ -96,6 +98,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDMantenimientoColor = new clsDMantenimientoColor();
                 clsDClasificador = new clsDClasificador();
                 ClsDMantenimientoMoreton = new ClsDMantenimientoMoreton();
+                ClsDParametroDefecto = new ClsDParametroDefecto();
                 var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x=>x.Codigo);
                 var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
                 var Olor = clsDMantenimientoOlor.ConsultaManteminetoOlor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
@@ -113,6 +116,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Proteina = new SelectList(Proteina, "IdProteina", "Descripcion");
                 ViewBag.NivelLimpieza =new SelectList(ListaTiposLimpieza, "Codigo","Descripcion");
                 ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
+                List<ParametroDefectoViewModel> resultado = ClsDParametroDefecto.ConsultarCabecerasParametroDefecto().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.ParametrosMaximo = resultado;
                 return View();
             }
             catch (DbEntityValidationException e)

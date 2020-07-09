@@ -3,13 +3,14 @@
     ViewBag.Title = "BandejaCloroCisternaDescongelado";
 }
 
-
 <style>
     input, select, textarea {
-        max-width: 100%
+        max-width: 100%;
     }
+
     .selectbox {
         background: #fff;
+        color: #1d3b4a;
         padding: 5px 8px;
         line-height: 18px;
         border-radius: 4px;
@@ -18,41 +19,54 @@
         border: 1px solid #ddd;
     }
 
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
     .btnWait {
         cursor: no-drop !important;
     }
-   .white{
-       white-space:normal;
-   }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
 </style>
 
-<h5>Bandeja Control de Cloro en Cisterna</h5>
+<input type="hidden" value="@ViewBag.ParamMin" id="paramMin"/>
+<input type="hidden" value="@ViewBag.ParamMax" id="paramMax" />
+<input type="hidden" value="@ViewBag.ColorDentroRango" id="colorRango" />
+<input type="hidden" value="@ViewBag.ColorFueraRango" id="coloroFuera" />
+
+<div class="row">
+    <div class="col-md-12 col-12 col-sm-12">
+        <h5 class="text-md-left text-center text-uppercase" >Bandeja de Cloro en Cisterna DESCONGELADO</h5>
+    </div>
+</div>
 <br />
-<div class="row" id="DivFiltros">
-    <div class="col-md-2 col-sm-6 form-group">
-        <label>Estado</label>
+<div class="row">
+    <div class="col-md-3 col-12 col-sm-12">
         <select id="selectEstadoRegistro" class="form-control" onchange="CargarBandeja()">
             <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
 
-    <div hidden class="col-md-5 col-sm-6 form-group" id="divDateRangePicker" >
-        <label>Filtrar por Fecha:</label>
-        <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-        <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-        <div id="reportrange" class="selectbox">
-            <i class="fa fa-calendar"></i>&nbsp;
-            <span></span> <i class="fa fa-caret-down"></i>
+    <div class="box_filters col-md-9 col-12 col-sm-12">
+        <div class="itemFilter col-md-6  col-12 col-sm-12" id="divDateRangePicker">
+            <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <div id="reportrange" class="selectbox text-md-left text-center">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+            </div>
         </div>
-    </div>
-
-    <div class="col-5">
-        <label>Acciones</label>
-        <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarBandeja()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
+        <div class="itemFilter col-md-1 col-2 col-sm-12 text-center text-md-center">
+            <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
 </div>
@@ -63,33 +77,33 @@
     </div>
 </div>
 <div id="divPartialControlCloro">
-   
+
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalle Control Cloro en Cisterna Descongelado</h5>
+                <h5 class="modal-title" id="exampleModalLabel">DETALLE</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="col-md-4 col-12 col-sm-12">
+                <div class="col-md-6 col-12 col-sm-12">
                     <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
                 </div>
                 <br />
                 <div class="table-responsive">
-                    <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
+                    <table class="table-bordered table-striped table text-uppercase" style="cursor: pointer" id="tblDataTableAprobar">
                         <thead style="font-size:12px">
                             <tr>
                                 <th>FECHA - HORA</th>
                                 <th>PPM_CLORO</th>
                                 <th>CISTERNA</th>
-                                <th>USUARIO CREACION</th>
-                                <th >OBSERVACION</th>
+                                <th>USUARIO CREACIÓN</th>
+                                <th>OBSERVACIÓN</th>
                             </tr>
                         </thead>
                         <tbody style="font-size:11px" id="acoplar"></tbody>
