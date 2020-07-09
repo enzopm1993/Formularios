@@ -42,8 +42,11 @@
         </div>
         <div class="col-md-2 col-4 col-sm-6">
             <div class="form-group">
-                <label>Parada</label>
-                <input type="number" class="form-control" id="txtParada" autocomplete="off" min="0" name="name" value="" />
+                <label>
+                    Parada
+                    <span class="badge badge-secondary">+100</span>
+                </label>
+                <input type="text" class="form-control" id="txtParada" autocomplete="off" min="0" name="name" value="" />
             </div>
         </div>
         <div class="col-md-2 col-4 col-sm-6">
@@ -82,13 +85,19 @@
         </div>
         <div class="col-md-2 col-4 col-sm-6">
             <div class="form-group">
-                <label>Temperatura(ºC)</label>
-                <input type="number" class="form-control" id="txtTemperatura" max="9999999999" autocomplete="off" min="0" name="name" value="" />
+                <label>
+                    Temperatura(ºC)
+                    <span class="badge badge-secondary">+-100.00</span>
+                </label>
+                <input type="text" class="form-control" id="txtTemperatura" max="" autocomplete="off" min="0" name="name" value="" />
             </div>
         </div>
         <div class="col-md-2 col-6 col-sm-6">
             <div class="form-group">
-                <label>Cloro(ppm)</label>
+                <label>
+                    Cloro(ppm)
+                    <span class="badge badge-secondary">+100.00</span>
+                </label>
                 <input type="text" class="form-control" id="txtCloro" autocomplete="off" min="0" name="name" value="" />
             </div>
         </div>
@@ -177,13 +186,16 @@
                             <input type="datetime-local" class="form-control" id="txtHora2" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                         </div>
                     </div>
-                    <div class="col-md-4 col-4 col-sm-6">
+                    <div class="col-md-2 col-4 col-sm-6">
                         <div class="form-group">
-                            <label>Parada</label>
+                            <label>
+                                Parada
+                                <span class="badge badge-secondary">+100</span>
+                            </label>
                             <input type="number" class="form-control" id="txtParada2" autocomplete="off" min="0" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-4 col-4 col-sm-6">
+                    <div class="col-md-2 col-4 col-sm-6">
                         <div class="form-group">
                             <label>Autoclave</label>
                             @if (ViewBag.AutoClaves != null)
@@ -200,7 +212,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-4 col-sm-6">
+                    <div class="col-md-4 col-4 col-sm-6">
                         <div class="form-group">
                             <label>Conserva</label>
                             <select class="form-control" id="selectConserva2">
@@ -211,27 +223,33 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-8 col-sm-6">
+                    <div class="col-md-5 col-8 col-sm-6">
                         <div class="form-group">
                             <label>Producto</label>
                             <input type="text" maxlength="100" class="form-control" autocomplete="off" id="txtProducto2" min="0" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-3 col-4 col-sm-6">
+                    <div class="col-md-4 col-4 col-sm-6">
                         <div class="form-group">
-                            <label>Temperatura</label>
+                            <label>
+                                Temperatura ºC
+                                <span class="badge badge-secondary">+-100.00</span>
+                            </label>
                             <input type="number" class="form-control" id="txtTemperatura2" autocomplete="off" min="0" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-2 col-6 col-sm-6">
+                    <div class="col-md-3 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Cloro</label>
+                            <label>
+                                Cloro
+                                <span class="badge badge-secondary">+100.00</span>
+                            </label>
                             <input type="text" class="form-control" id="txtCloro2" autocomplete="off" min="0" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-10 col-6 col-sm-6">
+                    <div class="col-md-12 col-6 col-sm-6">
                         <div class="form-group">
-                            <label class="label-control"> Observacion</label>
+                            <label class="label-control"> Observación</label>
                             <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion2" name="name" value="" />
                         </div>
                     </div>

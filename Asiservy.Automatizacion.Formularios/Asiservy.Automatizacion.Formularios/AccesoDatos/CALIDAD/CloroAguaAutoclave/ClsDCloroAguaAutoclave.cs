@@ -23,6 +23,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
             }
         }
 
+        public CC_CLORO_AGUA_AUTOCLAVE_CONTROL ConsultaParametroCloroAguaAutoclaveControl(DateTime Fecha, string Turno)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var query = (from x in entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL
+                             where x.Fecha == Fecha
+                             && x.Turno == Turno
+                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             select x);
+
+                return query.FirstOrDefault();
+            }
+        }
+
+
 
         public void GuardarModificarCloroAguaAutoclave(CC_CLORO_AGUA_AUTOCLAVE model, DateTime Fecha,string Turno)
         {
@@ -33,6 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                     CC_CLORO_AGUA_AUTOCLAVE_CONTROL poControlReporte = entities.CC_CLORO_AGUA_AUTOCLAVE_CONTROL.FirstOrDefault(x => x.Fecha == Fecha 
                                                                                                                                 && x.Turno == Turno
                                                                                                                                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    var parametros = entities.CC_PARAMETRO_CALIDAD.AsNoTracking().FirstOrDefault(x => x.CodParametro == clsAtributos.CodigoParametroCloroAguaAutoclave);
                     int idControl = 0;
                     if (poControlReporte != null)
                     {
@@ -41,6 +57,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                     else
                     {
                         CC_CLORO_AGUA_AUTOCLAVE_CONTROL control = new CC_CLORO_AGUA_AUTOCLAVE_CONTROL();
+                        if (parametros != null)
+                        {
+                            control.Minimo = parametros.Minimo;
+                            control.Maximo = parametros.Maximo;
+                        }
                         control.Fecha = Fecha;
                         control.Turno = Turno;
                         control.EstadoReporte = false;
@@ -57,11 +78,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                     var poControl = entities.CC_CLORO_AGUA_AUTOCLAVE.FirstOrDefault(x => x.IdCloroAguaAutoclave == model.IdCloroAguaAutoclave);
                     if (poControl != null)
                     {
-                        poControl.Observacion = model.Observacion;
+                        poControl.Observacion = string.IsNullOrEmpty(model.Observacion)?model.Observacion: model.Observacion.ToUpper();
                         poControl.Hora = model.Hora;
                         poControl.Parada = model.Parada;
                         poControl.Autoclave = model.Autoclave;
-                        poControl.Producto = model.Producto;
+                        poControl.Producto = model.Producto.ToUpper(); 
                         poControl.TipoConserva = model.TipoConserva;
                         poControl.Cloro = model.Cloro;
                         poControl.Temperatura = model.Temperatura;
@@ -71,6 +92,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                     }
                     else
                     {
+                        model.Producto = model.Producto.ToUpper(); ;
+                        model.Observacion = string.IsNullOrEmpty(model.Observacion) ? model.Observacion : model.Observacion.ToUpper();
                         model.IdCloroAguaAutoclaveControl = idControl;
                         entities.CC_CLORO_AGUA_AUTOCLAVE.Add(model);
                     }

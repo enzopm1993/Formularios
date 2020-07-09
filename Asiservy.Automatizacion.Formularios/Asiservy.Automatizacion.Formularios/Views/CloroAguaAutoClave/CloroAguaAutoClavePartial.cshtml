@@ -3,7 +3,8 @@
 @using Newtonsoft.Json;
 
 @{
-    CC_PARAMETRO_CALIDAD parametro = (CC_PARAMETRO_CALIDAD)ViewBag.Parametros;
+    CC_CLORO_AGUA_AUTOCLAVE_CONTROL parametro = (CC_CLORO_AGUA_AUTOCLAVE_CONTROL)ViewBag.Parametros;
+    CC_PARAMETRO_CALIDAD parametro2 = (CC_PARAMETRO_CALIDAD)ViewBag.Parametros2;
 
 }
 
@@ -32,7 +33,7 @@
                 @Html.DisplayNameFor(model => model.Autoclave)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoConserva)
+                Conserva
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Producto)
@@ -44,7 +45,7 @@
                 @Html.DisplayNameFor(model => model.Cloro)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observacion)
+                Observación
             </th>
             <th></th>
         </tr>
@@ -83,11 +84,11 @@
                 <td>
                     @if (item.TipoConserva == "P")
                     {
-                        @: Pouch
+                        @: POUCH
                     }
                     else
                     {
-                        @: Latas
+                        @: LATAS
                     }
                 </td>
                 <td style="white-space:normal">
@@ -101,11 +102,11 @@
                     {
                         if (item.Cloro < parametro.Minimo || item.Cloro > parametro.Maximo)
                         {
-                            @:<text class="text-danger"> @item.Cloro</text>
+                            @:<span class="badge" style="color:white; background-color:@parametro2.ColorFueraRango"> @item.Cloro</span>
                         }
                         else
                         {
-                            @Html.DisplayFor(modelItem => item.Cloro)
+                            @:<span class="badge" style="color:white; background-color:@parametro2.ColorDentroRango"> @item.Cloro</span>
                         }
 
                     }
