@@ -1944,7 +1944,7 @@
           <Property Name="Piezas" Type="int" Nullable="false" />
           <Property Name="Promedio" Type="decimal" Precision="3" Scale="2" Nullable="false" />
           <Property Name="Especie" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="Producto" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Producto" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="CONTROL_BALANZA">
           <Key>
@@ -6717,7 +6717,6 @@
             <Parameter Name="idCloroCisterna" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="CONTROL_AVANCE_API" EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" />
           <EntitySet Name="REPORTE_DETALLE" EntityType="ASIS_PRODModel.REPORTE_DETALLE" />
           <EntitySet Name="REPORTE_MAESTRO" EntityType="ASIS_PRODModel.REPORTE_MAESTRO" />
           <AssociationSet Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO" Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO">
@@ -6851,8 +6850,9 @@
             <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CONTROL_AVANCE_API" EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -12504,23 +12504,6 @@
           <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="Ppm_CloroDet" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
-        <EntityType Name="CONTROL_AVANCE_API">
-          <Key>
-            <PropertyRef Name="IdControlAvance" />
-            <PropertyRef Name="OrdenFabricacion" />
-            <PropertyRef Name="Lote" />
-          </Key>
-          <Property Name="IdControlAvance" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
-          <Property Name="Lote" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Limpieza" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Talla" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Peso" Type="Int32" Nullable="false" />
-          <Property Name="Piezas" Type="Int32" Nullable="false" />
-          <Property Name="Promedio" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
-          <Property Name="Especie" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Producto" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="REPORTE_DETALLE">
           <Key>
             <PropertyRef Name="IdReporteDetalle" />
@@ -13384,6 +13367,23 @@
           <Property Type="Int32" Name="Piel" Nullable="true" />
           <Property Type="Int32" Name="SumaScorch" Nullable="true" />
         </ComplexType>
+        <EntityType Name="CONTROL_AVANCE_API">
+          <Key>
+            <PropertyRef Name="IdControlAvance" />
+            <PropertyRef Name="OrdenFabricacion" />
+            <PropertyRef Name="Lote" />
+          </Key>
+          <Property Name="IdControlAvance" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Limpieza" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Talla" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Peso" Type="Int32" Nullable="false" />
+          <Property Name="Piezas" Type="Int32" Nullable="false" />
+          <Property Name="Promedio" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
+          <Property Name="Especie" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Producto" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18933,22 +18933,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CONTROL_AVANCE_API">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_AVANCE_API">
-              <MappingFragment StoreEntitySet="CONTROL_AVANCE_API">
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
-                <ScalarProperty Name="Piezas" ColumnName="Piezas" />
-                <ScalarProperty Name="Peso" ColumnName="Peso" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="IdControlAvance" ColumnName="IdControlAvance" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="REPORTE_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_DETALLE">
               <MappingFragment StoreEntitySet="REPORTE_DETALLE">
@@ -19717,6 +19701,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_AVANCE_API">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_AVANCE_API">
+              <MappingFragment StoreEntitySet="CONTROL_AVANCE_API">
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="Piezas" ColumnName="Piezas" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdControlAvance" ColumnName="IdControlAvance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
