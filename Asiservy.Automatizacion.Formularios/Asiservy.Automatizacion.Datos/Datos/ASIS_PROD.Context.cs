@@ -2374,5 +2374,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoReporte>("spConsultaProductoTerminadoReporte", fechaDesdeParameter, fechaHastaParameter, lineaParameter);
         }
+    
+        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLote>("spConsultaReporteRendimientoLote", fechaParameter, turnoParameter);
+        }
     }
 }
