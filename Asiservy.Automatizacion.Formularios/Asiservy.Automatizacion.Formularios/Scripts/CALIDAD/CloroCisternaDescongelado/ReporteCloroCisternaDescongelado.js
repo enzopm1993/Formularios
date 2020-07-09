@@ -51,6 +51,8 @@ function CargarCabecera() {
 
 function SeleccionarCabecera(jdata) {
     $('#cargac').show();
+    document.getElementById('lblMaximo').innerHTML = 'MAX: ' + jdata.ParamMax + ' PPM';
+    document.getElementById('lblMinimo').innerHTML = 'MIN: ' + jdata.ParamMin + ' PPM';
     var op = 4;
     if (jdata.Turno != null || jdata.Turno != '') {
         $('#lblMostrarHora').text(turno[jdata.Turno]);

@@ -186,7 +186,8 @@ function EliminarCabeceraSi() {
                 url: "../MaterialQuebradizo/EliminarMaterialQuebradizo",
                 type: "POST",
                 data: {
-                    IdMaterial: itemCabecera.IdMaterial
+                    IdMaterial: itemCabecera.IdMaterial,
+                    Fecha: moment(itemCabecera.Fecha).format('DD-MM-YYYY')
                 },
                 success: function (resultado) {
                     if (resultado == "101") {

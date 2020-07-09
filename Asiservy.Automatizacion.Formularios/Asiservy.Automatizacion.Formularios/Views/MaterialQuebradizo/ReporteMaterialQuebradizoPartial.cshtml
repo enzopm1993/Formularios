@@ -36,11 +36,10 @@
                 <td>
                     @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
-                <td style="white-space:normal">
-                    @if (!string.IsNullOrEmpty(item.ObservacionCtrl))
-                    {
-                        @item.ObservacionCtrl.ToUpper()
-                    }
+                <td style="white-space:normal;">
+                   
+                        @item.ObservacionCtrl
+                   
                 </td>
                 <td>
                     @item.UsuarioIngresoLog
