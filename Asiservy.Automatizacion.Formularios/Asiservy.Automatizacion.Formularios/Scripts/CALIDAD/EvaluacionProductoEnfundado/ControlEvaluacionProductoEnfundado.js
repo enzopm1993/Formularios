@@ -234,7 +234,7 @@ function EliminarFoto() {
     Error = 0;
     const data = new FormData();
     data.append('IdFoto', IdFotoEvaluacioProductoEnfundado);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../EvaluacionProductoEnfundado/EliminarFotoDetalle", {
         method: 'POST',
@@ -348,7 +348,7 @@ async function GenerarControlDetalle2() {
         }
         var ResultadoGuardarFoto = await promesaGuardarFoto.json();
         console.log(ResultadoGuardarFoto[0]);
-        if (ResultadoGuardarFoto[0] == '003') {
+        if (ResultadoGuardarFoto[0] == '003' || ResultadoGuardarFoto[0] == '444') {
             MensajeAdvertencia(ResultadoGuardarFoto[1]);
         } else {
             MensajeCorrecto(ResultadoGuardarFoto[1]);
@@ -374,6 +374,7 @@ async function GenerarControlDetalle2Ajax() {
     data.append("IdFotoEvaluacioProductoEnfundado", IdFotoEvaluacioProductoEnfundado);
     data.append("Observacion", $("#txtNovedad").val());
     data.append("Rotacion", rotation);
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     var promesa = fetch("../EvaluacionProductoEnfundado/GuardarFotoDetalle", {
         method: 'POST',
@@ -559,7 +560,7 @@ async function ConsultarCabControlAjax() {
     })
     return promesa;
 }
-async function ConsultarCabControl(/*bandera*/) {
+async function ConsultarCabControl(/*bandera*/bandera, spiner) {
 
     try {
         if ($('#txtFechaProduccion').val() == '') {
@@ -633,8 +634,11 @@ async function ConsultarCabControl(/*bandera*/) {
             $('#Observacion').val(ResultadoConsulta.Observacion);
             $('#CardDetalle').prop('hidden', false);
             $('#btnEliminarCabeceraControl').prop('disabled', false);
-            LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
-            ConsultarDetalleControl();
+            if (spiner != 1) {
+                LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
+                ConsultarDetalleControl();
+            }
+            
             $('#brespacio').remove();
             $('#cargac').hide();
             //SlideCabecera();
@@ -881,6 +885,7 @@ function GuardarCabceraControl() {
                 $('#txtLoteProveedor').val(resultado[2].Lote);
                 $('#txtMarca').val(resultado[2].Marca);
                 $('#Observacion').val(resultado[2].Observacion);
+                ConsultarCabControl(null, 1);
                 ValidarParametro();
             } else {
                 MensajeCorrecto(resultado[1]);
@@ -947,7 +952,7 @@ $('#btnnocab').prop('disabled', true);
 Error = 0;
 const data = new FormData();
 data.append('IdCabecera', IdCabecera);
-
+data.append('poFecha', $('#txtFechaProduccion').val());
 
 fetch("../EvaluacionProductoEnfundado/EliminarCabeceraControl", {
     method: 'POST',
@@ -969,7 +974,7 @@ fetch("../EvaluacionProductoEnfundado/EliminarCabeceraControl", {
         //if (resultado[0] == "002") {
         //    MensajeAdvertencia(resultado[1]);
         //} else {
-        if (resultado[0] != '002') {
+        if (resultado[0] != '002' || resultado[0] != '444') {
             MensajeAdvertencia(resultado[1]);
         } else {
             MensajeCorrecto(resultado[1]);
@@ -1134,7 +1139,7 @@ function GuardarDetalleControl() {
     data.append('Empacador', $("#cmbEmpacador").val());
     data.append('Otro', $("#txtOtros").val());
     data.append('IdCabeceraEvaluacionProductoEnfundado', IdCabecera);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
 fetch("../EvaluacionProductoEnfundado/GuardarDetalleControl", {
     method: 'POST',
@@ -1263,7 +1268,7 @@ $('#btnnodet').prop('disabled', true);
 Error = 0;
 const data = new FormData();
 data.append('IdDetalle', IdDetalle);
-
+data.append('poFecha', $('#txtFechaProduccion').val());
 
 fetch("../EvaluacionProductoEnfundado/EliminarDetalleControl", {
     method: 'POST',
