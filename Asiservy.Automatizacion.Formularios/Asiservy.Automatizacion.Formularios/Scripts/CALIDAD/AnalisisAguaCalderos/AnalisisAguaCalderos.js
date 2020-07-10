@@ -8,26 +8,11 @@ $(document).ready(function () {
     });
     $("#selectEquipo").select2({ width:'100%'});
 
-    $('#txtValor').inputmask({
-        'alias': 'decimal',
-        'groupSeparator': ',',
-        'digits': 2,
-        'autoGroup': true,
-        'digitsOptional': true,
-        'max': '10000.00',
-        'min':'0'
-    });
 
-    $('#txtValorModal').inputmask({
-        'alias': 'decimal',
-        'groupSeparator': ',',
-        'digits': 2,
-        'autoGroup': true,
-        'digitsOptional': true,
-        'max': '10000.00',
-        'min': '0'
+    $('#txtValor').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '10000.00', 'min': '0' });
+    $('#txtValorModal').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '10000.00', 'min': '0' });
+    
 
-    });
 });
 
 
@@ -204,7 +189,7 @@ function GuardarControl() {
             Fecha: $("#txtFecha").val(),
             IdParametro: $("#selectParametro").val(),
             IdEquipo: $("#selectEquipo").val(),
-            Valor: $("#txtValor").val()
+            Valor: parseFloat($("#txtValor").val()).toFixed(2)
         },
         success: function (resultado) {
             if (resultado == "101") {
