@@ -184,10 +184,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="46.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Width="1.5" PointX="49" PointY="1" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC" Width="1.5" PointX="46.75" PointY="1.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC" Width="1.5" PointX="0.75" PointY="45.75" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO" Width="1.5" PointX="40.625" PointY="21.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA" Width="1.5" PointX="36.625" PointY="44" />
@@ -195,8 +191,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CALDEROS" Width="1.5" PointX="51" PointY="20.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CALDEROS_DETALLE" Width="1.5" PointX="53.25" PointY="23.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_ANALISIS_AGUA_CALDEROS" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="32.625" PointY="7.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="30.375" PointY="8.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="32.625" PointY="11.5" />
@@ -268,6 +262,12 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="3.375" PointY="31.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="33.375" PointY="36.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Width="1.5" PointX="51" PointY="35.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC" Width="1.5" PointX="48.75" PointY="35.5" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC" Width="1.5" PointX="51" PointY="15.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
