@@ -4,6 +4,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //CODIGO GRUPO PARA EL CONTROL DE ANALISIS QUIMICOS DE PRECOCCION
+        public static string codPrecoccion { get; set; } = "044";
         //PARAMETROS PARA EL CONTROL DE CLORO EN CISTERNA
         public static string CC_CodParametroCloroCisterna { get; set; } = "Cod2";
         //USADO PARA EL REPORTE DE MATERIAL QUEBRADIZO DE CALIDAD
