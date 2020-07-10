@@ -294,7 +294,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
 
         //PARAMETROS DE CALIDAD
-        public static int CodigoParametroCloroAguaAutoclave { get; } = 1;
+        public static string CodigoParametroCloroAguaAutoclave { get; } = "Cod1";
 
 
         //GRUPO CLASIFICADOR DE COLORES

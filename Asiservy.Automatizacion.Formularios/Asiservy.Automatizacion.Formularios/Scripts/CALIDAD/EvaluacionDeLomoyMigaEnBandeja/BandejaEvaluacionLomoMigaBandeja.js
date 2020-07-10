@@ -1,6 +1,7 @@
 ﻿var Error = 0;
 var IdControlAp;
 var TipoLimpieza;
+var FechaCtrl;
 var ParametrosLomo =
 {
     Limpieza1: {
@@ -178,7 +179,8 @@ function CargarBandeja() {
         });
     }
 }
-function AbrirModalDetalle(IdCabecera,NivelLimpieza) {
+function AbrirModalDetalle(IdCabecera, NivelLimpieza, FechaControl) {
+    FechaCtrl = FechaControl;
     CerrarConfirmacionAprobar();
     TipoLimpieza = NivelLimpieza;
     $('#cargac').show();
@@ -310,6 +312,8 @@ function AprobarControl() {
         const data = new FormData();
         data.append('IdCabecera', IdControlAp);
         data.append('Fecha', moment(fechaingresada._d).format('YYYY-MM-DD HH:mm'));
+        data.append('poFecha', FechaCtrl);
+    
         //data.append('imagen', image);
         fetch("../EvaluacionDeLomoyMigaEnBandeja/AprobarControl", {
             method: 'POST',
@@ -327,9 +331,14 @@ function AprobarControl() {
                 window.location.reload();
             }
             if (Error == 0) {
-                MensajeCorrecto(resultado);
-                $('#ModalDetalle').modal('hide');
-                CargarBandeja();
+                if (resultado == '444') {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
+                } else {
+                    MensajeCorrecto(resultado);
+                    $('#ModalDetalle').modal('hide');
+                    CargarBandeja();
+                }
+                
             }
             $('#BtnSi').prop('hidden', false);
             $('#BtnNo').prop('hidden', false);
@@ -372,7 +381,7 @@ function ReversarControl() {
 
     const data = new FormData();
     data.append('IdCabecera', IdControlAp);
-
+    data.append('poFecha', FechaCtrl);
     fetch("../EvaluacionDeLomoyMigaEnBandeja/ReversarControl", {
         method: 'POST',
         body: data
@@ -389,9 +398,14 @@ function ReversarControl() {
             window.location.reload();
         }
         if (Error == 0) {
-            MensajeCorrecto(resultado);
-            $('#ModalDetalle').modal('hide');
-            CargarBandeja();
+            if (resultado == '444') {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                $('#ModalDetalle').modal('hide');
+                CargarBandeja();
+            }
+            
         }
         $('#BtnSi').prop('hidden', false);
         $('#BtnNo').prop('hidden', false);

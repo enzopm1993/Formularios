@@ -3,7 +3,6 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDescongelado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;

@@ -22,6 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDReporte clsDReporte { get; set; } = null;
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDEvaluacionProductoEnfundado clsDEvaluacionProductoEnfundado { get; set; } = null;
         clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
@@ -46,6 +47,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteEvaluacionProductoEnfundado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteEvaluacionProductoEnfundado";
+                    }
+                }
+                //**
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
                 ViewBag.MaskedInput = "1";
@@ -53,7 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 //ViewBag.FirmaPad = "1";
                 clsDEmpleado = new clsDEmpleado();
-                lsUsuario = User.Identity.Name.Split('_');
+                //lsUsuario = User.Identity.Name.Split('_');
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
                 clsDMantenimientoTextura = new clsDMantenimientoTextura();
                 clsDMantenimientoSabor = new clsDMantenimientoSabor();
@@ -108,12 +121,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
-
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlEvaluacionProductoEnfundado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlEvaluacionProductoEnfundado";
+                    }
+                }
+                //**
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
-                lsUsuario = User.Identity.Name.Split('_');
+                //lsUsuario = User.Identity.Name.Split('_');
 
                 return View();
             }

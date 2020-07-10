@@ -3,35 +3,41 @@
     ViewBag.Title = "ReporteEvaluacionLomoMigaBandeja";
 }
 <style>
-    @@media print and (color){
+    @@media print and (color) {
         @@page {
             size: landscape;
-      
         }
+
         * {
             -webkit-print-color-adjust: exact;
         }
+
         #tblfotos {
-            page-break-before:always;
+            page-break-before: always;
         }
+
         table {
             page-break-after: auto
         }
-        div.divCont{
-            top:100px;
-            position:relative;
+
+        div.divCont {
+            top: 100px;
+            position: relative;
         }
+
         div.divHeader {
             /*position: fixed;
             top: 0;
             width: 100%;*/
         }
+
         div.divBody {
             /*margin-top: 170px;
             border-left: 1px solid gray;
             padding: 1em;
             overflow: hidden;*/
         }
+
         div.divFooter {
             position: fixed;
             bottom: 0;
@@ -82,13 +88,11 @@
         #titulo {
             display: none;
         }
-
         /*#tablaCab {
             margin-bottom: 0rem;
             margin-top: 0rem;
-       
-        }*/
 
+        }*/
         #tbltitulo {
             display: block;
             margin-bottom: 0rem;
@@ -120,7 +124,6 @@
             page-break-inside: avoid;
             page-break-after: auto
         }*/
-
         /*thead {
             display: table-header-group
         }
@@ -128,20 +131,17 @@
         tfoot {
             display: table-footer-group
         }*/
-
-
         hr {
             display: none;
         }
-
         /*br {
             display: none;
         }*/
-
         .card {
             border: 0px solid #e3e6f0;
         }
     }
+
     @@media screen {
         #logo {
             display: none;
@@ -200,11 +200,9 @@
         .table {
             margin-bottom: 0.5rem;
         }
-
         /*.table tr td {
             border: 1px;
         }*/
-
         /*.card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
@@ -214,7 +212,6 @@
             padding-left: 10px;
             padding-right: 10px;
         }*/
-
         /*#firma1 {
             border-bottom: solid;
         }
@@ -224,8 +221,20 @@
         }*/
     }
 </style>
-<h4 id="titulo">Reporte de evaluación de lomos y migas en bandeja</h4>
 
+<div class="row">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;" id="titulo">Reporte de evaluación de lomos y migas en bandeja</h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Control</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Control</a>}
+        </div>
+    </div>
+</div>
 <div class="card" id="card1">
     <div class="row">
         <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
@@ -291,10 +300,10 @@
 <div>
     <div style="padding-bottom:10px;" id="DivBotonImpr" hidden>
         <center>
-            <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnimprimir" onclick="Atras()" style="border-color:#2c3e50" type="button" >
+            <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnimprimir" onclick="Atras()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/atras24.png" />
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button" >
+            <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/print24.png" />
             </button>
         </center>

@@ -74,6 +74,10 @@ function AprobarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
+            }  
             MensajeCorrecto(resultado);
             CargarBandeja();
             $("#ModalApruebaCntrol").modal("hide");
@@ -99,6 +103,10 @@ function ReversarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
+            }  
             MensajeCorrecto(resultado);
             FiltrarAprobadosFecha();
             $("#ModalApruebaCntrol").modal("hide");
@@ -209,6 +217,7 @@ $(function () {
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
 
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+        FiltrarAprobadosFecha();
     }
 
     $('#reportrange').daterangepicker({

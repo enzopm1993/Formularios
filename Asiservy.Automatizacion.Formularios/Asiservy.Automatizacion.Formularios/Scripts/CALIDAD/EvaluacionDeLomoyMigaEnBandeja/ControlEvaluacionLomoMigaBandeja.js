@@ -263,7 +263,7 @@ async function GenerarControlDetalle2() {
             throw "Error";
         }
         var ResultadoGuardarFoto = await promesaGuardarFoto.json();
-        if (MensajeCorrecto(ResultadoGuardarFoto[0] == '003')){
+        if (ResultadoGuardarFoto[0] == '003' || ResultadoGuardarFoto[0] == '444'){
             MensajeAdvertencia(ResultadoGuardarFoto[1]);
         } else {
             MensajeCorrecto(ResultadoGuardarFoto[1]);
@@ -289,6 +289,7 @@ async function GenerarControlDetalle2Ajax() {
     data.append("IdFotoEvaluacioLomosyMigas", IdFotoEvaluacioLomosyMigas);
     data.append("Observacion", $("#txtNovedad").val());
     data.append("Rotacion", rotation);
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     var promesa = fetch("../EvaluacionDeLomoyMigaEnBandeja/GuardarFotoDetalle", {
         method: 'POST',
@@ -443,7 +444,7 @@ async function ConsultarCabControlAjax() {
     })
     return promesa;
 }
-async function ConsultarCabControl(bandera) {
+async function ConsultarCabControl(bandera,spiner) {
     
     try {
        
@@ -518,11 +519,15 @@ async function ConsultarCabControl(bandera) {
             $('#CardDetalle').prop('hidden', false);
             $('#btnEliminarCabeceraControl').prop('disabled', false);
             ValidarParametro();
-            LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
-            ConsultarDetalleControl();
+            if (spiner != 1) {
+                LlenarComboLotes(ResultadoConsulta.OrdenFabricacion);
+                ConsultarDetalleControl();
+                
+            }
+            SlideCabecera();
             //ConsultarDetalleControl();
 
-            SlideCabecera();
+            
         } else {
             $('#brespacio').remove();
             $('#DivCabecera').after('<br id="brespacio">');
@@ -634,7 +639,7 @@ function GuardarCabceraControl() {
         }
         if (Error == 0) {
             IdCabecera = resultado[2].IdEvaluacionDeLomosYMigasEnBandejas;
-            if (resultado[0] == "002" || resultado[0] == "003") {
+            if (resultado[0] == "002" || resultado[0] == "003" || resultado[0] == "444") {
                 MensajeAdvertencia(resultado[1]);
                 (resultado[2].Lomo) ? $('#Lomo').prop("checked", true) : $('#Lomo').prop("checked", false);
                 (resultado[2].Miga) ? $('#Miga').prop("checked", true) : $('#Miga').prop("checked", false);
@@ -643,6 +648,7 @@ function GuardarCabceraControl() {
                 (resultado[2].Pouch) ? $('#Pouch').prop("checked", true) : $('#Pouch').prop("checked", false);
                 $('#cmbNivelLimpieza').val(resultado[2].NivelLimpieza);
                 $('#Observacion').val(resultado[2].Observacion);
+                ConsultarCabControl(null,1);
                 ValidarParametro();
             } else {
                 MensajeCorrecto(resultado[1]);
@@ -702,7 +708,7 @@ function EliminarCabecera() {
     Error = 0;
     const data = new FormData();
     data.append('IdCabecera', IdCabecera);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarCabeceraControl", {
         method: 'POST',
@@ -725,7 +731,7 @@ function EliminarCabecera() {
             //    MensajeAdvertencia(resultado[1]);
             //} else {
        
-            if (resultado[0] != '002') {
+            if (resultado[0] != '002' || resultado[0] != '444') {
                 MensajeAdvertencia(resultado[1]);
             } else {
                 MensajeCorrecto(resultado[1]);
@@ -753,7 +759,7 @@ function EliminarFoto() {
     Error = 0;
     const data = new FormData();
     data.append('IdFoto', IdFotoEvaluacioLomosyMigas);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarFotoDetalle", {
         method: 'POST',
@@ -773,7 +779,7 @@ function EliminarFoto() {
         if (Error == 0) {
             $('#modalEliminarControlDetalle2').modal('hide');
 
-            if (resultado[0] == '003') {
+            if (resultado[0] == '003' || resultado[0] == '444') {
                 MensajeAdvertencia(resultado[1]);
             } else {
                 MensajeCorrecto(resultado[1]);
@@ -942,6 +948,7 @@ function GuardarDetalleControl() {
     data.append('Escamas', $("#txtEscamas").val());
     data.append('Piel', $("#txtPiel").val());
     data.append('IdCabeceraEvaluacionLomosYMigasEnBandeja', IdCabecera);
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../EvaluacionDeLomoyMigaEnBandeja/GuardarDetalleControl", {
         method: 'POST',
@@ -960,7 +967,7 @@ function GuardarDetalleControl() {
         }
         if (Error == 0) {
 
-            if (resultado[0] == "002" || resultado[0] == "003") {
+            if (resultado[0] == "002" || resultado[0] == "003" || resultado[0] == '444') {
                 MensajeAdvertencia(resultado[1]);
             }
             if (resultado[0] == "000" || resultado[0] == "001") {
@@ -1118,7 +1125,7 @@ function EliminarDetalle() {
     Error = 0;
     const data = new FormData();
     data.append('IdDetalle', IdDetalle);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarDetalleControl", {
         method: 'POST',
@@ -1137,14 +1144,14 @@ function EliminarDetalle() {
         }
         if (Error == 0) {
             $('#ModalEliminarDetalle').modal('hide');
-            //if (resultado[0] == "002") {
-            //    MensajeAdvertencia(resultado[1]);
-            //} else {
+            if (resultado[0] == "003" || resultado[0] == '444') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
             MensajeCorrecto(resultado[1]);
 
             LimpiarDetalleControles();
             ConsultarDetalleControl();
-            //}
+            }
 
         }
         $('#btnsidet').prop('disabled', false);

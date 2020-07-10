@@ -13,6 +13,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteEvaluacionLomosMigasBandeja
     {
+        public Nullable<int> Maximo { get; set; }
+        public string NivelLimpieza { get; set; }
+        public string TipoProd { get; set; }
         public Nullable<int> OrdenFabricacion { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }

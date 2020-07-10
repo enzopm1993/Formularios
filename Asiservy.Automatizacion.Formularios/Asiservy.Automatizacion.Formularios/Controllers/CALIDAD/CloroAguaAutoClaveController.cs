@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoclave;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalidad;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
-
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
 
         #region CONTROL 
         [Authorize]
@@ -33,12 +35,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 ClsDClasificador = new clsDClasificador();
                 ViewBag.AutoClaves = ClsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave);
                 ViewBag.Turnos = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+                clsDLogin = new clsDLogin();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteCloroAguaAutoClave");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteCloroAguaAutoClave";
+                    }
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -78,6 +89,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(Fecha,Turno).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -117,7 +133,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                ViewBag.Parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CodigoParametroCloroAguaAutoclave);
+                ViewBag.Parametros = ClsDCloroAguaAutoclave.ConsultaParametroCloroAguaAutoclaveControl(Fecha, Turno);
+                ViewBag.Parametros2 = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CodigoParametroCloroAguaAutoclave);
                 var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha, Turno);
                 if (!model.Any())
                 {
@@ -163,6 +180,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(Fecha, Turno).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -372,6 +394,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model, Turno);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
@@ -413,6 +440,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model, Turno);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
@@ -456,6 +488,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.NombreReporte = rep.Nombre;
                 }
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "CloroAguaAutoclave");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "CloroAguaAutoclave";
+                    }
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -484,12 +525,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> poControl = null;
-              
-                poControl = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde, FechaHasta);
+                ClsDClasificador = new clsDClasificador();
+                 poControl = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde, FechaHasta);
 
 
                 if (poControl != null && poControl.Any())
                 {
+
+                    ViewBag.Turno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                     return PartialView(poControl);
                 }
                 else
@@ -566,7 +609,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 ClsDClasificador = new clsDClasificador();
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                ViewBag.Parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CodigoParametroCloroAguaAutoclave);
+                ViewBag.Parametros = ClsDCloroAguaAutoclave.ConsultaParametroCloroAguaAutoclaveControl(Fecha, Turno);
+                ViewBag.Parametros2 = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CodigoParametroCloroAguaAutoclave);
                 var poTurno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno,Turno).FirstOrDefault();
                 if (poTurno != null)
                 {
