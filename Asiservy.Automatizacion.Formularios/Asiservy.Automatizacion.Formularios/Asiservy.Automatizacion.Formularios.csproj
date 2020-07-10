@@ -2270,6 +2270,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\MantParametrosLaboratorio\MantParametrosLaboratorio.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\BandejaMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\CALIDAD\MaterialQuebradizo\MantenimientoMaterial.js" />
@@ -3469,6 +3470,7 @@
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoTextura.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDParametrosLaboratorio.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoMuestraDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoTipoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
@@ -3568,6 +3570,7 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoMuestraDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoTipoDescongeladoController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantParametrosLaboratorioController.cs" />
     <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
     <Compile Include="Controllers\CALIDAD\KardexReactivoController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
@@ -4240,6 +4243,8 @@
     <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderosPartial.cshtml" />
     <Content Include="Views\Hueso\ReporteRendimientoLote.cshtml" />
     <Content Include="Views\Hueso\ReporteRendimientoLotePartial.cshtml" />
+    <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorio.cshtml" />
+    <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorioPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

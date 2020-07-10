@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PARAMETROS_LABORATORIO>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
+<table class="table table-light table-striped table-bordered table-hover text-uppercase" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>PARÁMETRO</th>
+            <th>FORMULARIO</th>
+            <th>VALOR MIN</th>
+            <th>VALOR MAX</th>
+            <th>DESCRIPCIÓN</th>
+            <th>USUARIO CREACIÓN</th>
+            <th>F. CREACIÓN</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+        </tr>
+    </thead>
+  
+    <tbody style="font-size:11px">
+        @foreach (var item in ViewBag.nose)
+        {
+            var d =JsonConvert.SerializeObject(item);
+            var h = JsonConvert.DeserializeObject<dynamic>(d);
+            <tr>
+                <td>@h.NombreParametro</td>              
+                <td style="white-space:normal">@h.Descripcion</td>
+                <td style="text-align:center">@h.ValorMin.ToString("0.00")</td>
+                <td style="text-align:center">@h.ValorMax.ToString("0.00")</td>
+                <td style="white-space:normal">                   
+                        @h.DescripcionParametro
+                </td>
+                <td>@h.UsuarioIngresoLog</td>
+                <td>@h.FechaIngresoLog.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (h.EstadoRegistro == "A")
+                    {
+                        <span class="badge badge-success">ACTIVO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">INACTIVO</span>
+                    }
+                </td>
+
+                <td>
+                    @{
+                        var json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                    @if (h.EstadoRegistro == "A")
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                    }
+                    else
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>
+
