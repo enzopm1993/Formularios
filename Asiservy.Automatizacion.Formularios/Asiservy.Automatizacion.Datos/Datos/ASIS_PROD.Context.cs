@@ -205,8 +205,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
         public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
-        public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
         public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
+        public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2060,15 +2060,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", idControlParameter);
-        }
-    
         public virtual ObjectResult<sp_Limpieza_Desinfeccion_Planta> sp_Limpieza_Desinfeccion_Planta(Nullable<int> idLimpiezaDesinfeccionPlanta, Nullable<int> op, Nullable<int> idAuditoria)
         {
             var idLimpiezaDesinfeccionPlantaParameter = idLimpiezaDesinfeccionPlanta.HasValue ?
@@ -2386,6 +2377,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Id", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", idParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", idControlParameter);
         }
     }
 }

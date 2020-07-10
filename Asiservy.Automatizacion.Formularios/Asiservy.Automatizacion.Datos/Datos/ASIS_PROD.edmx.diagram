@@ -265,9 +265,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="34.375" PointY="49.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="3.375" PointY="31.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="33.375" PointY="36.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="3.375" PointY="31.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

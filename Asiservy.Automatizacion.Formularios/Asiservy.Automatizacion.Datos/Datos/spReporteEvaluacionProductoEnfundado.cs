@@ -13,6 +13,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteEvaluacionProductoEnfundado
     {
+        public Nullable<int> Maximo { get; set; }
+        public string NivelLimpieza { get; set; }
+        public string TipoProd { get; set; }
         public string Turno { get; set; }
         public string AprobadoPor { get; set; }
         public string UsuarioIngresoLog { get; set; }
