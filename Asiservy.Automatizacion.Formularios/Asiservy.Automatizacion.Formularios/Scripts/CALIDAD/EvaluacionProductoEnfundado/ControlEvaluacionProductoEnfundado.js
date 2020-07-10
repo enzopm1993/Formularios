@@ -4,75 +4,137 @@ var Error = 0;
 var IdCabecera = 0;
 var IdDetalle = 0;
 var TotalMaximo;
+var GlobalColorDentroRango;
+var GlobalColorFueraRango;
 var IdFotoEvaluacioProductoEnfundado = 0;
-var ParametrosLomo =
-{
-    Limpieza1: {
-        Venas: 3,
-        Espinas: 8,
-        Moretones: 5,
-        Escamas: 2,
-        Piel: 3,
-        Total: 21
-    },
-    Limpieza2: {
-        Venas: 2,
-        Espinas: 5,
-        Moretones: 3,
-        Escamas: 1,
-        Piel: 1,
-        Total: 12
-    },
-    Limpieza3: {
-        Venas: 0,
-        Espinas: 3,
-        Moretones: 1,
-        Escamas: 0,
-        Piel: 0,
-        Total: 4
-    }
-}
-var ParametrosMiga =
-{
-    Limpieza1: {
-        Venas: 7,
-        Espinas: 10,
-        Moretones: 7,
-        Escamas: 10,
-        Piel: 6,
-        Total: 40
-    },
-    Limpieza2: {
-        Venas: 4,
-        Espinas: 10,
-        Moretones: 3,
-        Escamas: 5,
-        Piel: 3,
-        Total: 25
-    },
-    Limpieza3: {
-        Venas: 0,
-        Espinas: 2,
-        Moretones: 2,
-        Escamas: 0,
-        Piel: 0,
-        Total: 4
-    }
-}
+//var ParametrosLomo =
+//{
+//    Limpieza1: {
+//        Venas: 3,
+//        Espinas: 8,
+//        Moretones: 5,
+//        Escamas: 2,
+//        Piel: 3,
+//        Total: 21
+//    },
+//    Limpieza2: {
+//        Venas: 2,
+//        Espinas: 5,
+//        Moretones: 3,
+//        Escamas: 1,
+//        Piel: 1,
+//        Total: 12
+//    },
+//    Limpieza3: {
+//        Venas: 0,
+//        Espinas: 3,
+//        Moretones: 1,
+//        Escamas: 0,
+//        Piel: 0,
+//        Total: 4
+//    }
+//}
+//var ParametrosMiga =
+//{
+//    Limpieza1: {
+//        Venas: 7,
+//        Espinas: 10,
+//        Moretones: 7,
+//        Escamas: 10,
+//        Piel: 6,
+//        Total: 40
+//    },
+//    Limpieza2: {
+//        Venas: 4,
+//        Espinas: 10,
+//        Moretones: 3,
+//        Escamas: 5,
+//        Piel: 3,
+//        Total: 25
+//    },
+//    Limpieza3: {
+//        Venas: 0,
+//        Espinas: 2,
+//        Moretones: 2,
+//        Escamas: 0,
+//        Piel: 0,
+//        Total: 4
+//    }
+//}
 $(document).ready(function () {
     $('#cmbEmpacador').select2();
     //$('#txtMonto').mask('000,000,000.00', { reverse: true });
-    $('#txtVenas').mask("9?9");
-    $('#txtEspinas').mask("9?9");
-    $('#txtSangre').mask("9?9");
-    $('#txtEscamas').mask("9?9");
-    $('#txtPiel').mask("9?9");
-    $('#txtOtros').mask("9?9");
-
-    $('#txtMoretones').mask("9?9");
-    $('#txtHematomas').mask("9?9");
-    $('#txtTrozos').mask("9?.99");
-    $('#txtMiga').mask("9?.99");
+    $('#txtVenas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtEspinas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtSangre').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtEscamas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtPiel').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtOtros').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtMoretones').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtHematomas').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        //'digits': 2,
+        max: 99
+    });
+    $('#txtTrozos').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 100.00
+    });
+    $('#txtMiga').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 100.00
+    });
+ 
     LLenarComboOrdenes();
 });
 function ValidarParametro() {
@@ -80,38 +142,49 @@ function ValidarParametro() {
     //console.log($('#Lomo').val());
     //console.log($('#Miga').val());
     if ($('#Lomo').is(':checked') || $('#Miga').is(':checked') || $('#Trozo').is(':checked') && ($('#cmbNivelLimpieza').prop('selectedIndex') != 0)) {
-
-        if ($('#Lomo').is(':checked') || $('#Trozo').is(':checked')) {
-            console.log($('#cmbNivelLimpieza').val());
-            if ($('#cmbNivelLimpieza').val() == '1') {
+        console.log(parametrojs);
+        var TipoProd = $('#Miga').is(':checked') ? 'M' : 'L';
+        respuesta = Enumerable.From(parametrojs)
+            .Where(function (x) { return x.Formulario == "002" && x.Tipo == TipoProd && x.NivelLimpieza == $('#cmbNivelLimpieza').val() })
+            .Select(function (x) { return x })
+            .FirstOrDefault();
+        console.log(respuesta);
+        $('#lblparametro').text(respuesta.Maximo);
+        $('#lblparametro').css('background-color', respuesta.ColorDentroDeRango);
+        TotalMaximo = respuesta.Maximo;
+        GlobalColorDentroRango = respuesta.ColorDentroDeRango;
+        GlobalColorFueraRango = respuesta.ColorFueraDeRango;
+        //if ($('#Lomo').is(':checked') || $('#Trozo').is(':checked')) {
+        //    console.log($('#cmbNivelLimpieza').val());
+        //    if ($('#cmbNivelLimpieza').val() == '1') {
            
-                $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
-                TotalMaximo = ParametrosLomo.Limpieza1.Total;
-            }
-            if ($('#cmbNivelLimpieza').val() == '2') {
-                $('#lblparametro').text(ParametrosLomo.Limpieza2.Total);
-                TotalMaximo = ParametrosLomo.Limpieza2.Total;
-            }
-            if ($('#cmbNivelLimpieza').val() == '3') {
-                $('#lblparametro').text(ParametrosLomo.Limpieza3.Total);
-                TotalMaximo = ParametrosLomo.Limpieza3.Total;
-            }
+        //        $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
+        //        TotalMaximo = ParametrosLomo.Limpieza1.Total;
+        //    }
+        //    if ($('#cmbNivelLimpieza').val() == '2') {
+        //        $('#lblparametro').text(ParametrosLomo.Limpieza2.Total);
+        //        TotalMaximo = ParametrosLomo.Limpieza2.Total;
+        //    }
+        //    if ($('#cmbNivelLimpieza').val() == '3') {
+        //        $('#lblparametro').text(ParametrosLomo.Limpieza3.Total);
+        //        TotalMaximo = ParametrosLomo.Limpieza3.Total;
+        //    }
 
-        } else {
-            if ($('#cmbNivelLimpieza').val() == '1') {
-                $('#lblparametro').text(ParametrosMiga.Limpieza1.Total);
-                TotalMaximo = ParametrosMiga.Limpieza1.Total;
-            }
-            if ($('#cmbNivelLimpieza').val() == '2') {
-                $('#lblparametro').text(ParametrosMiga.Limpieza2.Total);
-                TotalMaximo = ParametrosMiga.Limpieza2.Total;
-            }
-            if ($('#cmbNivelLimpieza').val() == '3') {
-                $('#lblparametro').text(ParametrosMiga.Limpieza3.Total);
-                TotalMaximo = ParametrosMiga.Limpieza3.Total;
-            }
+        //} else {
+        //    if ($('#cmbNivelLimpieza').val() == '1') {
+        //        $('#lblparametro').text(ParametrosMiga.Limpieza1.Total);
+        //        TotalMaximo = ParametrosMiga.Limpieza1.Total;
+        //    }
+        //    if ($('#cmbNivelLimpieza').val() == '2') {
+        //        $('#lblparametro').text(ParametrosMiga.Limpieza2.Total);
+        //        TotalMaximo = ParametrosMiga.Limpieza2.Total;
+        //    }
+        //    if ($('#cmbNivelLimpieza').val() == '3') {
+        //        $('#lblparametro').text(ParametrosMiga.Limpieza3.Total);
+        //        TotalMaximo = ParametrosMiga.Limpieza3.Total;
+        //    }
 
-        }
+        //}
     }
 
 }
@@ -750,6 +823,7 @@ function GuardarCabceraControl() {
     data.append('Batch', $('#txtBatch').val());
     data.append('Observacion', $('#Observacion').val());
     data.append('Turno', $('#cmbTurno').val());
+    data.append('Maximo', $("#lblparametro").text());
     if ($('#Lomo').is(":checked")) {
         Lomo = true;
     }

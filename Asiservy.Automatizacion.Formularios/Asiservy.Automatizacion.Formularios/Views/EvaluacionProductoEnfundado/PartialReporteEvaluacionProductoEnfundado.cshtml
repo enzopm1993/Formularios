@@ -294,73 +294,82 @@
                                     suma = (item.Venas == null ? 0 : item.Venas) + (item.Espinas == null ? 0 : item.Espinas) + (item.Sangre == null ? 0 : item.Sangre) + (item.Escamas == null ? 0 : item.Escamas) + (item.Piel == null ? 0 : item.Piel) + (item.Otro == null ? 0 : item.Otro);
                                 <td>
                                     @*@suma*@
-                                             <label id="total@(cont)" class="badge badge-pill">@suma</label>
+                                             <label id="total@(cont)" class="badge badge-pill" style="color:white">@suma</label>
                                         <script>
                                                 var suma =@Html.Raw(Json.Encode(suma));
                                                 var TipoLimpieza=@Html.Raw(Json.Encode(Model.FirstOrDefault().TipoLimpieza));
                                                 var contador =@Html.Raw(Json.Encode(cont));
-                                                console.log(suma);
-                                                console.log(TipoLimpieza);
-                                                console.log(contador);
+                                                //console.log(suma);
+                                                //console.log(TipoLimpieza);
+                                                //console.log(contador);
+                                                var parametroMax =@Html.Raw(Json.Encode(ViewBag.ParametrosMaximo));
+                                                var Color1=@Html.Raw(Json.Encode(ViewBag.Color1));
+                                                var Color2=@Html.Raw(Json.Encode(ViewBag.Color2));
+                                                @*var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().Lomo));
+                                                var Miga =@Html.Raw(Json.Encode(Model.FirstOrDefault().Miga));*@
+                                                $('#lblparametro').text(parametroMax);
+                                                if (suma > parametroMax) {
 
-                                                var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().Lomo));
-                                                var Miga =@Html.Raw(Json.Encode(Model.FirstOrDefault().Miga));
-
-
-                                                if (Lomo) {
-                                                    if (TipoLimpieza == "Sencilla") {
-                                                        $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
-
-                                                        if (suma > ParametrosLomo.Limpieza1.Total) {
-                                                          $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                        } else {
-                                                            $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                        }
-                                                    }
-                                                    if (TipoLimpieza == "Intermedia") {
-
-                                                        if (suma > ParametrosLomo.Limpieza2.Total) {
-                                                            $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                        } else {
-                                                            $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                        }
-                                                    }
-                                                    if (TipoLimpieza == "Doble") {
-
-                                                        if (suma > ParametrosLomo.Limpieza3.Total) {
-                                                            $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                        } else {
-                                                            $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                        }
-
-                                                    }
-
+                                                    $('#total' + contador).css('background-color', Color2)
                                                 } else {
-                                                        if (TipoLimpieza == 1) {
-                                                            if (suma > ParametrosMiga.Limpieza1.Total) {
-                                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                            } else {
-                                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                            }
+                                                    $('#total' + contador).css('background-color', Color1)
 
-                                                        }
-                                                        if (TipoLimpieza == 2) {
-                                                            if (suma > ParametrosMiga.Limpieza2.Total) {
-                                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                            } else {
-                                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                            }
-                                                        }
-                                                        if (TipoLimpieza == 3) {
+                                                }
 
-                                                            if (suma > ParametrosMiga.Limpieza3.Total) {
-                                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
-                                                            } else {
-                                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
-                                                            }
-                                                        }
+                                                //if (Lomo) {
+                                                //    if (TipoLimpieza == "Sencilla") {
+                                                //        $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
 
-                                                    }
+                                                //        if (suma > ParametrosLomo.Limpieza1.Total) {
+                                                //          $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                //        } else {
+                                                //            $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                //        }
+                                                //    }
+                                                //    if (TipoLimpieza == "Intermedia") {
+
+                                                //        if (suma > ParametrosLomo.Limpieza2.Total) {
+                                                //            $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                //        } else {
+                                                //            $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                //        }
+                                                //    }
+                                                //    if (TipoLimpieza == "Doble") {
+
+                                                //        if (suma > ParametrosLomo.Limpieza3.Total) {
+                                                //            $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                //        } else {
+                                                //            $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                //        }
+
+                                                //    }
+
+                                                //} else {
+                                                //        if (TipoLimpieza == 1) {
+                                                //            if (suma > ParametrosMiga.Limpieza1.Total) {
+                                                //                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                //            } else {
+                                                //                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                //            }
+
+                                                //        }
+                                                //        if (TipoLimpieza == 2) {
+                                                //            if (suma > ParametrosMiga.Limpieza2.Total) {
+                                                //                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                //            } else {
+                                                //                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                //            }
+                                                //        }
+                                                //        if (TipoLimpieza == 3) {
+
+                                                //            if (suma > ParametrosMiga.Limpieza3.Total) {
+                                                //                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                //            } else {
+                                                //                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                //            }
+                                                //        }
+
+                                                //    }
                                             
                                               </script>
 

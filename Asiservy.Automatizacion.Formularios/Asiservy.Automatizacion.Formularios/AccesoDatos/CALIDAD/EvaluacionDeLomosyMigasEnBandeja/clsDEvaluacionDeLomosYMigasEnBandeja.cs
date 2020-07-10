@@ -119,6 +119,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 }
                 else
                 {
+                    BuscarCabecera.Maximo = poCabControl.Maximo;
                     BuscarCabecera.Lomo = poCabControl.Lomo;
                     BuscarCabecera.Miga = poCabControl.Miga;
                     BuscarCabecera.NivelLimpieza = poCabControl.NivelLimpieza;

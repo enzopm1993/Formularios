@@ -1,4 +1,4 @@
-﻿
+﻿@using Newtonsoft.Json
 @{
     ViewBag.Title = "ControlEvaluacionProductoEnfundado";
 }
@@ -84,6 +84,13 @@
           border: 1px solid black;
       }*/
 </style>
+@{
+    string ParametrosMax = JsonConvert.SerializeObject(@ViewBag.ParametrosMaximo);
+}
+<script>
+    var parametrojs =@Html.Raw(ParametrosMax);
+
+</script>
 <div class="row">
     <div class="col-12  text-md-left text-center">
         <h4 style="float:left;">Control Evaluación Producto Enfundado<label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
@@ -106,7 +113,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -122,9 +129,9 @@
                 </div>
                 <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
-                    <option>Seleccione..</option>
-                </select>
-                <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+                        <option>Seleccione..</option>
+                    </select>
+                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
             </div>
         </div>
         <div class="col-md-2 col-sm-6">
@@ -141,20 +148,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @*<div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
-                            </label>
-                        </div>*@
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
+                                </label>
+                            </div>*@
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
                                 <div class="custom-control custom-radio">
@@ -202,7 +209,7 @@
                 @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
                 <label class="text-danger" id="msgerrorniveldelimpieza" hidden>Debe seleccionar el nivel de limpieza</label>
                 <label>Parámetro máximo:</label>
-                <label class="badge badge-success" id="lblparametro"></label>
+                <span class="badge bagde-pill" id="lblparametro" style="color:white"></span>
             </div>
         </div>
         <div class="col-md-8" style="margin-top:10px">
@@ -215,21 +222,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Proveedor:</label>
-                                    <input type="text" id="txtProveedor" class="form-control" />
+                                    <input type="text" id="txtProveedor" class="form-control" autocomplete="off"/>
                                     <label class="text-danger" id="msgerrorproveedor" hidden>Debe ingresar un proveedor</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Batch:</label>
-                                    <input type="text" id="txtBatch" class="form-control" />
+                                    <input type="text" id="txtBatch" class="form-control" autocomplete="off" />
                                     <label class="text-danger" id="msgerrorbatch" hidden>Debe ingresar un batch</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Lote:</label>
-                                    <input type="text" id="txtLoteProveedor" class="form-control" />
+                                    <input type="text" id="txtLoteProveedor" class="form-control"  autocomplete="off"/>
                                     <label class="text-danger" id="msgerrorloteproveedor" hidden>Debe ingresar un lote</label>
                                 </div>
                             </div>
@@ -250,8 +257,8 @@
             </div>
         </div>
         @*<div class="col-md-3 col-sm-3">
-            <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()" />
-        </div>*@
+                <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()" />
+            </div>*@
     </div>
     <br />
     <div class="row">
@@ -303,7 +310,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Hora</label>
-                                <input type="datetime-local" id="txtHora" class=" form-control" onchange="LlenarComboEmpacadores()"/>
+                                <input type="datetime-local" id="txtHora" class=" form-control" onchange="LlenarComboEmpacadores()" />
                                 <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>
@@ -394,14 +401,14 @@
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
-                                <label>Trozos</label>
-                                <input type="tel" id="txtTrozos" class="form-control" />
+                                <label>Trozos<span class="badge badge-secondary">+100.00</span></label>
+                                <input type="tel" id="txtTrozos" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
-                                <label>Migas</label>
-                                <input type="tel" id="txtMiga" class="form-control" />
+                                <label>Migas<span class="badge badge-secondary">+100.00</span></label>
+                                <input type="tel" id="txtMiga" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                     </div>
@@ -410,38 +417,39 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label>Venas</label>
-                                <input type="tel" id="txtVenas" class="form-control" />
+                                <label>Venas<span class="badge badge-secondary">+99</span></label>
+                              
+                                <input type="tel" id="txtVenas" class="form-control" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label>Espinas</label>
-                                <input type="tel" id="txtEspinas" class="form-control" />
+                                <label>Espinas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtEspinas" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label>Sangre</label>
-                                <input type="tel" id="txtSangre" class="form-control" />
+                                <label>Sangre<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtSangre" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
-                                <label>Escamas</label>
-                                <input type="tel" id="txtEscamas" class="form-control" />
+                                <label>Escamas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtEscamas" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
-                                <label>Piel</label>
-                                <input type="tel" id="txtPiel" class="form-control" />
+                                <label>Piel<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtPiel" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
-                                <label>Otros</label>
-                                <input type="tel" id="txtOtros" class="form-control" />
+                                <label>Otros<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtOtros" class="form-control" autocomplete="off"/>
                             </div>
                         </div>
                     </div>
