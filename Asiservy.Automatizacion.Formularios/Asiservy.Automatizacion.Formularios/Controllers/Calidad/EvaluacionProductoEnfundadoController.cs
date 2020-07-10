@@ -15,6 +15,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroDefecto;
+
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionProductoEnfundadoController : Controller
@@ -22,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDReporte clsDReporte { get; set; } = null;
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
+        ClsDParametroDefecto ClsDParametroDefecto { get; set; } = null;
         clsDLogin clsDLogin { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDEvaluacionProductoEnfundado clsDEvaluacionProductoEnfundado { get; set; } = null;
@@ -61,7 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 //**
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 //ViewBag.FirmaPad = "1";
@@ -73,6 +76,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDMantenimientoProteina = new clsDMantenimientoProteina();
                 clsDMantenimientoColor = new clsDMantenimientoColor();
                 ClsDMantenimientoMoreton = new ClsDMantenimientoMoreton();
+                ClsDParametroDefecto = new ClsDParametroDefecto();
                 clsDClasificador = new clsDClasificador();
                 var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x => x.Codigo);
                 //var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
@@ -93,7 +97,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Proteina = new SelectList(Proteina, "IdProteina", "Descripcion");
                 ViewBag.NivelLimpieza = new SelectList(ListaTiposLimpieza, "Codigo", "Descripcion");
                 ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
-
+                List<ParametroDefectoViewModel> resultado = ClsDParametroDefecto.ConsultarCabecerasParametroDefecto().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.ParametrosMaximo = resultado;
                 //ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
                 return View();
             }
@@ -232,6 +237,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 else
                 {
+                    //**
+                    ClsDParametroDefecto = new ClsDParametroDefecto();
+                    var Color = ClsDParametroDefecto.ConsultarCabecerasParametroDefecto().Where(x => x.Formulario == clsAtributos.EvaluacionLomosMigasBandeja
+                     && x.Tipo == resultado.FirstOrDefault().TipoProd && x.NivelLimpieza == resultado.FirstOrDefault().NivelLimpieza && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x => new { x.ColorDentroDeRango, x.ColorFueraDeRango }).FirstOrDefault();
+                    ViewBag.Color1 = Color.ColorDentroDeRango;
+                    ViewBag.Color2 = Color.ColorFueraDeRango;
+                    ViewBag.ParametrosMaximo = resultado.FirstOrDefault().Maximo == null ? 0 : resultado.FirstOrDefault().Maximo;
+                    //**
                     clsDApiOrdenFabricacion clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                     ViewBag.Cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(resultado.FirstOrDefault().OrdenFabricacion.ToString()).FirstOrDefault().CLIENTE;
                 }

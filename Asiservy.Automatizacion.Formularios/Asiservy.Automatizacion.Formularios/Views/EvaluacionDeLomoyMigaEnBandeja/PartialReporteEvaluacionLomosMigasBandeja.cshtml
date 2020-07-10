@@ -284,7 +284,7 @@
                                         cont++;
                                         suma = item.Venas + item.Espinas + item.Sangre + item.Escamas + item.Piel;
                                         <td>@*@suma*@
-                                            <label id="total@(cont)" class="badge badge-pill">@suma</label>
+                                            <label id="total@(cont)" class="badge badge-pill" style="color:white">@suma</label>
                                             <script>
                                                 var suma =@Html.Raw(Json.Encode(suma));
                                                 var TipoLimpieza=@Html.Raw(Json.Encode(Model.FirstOrDefault().TipoLimpieza));
