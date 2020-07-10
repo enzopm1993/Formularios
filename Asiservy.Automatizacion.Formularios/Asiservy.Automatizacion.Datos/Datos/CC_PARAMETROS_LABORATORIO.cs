@@ -12,11 +12,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_QUIMICO_PRECOCCION_TURNO
+    public partial class CC_PARAMETROS_LABORATORIO
     {
-        public int IdTurno { get; set; }
-        public string Nombre { get; set; }
-        public string DescripcionMant { get; set; }
+        public int IdParametro { get; set; }
+        public string CodFormClasif { get; set; }
+        public string NombreParametro { get; set; }
+        public Nullable<decimal> ValorMax { get; set; }
+        public Nullable<decimal> ValorMin { get; set; }
+        public string DescripcionParametro { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

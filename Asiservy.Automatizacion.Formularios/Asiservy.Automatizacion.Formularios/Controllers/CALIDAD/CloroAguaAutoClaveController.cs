@@ -525,12 +525,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> poControl = null;
-              
-                poControl = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde, FechaHasta);
+                ClsDClasificador = new clsDClasificador();
+                 poControl = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde, FechaHasta);
 
 
                 if (poControl != null && poControl.Any())
                 {
+
+                    ViewBag.Turno = ClsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                     return PartialView(poControl);
                 }
                 else
