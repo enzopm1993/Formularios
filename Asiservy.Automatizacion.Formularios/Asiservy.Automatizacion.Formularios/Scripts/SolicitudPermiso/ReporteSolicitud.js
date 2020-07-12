@@ -34,40 +34,44 @@ function CambioLinea(valor) {
 }
 
 
-function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
+function MarcarSalida(IdSolicitudPermiso, Cedula, fechaSalida) {
     //console.log(IdSolicitudPermiso);
     // console.log(fecha);
-    if (fecha == "" || fecha == null ) {
+    //if (fecha == "" || fecha == null ) {
 
-        MensajeAdvertencia("No ha marcado en el biometríco");
-        return;
-    }
+    //    MensajeAdvertencia("No ha marcado en el biometríco");
+    //    return;
+    //}
     $("#txtMarcarSalida-" + IdSolicitudPermiso).prop("disabled", true);
     $.ajax({
         type: "POST",
         url: '../SolicitudPermiso/MarcarSalidaSolicitudPermiso',
         data: {
             IdSolicitudPermiso: IdSolicitudPermiso,
-            FechaBiometrico: fecha,
+            Cedula: Cedula,
             FechaSalida: fechaSalida
         },
         success: function (Resultado) {
             if (Resultado == "101") {
                 window.location.reload();
             }
+            if (Resultado == "102") {
+                MensajeAdvertencia("NO HA MARCADO SALIDA");
+                return;
+            }
             if (Resultado == "1") {
                 var horaSalida = moment(fechaSalida).format('HH:mm');
                 MensajeAdvertencia("Su hora de salida es a las: " + horaSalida);
                 return;
             }
-            MensajeCorrecto(Resultado,false);
+            MensajeCorrecto(Resultado, false);
             ConsultarSolicitudes();
         },
         error: function (Resultado) {
             MensajeError(Resultado);
         }
     });
-   
+
 
 }
 
@@ -88,15 +92,47 @@ function ConsultarSolicitudes() {
         success: function (data) {
             $('#RptSolicitudes').html(data);
             $("#spinnerCargando").prop("hidden", true);
+            config.opcionesDT.pageLength = -1;
+            config.opcionesDT.order = [[2, "asc"]];
+            $('#tblDataTable').DataTable(config.opcionesDT);
 
         },
-        error: function (result)
-        {
+        error: function (result) {
             MensajeError(result);
             $("#spinnerCargando").prop("hidden", true);
-            
+
         }
     });
+
+}
+
+
+function ReversarSolicitud(IdSolicitudPermiso) {
+
+    $(".btnReversa").prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: '../SolicitudPermiso/ReversarSolicitudPermiso',
+        data: {
+            IdSolicitudPermiso: IdSolicitudPermiso
+        },
+        success: function (Resultado) {
+            if (Resultado == "101") {
+                window.location.reload();
+            }
+            if (Resultado == "102") {
+                MensajeAdvertencia("OCURRIÓ UN ERROR EN EL PROCESO");
+                $(".btnReversa").prop("disabled", false);
+                return;
+            }
+            MensajeCorrecto(Resultado, false);
+            ConsultarSolicitudes();
+        },
+        error: function (Resultado) {
+            MensajeError(Resultado);
+        }
+    });
+
 
 }
 
