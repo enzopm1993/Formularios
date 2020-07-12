@@ -35,7 +35,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         ClsDMantenimientoMoreton ClsDMantenimientoMoreton { get; set; } = null;
         clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
         clsDEmpleado clsDEmpleado { get; set; } = null;
- 
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+
         // GET: EvaluacionProductoEnfundado
         protected void SetSuccessMessage(string message)
         {
@@ -279,7 +280,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poCabeceraControl.FechaProduccion.Value))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poCabeceraControl;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 poCabeceraControl.FechaIngresoLog = DateTime.Now;
                 poCabeceraControl.UsuarioIngresoLog = lsUsuario[0];
                 poCabeceraControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -379,7 +388,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarCabeceraControl(int IdCabecera)
+        public JsonResult EliminarCabeceraControl(int IdCabecera,DateTime poFecha)
         {
             try
             {
@@ -387,6 +396,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_EVALUACION_PRODUCTO_ENFUNDADO poCabecera = new CC_EVALUACION_PRODUCTO_ENFUNDADO()
                 {
@@ -420,7 +438,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarDetalleControl(CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE poDetalleControl)
+        public JsonResult GuardarDetalleControl(CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE poDetalleControl, DateTime poFecha)
         {
             try
             {
@@ -429,7 +447,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 poDetalleControl.FechaIngresoLog = DateTime.Now;
                 poDetalleControl.UsuarioIngresoLog = lsUsuario[0];
                 poDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -469,7 +495,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarFotoDetalle(int IdFoto)
+        public JsonResult EliminarFotoDetalle(int IdFoto, DateTime poFecha)
         {
             try
             {
@@ -477,6 +503,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO poFotoLomosyMigas = new CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO()
                 {
@@ -549,7 +584,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarDetalleControl(int IdDetalle)
+        public JsonResult EliminarDetalleControl(int IdDetalle, DateTime poFecha)
         {
             try
             {
@@ -557,6 +592,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE poDetControl = new CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE()
                 {
@@ -629,7 +673,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarFotoDetalle(HttpPostedFileBase dataImg, CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO control)
+        public JsonResult GuardarFotoDetalle(HttpPostedFileBase dataImg, CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO control, DateTime poFecha)
         {
             try
             {
@@ -639,7 +683,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 string path = string.Empty;
                 string NombreImg = string.Empty;
@@ -896,7 +948,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdCabecera, DateTime Fecha)
+        public JsonResult AprobarControl(int IdCabecera, DateTime Fecha, DateTime poFecha)
         {
             try
             {
@@ -905,7 +957,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
 
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 string Respuesta = clsDEvaluacionProductoEnfundado.AprobarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress, Fecha);
@@ -965,7 +1023,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //    }
         //}
         [HttpPost]
-        public JsonResult ReversarControl(int IdCabecera)
+        public JsonResult ReversarControl(int IdCabecera, DateTime poFecha)
         {
             try
             {
@@ -974,7 +1032,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 string Respuesta = clsDEvaluacionProductoEnfundado.ReversarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
