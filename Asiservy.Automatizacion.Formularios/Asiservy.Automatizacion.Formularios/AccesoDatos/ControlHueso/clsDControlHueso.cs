@@ -244,7 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
-                    var prueba = ListadoControlAvanceApi.Distinct().ToList();
+                    //var prueba = ListadoControlAvanceApi.Distinct().ToList();
                     entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi.Distinct());                   
                 }
                 entities.SaveChanges();
