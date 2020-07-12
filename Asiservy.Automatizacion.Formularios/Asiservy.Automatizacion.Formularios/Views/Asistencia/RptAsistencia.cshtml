@@ -1,4 +1,19 @@
 ﻿@*@model Asiservy.Automatizacion.Datos.Datos.spReporteAsistencia*@
+<style>
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 @{
     ViewBag.Title = "RptAsistencia";
     var fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
@@ -9,20 +24,19 @@
 <h4>Reporte Asistencia</h4>
 
 <div class="row">
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-12" id="divDateRangePicker" >
         <div class="form-group">
-            <label>Fecha desde:</label>
-            @Html.TextBox("FechaDesde", null, new { @class = "form-control input-large", type = "date", @Value = fechaactual })
-            <label id="msjerrorFecha1" class="text-danger" style="display:none">Debe seleccionar una fecha de inicio</label>
+            <label>Filtrar por Fecha:</label>
+            @Html.Hidden("FechaDesde", null, new { @class = "form-control input-large", @Value = fechaactual })
+            @Html.Hidden("FechaHasta", null, new { @class = "form-control input-large", @Value = fechaactual })
+
+            <div id="reportrange" class="selectbox">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+            </div>
         </div>
     </div>
-    <div class="col-md-3 col-sm-6">
-        <div class="form-group">
-            <label>Fecha Hasta:</label>
-            @Html.TextBox("FechaHasta", null, new { @class = "form-control input-large", type = "date",@Value= fechaactual })
-            <label id="msjerrorFecha2" class="text-danger" style="display:none">Debe seleccionar una fecha fin</label>
-        </div>
-    </div>
+
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Líneas:</label>
@@ -71,7 +85,7 @@
         <span class="sr-only">Cargando...</span>
     </div>
 </div>
-<div id="divRptAsistencia" style="padding-bottom:1%" class="table-responsive">
+<div id="divRptAsistencia" style="padding-bottom:1%" >
     
 </div>
 <center><h4 id="mensajeregistros" class="text-warning"></h4></center>

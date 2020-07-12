@@ -7,28 +7,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.Models;
-using RestSharp;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
-using Newtonsoft.Json;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System.Net;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Validation;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class SeguridadController : Controller
     {
-        clsDOpcion clsDopcion = null;
-        clsDRol clsDRol = null;
-        clsDError clsDError = null;
-        clsDUsuarioRol clsDUsuarioRol = null;
-        clsApiUsuario clsApiUsuario = null;
-        clsDNivelUsuario clsDNivelUsuario = null;
-        clsDOpcionRol OpcionesRol = null;
-        clsDClasificador clsDClasificador = null;
-        clsDModulo clsDModulo = null;
-        clsDParametro clsDParametro = null;
+        clsDOpcion clsDopcion { get; set; } = null;
+        clsDRol clsDRol { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDUsuarioRol clsDUsuarioRol { get; set; } = null;
+        clsApiUsuario clsApiUsuario { get; set; } = null;
+        clsDNivelUsuario clsDNivelUsuario { get; set; } = null;
+        clsDOpcionRol OpcionesRol { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
+        clsDModulo clsDModulo { get; set; } = null;
+        clsDParametro clsDParametro { get; set; } = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -144,7 +141,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.Select2 = "1";
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Tipo = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoTipoControl);
                 ConsultaOpciones();
                 return View();
 
@@ -187,6 +186,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 }
                 if (model.Clase == "0" && string.IsNullOrEmpty(model.Url))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                if (model.Clase == "0" && string.IsNullOrEmpty(model.Tipo))
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
 
@@ -234,20 +238,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult OpcionPartial(int idModulo)
+        public ActionResult OpcionPartial(int idModulo, string Clase)
         {
             try
             {
                 clsDopcion = new clsDOpcion();
-                List<OPCION> opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo }).OrderByDescending(x=> x.IdOpcion).ToList();
-                var hijos = clsDopcion.ConsultarOpciones(new OPCION { Clase="H"}); 
-                foreach(var x in hijos)
-                {
-                    bool padre = opciones.Any(y => y.IdOpcion == x.Padre);
-                    if (x.Clase == "H" && padre)
-                        opciones.Add(x);
+                List<OPCION> opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo}).OrderByDescending(x=> x.IdOpcion).ToList();
+                var hijos = clsDopcion.ConsultarOpciones(new OPCION { Clase= Clase });
+                if (Clase == "H") { 
+                foreach (var x in hijos)
+                    {
+                        bool padre = opciones.Any(y => y.IdOpcion == x.Padre);
+                        if (x.Clase == "H" && padre)
+                            opciones.Add(x);
+                    }
                 }
-               
 
                 return PartialView(opciones);
 
@@ -423,7 +428,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             foreach (var item in plistOpciones)
             {
-                item.Nombre = item.Nombre + "(" + item.Clase + ")";
+                item.Nombre = item.Nombre + "(" + item.Clase + ")" +" - "+item.Formulario;
             }
             ViewBag.OpcionesOr = plistOpciones;
             clsDRol = new clsDRol();
@@ -679,7 +684,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDNivelUsuario = new clsDNivelUsuario();
-                ViewBag.ListaUsuarios = clsDNivelUsuario.ConsultarNivelUsuario(null).Where(X=> X.Nivel==clsAtributos.NivelJefe);
+                ViewBag.ListaUsuarios = clsDNivelUsuario.ConsultarNivelUsuario(null).Where(X=> X.Nivel==clsAtributos.NivelJefe || X.Nivel == clsAtributos.NivelSubGerencia);
                 ConsultarComboNivelUsuario();
                 return View();
             }
@@ -819,17 +824,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.Select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
-                List<Clasificador> Grupos = new List<Clasificador>();
-                //List<Clasificador> Clasificador = new List<Clasificador>();
-
-                Grupos = clsDClasificador.ConsultaClasificadorGrupos();
-                //Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());
+                List<Clasificador> Grupos = clsDClasificador.ConsultaClasificadorGrupos();
                 ViewBag.Grupos = Grupos;
-                //ViewBag.Clasificador = Clasificador;
                 
                 return View();
 
@@ -905,20 +906,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+  
         public ActionResult ClasificadorPartial()
         {
             try
             {
                 clsDClasificador = new clsDClasificador();
-                 List<Clasificador> Clasificador = new List<Clasificador>();
-                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador()).OrderBy(x=> x.Grupo).ToList();               
+                 List<spConsultaClasificador> Clasificador = new List<spConsultaClasificador>();
+                Clasificador = clsDClasificador.ConsultarClasificador().OrderBy(x=> x.Grupo).ToList();               
                 return PartialView(Clasificador);
 
             }
             catch (Exception ex)
             {
                 //SetErrorMessage(ex.Message);
+                lsUsuario = User.Identity.Name.Split('_');
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR

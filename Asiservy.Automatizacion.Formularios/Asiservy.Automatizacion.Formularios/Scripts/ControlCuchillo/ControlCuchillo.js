@@ -12,8 +12,8 @@ function SelectEstado(valor) {
 function CargarControlCuchillo(estado) {
     if (estado < 1)
         return;
-
-    if ($("#txtFecha").val() == '' || $("#txtFecha").val() == null) {
+    
+    if ($("#txtFecha").val() == '' || $("#TurnoGen").val() == '' || $("#txtFecha").val() == null) {
 
         MensajeAdvertencia("Ingrese una Fecha");
         return;
@@ -25,11 +25,15 @@ function CargarControlCuchillo(estado) {
         type: "GET",
         data: {
             dsEstado: estado,
-            ddFecha: $("#txtFecha").val()
+            ddFecha: $("#txtFecha").val(),
+            Turno: $("#TurnoGen").val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var bitacora = $('#TablaControlCuchillo');
-            $("#spinnerCargando").prop("hidden", true);
+            $("#spinnerCargando").prop("hidden", true);           
             if (resultado == "0") {
                 bitacora.html("<div class='text-center'><h4>No se ha generado la asistencia</h4></div>");
 
@@ -100,7 +104,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check, idCheck, O
             dsEstado: estado,
             dbCheck: check,
             ddFecha: $("#txtFecha").val(),
-            Observacion: $(Observacion).val()
+            Observacion: $(Observacion).val(),
+            Turno: $("#TurnoGen").val()
         },
         success: function (resultado) {
             if (resultado.codigo == 1) {

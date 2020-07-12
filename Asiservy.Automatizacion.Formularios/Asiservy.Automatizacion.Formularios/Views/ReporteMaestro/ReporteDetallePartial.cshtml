@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteDetalle>
+@using Newtonsoft.Json;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Versión
+            </th>
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario Modificación
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VERSION)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+               <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @{string json = JsonConvert.SerializeObject(item); }
+                    <button class="btn btn-link" onclick="EditarReporteDetalle(@json)">Editar</button>
+                    |
+                    <button class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

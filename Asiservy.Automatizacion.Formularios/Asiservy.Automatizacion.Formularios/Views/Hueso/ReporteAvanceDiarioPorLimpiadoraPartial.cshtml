@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaAvanceDiarioPorLimpiadora>
-
+@using Newtonsoft.Json;
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
@@ -12,7 +12,7 @@
             <th class="text-center">
                 <label>Total Huesos</label>
             </th>
-              <th class="text-center">
+            <th class="text-center">
                 <label>Huesos Teóricos</label>
             </th>
             <th class="text-center">
@@ -33,50 +33,51 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.TotalHueso)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.HuesoTeorico)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.MigaTotal) kg
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.MigaPromedio) kg
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.MigaPorcentaje) %
-            </td>
-            <td class="text-center">
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarLimpiadora(@json)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td style="white-space:normal">
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.TotalHueso)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.HuesoTeorico)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.MigaTotal) kg
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.MigaPromedio) kg
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.MigaPorcentaje) %
+                </td>
+                <td class="text-center">
 
-                @Html.DisplayFor(modelItem => item.Avance)% &nbsp;
-                @{
-                    if (item.Avance > 80)
-                    {
-                        <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>
+                    @Html.DisplayFor(modelItem => item.Avance)% &nbsp;
+                    @{
+                        if (item.Avance > 80)
+                        {
+                            <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>
+                        }
+                        else if (item.Avance > 60)
+                        {
+                            <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>
+                        }
+
                     }
-                    else if (item.Avance > 60)
-                    {
-                        <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i>
-                    }
-                    else
-                    {
-                        <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>
-                    }
 
-                }
+                </td>
 
-            </td>
-
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

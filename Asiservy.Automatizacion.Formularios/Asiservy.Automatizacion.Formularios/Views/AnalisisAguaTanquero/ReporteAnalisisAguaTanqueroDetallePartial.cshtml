@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_AGUA_TANQUERO>
+
+<table class="table table-bordered">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Placa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Std)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dureza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ph)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Olor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sabor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destino)
+        </th>
+        <th>
+           Observación
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+
+        <td>
+            @item.Hora
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Placa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Std)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dureza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ph)
+        </td>
+        <td class="text-center text-info">
+            @if (item.Olor)
+            {
+                <i class="fas fa-check-circle"></i>
+            }
+        </td>
+        <td class="text-center text-info">
+            @if (item.Color)
+            {
+                <i class="fas fa-check-circle"></i>
+            }
+        </td>
+        <td class="text-center text-info">
+            @if (item.Sabor)
+            {
+                <i class="fas fa-check-circle"></i>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destino)
+        </td>
+        <td style="white-space:normal">
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+     
+
+
+    </tr>
+    }
+
+</table>

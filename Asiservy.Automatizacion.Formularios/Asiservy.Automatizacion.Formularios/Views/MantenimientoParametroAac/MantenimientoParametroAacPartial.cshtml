@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_PARAMETRO_AAC>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos
+
+<table class="table table-light table-striped table-hover" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+               Abreviatura
+            </th>
+            <th>
+                Max. Perm.
+            </th>
+            <th>
+                Fecha Creación
+            </th>
+
+            <th>
+                Fecha Modificación
+            </th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody style="font-size:14px">
+        @foreach (var item in Model)
+        {
+            DateTime fecham = Convert.ToDateTime(item.FechaModificacionLog);
+
+            string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdParametro)
+            </td>
+            <td style="white-space:normal">
+                @item.Descripcion.ToUpper()
+            </td>
+            <td>@item.Abreviatura.ToUpper()</td>
+            <td>@item.MaximoPermitido</td>
+            <td>
+                @fecha
+            </td>
+
+            <td>
+                @if (fecham.ToString() != "1/1/0001 12:00:00 AM")
+                {
+                    @fecham.ToString("dd-MM-yyyy HH:mm")
+                }
+            </td>
+            <td>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <span class="badge badge-success">ACTIVO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">INACTIVO</span>
+                }
+            </td>
+            <td>
+                @{string json = JsonConvert.SerializeObject(new CC_MANTENIMIENTO_PARAMETRO_AAC {
+                      Abreviatura = item.Abreviatura,
+                      Descripcion= item.Descripcion,
+                      IdParametro = item.IdParametro,
+                      MaximoPermitido = item.MaximoPermitido,
+                      EstadoRegistro=item.EstadoRegistro
+                    } );
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                }
+                else
+                {
+                    <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -76,6 +76,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha
                                                                           && x.EstadoCuchillo == estado
                                                                           && x.Cedula == model.Cedula
+                                                                          && ((model.Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
+                                                                          || (model.Turno == clsAtributos.TurnoDos && x.Turno == model.Turno))
                                                                           && ((x.CuchilloBlanco == model.CuchilloBlanco && model.CuchilloBlanco > 0)
                                                                              || (x.CuchilloRojo == model.CuchilloRojo && model.CuchilloRojo > 0)
                                                                              || (x.CuchilloNegro == model.CuchilloNegro && model.CuchilloNegro > 0))).Any();
@@ -112,6 +114,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                                     check ? model.CuchilloNegro : 0
                                                     : controlCuchillo.CuchilloNegro;
                     controlCuchillo.Observacion = model.Observacion;
+                    controlCuchillo.Turno = model.Turno;
                     //controlCuchillo.Fecha = DateTime.Now;
                     controlCuchillo.FechaModificacionLog = DateTime.Now;
                     controlCuchillo.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -184,12 +187,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlCuchillosViewModel;
             }
         }
-        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado, DateTime Fecha, bool control)
+        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado, DateTime Fecha, bool control, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<ControlCuchilloViewModel> ListadoEmpleadoCuchillo = new List<ControlCuchilloViewModel>();
-                var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado, Fecha, control).ToList();
+                var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado, Fecha, control, Turno).ToList();
                 if (consulta != null)
                 {
                     foreach (var x in consulta)
@@ -424,11 +427,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         }
 
 
-        public List<spConsultaReporteControlCuchillo> ConsultaControlCuchillo(DateTime Fecha, string Linea)
+        public List<spConsultaReporteControlCuchillo> ConsultaControlCuchillo(DateTime Fecha, string Linea, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.spConsultaReporteControlCuchillo(Fecha, Linea).ToList();
+                return entities.spConsultaReporteControlCuchillo(Fecha, Linea, Turno).ToList();
 
             }
 

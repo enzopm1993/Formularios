@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "ResidualCloro";
+}
+
+
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+
+<h4>Control Residual Cloro <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+<hr />
+
+
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarResidualCloro()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno",new SelectList(ViewBag.Turno,"Codigo","Descripcion"),"Seleccione",new {@class="form-control", @onchange= "CargarResidualCloro()" })
+            </div>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Area</label>
+                @Html.DropDownList("Area", new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @Id = "selectArea", @onchange = "CargarResidualCloro()" })
+            </div>
+        </div>
+
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Hora</label>
+                <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="" id="txtHora" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-8 col-12 col-sm-12">
+            <div class="form-group">
+                <label>Observacion</label>
+                <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
+            </div>
+        </div>
+
+        <div class="col-md-4 col-6">
+            <div class="form-group">                
+                <div style="border:ridge">                    
+                    <div>
+                        <label>Frecuencia: <b>3horas</b></label>
+                        <br />
+                        <label>Min: <b>200ppm</b></label>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12 text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="ModalEditarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id="divDetalle" hidden>
+    <div class="card shadow">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-4">
+                    <div class="form-group">
+                        @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarDetalle()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-9 col-8">
+                    <h5 id="txtDescripcionCabecera"></h5>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div id="chart">
+                <div class="d-flex justify-content-center">
+                    <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <div id="divTableDetalle" class="table-responsive">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalEditarControl" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Residual Cloro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdResidualCloro" name="name" value="0" />
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input class="form-control" autocomplete="off" id="txtHora2" type="datetime-local" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Observacion</label>
+                            <textarea class="form-control" autocomplete="off" cols="12" id="txtObservacion2" maxlength="250" type="text" name="name" value=""></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="EditarResidualCloro()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Control Residual Cloro?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* DETALLE *@
+<div class="modal" tabindex="-1" id="ModalResidualCloroDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdResidualCloroDetalle" name="name" value="0" />
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Peliduvio</label>
+                            <select id="selectPeliduvio" class="form-control">
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input class="form-control" autocomplete="off" id="txtCantidad" type="number" name="name" min="" value="" />
+                        </div>
+                    </div>                  
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarResidualCloroDetalle()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarModalDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Residual Cloro Detalle?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="txtDetallep"></p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

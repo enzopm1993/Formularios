@@ -1,0 +1,117 @@
+﻿<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+    #seccionNuevaMarcacion {
+        display: none;
+    }
+    .muestraSeccion {
+        display: flex !important;
+    }
+
+    .mostrarBloques {
+        display: flex !important;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <h3 style="float: left;">Reporte de marcaciones</h3>
+        <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+        <div class="box_filters">
+
+            <div class="itemFilter">
+                <input type="hidden" id="fechaDesde" value="" />
+                <input type="hidden" id="fechaHasta" value="" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+            <div class="itemFilter">
+                <a href="#" id="generarMarcaciones" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-12">
+
+        <div class="table-responsive">
+            <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Día</th>
+                        <th>Empleado</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:14px" id="bodyMarcaciones"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+@*<div class="modal fade" id="ModalLogMarcacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="nombrePersonaJustifica"></h4>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="cedulaUser" value="" />
+                <h5 class="modal-title" id="logMarcacionTitulo">LOG DE MARCACIÓN DEL DÍA <b><span id="diaMarcacionFalta"></span></b></h5>
+                <p>Marcación faltante <b><span id="tipoMarcacion"></span></b></p>
+                <h6 class="titulo_log_marcacion">Histoial de marcación para este día</h6>
+                <ul id="listLogMarcaciones"></ul>
+                <p>Seleccione la marcación correcta para asignar en la marcación que hace falta, si no está como marcación erronea seleccione una nueva marcación</p>
+                <div class="form-row" id="seccionNuevaMarcacion">
+                    <div class="col">
+                        <select id="listaTipoMarcacion" class="form-control">
+                            <option value="0">Seleccione una marcación</option>
+                            <option value="INGRESO">F1 - INGRESO</option>
+                            <option value="BREAK-OUT">F2 - COMIDA</option>
+                            <option value="SALIDA">F4 - SALIDA</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="time" class="form-control" id="hora_marcacion_nueva" placeholder="00:00">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                <a href="#" id="solicitarJustificacion" class="btn btn-primary" data-fecha="" data-cedula="" data-marcacion=""><i id="justificarIcon" class="fas fa-check-circle"></i> Solicitar justificación faltante</a>
+            </div>
+        </div>
+    </div>
+</div>*@

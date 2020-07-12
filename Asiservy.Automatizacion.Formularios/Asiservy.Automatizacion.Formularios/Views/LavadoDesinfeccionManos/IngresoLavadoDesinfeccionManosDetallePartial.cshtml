@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CLASIFICADOR>
+@using Newtonsoft.Json;
+
+<table class="table table-light table-striped" tabindex="1" id="tblDataTableIngreso">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                HORA
+            </th>
+            @foreach (var item in Model)
+            {
+                <th>
+                    @item.Descripcion.ToUpper()
+                </th>
+            }
+            <th>ACCIÓN</th>
+        </tr>
+    </thead>
+    @{List<string> json = new List<string>();}
+    <tbody style="font-size:11px">
+        <tr>
+            <td>
+                <input id="txtHora" onchange="ValidarHoraRepetida();" class="form-control" type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+            </td>
+            @foreach (var item in Model)
+            {
+                <td id="@item.Codigo">
+                    <select id="selectLinea_@item.Codigo" style="width:120px" class="form-control" onchange="quitarEstiloSelect(this);">                        
+                        <option value="true" default>C-CUMPLE</option>
+                        <option value="false">N-NO CUMPLE</option>
+                        <option value="null">N/A</option>
+                    </select>
+                </td>
+                json.Add(item.Codigo);
+            }
+            @{string jsonS = JsonConvert.SerializeObject(json); }
+                <td>
+                    <button type="button" class="btn btn-success" onclick="prepararAntesGuardar(@jsonS)" id="btnGenerarDetalle">Guardar</button>
+                </td>
+        </tr>
+    </tbody>
+</table>

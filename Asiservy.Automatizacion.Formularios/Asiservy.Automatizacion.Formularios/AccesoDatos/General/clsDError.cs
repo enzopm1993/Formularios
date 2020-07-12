@@ -17,10 +17,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             string MensajeError = string.Empty;
             string MensajeCorto = string.Empty;
-
             if (ex != null)
             {
-                MensajeError = ex.Message+" METODO:"+ ex.TargetSite;
+                var exepcion = ex.InnerException!=null?ex.Message:"";
+                if (!string.IsNullOrEmpty(exepcion))
+                {
+                    MensajeError = ex.Message + " DESCRIPCION:" + exepcion;
+                }
+                else
+                {
+                    MensajeError = ex.Message;
+
+                }
                 MensajeCorto = ex.Message;
             }
             else
@@ -56,8 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public void GrabarError(ERROR doError)
         {
             try
-            {
-                
+            {                
                 using (ASIS_PRODEntities db = new ASIS_PRODEntities())
                 {
                     db.ERROR.Add(doError);

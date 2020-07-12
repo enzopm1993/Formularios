@@ -1,0 +1,136 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_METAL>
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+@{ var poTurno = (List<CLASIFICADOR>)ViewBag.Turno;}
+
+<div class="card-body">
+
+    <table class="table table-bordered table-hover" style="cursor:pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th>
+                    Turno
+                </th>
+                <th>
+                    Detector de Metal
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Pcc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lomos)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Latas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ferroso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoFerroso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AceroInoxidable)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Observacion)
+                </th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var obj = new OperatividadMetalModel
+                {
+                    AceroInoxidable = item.AceroInoxidable,
+                    Ferroso = item.Ferroso,
+                    NoFerroso = item.NoFerroso,
+                    Fecha = item.Fecha,
+                    FechaIngresoLog = item.FechaIngresoLog,
+                    TerminalIngresoLog = item.TerminalIngresoLog,
+                    UsuarioIngresoLog = item.UsuarioIngresoLog,
+                    FechaModificacionLog = item.FechaModificacionLog,
+                    UsuarioModificacionLog = item.UsuarioModificacionLog,
+                    TerminalModificacionLog = item.TerminalModificacionLog,
+                    Lomos = item.Lomos,
+                    Latas = item.Latas,
+                    Pcc = item.Pcc,
+                    Observacion = item.Observacion,
+                    DetectorMetal = item.DetectorMetal,
+                    IdOperatividadMetal = item.IdOperatividadMetal,
+                    UsuarioAprobacion = item.AprobadoPor,
+                    FechaAprobacion = item.FechaAprobacion,
+                    EstadoReporte = item.EstadoReporte
+                };
+                string json = JsonConvert.SerializeObject(obj);
+                <tr onclick="SeleccionarControl(@json)">
+
+                    <td>
+                        @item.Fecha.ToString("dd-MM-yyyy")
+                    </td>
+                    <td>
+                        @{ 
+                            var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
+                            if (T != null)
+                            {
+                                @T.Descripcion
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DetectorMetal)
+                    </td>
+                    <td>
+                        @item.Pcc
+                    </td>
+                    <td class="text-center text-info">
+                        @if (item.Lomos)
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                    </td>
+                    <td class="text-center text-info">
+                        @if (item.Latas)
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ferroso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoFerroso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AceroInoxidable)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observacion)
+                    </td>
+
+                    <td>
+                        @if (item.EstadoReporte)
+                        {
+                            <span class="badge badge-success">Aprobado</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Pendiente</span>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

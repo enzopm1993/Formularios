@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoReporte>
+@using Newtonsoft.Json
+
+<table class="table table-light table-striped table-hover" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                Fecha Paletizado
+            </th>
+            <th>
+                Fecha Produccion
+            </th>
+            <th>
+                Fecha Vencimiento
+            </th>
+            <th>
+                Codigo Sap
+            </th>
+            <th>
+                O. Fabricación
+            </th>
+            <th>
+                O. Venta
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                Codigo Producto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Etiqueta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoReporte)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarControlEntregaProductoTerminado(@json)">
+                <td>
+                    @item.FechaPaletizado.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaProduccion.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaVencimiento.Value.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoSap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenVenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Etiqueta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td>
+                    @{
+                        if (item.EstadoReporte == null || item.EstadoReporte == false)
+                        {
+                            @:PENDIENTE
+                        }
+                        else
+                        {
+                            @:APROBADO
+                        }
+
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

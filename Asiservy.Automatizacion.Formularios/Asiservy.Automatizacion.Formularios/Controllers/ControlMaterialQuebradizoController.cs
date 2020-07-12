@@ -3,23 +3,22 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebradizo;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class ControlMaterialQuebradizoController : Controller
     {
-        string[] lsUsuario;
-        clsDError clsDError = null;
-        clsDControlMaterialQuebradizo clsDControlMaterialQuebradizo = null;
-        clsDGeneral clsDGeneral = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDLogin clsDLogin = null;
+        string[] lsUsuario { get; set; }
+        clsDError clsDError { get; set; } = null;
+        clsDControlMaterialQuebradizo clsDControlMaterialQuebradizo { get; set; } = null;
+        clsDGeneral clsDGeneral { get; set; } = null;
+        clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -44,11 +43,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 clsDEmpleado = new clsDEmpleado();
                 clsDLogin = new clsDLogin();
+                clsDClasificador = new clsDClasificador();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 bool existeRol = clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion);
                 if (existeRol)
                 {
-                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                     ViewBag.AsistenteProduccion = existeRol;
                 }
                 else
@@ -77,7 +77,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ReporteControlMaterialQuebradizoPartial(DateTime FechaDesde, DateTime FechaHasta, string Linea)
+        public ActionResult ReporteControlMaterialQuebradizoPartial(DateTime FechaDesde, DateTime FechaHasta, string Linea, string Turno)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("Faltan Parametros", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlMaterialQuebradizo = new clsDControlMaterialQuebradizo();
-                var model = clsDControlMaterialQuebradizo.ConsultaReporteControlMaterial(FechaDesde,FechaHasta,Linea);
+                var model = clsDControlMaterialQuebradizo.ConsultaReporteControlMaterial(FechaDesde,FechaHasta,Linea,Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -156,7 +156,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return View();
             }
         }
-        public ActionResult ValidarControl(string Linea, DateTime Fecha)
+        public ActionResult ValidarControl(string Linea, DateTime Fecha, string Turno)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDControlMaterialQuebradizo = new clsDControlMaterialQuebradizo();
-                var id = clsDControlMaterialQuebradizo.ValidaControlMaterialQuebradizo(Fecha,Linea);
+                var id = clsDControlMaterialQuebradizo.ValidaControlMaterialQuebradizo(Fecha,Linea,Turno);
                 respuesta.Codigo = id;
                 if (id > 0)
                 {
@@ -196,7 +196,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult GeneraControl(string Linea, DateTime Fecha)
+        public ActionResult GeneraControl(string Linea, DateTime Fecha, string Turno)
         {
             try
             {
@@ -205,7 +205,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (string.IsNullOrEmpty(Linea))
+                if (string.IsNullOrEmpty(Linea)|| string.IsNullOrEmpty(Turno))
                 {
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     return Json("Faltan Parametros", JsonRequestBehavior.AllowGet);
@@ -216,6 +216,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 CONTROL_MATERIAL control = new CONTROL_MATERIAL {
                     Fecha = Fecha,
                     Linea= Linea,
+                    Turno= Turno,
                     FechaIngresoLog = DateTime.Now,
                     UsuarioIngresoLog=lsUsuario[0],
                     TerminalIngresoLog = Request.UserHostAddress,

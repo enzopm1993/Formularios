@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
+
+<style>
+    textarea {
+        font-size: 11px;
+        border: none;
+        resize: none;
+        overflow: hidden;
+        min-height: 0px;
+        width: 500px;
+        background: none;
+        padding-top: 10px;
+        padding-bottom: 0.1rem;
+        vertical-align: middle;
+    }
+</style>
+<table class="table table-bordered table-hover table-striped text-uppercase" id="tblDataTable">
+    <thead style="font-size:13px">
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACIÓN
+            </th>
+            <th>
+                USUARIO CREACIÓN
+            </th>
+            <th>
+                F. CREACIÓN
+            </th>
+            <th>
+                USUARIO MODIFICACIÓN
+            </th>
+            <th>
+                F. MODIFICACIÓN
+            </th>
+            <th>TURNO</th>
+            <th>
+                ESTADO
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:12px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarCabecera(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td style="white-space:normal">
+                   
+                   @item.ObservacionControl
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog
+                </td>
+                <td>
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.UsuarioModificacionLog))
+                    {
+                        @item.UsuarioModificacionLog.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaModificacionLog);}
+                    @if (date != DateTime.MinValue)
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno.ToString()
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

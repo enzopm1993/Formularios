@@ -8,6 +8,10 @@
     input, select, textarea {
         max-width: 100%;
     }
+    .card-body{
+        padding:0px;
+    }
+
 </style>
 
 
@@ -36,17 +40,20 @@
             </button>
 
             @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="ModalEliminarControl()" style="border-color:#2c3e50" type="button">
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
-
             <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/edit24.png" />
             </button>
-
+            <button hidden data-toggle="tooltip" data-placement="top" title="Bodegas" class="btn" id="btnBodegas" onclick="ModalBodegas()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/justificar24.png" />
+            </button>
             <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/atras24.png" />
             </button>
+
+
         </div>
     </div>
 
@@ -103,7 +110,7 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
 
 
 
@@ -196,12 +203,12 @@
                     <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
 
                     @*<div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Fecha Orden Fabricación</label>
-                            <input type="date" class="form-control" id="txtFechaOrdenFabricacion" onchange="CargarOrdenFabricacion()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                           
-                        </div>
-                    </div>*@
+                            <div class="form-group">
+                                <label>Fecha Orden Fabricación</label>
+                                <input type="date" class="form-control" id="txtFechaOrdenFabricacion" onchange="CargarOrdenFabricacion()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+                            </div>
+                        </div>*@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Orden Fabricación</label>
@@ -232,19 +239,19 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Producto</label>
-                            <input class="form-control" id="txtProducto" disabled type="text" name="name" value="0" />
+                            <input class="form-control" maxlength="12" id="txtProducto" disabled type="text" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Cod Producto</label>
-                            <input class="form-control" id="txtCodigoProducto" type="text" name="name" value="" />
+                            <input class="form-control" id="txtCodigoProducto" maxlength="12" type="text" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Etiqueta</label>
-                            <input class="form-control" id="txtEtiqueta" type="text" name="name" value="" />
+                            <input class="form-control" maxlength="150" id="txtEtiqueta" type="text" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -264,6 +271,23 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GenerarControlConsumo()" id="btnGenerarControlConsumo">Generar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarControl" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Control</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
             </div>
         </div>
     </div>
@@ -322,22 +346,31 @@
                 <div class="row">
                     <input type="hidden" id="txtIdConsumoMaterial" name="name" value="0" />
                     <div class="col-12 col-sm-12 col-md-6">
-                        <label>Material</label>
-                        @Html.DropDownList("selectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                        <div class="form-group">
+                            <label>Material</label>
+                            @Html.DropDownList("selectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                        </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
-                        <label>Recibido</label>
-                        <input type="number" min="0" id="txtRecibido" class="form-control" name="name" value="0" />
+                        <div class="form-group">
+
+                            <label>Recibido <span class="badge badge-secondary">+10.000</span></label>
+                            <input type="text" min="0" id="txtRecibido" class="form-control" name="name" value="0" />
+                        </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
-                        <label>Desechado</label>
-                        <input type="number" min="0" id="txtDesechado" class="form-control" name="name" value="0" />
+                        <div class="form-group">
+                            <label>Desechado <span class="badge badge-secondary">+10.000</span></label>
+                            <input type="text" min="0" id="txtDesechado" class="form-control" name="name" value="0" />
+                        </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
-                        <label>Usado</label>
-                        <input type="number" min="0" id="txtUsado" class="form-control" name="name" value="0" />
+                        <div class="form-group">
+                            <label>Usado <span class="badge badge-secondary">+10.000</span></label>
+                            <input type="text" min="0" id="txtUsado" class="form-control" name="name" value="0" />
+                        </div>
                     </div>
-                </div>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GuardarConsumoMaterial()" id="">Guardar</button>
@@ -366,28 +399,25 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Hora Inicio</label>
-                            <input class="form-control" id="txtHoraInicioDetalle" type="datetime-local" name="name" value="0" />
+                            <input class="form-control" id="txtHoraInicioDetalle" type="datetime-local" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Hora Fin</label>
-                            <input class="form-control" id="txtHoraFinDetalle" type="datetime-local" name="name" value="0" />
+                            <input class="form-control" id="txtHoraFinDetalle" type="datetime-local" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Personal</label>
-                            <input class="form-control" id="txtPersonal" type="number" min="0" name="name" value="0" />
+                            <label>Personal <span class="badge badge-secondary">+100</span></label>
+                            <input class="form-control" id="txtPersonal" type="text" min="0" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Turno</label>
-                            <select class="form-control" id="selectTurno">
-                                <option value="1">A</option>
-                                <option value="2">B</option>
-                            </select>
+                            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @class = "form-control"})
                         </div>
                     </div>
 
@@ -516,6 +546,59 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-TiemposMuertos-btn-si">Si</button>
                 <button type="button" class="btn btn-outline-primary" id="modal-TiemposMuertos-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalBodegas" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bodegas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Control Calidad</label>
+                            <input class="form-control" id="txtControlCalidad" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades Rechazadas</label>
+                            <input class="form-control" id="txtRechazadas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades Defectos</label>
+                            <input class="form-control" id="txtDefectos" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cajas Entregadas</label>
+                            <input class="form-control" id="txtEntregadas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Latas Sueltas</label>
+                            <input class="form-control" id="txtLatasSueltas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

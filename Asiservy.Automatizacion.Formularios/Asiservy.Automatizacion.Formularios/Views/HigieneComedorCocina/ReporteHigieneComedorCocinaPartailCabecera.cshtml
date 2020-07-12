@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_HIGIENE_COMEDOR_COCINA_CTRL>
+@using Newtonsoft.Json;
+<table class="table table-bordered table-hover" id="tblDataTable">
+    <thead style="font-size:14px">
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                HORA
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>
+                MODIFICADO POR
+            </th>
+            <th>
+                F. MODIFICADO
+            </th>
+            <th>
+                APROBADO POR
+            </th>
+            <th>
+                F. APROBADO
+            </th>
+            <th>
+                ESTADO
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:13px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarCabecera(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @item.Hora.ToString("HH:mm")
+                </td>
+                <td>
+                    @item.Observacion
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.UsuarioModificacionLog))
+                    {
+                        @item.UsuarioModificacionLog.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{ DateTime datem = Convert.ToDateTime(item.FechaModificacionLog);}
+                    @if (datem != DateTime.MinValue)
+                    {
+                        @datem.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.AprobadoPor))
+                    {
+                        @item.AprobadoPor.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaAprobado);}
+                    @if (date !=DateTime.MinValue)
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
+

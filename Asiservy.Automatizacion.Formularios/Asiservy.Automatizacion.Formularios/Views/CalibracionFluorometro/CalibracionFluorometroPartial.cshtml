@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Calibracion_Fluorometro>
+@using Newtonsoft.Json;
+
+@{
+    var tablaLista = (from c in Model
+                      group c by new { c.IdCalibracionFluor, c.CoeficienteDeterminacion, c.FechaHora, c.UsuarioIngresoLog, c.FechaIngresoLog, c.EstadoReporte } into x
+                      orderby x.Key.FechaHora descending
+                      select new
+                      {
+                          x.Key.IdCalibracionFluor,
+                          x.Key.CoeficienteDeterminacion,
+                          x.Key.FechaHora,
+                          x.Key.UsuarioIngresoLog,
+                          x.Key.FechaIngresoLog,
+                          x.Key.EstadoReporte
+                      });
+
+    //var estandarLista = ViewBag.ListaEstandar;
+    string ocultar = "";
+    if (ViewBag.ocultarSi==1)
+    {
+        ocultar = "hidden";
+    }
+}
+@foreach (var tabla in tablaLista)
+{
+<div class="col-md-6 col-12 col-sm-12" style="font-size:12px">
+    <table class="table table-bordered table-secondary table-striped" style="font-size:14px;" id="tblDataTableControl">
+        <thead style="font-size:12px">
+            @{
+                var itemList = (from c in Model
+                                where (c.IdCalibracionFluor == tabla.IdCalibracionFluor)
+                                select new
+                                {
+                                    c.IdCalibracionFluor,
+                                    c.IdEstandar,
+                                    c.NombEstandar,
+                                    c.IdCalibracionFluorDetalle,
+                                    c.ValorEstandar,
+                                    c.CoeficienteDeterminacion,
+                                    c.FechaHora,
+                                    c.EstadoReporte,
+                                    c.UsuarioIngresoLog
+                                }).ToList();
+                var json = JsonConvert.SerializeObject(itemList);
+                int con = 1;
+                int ce = itemList.Count();
+            }
+            <tr @ocultar>
+                <th>
+                    ESTADO:
+                    @if (tabla.EstadoReporte)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                    <button id="btnEliminar"  class="btn btn-link float-right col-md-2 col-12 col-sm-12" style="padding-top:0px;" onclick="EliminarConfirmar(@json)">Eliminar</button>
+                    <button id="btnActualizar" class="btn btn-link float-right col-md-2 col-12" style="padding-top:0px;" onclick="ActualizarCabecera(@json)">Editar</button>
+                </th>            
+            </tr>
+        </thead>
+        <tbody style="font-size:13px">
+            @foreach (var item in itemList)
+            {
+                if (con == 1)
+                {
+                    <tr>
+                        <td style="white-space:normal">
+                            <b>COEFICIENTE DETERMINACION:</b>
+                            @if (!string.IsNullOrEmpty(item.CoeficienteDeterminacion))
+                            {
+                                <label style="text-decoration:underline "> @item.CoeficienteDeterminacion.ToUpper()</label>
+                            }
+                        </td>
+                    </tr>
+                }
+
+                <tr>
+                    <td>
+                        <b> @item.NombEstandar.ToUpper() </b>: <label style="text-decoration:underline ">@item.ValorEstandar</label>
+                    </td>
+                </tr>
+
+                if (con == itemList.Count())
+                {
+                    <tr> <td><b>FECHA: </b> <label style="text-decoration:underline ">@item.FechaHora.ToString("dd-MM-yyyy")</label><b> HORA: </b> <label style="text-decoration:underline ">@item.FechaHora.ToString("HH:mm") </label></td></tr>
+                    <tr> <td><b>ANALISTA: </b><label style="text-decoration:underline ">@item.UsuarioIngresoLog.ToUpper()</label></td></tr>
+
+                }
+                con++;
+            }
+        </tbody>
+    </table>
+</div>    
+}
+
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@

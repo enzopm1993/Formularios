@@ -1,0 +1,183 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos
+
+@{
+    ViewBag.Title = "Lavado y desinfección de Manos";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12  text-md-left text-center">
+        <h5 style="float:left;" class="text-uppercase">Control Lavado y Desinfección de Manos<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h5>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" >Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" >Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row text-uppercase" id="divCabecera1">
+    <div class="col-md-3 col-12 col-sm-12">
+        @*<div class="form-group">
+            <label>Fecha</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+        </div>*@
+        <br />
+        <div class="form-group" id="divfechaap">
+            <input type="hidden" id="fechacontrol" value="" />
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input readonly type="text" class="form-control datetimepicker-input" value="@DateTime.Now.ToString("dd-MM-yyyy")"  data-target="#datetimepicker1" id="txtFecha" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7 col-12 col-sm-12">
+        <div class="form-group">
+            <label>Observación</label>
+            <textarea type="text" name="name" value="" id="txtObservacion" autocomplete="off" maxlength="200" class="form-control text-uppercase" rows="2"></textarea>
+        </div>
+    </div>
+    <div class="col-md-2 col-12 col-sm-12">
+        <label>Turno</label>
+        <div class="form-group">
+            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera(0)" })
+        </div>
+    </div>
+    <div class="col-md-12 col-12 col-sm-12 text-md-center text-center">
+        <label class="" id="lblAcciones">Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear/Actualizar registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabeceraActivarCotroles(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+@*MODAL ELIMINAR CABECERA*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar Registro?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*MODAL ELIMINAR DETALLE*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar Registro?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL INGRESO DETALLE *@
+
+<div class="modal" tabindex="-1" id="ModalGenerarDetalle" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">DETALLE</h6>
+                <button type="button" class="close" data-dismiss="modal" onclick="limpiarDetalle()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body table-responsive" id="divModalPartialDetalle">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarDetalle()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*MODAL LISTA DETALLE *@
+<div id="divDetalleControlCloro" hidden>
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-3 col-4">
+                            <div class="form-group">
+                                <button data-toggle="tooltip" data-placement="top" title="Ingresar Lineas" class="btn" id="btnModalGenerar" onclick="ModalGenerarDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-7 col-7">
+                            <h6>NUEVO DETALLE</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoConsumoInsumoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableEntregaProductoDetalle" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                NO CUMPLE: <span class="badge badge-danger"> N</span><br />
+                CUMPLE: <span class="badge badge-success">C</span><br />
+                NO APLICA = <span class="badge badge-info">N/A</span><br />
+                FRECUENCIA = <span class="badge badge-primary">CADA 2 HORAS</span><br />
+            </div>
+        </div>
+    </div>
+</div>
+

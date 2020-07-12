@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
+@using Newtonsoft.Json;
+<table class="table  table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
+    <thead style="font-size:12px;padding:0px">
+        <tr>
+            <th rowspan="2" style="border-right:1px solid #e3e6f0;width:120px">
+                <center>FECHA - HORA<br />VERIFICACIÓN</center>
+            </th>
+            <th rowspan="2" style="border-right:1px solid #e3e6f0;width:120px">
+                <center> TEMPERATURA C°</center>
+            </th>
+            <th colspan="2" style="border-right:1px solid #e3e6f0">
+                <center> CORRECTO<br />SELLADO</center>
+            </th>
+            <th style="border-right:1px solid #e3e6f0">
+                <center>FRECUENCIA DE REGISTRO: CADA 3 HORAS</center>
+            </th>
+        </tr>
+        <tr>
+            <td style="width:50px">SI</td>
+            <td style="width:50px">NO</td>
+            <th style="border-right:1px solid #e3e6f0">
+                <center>OBSERVACIONES</center>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <center>
+                        @item.HoraVerificacion.ToString("dd-MM-yyyy HH:mm")
+                    </center>
+                </td>
+                <td>
+                    @if (item.Temperatura == 0)
+                    {
+                        <center>0 °C</center>
+                    }
+                    else
+                    {
+                        <center>@item.Temperatura.ToString("00.00") C°</center>
+                    }
+                </td>
+                @if (item.CorrectoSellado == true)
+                {
+                    <td> <span class="badge badge-success">SI</span></td>
+                    <td></td>
+                }
+                else if (item.CorrectoSellado == false)
+                {
+                    <td></td>
+                    <td> <span class="badge badge-danger">NO</span></td>
+                }
+
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                        <span>@item.Observacion.ToUpper()</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@

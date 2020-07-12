@@ -1,0 +1,51 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados>
+
+@using Newtonsoft.Json
+<div class="table-responsive">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>FECHA</th>
+                <th>OBSERVACION</th>
+                <th>APROBADO POR</th>
+                <th>FECHA APROBACION</th>
+                <th>ESTADO</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    var json = JsonConvert.SerializeObject(m);
+                    <tr onclick="SeleccionarBandeja(@json)">
+                        <td>@m.Fecha.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(m.Observaciones))
+                            {
+                                @m.Observaciones.ToUpper()
+                            }
+                    </td>
+                    <td>@m.AprobadoPor</td>
+                    <td>
+                        @{ DateTime date = Convert.ToDateTime(m.FechaAprobacion);}
+                        @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                        {
+                            @date.ToString("dd-MM-yyyy")
+                        }
+                    </td>
+                    @if (m.EstadoReporte == true)
+                    {
+                        <td><span class="badge badge-success">APROBADO</span></td>}
+                    else
+                    {
+                        <td><span class="badge badge-danger">PENDIENTE</span></td>}
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+
+
+</div>
+<script src="~/Scripts/General/dataTableJS.js"></script>

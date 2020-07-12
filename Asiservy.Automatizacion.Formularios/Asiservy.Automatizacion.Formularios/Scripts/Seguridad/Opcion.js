@@ -1,27 +1,38 @@
 ﻿$(document).ready(function () {
-   
+    $('#selectPadre').select2();
     Nuevo();
 });
 
-function CambioClase(valor) {
-    if (valor == "1") {
+function CambioClase() {
+    if ($("#selectClase").val() == '') {
+        return;
+    }
+    CargarOpciones();
+    if ($("#selectClase").val() == "1") {
         $('#Padre').prop('selectedIndex', 0);
         $('#Url').val('');
-        $('#divPadre').hide();
+        $('#divPadre1').hide(); 
+        $('#divTipo').hide(); 
+        $('#divPadre2').hide();
+        $('#divReporte').hide();
         $('#divUrl').hide();
 
     } else {
         $('#Url').val('');
         $('#Padre').prop('selectedIndex', 0);
         $('#divUrl').show();
-        $('#divPadre').show();
+        $('#divReporte').show();
+        $('#divPadre1').show();
+        $('#divPadre2').show();
+        $('#divTipo').show(); 
+
 
     }
 
 }
 function CambioModulo(id) {
-    if (id > 0) {
-        CargarOpciones(id);
+    if (id > 0) {       
+        CambioClase();
         CargarPadres(id);
     }
 }
@@ -37,45 +48,71 @@ function CambioEstado(valor) {
 }
 
 function Nuevo() {
-    $('#txtIdOpcion').val('0');
-    $('#txtNombre').val('');
-    $('#txtOrden').val('');
-    $('#txtFormulario').val('');
-    $('#selectPadre').prop('selectedIndex', 0);
-    $('#selectClase').prop('selectedIndex', 0);
-    $('#txtUrl').val('');
-    $('#CheckEstadoRegistroOp').prop('checked', true);   
-    $('#LabelEstado').text('Activo');
-    $('#divPadre').show();
-    $('#divUrl').show();
+
+    if ($('#selectClase').val() == "1") {
+        $('#txtIdOpcion').val('0');
+        $('#txtNombre').val('');
+        $('#txtOrden').val('');
+        $('#txtFormulario').val('');
+        $('#selectPadre').prop('selectedIndex', 0).change();
+        $('#selectTipo').prop('selectedIndex', 0).change();
+        // $('#selectClase').prop('selectedIndex', 0);
+        $('#txtUrl').val('');
+        $('#CheckEstadoRegistroOp').prop('checked', true);
+        //$('#CheckReporte').prop('checked', false);
+        $('#LabelEstado').text('Activo');
+    } else {
+        $('#txtIdOpcion').val('0');
+        $('#txtNombre').val('');
+        $('#txtOrden').val('');
+        $('#txtFormulario').val('');
+        $('#selectPadre').prop('selectedIndex', 0).change();
+        $('#selectTipo').prop('selectedIndex', 0).change();
+
+        // $('#selectClase').prop('selectedIndex', 0);
+       // $('#CheckReporte').prop('checked', false);
+        $('#txtUrl').val('');
+        $('#CheckEstadoRegistroOp').prop('checked', true);
+        $('#LabelEstado').text('Activo');
+        $('#divPadre1').show();
+        $('#divPadre2').show();
+        $('#divUrl').show();
+    }
+   
 
 }
 
-function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado,modulo) {
-    //console.log(id, nombre, formulario, clase, padre, estado);
-    $('#txtIdOpcion').val(id);
+function CargarOpcion(model) {
+    //console.log(model);
+    $('#txtIdOpcion').val(model.IdOpcion);
    // $('#txtIdModulo').val(modulo);
-    $('#txtNombre').val(nombre);
-    $('#txtOrden').val(orden);
-    $('#txtFormulario').val(formulario);
+    $('#txtNombre').val(model.Nombre);
+    $('#txtOrden').val(model.Orden);
+    $('#txtFormulario').val(model.Formulario);
+    $('#selectTipo').val(model.Tipo).change();
+    //$('#CheckReporte').prop('checked',model.Reporte);
     
-    if (clase == 'P') {
+    if (model.Clase == 'P') {
         $('#selectClase').prop('selectedIndex', 2);
-        $('#selectPadre').prop('selectedIndex', 0);
-        $('#divPadre').hide();
+        $('#selectPadre').prop('selectedIndex', 0).change();
+        $('#divPadre1').hide();
+        $('#divPadre2').hide();
+        $('#divReporte').hide();
         $('#divUrl').hide();
     }
     else {
         $('#selectClase').prop('selectedIndex', 1);
-        $('#divPadre').show();
+        $('#divPadre1').show();
+        $('#divPadre2').show();
+        $('#divReporte').show();
         $('#divUrl').show();
-        $('#txtUrl').val(url);
+        $('#txtUrl').val(model.Url);
     }
 
-    if(padre!='')
-        $('#selectPadre').val(padre);
+    if(model.Padre!='')
+        $('#selectPadre').val(model.Padre).change();
 
-    if (estado == 'A') {
+    if (model.EstadoRegistro == 'A') {
         $('#CheckEstadoRegistroOp').prop('checked', true);
        // console.log($('#LabelEstado').val());
         $('#LabelEstado').text('Activo');
@@ -99,8 +136,7 @@ function GuargarOpcion() {
     //}
     var Estado = "I";
     if ($("#CheckEstadoRegistroOp").prop("checked"))
-        Estado = "A";
-    
+        Estado = "A";   
     
     $.ajax({
         url: "../Seguridad/Opcion",
@@ -114,7 +150,9 @@ function GuargarOpcion() {
             Padre: $("#selectPadre").val(),
             Url: $("#txtUrl").val(),
             Orden: $("#txtOrden").val(),
-            EstadoRegistro: Estado
+            EstadoRegistro: Estado,
+            Tipo: $("#selectTipo").val()
+            //Reporte: $("#CheckReporte").prop("checked")
         },
         success: function (resultado) {
             if (resultado == "0") {
@@ -124,6 +162,7 @@ function GuargarOpcion() {
             MensajeCorrecto(resultado);
             Nuevo();
             CargarOpciones($("#txtIdModulo").val());
+            CargarPadres($("#txtIdModulo").val());
 
         },
         error: function (resultado) {
@@ -131,14 +170,22 @@ function GuargarOpcion() {
         }
     });
 }
-function CargarOpciones(id) {
-    if (id > 0) {
+function CargarOpciones() {
+    var id = $("#txtIdModulo").val();
+    if ($("#selectClase").val() != '') {
+        if ($("#selectClase").val() == '0') {
+            var padre = 'H';
+        } else {
+            var padre = 'P';
+        }
+    }
+    if (id > 0 && $("#selectPadre").val()!= '') {
         $('#DivTableOpciones').html('')
         $("#spinnerCargando").prop("hidden", false);
         $.ajax({
             url: "../Seguridad/OpcionPartial",
             type: "GET",
-            data: { idModulo: id },
+            data: { idModulo: id, Clase: padre },
             success: function (resultado) {
                 var bitacora = $('#DivTableOpciones');
                 bitacora.html(resultado);
@@ -163,8 +210,8 @@ function CargarOpciones(id) {
 
 
 function CargarPadres(id) {
-    $("#selectPadre").empty();
-    $("#selectPadre").append("<option value='0' >Seleccione</option>");
+    $("#selectPadre").empty().change();
+    $("#selectPadre").append("<option value='0' >Seleccione</option>").change();
     $.ajax({
         url: "../Seguridad/ConsultarPadres",
         type: "Get",       
@@ -175,7 +222,7 @@ function CargarPadres(id) {
         success: function (resultado) {
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
-                    $("#selectPadre").append("<option value='" + row.codigo + "'>" + row.descripcion + "</option>")
+                    $("#selectPadre").append("<option value='" + row.codigo + "'>" + row.descripcion + "</option>").change();
                 });
             } else {
                 MensajeAdvertencia("El modulo no tiene padres asignados", false);

@@ -1,0 +1,142 @@
+﻿
+<style type="text/css" media="all">
+
+    @@media print{
+        /*@@page {
+            size: landscape;
+        }*/
+        #divcarddet{
+            border:none;
+        }
+        #TablasDetalles {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        #btnimprimir {
+            display: none;
+        }
+
+        #card1 {
+            display: none;
+        }
+
+        #accordionSidebar {
+            display: none;
+        }
+
+        #TablasDetalles table td {
+            font-size: 0.6rem;
+            border: 1px solid black;
+            /*table-layout: fixed;*/
+        }
+
+        #TablasDetalles th {
+            font-size: 0.6rem;
+            border: 1px solid black;
+        }
+
+        #TablaFirma table {
+            border-spacing: 100px 0;
+            border-collapse: separate;
+        }
+
+        #TablaFirma td {
+            border-top: 1px solid black;
+        }
+
+        .texto6 {
+            font-size: 0.6rem;
+        }
+
+        .texto7 {
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+    }
+
+    @@media screen {
+        #TablasDetalles table td {
+            font-size: 0.6rem;
+            border: 1px solid black;
+            /*table-layout: fixed;*/
+        }
+
+        #TablasDetalles th {
+            font-size: 0.6rem;
+            border: 1px solid black;
+        }
+
+        #TablaFirma table {
+            border-spacing: 100px 0;
+            border-collapse: separate;
+        }
+
+        #TablaFirma td {
+            border-top: 1px solid black;
+        }
+
+        .texto6 {
+            font-size: 0.6rem;
+        }
+
+        .texto7 {
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            max-width: 100%;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+</style>
+<div class="card" id="card1">
+    <div class="row">
+       
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Fecha producción:</label>
+                <input type="date" id="txtFechaProduccion" class="form-control" />
+                <label class="text-danger" id="msjErrorFechaProduccion" hidden>seleccione una fecha</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Turno:</label>
+                <select class="form-control" id="cmbTurno">
+                    <option value="">Seleccione...</option>
+                    <option value="1">Turno A</option>
+                    <option value="2">Turno B</option>
+                </select>
+                <label class="text-danger" id="msjerrorturno" hidden>Debe seleccionar un turno</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarReportePouchCuarentena()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+
+        </div>
+    </div>
+</div>
+<br />
+<div id="DivReporte">
+    <center>
+        <h4 class="text-warning" id="MsjRegistros" hidden>No existen Registros para mostrar</h4>
+    </center>
+</div>

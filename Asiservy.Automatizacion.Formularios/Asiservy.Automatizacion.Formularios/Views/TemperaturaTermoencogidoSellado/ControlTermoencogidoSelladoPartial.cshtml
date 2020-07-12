@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
+@using Newtonsoft.Json;
+
+<table class="table table-light table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
+    <thead style="font-size:12px">
+    <tr>       
+        <th style="border-right:1px solid #e3e6f0">
+            <center> FECHA - HORA<br />VERIFICACION</center>
+        </th>
+        <th style="border-right:1px solid #e3e6f0">
+            <center> TEMPERATURA C°</center>
+        </th>
+        <th style="border-right:1px solid #e3e6f0">
+            <center>CORRECTO<br />SELLADO</center>
+        </th>
+        <th style="border-right:1px solid #e3e6f0">
+            <center>OBSERVACÓN</center>
+        </th>
+        <th id="tdAccionesHead" style="border-right:1px solid #e3e6f0"><center>ACCIONES</center></th>
+    </tr>
+        </thead>
+    @{int con = 0; }
+    <tbody style="font-size:11px">
+
+        @foreach (var item in Model)
+        {           
+            <tr>              
+                <td>
+                    <center>
+                         @item.HoraVerificacion.ToString("dd-MM-yyyy HH:mm")
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @item.Temperatura.ToString("00.00") C°
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @if (item.CorrectoSellado == true)
+                        {
+                            <span class="badge badge-success">SI</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">NO</span>
+                        }
+                    </center>
+                </td>
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                    <span> @item.Observacion.ToUpper()</span>
+                    }
+                </td>
+                <td id="tdAccionesBody_@con">
+                    @{string json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActulizarDetalle(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmarDetalle(@json)">Eliminar</button>
+                </td>
+            </tr>
+                            con++;
+                        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

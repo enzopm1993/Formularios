@@ -4,14 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="59c6417c0c5c4b7f83e9599e8ac8c621" Name="Diagram1" ZoomLevel="57">
+      <Diagram DiagramId="59c6417c0c5c4b7f83e9599e8ac8c621" Name="Diagram1" ZoomLevel="47">
         <EntityTypeShape EntityType="ASIS_PRODModel.JUSTICA_SOLICITUD" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.NIVEL_APROBACION" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.NIVEL_USUARIO" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.OPCION_ROL" Width="1.5" PointX="8" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ROL" Width="1.5" PointX="5.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SOLICITUD_PERMISO" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.USUARIO_ROL" Width="1.5" PointX="8" PointY="13" IsExpanded="true" />
         <AssociationConnector Association="ASIS_PRODModel.FK__JUSTICA_S__IdSol__6A30C649" ManuallyRouted="false" />
         <AssociationConnector Association="ASIS_PRODModel.FK__OPCION_RO__IdOpc__4F7CD00D" ManuallyRouted="false" />
@@ -21,30 +20,22 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" Width="1.5" PointX="10.375" PointY="3.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ERROR" Width="1.5" PointX="10.375" PointY="7.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CLASIFICADOR" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.OPCION" Width="1.5" PointX="0.75" PointY="12" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_CAMBIO_PERSONAL" Width="1.5" PointX="10.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CUCHILLO" Width="1.5" PointX="12.375" PointY="6.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="12.375" PointY="10.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" Width="1.5" PointX="14.25" PointY="6.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_EMPLEADO_TURNO" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_TURNO" Width="1.5" PointX="14.375" PointY="10.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_ESFERO" Width="1.5" PointX="10.375" PointY="15.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ESFERO" Width="1.5" PointX="14.375" PointY="14.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AUDITORIASANGRE" Width="1.5" PointX="0.75" PointY="16.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="12.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" Width="1.5" PointX="16.375" PointY="18" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE" Width="1.5" PointX="18.625" PointY="18.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PARAMETRO" Width="1.5" PointX="18.375" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PERIODO" Width="1.5" PointX="9.375" PointY="19.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_PROYECCION" Width="1.5" PointX="11.75" PointY="19.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="0.75" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_PREPARACION" Width="1.5" PointX="21.375" PointY="18.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BARCO" Width="1.5" PointX="3.375" PointY="13.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.875" />
-         <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MATERIAL_LINEA" Width="1.5" PointX="22.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MATERIAL_QUEBRADIZO" Width="1.5" PointX="5.375" PointY="22.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_MATERIAL" Width="1.5" PointX="20.375" PointY="13.25" />
@@ -59,14 +50,10 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE" Width="1.5" PointX="27.875" PointY="18.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.AVANCE_KILOS_HORA" Width="1.5" PointX="11.375" PointY="23.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO" Width="1.5" PointX="16.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO" Width="1.5" PointX="21.375" PointY="24.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO_DETALLE" Width="1.5" PointX="23.625" PointY="24.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_MIGA" Width="1.5" PointX="25.875" PointY="25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MOVER_PERSONAL" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="24.375" PointY="5.75" />
@@ -75,24 +62,14 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ASISTENCIA" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO" Width="1.5" PointX="13.625" PointY="47.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_TIEMPO_MUERTO" Width="1.5" PointX="13.625" PointY="52.5" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Width="1.5" PointX="11.375" PointY="37.875" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Width="1.5" PointX="13.625" PointY="57.25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Width="1.5" PointX="13.625" PointY="38.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES" Width="1.5" PointX="30.625" PointY="32.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Width="1.5" PointX="30.625" PointY="23.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Width="1.5" PointX="13.625" PointY="62.375" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTREGA_UNIFORME" Width="1.5" PointX="26.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Width="1.5" PointX="30.625" PointY="41" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PALLET" Width="1.5" PointX="5.375" PointY="26.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" Width="1.5" PointX="30.625" PointY="28.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_LATA" Width="1.5" PointX="13.625" PointY="66.5" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_TOALLA" Width="1.5" PointX="25.375" PointY="1" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Width="1.5" PointX="27.625" PointY="1.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" />
@@ -101,6 +78,196 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Width="1.5" PointX="13.625" PointY="42.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_BALANZA" Width="1.5" PointX="27.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Width="1.5" PointX="13.625" PointY="57.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="39.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="20.875" PointY="39.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_USO_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="30.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="16.375" PointY="34.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="43.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Width="1.5" PointX="11.375" PointY="44.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="29.375" PointY="51.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Width="1.5" PointX="31.625" PointY="52.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="28.375" PointY="6" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="3.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="35.875" PointY="29.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PlantillasMemorandum" Width="1.5" PointX="20.375" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="0.75" PointY="23.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO" Width="1.5" PointX="21.375" PointY="44" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="30.75" PointY="1.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="22.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Width="1.5" PointX="33" PointY="17" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="30.75" PointY="57.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33" PointY="1.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="36.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.25" PointY="1.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="36.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Width="1.5" PointX="40.625" PointY="11" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_MANT" Width="1.5" PointX="3.375" PointY="39.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_PHMETRO" Width="1.5" PointX="0.75" PointY="39.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL" Width="1.5" PointX="3.375" PointY="44.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" Width="1.5" PointX="5.625" PointY="39.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PEDILUVIO" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="39.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="0.75" PointY="35.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="35.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="41.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Width="1.5" PointX="33.625" PointY="28.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION_CTRL_DET" Width="1.5" PointX="45.875" PointY="19" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION_HORA" Width="1.5" PointX="43.625" PointY="16.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CUCHILLOS_PREPARACION_CTRL_DET_CC_CUCHILLOS_PREPARACION" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CUCHILLOS_PREPARACION_CTRL_DET_CC_CUCHILLOS_PREPARACION_HORA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="11.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MORETON" Width="1.5" PointX="42.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_CTRL" Width="1.5" PointX="40.375" PointY="41" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="46.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA" Width="1.5" PointX="43.375" PointY="21" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Width="1.5" PointX="45.625" PointY="24.875" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Width="1.5" PointX="43.375" PointY="25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_FOTO" Width="1.5" PointX="25.375" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO" Width="1.5" PointX="38.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO_CONTROL" Width="1.5" PointX="38.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" Width="1.5" PointX="34.375" PointY="44" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Width="1.5" PointX="42.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Width="1.5" PointX="47.875" PointY="24" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Width="1.5" PointX="11" PointY="35" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="43.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_CONTROL" Width="1.5" PointX="44.375" PointY="48.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_MANT" Width="1.5" PointX="44.375" PointY="1.5" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO" Width="1.5" PointX="46.375" PointY="34.5" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE" Width="1.5" PointX="48.625" PointY="30.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Width="1.5" PointX="50.625" PointY="24.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" Width="1.5" PointX="44.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_DET" Width="1.5" PointX="7.625" PointY="46" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT" Width="1.5" PointX="5.375" PointY="51.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="46.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO" Width="1.5" PointX="40.625" PointY="21.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA" Width="1.5" PointX="36.625" PointY="44" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL_CC_TEMPERATURA_INTERNA_REFRIGERADORA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CALDEROS" Width="1.5" PointX="51" PointY="20.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CALDEROS_DETALLE" Width="1.5" PointX="53.25" PointY="23.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_ANALISIS_AGUA_CALDEROS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="32.625" PointY="7.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="30.375" PointY="8.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="32.625" PointY="11.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="23.375" PointY="47.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO_CONTROL" Width="1.5" PointX="46.375" PointY="46" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" Width="1.5" PointX="50.875" PointY="46.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO" Width="1.5" PointX="48.625" PointY="46.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_RESIDUAL_CLORO_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="25.625" PointY="47.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Width="1.5" PointX="48.625" PointY="10.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="46.375" PointY="10.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" Width="1.5" PointX="45.375" PointY="40.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Width="1.5" PointX="47.625" PointY="40" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="36.625" PointY="49.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Width="1.5" PointX="35.625" PointY="36.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.OPCION" Width="1.5" PointX="35.375" PointY="11" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="33.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION_CTRL" Width="1.5" PointX="41.375" PointY="16" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" Width="1.5" PointX="38.375" PointY="27" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CUCHILLOS_PREPARACION_HORA_CC_CUCHILLOS_PREPARACION_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="21.375" PointY="30.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" Width="1.5" PointX="48.375" PointY="51" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Width="1.5" PointX="50.625" PointY="51.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Width="1.5" PointX="52.875" PointY="51.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_DETALLE_ENTRADA_SALIDA_MATERIAL_CABECERA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_ENTRADA_SALIDA_MATERIAL_SUBDETALLE_ENTRADA_SALIDA_MATERIAL_SUBDETALLE" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_CALIDAD" Width="1.5" PointX="0.75" PointY="30.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MATERIAL_QUEBRADIZO_CTRL" Width="1.5" PointX="8.375" PointY="40" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" Width="1.5" PointX="53.625" PointY="6.875" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Width="1.5" PointX="51.375" PointY="6.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_DETALLE" Width="1.5" PointX="55.875" PointY="1.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Width="1.5" PointX="25.625" PointY="40.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TIPO_DESCONGELADO" Width="1.5" PointX="51.375" PointY="1.5" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="53.625" PointY="0.75" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MONITOREO_DESCONGELADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="28.375" PointY="46" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="30.625" PointY="46.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.RENDIMIENTO_KILO_HORA" Width="1.5" PointX="7.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_DEFECTO" Width="1.5" PointX="9.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_DEFECTO_CABECERA" Width="1.5" PointX="16.375" PointY="51" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETRO_DEFECTO_DETALLE" Width="1.5" PointX="18.625" PointY="51.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PARAMETRO_DEFECTO_DETALLE_CC_PARAMETRO_DEFECTO_CABECERA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Width="1.5" PointX="23.375" PointY="38.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Width="1.5" PointX="40.375" PointY="35.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="34.375" PointY="49.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="3.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="33.375" PointY="36.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Width="1.5" PointX="51" PointY="35.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_GRUPO_AAC" Width="1.5" PointX="48.75" PointY="35.5" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC" Width="1.5" PointX="51" PointY="15.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

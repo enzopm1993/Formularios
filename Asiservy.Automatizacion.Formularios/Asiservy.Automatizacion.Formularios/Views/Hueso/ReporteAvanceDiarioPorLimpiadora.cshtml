@@ -13,26 +13,34 @@
 <hr />
 <div class="">
     <div class="row">
-        <div class="col-md-4 col-6">
+        <div class="col-md-3     col-6">
             <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFecha" class="form-control" />
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFecha" class="form-control" onchange="CargarReporteAvanceLimpiadora()" />
             </div>
         </div>
-        <div class="col-md-4 col-6">
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+
+                <label>Turno</label>
+                <select class="form-control" id="selectTurno" onchange="CargarReporteAvanceLimpiadora()">
+                    <option value="1">Turno A</option>
+                    <option value="2">Turno B</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
             <div class="form-group">
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
                 {
-                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion"), "Selecciones", new { @class = "form-control", @id = "selectLinea" })
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion"), "Selecciones", new { @class = "form-control", @id = "selectLinea", @onchange = "CargarReporteAvanceLimpiadora()" })
                 }
                 else
                 {
                     @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)", @id = "selectLinea" })
                     <script>
                     function CambioLinea(id) {
-                        console.log(id);
-                        console.log(@ViewBag.LineaEmpleado);
                         $('#' + id).val('@ViewBag.LineaEmpleado');
                     }
                     </script>
@@ -40,7 +48,7 @@
                 }
             </div>
         </div>
-        <div class="col-md-4 col-12 text-md-left text-center">
+        <div class="col-md-3 col-12 text-md-left text-center">
             <label>Acciones </label>
 
             <div class="form-group">
@@ -53,13 +61,104 @@
 
     </div>
     <hr />
-    <div class="d-flex justify-content-center">
-        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+
+
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header" style="font-size:13px">
+                    <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i> <b> Mayor a 80%</b> <br />
+                    <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i> <b> Entre 80% y 60%</b><br />
+                    <i class="fas fa-arrow-circle-down" style="background:#ff0000; border-radius:10px"></i>  <b> Menor a 60% </b> <br />
+                    <b>Nota:</b> Selecciones una limpiadora para ver detalles y kpi.
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="table-responsive" id="DivTableReporteControlAvancePorLimpiadora">  </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="table-responsive" id="DivTableReporteControlAvancePorLimpiadora">  </div>
+
+   
+</div>
+<br />
+
+<div class="modal" id="ModalKpi" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Avance del dia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="card shadow">
+                            <div class="card-body  table-responsive">
+                                <table class="table table-bordered" id="tblTable" style="width:300px; overflow-y:auto">
+                                    <thead style="font-size:13px">
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>O. Fabricación</th>
+                                            <th>Especie</th>
+                                            <th>Talla</th>
+                                            <th>Promedio</th>
+                                            <th style="white-space:normal">Hueso Real</th>
+                                            <th style="white-space:normal">Hueso Teórico</th>
+                                            <th>Kl Real</th>
+                                            <th>Kl Teórico</th>
+                                            <th>Avance %</th>
+                                            <th style="white-space:normal">Kl Miga Real</th>
+                                            <th style="white-space:normal">Kl Miga Teorica</th>
+                                            <th style="white-space:normal">Diferencia de Miga</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:12px" id="tblBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6 col-12 col-sm-12">
+                        <select class="form-control" id="selectTipoKpi" onchange="CambioKpi()">
+                            <option value="1">Lomo</option>
+                            <option value="2">Miga</option>
+                        </select>
+                        <div id="divKpiPadre">
+                            <div class="card shadow" id="divKpi">
+                            </div>
+                        </div>
+                        <div id="divKpiMigaPadre" hidden>
+                            <div class="card shadow" id="divKpiMiga" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 col-sm-12">
+                        <div class="card shadow" id="divKpi2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>
 

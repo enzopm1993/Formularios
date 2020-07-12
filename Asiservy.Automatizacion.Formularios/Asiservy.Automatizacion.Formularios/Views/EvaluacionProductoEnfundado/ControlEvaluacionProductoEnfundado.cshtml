@@ -1,0 +1,695 @@
+﻿@using Newtonsoft.Json
+@{
+    ViewBag.Title = "ControlEvaluacionProductoEnfundado";
+}
+<style>
+    .img {
+        margin: 10px auto;
+        border-radius: 5px;
+        border: 1px solid #999;
+        padding: 13px;
+        /*width:420px;
+    height:320px;*/
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+        .img img {
+            width: 100%;
+        }
+
+    #divmin {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        background-color: #00447A;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        xmin-width: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding-left: 10px !important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        /*width: 35%;*/
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    #lgnprod {
+        width: 45%;
+    }
+
+    #lgndestino {
+        width: 30%;
+    }
+
+    canvas {
+        border: 1px solid black;
+    }
+
+    #ImgFirma {
+        border: 1px solid black;
+    }
+    /*#pizarra {
+          border: 1px solid black;
+      }*/
+</style>
+@{
+    string ParametrosMax = JsonConvert.SerializeObject(@ViewBag.ParametrosMaximo);
+}
+<script>
+    var parametrojs =@Html.Raw(ParametrosMax);
+
+</script>
+<div class="row">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;">Control Evaluación Producto Enfundado<label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+
+<div class="card" id="divmin" style="cursor:pointer" onclick="SlideCabecera()">
+    <center><i class="fas fa-arrow-alt-circle-down"></i></center>
+</div>
+<div class="card" id="DivCabecera">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                Fecha de producción:
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
+                <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                Orden de Fabricación:
+                <div class="input-group">
+                    @*@Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: auto; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })*@
+                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                    <button type="button" onclick="" id="btnOrden">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
+                <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
+                @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
+                        <option>Seleccione..</option>
+                    </select>
+                    <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
+                <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <fieldset>
+                <legend id="lgnprod">Tipo de producto</legend>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @*<div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="Trozo" value="">Trozo
+                                </label>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Lomo" checked name="RadiosProducto" onchange="ConsultarCabControl()">
+                                    <label class="custom-control-label" for="Lomo">Lomo</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto" onchange="ConsultarCabControl()">
+                                    <label class="custom-control-label" for="Miga">Miga</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="Trozo" name="RadiosProducto" onchange="ConsultarCabControl()">
+                                    <label class="custom-control-label" for="Trozo">Trozo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="text-danger" id="msgerrortipoproducto" hidden>Debe seleccionar al menos un tipo de producto</label>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Cliente:
+                <input type="text" id="txtCliente" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="col-md-4" @*style="margin-top:10px"*@>
+            <div class="form-group">
+                <label>Destino:</label>
+                <input type="text" id="txtDestino" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Nivel de limpieza:
+                @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
+                <label class="text-danger" id="msgerrorniveldelimpieza" hidden>Debe seleccionar el nivel de limpieza</label>
+                <label>Parámetro máximo:</label>
+                <span class="badge bagde-pill" id="lblparametro" style="color:white"></span>
+            </div>
+        </div>
+        <div class="col-md-8" style="margin-top:10px">
+            <fieldset>
+                <legend id="lgndestino">Trazabilidad de empaque</legend>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Proveedor:</label>
+                                    <input type="text" id="txtProveedor" class="form-control" autocomplete="off"/>
+                                    <label class="text-danger" id="msgerrorproveedor" hidden>Debe ingresar un proveedor</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Batch:</label>
+                                    <input type="text" id="txtBatch" class="form-control" autocomplete="off" />
+                                    <label class="text-danger" id="msgerrorbatch" hidden>Debe ingresar un batch</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Lote:</label>
+                                    <input type="text" id="txtLoteProveedor" class="form-control"  autocomplete="off"/>
+                                    <label class="text-danger" id="msgerrorloteproveedor" hidden>Debe ingresar un lote</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="col-md-4" style="margin-top:5px">
+            <div class="form-group">
+                Marca:
+                <input type="text" id="txtMarca" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                Observación:
+                <textarea id="Observacion" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+        @*<div class="col-md-3 col-sm-3">
+                <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()" />
+            </div>*@
+    </div>
+    <br />
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
+<br />
+
+<div class="card" id="CardDetalle" hidden>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#informacion" id="info">Información general de evaluación</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#evaluacion" id="evalu">Evaluación organoléptica</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#verificacion" id="verif">Verificación de limpieza</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container-fluid active" id="informacion">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Hora</label>
+                                <input type="datetime-local" id="txtHora" class=" form-control" onchange="LlenarComboEmpacadores()" />
+                                <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Empacador/a</label>
+                                @*@Html.DropDownList("cmbEmpacador", (IEnumerable<SelectListItem>)ViewBag.Empacadores, "Seleccione..", new { @class = "form-control" })*@
+                                <select class="form-control" id="cmbEmpacador">
+                                    <option>Seleccione..</option>
+                                </select>
+                                <label id="msjempacador" class="text-danger" hidden>Debe ingresar una línea</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Lote</label>
+                                <select id="cmbLote" class="form-control" onchange="DatosLote()">
+                                    <option>Seleccione..</option>
+                                </select>
+                                <label id="msjLote" class="text-danger" hidden>Debe seleccionar un lote</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Buque</label>
+                                <input type="text" class="form-control" id="txtBuque" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane container-fluid fade" id="evaluacion">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Sabor</label>
+                                @Html.DropDownList("cmbSabor", (IEnumerable<SelectListItem>)ViewBag.Sabor, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjSabor" class="text-danger" hidden>Debe seleccionar un sabor</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Textura</label>
+                                @Html.DropDownList("cmbTextura", (IEnumerable<SelectListItem>)ViewBag.Textura, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjTextura" class="text-danger" hidden>Debe seleccionar una textura</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Color</label>
+                                @Html.DropDownList("cmbColor", (IEnumerable<SelectListItem>)ViewBag.Color, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjColor" class="text-danger" hidden>Debe seleccionar un color</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Olor</label>
+                                @Html.DropDownList("cmbOlor", (IEnumerable<SelectListItem>)ViewBag.Olor, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjOlor" class="text-danger" hidden>Debe seleccionar una olor</label>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Moretones</label>
+                                    <input type="text" id="txtMoretones" class="form-control" />
+                                </div>
+                            </div>*@
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Moretones</label>
+                                @Html.DropDownList("cmbMoreton", (IEnumerable<SelectListItem>)ViewBag.Moreton, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjMoreton" class="text-danger" hidden>El campo moretones es obligatorio</label>
+                            </div>
+                        </div>
+                        @*<div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Hematomas profundos</label>
+                                    <input type="text" id="txtHematomas" class="form-control" />
+                                </div>
+                            </div>*@
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Proteínas</label>
+                                @Html.DropDownList("cmbProteina", (IEnumerable<SelectListItem>)ViewBag.Proteina, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjProteina" class="text-danger" hidden>Debe seleccionar una proteina</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Trozos<span class="badge badge-secondary">+100.00</span></label>
+                                <input type="tel" id="txtTrozos" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Migas<span class="badge badge-secondary">+100.00</span></label>
+                                <input type="tel" id="txtMiga" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane container-fluid fade" id="verificacion">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Venas<span class="badge badge-secondary">+99</span></label>
+                              
+                                <input type="tel" id="txtVenas" class="form-control" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Espinas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtEspinas" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Sangre<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtSangre" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label>Escamas<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtEscamas" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label>Piel<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtPiel" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label>Otros<span class="badge badge-secondary">+99</span></label>
+                                <input type="tel" id="txtOtros" class="form-control" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /><hr />
+    <div>
+        <div id="divDetalle2" hidden class="">
+            <div class="row">
+                <div class="col-md-12 col-12 col-sm-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-4">
+                                    <div class="form-group">
+                                        @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle2()" style="border-color:#2c3e50" type="button">
+                                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-8">
+                                    <h5>Adjuntar fotos</h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div id="chart">
+                                <div class="d-flex justify-content-center">
+                                    <div id="spinnerCargandoDetalle2" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+
+                                <div id="divTableDetalle2" class="table-responsive">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardarDetalle" onclick="GuardarDetalleControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiarDetalle" onclick="LimpiarDetalleControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarDetalleControl" onclick="ConfirmarEliminarDetalle()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <div id="DivDetalles" class="table-responsive">
+
+    </div>
+    @*<div id="FirmaControl">
+            <br />
+            <div id="DivCanvas">
+                <center><canvas id="pizarra"></canvas></center>
+            </div>
+            <center> <input type="button" class="btn btn-primary"  value="LimpiarFirma" onclick="BorrarFirma()"/> </center>
+        </div>*@
+    <br />
+    @*<div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+            <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
+
+            <div>
+                <canvas width=400 height=200 id="firmacanvas"></canvas>
+            </div>
+            <div>
+                <center> <button type="button" class="btn btn-primary" onclick="GuardarFirma()">Guardar Firma</button></center>
+            </div>
+        </div>
+        <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
+
+
+            <img id="ImgFirma" width="400" height="200" src="" />
+            <div>
+                <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
+            </div>
+        </div>*@
+
+</div>
+
+
+@*modal eliminar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarCabecera" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar Detalle*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsidet" onclick="EliminarDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnodet" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*modal ordenes de fabricacion*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="LLenarComboOrdenes()" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal imagenes*@
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle2" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fotos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlDetalle2" name="name" value="0" />
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Novedad</label>
+                            <input class="form-control" id="txtNovedad" type="text" size="500" name="name" value="" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Adjuntar foto</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file-upload" accept="image/*">
+                            <label class="custom-file-label" for="customFile" id="lblfoto">Seleccione archivo</label>
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <br />
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoimg">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle2()" id="btnguardarfoto">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelarguardarfoto">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal mensaje eliminar foto*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle2">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle2" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle?</h4>
+            </div>
+            <div class="modal-body">
+                <label id="labelMensaje2"></label>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" disabled hidden id="btncargandoeliminarfotos">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle2-si" onclick="EliminarFoto()">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle2-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

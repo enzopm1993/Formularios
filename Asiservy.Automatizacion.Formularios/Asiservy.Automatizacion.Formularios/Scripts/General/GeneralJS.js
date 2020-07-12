@@ -1,4 +1,7 @@
-﻿function sololetras(e) {
+﻿
+
+
+function sololetras(e) {
     tecla = (document.all) ? e.keyCode : e.which;
 
     //Tecla de retroceso para borrar, siempre la permite
@@ -13,14 +16,15 @@
 }
 
 function MostrarModalCargando() {
-
-    $('#exampleModalCenter').modal();
+    $('#cargac').show();
+    //$('#Cargac').modal();
 }
 
 
 function CerrarModalCargando() {
   
-    $('#exampleModalCenter').modal("hide");
+    $('#cargac').hide();
+
 }
 
 
@@ -162,7 +166,7 @@ function MostarModalColumns() {
         if (v.sTitle.trim() != '') {
             var col = parseInt(i);
             columnas.push(i);
-            console.log(columnas);
+            //console.log(columnas);
 
             // Get the column API object
             var column = $('#tblDataTable').DataTable().column(col);
@@ -204,8 +208,8 @@ function OcultarColumnas(col) {
 }
 
 function TodosColumna(check, columnas) {
-    console.log(check);
-    console.log(columnas);
+    //console.log(check);
+    //console.log(columnas);
     if (check) {
         $.each(columnas, function (index,value) {
             var column = $('#tblDataTable').DataTable().column(value);

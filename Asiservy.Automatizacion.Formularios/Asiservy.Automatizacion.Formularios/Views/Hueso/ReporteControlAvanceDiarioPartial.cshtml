@@ -5,6 +5,12 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                Orden Fabricación
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
@@ -75,10 +81,16 @@
             TotalTiempo = TotalTiempo + item.Tiempo ?? 0;
             TotalHueso = TotalHueso + item.Huesos??0;
             TotalLimpiadoras = TotalLimpiadoras + item.Limpiadoras ?? 0;
-            TotalKiloReal = TotalKiloReal + item.KiloReal ?? 0;
-            TotalKiloTeorico = TotalKiloTeorico + item.KiloTeorico ?? 0;
-            TotalAvance = TotalAvance + item.avance??0;
+            TotalKiloReal = TotalKiloReal + item.KiloReal;
+            TotalKiloTeorico = TotalKiloTeorico + item.KiloTeorico;
+            TotalAvance = TotalAvance + item.avance;
         <tr>
+            <td>
+                @item.Fecha.Value.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lote)
             </td>
@@ -89,10 +101,10 @@
                 @Html.DisplayFor(modelItem => item.Especie)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HoraInicio)
+                @item.HoraInicio.Value.ToString("yyyy-MM-dd HH:mm")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HoraFin)
+                @item.HoraFin.Value.ToString("yyyy-MM-dd HH:mm")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Tiempo)
@@ -113,10 +125,10 @@
                 @Html.DisplayFor(modelItem => item.Limpiadoras)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.KiloTeorico) 
+                @Html.DisplayFor(modelItem => item.KiloTeorico)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.KiloReal) 
+                @Html.DisplayFor(modelItem => item.KiloReal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TipoLimpieza)
@@ -151,6 +163,8 @@
     </tbody>
     <tfoot>
         <tr>
+            <td></td>
+            <td></td>
             <td>@contador Lotes</td>
             <td></td>
             <td></td>
@@ -167,7 +181,8 @@
             <td>
                 @{
                     decimal PromedioAvance = 0;
-                    if (TotalKiloReal > 0) {
+                    if (TotalKiloTeorico > 0)
+                    {
                         PromedioAvance = Math.Round((TotalKiloReal / TotalKiloTeorico) * 100, 2);
                     }//returns 2.00
                 }

@@ -20,8 +20,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string OrdenFabricacion { get; set; }
         public string Observacion { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraFin { get; set; }
+        public Nullable<System.DateTime> HoraInicio { get; set; }
+        public Nullable<System.DateTime> HoraFin { get; set; }
         public Nullable<int> CodTipoControl { get; set; }
         public string TipoControlHueso { get; set; }
         public Nullable<int> TotalPieza { get; set; }

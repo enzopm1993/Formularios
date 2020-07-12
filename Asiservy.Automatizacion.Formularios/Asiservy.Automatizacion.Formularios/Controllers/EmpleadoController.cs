@@ -312,6 +312,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
+                if (string.IsNullOrEmpty(Usuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();
                 if (Empleado != null)
@@ -550,9 +554,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
                 }
-                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.SeguridadIndustrial) != null)
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.SeguridadIndustrial || x.Value == clsAtributos.RolRRHH) != null)
                 {
-                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                    var lineas = clsDGeneral.ConsultaLineas("0");
+                    lineas.Add(new spConsultaLinea { Codigo = "TS", Descripcion = "Todos" });
+                    ViewBag.Lineas = lineas;
                 }
                 else
                 {

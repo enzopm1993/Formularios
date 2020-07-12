@@ -29,5 +29,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Linea { get; set; }
         public string TipoAuditoria { get; set; }
         public string Observacion { get; set; }
+        public string Turno { get; set; }
     }
 }

@@ -1,7 +1,4 @@
 ﻿
-
-
-
 $(document).ready(function () {
     $("#DivHora").hide(); 
     if ($("#txtControladorLinea").val()=="1")
@@ -56,9 +53,48 @@ function CambioHoraFecha() {
         HoraHasta.value = null;
     }
 }
+function GuardarSolicitud() {
+    $("#GuardarSolicitudGeneral").prop("hidden", true);
+    $("#formSolicitudPermiso").submit();
+}
 
+var modalConfirm = function (callback) {
+    $("#GuardarSolicitudGeneral").on("click", function () {
+        var check = document.getElementById("switchHoraFecha").checked
+        if (check) {
+            if (moment($("#dateSalidaRegreso").val()).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD")) {
+                GuardarSolicitud();
+            } else {
+                $("#myModalLabel").html("Está Generando una solicitud para el dia: " + $("#dateSalidaRegreso").val());
+                $("#mi-modal").modal('show');
+            }
+          } else {            
+            if (moment($("#dateSalida").val()).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD")) {
+                GuardarSolicitud();
+            } else {
+                $("#myModalLabel").html("Está Generando una solicitud para el dia: " + $("#dateSalida").val());
+                $("#mi-modal").modal('show');
+            }
+        }
+    });
 
+    $("#modal-btn-si").on("click", function () {
+        callback(true);
+        $("#mi-modal").modal('hide');
+    });
 
+    $("#modal-btn-no").on("click", function () {
+        //        callback(false);
+        $("#mi-modal").modal('hide');
+    });
+};
+
+modalConfirm(function (confirm) {
+    if (confirm) {
+        //Acciones si el usuario confirma
+        GuardarSolicitud();
+    }
+});
 
 
 

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
+
+<table class="table table-bordered table-striped text-uppercase" id="tblDataTableOp">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                <center>FECHA - HORA<br />VERIFICACIÓN</center>
+            </th>
+            <th>
+                <center> TEMPERATURA C°</center>
+            </th>
+            <th>
+                <center> CORRECTO<br />SELLADO</center>
+            </th>
+            <th>
+                <center>OBSERVACIÓN</center>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <center>
+                        @item.HoraVerificacion.ToString("dd-MM-yyyy HH:mm")
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @item.Temperatura.ToString("00.00") C°
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @if (item.CorrectoSellado == true)
+                        {
+                            <span class="badge badge-success">SI</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">NO</span>
+                        }
+                    </center>
+                </td>
+                <td style="white-space:normal">
+                    @item.Observacion
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

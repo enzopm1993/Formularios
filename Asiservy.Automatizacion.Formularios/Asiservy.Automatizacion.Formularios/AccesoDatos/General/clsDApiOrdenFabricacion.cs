@@ -3,10 +3,8 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.Models;
-using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 {
@@ -18,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion+"/"+Linea, Method.GET);
+            var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion + "/" + Linea, Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -26,15 +24,63 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             }
             var content = response.Content;
             var ListaUsuarios = JsonConvert.DeserializeObject(content);
-            return ListaUsuarios;           
+            return ListaUsuarios;
+        }
+
+        public object ConsultaLotesPorOrdenFabricacion(int OrdenFabricacion)
+        {
+            var client = new RestClient("http://192.168.0.31:8003");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("/api/Produccion/LotesPorOrden/" + OrdenFabricacion, Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaUsuarios = JsonConvert.DeserializeObject(content);
+            return ListaUsuarios;
+        }
+
+        /// <summary>
+        /// DEVUELVE LOS DATOS DE UN LOTE 
+        /// </summary>
+        /// <param name="OrdenFabricacion"></param>
+        /// <returns></returns>
+        public List<OrdenFabricacionAvance> ConsultaLotesPorOF(int OrdenFabricacion)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+
+            var request = new RestRequest("/api/Produccion/LotesPorOrden/" + OrdenFabricacion, Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaUsuarios = JsonConvert.DeserializeObject<List<OrdenFabricacionAvance>>(content);
+            return ListaUsuarios;
         }
 
         public List<OrdenFabricacionAvance> ConsultaLotesPorOrdenFabricacionLinea2(int OrdernFabricacion, string Linea)
         {
-            var client = new RestClient("http://192.168.0.31:8870");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion + "/" + Linea, Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaUsuarios = JsonConvert.DeserializeObject<List<OrdenFabricacionAvance>>(content);
+            return ListaUsuarios;
+        }
+
+        public List<OrdenFabricacionAvance> ConsultaDatosLotePorRangoFecha(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            var request = new RestRequest("/api/Produccion/LotesOrdenesPorFechas/" + FechaDesde.ToString("yyyy-MM-dd") + "/" + FechaHasta.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -51,7 +97,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("/api/Produccion/OrdenesFabricacionPorFecha/"+FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
+            var request = new RestRequest("/api/Produccion/OrdenesFabricacionPorFecha/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -62,6 +108,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaOrdenes;
 
         }
+
+
+        public object ConsultaOFNivel3(DateTime FechaProduccion)
+        {
+            var client = new RestClient("http://192.168.0.31:8003");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("/api/Produccion/OrdenesFabricacionNivel3/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaOrdenes = JsonConvert.DeserializeObject(content);
+            return ListaOrdenes;
+
+        }
+
         public List<OrdenFabricacionAutoclave> ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime FechaProduccion)
         {
             var client = new RestClient("http://192.168.0.31:8870");
@@ -80,7 +145,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
         public List<OrdenFabricacionAutoclave> ConsultaOrdenFabricacionPorFechaAutoclave(DateTime FechaProduccion)
         {
-            var client = new RestClient("http://192.168.0.31:8870");          
+            var client = new RestClient("http://192.168.0.31:8870");
             var request = new RestRequest("/api/Produccion/OrdenesAutoclave/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
@@ -94,7 +159,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
         public List<OrdenFabricacionConsumoInsumo> ConsultaOrdenFabricacionPorFechaConsumoInsumo(string Orden)
         {
-            var client = new RestClient("http://192.168.0.31:8870");
+            var client = new RestClient("http://192.168.0.31:8003");
             var request = new RestRequest("/api/Produccion/DatosOrdenFabricacion/" + Orden, Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
@@ -106,6 +171,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaOrdenes;
         }
 
-      
+        public OrdenBodega ConsultaCantidadesOrdenBodega(int OF)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+
+            var request = new RestRequest("/api/Produccion/CantidadesOrdenBodega/" + OF, Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaOrdenes = JsonConvert.DeserializeObject<List<OrdenBodega>>(content);
+            return ListaOrdenes.FirstOrDefault();
+
+        }
+
     }
 }

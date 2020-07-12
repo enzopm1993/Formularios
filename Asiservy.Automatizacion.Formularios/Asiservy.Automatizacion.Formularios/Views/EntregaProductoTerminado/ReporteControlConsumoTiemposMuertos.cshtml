@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoTiempoPara>
+
+
+<table class="table table-bordered">
+    <tr>      
+        <th>
+           Inicio
+        </th>
+        <th>
+            Fin
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Causa)
+        </th>
+       
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>       
+        <td>
+            @item.HoraInicio.ToString("yyyy-MM-dd HH:mm")
+        </td>
+        <td>
+            @item.HoraFin.ToString("yyyy-MM-dd HH:mm")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Causa)
+        </td>
+       
+    </tr>
+}
+
+</table>

@@ -1,0 +1,107 @@
+﻿<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
+
+  
+</style>
+<div class="row">
+    <div class="col-12">
+        <h3 style="float: left;">Reporte de asistencia</h3>
+        <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+        <div class="box_filters">
+            <div class="itemFilter">
+                <input type="hidden" id="fechaDesde" value="" />
+                <input type="hidden" id="fechaHasta" value="" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+            <div class="itemFilter">
+                <a href="#" id="generarAsistencia" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row _bloque">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Comparativa asistenes iniciales vs actuales (Proceso con la toma de asistencia)</h6>
+            </div>
+            <div class="card-body">
+                <div id="wdr-component"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row _bloque">
+    <div class="col-12">
+        <h4>Reporte en base a marcación de biométrio</h4>
+    </div>
+    <div class="col-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Resumen por líneas</h6>
+            </div>
+            <div class="card-body">
+                <div id="wdr-component-biometrico"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Resumen de ausentes por novedades</h6>
+            </div>
+            <div class="card-body">
+                <div id="wdr-component-bio-novedades">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12" style="margin-top: 20px;">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Gráfico de asistentes por línea</h6>
+            </div>
+            <div class="card-body">
+                <div id="grafico-lineas-asistentes" >
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

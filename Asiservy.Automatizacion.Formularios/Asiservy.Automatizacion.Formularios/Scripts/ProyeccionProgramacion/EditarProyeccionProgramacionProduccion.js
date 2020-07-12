@@ -5,18 +5,19 @@
 
 
 function ValidaProyeccion() {
-    if ($('#txtFechaProduccion').val() == "") {
-        return;
-    }
+    
     $("#DivTableProyecion").html('');
     $("#DivMensaje").html("");
-   
+    if ($('#txtFechaProduccion').val() == "" || $('#selectTurno').val() == "") {
+        return;
+    }
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacionProduccion",
         type: "GET",
         data:
         {
-            Fecha: $('#txtFechaProduccion').val()
+            Fecha: $('#txtFechaProduccion').val(),
+            Turno: $('#selectTurno').val()
         },
         success: function (resultado) {
             if (resultado == "101") {

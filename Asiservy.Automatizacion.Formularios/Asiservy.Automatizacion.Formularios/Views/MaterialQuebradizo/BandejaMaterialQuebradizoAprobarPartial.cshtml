@@ -1,0 +1,143 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Material_Quebradizo_Calidad>
+
+@{
+
+    var listaMaterial = (from v in Model
+                         group v by new { v.NombreMaterial, v.IdMantMaterial } into x
+                         select new { x.Key.NombreMaterial, x.Key.IdMantMaterial }).ToList();
+
+    var listaTablas = (from v in Model
+                       group v by new { v.TipoVerificacion } into x
+                       select new { x.Key.TipoVerificacion }).ToList();
+}
+@foreach (var tabla in listaTablas)
+{
+<div class="table-responsive">
+    <table class="table table-bordered table-secondary text-uppercase">
+        <thead style="font-size:10px">
+            <tr>
+                <th>VERIFICACIÓN</th>
+                <th>
+                    ÁREA
+                </th>
+
+                @foreach (var item in listaMaterial)
+                {
+                    <th style="white-space:normal;text-align:center">
+                        @item.NombreMaterial
+                    </th>
+                }
+                <th>
+                    OBSERVACIÓN
+                </th>
+                @*<th>
+                    ACCION CORRECTIVA
+                </th>*@
+            </tr>
+        </thead>
+        <tbody style="font-size:10px">
+            @{
+                var listaArea = (from v in Model
+                                 where (v.TipoVerificacion == tabla.TipoVerificacion)
+                                 group v by new { v.Nombre, v.IdMantenimiento, v.Observaciones, v.TipoVerificacion, v.IdMaterial } into x
+                                 select new { x.Key.Nombre, x.Key.IdMantenimiento, x.Key.Observaciones, x.Key.TipoVerificacion, x.Key.IdMaterial }).ToList();
+            }
+            @foreach (var itemArea in listaArea)
+            {
+                int idDetalle = 0;
+                <tr>
+                    <td>
+                        @itemArea.TipoVerificacion
+                    </td>
+                    <td>
+                        @itemArea.Nombre
+                    </td>
+
+                    @foreach (var columna in listaMaterial)
+                    {
+                        var xz = Model.Where(d => d.IdMantMaterial == columna.IdMantMaterial && d.TipoVerificacion == itemArea.TipoVerificacion
+                                            && d.IdMantenimiento == itemArea.IdMantenimiento).FirstOrDefault();
+
+                        if (xz != null)
+                        {
+                            if (columna.IdMantMaterial == xz.IdMantMaterial)
+                            {
+                                if (xz.EstadoVerificacion)
+                                {
+                                    idDetalle = xz.IdMaterialDetalle;
+                                    <td style="text-align:center">
+                                        <i class="fas fa-check-circle" style="color: green"></i>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>}
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                    <td style="white-space:normal">
+                        @itemArea.Observaciones
+                    </td>
+                    @*<td>
+                        @{
+                            var accionC = Model.Where(v => v.IdMaterialDetalle == idDetalle && v.IdMantenimiento == itemArea.IdMantenimiento);
+                        }
+                        <label id="lblAccionCorrectiva">SIN DATO</label>
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+
+
+@{
+    var listaAccionCorrectiva = (from x in Model
+                                 group x by new { x.DescripcionAccion, x.IdAccion, x.RutaFoto, x.Rotation, x.Nombre, x.TipoVerificacion } into v
+                                 select new { v.Key.DescripcionAccion, v.Key.IdAccion, v.Key.RutaFoto, v.Key.Rotation, v.Key.Nombre, v.Key.TipoVerificacion }).ToList();
+}
+<div class="row align-center"s style="margin:3px">
+    @foreach (var item in listaAccionCorrectiva)
+    {
+        if (item.RutaFoto != null)
+        {
+                <div >
+                    <div id="header_@item.IdAccion">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdAccion" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
+
+                    </div>
+
+                    <script>
+                            validarImg('@item.Rotation','@item.IdAccion','@item.RutaFoto');
+                    </script>
+                    <div>
+                        <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>VERIFICACION: </b> @item.TipoVerificacion.ToUpper()</label><br />
+                        <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>AREA: </b> @item.Nombre.ToUpper()</label><br />
+                        <label class="card-text" style="color:black;font-size:10px;white-space:normal;width:250px"><b>ACCION CORRECTIVA: </b> @item.DescripcionAccion.ToUpper()</label><br />
+                    </div>
+                </div>
+        }
+
+    }
+</div>
+
+
+
+    <style>
+        .img {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            width: 250px;
+        }
+
+            .img:hover {
+                box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+            }
+    </style>
+    <input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />

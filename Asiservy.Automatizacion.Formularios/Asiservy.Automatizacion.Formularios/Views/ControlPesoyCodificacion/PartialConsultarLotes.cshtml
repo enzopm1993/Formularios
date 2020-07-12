@@ -1,0 +1,40 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.DETALLE_LOTE_CONTROL_PESO_CODIFICACION>
+@using Newtonsoft.Json;
+@if (Model != null)
+{
+    <table class="table table-striped table-bordered table-hover" style="cursor:pointer" id="" >
+        <thead>
+            <tr>
+                <th hidden>
+                   Id Detalle Lote
+                </th>
+                <th class="text-center">
+                    Orden fabricación
+                </th>
+                <th nowrap class="text-center">
+                    Lote
+                </th>
+                <th colspan="2" class="text-center">Producto</th>
+                <th class="text-center">Especie</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string Lomo = item.Lomo.Value ? "L" : "";
+                string Miga = item.Miga.Value ? "M" : "";
+                string json = JsonConvert.SerializeObject(new { item.IdDetalleLote,item.OrdenFabricacion,item.Lote,item.FechaOrdenFabricacion,item.Lomo,item.Miga,item.Especie });
+                <tr onclick="EditarLotes(@json)">
+                    <td hidden>@item.IdDetalleLote</td>
+                    <td>@item.OrdenFabricacion</td>
+                    <td>@item.Lote @item.FechaOrdenFabricacion.Value.ToString("yyyy-MM-dd")</td>
+                    <td>@Lomo</td>
+                    <td>@Miga</td>
+                    <td>@item.Especie</td>
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

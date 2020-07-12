@@ -166,6 +166,8 @@ function ConsultarSiExisteAsistencia() {
             if (resultado == 1) {
 
                 GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
+                $('#TurnoGen').prop('disabled', 'disabled');
+                $('#txtFecha').prop('disabled', 'disabled');
                 $('#horaservidor').hide();
                 $('#lblHoraServidor').hide();
                 $('#GenerarAsistencia').hide();
@@ -359,6 +361,9 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                // $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
@@ -384,7 +389,8 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             dataType: "json",
             data: {
                 cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);

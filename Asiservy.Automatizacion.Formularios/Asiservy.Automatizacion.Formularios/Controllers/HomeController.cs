@@ -11,9 +11,9 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using System.Globalization;
 using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
-using System.Configuration;
-using System.Xml.Serialization;
-using System.IO;
+using System.Net;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Vacaciones;
+using Newtonsoft.Json;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -28,6 +28,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
         clsDAsistencia clsDAsistencia = null;
         clsDGeneral clsDGeneral = null;
+        clsApiGeneral clsApiGeneral = null;
+        ClsVacaciones clsVacaciones = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -44,34 +46,51 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.Apexcharts = "1";
                 clsDEmpleado = new clsDEmpleado();
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                 lsUsuario = User.Identity.Name.Split('_');
-                string psrolid = lsUsuario[1];
+                clsVacaciones = new ClsVacaciones();
+                clsDGeneral = new clsDGeneral();
                 clsDLogin PsLogin = new clsDLogin();
+
+                lsUsuario = User.Identity.Name.Split('_');
+                string psrolid = lsUsuario[1];
+                if (PsLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolGarita))
+                {
+                    ViewBag.Garita = "1";
+                }
                 var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
-                Session.Timeout = 480;
+                Session.Timeout = 1480;
                 Session["Padre"] = resultado[0];
                 Session["Hijo"] = resultado[1];
                 Session["Modulos"] = resultado[2];
+                Session["Busqueda"] = resultado[3];
                 var Roles = PsLogin.ConsultaRolesUsuario(lsUsuario[1]);
-                Notificaciones(Roles);
-                //  string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
-                clsDGeneral = new clsDGeneral();
-               // ViewBag.BaseDatos = clsDGeneral.getDataBase();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                if (Empleado != null)
+                {
+                    ViewBag.Nombre = Empleado.NOMBRES;
+                }
+                ViewBag.Vacaciones = JsonConvert.SerializeObject(clsVacaciones.ConsultarVacaciones(lsUsuario[1], "E").FirstOrDefault());
+                ViewBag.Marcacion = clsDGeneral.ConsultarBiometricoxFecha(lsUsuario[1], DateTime.Now);
+                Notificaciones(Roles, lsUsuario[1]);
                 var BD = clsDGeneral.getDataBase();
                 if (BD == clsAtributos.DesarrolloBD)
                 {
-                    Session["BaseDatos"] = "Desarrollo";
+                    Session["BaseDatos"] =clsAtributos.BDDesarrollo;
                 }
                 if (BD == clsAtributos.PreProduccionBD)
                 {
-                    Session["BaseDatos"] = "Demo";
+                    Session["BaseDatos"] = clsAtributos.BDPreProduccion;
                 }
                 if (BD == clsAtributos.ProduccionBD)
                 {
-                    Session["BaseDatos"] = "Produccion";
+                    Session["BaseDatos"] = clsAtributos.BDProduccion;
                 }
+
+              
                 return View();
 
             }
@@ -127,11 +146,61 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public void Notificaciones(List<int?> Roles)
+        public ActionResult ConsultaComunicados()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsApiGeneral = new clsApiGeneral();
+                var poComunicados = clsApiGeneral.ConsultaComunicados();
+                if (!poComunicados.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(poComunicados);
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public void Notificaciones(List<int?> Roles,string Cedula)
         {
             clsDParametro = new clsDParametro();
+            clsDGeneral = new clsDGeneral();
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             List<RespuestaGeneral> MensajesNotificaciones = new List<RespuestaGeneral>();
+
+            //INICIO -- NOTIFICACIONES ENVIADOS DESDE LA BASE DE DATOS 2020-06-25
+            var Notificaciones = clsDGeneral.ConsultaNotificaciones(Cedula);
+            foreach(var x in Notificaciones)
+            {
+                MensajesNotificaciones.Add(new RespuestaGeneral { Mensaje = x.Mensaje, Observacion = "/"+x.Url });
+            }
+            Session["MensajesNotificacionesMenu"] = Notificaciones;
+            //ViewBag.MensajesNotificacionesMenu = Notificaciones;
+            //2020-06-25 -- FIN
+
 
             var MensajeUrgente = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = clsAtributos.ParaMensajeUrgente,
                 EstadoRegistro = clsAtributos.EstadoRegistroActivo }).FirstOrDefault();
@@ -159,7 +228,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/BandejaAprobacion";
                     string Mensaje = "Tienes " + solicitudes + " solicitudes en su bandeja por aprobar";
-                    // ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -176,7 +244,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/BandejaRRHH";
                     string Mensaje = "Tiene " + solicitudes + " solicitudes en su bandeja por revisar";
-                    //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -198,7 +265,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                      string enlace = "/SolicitudPermiso/BandejaMedico";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
-                    //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -209,12 +275,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             if (Roles.Any(x => x.Value == clsAtributos.RolGarita))
             {
-                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoReporte(null,null,clsAtributos.EstadoSolicitudAprobado, true, DateTime.Now.Date, DateTime.Now.Date).Where(x=> x.FechaBiometrico != null).ToList();
+                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoReporte(null,null,clsAtributos.EstadoSolicitudAprobado, true, null, null).ToList();
                 if (solicitudes.Any())
                 {
                      string enlace = "/SolicitudPermiso/ReporteSolicitud";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja";
-                    //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
                         Mensaje = Mensaje,
@@ -243,50 +308,59 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
-                if (finalizarAsistencia.Any())
+                if (empleado != null)
                 {
-                    foreach(var x in finalizarAsistencia)
+                    var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
+                    if (finalizarAsistencia.Any())
                     {
-
-                        string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
-                        string enlace = "/Asistencia/FinalizarAsistencia";
-                        string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy");
-
-                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        foreach (var x in finalizarAsistencia)
                         {
-                            Mensaje = Mensaje,
-                            Observacion = enlace
-                        });
 
+                            string dia = ci.DateTimeFormat.GetDayName(x.FechaInicio.Value.DayOfWeek);
+                            string enlace = "/Asistencia/FinalizarAsistencia";
+                            string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.FechaInicio.Value.ToString("dd-MM-yyyy");
+
+                            MensajesNotificaciones.Add(new RespuestaGeneral
+                            {
+                                Mensaje = Mensaje,
+                                Observacion = enlace
+                            });
+
+                        }
                     }
                 }
 
             }
 
-            if (Roles.Any(x => x.Value == clsAtributos.RolControladorLinea))
+            if (Roles.Any(x => x.Value == clsAtributos.RolControladorLinea || x.Value == clsAtributos.RolEnlatado ||
+            x.Value == clsAtributos.RolEtiquetadoLata || x.Value == clsAtributos.RolEtiquetadoPouch || x.Value == clsAtributos.RolLimpiezaPouch
+            || x.Value == clsAtributos.RolLimpiezaPouch || x.Value == clsAtributos.RolAutoclave
+            || x.Value == clsAtributos.RolFrio || x.Value == clsAtributos.RolEvicerado))
             {
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
-                var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.Fecha).Distinct();
-                if (finalizarAsistencia.Any())
+                if (empleado != null)
                 {
-                    foreach (var x in finalizarCantidadFecha)
+                    var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
+                    var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.FechaInicio).Distinct();
+                    if (finalizarAsistencia.Any())
                     {
-                        int cantidad = finalizarAsistencia.Count(y => y.Fecha == x.Value);
-                        string dia = ci.DateTimeFormat.GetDayName(x.Value.DayOfWeek);
-                        string enlace = "/Asistencia/AsistenciaFinalizar";
-                        string Mensaje = "No ha finalizado la Asistencia del día: " + dia + ", " + x.Value.ToString("dd-MM-yyyy")+" Existen "+cantidad+" empleados sin finalizar";
-
-                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        foreach (var x in finalizarCantidadFecha)
                         {
-                            Mensaje = Mensaje,
-                            Observacion = enlace
-                        });
+                            int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Value);
+                            string dia = ci.DateTimeFormat.GetDayName(x.Value.DayOfWeek);
+                            string enlace = "/Asistencia/AsistenciaFinalizar";
+                            string Mensaje = "No ha finalizado la Asistencia del día: " + dia + ", " + x.Value.ToString("dd-MM-yyyy") + " Existen " + cantidad + " empleados sin finalizar";
 
+                            MensajesNotificaciones.Add(new RespuestaGeneral
+                            {
+                                Mensaje = Mensaje,
+                                Observacion = enlace
+                            });
+
+                        }
                     }
                 }
             }
@@ -296,24 +370,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
-                //lsUsuario = User.Identity.Name.Split('_');
-                //var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistenciaTodos(DateTime.Now.AddDays(-1));
-                var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.Fecha, Linea =x.Linea}).Distinct();
+                var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.FechaInicio, Linea =x.CodLinea}).Distinct();
                 if (finalizarAsistencia.Any())
                 {
                     foreach (var x in finalizarCantidadFecha)
                     {
                         var linea = clsDGeneral.ConsultaLineas(x.Linea).FirstOrDefault();
-                        int cantidad = finalizarAsistencia.Count(y => y.Fecha == x.Fecha && y.Linea==x.Linea);
+                        int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Fecha && y.CodLinea==x.Linea);
                         string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
-                        //string enlace = "/Asistencia/AsistenciaFinalizar";
                         string Mensaje = "No ha finalizado la Asistencia "+linea.Descripcion+" del día: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy") + " Existen " + cantidad + " empleados sin finalizar";
 
                         MensajesNotificaciones.Add(new RespuestaGeneral
                         {
                             Mensaje = Mensaje,
-                           // Observacion = enlace
                         });
 
                     }

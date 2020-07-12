@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Cisterna>
+@using Newtonsoft.Json;
+
+<table class="table table-light table-striped" tabindex="1" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>FECHA</th>
+            <th>Nº CISTERNA</th>
+            <th>QUIMICOS UTILIZADOS</th>
+            <th>OBSERVACIONES</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+        </tr>
+    </thead>
+    @{ 
+        var listaFiltrada = (from x in Model
+                             group x by new {x.IdLavadoCisterna } into f
+                             select new { f.Key.IdLavadoCisterna}).ToList();        
+    }
+    <tbody style="font-size:11px">
+        @foreach (var item in listaFiltrada)
+        {
+            DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = "";string observacion = "";
+            string NDescripcion = ""; bool estadoReporte = false; string idMantCisterna = "";
+            List<string> listaIdIntermedia=new List<string>();
+            <tr>
+                @foreach (var subItem in Model)
+                {
+                    if (item.IdLavadoCisterna == subItem.IdLavadoCisterna)
+                    {
+                        NDescripcion += subItem.NDescripcion+";";
+                        fecha = subItem.Fecha;
+                        quimUtilizados = subItem.QuimUtilizados;
+                        observacion = subItem.Observacion;
+                        estadoReporte = subItem.EstadoReporteCab;
+                        idMantCisterna = subItem.IdMantCisterna.ToString();
+                        listaIdIntermedia.Add(subItem.IdIntermedia.ToString());
+                    }
+                }
+                <td>
+                    @fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>@NDescripcion.ToUpper()</td>
+                <td style="white-space:normal;width:350px">
+                    @quimUtilizados.ToUpper()
+                </td>
+                @if (!string.IsNullOrEmpty(observacion))
+                {
+                    <td style="white-space:normal">@observacion.ToUpper()</td>
+                }
+                else {
+                    <td></td>
+                }
+                <td>
+                    @if (estadoReporte)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+                <td>
+                    @{
+                        List<string> lis = new List<string>();
+                        lis.Add(item.IdLavadoCisterna.ToString());
+                        lis.Add(fecha.ToString("dd-MM-yyyy"));
+                        lis.Add(NDescripcion);
+                        lis.Add(quimUtilizados);
+                        lis.Add(observacion);
+                        lis.Add(estadoReporte.ToString());
+                        lis.Add(idMantCisterna);
+                        string json = JsonConvert.SerializeObject(lis);
+                        string jsonIdIntermedia = JsonConvert.SerializeObject(listaIdIntermedia);
+                            }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json, @jsonIdIntermedia)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmar(@json)">Eliminar</button>
+                </td>
+            </tr>
+        }
+</tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

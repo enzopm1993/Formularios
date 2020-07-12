@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteMaestro>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                Opción
+            </th>
+            <th>
+                Código
+            </th>
+            <th>
+                Ultima versión
+            </th>
+            <th>
+                Estado Registro
+            </th>
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Terminal Ingreso
+            </th>
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario Modificación
+            </th>
+            <th>
+                Terminal Modificación
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item); 
+        <tr onclick="SeleccionarReporteMaestro(@json)">
+            <td>
+                @Html.DisplayFor(modelItem => item.IdReporteMaestro)
+            </td>
+            <td>
+                @item.Nombre.ToUpper()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Formulario)
+            </td>
+            <td>
+                @item.Codigo.ToUpper()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UltimaVersion)
+            </td>
+            <td>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <span class="badge badge-success">ACTIVO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">INACTIVO</span>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>

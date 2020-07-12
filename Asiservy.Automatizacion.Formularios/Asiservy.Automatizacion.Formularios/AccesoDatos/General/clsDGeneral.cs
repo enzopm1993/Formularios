@@ -1,13 +1,9 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
-using System.Web;
+
 
 
 
@@ -156,13 +152,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
-        public string EnvioCorreo(spConsutaEmpleados Empleado, string asunto, string mensaje,bool RRHH)
+        public string EnvioCorreo(string Cedula, string asunto, string mensaje,bool RRHH)
         {
             try
             {
                 using (ASIS_PRODEntities db = new ASIS_PRODEntities())
                 {
-                    var Mensaje = db.spEnvioCorreo(Empleado.CEDULA,asunto,mensaje,RRHH).FirstOrDefault();
+                    var Mensaje = db.spEnvioCorreo(Cedula,asunto,mensaje,RRHH).FirstOrDefault();
                     return Mensaje;
                 }
 
@@ -239,7 +235,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 //}
 
             }           
-            catch (SmtpException ex)
+            catch (SmtpException)
             {
                 return "Error en envió de correo electrónico";
 
@@ -274,12 +270,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                 dbname = builder.InitialCatalog;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 dbname = "";
             }
 
             return dbname;
+        }
+
+
+        public List<spConsultaNotificacionesSiaa> ConsultaNotificaciones (string Cedula)
+        {
+            using ( ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaNotificacionesSiaa(Cedula).ToList();
+            }
         }
 
     }

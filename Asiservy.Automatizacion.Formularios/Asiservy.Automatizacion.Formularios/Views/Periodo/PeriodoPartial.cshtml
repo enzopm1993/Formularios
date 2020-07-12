@@ -8,37 +8,35 @@
                 <label>Id</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                Descripción
+            </th>
+
+            <th>
+                Fecha Desde
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estado)
+                Fecha Hasta
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaDesde)
+                Estado
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaHasta)
-            </th>
-             <th>
-                @Html.DisplayNameFor(model => model.Estado)
+                Fecha Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+                Usuario Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+                Terminal Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+               Fecha Modificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaModificacionLog)
+                Usuario Modificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+                Terminal Modificación
             </th>
 
         </tr>
@@ -51,11 +49,9 @@
                 @Html.DisplayFor(modelItem => item.IdPeriodo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
+                @item.Descripcion.ToUpper()
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
+           
             <td>
                 @item.FechaDesde.ToString("dd-MM-yyyy")
             </td>
@@ -66,10 +62,10 @@
             <td>
                 @if (item.Estado == "B")
                 {
-                <label>Bloqueado</label>
+                <label>BLOQUEADO</label>
                 } else {
 
-                <label>Abierto</label>
+                <label>ABIERTO</label>
                 }
             </td>
             <td>

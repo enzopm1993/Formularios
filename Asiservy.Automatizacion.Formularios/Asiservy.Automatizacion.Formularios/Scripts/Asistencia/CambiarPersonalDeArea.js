@@ -94,7 +94,7 @@ function MoverEmpleados() {
             //console.log(valortable);
             destruirDataTable();
             
-            $("input[type=checkbox]:checked").each(function (resultado) {
+            $("#DivEmpleados input[type=checkbox]:checked").each(function (resultado) {
                 id = $(this).attr("id");
                 this.id = id.replace('Empleado-', '');
                 result.push(this.id);
@@ -107,7 +107,7 @@ function MoverEmpleados() {
             MensajeAdvertencia("Centro de Costos, Recurso, Línea,Cargo,fecha y hora son obligatorios", false);
         }
     } else {
-        $("input[type=checkbox]:checked").each(function (resultado) {
+        $("#tblDataTable input[type=checkbox]:checked").each(function (resultado) {
             id = $(this).attr("id");
             this.id = id.replace('Empleado-', '');
             result.push(this.id);
@@ -228,15 +228,21 @@ function Mover(result) {
             //MensajeCorrectoTiempo(resultado, true,10000);
             if (resultado == "101") {
                 window.location.reload();
-            }else
-            if (resultado == '1000') {
+            } else if (resultado == '5555') {
+                MensajeAdvertencia("Debe ingresar los campos obligatorios");
+            }
+            else if (resultado == '1000') {
                 $('#mensajefeed').val(resultado);
                 $('#BodyMensajeCp').html('Empleados movidos con éxito');
             } else {
                 $('#BodyMensajeCp').html(resultado);
             }
             
-
+            if ($('#optcambiaremp').val() == 'prestar') {
+                ConsultarEmpleados();
+            } else {
+                ConsultarEmpleadosRegresar();
+            }
             $('#ModalMensajeCP').modal('show');
         }
         ,
@@ -246,7 +252,7 @@ function Mover(result) {
             $("#btnGuardarEspera").prop("hidden", true);
             //**
             //MensajeError("No se pudieron mover", false);
-            MensajeError(resultado, false);
+            MensajeError('Error comuníquese con el departamento de Sistemas', false);
         }
     });
 }
@@ -293,7 +299,7 @@ function ConsultarEmpleadosRegresar() {
     $("#ConsultarEmpleadosRegresar").prop("hidden", true);
     $("#btnConsultarEspera").prop("hidden", false);
     //ConsultarEmpleado = "ConsultarEmpleado";
-    if ($('#SelectAreaRegresar').val() != "") {
+    if ($('#SelectAreaRegresar').prop('selectedIndex')!=0) {
         $.ajax({
             type: "GET",
             data:

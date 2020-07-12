@@ -9,8 +9,8 @@ function SelectControlCoche(id, fecha, horaInicio, horaFin, Linea, talla,observa
 
     $("#txtIdControlCoche").val(id);
     $("#txtFecha").val(fecha);
-    $("#txtHoraInicio").val(horaInicio);
-    $("#txtHoraFin").val(horaFin);
+    $("#txtHoraInicio").val(moment(horaInicio).format("YYYY-MM-DDThh:mm"));
+    $("#txtHoraFin").val(moment(horaFin).format("YYYY-MM-DDThh:mm"));
     $("#txtCoches").val(coche);
     $("#selectLineas").val(Linea);
     $("#selectTalla").val(talla);
@@ -26,7 +26,8 @@ function CargarControlCoche() {
         url: "../ControlCocheLinea/ControlCocheLineaPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#cmbTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -160,6 +161,7 @@ function GuardarControl() {
             Linea: $("#selectLineas").val(),
             Talla: $("#selectTalla").val(),
             Observacion: $("#txtObservacion").val(),
+            Turno: $("#cmbTurno").val()
         },
         success: function (resultado) {           
             CargarControlCoche();            

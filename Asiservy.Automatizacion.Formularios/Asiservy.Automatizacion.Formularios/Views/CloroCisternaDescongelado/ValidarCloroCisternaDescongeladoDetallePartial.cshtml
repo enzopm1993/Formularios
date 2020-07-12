@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE>
+@using Newtonsoft.Json;
+<table class="table table-light table-striped text-uppercase" style="font-size:12px" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+               FECHA - HORA
+            </th>
+            <th>
+                PPM CLORO
+            </th>
+            <th>
+                CISTERNA
+            </th>
+            <th>
+                USUARIO CREACIÓN
+            </th>
+            <th>
+                OBSERVACIÓN
+            </th>           
+                <th>ACCIONES</th>           
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+        @foreach (var item in Model)
+        {
+            decimal men = ViewBag.ParamMin;
+            decimal may = ViewBag.ParamMax;
+            <tr>
+                <td>                    
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
+                </td>
+                @if (item.Ppm_Cloro >= men && item.Ppm_Cloro <= may)
+                {
+                    <td>
+                        <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango">@item.Ppm_Cloro</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="badge" style="color:white;background-color:@ViewBag.ColorFueraRango ">@item.Ppm_Cloro</span>
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cisterna)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.Observaciones))
+                    {
+                        @item.Observaciones.ToUpper()
+                    }
+                </td>
+                
+                    <td>
+                        @{string json = JsonConvert.SerializeObject(item); }
+                        <button id="btnActualizar" class="btn btn-link" onclick="ActulizarControlCloroCisternaDetalle(@json)">Editar</button>
+                        <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalleConfirmar(@json)">Eliminar</button>
+                    </td>
+                
+            </tr>
+        }
+    </tbody>
+
+</table>

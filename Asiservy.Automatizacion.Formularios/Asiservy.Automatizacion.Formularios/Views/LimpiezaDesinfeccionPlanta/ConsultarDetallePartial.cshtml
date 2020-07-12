@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Limpieza_Desinfeccion_Planta>
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "ConsultarDetallePartial";
+    var listaTablas = (from v in Model
+                       group v by new { v.IdAuditoria, v.NombreAuditoria, v.HoraAuditoria, v.Turno } into x
+                       orderby x.Key.HoraAuditoria descending
+                       select new { x.Key.IdAuditoria, x.Key.NombreAuditoria, x.Key.HoraAuditoria, x.Key.Turno }).ToList();
+
+    IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Limpieza_Desinfeccion_Planta> jsonModel;
+}
+
+@foreach (var tabla in listaTablas)
+{
+    jsonModel = Model.Where(v => v.IdAuditoria == tabla.IdAuditoria && v.HoraAuditoria == tabla.HoraAuditoria).ToList();
+    <div class="card table-responsive">
+        <div class="row">
+            <div class="col-md-9 col-12 col-sm-12 text-md-left text-center">
+                <button id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@JsonConvert.SerializeObject(jsonModel))">Actualizar</button>
+                <button id="btnEliminarDetalle" class="btn btn-outline-danger" style="color:#00264c" onclick="EliminarConfirmarDetalle(@JsonConvert.SerializeObject(jsonModel))">Eliminar</button>
+            </div>
+            <div style="font-size:13px;" class="float-md-right col-md-3 col-12 col-sm-12 ">
+
+                @if (!string.IsNullOrEmpty(tabla.Turno))
+                {
+                    <b>@tabla.Turno.Replace("_", " ").ToUpper()</b>
+                }<br />
+                <b>FECHA: @tabla.HoraAuditoria.ToString("dd-MM-yyyy")<br />HORA: @tabla.HoraAuditoria.ToString("HH:mm")</b>
+            </div>
+
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead style="font-size:11px">
+                <tr>
+                    <th>
+                        @tabla.NombreAuditoria.ToUpper()<br />
+                    </th>
+                    <th>
+                        LIMPIEZA
+                    </th>
+                    <th>
+                        DESINFECCION
+                    </th>
+                    <th>
+                        OBSERVACION
+                    </th>
+                    <th>
+                        FECHA - HORA
+                    </th>
+                    <th>
+                        ACCION CORRECTIVA
+                    </th>
+                    <th>
+                        SUPERVISOR
+                    </th>
+                    <th>ACCION</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:10px">
+                @foreach (var item in Model)
+                {
+                    if (tabla.IdAuditoria == item.IdAuditoria && tabla.HoraAuditoria == item.HoraAuditoria)
+                    {
+                        <tr>
+                            <td style="white-space:normal">
+                                @item.NombreObjeto.ToUpper()
+                            </td>
+                            <td style="text-align:center">
+                                @item.Limpieza
+                            </td>
+                            <td style="text-align:center;">
+                                @item.Desinfeccion
+                            </td>
+                            <td style="white-space:normal">
+                                @if (!string.IsNullOrEmpty(item.ObservacionDetalle))
+                                {
+                                    @item.ObservacionDetalle.ToUpper()
+                                }
+                            </td>
+                            <td>
+                                @{DateTime date = Convert.ToDateTime(item.HoraAccionCorrectiva);}
+                                @if (date != DateTime.MinValue)
+                                {
+                                    @date.ToString("dd-MM-yyyy HH:mm")
+                                }
+                            </td>
+                            <td style="white-space:normal">
+                                @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
+                                {
+                                    @item.AccionCorrectiva.ToUpper()
+                                }
+                            </td>
+                            <td>
+                                @item.PersonaAccionCorrectiva
+                            </td>
+                            <td>
+                                @{
+                                    var json = JsonConvert.SerializeObject(item);
+                                }
+                                <button id="btnAccionCorrectiva" class="btn btn-link" style="font-size:10px" onclick="AccionCorrectiva(@json)">AGREGAR</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div><br />
+}
+          <div class="row">
+              <div class="col-md-3 col-12 col-sm-12">
+                  <table class="table table-bordered" style="font-size:8px">
+                      <thead class="text-center text-right" style="height:8px">
+                          <tr>
+                              <th colspan="2">TABLA DE CALIFICACIONES DE <br /> LIMPIEZA Y DESINFECCIÓN</th>
+                          </tr>
+                      </thead>
+                      <tbody style="font-size:10px">
+                          <tr>
+                              <td>SATISFACTORIO</td>
+                              <td>S</td>
+                          </tr>
+                          <tr>
+                              <td>NO SATISFACTORIO</td>
+                              <td>NS</td>
+                          </tr>
+                          <tr>
+                              <td>NO APLICA</td>
+                              <td>N/A</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>

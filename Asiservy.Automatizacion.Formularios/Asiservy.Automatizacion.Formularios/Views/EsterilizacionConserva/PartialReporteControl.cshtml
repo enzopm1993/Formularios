@@ -1,0 +1,526 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.Produccion.EsterilizacionConservas.ReporteEsterilizacionViewModel
+
+<style>
+    @@media print {
+        #btnimprimir {
+            display: none;
+        }
+
+        #accordionSidebar {
+            display: none;
+        }
+
+        #filtros {
+            display: none;
+        }
+
+        .verticalText {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+        }
+
+        #tablap {
+            font-size: 0.5rem;
+            /*table-layout: fixed;*/
+        }
+
+        tabla_sin {
+            /*border-collapse: collapse;*/
+            /*font-size: 0.4rem;*/
+            /*border: none;*/
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0rem;
+        }
+
+        .texto6 {
+            font-size: 0.5rem;
+        }
+
+        #tablap th, td {
+            white-space: nowrap;
+            /*padding-left: 0px;
+        padding-right: 0px;
+        padding-top:0rem;
+        padding-bottom:0rem;*/
+            vertical-align: middle;
+            /*width: 600px;*/
+            /*word-wrap: break-word;*/
+            /*max-height:10px;*/
+        }
+
+        textarea {
+            overflow: hidden;
+            border: 0;
+            resize: none;
+            outline: 0px;
+            background-color: transparent;
+            /*transform: rotate(270deg);*/
+        }
+
+        .EliminarBorde {
+            border-bottom: 0px;
+            border-left: 0px;
+            border-right: 0px;
+        }
+    }
+    @@media screen{
+        .verticalText {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+        }
+
+        #tablap {
+            font-size: 0.5rem;
+            /*table-layout: fixed;*/
+        }
+
+        tabla_sin {
+            /*border-collapse: collapse;*/
+            /*font-size: 0.4rem;*/
+            /*border: none;*/
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0rem;
+        }
+
+        .texto6 {
+            font-size: 0.5rem;
+        }
+
+        #tablap th, td {
+            white-space: nowrap;
+            /*padding-left: 0px;
+        padding-right: 0px;
+        padding-top:0rem;
+        padding-bottom:0rem;*/
+            vertical-align: middle;
+            /*width: 600px;*/
+            /*word-wrap: break-word;*/
+            /*max-height:10px;*/
+        }
+
+        textarea {
+            overflow: hidden;
+            border: 0;
+            resize: none;
+            outline: 0px;
+            background-color: transparent;
+            /*transform: rotate(270deg);*/
+        }
+
+        .EliminarBorde {
+            border-bottom: 0px;
+            border-left: 0px;
+            border-right: 0px;
+        }
+    }
+</style>
+<input type="hidden" id="RegPartial" value="@ViewBag.Registros"/>
+
+@if (Model != null)
+{
+    <div class="table-responsive">
+        <table class="tabla_sin" border="1" id="tablap">
+            <thead style="font-size:0.5rem">
+                <tr>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">AUTOCLAVE N°</p>
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">ESTERILIZADA N°</p>
+                    </th>
+                    <th rowspan="3" style="vertical-align:middle;padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px">
+
+                        <p class="verticalText">PRODUCTO</p>
+
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">PRODUCTO<br />CÓDIGO DEL </p>
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">ENVASE<br />TAMAÑO DEL </p>
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">N° DE CANASTAS</p>
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">1er ENVASE<br />HORA DE CIERRE </p>
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">ESPERA/COCHE<br />TIEMPO DE</p>
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">INICIAL °C<br />TEMPERATURA</p>
+                    </th>
+                    <th colspan="5" class="text-center" style="vertical-align:middle;padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        INICIO PDE PROCESOS DE ESTERILIZACIÓN
+                    </th>
+                    <th colspan="8" class="text-center" style="vertical-align:middle;padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        CONDICIONES DEL PROCESO DE ESTERILIZACIÓN
+                    </th>
+                    <th class="text-center" colspan="2">
+                        ENFRIAMIENTO
+                    </th>
+                    <th rowspan="3" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">HORA DE CHEQUEO</p>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3" class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        AUTOCLAVES "VAPOR"
+                    </th>
+                    <th colspan="2" class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        AUTOCLAVES "SPRAY"
+                    </th>
+                    <th rowspan="2" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">ESTERILIZACIÓN<br />HORA INICIO DE</p>
+                    </th>
+                    <th colspan="4" class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        TEMPERATURA (°C)
+                    </th>
+                    <th class="text-center" rowspan="2" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">MANÓMETRO<br />PRESIÓN</p>
+                    </th>
+                    <th class="text-center" rowspan="2" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">ESTERILIZACIÓN<br />HORA FINAL DE</p>
+                    </th>
+                    <th class="text-center" rowspan="2" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">DE ESTERILIZADO<br />MINUTOS TOTALES</p>
+                    </th>
+                    <th class="text-center" rowspan="2" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">(mint)<br />ENFRIAMIENTO<br />TIEMPO</p>
+                    </th>
+                    <th class="text-center" rowspan="2" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">SALIDA(°C)<br />PRODUCTO A LA<br />TEMPERATUA DEL</p>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">VENTEO<br />HORA INICIO  </p>
+                    </th>
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">VENTEO<br />HORA CIERRE </p>
+                    </th>
+                    <th style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">TEMPERATURA <br /> (TERM.DIGITAL)</p>
+                    </th>
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">LLENADO <br />HORA INICIO </p>
+                    </th>
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">CALENTAMIENTO<br /> INICIO DE<br /> HORA DE</p>
+                    </th>
+
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;" colspan="2">
+                        <p class="verticalText">VENCIONAL)<br />(AUTO-CON-<br />(AUTO-SPRAY)<br />PANEL</p>
+
+                    </th>
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">CHART</p>
+                    </th>
+                    <th class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                        <p class="verticalText">DIGITAL<br />TERMÓMETRO</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody style="font-size:0.5rem">
+                @{
+                    int NumeroDetalle = Model.ListDetalleCoches.Count;
+                }
+                @foreach (var item in Model.ListDetalleReporte)
+                {
+                    <tr>
+                        <td class="text-center" rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@item.NumeroAutoclave</td>
+                        <td class="text-center" rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@item.NumeroEsterilizada</td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <div style="height:100px;width:100px;" class="columna-texto">
+                                <textarea rows="8" cols="8" id="textarea" readonly>
+                                                @item.Producto
+                               </textarea>
+
+                            </div>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.CodigoProducto</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.Envase</p>
+                        </td>
+                        @if (NumeroDetalle <= 1)
+                        {
+
+                            TimeSpan? TiempoEspera = item.HoraInicioCalentamiento == null ? item.HoraInicioViento - Model.ListDetalleCoches.FirstOrDefault().HoraInicio : item.HoraInicioCalentamiento - Model.ListDetalleCoches.FirstOrDefault().HoraInicio;
+                            <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@Model.ListDetalleCoches.FirstOrDefault().Tarjeta</td>
+                            <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@Model.ListDetalleCoches.FirstOrDefault().HoraInicio.ToString("hh:mm")</td>
+                            <td style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@TiempoEspera</td>
+                        }
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.TemperaturaInicial</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.HoraInicioViento.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.HoraCierreViento.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.TemperaturaTermDigital</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle">
+                            <p class="verticalText">@item.HoraInicioLlenado.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.HoraInicioCalentamiento.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.HoraInicioEsterilizacion.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;border-spacing:0px">
+
+                            <table style="width:100%;height:100%;padding-top:0px;padding-bottom:0px;border-spacing:0px">
+                                <tbody style="font-size:0.5rem">
+                                    <tr style="border-bottom:inset">
+                                        <td>INICIO</td>
+
+                                    </tr>
+                                    <tr style="border-bottom:inset">
+                                        <td>MEDIO</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>FINAL</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;border-spacing:0px">
+                            @{
+                                var PanelInicio = (from c in Model.ListTipoEsterilizacion
+                                                   where c.Tipo == "I" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                   select c.Panel).FirstOrDefault();
+                                var PanelMedio = (from c in Model.ListTipoEsterilizacion
+                                                  where c.Tipo == "M" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                  select c.Panel).FirstOrDefault();
+                                var PanelFinal = (from c in Model.ListTipoEsterilizacion
+                                                  where c.Tipo == "F" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                  select c.Panel).FirstOrDefault();
+                            }
+                            <table style="width:100%;height:100%;padding-top:0px;padding-bottom:0px;border-spacing:0px">
+                                <tbody style="font-size:0.5rem">
+                                    <tr style="border-bottom:inset">
+
+                                        <td>@PanelInicio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr style="border-bottom:inset">
+
+                                        <td>@PanelMedio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>@PanelFinal.Value.ToString("N1")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            @{
+                                var ChartInicio = (from c in Model.ListTipoEsterilizacion
+                                                   where c.Tipo == "I" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                   select c.Chart).FirstOrDefault();
+                                var ChartMedio = (from c in Model.ListTipoEsterilizacion
+                                                  where c.Tipo == "M" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                  select c.Chart).FirstOrDefault();
+                                var ChartFinal = (from c in Model.ListTipoEsterilizacion
+                                                  where c.Tipo == "F" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                  select c.Chart).FirstOrDefault();
+                            }
+                            <table class="tabla_sin" style="min-width:100%;height:100%">
+                                <tbody style="font-size:0.5rem">
+                                    <tr style="border-bottom:inset">
+                                        <td>@ChartInicio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr style="border-bottom:inset">
+                                        <td>@ChartMedio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@ChartFinal.Value.ToString("N1")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            @{
+                                var TermometroInicio = (from c in Model.ListTipoEsterilizacion
+                                                        where c.Tipo == "I" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                        select c.TermometroDigital).FirstOrDefault();
+                                var TermometroMedio = (from c in Model.ListTipoEsterilizacion
+                                                       where c.Tipo == "M" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                       select c.TermometroDigital).FirstOrDefault();
+                                var TermometroFinal = (from c in Model.ListTipoEsterilizacion
+                                                       where c.Tipo == "F" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                       select c.TermometroDigital).FirstOrDefault();
+                            }
+                            <table class="tabla_sin" style="min-width:100%;height:100%">
+                                <tbody style="font-size:0.5rem">
+                                    <tr style="border-bottom:inset">
+                                        <td>@TermometroInicio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr style="border-bottom:inset">
+                                        <td>@TermometroMedio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@TermometroFinal.Value.ToString("N1")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            @{
+                                var PresionInicio = (from c in Model.ListTipoEsterilizacion
+                                                     where c.Tipo == "I" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                     select c.PresionManometro).FirstOrDefault();
+                                var PresionMedio = (from c in Model.ListTipoEsterilizacion
+                                                    where c.Tipo == "M" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                    select c.PresionManometro).FirstOrDefault();
+                                var PresionFinal = (from c in Model.ListTipoEsterilizacion
+                                                    where c.Tipo == "F" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                    select c.PresionManometro).FirstOrDefault();
+                            }
+                            <table class="tabla_sin" style="min-width:100%;height:100%">
+                                <tbody style="font-size:0.5rem">
+                                    <tr style="border-bottom:inset">
+                                        <td>@PresionInicio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr style="border-bottom:inset">
+                                        <td>@PresionMedio.Value.ToString("N1")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@PresionFinal.Value.ToString("N1")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.HoraFinalEsterilizacion.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.MinutosTotalesEsterilizado</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.TiempoEnfriamiento.Value.ToString("hh:mm")</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            <p class="verticalText">@item.TemperaturaProductoSalida</p>
+                        </td>
+                        <td rowspan="@NumeroDetalle" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">
+                            @{
+                                var ChequeoInicio = (from c in Model.ListTipoEsterilizacion
+                                                     where c.Tipo == "I" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                     select c.HoraChequeo).FirstOrDefault();
+                                var ChequeoMedio = (from c in Model.ListTipoEsterilizacion
+                                                    where c.Tipo == "M" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                    select c.HoraChequeo).FirstOrDefault();
+                                var ChequeoFinal = (from c in Model.ListTipoEsterilizacion
+                                                    where c.Tipo == "F" && c.IdDetalleControlEsterilizacion == item.IdDetalleControlEsterilizacionConserva
+                                                    select c.HoraChequeo).FirstOrDefault();
+                            }
+                            <table class="tabla_sin" style="min-width:100%;height:100%">
+                                <tbody style="font-size:0.5rem">
+                                    <tr style="border-bottom:inset">
+                                        <td>@ChequeoInicio.Value.ToString("hh:mm")</td>
+                                    </tr>
+                                    <tr style="border-bottom:inset">
+                                        <td>@ChequeoMedio.Value.ToString("hh:mm")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@ChequeoFinal.Value.ToString("hh:mm")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    if (NumeroDetalle > 1)
+                    {
+                        foreach (var item2 in Model.ListDetalleCoches)
+                        {
+                            TimeSpan? TiempoEspera2 = item.HoraInicioCalentamiento == null ? item.HoraInicioViento - item2.HoraInicio : item.HoraInicioCalentamiento -item2.HoraInicio;
+
+                            <tr>
+                                <td class="text-center">@item2.Tarjeta</td>
+                                <td class="text-center">@item2.HoraInicio.ToString("hh:mm")</td>
+                                <td>@TiempoEspera2</td>
+                            </tr>
+                        }
+                    }
+                }
+
+
+            </tbody>
+
+
+        </table>
+        <table id="tbl2">
+            <tbody>
+                <tr style="padding-bottom:0px">
+                    <td width="5%" style="vertical-align:text-bottom;padding-bottom:0px">
+                        Observación:
+                    </td>
+                    <td style="border-bottom:inset;padding-bottom:0px">
+                        @Model.ListDetalleReporte.FirstOrDefault().Observacion
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br /><br /><br />
+        <div class="row texto6" id="divfirma">
+            @*<div class="col-md-4 col-sm-4">
+                    <center><input type="text" readonly value="SUPERVISOR DE AUTOCLAVE" id="firma1" class="EliminarBorde" /></center>
+
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <center><input type="text" readonly value="JEFE DE PRODUCCIÓN" id="firma2" class="EliminarBorde" /></center>
+
+
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <center><input type="text" readonly value="SUPERVISOR DE CONTROL DE CALIDAD" id="firma3" class="EliminarBorde" /></center>
+
+
+                </div>*@
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <center><input type="text" readonly value="SUPERVISOR DE AUTOCLAVE" id="firma1" class="EliminarBorde" /></center>
+                        </td>
+                        <td>
+                            <center><input type="text" readonly value="JEFE DE PRODUCCIÓN" id="firma2" class="EliminarBorde" /></center>
+                        </td>
+                        <td>
+                            <center><input type="text" readonly value="SUPERVISOR DE CONTROL DE CALIDAD" id="firma3" class="EliminarBorde" /></center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            //ancho = document.getElementById('tablap').offsetWidth;
+            ////$('#tbl2').width(ancho);
+            //$('#divfirma').width(ancho);
+            var LenTexto1 = $('#firma1').prop('value').length + 2;
+            $('#firma1').prop('size', LenTexto1);
+            var LenTexto2 = $('#firma2').prop('value').length + 2;
+            $('#firma2').prop('size', LenTexto2);
+            var LenTexto3 = $('#firma3').prop('value').length + 4;
+            $('#firma3').prop('size', LenTexto3);
+        </script>
+    </div>
+}

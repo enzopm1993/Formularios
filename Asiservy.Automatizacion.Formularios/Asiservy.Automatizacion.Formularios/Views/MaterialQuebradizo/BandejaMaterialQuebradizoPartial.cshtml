@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MATERIAL_QUEBRADIZO_CTRL>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
+<table class="table table-bordered table-striped table-hover text-uppercase" id="tblDataTable" style="font-size:12px">
+    <thead>
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACIÓN
+            </th>
+            <th>
+                USUARIO CREACIÓN
+            </th>
+            <th>
+                FECHA CREACIÓN
+            </th>
+            <th>TURNO</th>
+            <th>
+                ESTADO
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.ObservacionCtrl))
+                    {
+                        @item.ObservacionCtrl.ToUpper()
+                    }
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog
+                </td>
+                <td>
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "ControlPesoCodificacionLomosyMigas";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+        color: black;
+        background-color: #fff;
+        border-color: #BDBDBD;
+    }
+
+    .nav-tabs .nav-link {
+        border: 1px solid #E6E6E6;
+        border-top-left-radius: 0.35rem;
+        border-top-right-radius: 0.35rem;
+    }
+</style>
+<h4>Control de peso y codificación de lomos y migas</h4>
+<input type="hidden" id="IdCabControlPeso" value="0" />
+<br />
+<div class="row">
+    <div class="col-md-4 col-sm-6 form-group">
+        <label class="">Fecha Producción:</label>
+        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaCebeceraControl" onchange="CargarCabeceraControl()" class="form-control" />
+
+    </div>
+    <div class="col-md-4 col-sm-6 form-group">
+        <label class="">Turno:</label>
+        <select class="form-control" id="selectTurno" onchange="CargarCabeceraControl()">
+            <option value="1">Turno 1</option>
+            <option value="2">Turno 2</option>
+        </select>
+
+    </div>
+    <div class="col-md-4 col-sm-6 form-group">
+        <label class="">Observación:</label>
+        <textarea id="txtObservacion" class="form-control"></textarea>
+
+    </div>
+    <div class="col-md-4 col-sm-6 form-group">
+        <label class="">Saldo Anterior:</label>
+        <input type="number" id="txtSaldoAnterior" class="form-control" />
+
+    </div>
+    <div class="col-md-4 col-sm-6 form-group">
+        <label class="">Solicitud Proceso:</label>
+        <input type="number" id="txtSolicitudProceso" class="form-control" />
+
+    </div>
+    <div class="col-md-4 col-sm-6 form-group">
+        <label class="">Utilizadas:</label>
+        <input type="number" id="txtUtilizadas" class="form-control" />
+
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class=" col-12 text-center">
+        <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espere...
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="btnAgregarCabeceraControl" onclick="AgregarCabeceraControl()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/add24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarELiminarControl()" style="border-color:#2c3e50" type="button" disabled>
+            <img style="width:100%" src="~/Content/icons/cancel24.png" />
+        </button>
+    </div>
+</div>
+<br />
+<div id="DivCargarDetalles" style="padding-bottom:50px">
+
+</div>
+<!-- Modal confirmación eliminar control -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarControl" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" id="MensajeEliminarControl"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="EliminarControl()">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal confirmación eliminar control -->

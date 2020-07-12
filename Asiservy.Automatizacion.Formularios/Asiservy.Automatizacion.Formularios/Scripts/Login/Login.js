@@ -72,17 +72,22 @@ $("#btnIngresar").on("click", function () {
 
 function ConsultaDB()
 {
-    $("#selectBD").empty();
-    $("#selectBD").append("<option value='' >-- Cambiar de Ambiente--</option>");
+    //$("#selectBD").empty();
+    //$("#selectBD").append("<option value='' >-- Cambiar de Ambiente--</option>");
     $.ajax({
          type: "GET",
         url: "../Login/ConsultarBD",        
         success: function (resultado) {
             BD = resultado;
+            //console.log(resultado);
             if (!$.isEmptyObject(resultado)) {
-                $.each(resultado, function (create, row) {
-                    $("#selectBD").append("<option value='" + row.Descripcion + "'>" + row.Mensaje + "</option>")
-                });
+                $("#EnlaceBase").prop("href",resultado[0].Descripcion);
+                $("#EnlaceBase").text("Ir ambiente de "+resultado[0].Mensaje);
+
+                //$.each(resultado, function (create, row) {
+                //    $("#selectBD").append("<option value='" + row.Descripcion + "'>" + row.Mensaje + "</option>")
+                //});
+
             }
         }
     });

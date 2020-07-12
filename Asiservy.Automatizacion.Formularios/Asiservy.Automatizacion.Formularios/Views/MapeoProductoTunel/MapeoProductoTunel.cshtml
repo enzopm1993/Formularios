@@ -1,0 +1,356 @@
+﻿
+@{
+    ViewBag.Title = "MapeoProductoTunel";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h4>Mapeo de Producto en Tunel</h4>
+@ViewBag.Linea
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarMapeoProductoTunel()" id="txtFecha" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+
+            <label>Turno</label>
+            <select class="form-control" id="selectTurno" onchange="CargarMapeoProductoTunel()">
+                <option value="1">Turno A</option>
+                <option value="2">Turno B</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Orden Fabricación</label>
+            <div class="input-group">
+                @Html.TextBox("txtOrdenFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })
+                <button type="button" onclick="" id="btnOrden">
+                    <img src="~/Content/images/buscar.png" />
+                </button><br />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Lote</label>
+            <select id="SelectLote" class="form-control">
+                <option value="">Seleccione</option>
+            </select>
+        </div>
+    </div>
+    @*<div class="col-md-3 col-6">
+        <div class="form-group">
+            <label>Tipo Limpieza</label>
+            @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>*@
+    <div class="col-md-12 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Observacion</label>
+            <input type="text" size="250" class="form-control" id="txtObservacion" name="name" value="" />
+        </div>
+    </div>
+
+    <div class="col-md-12 col-12 text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="ModalGenerar(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id="divDetalle" hidden>
+    <div class="card shadow">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-1 col-sm-3 col-2">
+                    <div class="form-group">
+                        @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarDaniado" onclick="ModalGenerarDetalle()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-9 col-8 text-left">
+                    <h5>Detalle</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <input type="hidden" id="txtIdControl" name="name" value="0" />
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="chartDetalle" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id="divAcciones" hidden>
+    <div class="col-md-12 col-12  text-md-center text-center">
+        <label class="">Acciones</label>
+        <div class="form-group">
+            <button hidden data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarOrdenFabricacion(this.value)" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarControl" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelDaniado">Esta seguro de Eliminar?</h4>
+
+            </div>
+            <div class="modal-body">
+                <h5 id="pModalControl"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalControl" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Control</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdDetalle" name="name" value="0" />
+                    <div class="col-12 col-sm-12 col-md-2">
+                        <label>Lote</label>
+                        <select id="SelectLote2" class="form-control">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                    @*<div class="col-6 col-sm-12 col-md-6">
+                        <label>Limpieza</label>
+                        @Html.DropDownList("SelectTipoLimpieza2", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                    </div>*@
+                    <div class="col-8 col-sm-6 col-md-8">
+                        <label>Observación</label>
+                        <input type="text" class="form-control" autocomplete="off" id="txtObservacionModal" maxlength="250" name="name" value="" />
+                    </div>
+                    <div class="col-4 col-sm-6 col-md-2">
+                        <label>Fin</label>
+                        <input type="checkbox" class="form-control" id="chkFin" name="name" value="" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="EditarControl()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* DETALLE  *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelDaniado">Esta seguro de Eliminar?</h4>
+
+            </div>
+            <div class="modal-body">
+                <h5 id="pModalDaniado"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-Detalle-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Detalle-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>DETALLE</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/" autocomplete="off">
+                    <div class="row">
+                        <input type="hidden" id="txtIdDetalle" name="name" value="0" />
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Tunel</label>
+                            <input type="number" class="form-control" id="txtTunel" min="0" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Coche</label>
+                            <input type="number" class="form-control" id="txtCoche" min="0" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Producto</label>
+                            <input type="text" class="form-control" id="txtProducto" maxlength="30" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Especie</label>
+                            @Html.DropDownList("selectEspecie", new SelectList(ViewBag.Especies, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-6">
+                            <div class="form-group">
+                                <label>Textura</label>
+                                @Html.DropDownList("SelectTextura", new SelectList(ViewBag.Observaciones, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Fundas</label>
+                            <input type="number" class="form-control" id="txtFundas" min="0" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Inicio</label>
+                            <input type="datetime-local" class="form-control" id="txtHoraInicio" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Fin</label>
+                            <input type="datetime-local" class="form-control" id="txtHoraFin" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Fin Lote</label>
+                            <input type="datetime-local" class="form-control" id="txtHoraFinLote" name="name" value="" />
+
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Total Fundas</label>
+                            <input type="text" class="form-control" id="txtTotalFundas" size="30" name="name" value="" />
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>Tipo Limpieza</label>
+                                @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>Observación</label>
+                                <input type="text" class="form-control" maxlength="250" id="txtObservacion2" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarDetalle()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

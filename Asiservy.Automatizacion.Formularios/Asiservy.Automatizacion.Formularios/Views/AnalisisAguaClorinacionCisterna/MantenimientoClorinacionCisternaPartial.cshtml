@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_AGUA_CLORINACION_MANT>
+@using Newtonsoft.Json;
+
+<table class="table table-light table-striped table-hover" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>NOMBRE</th>
+            <th>DESCRIPCION</th>
+            <th>USUARIO CREACION</th>
+            <th>F. CREACION</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+        </tr>
+    </thead>
+    @{ //Se realiza este filtro para evadir el error del DISPOSE
+        var listaMantCisterna = (from x in Model
+                                 select new
+                                 {
+                                     x.NombreCisterna,
+                                     x.DescripcionCisterna,
+                                     x.EstadoRegistro,
+                                     x.FechaIngresoLog,
+                                     x.FechaModificacionLog,
+                                     x.IdCisterna,
+                                     x.TerminalIngresoLog,
+                                     x.TerminalModificacionLog,
+                                     x.UsuarioIngresoLog,
+                                     x.UsuarioModificacionLog
+                                 });
+    }
+    <tbody style="font-size:11px">
+        @foreach (var item in listaMantCisterna)
+        {
+            <tr>
+                <td>@item.NombreCisterna.ToUpper()</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.DescripcionCisterna))
+                    {
+                        @item.DescripcionCisterna.ToUpper()
+                    }
+                </td>
+                <td>@item.UsuarioIngresoLog.ToUpper()</td>
+                <td>@item.FechaIngresoLog.ToString("dd-MM-yyyy")</td>                
+                <td>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <span class="badge badge-success">ACTIVO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">INACTIVO</span>
+                    }
+                </td>
+
+                <td>
+                    @{
+                        var json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                    }
+                    else
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_DETECTOR_METAL>
+
+
+@{
+    var count = 0;
+}
+
+<tr>
+    @foreach (var item in Model)
+    {
+        <td style="width:50%;height:100%;">
+            @if (item.Imagen != null)
+            {
+                <div class="text-center" id="header_@item.IdOperatividadDetectorMetal" style="background:#DCDCDC;">
+                    <img src="~/ImagenSiaa/@item.Imagen" id="@item.IdOperatividadDetectorMetal" class="card-img-top" alt="...">
+                </div>
+            }
+            @if (item.Imagen != null)
+            {
+                <script>
+                        validarImg('@item.Rotacion','@item.IdOperatividadDetectorMetal','@item.Imagen');
+                </script>
+            }
+            <div class="" style="background:#F0F8FF">
+                <p class="card-text" style="color:black"><b>Novedades del hallazgo: </b> @item.Novedad</p>
+            </div>
+        </td>
+
+       
+
+        count++;
+        if (count == 2)
+        {
+        @:</tr><tr>
+            count = 0;
+        }
+
+    }
+
+</tr>
+
+
+<tr>
+    <td>
+        <p><b>Limite Control:</b> 100% de bandejas de lomos pasadas por el detector de metales.</p>
+    </td>
+    <td>
+        <label><b>CODIGO DETECTOR METALES</b></label>
+        <input type="text" class="form-control" disabled name="name" id="txtCodDetectorMetal" value="" />
+    </td>
+</tr>

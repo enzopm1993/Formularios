@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Agua_Clorinacion>
+@using Newtonsoft.Json;
+
+@{ var listaCisternas = (from v in Model
+                          group v by new { v.IdCisterna, v.Hora } into x
+                          orderby(x.Key.Hora ) descending
+                          select new {x.Key.IdCisterna }).Distinct().ToList();
+}
+@foreach (var tabla in listaCisternas)
+{
+<table class="table table-secondary " style="font-size:12px">
+    <thead>
+        <tr>
+            <th>ANALISTA</th>
+            <th>CISTERNA</th>
+            <th>HORA</th>
+            <th>STD</th>
+            <th>DT</th>
+            <th>CL</th>
+            <th>U. MODIFICACION</th>
+            <th>F. MODIFICACION</th>
+            <th style="text-align:center">ACCIONES</th>
+        </tr>
+    </thead>
+    @{ var listaItem = (Model.Where(x=>x.IdCisterna==tabla.IdCisterna).OrderByDescending(x=> x.IdCisterna));}
+    <tbody style="font-size:11px">
+        @foreach (var item in listaItem)
+        {
+           
+            <tr>
+                <td>
+                    @item.UsuarioIngresoLog.ToUpper()
+                </td>
+                <td>
+                    @item.NombreCisterna.ToUpper()
+                </td>
+                <td>
+                    @item.Hora.ToString("HH:mm")
+                </td>
+                <td>
+                    @item.STD
+                </td>
+                <td>
+
+                    @item.DT
+                </td>
+                <td>
+                    @if (item.CL >= 0.3M && item.CL <= 1.5M)
+                    {
+                        <span class="badge badge-success">@item.CL</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@item.CL</span>
+                    }
+                </td>
+                <td>
+                    @item.UsuarioModificacionLog
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaModificacionLog);}
+                    @if (date != DateTime.MinValue)
+                    {
+                        @date.ToString("dd-MM-yyyy HH:mm")
+                    }
+
+                </td>
+                <td style="text-align:center">
+                    @{
+                        var json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" style="padding-top:0px;" onclick="ActualizarDetalle(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" style="padding-top:0px;" onclick="EliminarConfirmarDetalle(@json)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" style="text-align:right">PROMEDIO</td>
+            <td>
+                @{decimal sdt = listaItem.Where(a => a.STD != null)
+                                  .Select(a => Convert.ToDecimal(a.STD))
+                                  .DefaultIfEmpty(0)
+                                  .Average();}
+                @sdt.ToString("0.00")
+            </td>
+            <td>
+                @{decimal dt = listaItem.Where(a => a.DT != null)
+                                   .Select(a => Convert.ToDecimal(a.DT))
+                                   .DefaultIfEmpty(0)
+                                   .Average();}
+                @dt.ToString("0.00")
+            </td>
+            <td>
+                @{decimal cl = listaItem.Where(a => a.CL != null)
+                                     .Select(a => Convert.ToDecimal(a.CL))
+                                     .DefaultIfEmpty(0)
+                                     .Average();
+                }
+                @if (cl >= 0.3M && cl <= 1.5M)
+                {
+                    <span class="badge badge-success">@cl.ToString("0.00")</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">@cl.ToString("0.00")</span>
+                }
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+}

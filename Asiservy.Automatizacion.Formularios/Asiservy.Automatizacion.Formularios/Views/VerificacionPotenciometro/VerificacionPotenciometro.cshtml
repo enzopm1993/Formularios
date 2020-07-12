@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "VerificacionPotenciometro";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+</style>
+<h4>Verificación de Potenciometro <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+
+
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="card-body">
+        <div class="row" id="divCabecera1">
+            <input type="hidden" id="txtIdCloroAguaAutoclave" name="name" value="0" />
+            <div class="col-md-2 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Modelo</label>
+                    <input type="text" maxlength="50" class="form-control" id="txtModelo" autocomplete="off" min="0" name="name" value="" />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-8 col-sm-6">
+                <div class="form-group">
+                    <label>Serie</label>
+                    <input type="number" class="form-control" autocomplete="off" id="txtSerie" min="0" name="name" value="" />
+                </div>
+            </div>
+            <div class="col-md-2 col-4 col-sm-6">
+                <div class="form-group">
+                    <label>NaCI 1%</label>
+                    <input type="tel" class="form-control" id="txtNaCI1" autocomplete="off" min="0" name="name" value="" />
+                </div>
+            </div>
+            <div class="col-md-2 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>NaCI 2%</label>
+                    <input type="tel" class="form-control" id="txtNaCI2" autocomplete="off" min="0" name="name" value="" />
+                </div>
+            </div>
+            <div class="col-md-2 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>NaCI 3%</label>
+                    <input type="tel" class="form-control" id="txtNaCI3" autocomplete="off" min="0" name="name" value="" />
+                </div>
+            </div>
+            <div class="col-md-12 col-12 col-sm-12">
+                <div class="form-group">
+                    <label class="label-control"> Observacion</label>
+                    <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+  
+    <div class="card-footer">
+
+        <div class="row">
+            <div class="col-md-12 col-12 text-center">
+                <label class="">Acciones</label>
+
+                <div class="form-group">
+                    @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                    <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+
+                    @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                    <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnEditar" onclick="EditarControl()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/edit24.png" />
+                    </button>
+
+                    <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="text-center text-warning">
+    <h4 id="h4Mensaje"></h4>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control de verificación de potenciometro?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

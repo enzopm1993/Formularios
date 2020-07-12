@@ -13,10 +13,18 @@
 <input type="hidden" id="txtValidaEditar" name="name" value="1" />
 @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
 <div class="row">
-    <div class="col-md-4 col-6">
+    <div class="col-6 col-md-3 col-sm-6">
+        <label>Fecha</label>
         <input type="date" id="txtFechaProduccion" class="form-control" name="name" value="@Fecha" onchange="ValidaProyeccion()" />
     </div>
-
+    <div class="col-6 col-md-3 col-sm-6">
+        <label>Turno</label>
+        <select class="form-control" id="selectTurno" onchange="ValidaProyeccion()">
+            <option value="1">Turno A</option>
+            <option value="2">Turno B</option>
+        </select>
+        <p class="text-danger" hidden id="ValidaMarea">Seleccione una marea</p>
+    </div>
 </div>
 <hr />
 <div id="spinnerCargando" hidden class="text-center">

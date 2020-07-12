@@ -20,6 +20,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> CuchilloBlanco { get; set; }
         public Nullable<int> CuchilloRojo { get; set; }
         public Nullable<int> CuchilloNegro { get; set; }
+        public string Linea { get; set; }
+        public string Cargo { get; set; }
         public string EstadoRegistro { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -27,7 +29,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public string Linea { get; set; }
-        public string Cargo { get; set; }
+        public string Turno { get; set; }
     }
 }

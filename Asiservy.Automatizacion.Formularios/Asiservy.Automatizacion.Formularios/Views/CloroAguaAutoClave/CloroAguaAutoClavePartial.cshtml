@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_AGUA_AUTOCLAVE>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+@{
+    CC_CLORO_AGUA_AUTOCLAVE_CONTROL parametro = (CC_CLORO_AGUA_AUTOCLAVE_CONTROL)ViewBag.Parametros;
+    CC_PARAMETRO_CALIDAD parametro2 = (CC_PARAMETRO_CALIDAD)ViewBag.Parametros2;
+
+}
+
+@if (parametro != null)
+{
+    <table class="table table-borderless">
+        <tr>
+            <td class="text-right" style="padding:0px"><label>Nivel min. :@parametro.Minimo ppm</label></td>
+        </tr>
+        <tr>
+            <td class="text-right" style="padding:0px">   <label>Nivel max. :@parametro.Maximo ppm</label></td>
+        </tr>
+    </table>
+}
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autoclave)
+            </th>
+            <th>
+                Conserva
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Temperatura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cloro)
+            </th>
+            <th>
+                Observación
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            CC_CLORO_AGUA_AUTOCLAVE obj = new CC_CLORO_AGUA_AUTOCLAVE
+            {
+                Autoclave = item.Autoclave,
+                Cloro = item.Cloro,
+                EstadoRegistro = item.EstadoRegistro,
+                FechaIngresoLog = item.FechaIngresoLog,
+                Hora = item.Hora,
+                IdCloroAguaAutoclave = item.IdCloroAguaAutoclave,
+                IdCloroAguaAutoclaveControl = item.IdCloroAguaAutoclaveControl,
+                Observacion = item.Observacion,
+                Parada = item.Parada,
+                Producto = item.Producto,
+                Temperatura = item.Temperatura,
+                TipoConserva = item.TipoConserva
+            };
+            <tr onclick="">
+
+
+                <td>
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Parada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autoclave)
+                </td>
+                <td>
+                    @if (item.TipoConserva == "P")
+                    {
+                        @: POUCH
+                    }
+                    else
+                    {
+                        @: LATAS
+                    }
+                </td>
+                <td style="white-space:normal">
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Temperatura)
+                </td>
+                <td>
+                    @if (parametro != null)
+                    {
+                        if (item.Cloro < parametro.Minimo || item.Cloro > parametro.Maximo)
+                        {
+                            @:<span class="badge" style="color:white; background-color:@parametro2.ColorFueraRango"> @item.Cloro</span>
+                        }
+                        else
+                        {
+                            @:<span class="badge" style="color:white; background-color:@parametro2.ColorDentroRango"> @item.Cloro</span>
+                        }
+
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Cloro)
+
+                    }
+                </td>
+                <td style="white-space:normal">
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+                <td>
+                    @{string json = JsonConvert.SerializeObject(obj);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="EditarControl(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarControl(@json)">Eliminar</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

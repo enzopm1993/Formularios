@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.DetalleEvaluacionProductoEnfundadoViewModel>
+@using Newtonsoft.Json;
+
+<table class="table table-striped table-bordered table-hover" id="TableDetalle">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                Empacador/a
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Buque)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Sabor)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Textura)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Olor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Moretones)
+            </th>
+            @*<th>
+                Hematomas profundos
+            </th>*@
+
+            <th>
+                @Html.DisplayNameFor(model => model.Proteinas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trozos)
+            </th>
+            <th>
+                Migas
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Espinas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sangre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Escamas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Piel)
+            </th>
+            <th>
+                Otros
+            </th>
+            <th>
+                Total Individual
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{ 
+            int cont = 0;
+        }
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="ModificarDetalle(@json)" style="cursor:pointer">
+                <td>
+                    @item.Hora.Value.ToString("dd-MM-yyyy HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreEmpacador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Buque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CodSabor)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sabor)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CodTextura)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Textura)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CodColor)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CodOlor)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Olor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Moretones)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.HematomasProfundos)
+                </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CodProteinas)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Proteinas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trozos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Miga)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Venas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Espinas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sangre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Escamas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Piel)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(modelItem => item.Otro)
+                </td>
+                <td class="text-center">
+                    @{ 
+                        int? suma = (item.Venas == null ? 0 : item.Venas) + (item.Espinas == null ? 0 : item.Espinas) + (item.Sangre == null ? 0 : item.Sangre) + (item.Escamas == null ? 0 : item.Escamas) + (item.Piel == null ? 0 : item.Piel) + (item.Otro == null ? 0 : item.Otro);
+                        cont++;
+                        }
+                    <label id="total@(cont)" class="badge badge-pill" style="color:white">@suma</label>
+                    <script>
+                        var suma =@Html.Raw(Json.Encode(suma));
+                   
+                        var contador =@Html.Raw(Json.Encode(cont));
+                        //contador = contador - 1;
+                        //console.log(suma);
+                        //console.log(TotalMaximo);
+                        if (suma > TotalMaximo) {
+                       
+                            $('#total' + contador).css('background-color', GlobalColorFueraRango)
+                        } else {
+                            $('#total' + contador).css('background-color', GlobalColorDentroRango)
+                      
+                        }
+
+                    </script>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>

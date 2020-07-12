@@ -1,0 +1,278 @@
+﻿
+@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.DetalleEvaluacionProductoEnfundadoViewModel>
+
+<div class="row">
+    <div class="col-md-3 col-sm-6" id="divfechaap">
+        <div class="form-group">
+            <label>Fecha Aprobación:</label>
+            <input type="hidden" id="fechacontrol" value="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd HH:mm")" />
+
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="txtfechaaprob" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<input type="hidden" value="@Model.FirstOrDefault().Aprobado.ToString()" id="txtAprobado" />
+<input type="hidden" value="@Model.FirstOrDefault().IdCabecera" id="txtIdCabecera" />
+<table class="table table-striped table-bordered table-hover" id="tblDetalleBandeja">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                Empacador/a
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Buque)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Sabor)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Textura)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Olor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Moretones)
+            </th>
+       
+
+            <th>
+                @Html.DisplayNameFor(model => model.Proteinas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trozos)
+            </th>
+            <th>
+                Migas
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Espinas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sangre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Escamas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Piel)
+            </th>
+            <th>
+                Otros
+            </th>
+            <th>
+                Total individual
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{ 
+            int cont = 0;
+        }
+        @foreach (var item in Model)
+        {
+
+        <tr style="cursor:pointer">
+            <td>
+                @item.Hora.Value.ToString("dd-MM-yyyy HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreEmpacador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buque)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodSabor)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Sabor)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodTextura)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Textura)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodColor)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodOlor)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Olor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Moretones)
+            </td>
+
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodProteinas)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Proteinas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trozos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Miga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Espinas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sangre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Escamas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Piel)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.Otro)
+            </td>
+            <td class="text-center">
+                @{
+                    var sum = (item.Venas==null?0: item.Venas) + (item.Espinas==null?0: item.Espinas) + (item.Sangre==null?0: item.Sangre) + (item.Escamas==null?0: item.Escamas) + (item.Piel==null?0: item.Piel)+(item.Otro==null?0:item.Otro);
+                    cont++;
+                }
+                <label id="total@(cont)" class="badge badge-pill">@sum</label>
+
+                <script>
+                                var suma =@Html.Raw(Json.Encode(sum));
+                                var tdnombre=@Html.Raw(Json.Encode(item.Hora));
+                                var contador =@Html.Raw(Json.Encode(cont));
+                                var Lomo =@Html.Raw(Json.Encode(Model.FirstOrDefault().TLomo));
+                                var Miga =@Html.Raw(Json.Encode(Model.FirstOrDefault().TMiga));
+                                var Trozo =@Html.Raw(Json.Encode(Model.FirstOrDefault().TTrozo));
+                                //console.log(Lomo);
+                                //console.log(Miga);
+
+                                    if (Lomo || Trozo) {
+                                        if (TipoLimpieza == 1) {
+                                            $('#lblparametro').text(ParametrosLomo.Limpieza1.Total);
+
+                                            if (suma > ParametrosLomo.Limpieza1.Total) {
+                                              $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+                                        }
+                                        if (TipoLimpieza == 2) {
+
+                                            if (suma > ParametrosLomo.Limpieza2.Total) {
+                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+                                        }
+                                        if (TipoLimpieza == 3) {
+
+                                            if (suma > ParametrosLomo.Limpieza3.Total) {
+                                                $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                            } else {
+                                                $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                            }
+
+                                        }
+
+                                    } else {
+                                            if (TipoLimpieza == 1) {
+                                                if (suma > ParametrosMiga.Limpieza1.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+
+                                            }
+                                            if (TipoLimpieza == 2) {
+                                                if (suma > ParametrosMiga.Limpieza2.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+                                            }
+                                            if (TipoLimpieza == 3) {
+
+                                                if (suma > ParametrosMiga.Limpieza3.Total) {
+                                                    $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                                                } else {
+                                                    $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                                                }
+                                            }
+
+                                        }
+                        //contador = contador - 1;
+                        //        if (TipoLimpieza == 1)
+                        //{
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza1.Total) {
+                        //        //console.log("assadsd");
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //        if (TipoLimpieza == 2) {
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza2.Total) {
+
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    } else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+                        //        if (TipoLimpieza == 3) {
+
+                        //    if (suma > ParametrosLomosYMigas.Limpieza3.Total) {
+                        //        $('#total' + contador).removeClass('badge-success').addClass('badge-danger');
+                        //    }
+                        //    else {
+                        //        $('#total' + contador).removeClass('badge-danger').addClass('badge-success');
+                        //    }
+                        //}
+
+                </script>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+

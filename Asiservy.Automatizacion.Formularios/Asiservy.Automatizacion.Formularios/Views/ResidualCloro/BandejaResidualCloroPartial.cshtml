@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.RESIDUAL_CLORO_CONTROL>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json
+
+@{ 
+    List<CLASIFICADOR> cla = (List<CLASIFICADOR>)ViewBag.Areas;
+    var poTurno = (List<CLASIFICADOR>)ViewBag.Turno;
+}
+
+<table class="table-hover table-bordered  table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>Turno</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                Estado Reporte
+            </th>
+
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Terminal Ingreso
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(new RESIDUAL_CLORO_CONTROL {
+                IdResidualCloroControl= item.IdResidualCloroControl,
+                 AprobadoPor= item.AprobadoPor,
+                 Area= item.Area,
+                 EstadoReporte= item.EstadoReporte,
+                 Fecha= item.Fecha,
+                 Turno = item.Turno
+            });
+            <tr onclick="SeleccionarBandejaControl(@json)">
+
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @{
+                        var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
+                        if (T != null)
+                        {
+                            @T.Descripcion
+                        }
+                    }
+                </td>
+                <td>
+                    @{ 
+                        var Area = cla.FirstOrDefault(x => x.Codigo == item.Area);
+                    }
+                    @if (Area != null)
+                    {
+                        @Area.Descripcion
+                    }
+                </td>
+                @if (item.EstadoReporte == true)
+                {
+                    <td><span class="badge badge-success">Aprobado</span></td>}
+                else
+                {
+                    <td><span class="badge badge-danger">Pendiente</span></td>}
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

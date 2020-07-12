@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Agua_Clorinacion>
+@using Newtonsoft.Json;
+@{
+    string siOcultar = "";
+    if (ViewBag.siOcultar)
+    {
+        siOcultar = "hidden";
+    }
+    var listaCisternas = (from v in Model
+                          group v by new { v.IdCisterna, v.Hora } into x
+                          orderby (x.Key.IdCisterna)
+                          select new { x.Key.IdCisterna }).Distinct().ToList();
+    //int con = 0;
+}
+@*<div class="row" style="margin-right:0px">*@
+
+    @foreach (var tabla in listaCisternas)
+    {
+        @*<div class="col-md-6">*@
+<table class="table table-striped table-bordered" style="font-size:12px">
+    <thead>
+        <tr>
+            <th>ANALISTA</th>
+            <th>CISTERNA</th>
+            <th>HORA</th>
+            <th>STD</th>
+            <th>DT</th>
+            <th width="80px">CL</th>
+            <th @siOcultar>U. MODIFICACION</th>
+            <th @siOcultar>F. MODIFICACION</th>
+        </tr>
+    </thead>
+    @{ var listaItem = (Model.Where(x => x.IdCisterna == tabla.IdCisterna).OrderByDescending(x => x.IdCisterna));}
+    <tbody style="font-size:11px">
+        @foreach (var item in listaItem)
+        {
+            <tr>
+                <td>
+                    @item.UsuarioIngresoLog.ToUpper()
+                </td>
+                <td>
+                    @item.NombreCisterna.ToUpper()
+                </td>
+                <td>
+                    @item.Hora.ToString("HH:mm")
+                </td>
+                <td>
+                    @item.STD
+                </td>
+                <td>
+                    @item.DT
+                </td>
+                <td>
+                    @if (item.CL >= 0.3M && item.CL <= 1.5M)
+                    {
+                        <span class="badge badge-success">@item.CL</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@item.CL</span>
+                    }
+                </td>
+                <td @siOcultar>
+                    @item.UsuarioModificacionLog
+                </td>
+                <td @siOcultar>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaModificacionLog);}
+                    @if (date != DateTime.MinValue)
+                    {
+                        @date.ToString("dd-MM-yyyy HH:mm")
+                    }
+
+                </td>
+            </tr>
+                        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" style="text-align:right">PROMEDIO</td>
+            <td>
+                @{decimal v = listaItem.Where(a => a.STD != null)
+  .Select(a => Convert.ToDecimal(a.STD))
+  .DefaultIfEmpty(0)
+  .Average();}
+                @v.ToString("0.00")
+            </td>
+            <td>
+                @{decimal dt = listaItem.Where(a => a.DT != null)
+  .Select(a => Convert.ToDecimal(a.DT))
+  .DefaultIfEmpty(0)
+  .Average();}
+                @dt.ToString("0.00")
+            </td>
+            <td>
+                @{decimal cl = listaItem.Where(a => a.CL != null)
+                                                                           .Select(a => Convert.ToDecimal(a.CL))
+                                                                           .DefaultIfEmpty(0)
+                                                                           .Average();
+                }
+                @if (cl >= 0.3M && cl <= 1.5M)
+                {
+                    <span class="badge badge-success">@cl.ToString("0.00")</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">@cl.ToString("0.00")</span>
+                }
+            </td>
+            <td @siOcultar></td>
+            <td @siOcultar></td>
+        </tr>
+    </tfoot>
+</table>
+}
+
+

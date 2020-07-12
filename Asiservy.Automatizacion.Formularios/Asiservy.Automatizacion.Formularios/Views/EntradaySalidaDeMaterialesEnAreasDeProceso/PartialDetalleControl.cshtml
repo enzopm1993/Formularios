@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.EntradaYSalidaDeMateriales.EntradaSalidaMaterialDetalleViewModel>
+
+@using Newtonsoft.Json
+
+<table class="table table-striped table-bordered table-hover" id="TableDetalle">
+    <thead>
+        <tr>
+
+            <th>
+                Material
+            </th>
+            <th>
+                Cantidad de materiales Ingreso
+            </th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(new
+            {
+                item.IdDetalleEntradaSalidaMateriales,
+                item.IdCabeceraEntradaSalidaMaterial,
+                item.Ingreso,
+                item.Material,
+                item.MaterialNombre
+            });
+            <tr style="cursor:pointer" onclick="VerSubDetalle(@json)">
+
+                <td>
+                    @item.MaterialNombre
+                </td>
+                <td>
+                    @item.Ingreso
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>

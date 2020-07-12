@@ -1,0 +1,239 @@
+﻿@using System.Text;
+@{
+    ViewBag.Title = "BandejaEvaluacionLomoMigaBandeja";
+}
+<style>
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+    
+    /*canvas {
+        border: 1px solid black;
+    }
+
+    #ImgFirma {
+        border: 1px solid black;
+    }*/
+</style>
+<h4>Bandeja de evaluación de lomos y migas en bandejas</h4>
+
+<div class="row" id="DivFiltros">
+    <div class="col-md-2 col-sm-6 form-group">
+        <label>Estado del Registro</label>
+        <select id="cmbEstadoControl" class="form-control" onchange="CargarBandeja()">
+            <option value="false" default>PENDIENTE</option>
+            <option value="true">APROBADO</option>
+        </select>
+    </div>
+
+    <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker" hidden>
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="" />
+        <input type="hidden" id="fechaHasta" value="" />
+        <div id="reportrange" class="selectbox">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+        </div>
+    </div>
+
+    <div class="col-5">
+        <label>Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarBandeja()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<center> <h4 id="MensajeRegistros" style="display:none" class="text-warning">No se encontraron registros</h4> </center>
+
+<div id="DivEvaluacionLomosMigas" class="table-responsive">
+
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" id="btnclose">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+
+            <div class="modal-body table-responsive">
+                <div id="divconfirm" hidden>
+                </div>
+
+                <div id="DivDetalle">
+
+                </div>
+                @*<div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#fotoprod" id="fotoprodtab">Foto código de producto</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#foto1" id="foto1tab">Producto foto 1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#foto2" id="foto2tab">Producto foto 2</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#foto3" id="foto3tab">Producto foto 3</a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content" id="divtabfotos">
+                                    <div class="tab-pane container-fluid active" id="fotoprod">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12">
+
+                                                <br />
+                                                <div class="text-center" style="justify-content:center">
+                                                    <div id="file-preview-zone1" style="height:auto">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container-fluid fade" id="foto1">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12">
+
+                                                <br />
+                                                <div class="text-center" style="justify-content:center">
+                                                    <div id="file-preview-zone2" style="height:auto">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container-fluid fade" id="foto2">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12">
+
+                                                <br />
+                                                <div class="text-center" style="justify-content:center">
+                                                    <div id="file-preview-zone3" style="height:auto">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container-fluid fade" id="foto3">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12">
+
+                                                <br />
+                                                <div class="text-center" style="justify-content:center">
+                                                    <div id="file-preview-zone4" style="height:auto">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            @*<br />
+                <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+                    <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
+
+                    <div>
+                        <canvas width=400 height=200 id="firmacanvas"></canvas>
+                    </div>
+
+                </div>
+                <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
+
+
+                    <img id="ImgFirma" width="400" height="200" src="" />
+
+                </div>*@
+            <div class="text-center"><h5 id="titfoto">Fotos</h5></div>
+            <div class="table-responsive">
+                <div id="spinnerCargandoDetalle2" hidden class="text-center">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+                <div id="divdetfotosbandeja" style="height:300px;overflow:auto">
+                    <center>
+                        <table class="table table-bordered">
+                            <tbody id="divTableDetalle2"></tbody>
+                        </table>
+                    </center>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-primary" id="btnAprobar" onclick="ConfirmarAprobar()">Aprobar</button>*@
+                <button type="button" class="btn btn-primary" id="btnAprobar" onclick="AprobarControl()">Aprobar</button>
+
+                @*<button type="button" class="btn btn-primary" id="btnReversar" onclick="ConfirmarReversar()" hidden>Reversar</button>*@
+                <button type="button" class="btn btn-primary" id="btnReversar" onclick="ReversarControl()" hidden>Reversar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncerrar">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*modal aprobar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalAprobar" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea aprobar el control?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="AprobarControl()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal Reversar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalReversar" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea reversar el control?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="ReversarControl()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

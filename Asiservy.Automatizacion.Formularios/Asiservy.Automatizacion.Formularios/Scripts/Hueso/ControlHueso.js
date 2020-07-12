@@ -164,8 +164,9 @@ function SeleccionControlHueso(model) {
 
     //$('#txtFechaProduccion').val(model.Fecha);
     $('#txtIdControlHueso').val(model.IdControlHueso);
-    $('#txtHoraInicio').val(model.HoraInicio);
-    $('#txtHoraFin').val(model.HoraFin);
+    //alert(moment(model.HoraInicio).format("YYYY-MM-DDThh:mm"));
+    $('#txtHoraInicio').val(moment(model.HoraInicio).format("YYYY-MM-DDThh:mm"));
+    $('#txtHoraFin').val(moment(model.HoraFin).format("YYYY-MM-DDThh:mm"));
     $('#SelectTipoControl').val(model.CodTipoControl);
     $('#txtObservacion').val(model.Observacion);
     $('#txtPiezas').val(model.TotalPieza);
@@ -241,7 +242,7 @@ function CargarControlHuesoDetalle(id) {
 }
 function CargarControlHueso() {
     //console.log($("#txtFechaProduccion").val());
-    if ($("#txtFechaProduccion").val() == '' || $("#txtFechaProduccion").val() == null)
+    if ($("#txtFechaProduccion").val() == '' || $("#txtFechaProduccion").val() == null || $("#selectTurno").val() == '')
         return;
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableControlHueso').html('');
@@ -250,7 +251,8 @@ function CargarControlHueso() {
         url: "../Hueso/ControlHuesoPartialCabecera",
         type: "GET",
         data: {
-            Fecha: $("#txtFechaProduccion").val()
+            Fecha: $("#txtFechaProduccion").val(),
+            Turno: $("#selectTurno").val()
         },
     
         success: function (resultado) {
@@ -316,6 +318,29 @@ function GenerarControlHueso() {
         MensajeAdvertencia("Ingrese rango de horas");
         return;
     }
+
+    if (horaInicio == '' || horaFin == '') {
+        MensajeAdvertencia("Ingrese rango de horas");
+        return;
+    }
+    var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
+    var fecha2 = moment($("#txtHoraInicio").val()).format('YYYY-MM-DD');
+    var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
+    if (fecha2 > fecha1) {
+        MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
+        return;
+    }
+
+    if (fecha2 < fecha3) {
+        MensajeAdvertencia("No puede ingresar una hora de inicio menor a: " + fecha3);
+        return;
+    }
+
+    if (moment($("#txtHoraFin").val()) < moment($("#txtHoraInicio").val())) {
+        MensajeAdvertencia("No puede ingresar una hora de fin menor a: " + moment($("#txtHoraInicio").val()).format("YYYY-MM-DD HH:mm"));
+        return;
+    }
+
     if ($('#selectLimpieza').val() == '0') {
         MensajeAdvertencia("Seleccione un tipo de limpieza");
         return;
@@ -329,7 +354,7 @@ function GenerarControlHueso() {
     $('#btnGenerar').prop("disabled", true);     
     $.ajax({
         url: "../Hueso/GenerarControlHueso",
-        type: "GET",
+        type: "POST",
         data: {
             Linea: $('#txtLinea').val(),
             Lote: lote,
@@ -341,7 +366,8 @@ function GenerarControlHueso() {
             TotalLimpiadoras: $('#txtLimpiadoras').val(),
             OrdenFabricacion: $('#SelectOrdenFabricacion').val(),
             Fecha: $('#txtFechaProduccion').val(),
-            Limpieza: $('#selectLimpieza').val()
+            Limpieza: $('#selectLimpieza').val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

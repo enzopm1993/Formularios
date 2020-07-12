@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDAsistencia ClsdAsistencia = null;
         ClsDMoverPersonal clsdMoverPersonal=null;
+        ClsNomina ClsNomina = new ClsNomina();
         string[] lsUsuario;
 
         protected void SetErrorMessage(string message)
@@ -31,6 +32,202 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             TempData["MensajeError"] = message;
         }
 
+
+        public ActionResult RptAsistenciaInicialActuales()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.Pivot = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.Apexcharts = "1";
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult DatosPersonales()
+        {
+            try
+            {
+                //lsUsuario = User.Identity.Name.Split('_');
+                //var client = new RestClient(clsAtributos.BASE_URL_WS);
+                //var request = new RestRequest("/api/Empleado/"+ lsUsuario[1], Method.GET);
+                //IRestResponse response = client.Execute(request);
+                //var content = response.Content;
+                //ClsEmpleado retornar = JsonConvert.DeserializeObject<ClsEmpleado>(content);
+                //DatosEmpleadosViewModel datosEmpleadosViewModel = new DatosEmpleadosViewModel();
+                //datosEmpleadosViewModel.DatosEmpleado = retornar;
+                //request = new RestRequest("/api/Empleado/CambioDatosPendientes/" + lsUsuario[1], Method.GET);
+                //response = client.Execute(request);
+                //content = response.Content;
+                //var idPendiente = JsonConvert.DeserializeObject<Int32>(content);
+                //if (idPendiente > 0)
+                //{
+                //    datosEmpleadosViewModel.idSolicitud = idPendiente;
+                //    datosEmpleadosViewModel.MensajeMuestra = "Existe una solicitud pendiente de revisión, no es posible actualizar los datos en este momento. Anule la solicitud pendiente para enviar una nueva o bien espere hasta que el área encargada valide su solicitud de actualización de datos.";
+                //}
+                //ViewBag.Title = "Datos personales";
+                //ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                //return View(datosEmpleadosViewModel);
+                ViewBag.dataTableJS = "1";
+
+                List<ModelViewDatosEmpleados> modelViewDatosEmpleados = new List<ModelViewDatosEmpleados>();
+                modelViewDatosEmpleados = ClsNomina.ListaEmpleadosDatosPersonales();
+                               
+                ViewBag.Title = "Datos personales";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View(modelViewDatosEmpleados);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ActualizaDatosEmpleadoDataLife(ParamDatosEmpleadoDataLife parametros)
+        {
+
+            ClsKeyValue obReturn = new ClsKeyValue();
+            try
+            {
+                List<ModelViewDatosEmpleados> modelViewDatosEmpleados = new List<ModelViewDatosEmpleados>();
+                modelViewDatosEmpleados = ClsNomina.ListaEmpleadosDatosPersonales();
+
+                ModelViewDatosEmpleados datosEmpleadoOld = modelViewDatosEmpleados.Where(c => c.CODTRA == parametros.codigo_data).FirstOrDefault();
+
+                using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
+                {
+
+                    if (string.IsNullOrEmpty(parametros.direccion))
+                    {
+                        parametros.direccion = "*";
+                    }
+                    if (string.IsNullOrEmpty(parametros.barrio))
+                    {
+                        parametros.barrio = "*";
+                    }
+                    if (string.IsNullOrEmpty(parametros.telefono))
+                    {
+                        parametros.telefono = "*";
+                    }
+                    if (string.IsNullOrEmpty(parametros.celular))
+                    {
+                        parametros.celular = "*";
+                    }
+                    if (string.IsNullOrEmpty(parametros.correoPersonal))
+                    {
+                        parametros.correoPersonal = "*";
+                    }
+                    var content = servicio.actualizarDatosEmpleados(parametros.cedula, "1", parametros.direccion, parametros.barrio, parametros.telefono, parametros.celular, parametros.correoPersonal);
+                    var dt = content.Tables[0];
+                    var codigoReturn = dt.Rows[0]["iRetCode"].ToString();
+                    var msgReturn = dt.Rows[0]["sErrMsg"].ToString();
+                   
+                    if (codigoReturn == "0")
+                    {
+                        ModelViewDatosEmpleados datosEmpleadosLog = new ModelViewDatosEmpleados();
+                        datosEmpleadosLog.CODTRA = parametros.cedula;
+                        datosEmpleadosLog.DIRECCION = string.Empty;
+                        datosEmpleadosLog.BARRIO = string.Empty;
+                        datosEmpleadosLog.TELEFONO = string.Empty;
+                        datosEmpleadosLog.CELULAR = string.Empty;
+                        datosEmpleadosLog.CORREO = string.Empty;
+
+                        if (datosEmpleadoOld.DIRECCION.Trim() != parametros.direccion.Trim())
+                        {
+                            datosEmpleadosLog.DIRECCION = parametros.direccion;
+                        }
+                        if (datosEmpleadoOld.BARRIO.Trim() != parametros.barrio.Trim())
+                        {
+                            datosEmpleadosLog.BARRIO = parametros.barrio;
+                        }
+                        if (datosEmpleadoOld.TELEFONO.Trim() != parametros.telefono.Trim())
+                        {
+                            datosEmpleadosLog.TELEFONO = parametros.telefono;
+                        }
+                        if (datosEmpleadoOld.CELULAR.Trim() != parametros.celular.Trim())
+                        {
+                            datosEmpleadosLog.CELULAR = parametros.celular;
+                        }
+                        if (datosEmpleadoOld.CORREO.Trim() != parametros.correoPersonal.Trim())
+                        {
+                            datosEmpleadosLog.CORREO = parametros.correoPersonal;
+                        }
+                        lsUsuario = User.Identity.Name.Split('_');
+                        var respLog = ClsNomina.insertarLogCambio(datosEmpleadosLog, lsUsuario[0], Request.UserHostAddress);                        
+                        obReturn.Descripcion = "Registro actualizado";
+                        obReturn.Codigo = "1";
+                    }
+                    else
+                    {
+                        obReturn.Codigo = "0";
+                        obReturn.Descripcion = msgReturn;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                obReturn.Descripcion = ex.Message;
+                obReturn.Codigo = "0";
+            }
+
+            return Json(obReturn, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ActualizaInformacionDataLife(ParamCambioDatos parametros)
+        {
+            parametros.compania = "1";
+            ClsKeyValue obReturn = new ClsKeyValue();
+            using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
+            {
+                var content = servicio.actualizarDatosEmpleados(parametros.cedula, parametros.compania, parametros.direccion, parametros.barrio, parametros.telefono, parametros.celular, parametros.correoPersonal);
+                var dt = content.Tables[0];
+                var codigoReturn = dt.Rows[0]["iRetCode"].ToString();
+                var msgReturn = dt.Rows[0]["sErrMsg"].ToString();
+                obReturn.Descripcion = msgReturn;
+                obReturn.Codigo = codigoReturn;
+                if (codigoReturn == "0")
+                {
+                    var client = new RestClient(clsAtributos.BASE_URL_WS);
+                    var request = new RestRequest("/api/Admin/ActualizaEstadoSolicitud", Method.POST);
+                    request.AddParameter("id", parametros.id_solicitud);
+                    request.AddParameter("estado", "A");
+                    request.AddParameter("observacion", "");
+                    request.AddParameter("username", parametros.username);
+                    request.AddParameter("tipo", "datos");
+                    IRestResponse response = client.Execute(request);
+                    var content2 = response.Content;
+                    var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content2);
+                    obReturn.Codigo = "1";
+                }
+                else
+                {
+                    obReturn.Codigo = "0";
+                    obReturn.Descripcion = msgReturn;
+                }
+                return Json(obReturn, JsonRequestBehavior.AllowGet);
+            }
+
+        }
         public ActionResult EmpleadosClientes()
         {
             try
@@ -58,6 +255,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Apexcharts = "1";
                 ViewBag.Handsontable = "1";
                 ViewBag.DateRangePicker = "1";
+                ViewBag.Pivot = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 ModeloVistaAsistencia dataView = new ModeloVistaAsistencia();
@@ -70,7 +268,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var content = response.Content;
                 var datos = JsonConvert.DeserializeObject<List<ClsKeyValue>>(content);
 
-                dataView.ListaEmpresas = datos;
+                clsDLogin clsDLogin  = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
+                int piRolOC = 0;
+                if (roles.Any())
+                {
+                    piRolOC = roles.FirstOrDefault(x => x.Value == clsAtributos.RolControlOC) ?? 0;
+                }
+                List<ClsKeyValue> resu = new List<ClsKeyValue>();
+                if (piRolOC == 0)
+                {
+                    resu = datos.Where(c => c.Codigo == "2").ToList();
+                }else
+                {
+                    resu = datos;
+                }
+
+
+                dataView.ListaEmpresas = resu;
                 return View(dataView);
             }
             catch (Exception ex)
@@ -140,42 +356,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return Json(datos, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult ActualizaInformacionDataLife(ParamCambioDatos parametros)
-        {
-            parametros.compania = "1";
-            ClsKeyValue obReturn = new ClsKeyValue();
-            using ( DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
-            {
-                var content = servicio.actualizarDatosEmpleados(parametros.cedula, parametros.compania, parametros.direccion, parametros.barrio, parametros.telefono, parametros.celular, parametros.correoPersonal);
-                var dt = content.Tables[0];
-                var codigoReturn = dt.Rows[0]["iRetCode"].ToString();
-                var msgReturn = dt.Rows[0]["sErrMsg"].ToString();
-                obReturn.Descripcion = msgReturn;
-                obReturn.Codigo = codigoReturn;
-                if (codigoReturn =="0")
-                {
-                    var client = new RestClient(clsAtributos.BASE_URL_WS);
-                    var request = new RestRequest("/api/Admin/ActualizaEstadoSolicitud", Method.POST);
-                    request.AddParameter("id", parametros.id_solicitud);
-                    request.AddParameter("estado", "A");
-                    request.AddParameter("observacion", "");
-                    request.AddParameter("username", parametros.username);
-                    request.AddParameter("tipo", "datos");
-                    IRestResponse response = client.Execute(request);
-                    var content2 = response.Content;
-                    var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content2);
-                    obReturn.Codigo = "1";                  
-                }
-                else
-                {
-                    obReturn.Codigo = "0";
-                    obReturn.Descripcion = msgReturn;
-                }
-                return Json(obReturn, JsonRequestBehavior.AllowGet);
-            }          
-          
-        }
+       
 
 
 
@@ -263,6 +444,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 resultadoJS.TotalAusentes = datos.Where(c => c.AUSENTE).Count();
                 resultadoJS.TotalConPermiso = datos.Where(c => c.AUSENTE && c.CON_PERMISO).Count();
                 resultadoJS.TotalSinPermiso = datos.Where(c => c.AUSENTE && !c.CON_PERMISO).Count();
+                                         
+
 
 
                 JsonResult result = Json(resultadoJS, JsonRequestBehavior.AllowGet);
@@ -276,6 +459,48 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
            
         }
+        [HttpGet]
+        public JsonResult GenerarAsistenciaInicialVsActual(string fechaIni, string fechaFin)
+        {
+            try
+            {
+                
+                ClsNomina clsNomina = new ClsNomina();
+
+                List<ModeloVistaPersonalPresente> modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
+
+
+                ModeloVistaRetornaAsistencia objRetorna = new ModeloVistaRetornaAsistencia();
+                objRetorna.modeloVistaPersonalPresentes = modeloVistaTablasPersonalPresente;
+
+
+                List<ModeloVistaPersonalPresenteBiometrico> modeloVistaTablasPersonalPresenteBiometrico = clsNomina.ObtenerAsistenciaBiomentrico(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
+                objRetorna.modeloVistaPersonalPresentesBiometrico = modeloVistaTablasPersonalPresenteBiometrico;
+
+
+                var resultLineasAsistentesTotales = modeloVistaTablasPersonalPresenteBiometrico.Where(c=>c.TIPO_PROCESO == "PRODUCCIÓN")
+                   .GroupBy(x => x.LINEA)                  
+                   .Select(g => new ClsKpiLineasASistentes
+                   {
+                       Linea = g.Key,
+                       Presentes = g.Sum(x => x.ESTADO_ASISTENCIA == "PRESENTE" ? 1 : 0),
+                       Ausentes = g.Sum(x => x.ESTADO_ASISTENCIA == "AUSENTE" ? 1 : 0),
+
+                   }).ToList();
+                objRetorna.LineasAsistentesTotales = resultLineasAsistentesTotales;
+
+                JsonResult result = Json(objRetorna, JsonRequestBehavior.AllowGet);
+
+                result.MaxJsonLength = 50000000;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
 
         public ActionResult ListaEmpleadosPartial()
         {
@@ -287,7 +512,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 IRestResponse response = client.Execute(request);
                 var content = response.Content;
                 var ListaEmpleados = JsonConvert.DeserializeObject<List<clsEmpleadoCliente>>(content);
-                return PartialView(ListaEmpleados);
+                var listFiltrada = ListaEmpleados.Where(c => !c.EXISTE_SAP).ToList();
+                return PartialView(listFiltrada);
 
             }
             catch (DbEntityValidationException e)
@@ -461,6 +687,151 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+
+
+        [HttpPost]
+        public ActionResult EnviaSolicitudCambioDeDatos(ParamCambioDatos datosEmpleado)
+        {
+
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            var request = new RestRequest("/api/Empleado/CambiarDatos", Method.POST);
+            request.AddParameter("username", datosEmpleado.username);
+            request.AddParameter("cedula", datosEmpleado.cedula);
+            request.AddParameter("direccion", datosEmpleado.direccion);
+            request.AddParameter("barrio", datosEmpleado.barrio);
+            request.AddParameter("telefono", datosEmpleado.telefono);
+            request.AddParameter("celular", datosEmpleado.celular);
+            request.AddParameter("correo", datosEmpleado.correoPersonal);
+
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content);
+            return Json(datos, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ProcesarEnvioEmpleados(parametrosEnvioSAP ParametrosEnvio)
+        {
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+            ServicePointManager.Expect100Continue = true;
+            var client = new RestClient("https://192.168.0.30:50000");
+            var request = new RestRequest("/b1s/v1/Login", Method.POST);
+            request.AddHeader("Content-Type", "application/json;odata=minimalmetadata;charset=utf-8");
+
+            EnvioSapLogin obLogin = new EnvioSapLogin();
+            obLogin.CompanyDB = "SBO_ASISERVY_PROD";
+            obLogin.UserName = "gintriago";
+            obLogin.Password = "Agia1991*";
+            request.AddJsonBody(obLogin);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+
+            ReturnProcesoEnvioSAP returnSapLogin = new ReturnProcesoEnvioSAP();
+            dynamic respResponse = JsonConvert.DeserializeObject(content);
+            if (HttpStatusCode.OK == response.StatusCode)
+            {
+
+                string SessionId = respResponse.SessionId;
+               
+                List<string> listaCedulas = ParametrosEnvio.Cedulas.Split(',').ToList();
+
+                ClsNomina clsNomina = new ClsNomina();
+                EnvioClienteSAP obJsonCliente;
+                foreach (string _cedula in listaCedulas)
+                {
+
+                    var datosEmpleado = clsNomina.ObtenerInfoEmpleadoParaSAP(_cedula);
+                    obJsonCliente = new EnvioClienteSAP();
+
+                    obJsonCliente.CardCode = datosEmpleado.CardCode;
+                    obJsonCliente.CardName = datosEmpleado.CardName;
+                    obJsonCliente.CardType = datosEmpleado.CardType;
+                    obJsonCliente.GroupCode = Convert.ToInt32(datosEmpleado.GroupCode);
+                    obJsonCliente.FederalTaxID = datosEmpleado.FederalTaxID;
+                    obJsonCliente.Currency = datosEmpleado.Currency;
+                    obJsonCliente.Phone1 = datosEmpleado.Phone1;
+                    obJsonCliente.Cellular = datosEmpleado.Cellular;
+                    obJsonCliente.MailAddress = datosEmpleado.MailAddress;
+                    obJsonCliente.EmailAddress = datosEmpleado.EmailAddress;
+                    obJsonCliente.ContactPerson = datosEmpleado.ContactPerson;
+                    obJsonCliente.SalesPersonCode = datosEmpleado.SalesPersonCode;
+                    obJsonCliente.DebitorAccount = datosEmpleado.DebitorAccount;
+                    obJsonCliente.Properties13 = datosEmpleado.Properties13;
+                    obJsonCliente.U_SYP_BPTD = datosEmpleado.U_SYP_BPTD;
+                    obJsonCliente.U_SYP_PARTREL = datosEmpleado.U_SYP_PARTREL;
+                    obJsonCliente.U_SYP_TIPPROV = datosEmpleado.U_SYP_TIPPROV;
+                    obJsonCliente.U_SYP_CONTABILIDAD = datosEmpleado.U_SYP_CONTABILIDAD;
+                    obJsonCliente.U_SYP_TCONTRIB = datosEmpleado.U_SYP_TCONTRIB;
+                    obJsonCliente.U_SYP_FPAGO = datosEmpleado.U_SYP_FPAGO;
+                    obJsonCliente.U_SYP_TIPOPAGO = datosEmpleado.U_SYP_TIPOPAGO;
+                    obJsonCliente.U_SYP_TIPOREGI = datosEmpleado.U_SYP_TIPOREGI;
+                    obJsonCliente.U_SYP_PAISPAGOGEN = datosEmpleado.U_SYP_PAISPAGOGEN;
+                    obJsonCliente.U_SYP_PAISPAGO = datosEmpleado.U_SYP_PAISPAGO;
+                    obJsonCliente.U_SYP_BPNO = datosEmpleado.U_SYP_BPNO;
+                    obJsonCliente.U_SYP_BPN2 = datosEmpleado.U_SYP_BPN2;
+                    obJsonCliente.U_SYP_BPAP = datosEmpleado.U_SYP_BPAP;
+                    obJsonCliente.U_SYP_BPAM = datosEmpleado.U_SYP_BPAM;
+                    obJsonCliente.U_SYP_FNACIM = datosEmpleado.U_SYP_FNACIM;
+                    obJsonCliente.U_SYP_GENERO = datosEmpleado.U_SYP_GENERO;
+                    obJsonCliente.U_SYP_EST_CIVIL = datosEmpleado.U_SYP_EST_CIVIL;
+                    obJsonCliente.U_SYP_ORIGEN_INGRESO = datosEmpleado.U_SYP_ORIGEN_INGRESO;
+                    obJsonCliente.U_SYP_ADTPAGO = datosEmpleado.U_SYP_ADTPAGO;
+                    obJsonCliente.U_SYP_PESRET = datosEmpleado.U_SYP_PESRET;
+                    obJsonCliente.U_SYP_BPAT = datosEmpleado.U_SYP_BPAT;
+                    obJsonCliente.U_SYP_BROKER = datosEmpleado.U_SYP_BROKER;
+                    obJsonCliente.U_SYP_COMI_BROKER = Convert.ToDecimal(datosEmpleado.U_SYP_COMI_BROKER);
+                    obJsonCliente.U_SYP_TIPBROKER = datosEmpleado.U_SYP_TIPBROKER;
+                    List<ClienteContactEmployees>  ContactEmployees = new List<ClienteContactEmployees>();
+                    ContactEmployees.Add(new ClienteContactEmployees
+                    {
+                        CardCode = datosEmpleado.CardCode, Name = "DOCELECTRONICOS" , E_Mail = datosEmpleado.EmailAddress
+                    });
+                    obJsonCliente.ContactEmployees = ContactEmployees;
+
+                    var requestEmp = new RestRequest("/b1s/v1/BusinessPartners", Method.POST);
+                    requestEmp.AddHeader("Content-Type", "application/json;odata=minimalmetadata;charset=utf-8");
+                    requestEmp.AddHeader("Authorization", "Bearer " + SessionId);
+                    requestEmp.AddCookie("B1SESSION", SessionId);
+                    requestEmp.AddJsonBody(obJsonCliente);
+                    IRestResponse responseEmp = client.Execute(requestEmp);
+                    var contentEmp = responseEmp.Content;
+                    dynamic respResponseEmp = JsonConvert.DeserializeObject(content);
+
+                    if (responseEmp.StatusCode != HttpStatusCode.Created)
+                    {
+                        returnSapLogin.Estado = -1;
+                        returnSapLogin.StatusCodeDescription = "No se terminó de procesar el envío por un problema interno con el registro: "+ datosEmpleado.FederalTaxID + " - " + datosEmpleado.CardName + ", intente nuevamente";
+                        break;
+                    }
+                    else
+                    {
+                        returnSapLogin.StatusCodeDescription = "Proceso completado con éxito";
+                    }
+                    //statusCode = Created
+                }
+
+
+                var requestLogout = new RestRequest("/b1s/v1/Logout", Method.POST);
+                requestLogout.AddCookie("B1SESSION", SessionId);
+                IRestResponse responseLogout = client.Execute(requestLogout);
+                
+            }
+            else if (HttpStatusCode.Unauthorized == response.StatusCode)
+            {
+                returnSapLogin.Estado = 0;
+                returnSapLogin.StatusCodeDescription = respResponse.error.message.value;
+            }
+            else 
+            {
+                returnSapLogin.Estado = -1;
+                returnSapLogin.StatusCodeDescription = response.StatusDescription;
+            }
+            
+
+            return Json(returnSapLogin);
+
+        }
     }
 
     public class Respuesta
@@ -554,5 +925,82 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string DIA_FIN_PERMISO { get; set; }
         public string HORA_INICIA_PERMISO { get; set; }
         public string HORA_FIN_PERMISO { get; set; }
+    }
+
+    class EnvioSapLogin
+    {        
+        public string CompanyDB { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+    class ReturnProcesoEnvioSAP
+    {
+        public int Estado { get; set; }
+        public string StatusCodeDescription { get; set; }
+        public string Mensaje { get; set; }
+    }
+
+    public class parametrosEnvioSAP
+    {
+        public string Cedulas { get; set; }
+    }
+    public class EnvioClienteSAP {
+        public string CardCode { get; set; }
+        public string CardName { get; set; }
+        public string CardType { get; set; }
+        public int GroupCode { get; set; }
+        public string FederalTaxID { get; set; }
+        public string Currency { get; set; }
+        public string Phone1 { get; set; }
+        public string Cellular { get; set; }
+        public string MailAddress { get; set; }
+        public string EmailAddress { get; set; }
+        public string ContactPerson { get; set; }
+        public string SalesPersonCode { get; set; }
+        public string DebitorAccount { get; set; }
+        public string Properties13 { get; set; }
+        public string U_SYP_BPTD { get; set; }
+        public string U_SYP_PARTREL { get; set; }
+        public string U_SYP_TIPPROV { get; set; }
+        public string U_SYP_CONTABILIDAD { get; set; }
+        public string U_SYP_TCONTRIB { get; set; }
+        public string U_SYP_FPAGO { get; set; }
+        public string U_SYP_TIPOPAGO { get; set; }
+        public string U_SYP_TIPOREGI { get; set; }
+        public string U_SYP_PAISPAGOGEN { get; set; }
+        public string U_SYP_PAISPAGO { get; set; }
+        public string U_SYP_BPNO { get; set; }
+        public string U_SYP_BPN2 { get; set; }
+        public string U_SYP_BPAP { get; set; }
+        public string U_SYP_BPAM { get; set; }
+        public string U_SYP_FNACIM { get; set; }
+        public string U_SYP_GENERO { get; set; }
+        public string U_SYP_EST_CIVIL { get; set; }
+        public string U_SYP_ORIGEN_INGRESO { get; set; }
+        public string U_SYP_ADTPAGO { get; set; }
+        public string U_SYP_PESRET { get; set; }
+        public string U_SYP_BPAT { get; set; }
+        public string U_SYP_BROKER { get; set; }
+        public decimal U_SYP_COMI_BROKER { get; set; }
+        public string U_SYP_TIPBROKER { get; set; }
+
+        public List<ClienteContactEmployees> ContactEmployees { get; set; }
+    }
+    public class ClienteContactEmployees
+    {
+        public string CardCode { get; set; }
+        public string Name { get; set; }
+        public string E_Mail { get; set; }
+    }
+
+    public class ParamDatosEmpleadoDataLife
+    {
+        public string cedula { get; set; }
+        public string direccion { get; set; }
+        public string barrio { get; set; }
+        public string telefono { get; set; }
+        public string celular { get; set; }
+        public string correoPersonal { get; set; }
+        public string codigo_data { get; set; }
     }
 }

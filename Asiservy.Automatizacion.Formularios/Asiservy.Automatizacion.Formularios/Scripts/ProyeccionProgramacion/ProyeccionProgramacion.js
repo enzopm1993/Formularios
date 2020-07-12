@@ -2,17 +2,23 @@
 $(document).ready(function () {
     ValidaProyeccion();
     CargarOrdenFabricacion();
+    $("#txtBarco").select2();
 });
 
 function Validar() {
     var valida = true;
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css("border-color", "#DC143C");//#d1d3e2
+        valida = false;
+    } else {
+        $("#selectTurno").css("border-color", "#d1d3e2");
+    }
     if ($("#txtLote").val() == "") {
         $("#txtLote").css("border-color", "#DC143C");//#d1d3e2
         valida = false;
     } else {
         $("#txtLote").css("border-color", "#d1d3e2");
     }
-
     if ($("#txtFechaProduccion").val() == "") {
         $("#txtFechaProduccion").css("border-color", "#DC143C");
         valida = false;
@@ -67,13 +73,18 @@ function Validar() {
     } else {
         $("#txtMarea").css("border-color", "#d1d3e2");
     }
-
     if ($("#txtBarco").val() == "") {
-        $("#txtBarco").css("border-color", "#DC143C");
+        //$("#SelectTextura").css('borderColor', '#FA8072');
+        $("#txtBarco").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
         valida = false;
     } else {
-        $("#txtBarco").css("border-color", "#d1d3e2");
+        $("#txtBarco").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
     }
+   
     return valida;
 }
 
@@ -98,7 +109,7 @@ function GuardarProyeccionDetalle() {
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
             Marea: $("#txtMarea").val(),
             Barco: $("#txtBarco").val(),
-            proceso:1
+            proceso: 1
 
         },
         success: function (resultado) {         
@@ -127,7 +138,9 @@ function GenerarProyeccionProgramacion() {
         data:
         {
             IdProyeccionProgramacion: $('#IdProyeccion').val(),
-            FechaProduccion: $('#txtFechaProduccion').val()
+            FechaProduccion: $('#txtFechaProduccion').val(),
+            Turno: $("#selectTurno").val()
+
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -152,7 +165,7 @@ function GenerarProyeccionProgramacion() {
 }
 
 function ValidaProyeccion() {
-    if ($('#txtFechaProduccion').val() == "") {
+    if ($('#txtFechaProduccion').val() == "" || $('#selectTurno').val() == "") {
         return;
     }
     $('#txtFechaOrden').val($('#txtFechaProduccion').val());    
@@ -165,7 +178,8 @@ function ValidaProyeccion() {
         type: "GET",
         data:
         {
-            Fecha: $('#txtFechaProduccion').val()
+            Fecha: $('#txtFechaProduccion').val(),
+            Turno: $('#selectTurno').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -255,7 +269,7 @@ function Limpiar() {
     $('#txtTalla').prop('selectedIndex', 0);
     $('#SelectOrdenFabricacion').prop('selectedIndex', 0);
     $("#txtMarea").prop('selectedIndex', 0);
-    $("#txtBarco").prop('selectedIndex', 0);
+    $("#txtBarco").prop('selectedIndex', 0).change();
     $('#Observacion').val("");   
     $('#txtOrdenFabricacion').val("");   
     $('#IdProyeccionDetalle').val(0);
@@ -277,7 +291,7 @@ function SeleccionarProyeccionProgramacion(model) {
     $('#IdProyeccionDetalle').val(model.IdProyeccionProgramacionDetalle);
     $("#SelectOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtMarea").val(model.CodMarea);
-    $("#txtBarco").val(model.CodBarco);
+    $("#txtBarco").val(model.CodBarco).change();
     $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
     $("#btnEliminarDetalle").prop("hidden", false);
     

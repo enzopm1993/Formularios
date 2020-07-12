@@ -25,11 +25,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebrad
             }
         }
 
-        public int ValidaControlMaterialQuebradizo(DateTime Fecha, string Linea)
+        public int ValidaControlMaterialQuebradizo(DateTime Fecha, string Linea,string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var model = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == Fecha && x.Linea == Linea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var model = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == Fecha && x.Linea == Linea && x.Turno == Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
                     return model.IdControlMaterial;
@@ -96,7 +96,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebrad
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
-                    var control = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == model.Fecha && x.Linea == model.Linea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    var control = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == model.Fecha && x.Linea == model.Linea && x.Turno == model.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     if (control != null)
                     {
                         return control.IdControlMaterial;
@@ -106,7 +106,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebrad
                         entities.CONTROL_MATERIAL.Add(model);
                         entities.SaveChanges();
 
-                        control = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == model.Fecha && x.Linea == model.Linea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                        control = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == model.Fecha && x.Linea == model.Linea && x.Turno == model.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                         var detalle = entities.MATERIAL_LINEA.Where(x => x.Linea == control.Linea && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                         if (detalle.Any())
                         {
@@ -197,11 +197,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebrad
         }
 
 
-        public List<spReporteControlMaterialQuebradizo> ConsultaReporteControlMaterial(DateTime FechaDesde, DateTime FechaHasta, string Linea)
+        public List<spReporteControlMaterialQuebradizo> ConsultaReporteControlMaterial(DateTime FechaDesde, DateTime FechaHasta, string Linea, string turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.spReporteControlMaterialQuebradizo(FechaDesde, FechaHasta, Linea).ToList();                
+                return entities.spReporteControlMaterialQuebradizo(FechaDesde, FechaHasta, Linea, turno).ToList();                
             }
         }
 

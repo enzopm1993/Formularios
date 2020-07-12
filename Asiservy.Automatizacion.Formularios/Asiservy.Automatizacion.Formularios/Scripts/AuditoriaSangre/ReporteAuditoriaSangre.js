@@ -31,7 +31,8 @@ function ConsultarReporteAuditoriaSangre() {
             {
                 CodLinea: $('#Lineas').val(),
                 Fecha: $('#Fecha').val(),
-                Tipo: $("#TipoAuditoria").val()
+                Tipo: $("#TipoAuditoria").val(),
+                Turno: $("#cmbTurno").val()
             },
             success: function (resultado) {
                 if (resultado == "0") {

@@ -1,0 +1,249 @@
+﻿@using Asiservy.Automatizacion.Datos.Datos
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
+@{
+    ViewBag.Title = "MonitoreoDescongelado";
+
+    var Tipo = (List<MantenimientoTipoDescongeladoModel>)ViewBag.Tipo;
+    var Muestra = (List<MantenimientoMuestraDescongeladoModel>)ViewBag.Muestra;
+}
+<script>
+    var Muestra = [];
+    var Tipo = [];
+
+    Tipo = @Html.Raw(Json.Encode(Tipo));
+    Muestra = @Html.Raw(Json.Encode(Muestra));
+</script>
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center text-uppercase" style="float:left">Control Monitoreo de Descongelado <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled" target="_blank">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label" target="_blank">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+
+
+<hr />
+<div class="card shadow" id="divCabecera" style="">
+    <div class="card-header">
+
+        <div class="row" id="divCabecera1">
+            <div class="col-md-4 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Turno</label>
+                    @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "ConsultarMonitoreoDescongelado()" })
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-12">
+                <label>Tipo</label>
+                @Html.DropDownList("selectTipo", new SelectList(ViewBag.Tipo, "IdTipoMonitoreo", "Descripcion"), new { @class = "form-control", @onchange = "" })
+
+                @*<select class="form-control" id="selectTipo" onchange="">
+                        <option value="D">Descongelado</option>
+                        <option value="E">Emparrillado</option>
+                        <option value="C">Ingreso Cocina</option>
+                    </select>*@
+            </div>
+            <div class="col-md-1 text-md-left col-sm-12 col-12 text-center">
+                <label class="">Acción</label>
+                <div class="form-group">
+                    @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                    <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarMonitoreoDescongelado()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/ver24.png" />
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12 col-12">
+                <table class="table table-bordered" style="width:100px">
+                    @if (Tipo != null)
+                    {
+                        foreach (var x in Tipo)
+                        {
+                            <tr>
+                                <td>@x.Descripcion</td>
+                                <td>@x.Abreviatura</td>
+                                <td><i class="fas fa-check-circle" style="color: @x.Color"></i></td>
+                            </tr>
+                        }
+                    }
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+
+
+        <div id="divCabecera2" hidden>
+
+            @*<div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>*@
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalMonitoreo">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Monitoreo Descongelado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="hidden" id="txtIdControl" name="name" value="0" />
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-3 col-6">
+                                        <label>Tanque</label>
+                                        <input type="text" disabled id="txtTanque" class="form-control" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-3 col-6">
+                                        <label>Lote</label>
+                                        <input type="text" disabled id="txtLote" class="form-control" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-3 col-12">
+                                        <label>Tipo</label>
+                                        <input type="text" disabled id="txtTipo" class="form-control" name="name" value="" />
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                            <div class="card-body" id="divDetalle" style="padding:5px">
+                                <div class="row">
+                                    <div class="col-md-4 col-6 col-sm-6">
+                                        <label>Hora</label>
+                                        <div class="itemFilter">
+                                            <div class="form-group" id="divfechaap">
+                                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                                    <input readonly type="text" class="form-control datetimepicker-input" value="" data-target="#datetimepicker1" id="txtHora" />
+                                                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<input type="datetime-local" autocomplete="off" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />*@
+                                    </div>
+
+                                    
+
+                                    <div class="col-md-2 col-6 col-sm-6" id="divTemperaturaAgua">
+                                        <div class="form-group">
+                                            <label style="font-size:13px">TEMPERATURA AGUA <span class="badge badge-secondary">+-100</span></label>
+                                            <input type="text" autocomplete="off" class="form-control" min="0" id="txtTemperaturaAgua" name="" value="" />
+                                        </div>
+                                    </div>
+
+                                    @if (Muestra != null)
+                                    {
+                                        foreach (var x in Muestra)
+                                        {
+                                            <div class="col-md-2 col-6 col-sm-6" id="">
+                                                <div class="form-group">
+                                                    <label style="font-size:13px">@x.Descripcion <span class="badge badge-secondary">+-100.00</span></label>
+                                                    <input type="text" autocomplete="off" class="form-control" min="0" id="txtMuestra-@x.IdMuestra" name="" value="" />
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                    <div class="col-md-12 col-12 col-sm-12">
+                                        <label>Observación</label>
+                                        <input type="text" autocomplete="off" maxlength="250" class="form-control" min="0" id="txtObservacion" name="name" value="" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div>
+                                    <label><b>Nota:</b> Valores deben estar entre los parámetros.</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-left">
+
+                    <button type="button" hidden id="btnEliminar" onclick="EliminarControl()" class="btn btn-danger">Eliminar</button>
+                    <button type="button" disabled id="btnGuardarMonitoreo" onclick="GuardarMonitoreoDescongelado()" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar este control de monitoreo de descongelado?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Tipo</label>
+                        <input type="tel" disabled class="form-control" id="txtModalTipo" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Tanque</label>
+                        <input type="tel" disabled class="form-control" id="txtModalTanque" name="name" value="" />
+
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <label>Lote</label>
+                        <input type="tel" disabled class="form-control" id="txtModalLote" name="name" value="" />
+
+                    </div>
+                    <div class="col-md-9 col-6 col-sm-6">
+                        <label>Hora</label>
+                        <input type="text" disabled class="form-control" id="txtModalHora" name="name" value="" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

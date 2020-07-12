@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CUCHILLOS_PREPARACION_HORA>
+@using Newtonsoft.Json;
+
+<table style="width:100%" class="table table-bordered table-striped" id="tblCargarHora">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                FECHA-HORA
+            </th>
+            <th>
+                DESCRIPCIÓN
+            </th>
+            <th>
+                USUARIO CREACIÓN
+            </th>
+            <th>
+                F. CREACIÓN
+            </th>
+            <th width="250px" style="text-align:center">ACCIONES</th>
+        </tr>
+    </thead>
+    <tbody style="font-size:12px">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
+                </td>
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.Descripcion))
+                    {
+                        @item.Descripcion.ToUpper()
+                    }
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog
+                </td>
+                <td>
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                @{
+                    var json = JsonConvert.SerializeObject(item);
+                }
+                <td>
+                    <button id="btnActualizar" class="btn btn-link btn-outline-info" onclick="ConsultarDetalle(@json)">Cuchillos</button>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarHora(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarHoraConfirmar(@json)">Eliminar</button>
+
+            </tr>
+        }
+    </tbody>
+</table>

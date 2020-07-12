@@ -12,17 +12,25 @@
     @Html.Hidden("IdProyeccion")
     @Html.Hidden("IdProyeccionDetalle", 0)
     @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
             <input type="date" class="form-control" name="name" value="@Fecha" id="txtFechaProduccion" onchange="ValidaProyeccion()" />
             <p class="text-danger" hidden id="ValidaFecha">Ingrese una fecha</p>
         </div>
     </div>
+    <div class="col-6 col-md-2 col-sm-6">
+        <label>Turno</label>
+        <select class="form-control" id="selectTurno" onchange="ValidaProyeccion()">
+            <option value="1">Turno A</option>
+            <option value="2">Turno B</option>
+        </select>
+        <p class="text-danger" hidden id="ValidaMarea">Seleccione una marea</p>
+    </div>
     <div class="col-md-1 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            <input type="text" style="text-transform:uppercase" class="form-control" name="name" value="" id="txtLote" />
+            <input type="text" autocomplete="off" style="text-transform:uppercase" class="form-control" name="name" value="" id="txtLote" />
             <p class="text-danger" hidden id="ValidaLote">Ingrese el lote</p>
         </div>
     </div>
@@ -37,7 +45,7 @@
         </div>
         <p class="text-danger" hidden id="ValidaLote">Ingrese el Orden</p>
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Toneladas:</label>
             <input type="number" class="form-control" name="name" value="" id="txtTonelada" />
@@ -54,9 +62,9 @@
             }
             else
             {
-            <select disabled class="form-control">
-                <option value="value">Servicio Caido</option>
-            </select>
+                <select disabled class="form-control">
+                    <option value="value">Servicio Caido</option>
+                </select>
             }
             <p class="text-danger" hidden id="ValidaDestino">Seleccione el destino</p>
         </div>
@@ -84,7 +92,7 @@
                 </select>
             }
             @*@Html.DropDownList("txtEspecie", (IEnumerable<SelectListItem>
-        )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
+                )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
 
             <p class="text-danger" hidden id="ValidaEspecie">Seleccione una especie</p>
         </div>
@@ -103,14 +111,14 @@
                 </select>
             }
             @*@Html.DropDownList("txtTalla", (IEnumerable<SelectListItem>
-        )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
+                )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
 
             @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
             <p class="text-danger" hidden id="ValidaTalla">Seleccione una talla</p>
 
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-12 col-md-3 col-sm-12">
         <label>Barco</label>
         @if (ViewBag.Barco != null)
         {
@@ -125,15 +133,16 @@
 
         <p class="text-danger" hidden id="ValidaBarco">Seleccione una barco</p>
     </div>
-    <div class="col-2">
+    <div class="col-6 col-md-2 col-sm-6">
         <label>Marea</label>
         @Html.DropDownList("txtMarea", new SelectList(ViewBag.Marea, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
         <p class="text-danger" hidden id="ValidaMarea">Seleccione una marea</p>
     </div>
-    <div class="col-7">
+
+    <div class="col-12 col-md-7 col-sm-12">
         <div class="form-group">
             <label>Observación:</label>
-            <input type="text" style="text-transform:uppercase" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
+            <input type="text" style="text-transform:uppercase" autocomplete="off" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
         </div>
     </div>
 </div>

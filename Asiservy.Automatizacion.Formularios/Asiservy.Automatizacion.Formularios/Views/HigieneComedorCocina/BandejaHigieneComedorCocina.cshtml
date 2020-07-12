@@ -1,0 +1,102 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_HIGIENE_COMEDOR_COCINA_CTRL
+
+@{
+    ViewBag.Title = "BandejaHigieneComedorCocina";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }   
+</style>
+
+<div class="row">
+    <div class="col-md-6 col-12 col-sm-12">
+        <h4 class="text-md-left text-center" style="float:left">Bandeja Higiene de Comedor y Cocina</h4>
+    </div>    
+</div>
+
+<div class="row">
+    <div class="col-md-3 col-12 col-sm-12">
+        <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
+            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="true">APROBADO</option>
+        </select>
+    </div>               
+    
+    <div class="box_filters col-md-5 col-12 col-sm-12">
+        <div class="itemFilter">
+            <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <div id="reportrange" class="selectbox text-md-left text-center">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+            </div>
+        </div>
+        <div class="itemFilter">
+            <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+        </div>
+    </div>
+</div>
+
+<br />
+@* DIV MOSTRAR PARTIALVIEW *@
+<div class="table-responsive" id="divTablaAprobados">
+   
+</div>
+
+@* MODAL APRUEBA CONTROL*@
+<div class="modal fade" id="ModalApruebaPendiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-4 col-12 col-sm-12">
+                    <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                </div>
+                <br />
+                <div class="table-responsive" id="divAprobarPendientePartial">
+
+                </div>
+            </div>          
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarFecha()">Cerrar</button>
+                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarPendiente(true)">Aprobar</button>
+                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarPendiente(false)">Reversar</button>
+            </div>
+        </div>
+    </div>
+</div>

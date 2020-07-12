@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoDetalle>
+@using Asiservy.Automatizacion.Datos.Datos
+
+
+
+@{ var poTurno = (List<CLASIFICADOR>)ViewBag.Turno;}
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Turno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personal)
+        </th>
+        <th>
+            Inicio
+        </th>
+        <th>
+            Fin
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
+                    if (T != null)
+                    {
+                        @T.Descripcion
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personal)
+            </td>
+            <td>
+                @item.HoraInicio.ToString("yyyy-MM-dd HH:mm")
+            </td>
+            <td>
+                @item.HoraFin.ToString("yyyy-MM-dd HH:mm")
+            </td>
+        </tr>
+    }
+
+</table>

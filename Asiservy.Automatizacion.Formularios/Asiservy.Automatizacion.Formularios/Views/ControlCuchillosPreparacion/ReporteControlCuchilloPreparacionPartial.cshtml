@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Cuchillos_Preparacion>
+@{
+    //Obtengo los Codigo del cuchillo para armar los TH
+    var listaCodigoCuchillo = (from p in Model
+                               select new { p.CodigoCuchillo }).Distinct().ToList();
+
+    var listaHora = (from ssi in Model
+                     group ssi by new { ssi.Hora, ssi.Fecha } into g
+                     select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
+}
+<table class="table table-bordered" style="cursor: pointer" id="tblDataTable">
+    <thead style="font-size:11px">
+        <tr>
+            <th>
+               FECHA - HORA
+            </th>
+            @foreach (var itemCodigoCuchillo in listaCodigoCuchillo)
+            {
+                <th>
+                    <center>@itemCodigoCuchillo.CodigoCuchillo</center>
+                </th>
+                <th>EMPLEADO-@itemCodigoCuchillo.CodigoCuchillo</th>
+            }
+        </tr>
+    </thead>
+    <tbody style="font-size:10px">
+        @foreach (var item in listaHora)
+        {
+            bool estadoReporte = false;
+            <tr>
+                <td>@item.Hora.ToString("dd-MM-yyyy HH:mm")</td>
+                @foreach (var lh in listaCodigoCuchillo)
+                {
+                    var estado = (from c in Model
+                                  where c.Fecha == item.Fecha && c.Hora == item.Hora && lh.CodigoCuchillo == c.CodigoCuchillo
+                                  select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte});
+
+                    <td>
+                        @foreach (var est in estado)
+                        {
+                            if (est.Estado == true)
+                            {
+                                <center><span class="badge badge-success"><input type="checkbox" checked disabled id="vehicle2" name="Estado" value="Estado"></span></center>
+                            }
+                            else if (est.Estado == false)
+                            {
+                                <center><span class="badge badge-danger"><input type="checkbox" disabled id="vehicle2" name="Estado" value="Estado"></span></center>
+                            }
+                        }
+
+                    </td>
+                    <td>
+                        @foreach (var cedula in estado)
+                        {
+                            if (cedula.CedulaEmpleado.Contains('-'))
+                            {
+                                var nombres = cedula.CedulaEmpleado.Split('-');
+                                <span>@nombres[1].ToUpper()</span>
+                            }
+                            //usuarioAprobacion = cedula.UsuarioModificacionLog;
+                            estadoReporte = cedula.EstadoReporte;
+                        }
+                    </td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
+

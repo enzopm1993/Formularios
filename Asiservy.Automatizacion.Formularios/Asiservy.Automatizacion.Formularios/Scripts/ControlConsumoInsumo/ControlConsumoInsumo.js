@@ -8,12 +8,10 @@ $(document).ready(function () {
 });
 
 function CargarDatosOrdenFabricacion() {
-
     if ($("#txtOrdenFabricacion").val() == "") {
         NuevoControlConsumoInsumos();
         return;
     }
-
     $.ajax({
         url: "../ControlConsumoInsumo/ConsultarDatosOrdenFabricacion",
         type: "GET",
@@ -34,10 +32,10 @@ function CargarDatosOrdenFabricacion() {
                 return;
             }
            //console.log(resultado);
-            $("#txtPesoNeto").val(parseInt(resultado.PESO_NETO));
-            $("#txtPesoEscrundido").val(parseInt(resultado.PESO_ESCURRIDO));
-            $("#txtLomo").val(parseInt(resultado.LOMOS));
-            $("#txtMiga").val(parseInt(resultado.MIGAS));
+            $("#txtPesoNeto").val(resultado.PESO_NETO);
+            $("#txtPesoEscrundido").val(resultado.PESO_ESCURRIDO);
+            $("#txtLomo").val(resultado.LOMOS);
+            $("#txtMiga").val(resultado.MIGAS);
             $("#txtCajas").val(parseInt(resultado.UNIDADES_X_CAJA));
             $("#txtOrdenVenta").val(parseInt(resultado.PEDIDO_VENTA));
             $("#txtMarca").val(resultado.MARCA);
@@ -54,6 +52,7 @@ function CargarDatosOrdenFabricacion() {
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
+            NuevoControlConsumoInsumos();
         }
     });
 
@@ -542,7 +541,9 @@ function SeleccionarControlDetalleConsumo(model) {
    // console.log(model);
     ListadoControl = model;
     $("#txtIdControlConsumo").val(ListadoControl.IdControlConsumoInsumos);
-    $("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
+    //$("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
+    $("#txtOrdenFabricacion").empty();
+    $("#txtOrdenFabricacion").append("<option value='" + model.OrdenFabricacion + "'>" + model.OrdenFabricacion + "</option>")
     $("#txtOrdenFabricacion").prop("disabled", true);
     $("#txtPesoNeto").val(ListadoControl.PesoNeto);
     $("#txtPesoEscrundido").val(ListadoControl.PesoEscrundido);
@@ -658,6 +659,7 @@ function AtrasControlPrincipal() {
     ListadoControl = [];
     NuevoControlConsumoInsumos();
     CargarControlConsumo();
+    CargarOrdenFabricacion();
 }
 
 function ModalGenerarControlDetalle() {    
@@ -737,6 +739,15 @@ function validarConsumoEnlatado() {
         valida = false;
     } else {
         $("#txtFechaFabricacion").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectTipoProceso").val() == 'C') {
+        if ($("#txtProveedor").val() == "") {
+            $("#txtProveedor").css('borderColor', '#FA8072');
+            valida = false;
+        } else {
+            $("#txtProveedor").css('borderColor', '#ced4da');
+        }
     }
     return valida;
 }
@@ -1334,6 +1345,9 @@ function ModalGenerarProcedencia() {
     $("#txtIdConsumoProcedencia").val(0);
     $("#selectProcedencia").prop("selectedIndex",0);
     $("#txtLoteProcedencia").val("");
+    $("#txtLomoProcedencia").val("0");
+    $("#txtMigaProcedencia").val("0");
+    
     $("#ModalConsumoProcedencia").modal("show");
 }
 
@@ -1351,6 +1365,18 @@ function validarConsumoProcedencia() {
     } else {
         $("#selectProcedencia").css('borderColor', '#ced4da');
     }
+    if ($("#txtLomoProcedencia").val() == "") {
+        $("#txtLomoProcedencia").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtLomoProcedencia").css('borderColor', '#ced4da');
+    }
+    if ($("#txtMigaProcedencia").val() == "") {
+        $("#txtMigaProcedencia").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtMigaProcedencia").css('borderColor', '#ced4da');
+    }
     return valida;
 }
 
@@ -1366,7 +1392,10 @@ function GuardarConsumoProcedencia() {
             IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
             Procedencia: $("#selectProcedencia").val(),
             Lote: $("#txtLoteProcedencia").val(),            
-            Observacion: $("#txtObservacionProcedencia").val()
+            Observacion: $("#txtObservacionProcedencia").val(),
+             Lomo:$("#txtLomoProcedencia").val(),
+             Miga:$("#txtMigaProcedencia").val()
+
 
         },
         success: function (resultado) {
@@ -1437,6 +1466,8 @@ function EditarConsumoProcedencia(model) {
     $("#txtIdConsumoProcedencia").val(model.IdProcedenciaPescado);
     $("#selectProcedencia").val(model.CodProcedencia);
     $("#txtLoteProcedencia").val(model.Lote);
+    $("#txtLomoProcedencia").val(model.Lomo);
+    $("#txtMigaProcedencia").val(model.Miga);
     $("#txtObservacionProcedencia").val(model.Observacion);
 
 
@@ -1562,7 +1593,7 @@ function validarConsumoAditivos() {
         $("#select2-selectAditivo-container").css('Color', '#ced4da');
     }
 
-    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<1) {
+    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<0) {
         $("#txtPesoAditivo").css('borderColor', '#FA8072');
         valida = false;
     } else {

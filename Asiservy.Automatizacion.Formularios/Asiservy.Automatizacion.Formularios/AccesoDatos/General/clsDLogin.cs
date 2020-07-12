@@ -46,6 +46,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                if (dsopcion == "home" || dsopcion == "Home" || dsopcion== "HomeError")
+                {
+                    return true;
+                }
 
                 var model = (from u in entities.USUARIO_ROL
                              join or in entities.OPCION_ROL on u.IdRol equals or.IdRol
@@ -124,14 +128,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 pListModulosFilter = ListModulos.ConvertAll(x => new ModuloViewModel
                 {
                     IdModulo=x.IdModulo,
-                    NombreModulo=x.NombreModulo
+                    NombreModulo=x.NombreModulo,
+                    Orden=x.OrdenModulo,
+                    Icono=x.IconoModulo
                 });
-                object[] oresultado = new object[3];
+                object[] oresultado = new object[4];
                 //oresultado[0] = pListPadrestotal;
                 //oresultado[1] = pListHijostotal;
+
+                //**
+                List<ConsultaOpcionesxRolViewModel> pListHijosPadre = (from h in pListHijosfilter
+                                                                      select new ConsultaOpcionesxRolViewModel {Nombre=h.Nombre,Url=h.Url,Padre=h.Padre,
+                                                                      Clase=h.Clase,Formulario=h.Formulario,IdModulo=h.IdModulo,IdOpcion=h.IdOpcion,Orden=h.Orden} ).ToList();
+                foreach (var item in pListHijosPadre)
+                {
+                    string padre = (from p in pListPadresfilter.Where(x => x.IdOpcion == item.Padre)
+                                    select p.Nombre).FirstOrDefault();
+                    item.Nombre = item.Nombre + "(" + padre + ")";
+                }
+
+                //**
+
                 oresultado[0] = pListPadresfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
                 oresultado[1] = pListHijosfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
-                oresultado[2] = pListModulosFilter.Distinct().ToList();
+                oresultado[2] = pListModulosFilter.Distinct().OrderBy(z=>z.Orden).ToList();
+                oresultado[3] = pListHijosPadre.Distinct().OrderBy(z => z.Orden).ToList();
+
                 return oresultado;
 
             }

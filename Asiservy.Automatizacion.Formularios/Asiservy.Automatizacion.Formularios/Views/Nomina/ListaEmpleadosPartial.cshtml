@@ -19,19 +19,17 @@
             <th>
                 <label>Recurso</label>
             </th>
-            <th>
-                <label>Estado SAP</label>
-            </th>
+            
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="td_cedula cedula_@item.CEDULA" >
                     @if (!item.EXISTE_SAP)
                     {
-                        <input type="checkbox" data-cedula="@item.CEDULA" class="checkEmpleado" name="" />
+                        <input type="checkbox" data-cedula="@item.CEDULA" class="checkEmpleado" id="chk_@item.CEDULA" name="" />
                     }
 
                 </td>
@@ -50,16 +48,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.RECURSO)
                 </td>
-                <td>
-                    @if (!item.EXISTE_SAP)
-                    {
-                        <a class="badge badge-success enviarSap"  data-cedula="@item.CEDULA"  href="#">Enviar a SAP</a>
-                    }
-                    else
-                    {
-                        <label>Existe en SAP</label>
-                    }
-                </td>
+                
             </tr>
         }
     </tbody>   

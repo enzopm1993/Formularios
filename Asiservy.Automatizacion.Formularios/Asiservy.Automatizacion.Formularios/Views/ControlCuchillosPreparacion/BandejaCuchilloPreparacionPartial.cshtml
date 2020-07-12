@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CUCHILLOS_PREPARACION_CTRL>
+    @using Asiservy.Automatizacion.Datos.Datos;
+         @using Newtonsoft.Json;
+<table class="table-hover table-bordered table-striped table" style="font-size:13px;width:100%" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACIÓN
+            </th>
+            <th>USUARIO CREACIÓN</th>
+            <th>F. CREACIÓN</th>
+            <th>TURNO</th>
+            <th >
+                <center> ESTADO</center>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:12px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td style="white-space:normal">
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                        @item.Observacion.ToUpper()
+                    }
+                </td>
+                <td>@item.UsuarioIngresoLog.ToUpper()</td>
+                <td>@item.FechaIngresoLog.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno.ToString()
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
+                    </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <center><span class="badge badge-success">APROBADO</span></center>
+                    }
+                    else
+                    {
+                        <center><span class="badge badge-danger">PENDIENTE</span></center>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

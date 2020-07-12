@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PARAMETRO_CALIDAD>
+@using Newtonsoft.Json;
+
+<table class="table  table-bordered table-hover" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Mínimo
+            </th>
+            <th>
+                Máximo
+            </th>
+            <th class="text-center" style="white-space:normal">
+                Color en rango
+            </th>
+            <th class="text-center" style="white-space:normal">
+                Color Fuera de rango
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+                Fecha Creación
+            </th>
+
+            <th>
+                Fecha Modificación
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody style="font-size:14px">
+        @foreach (var item in Model)
+        {
+            DateTime fecham = Convert.ToDateTime(item.FechaModificacionLog);
+
+            string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodParametro)
+            </td>
+            <td style="white-space:normal; font-size:12px">
+                @item.Nombre.ToUpper()
+            </td>
+            <td>@item.Minimo</td>
+            <td>@item.Maximo</td>
+            <td class="text-center"><span style="background-color:@item.ColorDentroRango" class="badge badge-secondary">COLOR</span></td>
+            <td class="text-center"><span style="background-color:@item.ColorFueraRango" class="badge badge-secondary">COLOR</span></td>
+            <td style="white-space:normal">@item.Observacion</td>
+            <td>
+                @fecha
+            </td>
+
+            <td>
+                @if (fecham.ToString() != "1/1/0001 12:00:00 AM")
+                {
+                    @fecham.ToString("dd-MM-yyyy HH:mm")
+                }
+            </td>
+
+            <td>
+                @{string json = JsonConvert.SerializeObject(item);
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -105,7 +105,7 @@ function CerrarModalMensajeMP() {
 function AprobarMas() {
     var result = new Array();
     i = 0;
-    $("input[type=checkbox]:checked").each(function (resultado) {
+    $("#bodydatos input[type=checkbox]:checked").each(function (resultado) {
         id = $(this).attr("id");
         this.id = id.replace('Empleado-', '');
         result.push(this.id);
@@ -215,4 +215,12 @@ function EliminarRegistroMP() {
             MensajeError(resultado, false);
         }
     });
+}
+function SeleccionarTodos(){
+   
+    if ($('#select_all').prop('checked')) {
+        $("input[type='checkbox']").attr("checked", true);
+    } else {
+        $("input[type='checkbox']").attr("checked", false);
+    }
 }

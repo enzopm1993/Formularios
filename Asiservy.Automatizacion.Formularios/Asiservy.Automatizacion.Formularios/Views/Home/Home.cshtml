@@ -4,75 +4,276 @@
 }
 
 <style>
-    div.relativeContenido {
-        position: relative;
-        width: 400px;
-        height: 200px;
-        border: 3px solid #73AD21;
+    .card-header {
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
 
-    div.absoluteMensajes {
-        position: absolute;
-        top: 10px;
-        right: 5px;
-        left:1%;
-        width: 100%;
-        height: 100px;
-        
+    .alert {
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
-   
 </style>
 
+@if (@ViewBag.Vacaciones != null)
+{
+<script>
+    var vacacion = [];
+    var model = @Html.Raw(@ViewBag.Vacaciones); //Accessing the Json Object from ViewBag
+    vacacion = model;
+</script>
+}
+<div class="">
+    @*<div style="display:none" class="d-md-block">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow" style="padding:5px">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div style="width:100%; height:15%">
+                                    <img class="d-block w-100" style="height:auto" src="~/Content/images/banner.jpg" alt="Alternate Text" />
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="" style="color:white">Sistema Integrado Aplicaciones Asiservy</h5>
+                                        <p class="" style="color:white">Bienvenidos</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div style="width:100%; height:15%">
+                                    <img class="d-block w-100" src="~/Content/images/banner.jpg" alt="Alternate Text" />
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="" style="color:white">Proceso de Sistematización.</h5>
+                                        <p class="" style="color:white"></p>
 
-<div class="text-center relative" >
-    <div class="absoluteMensajes">
-        @{
-            if (ViewBag.MensajeUrgente != null)
-            {
-                <div class="alert alert-danger  alert-dismissible fade show" role="alert">
-                    <strong>Urgente!</strong> @ViewBag.MensajeUrgente
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div style="width:100%; height:15%">
+                                    <img class="d-block w-100" src="~/Content/images/banner.jpg" alt="Alternate Text" />
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="" style="color:white">Asiservy.</h5>
+                                        <p class="" style="color:white">No esperamos ser la empresa mas grande si no los mejores.</p>
 
-
-            if (ViewBag.MensajesNotificaciones != null)
-            {
-                foreach (var mensaje in ViewBag.MensajesNotificaciones)
-                {
-                    <div class="alert alert-warning    alert-dismissible fade show" role="alert">
-                        <strong>Alerta!</strong><a href=@mensaje.Observacion> @mensaje.Mensaje </a> 
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-                }
-
-            }
-            
-
-            if (ViewBag.MensajeAviso != null)
-            {
-                <div class="alert alert-dark  alert-dismissible fade show" role="alert">
-                    <strong>Aviso!</strong> @ViewBag.MensajeAviso
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
-            }
-        }
+            </div>
+        </div>
+    </div>*@
+    <br />
+    <div class="row">
+
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header" style="background-color: #4286f4;color:white">
+
+                    <div class="text-center">
+                        @if (ViewBag.Garita != null)
+                        {
+                            <b>GARITA</b>
+                        }
+                        else
+                        {
+                            <b><label>@ViewBag.Nombre</label></b>
+
+                        }
+                    </div>
+                </div>
+
+                @if (ViewBag.Garita != null)
+                {
+                <div class="card-body" style="padding:0px">
+                    <div class="text-center">
+                        <img style="height:140px" src="~/Content/images/garita.jpg" alt="Alternate Text" />
+                    </div>
+                </div>
+                }
+                else
+                {
+                    <div class="card-body">
+                        <div class="row" style="font-size:12px  ">
+                            <div class="col-md-9 col-12 col-sm-12" style="border-right:inset 1px; padding:1px">
+                                <div class="text-center"><b><label>VACACIONES</label></b> (<label id="TotalDiasVacciones"></label> días)</div>
+                                <div class="text-center" id="divOtros">
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 col-12 col-sm-12">
+                                <div class="text-center"><b><label>MARCACIÓN DE ENTRADA</label></b></div>
+
+                                <div class="card shadow text-center" style="padding:0.5px">
+                                    <div class="card-body text-info" style="font-size:12px medium; padding:0px">
+                                        @if (ViewBag.Marcacion != null && ViewBag.Marcacion.Hora != null)
+                                        {
+                                            TimeSpan hora = @ViewBag.Marcacion.Hora;
+                                            <label>@hora.ToString()</label>
+                                        }
+                                        else
+                                        {
+                                            <i style="color:#f6c23e" class="fas fa-exclamation-triangle fa-2x"></i>
+                                        }
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        }
+
+                    
+                </div>
+        </div>
+        <div class="col-md-6 col-12 col-sm-12" id="divComunicado">
+            <div class="card shadow">
+                <div class="card-header" style="background-color: #4286f4;color:white">
+
+                    <div class="text-center">
+                        <b><label>COMUNICADOS</label></b>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <p id="pNotaComunicados" style="font-size:12px; margin-bottom:0px">De click en uno de los asuntos para leer el comunicado completo.</p>
+                    </div>
+                    <div id="divComunicados" class="table-responsive">
+                        <div id="spinnerCargando" hidden class="text-center">
+                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Cargando...</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+   
+    @if (ViewBag.MensajeUrgente != null || ViewBag.MensajesNotificaciones != null || ViewBag.MensajeAviso != null)
+    {
+        <br />
+        <div class="row">
+            <div class="col-md-12" style="" id="divComucados2">
+                <div class="card shadow">
+                    <div class="card-header bg-warning">
+                        <div class="text-center" style="color:#01224B">
+                            <b><label>ALERTAS</label></b>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="overflow-auto" style="max-height:200px">
+                            @{
+                                if (ViewBag.MensajeUrgente != null)
+                                {
+                            <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Urgente!</strong> @ViewBag.MensajeUrgente
 
-    <div style="padding-top:10%"> <img style="width:25%" src="~/Content/images/logo1.png" /></div>
+                            </div>
+                                }
 
+
+                                if (ViewBag.MensajesNotificaciones != null)
+                                {
+                                    foreach (var mensaje in ViewBag.MensajesNotificaciones)
+                                    {
+                                        <div class="alert alert-dark  alert-dismissible fade show" role="alert">
+                                            <strong>Alerta!</strong><a href=@mensaje.Observacion> @mensaje.Mensaje </a>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        @*<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <img src="..." class="rounded mr-2" alt="...">
+                                                <strong class="mr-auto">Bootstrap</strong>
+                                                <small>11 mins ago</small>
+                                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                            </div>
+                                        </div>*@
+
+
+                                    }
+
+                                }
+
+
+                                if (ViewBag.MensajeAviso != null)
+                                {
+                                    <div class="alert alert-primary  alert-dismissible fade show" role="alert">
+                                        <strong>Aviso!</strong> @ViewBag.MensajeAviso
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <br />
+
+    @*<div class="row">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div id="chart1"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div id="chart2"></div>
+
+                </div>
+            </div>
+        </div>*@
 </div>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalComunicado">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">COMUNICADOS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body table-responsive" id="modalBodyComunicados">
 
-
-
-
-
-
-
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
+<table class="table table-hover table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
+    <thead style="font-size:13px">
+        <tr>
+            <th>FECHA</th>
+            <th style="border-right:1px solid #e3e6f0">
+                <center>OBSERVACIÓN</center>
+            </th>
+            <th>APROBADO POR</th>
+            <th>F. APROBACIÓN</th>
+            <th>TURNO</th>
+            <th>ESTADO</th>
+        </tr>
+    </thead>
+    @{int con = 0; }
+    <tbody style="font-size:12px">
+
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+        <tr onclick="SeleccionarCabecera(@json)">
+            <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
+            <td style="white-space:normal">
+                @if (!string.IsNullOrEmpty(item.Observacion))
+                {
+                    <span>@item.Observacion.ToUpper()</span>
+                }
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.AprobadoPor))
+                {
+                    @item.AprobadoPor.ToUpper()
+                }
+            </td>
+            <td>
+                @{ DateTime date = Convert.ToDateTime(item.FechaAprobado);}
+                @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                {
+                    @date.ToString("dd-MM-yyyy")
+                }
+            </td>
+            @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                             where x.Codigo == item.Turno
+                             select new { x.Descripcion }).FirstOrDefault();
+            }
+            <td>
+                @if (turno != null)
+                {
+                    @turno.Descripcion
+                }
+            </td>
+            <td>
+                @if (item.EstadoReporte == true)
+                {
+                    <span class="badge badge-success">APROBADO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">PENDIENTE</span>
+                }
+            </td>
+        </tr>
+            con++;
+        }
+    </tbody>
+</table>

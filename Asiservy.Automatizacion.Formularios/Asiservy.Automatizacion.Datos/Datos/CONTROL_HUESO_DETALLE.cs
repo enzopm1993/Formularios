@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CONTROL_HUESO CONTROL_HUESO { get; set; }
         public virtual CONTROL_MIGA CONTROL_MIGA { get; set; }
+        public virtual CONTROL_HUESO CONTROL_HUESO { get; set; }
     }
 }

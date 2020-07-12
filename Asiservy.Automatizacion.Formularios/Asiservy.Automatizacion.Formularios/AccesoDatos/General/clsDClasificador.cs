@@ -3,7 +3,6 @@ using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
@@ -17,29 +16,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 string Respuesta = string.Empty;
-                var poClasificador = entities.CLASIFICADOR.FirstOrDefault(x => 
+                var poClasificador = entities.CLASIFICADOR.FirstOrDefault(x =>
                 x.IdClasificador == model.IdClasificador
-                || (x.Grupo == model.Grupo && x.Codigo== model.Codigo));
+                || (x.Grupo == model.Grupo && x.Codigo == model.Codigo));
                 if (poClasificador != null)
                 {
-                    poClasificador.Descripcion = model.Descripcion;
+                    poClasificador.Descripcion = model.Descripcion.ToUpper();
                     poClasificador.Grupo = model.Grupo;
                     poClasificador.Codigo = model.Codigo;
                     poClasificador.EstadoRegistro = model.EstadoRegistro;
                     poClasificador.FechaModificacionLog = DateTime.Now;
                     poClasificador.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poClasificador.TerminalModificacionLog = model.TerminalIngresoLog;
-                }else
+                }
+                else
                 {
 
-                    entities.CLASIFICADOR.Add(new CLASIFICADOR {
+                    entities.CLASIFICADOR.Add(new CLASIFICADOR
+                    {
                         Codigo = model.Codigo,
                         TerminalIngresoLog = model.TerminalIngresoLog,
                         UsuarioIngresoLog = model.UsuarioIngresoLog,
                         Grupo = model.Grupo,
                         Descripcion = model.Descripcion,
                         EstadoRegistro = model.EstadoRegistro,
-                        FechaIngresoLog= DateTime.Now
+                        FechaIngresoLog = DateTime.Now
                     });
                 }
                 entities.SaveChanges();
@@ -78,6 +79,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return ListadoClasificador;
             }
 
+        }
+
+        public List<spConsultaClasificador> ConsultarClasificador()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaClasificador().ToList();
+            }    
         }
 
         public List<Clasificador> ConsultaClasificador(Clasificador Filtros)

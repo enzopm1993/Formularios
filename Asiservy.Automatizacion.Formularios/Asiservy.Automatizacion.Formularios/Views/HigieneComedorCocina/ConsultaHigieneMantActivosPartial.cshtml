@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_HIGIENE_COMEDOR_COCINA_MANT>
+@using Newtonsoft.Json;
+
+@{ var json = JsonConvert.SerializeObject(Model);
+    var listaCategoria = (from l in Model
+                          group l by new { l.Categoria } into x
+                          select new { x.Key.Categoria });
+}
+
+@foreach (var categoria in listaCategoria)
+{
+    <table class="table table-bordered table-secondary table-striped" id="tblDataTableDetalle">
+        <thead style="font-size:10px;text-align:center">
+            <tr>
+                <th hidden>
+                    IdControlDetalle
+                </th>
+                <th width="200px" style="white-space:normal">
+                    @categoria.Categoria.ToUpper()
+                </th>
+                <th style="width:280px">
+                    ESTADO
+                </th>
+                <th>
+                    OBSERVACION
+                </th>
+                <th>
+                    ACCION CORRECTIVA
+                </th>
+            </tr>
+        </thead>
+        <tbody style="font-size:10px;text-align:center">
+            @foreach (var item in Model)
+            {
+                if (categoria.Categoria == item.Categoria)
+                {
+                <tr>
+                    <td hidden>
+                        <input type="text" name="name"  id="txtIdControlDetalle-@item.IdMantenimiento" />
+                    </td>
+                    <td style="white-space:normal">
+                        @item.Nombre.ToUpper()
+                    </td>
+                    <td>
+                        <select style="width:155px" class="form-control" id="selectLimpiezaEstado-@item.IdMantenimiento"  onchange="OnChangeTextBox()">
+                            <option value="S" selected>SATISFACTORIO</option>
+                            <option value="NS">NO SATISFACTORIO</option>
+                            <option value="N/A">N/A</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="name" value="" style="font-size: 10px;width:200px" class="form-control"  id="txtObservacionDetalle-@item.IdMantenimiento"  />
+                    </td>
+                    <td>
+                        <input type="text" name="name" value="" style="font-size: 10px;width:200px" class="form-control"  id="txtACorrectivaDetalle-@item.IdMantenimiento"  />
+                    </td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="GuardarDetalle(@json)" id="btnGenerarControlRegistroDetalle">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+    </div>

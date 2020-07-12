@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_AGUA_AUTOCLAVE>
+@using Asiservy.Automatizacion.Datos.Datos
+
+
+@{
+    CC_CLORO_AGUA_AUTOCLAVE_CONTROL parametro = (CC_CLORO_AGUA_AUTOCLAVE_CONTROL)ViewBag.Parametros;
+    CC_PARAMETRO_CALIDAD parametro2 = (CC_PARAMETRO_CALIDAD)ViewBag.Parametros2;
+
+}
+
+
+
+<table class="table table-borderless">
+    <tr>
+        <td rowspan="2"><h6>Turno: @ViewBag.Turno</h6></td>
+        @if (parametro != null)
+        {
+            <td class="text-right" style="padding:0px"><label>Nivel min. :@parametro.Minimo ppm</label></td>
+        }
+       
+    </tr>
+    @if (parametro != null)
+    {
+        <tr>
+            <td class="text-right" style="padding:0px">   <label>Nivel max. :@parametro.Maximo ppm</label></td>
+        </tr>
+    }
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Autoclave)
+        </th>
+        <th>
+            Conserva
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Temperatura) (ºC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cloro) (ppm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Hora.ToString("dd-MM-yyyy HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autoclave)
+            </td>
+            <td>
+                @if (item.TipoConserva == "L")
+                {
+                    @:LATA
+                }
+                else
+                {
+                    @:POUCH
+
+                }
+            </td>
+            <td style="white-space:normal">
+                @Html.DisplayFor(modelItem => item.Producto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Temperatura)
+            </td>
+            <td>
+                @if (parametro != null)
+                {
+                    if (item.Cloro < parametro.Minimo || item.Cloro > parametro.Maximo)
+                    {
+                        @:<span class="badge" style="color:white; background-color:@parametro2.ColorFueraRango"> @item.Cloro</span>
+                    }
+                    else
+                    {
+                        @:<span class="badge" style="color:white; background-color:@parametro2.ColorDentroRango"> @item.Cloro</span>
+                    }
+
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Cloro)
+
+                }
+
+            </td>
+            <td style="white-space:normal">
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+        </tr>
+    }
+
+</table>

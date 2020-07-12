@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Cisterna>
+
+<table class="table table-bordered table-striped" tabindex="1" id="tblDataTableAprueba">
+    <thead style="font-size:12px">
+        <tr>
+            <th>Nº CISTERNA</th>
+            <th>QUIMICOS UTILIZADOS</th>
+            <th>OBSERVACIONES</th>
+        </tr>
+    </thead>
+    @{
+        var listaFiltrada = (from x in Model
+                             group x by new { x.IdLavadoCisterna } into f
+                             select new { f.Key.IdLavadoCisterna }).ToList();
+    }
+    <tbody style="font-size:11px">
+        @foreach (var item in listaFiltrada)
+        {
+            string idMantCisterna = ""; DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = ""; string observacion = "";
+            string NDescripcion = ""; string usuarioC = ""; string fechaC = ""; string fechaM = "";
+            <tr>
+                @foreach (var subItem in Model)
+                {
+                    if (item.IdLavadoCisterna == subItem.IdLavadoCisterna)
+                    {
+                        idMantCisterna += subItem.IdMantCisterna + "; ";
+                        NDescripcion += subItem.NDescripcion + ";";
+                        fecha = subItem.Fecha;
+                        quimUtilizados = subItem.QuimUtilizados;
+                        observacion = subItem.Observacion;
+                        usuarioC = subItem.UsuarioIngresoLog;
+                        fechaC = subItem.fechaCreacion;
+                        fechaM = subItem.fechaModificacion;
+                    }
+                }
+                <td>@NDescripcion</td>
+                <td style="white-space:normal;width:350px">@quimUtilizados</td>
+                <td style="white-space:normal">@observacion</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@

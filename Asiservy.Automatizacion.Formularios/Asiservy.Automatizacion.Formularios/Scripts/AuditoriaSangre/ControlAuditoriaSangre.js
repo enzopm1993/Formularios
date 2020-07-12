@@ -28,6 +28,7 @@ function LimpiarBoton() {
     $('#IdAuditoriaSangre').val("");
     $("#btnEliminarDetalle").prop("hidden", true);
     $("#TipoAuditoria").prop("selectedIndex", 0);
+    //$("#cmbTurno").prop("selectedIndex", 0);
     $("#Lineas").prop("selectedIndex", 0);
     
     
@@ -43,7 +44,8 @@ function ConsultarAuditoriaChange() {
         type: "GET",
         data:
         {
-            Fecha: $('#FechaAuditoria').val()         
+            Fecha: $('#FechaAuditoria').val(),
+            Turno: $('#cmbTurno').val()
         },
         success: function (resultado) {
             LimpiarBoton();          
@@ -170,7 +172,8 @@ function IngresarAuditoriaSangre() {
                 TipoAuditoria: $("#TipoAuditoria").val(),
                 Estado: 'A',
                 Observacion: $("#txtObservacion").val(),
-                Linea: $('#Lineas').val() 
+                Linea: $('#Lineas').val(),
+                Turno: $('#cmbTurno').val()
             },
             success: function (resultado) {
                 if (resultado == "101") {

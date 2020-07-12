@@ -21,16 +21,25 @@ else
                 @Html.DisplayNameFor(model => model.Presente)
             </th>
             <th class="text-center">
-                @Html.DisplayNameFor(model => model.Falta)
+                Presente Otra Area-Linea
             </th>
             <th class="text-center">
-                Permiso Medico
+                Presente Otro Cargo
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Falta)
             </th>
             <th class="text-center">
                 Cambio Area-Cargo
             </th>
             <th class="text-center">
+                Permiso Medico
+            </th>
+            <th class="text-center">
                 Permiso General
+            </th>
+            <th class="text-center">
+                Vacaciones
             </th>
             <th class="text-center">
                 @Html.DisplayNameFor(model => model.Total)
@@ -41,62 +50,82 @@ else
     <tbody>
         @{
             int TotalPresente = 0;
+            int TotalPresentePrestado = 0;
+            int TotalPresentePrestadoOtraLinea = 0;
             int TotalFalta = 0;
             int TotalPermisoMedico = 0;
             int TotalCambioArea = 0;
             int TotalPermisoGeneral = 0;
+            int Vacaciones = 0;
             int Total = 0;
         }
         @foreach (var item in Model)
         {
-            <tr>
-                <td hidden>
-                    @Html.DisplayFor(modelItem => item.Cargo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PuestoTrabajo)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Presente)
-                    @{ TotalPresente = TotalPresente + item.Presente ?? 0;}
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Falta)
-                    @{ TotalFalta = TotalFalta + item.Falta ?? 0;}
+        <tr>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Cargo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PuestoTrabajo)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Presente)
+                @{ TotalPresente = TotalPresente + item.Presente ?? 0;}
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.PresenteOtraLinea)
+                @{ TotalPresentePrestadoOtraLinea = TotalPresentePrestadoOtraLinea + item.PresenteOtraLinea ?? 0;}
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.PresenteOtro)
+                @{ TotalPresentePrestado = TotalPresentePrestado + item.PresenteOtro ?? 0;}
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Falta)
+                @{ TotalFalta = TotalFalta + item.Falta ?? 0;}
 
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.PermisoMedico)
-                    @{ TotalPermisoMedico = TotalPermisoMedico + item.PermisoMedico ?? 0;}
+            </td>
 
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.CambioArea)
-                    @{ TotalCambioArea = TotalCambioArea + item.CambioArea ?? 0;}
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.CambioArea)
+                @{ TotalCambioArea = TotalCambioArea + item.CambioArea ?? 0;}
 
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.PermisoGeneral)
-                    @{ TotalPermisoGeneral = TotalPermisoGeneral + item.PermisoGeneral ?? 0;}
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.PermisoMedico)
+                @{ TotalPermisoMedico = TotalPermisoMedico + item.PermisoMedico ?? 0;}
 
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Total)
-                    @{ Total = Total + item.Total ?? 0;}
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.PermisoGeneral)
+                @{ TotalPermisoGeneral = TotalPermisoGeneral + item.PermisoGeneral ?? 0;}
 
-                </td>
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Vacaciones)
+                @{ Vacaciones = Vacaciones + item.Vacaciones ?? 0;}
 
-            </tr>
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Total)
+                @{ Total = Total + item.Total ?? 0;}
+
+            </td>
+
+        </tr>
         }
     </tbody>
     <tfoot>
         <tr>
             <td>Totales:</td>
             <td class="text-center">@TotalPresente</td>
+            <td class="text-center">@TotalPresentePrestadoOtraLinea</td>
+            <td class="text-center">@TotalPresentePrestado</td>
             <td class="text-center">@TotalFalta</td>
-            <td class="text-center">@TotalPermisoMedico</td>
             <td class="text-center">@TotalCambioArea</td>
+            <td class="text-center">@TotalPermisoMedico</td>
             <td class="text-center">@TotalPermisoGeneral</td>
+            <td class="text-center">@Vacaciones</td>
             <td class="text-center">@Total</td>
         </tr>
     </tfoot>

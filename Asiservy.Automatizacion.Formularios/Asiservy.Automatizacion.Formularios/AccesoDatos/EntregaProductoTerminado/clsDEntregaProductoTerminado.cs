@@ -18,6 +18,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 return lista;
             }
         }
+
+        public bool ConsultaControlProductoTerminado(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Control = entities.PRODUCTO_TERMINADO.FirstOrDefault(x=> x.IdProductoTerminado == IdControl);
+                var result = Control.EstadoReporte??false;
+                return result;
+            }
+        }
+
         public RespuestaGeneral GuardarModificarControl(PRODUCTO_TERMINADO control)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -26,14 +37,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 if (result != null)
                 {
                     result.FechaVencimiento = control.FechaVencimiento;
-                    result.CodigoProducto = control.CodigoProducto;
-                    result.Observacion = control.Observacion;
+                    result.CodigoProducto = control.CodigoProducto.ToUpper();
+                    result.Observacion = string.IsNullOrEmpty(control.Observacion)? control.Observacion : control.Observacion.ToUpper();
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = control.TerminalIngresoLog;
                 }
                 else
                 {
+                    control.CodigoProducto = control.CodigoProducto.ToUpper();
+                    control.Observacion = string.IsNullOrEmpty(control.Observacion) ? control.Observacion : control.Observacion.ToUpper();
                     control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     control.FechaIngresoLog = DateTime.Now;
                     entities.PRODUCTO_TERMINADO.Add(control);
@@ -276,29 +289,55 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
 
 
         #region BANDEJA CC
-        public List<spConsultaProductoTerminadoBandejaCC> ConsultaControlProductoTerminadoBandejaCC(DateTime Fecha)
+       
+       
+
+        public List<spConsultaProductoTerminadoBandejaCC> ConsultaControlProductoTerminadoBandejaCC(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.spConsultaProductoTerminadoBandejaCC(Fecha).ToList();
+                return entities.spConsultaProductoTerminadoBandejaCC(FechaDesde, FechaHasta, Estado).ToList();
+            }
+        }
+
+        //public List<PRODUCTO_TERMINADO> ConsultaProductoTerminadoPendiente()
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        return entities.PRODUCTO_TERMINADO.Where(x => x.EstadoReporte==false && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+        //    }
+        //}
+
+
+        public void Aprobar_ReporteProductoTerminado(PRODUCTO_TERMINADO controlCloro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.PRODUCTO_TERMINADO.FirstOrDefault(x => x.IdProductoTerminado == controlCloro.IdProductoTerminado);
+                if (model != null)
+                {
+                    model.EstadoReporte = controlCloro.EstadoReporte;
+                    model.AprobadoPor = controlCloro.AprobadoPor;
+                    model.FechaAprobacion = controlCloro.FechaAprobacion;
+                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
+                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
+                    db.SaveChanges();
+                }
+
+            }
+        }
+        #endregion
+
+        #region REPORTE
+        public List<spConsultaProductoTerminadoReporte> ReporteConsultaControlProductoTerminado(DateTime FechaDesde,DateTime FechaHasta, string Linea)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaProductoTerminadoReporte(FechaDesde,FechaHasta, Linea).ToList();
                 return lista;
             }
         }
-
-        public void AprobarEntregaProductoTerminado(int IdControl)
-        {
-            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-            {
-                var model = entities.PRODUCTO_TERMINADO.FirstOrDefault(x => x.IdProductoTerminado == IdControl);
-                if (model != null)
-                {
-                    model.EstadoReporte = true;
-                    entities.SaveChanges();
-                }
-            }
-        }
-
-
         #endregion
     }
 }

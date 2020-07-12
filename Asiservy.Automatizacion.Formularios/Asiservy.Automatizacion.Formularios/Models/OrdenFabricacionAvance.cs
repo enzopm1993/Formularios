@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Peso { get; set; }
         public string Piezas { get; set; }
         public string Promedio { get; set; }
+        public string Barco { get; set; }
 
     }
 }

@@ -461,6 +461,9 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno:$('#TurnoGen').val()
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 if (resultado == '888') {
                     MensajeError("no se puede grabar la asistencia, el periodo se encuentra cerrado");
                 } else {
@@ -491,7 +494,8 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             dataType: "json",
             data: {
                 cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                Turno: $('#TurnoGen').val()//agregado 2020-02-20 por error al cambiar asistencia a falta
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);

@@ -4,83 +4,97 @@
     ViewBag.Title = "Clasificador";
 }
 
-    <h3>Clasificador</h3>
+<h3>Clasificador</h3>
 
 
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-        <div class="form-group" hidden>
-            <div class="col-md-3">
-                @Html.EditorFor(model => model.IdClasificador, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-        <div>
-            <div class="form-group">
-                <div class="custom-control custom-checkbox mb-3">
-                    @Html.CheckBox("ValidaGrupo", false, new { @id = "CheckGrupo", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
-                    @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
-                    <label class="custom-control-label" for="CheckGrupo" id="">Grupo</label>
+       
+        <div class="card shadow">
+            <div class="card-header">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox mb-3">
+                            @Html.CheckBox("ValidaGrupo", false, new { @id = "CheckGrupo", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                            @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                            <label class="custom-control-label" for="CheckGrupo" id="">Grupo</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.GrupoNombre, htmlAttributes: new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.Grupo, new SelectList(ViewBag.Grupos, "Grupo", "Descripcion"), "Seleccione", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Grupo, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-1 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>Id</label>
+                            @Html.EditorFor(model => model.IdClasificador, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GrupoNombre, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Grupo, new SelectList(ViewBag.Grupos, "Grupo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Grupo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="col-md-3 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>Código</label>
+                            @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="col-md-3 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox mb-3">
-                        <br />
-                        @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstadoRegistro(this.checked)" })
-                        <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                    <div class="col-md-2 col-sm-6 col-6">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox mb-3">
+                                <br />
+                                @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstadoRegistro(this.checked)" })
+                                <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center col-md-12">
+                    <div class="form-group">
+                        @*<input type="submit" value="Grabar" class="btn btn-primary" />
+                <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />*@
+                        <button class="btn" id="btnGuardar" onclick="Grabar()" style="border-color:#2c3e50" type="submit">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                        <button class="btn" id="" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/clear24.png" />
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="text-center col-md-12">
-            <div class="form-group">
-                @*<input type="submit" value="Grabar" class="btn btn-primary" />
-                    <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />*@
-                <button class="btn" id="btnGuardar" onclick="Grabar()" style="border-color:#2c3e50" type="submit">
-                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                </button>
-                <button class="btn" id="" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/clear24.png" />
-                </button>
             </div>
-        </div>
-    </div>
-}
-    <hr />
-<div class="table-responsive" id="DivTableClasificador" style="padding-bottom:5%"> </div>
+        <div class="card-body">
 
+            <hr />
+            <div id="spinnerCargando" hidden class="text-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+            <div class="table-responsive" id="DivTableClasificador" style="padding-bottom:5%"> </div>
+
+
+
+        </div>
+
+        </div>
+       
+}

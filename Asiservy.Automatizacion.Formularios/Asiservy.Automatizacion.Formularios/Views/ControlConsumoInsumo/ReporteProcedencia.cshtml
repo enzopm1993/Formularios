@@ -10,6 +10,12 @@
             @Html.DisplayNameFor(model => model.Lote)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Lomo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Miga)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Observacion)
         </th>
 
@@ -17,18 +23,24 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @item.Procedencia
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lote)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observacion)
-            </td>
+    <tr>
+        <td>
+            @item.Procedencia
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lomo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Miga)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
 
-        </tr>
+    </tr>
     }
 
 </table>

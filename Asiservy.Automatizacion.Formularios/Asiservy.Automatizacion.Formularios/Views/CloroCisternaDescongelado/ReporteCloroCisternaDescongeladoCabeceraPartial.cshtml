@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_CISTERNA_DESCONGELADO>
+@using Asiservy.Automatizacion.Datos.Datos;
+@using Newtonsoft.Json;
+
+<table class="table table-bordered table-hover text-uppercase" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACIÓN
+            </th>
+            <th>
+                APROBADO POR
+            </th>
+            <th>
+                FECHA APROBACIÓN
+            </th>
+            <th>TURNO</th>
+            <th>
+                ESTADO
+            </th>
+
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarCabecera(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td style="white-space:normal">
+                   
+                        @item.Observaciones
+                   
+                </td>
+                <td>
+                    @item.AprobadoPor
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaAprobacion);}
+                    @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                 where x.Codigo == item.Turno.ToString()
+                                 select new { x.Descripcion }).FirstOrDefault();
+                }
+                <td>
+                    @if (turno != null)
+                    {
+                        @turno.Descripcion
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -15,11 +15,18 @@
 </style>
 <h3>Reporte Proyección Programación</h3>
 <div class="row">
-    <div class="col-md-4 col-8">
+    <div class="col-md-3 col-8">
         <label>Fecha</label>
         <input type="date" id="txtFecha" class="form-control" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>
-
+    <div class="col-6 col-md-2 col-sm-6">
+        <label>Turno</label>
+        <select class="form-control" id="selectTurno" onchange="">
+            <option value="1">Turno A</option>
+            <option value="2">Turno B</option>
+        </select>
+        <p class="text-danger" hidden id="ValidaMarea">Seleccione una marea</p>
+    </div>
     <div class="col-md-1 text-md-left col-4 text-center">
         <label>Acción</label>
         <div class="form-group">
@@ -28,7 +35,7 @@
             </button>
         </div>
     </div>
-    <div class="col-md-7 text-md-left col-12 text-center">
+    <div class="col-md-6 text-md-left col-12 text-center">
         <label>Estado</label>
         <table class="table-bordered table-responsive">
             <tr>

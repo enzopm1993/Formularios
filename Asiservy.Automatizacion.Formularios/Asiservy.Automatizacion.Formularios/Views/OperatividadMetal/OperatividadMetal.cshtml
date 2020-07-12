@@ -1,0 +1,410 @@
+﻿
+@{
+    ViewBag.Title = "OperatividadMetal";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+
+    .img {
+        margin: 10px auto;
+        border-radius: 5px;
+        border: 1px solid #999;
+        padding: 13px;
+        /*width:420px;
+  height:320px;*/
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+        .img img {
+            width: 100%;
+        }
+
+    @@media all and (min-width: 500px) and (max-width: 1000px) {
+        .img {
+            margin: 20px auto;
+            border-radius: 5px;
+            border: 1px solid #999;
+            padding: 13px;
+            width: 300px;
+            height: 300px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;         
+            background-size: cover;
+        }
+    }
+
+    .img img {
+        width: 100%;
+    }
+</style>
+<h4>Operatividad Detector de Metal <label id="lblAprobadoPendiente" class="badge"> </label> </h4>
+
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno,"Codigo","Descripcion"),"Seleccione",new {@class="form-control",@onchange= "ConsultarControl()" })
+            </div>
+        </div>
+
+        <div class="col-md-3 text-md-left col-sm-6 col-6 text-center">
+            <label class="">Acción</label>
+            <div class="form-group">
+                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+                <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+
+                <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarModal()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/edit24.png" />
+                </button>
+                <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
+                <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/atras24.png" />
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-12">
+            <div class="card shadow text-justify">
+                <div class="card-body">
+                    <p>Limite Control: 100% de bandejas de lomos pasadas por el detector de metales.</p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br />
+<div class="text-center" id="divMensaje"></div>
+
+<div id="divCabeceras" class="shadow card table-responsive">
+
+</div>
+
+<div id="divDetalle" hidden class="">
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-8">
+                            <h5>Verificación de operatividad con patrones</h5>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<div class="text-center" id="divMensaje"></div>
+<div id="divDetalle2" hidden class="">
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle2()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-8">
+                            <h5>Detección de metales en bandejas</h5>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDetalle2" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDetalle2" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar todo el control de operatividad de metal?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalCabecera">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Operatividad de Metal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtIdControl" name="name" value="0" />
+
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>PCC</label>
+                        <input type="text" autocomplete="off" maxlength="50" class="form-control" id="txtPcc" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Codigo Detector Metal</label>
+                        <input type="text" autocomplete="off" maxlength="50" class="form-control" id="txtCodDetectorMetal" name="name" value="" />
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Destino</label>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkLomo">
+                            <label class="custom-control-label" for="chkLomo">Empaque Lomo</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkLata">
+                            <label class="custom-control-label" for="chkLata">Lata y Pouch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Ferroso</label>
+                        <input type="tel" min="0" autocomplete="off" class="form-control" id="txtFerroso" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>No Ferroso</label>
+                        <input type="tel" min="0" autocomplete="off" class="form-control" id="txtNoFerroso" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Acero Inoxidable</label>
+                        <input type="tel" min="0" autocomplete="off" class="form-control" id="txtAceroInoxidable" name="name" value="" />
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-12">
+                        <label>Observación</label>
+                        <input type="text" autocomplete="off" class="form-control" id="txtObservacion" maxlength="500" name="name" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControl()">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Operatividad con Patrones</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlDetalle" name="name" value="0" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input class="form-control" id="txtHora" type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Patrones</label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="chkFerroso">
+                                <label class="custom-control-label" for="chkFerroso">Ferroso</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="chkNoFerroso">
+                                <label class="custom-control-label" for="chkNoFerroso">No Ferroso</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="chkAceroInoxidable">
+                                <label class="custom-control-label" for="chkAceroInoxidable">Acero Inoxidable</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-12">
+                        <label>Observación</label>
+                        <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacionDetalle" name="name" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle()" id="btnGenerarControlConsumo">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle?</h4>
+            </div>
+            <div class="modal-body">
+                <label id="labelMensaje"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle2" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detección de metales</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlDetalle2" name="name" value="0" />
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Novedad</label>
+                            <input class="form-control" id="txtNovedad" type="text" size="500" name="name" value="" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Metales</label>
+                        <div class="custom-file" id="divFileUpload">
+                            <input type="file" class="file-upload" id="file-upload" accept="image/*">
+                            <label class="custom-file-label" for="file-upload" id="lblfoto">Seleccione archivo</label>
+                        </div>
+                        @*<div id="divFileUpload">
+            <input id="file-upload" type="file" accept="image/*" />
+        </div>*@
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlDetalle2()" id="">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle2">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle2" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle?</h4>
+            </div>
+            <div class="modal-body">
+                <label id="labelMensaje2"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle2-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle2-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

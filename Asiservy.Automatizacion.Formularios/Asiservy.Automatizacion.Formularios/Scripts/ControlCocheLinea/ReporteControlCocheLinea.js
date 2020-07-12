@@ -15,7 +15,8 @@ function CargarControlCoche() {
         url: "../ControlCocheLinea/ReporteControlCocheLineaPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#cmbTurno").val()
         },
         success: function (resultado) {
             var DivControl = $('#DivTableReporteControlCoche');

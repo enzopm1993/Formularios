@@ -1,0 +1,152 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMonitoreoDescongelado>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
+@{
+    var groupedCustomerList = Model
+     .GroupBy(u => new { u.IdMonitoreoDescongeladoControl, u.Tanque, u.Talla, u.Especie, u.Lote })
+     .Select(g => new spConsultaMonitoreoDescongelado
+     {
+         IdMonitoreoDescongeladoControl = g.Key.IdMonitoreoDescongeladoControl,
+         Tanque = g.Key.Tanque,
+         Talla = g.Key.Talla,
+         Lote = g.Key.Lote,
+         Especie = g.Key.Especie
+
+     })
+     .ToList();
+
+    var Muestra = (List<MantenimientoMuestraDescongeladoModel>)ViewBag.Muestra;
+    var Tipo =(List<MantenimientoTipoDescongeladoModel>) ViewBag.Tipo;
+}
+
+<h6><b>Turno:</b>@ViewBag.Turno</h6>
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead class="letra9">
+        <tr>
+            <th rowspan="3" class="text-center">@Html.DisplayNameFor(model => model.Tanque)</th>
+            <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Lote)</th>
+            <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Especie)</th>
+            <th rowspan="3" class="text-center"> @Html.DisplayNameFor(model => model.Talla)</th>
+
+            @foreach (var t in Tipo)
+            {
+                int cont = 2;
+                if(t.TemperaturaAgua)
+                {
+                    cont += 1;
+                }
+                cont += Muestra.Count;
+                <th colspan="@cont" class="text-center">@t.Descripcion</th>
+
+            }
+        </tr>
+       
+
+        <tr class="text-center">
+            @foreach (var t in Tipo)
+            {
+                <th rowspan="2">
+                    Hora
+                </th>
+                if (t.TemperaturaAgua)
+                {
+                <th rowspan="2" style="white-space:normal">
+                    Temperatura de agua ºc
+                </th>
+                }
+                <th colspan="@Muestra.Count" style="white-space:normal">
+                    Temperatura de pescado ºc
+                </th>
+                <th rowspan="2">Observación</th>
+            }
+
+           
+        </tr>
+        <tr>
+            @foreach (var t in Tipo)
+            {
+                foreach (var m in Muestra)
+                {
+                    <td>@m.Abreviatura</td>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody class="letra6">
+        @foreach (var control in groupedCustomerList)
+        {
+
+        <tr>
+            <td>
+                @control.Tanque
+            </td>
+            <td>
+                @control.Lote
+            </td>
+            <td>
+                @control.Especie
+
+            </td>
+            <td>
+                @control.Tanque
+            </td>
+
+            @foreach (var d in Tipo)
+            {
+                var temperatura = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.IdTipoMonitoreo == d.IdTipoMonitoreo);
+
+                if (temperatura != null)
+                {
+                    <td>@temperatura.Hora.ToString("dd-MM-yyyy HH:mm")</td>
+                }
+                else
+                {
+                    <td>-</td>
+
+                }
+                if (d.TemperaturaAgua)
+                {
+
+                    if (temperatura != null)
+                    {
+                        <td>@temperatura.TemperaturaAgua</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+
+                    }
+                }
+
+                foreach (var m in Muestra)
+                {
+                    var moni = Model.FirstOrDefault(x => x.Tanque == control.Tanque && x.IdTipoMonitoreo == d.IdTipoMonitoreo && x.IdMuestra == m.IdMuestra);
+
+                    if (moni != null)
+                    {
+                        <td>@moni.Cantidad</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                if (temperatura != null)
+                {
+                    <td style="white-space:normal">@temperatura.Observacion</td>
+                }
+                else
+                {
+                    <td></td>
+
+                }
+            }
+
+
+        </tr>
+
+
+        }
+    </tbody>
+</table>

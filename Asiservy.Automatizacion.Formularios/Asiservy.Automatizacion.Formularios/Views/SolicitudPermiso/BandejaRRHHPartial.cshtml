@@ -32,9 +32,9 @@
                         <td>@m.IdSolicitudPermiso</td>
                         <td>@m.FechaIngresoLog</td>
                         <td>@m.DescripcionMotivo</td>
-                        @if (m.ValidaMedico != null)
+                        @if (m.Origen != null)
                         {
-                            if (m.ValidaMedico == false)
+                            if (m.Origen == "M")
                             {
                                 <td style="color:#133c70" class="text-center">
                                     <i class="fas fa-briefcase-medical"></i>
@@ -44,7 +44,7 @@
                             else
                             {
                                 <td style="color:#ff0000" class="text-center">
-                                    <i class="fas fa-briefcase-medical"></i>
+                                  
                                 </td>
 
                             }

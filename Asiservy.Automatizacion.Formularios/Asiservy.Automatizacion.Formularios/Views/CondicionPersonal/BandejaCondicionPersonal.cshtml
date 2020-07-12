@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "BandejaCondicionPersonal";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+</style>
+
+<h4>Bandeja de Aprobación de Condición del Personal</h4>
+
+<br />
+<div class="card shadow">
+    <div class="card-body">
+
+        <div class="row" id="DivFiltros">
+            <div class="col-md-2 col-sm-6 form-group">
+                <label>Estado del Registro</label>
+                <select id="selectEstadoRegistro" class="form-control" onchange="FiltrarAprobadosFecha()">
+                    <option value="false" default>PENDIENTE</option>
+                    <option value="true">APROBADO</option>
+                </select>
+            </div>
+
+            <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker" hidden>
+                <label>Filtrar por Fecha:</label>
+                <input type="hidden" id="fechaDesde" value="" />
+                <input type="hidden" id="fechaHasta" value="" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <label>Acciones</label>
+                <div class="form-group">
+                    <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="FiltrarAprobadosFecha()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/ver24.png" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+<div class="card shadow table-responsive">
+    <div class="card-body">
+
+
+        <div id="spinnerCargando" hidden class="text-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+        <div id="divPartialControlCloro">
+
+        </div>
+
+        <div class="text-center"> <h5 style="display:none" id="MensajeRegistros" class="text-warning">No Existen Registros</h5></div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalle Control Condicción del Personal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
+                        <thead>
+                            <tr>                              
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Cedula</th>
+                                <th>Nombre</th>
+                                <th>Condición</th>
+                                <th>Observacion</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="datetime-local" id="txtFechaAprobacion" style="width:auto" max="@DateTime.Now" class="form-control" hidden name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle()">Aprobar</button>
+                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="ReversarControl()">Reversar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

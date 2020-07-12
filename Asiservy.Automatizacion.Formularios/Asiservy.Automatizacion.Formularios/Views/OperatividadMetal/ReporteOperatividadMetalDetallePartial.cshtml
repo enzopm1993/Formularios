@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_METAL_DETALLE>
+
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ferroso)
+            </th>
+            <th>
+                No Ferroso
+            </th>
+            <th>
+                Acero Inoxidable
+            </th>
+            <th>
+                Observación
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
+                </td>
+                <td class="text-center">
+                    @if (item.Ferroso)
+                    {
+                        <i class="fas fa-check-circle" style="color:#1cc88a"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-check-circle" style="color:red"></i>
+                    }
+                </td>
+                <td class="text-center">
+                   
+                    @if (item.NoFerroso)
+                    {
+                        <i class="fas fa-check-circle" style="color:#1cc88a"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-check-circle" style="color:red"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.AceroInoxidable)
+                    {
+                        <i class="fas fa-check-circle" style="color:#1cc88a"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-check-circle" style="color:red"></i>
+                    }
+                </td>
+                <td style="white-space:normal">
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+               
+            </tr>
+        }
+    </tbody>
+</table>

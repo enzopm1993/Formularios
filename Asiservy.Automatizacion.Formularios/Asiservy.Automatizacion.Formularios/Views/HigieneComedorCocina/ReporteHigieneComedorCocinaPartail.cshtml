@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Higine_Comedor_Cocina>
+
+@{
+    var listaCategoria = (from l in Model
+                          group l by new { l.Categoria } into x
+                          select new { x.Key.Categoria });
+}
+@foreach (var categoria in listaCategoria) {
+<table class="table table-bordered">
+    <thead style="font-size:11px;text-align:center">
+        <tr>            
+            <th width="200px" >
+               @categoria.Categoria.ToUpper()
+            </th>
+            <th width="70px">
+                ESTADO
+            </th>
+            <th>
+                OBSERVACIONES
+            </th>
+            <th>
+                ACCION CORRECTIVA
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:10px; text-align:center">
+        @foreach (var item in Model)
+        {
+            if (categoria.Categoria==item.Categoria) {
+            <tr>               
+                <td style="white-space:normal">
+                    @item.Nombre.ToUpper()
+                </td>
+                <td>
+                    @item.LimpiezaEstado
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                        @item.Observacion.ToUpper()
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
+                    {
+                        @item.AccionCorrectiva.ToUpper()
+                    }
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+}

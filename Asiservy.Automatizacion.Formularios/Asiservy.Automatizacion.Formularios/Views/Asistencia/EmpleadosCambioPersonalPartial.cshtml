@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosFiltroCambioPersonal>
+﻿@*@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosFiltroCambioPersonal>*@
+@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosCambioPersonal>
+
+    
 @using Asiservy.Automatizacion.Datos.Datos;
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
@@ -21,11 +24,11 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td><input type="checkbox" id="Empleado-@item.CEDULA" /></td>
+                <td class="text-center"><input type="checkbox" id="Empleado-@item.CEDULA" /></td>
                 <td>@item.CEDULA</td>
                 <td>@item.NOMBRES</td>
                 @{string LineaMovido = "";
-                    DateTime? fechaMovido=null;
+                    DateTime? fechaMovido = null;
                     if (ViewBag.ADondeFuePrestado != null)
                     {
                         //List<spConsutaEmpleadosFiltroCambioPersonal> listEmpleados = ViewBag.ADondeFuePrestado;
@@ -35,14 +38,14 @@
                                        where e.CEDULA == item.CEDULA
                                        select e.LINEA).FirstOrDefault();
                         fechaMovido = (from e in listEmpleados
-                                      where e.CEDULA == item.CEDULA
-                                      select e.FECHAMOVIDO).FirstOrDefault();
+                                       where e.CEDULA == item.CEDULA
+                                       select e.FECHAMOVIDO).FirstOrDefault();
                     }
                 }
                 @if (ViewBag.ADondeFuePrestado != null)
                 {
                     <td>@LineaMovido</td>
-                
+
                     <td>@fechaMovido.Value.ToString("dd/MM/yyyy HH:mm:ss")</td>
                 }
                 <td>@item.LINEA</td>
@@ -54,8 +57,8 @@
 </table>
 
 
-<script src="~/Scripts/General/dataTableJS.js"></script> 
+<script src="~/Scripts/General/dataTableJS.js"></script>
 <script>
-   
-   
-    </script>
+
+
+</script>

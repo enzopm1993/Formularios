@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Desechos_Liquidos_Peligrosos>
+
+<table class="table table-bordered" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                DIA
+            </th>
+            <th>
+                LABORATORIO
+            </th>
+            <th>
+                OTROS
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:12px">
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.FechaDIA.ToString("dd")
+                </td>
+                <td>
+                    @item.Laboratorio.ToString("####.##")  Lt
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Otros))
+                    {
+                        @item.Otros.ToUpper()
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Observaciones))
+                    {
+                        @item.Observaciones.ToUpper()
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

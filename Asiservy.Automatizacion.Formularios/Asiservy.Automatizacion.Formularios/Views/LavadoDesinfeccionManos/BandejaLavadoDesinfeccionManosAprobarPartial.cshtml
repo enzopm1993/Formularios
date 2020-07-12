@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos_Detalle>
+
+<table class="table table-light table-striped" tabindex="1" id="tblDataTableAprobar">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                FECHA-HORA
+            </th>
+            @foreach (var item in ViewBag.cabeceraTable)
+            {
+                <th>
+                    @item.Descripcion.ToUpper()
+                </th>
+            }           
+        </tr>
+    </thead>
+    @{
+        var listaColumnasCabecera = ViewBag.cabeceraTable;
+        var listaHora = (from ssi in Model
+                         group ssi by new { ssi.FechaHora } into g
+                         select new { Hora = g.Key.FechaHora, Count = g.Count() }).ToList();
+        var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
+    }
+    <tbody style="font-size:11px">
+        @foreach (var subListaHora in listaHora)
+        {
+            var itemColumna = (from x in Model
+                               where x.FechaHora == subListaHora.Hora
+                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.FechaHora }).ToList();
+        <tr>
+            <td>
+                @subListaHora.Hora.ToString("dd-MM-yyyy HH:mm")
+            </td>
+            @foreach (var lc in listaColumnasCabecera)
+            {
+
+                int dibujarTDDiNo = 0;
+                foreach (var ic in itemColumna)
+                {
+                    if (ic.CodigoLinea == lc.Codigo)
+                    {
+                        dibujarTDDiNo = 1;
+                        if (ic.EstadoCumplimiento == true)
+                        {
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
+                        }
+                        else if (ic.EstadoCumplimiento == false)
+                        {
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
+                        }
+                        else if (ic.EstadoCumplimiento == null)
+                        {
+                            <td><center><span class="badge badge-info">N/A</span></center></td>
+                        }
+                    }
+                }
+                if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
+                {
+                    <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>
+                }
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>
+

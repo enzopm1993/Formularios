@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
+
+<style>
+    textarea {
+        font-size: 11px;
+        border: none;
+        resize: none;
+        overflow: hidden;
+        min-height: 0px;
+        width: 500px;
+        background: none;
+        padding-top: 10px;
+        padding-bottom: 0.1rem;
+        vertical-align: middle;
+    }
+</style>
+<table class="table table-bordered table-hover table-striped text-uppercase" id="tblDataTable">
+    <thead style="font-size:13px">
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th >
+                OBSERVACIÓN
+            </th>
+            <th>
+                USUARIO CREACIÓN
+            </th>
+            <th>
+                FECHA CREACIÓN
+            </th>
+            <th>TURNO</th>
+            <th>
+                ESTADO
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:12px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                   
+                        <textarea type="text" name="name" class="text-uppercase" style="color:black" disabled id="note" >@item.ObservacionControl</textarea>
+                   
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog
+                </td>
+                <td>
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @{ var turno = (from x in ViewBag.Turno as List<CLASIFICADOR>
+                                     where x.Codigo == item.Turno.ToString()
+                                     select new { x.Descripcion }).FirstOrDefault();}
+                    @if (turno!=null)
+                    {
+                        @turno.Descripcion
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

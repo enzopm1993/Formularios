@@ -1,0 +1,58 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.PlantillasMemorandum>
+@{
+    ViewBag.Title = "Plantillas de Memorandums";
+}
+
+<h4>Plantillas de Memorandums</h4>
+<hr />
+<br />
+
+<div class="col-md-12 col-12">
+    <div class="">
+        <a class="btn btn-primary" href="/Memorandum/Gestion">Agregar nueva plantilla de memorandum</a>
+    </div>
+</div>
+<br />
+<div class="col-md-12 col-12">
+    <div class="">
+
+        <div class="table-responsive">
+            <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:14px">
+                    @if (Model != null)
+                    {
+                        foreach (var m in Model)
+                        {
+                            <tr>
+                                <td>@m.id</td>
+                                <td>@m.Titulo</td>
+                                <td>
+                                    @if (@m.Estado == true)
+                                    {
+                                        <span class="badge badge-success">ACTIVA</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">INACTIVA</span>
+                                    }
+
+
+                                </td>
+                                <td><a class="btn btn-primary btn-sm" href="/Memorandum/Gestion?id=@m.id.ToString()"><i class="fas fa-edit"></i></a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "ReporteControlBalanza";
+}
+
+<h4>Reporte Control de Balanza</h4>
+
+
+<div class="row">
+    <div class="col-md-4 col-sm-6 col-6">
+        <label>Fecha</label>
+        <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="" />
+    </div>
+    <div class="col-md-4 col-sm-6 col-6">
+        <label>Fecha</label>
+        <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="" />
+    </div>
+
+    <div class="col-md-4 col-12  text-md-left text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnModalGenerar" onclick="CargarControlBalanza()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+
+<div id="DivTableControl" class="table-responsive">
+
+</div>

@@ -1,0 +1,320 @@
+﻿
+@{
+    ViewBag.Title = "ReporteEntradaySalidaDeMateriales";
+}
+<style>
+    @@media print and (color) {
+        @@page {
+            size: A4;
+        }
+        #wrapper #content-wrapper {
+            background-color: white;
+        }
+        .card-header {
+            background-color: white;
+        }
+
+        .card-footer {
+            background-color: white;
+        }
+        * {
+            -webkit-print-color-adjust: exact;
+        }
+
+        #tblfotos {
+            page-break-before: always;
+        }
+
+        table {
+            page-break-after: auto
+        }
+
+        div.divCont {
+            top: 100px;
+            position: relative;
+        }
+
+        div.divHeader {
+            /*position: fixed;
+            top: 0;
+            width: 100%;*/
+        }
+
+        div.divBody {
+            /*margin-top: 170px;
+            border-left: 1px solid gray;
+            padding: 1em;
+            overflow: hidden;*/
+        }
+
+        div.divFooter {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #revisado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: dimgrey;
+        }
+
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: dimgrey;
+        }
+
+        #divcarddet {
+            border: none;
+        }
+
+        #TablasDetalles {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        #DivBotonImpr {
+            display: none;
+        }
+
+        #card1 {
+            display: none;
+        }
+
+        #espacio {
+            display: none;
+        }
+
+        #accordionSidebar {
+            display: none;
+        }
+
+        #titulo {
+            display: none;
+        }
+        /*#tablaCab {
+            margin-bottom: 0rem;
+            margin-top: 0rem;
+
+        }*/
+        #tbltitulo {
+            display: block;
+            margin-bottom: 0rem;
+        }
+
+        #tablaCab td {
+            font-size: 0.8rem;
+        }
+
+        #tblReporte td {
+            font-size: 0.8rem;
+        }
+
+        #tblReporte th {
+            font-size: 0.6rem;
+        }
+        /*table tr td {
+            border: 1px solid black;
+        }*/
+        /*#firma1 {
+            border-bottom: solid;
+        }
+
+        #firma2 {
+            border-bottom: solid;
+        }*/
+        /*tr {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }
+
+        td {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }*/
+        /*thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-footer-group
+        }*/
+        hr {
+            display: none;
+        }
+        /*br {
+            display: none;
+        }*/
+        .card {
+            border: 0px solid #e3e6f0;
+        }
+    }
+
+    @@media screen {
+        #logo {
+            display: none;
+        }
+
+        #revisado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
+
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
+
+        #tblDataTableReporte tbody tr {
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #tblDataTableReporte thead tr {
+            text-align: center;
+        }
+
+        .selectbox {
+            background: #fff;
+            padding: 5px 8px;
+            line-height: 18px;
+            border-radius: 4px;
+            border-width: 0 1px 4px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+
+        .btnWait {
+            cursor: no-drop !important;
+        }
+        #tablaCab td {
+            font-size: 0.8rem;
+        }
+        #tablaCab {
+            /*border-bottom: 1rem;*/
+        }
+        /*#tbltitulo {
+            display: none;
+            margin-bottom: 0rem;
+        }*/
+        input, select, textarea {
+            max-width: 100%;
+        }
+
+        .table {
+            margin-bottom: 0.5rem;
+        }
+
+        #tblReporte td {
+            font-size: 0.8rem;
+        }
+
+        #tblReporte th {
+            font-size: 0.8rem;
+        }
+        /*.table tr td {
+            border: 1px;
+        }*/
+        /*.card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }*/
+        /*#firma1 {
+            border-bottom: solid;
+        }
+
+        #firma2 {
+            border-bottom: solid;
+        }*/
+    }
+</style>
+<h4 id="titulo">Reporte de entrada y salida de materiales</h4>
+<input type="hidden" id="codLinea" value="@ViewBag.Linea" />
+<div class="card" id="card1">
+    <div class="row">
+        <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
+            <label>Filtrar por Fecha:</label>
+            <input type="hidden" id="fechaDesde" value="" />
+            <input type="hidden" id="fechaHasta" value="" />
+            <div id="reportrange" class="selectbox">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+            </div>
+        </div>
+        <div class="col-5">
+            <label>Acciones</label>
+            <div class="form-group">
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarCabReportes()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+            </div>
+        </div>
+        <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
+    </div>
+</div>
+<br />
+<center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
+<div id="DivCabReportes" class="card" hidden>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="table-responsive">
+                <table id="tblDataTableReporte" class="table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>IdControlEntradaSalidaMateriales</th>
+                            <th>Fecha</th>
+                            <th>Linea</th>
+                            <th>Turno</th>
+                            <th>Observacion</th>
+                            <th>FechaIngresoLog</th>
+                            <th>UsuarioIngresoLog</th>
+                            <th>TerminalIngresoLog</th>
+                            <th>FechaModificacionLog</th>
+                            <th>UsuarioModificacionLog</th>
+                            <th>TerminalModificacionLog</th>
+                            <th>Estado control</th>
+                            <th>Aprobado por</th>
+                            <th>Fecha de aprobación</th>
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+           
+        </div>
+    </div>
+</div>
+<div>
+    <div style="padding-bottom:10px;" id="DivBotonImpr" hidden>
+        <center>
+            <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnimprimir" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>
+        </center>
+    </div>
+</div>
+<div id="DivReporte">
+
+</div>
+
+

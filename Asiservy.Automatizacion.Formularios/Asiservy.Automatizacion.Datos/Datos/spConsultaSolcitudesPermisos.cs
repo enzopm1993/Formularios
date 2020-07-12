@@ -24,11 +24,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Linea { get; set; }
         public string CodigoCargo { get; set; }
         public string CodigoMotivo { get; set; }
+        public string Motivo { get; set; }
         public string Observacion { get; set; }
         public System.DateTime FechaSalida { get; set; }
         public System.DateTime FechaRegreso { get; set; }
         public string CodEstadoSolicitud { get; set; }
-        public string EstadoSolcitud { get; set; }
+        public string EstadoSolicitud { get; set; }
         public Nullable<System.DateTime> FechaBiometrico { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

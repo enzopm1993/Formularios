@@ -18,7 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdControlConsumoInsumos { get; set; }
         public string Proveedor { get; set; }
         public string Aditivo { get; set; }
-        public Nullable<int> Peso { get; set; }
+        public Nullable<decimal> Peso { get; set; }
         public string Lote { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

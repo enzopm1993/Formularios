@@ -1,0 +1,300 @@
+﻿@{
+    ViewBag.Title = "ReporteMaestro";
+}
+<style>
+    .img{
+  margin:10px auto;
+  border-radius:5px;
+  border: 1px solid #999;
+  padding:13px;
+  /*width:420px;
+  height:320px;*/
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background-size: cover;
+  }
+.img img{
+  width: 100%;
+}
+@@media all and (min-width: 500px) and (max-width: 1000px)
+{
+.img{
+  margin:20px auto;
+  border-radius:5px;
+  border: 1px solid #999;
+  padding:13px;
+  width:300px;
+  height:300px;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background:url(../img/imagen.jpg);
+  background-size: cover;
+
+  }
+}
+.img img{
+   width:100%;
+}
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+ 
+</style>
+
+<h4>Control de Reportes Maestros</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 hidden id="hMensaje"></h5>
+                <div class="row" id="divCabecera">
+                    <div class="col-md-1 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input type="number" disabled class="form-control" name="name" id="txtIdControl" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Opcion</label>
+                           @* @Html.DropDownList("selectOpcion", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })*@
+                            <select id="selectOpcion" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" autocomplete="off" maxlength="100" class="form-control" name="name" value="" id="txtNombre" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Código</label>
+                            <input type="text" maxlength="50" autocomplete="off" class="form-control" name="name" value="" id="txtCodigo" />
+                        </div>
+                    </div>
+
+
+
+
+                    <div hidden class="col-md-2 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label>Versión</label>
+                            <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtVersion" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarReporteMaestro()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+                    <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarReporte()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/edit24.png" />
+                    </button>
+                    <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                    </button>
+                    <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/atras24.png" />
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="row" id="divCabeceraPartial">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div id="spinnerCargando" hidden class="text-center">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+                <div id="chartCabecera" class="table-responsive">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" hidden id="divDetalle">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarReporteDetalle()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+
+            </div>
+            <div class="card-body">
+                <div id="spinnerCargandoDetalle" hidden class="text-center">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+                <div id="chartDetalle" class="table-responsive">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalEditarControl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Control</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 col-2 col-sm-6">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="number" disabled id="txtIdControlModal" class="form-control" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-5 col-sm-6">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" maxlength="100" id="txtNombreModal" class="form-control" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-5 col-sm-6">
+                        <div class="form-group">
+                            <label>Código</label>
+                            <input type="text" id="txtCodigoModal"  maxlength="50" class="form-control" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-5 col-sm-6">
+                        <div class="form-group">
+                            <label>Opción</label>
+                            @*@Html.DropDownList("selectOpcionModal", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })*@
+                            <input type="text" readonly class="form-control" id="selectOpcionModal" name="name" value="" />
+                        </div>
+                    </div>
+                    @*<div class="col-md-6 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Versión</label>
+                <input type="text" id="txtVersionModal" class="form-control" name="name" value="" />
+            </div>
+        </div>*@
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="EditarReporteMaestro()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalControlDetalle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-2 col-sm-2">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="number" disabled id="txtIdDetalleModal" class="form-control" name="name" value="0" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Versión <span class="badge badge-secondary">(1-100)</span></label>
+                            <input type="text" id="txtVersionDetalleModal" placeholder="" size="10" autocomplete="off" class="form-control" name="name" value="" />
+                        </div>
+                    </div>
+                   
+
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Reporte</label>
+                        @*<div id="divFileUpload">
+                            <input id="file-upload" type="file" accept="image/*" />
+                        </div>*@
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file-upload" required>
+                            <label class="custom-file-label" id="lblFile" for="file-upload">Cargar Imagen</label>
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarReporteDetalle()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar este reporte?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar esta versión del reporte?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

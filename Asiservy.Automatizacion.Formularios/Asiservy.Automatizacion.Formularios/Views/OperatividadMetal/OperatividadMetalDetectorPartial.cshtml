@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_DETECTOR_METAL>
+@using Newtonsoft.Json;
+
+
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+         
+            <th>
+                @Html.DisplayNameFor(model => model.Novedad)
+            </th>
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Novedad)
+                </td>
+                <td>
+                  
+                    <button class="btn btn-link" onclick="EditarConsumoInsumoDetalle2(@item.IdOperatividadDetectorMetal,'@item.Novedad','@item.Imagen','@item.Rotacion')">Editar</button>
+                    |
+                    <button class="btn btn-link" onclick="EliminarControlDetalle2(@item.IdOperatividadDetectorMetal,'@item.Novedad')">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,215 @@
+﻿
+@{
+    ViewBag.Title = "CloroCisternaDescongelado";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+@if (ViewBag.ErrorParametro == "99")
+{
+    <h6 class="text-md-left text-center text-uppercase badge badge-danger" style="float:left">ERROR: NO SE ENCONTRARON PARÁMETROS EN EL MANTENIMIENTO cod2</h6>
+}
+else
+{
+<div class="row">
+    <div class="col-md-12 ">
+        <h5 class="text-md-left text-center text-uppercase" style="float:left">Control de Cloro en Cisterna Descongelado<label id="txtEstado" class="badge badge-danger"></label></h5>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-3 col-12 col-sm-12">
+        <div class="form-group">
+            <label>FECHA</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" max="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+    <div class="col-md-7 col-12 col-sm-12">
+        <div class="form-group">
+            <label>OBSERVACIÓN</label>
+            <textarea type="text" name="name" value="" id="txtObservacion" class="form-control text-uppercase" maxlength="200" rows="2"></textarea>
+        </div>
+    </div>
+    <div class="col-md-2 col-12 col-sm-12">
+        <label>TURNO</label>
+        <div class="form-group">
+            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
+        </div>
+    </div>
+</div>
+
+<div class="row  text-center" id="divCabecera2">
+    <div class="col-md-12 col-12">
+        <label class="" id="lblAcciones">ACCIONES</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabeceraActivarCotroles(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+@*MODAL ELIMINAR FECHA*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" id="myModalLabel">¿Eliminar Control?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR DETALLE HORA*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Esta seguro de eliminar el registro?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarControlCloroCisternaDetalle()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL INGRESO DETALLE HORAS *@
+
+<div class="modal" tabindex="-1" id="ModalGenerarHoraControlCloroCisterna" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">INGRESO HORA</h6>
+                <button type="button" class="close" data-dismiss="modal" onclick="limpiarDetalle()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdEntregaProductoTerminadoDetalle" name="name" value="0" />
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>FECHA - HORA</label>
+                            <input class="form-control" id="txtHora" type="datetime-local" onchange="" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>PPM CLORO</label>
+                            <input class="form-control" autocomplete="off" id="txtPpm" type="tel" name="name" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>CISTERNA</label>
+                            <input class="form-control" autocomplete="off" id="txtCisterna" type="tel" name="name" value="1" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>OBSERVACIÓN</label>
+                            <textarea class="form-control text-uppercase" id="txtObservacionDetalle" placeholder="Texto de observación" type="text" name="name" value="" maxlength="200" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarControlCloroDetalle()" id="btnGenerarControlCloro">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarDetalle()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL BOTON DETALLE DE HORAS*@
+<div id="divDetalleControlCloro" hidden>
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-9 col-sm-8 col-10">
+                            <h6>INGRESO HORA</h6>
+                            <div class="form-group">
+                                <button data-toggle="tooltip" data-placement="top" title="Crear Registro Hora" class="btn" id="btnModalGenerar" onclick="ModalGenerarHoraControlCloroCisterna()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-2 text-right text-sm-right text-md-right">
+                            <div class="card shadow">
+                                <div hidden id="divParametros" class="card-body" style="font-size:12px;padding:4px">
+                                    <span class="badge"><label id="lblFrecuencia">FRECUENCIA CADA 3 HORAS</label></span><br />
+                                    <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango"><label id="lblMaximo"></label></span><br />
+                                    <span class="badge" style="color:white;background-color:@ViewBag.ColorDentroRango"><label id="lblMinimo"></label></span><br />
+                                    <span class="badge" style="color:white;background-color:@ViewBag.ColorFueraRango"><label id="lblMinimo">FUERA DEL RANGO</label></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoConsumoInsumoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="divTableEntregaProductoDetalle" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" hidden>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                Frecuencia: 3 horas<br />
+                Min: 0.3 ppm<br />
+                Max: 1.5 ppm
+            </div>
+        </div>
+    </div>
+</div>
+}

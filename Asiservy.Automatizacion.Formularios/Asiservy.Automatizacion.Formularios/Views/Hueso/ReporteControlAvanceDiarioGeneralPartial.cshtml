@@ -18,7 +18,7 @@
                 </th>
             }
             <th>
-                Hora
+                Avance
             </th>
             <th>
                 Limpiadoras
@@ -46,7 +46,7 @@
                     decimal avance = 0;
                     if (poAvance != null)
                     {
-                        avance = poAvance.Avance ?? 0;
+                        avance = poAvance.Avance;
                     }
                     if (avance > 0)
                     {

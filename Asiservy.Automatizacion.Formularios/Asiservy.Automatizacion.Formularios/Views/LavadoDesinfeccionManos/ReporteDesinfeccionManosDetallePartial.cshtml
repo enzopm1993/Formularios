@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Lavado_Desinfeccion_Manos>
+@using Newtonsoft.Json;
+
+<table class="table table-bordered" id="tblDataTable">
+    <thead style="height:15px; font-size:12px">
+        <tr>
+            <th></th>
+            <th style="border:0.4px solid #e3e6f0" colspan="5"><center>LIMIEZA DE ATÚN</center></th>
+            <th><center>EMPAQUE</center></th>
+            <th colspan="2" style="border:0.4px solid #e3e6f0"><center>CONSERVAS</center></th>
+        </tr>
+        <tr>
+            
+            <th style="border-right:0.4px solid #e3e6f0; text-align:center">
+                FECHA-HORA
+            </th>
+            @foreach (var item in ViewBag.cabeceraTable)
+            {
+                <th style="border:1px solid #e3e6f0">
+                    @item.Descripcion.ToUpper()
+                </th>
+            }
+            
+        </tr>
+    </thead>
+    @{
+        var listaColumnasCabecera = ViewBag.cabeceraTable;
+        var listaHora = (from ssi in Model
+                         group ssi by new { ssi.Hora, ssi.Fecha, ssi.Observacion } into g
+                         select new { Hora = g.Key.Hora, g.Key.Fecha,g.Key.Observacion, Count = g.Count() }).ToList();
+        var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
+    }
+    <tbody style="font-size:12px">
+        @foreach (var subListaHora in listaHora)
+        {
+            string usuarioAprobacion = "";
+            bool estadoReporte = false;
+            var itemColumna = (from x in Model
+                               where x.Hora == subListaHora.Hora
+                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.UsuarioModificacionLog, x.EstadoReporteCB}).ToList();
+        <tr>
+            <td style="text-align:center;font-size:10px">
+                <b>@subListaHora.Hora.ToString("dd-MM-yyyy HH:mm")</b>
+            </td>
+            @foreach (var lc in listaColumnasCabecera)
+            {
+                int dibujarTDDiNo = 0;
+                foreach (var ic in itemColumna)
+                {
+                    if (ic.CodigoLinea == lc.Codigo)
+                    {
+                        dibujarTDDiNo = 1;
+                        if (ic.EstadoCumplimiento == true)
+                        {
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
+                        }
+                        else if (ic.EstadoCumplimiento == false)
+                        {
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
+                        }
+                        else if (ic.EstadoCumplimiento == null)
+                        {
+                            <td><center><span class="badge badge-info">N/A</span></center></td>
+                        }
+                    }
+                    usuarioAprobacion = ic.UsuarioModificacionLog;
+                    estadoReporte = ic.EstadoReporteCB;
+                }
+                if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
+                {
+                    <td id="@lc.Codigo"><span class="badge badge-primary">SIN DATOS</span></td>
+                }
+            }
+        </tr>
+        }
+    </tbody>
+    <tfoot></tfoot>
+</table>
+
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@

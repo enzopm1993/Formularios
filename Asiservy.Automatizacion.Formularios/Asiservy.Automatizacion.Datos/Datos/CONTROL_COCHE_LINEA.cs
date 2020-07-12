@@ -16,8 +16,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdControlCocheLinea { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan HoraInicio { get; set; }
-        public System.TimeSpan HoraFin { get; set; }
+        public System.DateTime HoraInicio { get; set; }
+        public System.DateTime HoraFin { get; set; }
         public int Coches { get; set; }
         public string Linea { get; set; }
         public string Talla { get; set; }
@@ -28,5 +28,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string Turno { get; set; }
     }
 }

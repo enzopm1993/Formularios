@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteMapeoProductoTunelDetalle>
+@using Asiservy.Automatizacion.Datos.Datos;
+    
+<table class=" table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Tunel
+            </th>
+
+            <th>
+                Coche
+            </th>
+            <th>
+                O. Fabricación
+            </th>
+            <th>
+                Lote
+            </th>
+            <th>
+                Talla
+            </th>
+            <th>
+                Barco
+            </th>
+            <th>
+                Producto
+            </th>
+            <th>
+                Especie
+            </th>
+            <th>
+                Textura
+            </th>
+            <th>
+                Fundas
+            </th>
+            <th>
+                Limpieza
+            </th>
+            <th>
+                Hora Inicio
+            </th>
+            <th>
+                Hora Fin
+            </th>
+            <th>
+                Hora Fin Lote
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+                Observación por coche
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+           
+        <tr>
+            <td>@item.Fecha.ToString("yyyy-MM-dd")</td>
+            <td>@item.Tunel</td>
+            <td>@item.Coche</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barco)
+            </td>
+            <td>@item.Producto</td>
+            <td>@item.Especie</td>
+            <td>@item.Textura</td>
+            <td>@item.Fundas</td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>@item.HoraInicio.ToString("dd-MM-yyyy HH:mm")</td>
+            <td>@item.HoraFin.ToString("dd-MM-yyyy HH:mm")</td>
+            <td>
+                @if (item.HoraFinLote != null)
+                {
+                    @item.HoraFinLote.Value.ToString("dd-MM-yyyy HH:mm")
+                }
+            </td>
+
+            <td style="white-space:normal">
+                @Html.DisplayFor(modelItem => item.ObservacionGeneral)
+            </td>
+            <td style="white-space:normal">
+                @Html.DisplayFor(modelItem => item.ObservacionDetalle)
+            </td>
+        </tr>
+            
+        }
+    </tbody>
+</table>

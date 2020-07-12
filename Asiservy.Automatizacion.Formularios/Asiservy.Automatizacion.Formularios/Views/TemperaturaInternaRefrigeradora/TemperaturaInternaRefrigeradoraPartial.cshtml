@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_TEMPERATURA_INTERNA_REFRIGERADORA>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Temperatura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            CC_TEMPERATURA_INTERNA_REFRIGERADORA obj = new CC_TEMPERATURA_INTERNA_REFRIGERADORA
+            {
+                EstadoRegistro = item.EstadoRegistro,
+                FechaIngresoLog = item.FechaIngresoLog,
+                Hora = item.Hora,
+                IdTemperaturaInternaRefrigeradora = item.IdTemperaturaInternaRefrigeradora,
+                IdTemperaturaInternaRefrigeradoraControl = item.IdTemperaturaInternaRefrigeradora,
+                Observacion = item.Observacion,
+                Temperatura = item.Temperatura
+            };
+            string json = JsonConvert.SerializeObject(obj);
+            <tr onclick="SeleccionarControl(@json)">
+
+
+                <td>
+                    @item.Hora
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Temperatura)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>

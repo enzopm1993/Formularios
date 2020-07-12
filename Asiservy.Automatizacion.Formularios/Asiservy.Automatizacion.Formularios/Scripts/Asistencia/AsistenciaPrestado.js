@@ -213,8 +213,8 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
             //BanderaExiste: bandera,
             //Turno: turno,
             Fecha: $('#txtFecha').val(),
-            Hora: $('#horaservidor').val()
-
+            Hora: $('#horaservidor').val(),
+            Turno: $('#TurnoGen').val()
         },
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
@@ -372,6 +372,10 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                 //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
@@ -397,7 +401,8 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             dataType: "json",
             data: {
                 cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                Turno: $('#TurnoGen').val()//agregado 2020-02-20 por error al cambiar asistencia a falta
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
@@ -505,7 +510,8 @@ function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo, Color, Cedula,
             //CuchilloNegro: $("#txtCuchilloNegro").val()
             CuchilloBlanco: $('#Blanco' + Cedula).val(),
             CuchilloRojo: $('#Rojo' + Cedula).val(),
-            CuchilloNegro: $('#Negro' + Cedula).val()
+            CuchilloNegro: $('#Negro' + Cedula).val(),
+            Turno: $('#TurnoGen').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -572,6 +578,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
             dsEstado: estado,
             dbCheck: check,
             ddFecha: $('#txtFecha').val(),
+            Observacion: $(Observacion).val(),
+            Turno: $("#TurnoGen").val(),
             dbTipo: true
         },
         success: function (resultado) {

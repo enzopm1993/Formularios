@@ -1,0 +1,228 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.spReporteControlPesoCodificacionLomosMigas>
+@using Asiservy.Automatizacion.Formularios.Models.ControlPesoyCodificacion
+@using Asiservy.Automatizacion.Datos.Datos;
+<style>
+    table.tabla_sin {
+        border-collapse: collapse;
+        line-height: 0;
+        color: black;
+    }
+
+
+    td.celda_sin {
+        /*padding: 0;*/
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+    }
+
+</style>
+@if (@ViewBag.RegistrosN == 0)
+{
+    <h4 class="text-warning text-center">No existen Registros</h4>
+}
+@if (Model.Count != 0)
+{
+    <div class="row">
+       
+            <div class="col-sm-12 col-md-12" style="padding-bottom:20px">
+                <br />
+                <div class="table-responsive card" style="padding-bottom:20px;padding-top:20px">
+                    <table class="tabla_sin table-striped" border="1" @*style="width:100%"*@>
+                        <thead>
+                            <tr class="text-center" style="width:10px">
+                                <th>Hora</th>
+                                @foreach (var item in ViewBag.Horas)
+                                {
+                                    <th>@item.ToString("yyyy-MM-dd HH:mm")</th>
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var muestra in ViewBag.NumeroMuestra)
+                            {
+                                <tr class="text-center">
+                                    <td>@muestra</td>
+                                    @foreach (var hora in ViewBag.Horas)
+                                    {
+                                        int? cantidad = (from c in Model
+                                                         where c.Hora == hora && c.NumeroMuestra == muestra
+                                                         select c.Cantidad).FirstOrDefault();
+                                        <td>@cantidad</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="text-center">
+                                <td>TOTAL</td>
+                                @foreach (var hora in ViewBag.Horas)
+                                {
+                                    int? total = (from c in Model
+                                                  where c.Hora == hora
+                                                  select c.Total).FirstOrDefault();
+                                    <td>@total</td>
+
+                                }
+                            </tr>
+                            <tr class="text-center">
+                                <td>PROMEDIO</td>
+                                @foreach (var hora in ViewBag.Horas)
+                                {
+                                    var promedio = (from c in Model
+                                                    where c.Hora == hora
+                                                    select c.Promedio).FirstOrDefault();
+                                    <td>@promedio</td>
+
+                                }
+                            </tr>
+                            <tr class="text-center">
+                                <td style="border-bottom:0">T° AGUA DE</td>
+                                @foreach (var hora in ViewBag.Horas)
+                                {
+                                    int? temperatura = (from c in Model
+                                                        where c.Hora == hora
+                                                        select c.TemperaturaAguaTermoencogido).FirstOrDefault();
+                                    <td rowspan="2">@temperatura</td>
+
+                                }
+                            </tr>
+                            <tr class="text-center">
+                                <td style="border-top:0">TERMOENCOGIDO</td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        
+    </div>
+
+    <div class="row">
+        
+            <div class="col-sm-12 col-md-3">
+                <div class="card" style="padding-left:20px; padding-bottom:20px">
+                    <div class="table-responsive">
+                        <br />
+                        @{
+                            var SaldoInicial = Model.FirstOrDefault().SaldoAnterior + Model.FirstOrDefault().SolicitudProceso;
+                            var SaldoFinal = SaldoInicial - Model.FirstOrDefault().Utilizadas; }
+                        <table class="tabla_sin table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">INSUMOS UTILIZADOS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SALDO ANTERIOR</td>
+                                    <td>@Model.FirstOrDefault().SaldoAnterior</td>
+                                </tr>
+                                <tr>
+                                    <td>SOLICITUD PROCESO</td>
+                                    <td>@Model.FirstOrDefault().SolicitudProceso</td>
+                                </tr>
+                                <tr>
+                                    <td>SALDO INICIAL</td>
+                                    <td>@SaldoInicial</td>
+                                </tr>
+                                <tr>
+                                    <td>UTILIZADAS</td>
+                                    <td>@Model.FirstOrDefault().Utilizadas</td>
+                                </tr>
+                                <tr>
+                                    <td>SALDO FINAL</td>
+                                    <td>@SaldoFinal</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                    </div>
+                    <div class="table-responsive">
+                        <table class="tabla_sin table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">DESCRIPCIÓN DE USO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Usos as List<ControlUsosViewModel>)
+                                {
+                                    <tr>
+                                        <td>@item.Descripcion</td>
+                                        <td>@item.Cantidad</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    @{
+                                        List<ControlUsosViewModel> TotalUsos = ViewBag.Usos as List<ControlUsosViewModel>;
+                                    }
+                                    <td>TOTAL</td>
+                                    <td>@TotalUsos.Sum(x => x.Cantidad)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+       
+       
+            <div class="col-sm-12 col-md-9">
+             
+                <div class="card" style="padding-bottom:20px;padding-top:20px;padding-left:20px">
+                    <div class="table-responsive">
+                        <table class="tabla_sin table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th hidden>
+                                        Id Detalle Lote
+                                    </th>
+                                    <th class="text-center">
+                                        Orden fabricación
+                                    </th>
+                                    <th nowrap class="text-center">
+                                        Lote
+                                    </th>
+                                    <th colspan="2" class="text-center">Producto</th>
+                                    <th class="text-center">Especie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Lotes as List<DETALLE_LOTE_CONTROL_PESO_CODIFICACION>)
+                                {
+                                    string Lomo = item.Lomo.Value ? "L" : "";
+                                    string Miga = item.Miga.Value ? "M" : "";
+
+                                    <tr>
+                                        <td hidden>@item.IdDetalleLote</td>
+                                        <td>@item.OrdenFabricacion</td>
+                                        <td>@item.Lote @item.FechaOrdenFabricacion.Value.ToString("yyyy-MM-dd")</td>
+                                        <td>@Lomo</td>
+                                        <td>@Miga</td>
+                                        <td>@item.Especie</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+                  
+    </div>
+    <br />
+    <div class="row">
+        
+        <div class="col-md-12 col-sm-12">
+            <div class="card" style="padding-bottom:20px;padding-left:20px">
+                <strong> Observaciones:</strong> @Model.FirstOrDefault().Observacion
+            </div>
+        </div>
+    </div>       
+
+}

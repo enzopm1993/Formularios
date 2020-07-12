@@ -9,7 +9,11 @@ function CargarReporteAvance() {
     $("#selectLinea").prop("selectedIndex", 0);
     var txtFecha = $('#txtFecha').val();    
     if (txtFecha == "") {
-        MensajeAdvertencia("Igrese una Fecha");
+        MensajeAdvertencia("Igrese una Fecha.");
+        return;
+    }    
+    if ($("#selectTurno").val() == "") {
+        MensajeAdvertencia("Seleccione un turno.");
         return;
     }    
     $('#btnConsultar').prop("disabled", true);
@@ -24,13 +28,16 @@ function CargarReporteAvance() {
         url: "../Hueso/ReporteControlAvanceDiarioGeneralPartial",
         type: "GET",
         data: {
-            ddFecha: txtFecha
+            ddFecha: txtFecha,
+            Turno:$("#selectTurno").val()
            
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            $('#btnConsultar').prop("disabled", false);
+
             if (resultado == "1") {
 
                 MensajeAdvertencia("No existen registros para esa linea");
@@ -49,7 +56,7 @@ function CargarReporteAvance() {
 
 
             }
-            $('#btnConsultar').prop("disabled", true);
+            //$('#btnConsultar').prop("disabled", true);
 
         },
         error: function (resultado) {
@@ -160,7 +167,6 @@ function CargarAvanceKPI2() {
             }
         }
     };
-
     var chart = new ApexCharts(document.querySelector("#chartPorLinea"), options);
     chart.render();
 
@@ -171,31 +177,36 @@ function CargarAvanceKPI2() {
 
 function CargarReporteAvanceKPI() {
     var txtFecha = $('#txtFecha').val();
-    if (txtFecha == "") {
+    $("#kpi").prop("hidden", false);
+    if (txtFecha == "" || $("#selectTurno").val() == '') {
         
         return;
     }
-   
+            $("#chart").html("");
+    $("#spinnerCargandokpi1").prop("hidden", false);
+
     $.ajax({
         url: "../Hueso/ConsultaControlAvanceDiarioGeneral",
         type: "GET",
         data: {
-            ddFecha: txtFecha
+            ddFecha: txtFecha,
+            Turno: $("#selectTurno").val()
+
         },
         success: function (resultado) {
             ListadoGeneral = resultado;
-           // console.log(resultado);   
+         
             var Lineas = []; 
             var Avance = []; 
-            $.each(resultado, function (i, item) {
-               ///console.log($.inArray(item.Linea, Lineas));
-                if ($.inArray(item.Linea, Lineas) == -1)
-                { Lineas[i] = item.Linea; }
-            });
-            ///console.log(Lineas);
-            //Lineas = Lineas.unique();
-            //console.log(Lineas);
 
+            var Lineas = Enumerable.From(resultado)
+
+                .Select(function (x) { return x.Linea })
+                .Distinct()
+                .OrderBy(function (x) { return x.Linea })
+                .ToArray();
+
+          
             $.each(Lineas, function (i, linea) {
                 var TotalAvance = 0;
                 var cont = 0;
@@ -213,7 +224,7 @@ function CargarReporteAvanceKPI() {
                 Avance[i] = Avance[i].toFixed(2);
                 //Avance[i] = TotalAvance / cont;
             });
-           // console.log(Avance);
+            //console.log(Avance);
             var options = {
                 series: [{
                     name: 'Avance',
@@ -310,17 +321,14 @@ function CargarReporteAvanceKPI() {
                     }
                 }
             };
-
             var chart = new ApexCharts(document.querySelector("#chart"), options);
             chart.render();
-            $("#kpi").prop("hidden", false);
-          
+    $("#spinnerCargandokpi1").prop("hidden", true);
+
 
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargando").prop("hidden", true);
         }
     });
 

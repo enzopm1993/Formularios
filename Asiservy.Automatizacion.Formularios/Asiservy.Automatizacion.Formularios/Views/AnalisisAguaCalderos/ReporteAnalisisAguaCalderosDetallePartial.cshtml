@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaAnalisisAguaCaldero>
+@using Asiservy.Automatizacion.Datos.Datos
+
+@{
+    List<CC_MANTENIMIENTO_PARAMETRO_AAC> ListParametros = (List<CC_MANTENIMIENTO_PARAMETRO_AAC>)ViewBag.Parametros;
+    List<CC_MANTENIMIENTO_EQUIPO_AAC> ListEquipos = (List<CC_MANTENIMIENTO_EQUIPO_AAC>)ViewBag.Equipos;
+    List<CC_MANTENIMIENTO_GRUPO_AAC> ListGrupos = (List<CC_MANTENIMIENTO_GRUPO_AAC>)ViewBag.Grupos;
+    ListEquipos = ListEquipos.OrderBy(x => x.IdGrupo).ToList();
+    var equipos = ListEquipos.Select(x => x.IdGrupo);
+}
+
+<table id="tablaReporte" class="table table-bordered">
+    <tr class="letra10" >
+        <th>Parámetro</th>
+        @foreach (var x in ListParametros)
+        {
+            <th>@x.Abreviatura.ToUpper()</th>
+        }
+    </tr>
+
+        @{
+            int valor = 0;          
+            int totalParametros = ListParametros.Count + 1;
+            }
+        @foreach (var equipo in ListEquipos)
+        {
+            if(valor != equipo.IdGrupo)
+            {
+                valor = equipo.IdGrupo;
+               
+                var grupo = ListGrupos.FirstOrDefault(x => x.IdGrupo == valor).Descripcion;
+                <tr style="background-color:aliceblue" class="text-center">
+                    <td style="" colspan="@totalParametros"><b>@grupo.ToUpper()</b></td>
+                </tr>
+               
+            }
+            <tr class="letra10" >
+                <td>@equipo.Descripcion.ToUpper()</td>
+
+                @foreach (var x in ListParametros)
+                {
+                    var p = Model.FirstOrDefault(m => m.IdEquipo == equipo.IdEquipo && m.IdParametro == x.IdParametro);
+                    if (p != null)
+                    {
+                        
+                    <td>@p.Valor</td>}
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+            </tr>
+        }
+
+    </table>
+
+<br />
+<table id="tablaReporte" class="table table-bordered">
+
+    <tr class="letra10">
+        <th colspan="6">Nomenclatura</th>
+    </tr>
+    <tr class="letra10">
+        <th colspan="2">Análisis</th>
+        <th>Max. Perm.</th>
+
+        <th colspan="2">Análisis</th>
+        <th>Max. Perm.</th>
+    </tr>
+
+    <tr class="letra10">
+        @{int cont = 1; }
+        @foreach (var p in ListParametros)
+        {
+            <td>@p.Descripcion.ToUpper()</td>
+            <td>@p.Abreviatura.ToUpper()</td>
+            <td>@p.MaximoPermitido</td>
+
+            if (cont == 2)
+            {
+                @:</tr><tr class="letra10">
+                cont = 0;
+            }
+            cont++;
+
+        }
+    </tr>
+
+</table>
+
+<h6>* Mantener purgos normales en calderos.</h6>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO>
+@using Newtonsoft.Json
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+
+            <th>
+                Novedad
+            </th>
+            <th></th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @{ 
+                    var json = JsonConvert.SerializeObject(item);
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td class="">
+                    <button class="btn btn-link" onclick="ModificarFoto(@json)">Editar</button>
+                    |
+                    <button class="btn btn-link" onclick="InactivarFoto(@json)">Eliminar</button>                   
+                </td>
+                
+     
+             
+            </tr>
+        }
+    </tbody>
+
+</table>
