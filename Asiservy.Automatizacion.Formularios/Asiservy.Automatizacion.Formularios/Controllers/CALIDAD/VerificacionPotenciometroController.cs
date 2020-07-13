@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
+        private clsDLogin clsDLogin { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
 
         #region CONTROL 
@@ -29,7 +30,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteVerificacionPotenciometro");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteVerificacionPotenciometro";
+                }
+                else ViewBag.Link = null;
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -98,7 +107,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult VerificacionPotenciometroPartial(DateTime Fecha)
+        public ActionResult VerificacionPotenciometroPartial(DateTime Fecha)
         {
             try
             {
@@ -113,7 +122,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                return Json(model,JsonRequestBehavior.AllowGet);
+                return PartialView(model);
             }
             catch (DbEntityValidationException e)
             {

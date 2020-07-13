@@ -22,14 +22,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPo
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                using (var transaction = entities.Database.BeginTransaction())
-                {
-                    CC_VERIFICACION_POTENCIOMETRO poControlReporte = entities.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    CC_VERIFICACION_POTENCIOMETRO poControlReporte = entities.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.IdVerificacionPotenciometroControl == model.IdVerificacionPotenciometroControl);
                     if (poControlReporte != null)
                     {
                         poControlReporte.NaCI1 = model.NaCI1;
                         poControlReporte.NaCI2 = model.NaCI2;
                         poControlReporte.NaCI3 = model.NaCI3;
+                        poControlReporte.Codigo = model.Codigo;
                         poControlReporte.Observacion = model.Observacion;
                         poControlReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControlReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -43,8 +42,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPo
                     }
                    
                     entities.SaveChanges();
-                    transaction.Commit();
-                }
             }
         }
 
@@ -52,7 +49,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPo
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var poControl = entities.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.IdVerificacionPotenciometroControl == model.IdVerificacionPotenciometroControl);
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;

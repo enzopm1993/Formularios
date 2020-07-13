@@ -1,8 +1,35 @@
 ﻿$(document).ready(function () {
     ConsultarControl();
-    $("#txtNaCI1").mask("9?.99");
-    $("#txtNaCI2").mask("9?.99");
-    $("#txtNaCI3").mask("9?.99");
+    //$("#txtNaCI1").mask("9?.99");
+    //$("#txtNaCI2").mask("9?.99");
+    //$("#txtNaCI3").mask("9?.99");
+
+    $('#txtNaCI1').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': '',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10.00'
+    });
+
+    $('#txtNaCI2').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': '',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10.00'
+    });
+
+    $('#txtNaCI3').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': '',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10.00'
+    });
 });
 
 
@@ -55,12 +82,6 @@ function ConsultarControl() {
             }
             $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
-                $("#txtModelo").prop("disabled", false);
-                $("#txtSerie").prop("disabled", false);
-                $("#txtNaCI1").prop("disabled", false);
-                $("#txtNaCI2").prop("disabled", false);
-                $("#txtNaCI3").prop("disabled", false);
-                $("#txtObservacion").prop("disabled", false);
                 $("#h4Mensaje").html(Mensajes.SinRegistros);
                 $("#btnGenerar").prop("hidden", false);
                 $("#btnEditar").prop("hidden", true);
@@ -70,25 +91,12 @@ function ConsultarControl() {
                 $("#txtNaCI1").val("");
                 $("#txtNaCI2").val("");
                 $("#txtNaCI3").val("");
+                $("#txtCodigo").val("");
                 $("#txtObservacion").val(resultado[0].Observacion);
+                $("#divTable").html('');
 
             } else {
-                $("#txtModelo").prop("disabled", true);
-                $("#txtSerie").prop("disabled", true);
-                $("#txtNaCI1").prop("disabled", true);
-                $("#txtNaCI2").prop("disabled", true);
-                $("#txtNaCI3").prop("disabled", true);
-                $("#txtObservacion").prop("disabled", true);
-                $("#btnGenerar").prop("hidden", true);
-                $("#btnEditar").prop("hidden", false);
-                $("#btnEliminar").prop("hidden", false);
-                $("#txtModelo").val(resultado[0].Modelo);
-                $("#txtSerie").val(resultado[0].Serie);
-                $("#txtNaCI1").val(resultado[0].NaCI1);
-                $("#txtNaCI2").val(resultado[0].NaCI2);
-                $("#txtNaCI3").val(resultado[0].NaCI3);
-                $("#txtObservacion").val(resultado[0].Observacion);
-
+                $("#divTable").html(resultado);
             }
             CerrarModalCargando();
             //  $('#btnConsultar').prop("disabled", true);
@@ -98,18 +106,6 @@ function ConsultarControl() {
             CerrarModalCargando();
         }
     });
-}
-
-function EditarControl() {
-    $("#txtModelo").prop("disabled", false);
-    $("#txtSerie").prop("disabled", false);
-    $("#txtNaCI1").prop("disabled", false);
-    $("#txtNaCI2").prop("disabled", false);
-    $("#txtNaCI3").prop("disabled", false);
-    $("#txtObservacion").prop("disabled", false);
-    $("#btnGenerar").prop("hidden", false);
-    $("#btnEditar").prop("hidden", true);
-    $("#btnEliminar").prop("hidden", false);
 }
 
 
@@ -155,6 +151,12 @@ function Validar() {
     } else {
         $("#txtNaCI3").css('borderColor', '#ced4da');
     }
+    if ($("#txtCodigo").val() == "") {
+        $("#txtCodigo").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCodigo").css('borderColor', '#ced4da');
+    }
     return valida;
 }
 
@@ -178,6 +180,7 @@ function GuardarControl() {
             NaCI1: $("#txtNaCI1").val(),
             NaCI2: $("#txtNaCI2").val(),
             NaCI3: $("#txtNaCI3").val(),
+            Codigo: $("#txtCodigo").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -204,6 +207,111 @@ function GuardarControl() {
 
     //alert("generado");
 }
+
+
+function EditarControl(model) {
+    $("#modalEditarControl").modal('show');
+    $("#txtParametro").val(model.Parametro);
+    $("#txtEquipo").val(model.Equipo);
+    $("#txtValorModal").val(model.Valor);
+    modelEditar = model;
+}
+
+function ValidaEditar() {
+    var valida = true;
+    if ($("#txtModeloModal").val() == "") {
+        $("#txtModeloModal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtModeloModal").css('borderColor', '#ced4da');
+    }
+    if ($("#txtSerieModal").val() == "") {
+        $("#txtSerieModal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtSerieModal").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtNaCI1Modal").val() == "") {
+        $("#txtNaCI1Modal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtNaCI1Modal").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtNaCI2Modal").val() == "") {
+        $("#txtNaCI2Modal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtNaCI2Modal").css('borderColor', '#ced4da');
+    }
+    if ($("#txtNaCI3Modal").val() == "") {
+        $("#txtNaCI3Modal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtNaCI3Modal").css('borderColor', '#ced4da');
+    }
+    if ($("#txtCodigoModal").val() == "") {
+        $("#txtCodigoModal").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCodigoModal").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+
+function ModificarControl() {
+    if (!ValidaEditar()) {
+        return;
+    }
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+        $("#txtFecha").val("");
+        MensajeAdvertencia("Fecha no permitida");
+        return;
+    }
+
+    $.ajax({
+        url: "../VerificacionPotenciometro/VerificacionPotenciometro",
+        type: "POST",
+        data: {
+            Fecha: $("#txtFecha").val(),
+            IdVerificacionPotenciometroControl: modelEditar.IdVerificacionPotenciometroControl,
+            Modelo: $("#txtModeloModal").val(),
+            Serie: $("#txtSerieModal").val(),
+            NaCI1: $("#txtNaCI1Modal").val(),
+            NaCI2: $("#txtNaCI2Modal").val(),
+            NaCI3: $("#txtNaCI3Modal").val(),
+            Codigo: $("#txtCodigoModal").val(),
+            Observacion: $("#txtObservacionModal").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                ConsultarControl();
+            }
+            $("#modalEditarControl").modal('hide');
+
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+
+    //alert("generado");
+}
+
 
 
 
