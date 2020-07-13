@@ -135,6 +135,9 @@
     <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
