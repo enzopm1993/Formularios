@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     $('#txtPersonal').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
         'max': '100',
@@ -17,19 +17,19 @@ $(document).ready(function () {
 
     $('#txtRecibido').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '1000000',
+        'max': '100000',
         'min': '0'
     });
 
     $('#txtDesechado').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '1000000',
+        'max': '100000',
         'min': '0'
 
     });
@@ -39,7 +39,7 @@ $(document).ready(function () {
         'groupSeparator': ',',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '1000000',
+        'max': '100000',
         'min': '0'
 
     });
@@ -637,7 +637,7 @@ function EditarConsumoMaterial(model) {
     // console.log(model);
     // $("#txtEliminarProcesoMaterial").val(model.IdProductosMaterial);    
     $("#txtIdConsumoMaterial").val(model.IdMateriales);
-    $("#selectMaterial").val(model.CodigoMaterial);
+    $("#selectMaterial").prop("selectedIndex", model.CodigoMaterial).change();;
     $("#txtUsado").val(model.Usado);
     $("#txtDesechado").val(model.Desechado);
     $("#txtRecibido").val(model.Recibido);
