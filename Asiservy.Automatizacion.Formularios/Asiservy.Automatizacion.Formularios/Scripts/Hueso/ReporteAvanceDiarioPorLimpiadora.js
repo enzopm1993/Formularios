@@ -83,11 +83,11 @@ var options = {
     },
     colors: [function ({ value, seriesIndex, w }) {
         if (value < 60) {
-            return '#ff0000'
+            return '#e74a3b'
         } if (value < 80) {
-            return '#ffd800'
+            return '#f6c23e'
         } else {
-            return '#4cff00'
+            return '#1cc88a'
         }
     }],
     plotOptions: {
@@ -147,10 +147,10 @@ var options = {
             show: false
         }
     },
-    colors: ['#005FFF', '#70F7D7'],
+    colors: ['#005FFF', '#B548FF'],
     markers: {
         size: 2,
-        colors: ['#005FFF', '#70F7D7']
+        colors: ['#005FFF', '#B548FF']
     },
     dataLabels: {
         enabled: false
@@ -237,6 +237,7 @@ function SeleccionarLimpiadora(model) {
     $("#divKpiMiga").html(""); 
     $("#divKpi2").html("");
     $("#selectTipoKpi").prop("selectedIndex", 0);
+    $("#spanNombre").html(model.Nombre+" ("+model.Cedula+")");
     Datos = model;
     ConsultaKpi();
 }
