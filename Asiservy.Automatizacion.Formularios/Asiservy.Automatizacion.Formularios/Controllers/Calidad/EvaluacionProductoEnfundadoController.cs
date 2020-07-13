@@ -644,7 +644,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                List<DetalleEvaluacionProductoEnfundadoViewModel> resultado;
+                List<spConsultarDetalleControlEvaluacionProdEnfundado> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 resultado = clsDEvaluacionProductoEnfundado.ConsultarDetalleControl(IdCabeceraControl);
                 if (resultado.Count == 0)
@@ -919,7 +919,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                List<DetalleEvaluacionProductoEnfundadoViewModel> resultado;
+                List<spConsultarDetalleControlEvaluacionProdEnfundado> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 resultado = clsDEvaluacionProductoEnfundado.ConsultarDetalleControl(IdCabeceraControl);
                 if (resultado.Count == 0)
