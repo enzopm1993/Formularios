@@ -155,9 +155,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_DET> CC_MATERIAL_QUEBRADIZO_DET { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_MANT> CC_MATERIAL_QUEBRADIZO_MANT { get; set; }
         public virtual DbSet<CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL> CC_MATERIAL_QUEBRADIZO_MANT_MATERIAL { get; set; }
-        public virtual DbSet<CC_MANTENIMIENTO_EQUIPO_AAC> CC_MANTENIMIENTO_EQUIPO_AAC { get; set; }
-        public virtual DbSet<CC_MANTENIMIENTO_GRUPO_AAC> CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
-        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_AAC> CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_TANQUERO> CC_ANALISIS_AGUA_TANQUERO { get; set; }
         public virtual DbSet<CC_TEMPERATURA_INTERNA_REFRIGERADORA> CC_TEMPERATURA_INTERNA_REFRIGERADORA { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CALDEROS> CC_ANALISIS_AGUA_CALDEROS { get; set; }
@@ -207,6 +204,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
         public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_EQUIPO_AAC> CC_MANTENIMIENTO_EQUIPO_AAC { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_GRUPO_AAC> CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_AAC> CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

@@ -130,6 +130,16 @@ var config3 = {
         ]
     }
 }
+var modal_lv = 0;
+$('.modal').on('shown.bs.modal', function (e) {
+    $('.modal-backdrop:last').css('zIndex', 1051 + modal_lv);
+    $(e.currentTarget).css('zIndex', 1052 + modal_lv);
+    modal_lv++
+});
+
+$('.modal').on('hidden.bs.modal', function (e) {
+    modal_lv--
+});
 $(document).ready(function () {
     //$('#txtTemperaturaTermDigital').mask('9?9.99');
     $('#txtTemperaturaTermDigital').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
@@ -431,7 +441,7 @@ function AgregarCocheAControl(data) {
     $('#idcochehide').val(data.IdCocheAutoclave);
     AbrirRegion(event, 'InicioProceso');
     $("#btnipro").addClass("tablinks active");
-    
+    $('#ModalDetalle').modal('show');
 }
 function GuardarDetalleEsterilizacion() {
  
@@ -508,6 +518,7 @@ function GuardarDetalleEsterilizacion() {
             $('#btnLimpiarDetalleControl').prop('hidden', false);
             $('#btnEliminarDetalleControl').prop('hidden', false);
             ConsultarCoches();
+            $('#ModalDetalle').modal('hide');
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -723,7 +734,7 @@ function EditarDetalleControl(data) {
             $('#txtHoraChequeoInicio').val(moment(HoraChequeoInicio).format('YYYY-MM-DDTHH:mm:ss'));
             $('#txtHoraChequeoMedio').val(moment(HoraChequeoMedio).format("YYYY-MM-DDTHH:mm:ss"));
             $('#txtHoraChequeoFinal').val(moment(HoraChequeoFinal).format("YYYY-MM-DDTHH:mm:ss"));
-
+            $('#ModalDetalle').modal('show');
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -765,6 +776,7 @@ function LimpiarControlesDetalle() {
     $('#txtHoraChequeoFinal').val('');
     $('#divCohesAgreg').prop('hidden', false);
     $('#DivNuevoDetalleEsterilizacion').prop('hidden', true);
+    $('#ModalDetalle').modal('hide');
 }
 function MostrarDetalleCoche(IdCabCoche) {
     var table = $('#modaltableDetCoche');
@@ -877,6 +889,7 @@ function EliminarDetalleControl() {
             LimpiarControlesDetalle();
             ConsultarDetalleControl();
             ConsultarCoches();
+ 
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
