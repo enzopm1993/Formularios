@@ -12,6 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class AnalisisAguaClorinacionCisternaController : Controller
     {
+        clsDLogin clsDLogin { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         ClsAnalisisAguaClorinacionCisterna ClsAnalisisAguaClorinacionCisterna { get; set; } = null;
@@ -182,6 +183,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 ViewBag.MascaraInput = "1";
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (lsUsuario!=null) {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteClorinacionCisterna");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteClorinacionCisterna";
+                    }
+                }
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ClsAnalisisAguaClorinacionCisterna = new ClsAnalisisAguaClorinacionCisterna();
                 var listaCisterna = ClsAnalisisAguaClorinacionCisterna.ConsultarMantenimientoCisterna(clsAtributos.EstadoRegistroActivo);
@@ -606,6 +616,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JqueryRotate = "1";
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (lsUsuario != null)
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlClorinacionCisterna");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlClorinacionCisterna";
+                    }
+                }
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());

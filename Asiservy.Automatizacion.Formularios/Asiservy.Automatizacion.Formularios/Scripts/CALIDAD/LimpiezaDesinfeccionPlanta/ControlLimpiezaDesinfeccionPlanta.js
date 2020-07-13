@@ -25,10 +25,11 @@ $(document).ready(function () {
 });
 
 function ConsultarEstadoRegistro() {
+    var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
     $.ajax({
         url: "../LimpiezaDesinfeccionPlanta/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val(),
+            fechaControl: moment(fechaFiltro).format('YYYY-MM-DD'),
             turno: document.getElementById('selectTurno').value
         },
         type: "GET",
@@ -58,10 +59,11 @@ function CargarCabecera() {
         $('#cargac').hide();
         return;
     }
+    var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
     $.ajax({
         url: "../LimpiezaDesinfeccionPlanta/ConsultarCabeceraTurno",
         data: {
-            fechaControl: moment($("#txtFecha").val()).format('YYYY-DD-MM'),
+            fechaControl: moment(fechaFiltro).format('YYYY-MM-DD'),
             turno: document.getElementById('selectTurno').value
         },
         type: "GET",
@@ -112,13 +114,13 @@ function GuardarCabecera(siAprobar) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
-
+            var fechaIngreso = $('#datetimepicker2').datetimepicker('viewDate');
             $.ajax({
                 url: "../LimpiezaDesinfeccionPlanta/GuardarModificarLimpiezaCabecera",
                 type: "POST",
                 data: {
                     IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta,
-                    Fecha: moment($("#txtIngresoFecha").val()).format('YYYY-DD-MM'),    
+                    Fecha: moment(fechaIngreso).format('YYYY-MM-DD'),    
                     ObservacionControl: $("#txtIngresoObservacion").val(),
                     Turno: document.getElementById('selectTurnoIngresar').value,
                     siAprobar: siAprobar
@@ -187,13 +189,12 @@ function EliminarCabeceraSi() {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
-            
             $.ajax({
                 url: "../LimpiezaDesinfeccionPlanta/EliminarLimpiezaCabecera",
                 type: "POST",
                 data: {
                     IdLimpiezaDesinfeccionPlanta: itemEditar.IdLimpiezaDesinfeccionPlanta,
-                    Fecha: moment(itemEditar.Fecha).format('DD-MM-YYYY')
+                    Fecha: moment(itemEditar.Fecha).format('YYYY-MM-DD')
                 },
                 success: function (resultado) {
                     if (resultado == "101") {
@@ -257,12 +258,13 @@ function ModalIngresoCabecera() {
     DatePicker2();
     LimpiarModalIngresoCabecera();
     $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value).trigger('change');
-    $('#ModalIngresoCabecera').modal('show');    
+    $('#ModalIngresoCabecera').modal('show');
     itemEditar = [];
 }
 
 function LimpiarModalIngresoCabecera() {
-    $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('MM-DD-YYYY'));
+    var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
+    $('#txtIngresoFecha').val(moment(fechaFiltro).format('DD-MM-YYYY'));
     $('#txtIngresoObservacion').val('');
 }
 
@@ -334,43 +336,15 @@ function ModalIngresoDetalleV() {
 }
 
 function ModalIngresoDetalle() {
-    //var estadoRegistro = 'A';
-    //$('#selectTurno').val($('#selectTurnoFiltro').val())
-    //$.ajax({
-    //    url: "../LimpiezaDesinfeccionPlanta/ConsultarAreaAuditoriaActivos",
-    //    type: "GET",
-    //    data: {
-    //        estadoRegistro: estadoRegistro
-    //    },
-    //    success: function (resultado) {
-    //        if (resultado == "101") {
-    //            window.location.reload();
-    //        }
-    //        if (resultado == "0") {
-    //            $("#selectAreaAuditar").Text("No existen registros");
-    //        } else {
-    //            var html = "";
-    //            resultado.forEach(function (row) {
-    //                html += "<option value=" + row.IdAuditoria + ">" + row.NombreAuditoria.toUpperCase() + "</option>"
-    //            });
-    //            document.getElementById("selectAreaAuditar").innerHTML = html;
-                //document.getElementById("selectAreaAuditarFiltro").innerHTML = html;
-                ConsultarIntermidia();
-                $('#selectAreaAuditar').prop('disabled', false);
-                setTimeout(function () {
-                    var date = new Date();
-                    document.getElementById('txtIngresoFechaDetalle').value = moment(date).format('YYYY-MM-DDTHH:mm');
-                    $('#ModalIngresoDetalle').modal('show');
-                    siActualizar = false;
-                    $('#cargac').hide();
-                }, 300);
-    //        }
-    //    },
-    //    error: function () {
-    //        $('#cargac').hide();
-    //        MensajeError(Mensaje.Error, false);
-    //    }
-    //});
+    ConsultarIntermidia();
+    $('#selectAreaAuditar').prop('disabled', false);
+    setTimeout(function () {
+        var date = new Date();
+        //document.getElementById('txtIngresoFechaDetalle').value = moment(date).format('YYYY-MM-DDTHH:mm');
+        $('#ModalIngresoDetalle').modal('show');
+        siActualizar = false;
+        $('#cargac').hide();
+    }, 300);
 }
 
 function ConsultarIntermidia() {
@@ -443,7 +417,7 @@ function GuardarDetalle(jdata) {
                         $('#cargac').hide();
                         return;
                     } else if (resultado == 3) {
-                        MensajeAdvertencia('¡Error! La hora ingresada ya existe  : <span class="badge badge-danger">' + $("#txtIngresoFechaDetalle").val() + '</span>');
+                        MensajeAdvertencia('¡Error! La hora ingresada ya existe  : <span class="badge badge-danger">' + moment($("#txtIngresoFechaDetalle").val()).format('DD-MM-YYYY HH:mm') + '</span>');
                         $('#cargac').hide();
                         return;
                     } else if (resultado == 4) {
@@ -554,7 +528,6 @@ function EliminarDetalleSi() {
                 type: "POST",
                 data: {
                     model: eliminarDetalle
-
                 },
                 success: function (resultado) {
                     if (resultado == "101") {
@@ -580,7 +553,6 @@ function EliminarDetalleSi() {
                         MensajeAdvertencia(Mensajes.MensajePeriodo);
                     }
                     $('#cargac').hide();
-                    itemEditar = 0;
                 },
                 error: function (resultado) {
                     $('#cargac').hide();
