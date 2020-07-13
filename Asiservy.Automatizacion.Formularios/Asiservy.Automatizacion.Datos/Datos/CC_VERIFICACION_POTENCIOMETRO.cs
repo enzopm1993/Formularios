@@ -21,6 +21,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public decimal NaCI1 { get; set; }
         public decimal NaCI2 { get; set; }
         public decimal NaCI3 { get; set; }
+        public string Codigo { get; set; }
         public string Observacion { get; set; }
         public bool EstadoReporte { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }

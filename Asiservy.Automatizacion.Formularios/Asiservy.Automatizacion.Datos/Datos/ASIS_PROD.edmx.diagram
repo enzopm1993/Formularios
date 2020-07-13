@@ -134,7 +134,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="39.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="0.75" PointY="35.75" />
@@ -268,6 +267,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="5.375" PointY="33.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

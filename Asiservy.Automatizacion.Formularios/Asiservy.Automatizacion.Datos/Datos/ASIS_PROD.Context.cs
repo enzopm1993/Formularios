@@ -121,7 +121,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PEDILUVIO> CC_MANTENIMIENTO_PEDILUVIO { get; set; }
         public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE> CC_CLORO_AGUA_AUTOCLAVE { get; set; }
-        public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_COLOR> CC_MANTENIMIENTO_COLOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_OLOR> CC_MANTENIMIENTO_OLOR { get; set; }
         public virtual DbSet<BITACORA_CAMBIO_DATOS> BITACORA_CAMBIO_DATOS { get; set; }
@@ -207,6 +206,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_EQUIPO_AAC> CC_MANTENIMIENTO_EQUIPO_AAC { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_GRUPO_AAC> CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_AAC> CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
+        public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
