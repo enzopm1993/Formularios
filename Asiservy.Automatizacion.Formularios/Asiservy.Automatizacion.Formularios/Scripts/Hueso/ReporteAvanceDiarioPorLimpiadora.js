@@ -273,8 +273,11 @@ function ConsultaKpi() {
             configModal.opcionesDT.columns = [
                 { data: 'Hora' },
                 { data: 'OrdenFabricacion' },
+                { data: 'Barco' },
+                { data: 'Lote' },
                 { data: 'Especie' },
                 { data: 'Talla' },
+                { data: 'TipoLimpieza' },
                 { data: 'Promedio' },
                 { data: 'HuesoReal' },
                 { data: 'HuesoTeorico' },
@@ -299,21 +302,26 @@ function ConsultaKpi() {
                 var estilo = 'badge-danger';
                 var estiloMiga = 'badge-danger';
                 var flecha = 'up';
-                if (row.Miga < 0) {
-                    estiloMiga = 'badge-ligth';
+                if (row.MigaReal > 0) {
+                    if (row.Miga < 0) {
+                        estiloMiga = 'badge-success';
+                    } else {
+                        estiloMiga = 'badge-danger';
+                    }
+                }else{
+                         estiloMiga = 'badge-warning';
                 }
-
                 if (row.Avance < 60) {
-                    estilo = "#ff0000";
+                    estilo = "#e74a3b";
                     var flecha = 'down';
 
                 } else
                     if (row.Avance < 80) {
-                        estilo = "#ffd800";
+                        estilo = "#f6c23e";
                         var flecha = 'right';
 
                     } else {
-                        estilo = "#4cff00";
+                        estilo = "#1cc88a";
                         var flecha = 'up';
 
                     }
