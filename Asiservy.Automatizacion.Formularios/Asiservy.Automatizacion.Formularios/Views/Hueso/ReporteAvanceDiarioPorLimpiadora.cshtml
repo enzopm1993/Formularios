@@ -34,7 +34,7 @@
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
                 {
-                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion"), "Selecciones", new { @class = "form-control", @id = "selectLinea", @onchange = "CargarReporteAvanceLimpiadora()" })
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea", @onchange = "CargarReporteAvanceLimpiadora()" })
                 }
                 else
                 {
@@ -111,8 +111,8 @@
                                 <table class="table table-bordered" id="tblTable" style="width:300px; overflow-y:auto">
                                     <thead style="font-size:13px">
                                         <tr>
-                                            <th>Hora</th>
-                                            <th>O. Fabricación</th>
+                                            <th style="white-space:normal">Hora</th>
+                                            <th>O. F.</th>
                                             <th>Especie</th>
                                             <th>Talla</th>
                                             <th>Promedio</th>
@@ -140,14 +140,17 @@
                             <option value="1">Lomo</option>
                             <option value="2">Miga</option>
                         </select>
-                        <div id="divKpiPadre">
-                            <div class="card shadow" id="divKpi">
-                            </div>
+                        <div class="card shadow">
+                                <div id="divKpiPadre">
+                                    <div class="card shadow" id="divKpi">
+                                    </div>
+                                </div>
+                                <div id="divKpiMigaPadre" hidden>
+                                    <div class="card shadow" id="divKpiMiga">
+                                    </div>
+                                </div>
                         </div>
-                        <div id="divKpiMigaPadre" hidden>
-                            <div class="card shadow" id="divKpiMiga" >
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="col-md-6 col-12 col-sm-12">
                         <div class="card shadow" id="divKpi2">

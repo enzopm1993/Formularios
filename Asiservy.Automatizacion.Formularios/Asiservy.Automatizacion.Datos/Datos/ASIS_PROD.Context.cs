@@ -2387,5 +2387,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", idControlParameter);
         }
+    
+        public virtual ObjectResult<spConsultarDetalleControlEvaluacionProdEnfundado> spConsultarDetalleControlEvaluacionProdEnfundado(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarDetalleControlEvaluacionProdEnfundado>("spConsultarDetalleControlEvaluacionProdEnfundado", idCabeceraParameter);
+        }
     }
 }

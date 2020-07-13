@@ -1,4 +1,4 @@
-﻿
+﻿@using System.Reflection
 @{
     Layout = null;
 }
@@ -93,10 +93,10 @@
                             </div>
                             <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
                         </div>
-                      
+
                         <div class="form-group text-center">
-                          
-                                <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-primary" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+
+                            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-primary" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-broom"> Limpiar</i>
                             </button>
                             <button title="Ingresar" class="btn btn-outline-primary" id="btnIngresar" style="border-color:#2c3e50" type="button">
@@ -110,11 +110,13 @@
                             </button>
                         </div>
                         @*<div class="row">
-                            <div class="text-center col-md-8  offset-md-2 col-12 col-sm-12">
-                                <select class="" id="selectBD" onchange="CambiarAmbienteDB(this.value)"></select>
-                            </div>
-                        </div>*@
+            <div class="text-center col-md-8  offset-md-2 col-12 col-sm-12">
+                <select class="" id="selectBD" onchange="CambiarAmbienteDB(this.value)"></select>
+            </div>
+        </div>*@
 
+
+                        @ViewBag.version
 
                     </form>
                 </div>
