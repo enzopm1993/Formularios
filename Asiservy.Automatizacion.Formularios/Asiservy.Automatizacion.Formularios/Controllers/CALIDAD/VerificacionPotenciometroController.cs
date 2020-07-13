@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPotenciometro;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
         private clsDLogin clsDLogin { get; set; } = null;
+        private clsDPeriodo clsDPeriodo { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
-
+        
         #region CONTROL 
         [Authorize]
         public ActionResult VerificacionPotenciometro()
@@ -78,6 +80,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (ClsdVerificacionPotenciometro.ConsultaVerificacionPotenciometro(model.Fecha).Any(x => x.EstadoReporte))
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
@@ -149,11 +156,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (model == null )
+                if (model.IdVerificacionPotenciometroControl>0 )
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
@@ -371,6 +383,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdVerificacionPotenciometro.Aprobar_ReporteVerificacionPotenciometro(model);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
@@ -412,6 +429,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdVerificacionPotenciometro.Aprobar_ReporteVerificacionPotenciometro(model);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }

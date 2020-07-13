@@ -103,7 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.VerificacionPo
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.IdVerificacionPotenciometroControl == controlCloro.IdVerificacionPotenciometroControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_VERIFICACION_POTENCIOMETRO.FirstOrDefault(x => x.IdVerificacionPotenciometroControl == controlCloro.IdVerificacionPotenciometroControl);
                 if (model != null)
                 {
                     model.EstadoReporte = controlCloro.EstadoReporte;

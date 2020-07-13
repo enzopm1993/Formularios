@@ -3,7 +3,14 @@
     //$("#txtNaCI1").mask("9?.99");
     //$("#txtNaCI2").mask("9?.99");
     //$("#txtNaCI3").mask("9?.99");
-
+    
+    $('#txtSerie').inputmask({
+        'alias': 'integer',
+        'groupSeparator': '',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '2000000000'
+    });
     $('#txtNaCI1').inputmask({
         'alias': 'decimal',
         'groupSeparator': '',
@@ -23,6 +30,41 @@
     });
 
     $('#txtNaCI3').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': '',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10.00'
+    });
+
+
+    $('#txtSerieModal').inputmask({
+        'alias': 'integer',
+        'groupSeparator': '',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '2000000000'
+    });
+    $('#txtNaCI1Modal').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': '',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10.00'
+    });
+
+    $('#txtNaCI2Modal').inputmask({
+        'alias': 'decimal',
+        'groupSeparator': '',
+        'digits': 2,
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '10.00'
+    });
+
+    $('#txtNaCI3Modal').inputmask({
         'alias': 'decimal',
         'groupSeparator': '',
         'digits': 2,
@@ -190,7 +232,9 @@ function GuardarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
-            } if (resultado == "1") {
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
@@ -211,9 +255,13 @@ function GuardarControl() {
 
 function EditarControl(model) {
     $("#modalEditarControl").modal('show');
-    $("#txtParametro").val(model.Parametro);
-    $("#txtEquipo").val(model.Equipo);
-    $("#txtValorModal").val(model.Valor);
+    $("#txtModeloModal").val(model.Modelo);
+    $("#txtSerieModal").val(model.Serie);
+    $("#txtNaCI1Modal").val(model.NaCI1);
+    $("#txtNaCI2Modal").val(model.NaCI2);
+    $("#txtNaCI3Modal").val(model.NaCI3);
+    $("#txtCodigoModal").val(model.Codigo);
+    $("#txtObservacionModal").val(model.Observacion);
     modelEditar = model;
 }
 
@@ -320,7 +368,7 @@ function InactivarControl() {
         url: "../VerificacionPotenciometro/EliminarVerificacionPotenciometro",
         type: "POST",
         data: {
-            Fecha: $("#txtFecha").val()
+            IdVerificacionPotenciometroControl: modelEditar.IdVerificacionPotenciometroControl
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -328,7 +376,9 @@ function InactivarControl() {
             }
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
-            } if (resultado == "1") {
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
@@ -344,9 +394,10 @@ function InactivarControl() {
     });
 }
 
-function EliminarControl() {
+function EliminarControl(model) {
     //  $("#txtEliminarDetalle").val($("#txtIdVerificacionPotenciometro").val());
     //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
+    modelEditar = model;
     $("#modalEliminarControlDetalle").modal('show');
 
 }
