@@ -14,6 +14,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Vacaciones;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -89,8 +90,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     Session["BaseDatos"] = clsAtributos.BDProduccion;
                 }
+                Session["Version"] = Assembly.GetExecutingAssembly().GetName().Version;
 
-              
                 return View();
 
             }
