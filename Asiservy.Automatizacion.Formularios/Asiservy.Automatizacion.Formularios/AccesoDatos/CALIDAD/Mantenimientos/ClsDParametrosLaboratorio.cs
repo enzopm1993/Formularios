@@ -15,12 +15,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 {
 
                     var lista = (from par in db.CC_PARAMETROS_LABORATORIO
-                                 join clasif in db.CLASIFICADOR
-                                 on par.CodFormClasif equals clasif.Codigo
-                                 where clasif.Grupo == clsAtributos.codPrecoccion
+                                 join clasif in db.CLASIFICADOR on  par.CodFormClasif  equals clasif.Codigo
+                                 //join clas in db.CLASIFICADOR on  par.CodArea equals clas.Codigo  into leftJoin
+                                 
+                                 from  clasd in db.CLASIFICADOR.Where(v=> v.Codigo==par.CodArea).DefaultIfEmpty()
+                                 //on new { par.CodArea } equals new { CodArea = clas.Codigo }
+                                 where clasif.Grupo == clsAtributos.codPrecoccion    && clasd.Grupo==clsAtributos.codArea
                                  select new
                                  {
                                      par.CodFormClasif,
+                                     par.CodArea,                                     
                                      par.DescripcionParametro,
                                      par.EstadoRegistro,
                                      par.FechaIngresoLog,
@@ -32,7 +36,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                                      par.ValorMax,
                                      par.UsuarioIngresoLog,
                                      par.ValorMin,
-                                     clasif.Descripcion
+                                     clasif.Descripcion,
+                                     descripcionArea = clasd.Descripcion
                                  }).ToList();
                     return lista.ToList<dynamic>();
 
@@ -41,11 +46,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 {
                     var listaActivos = (from par in db.CC_PARAMETROS_LABORATORIO
                                  join clasif in db.CLASIFICADOR
-                                 on par.CodFormClasif equals clasif.Codigo
-                                 where clasif.Grupo == clsAtributos.codPrecoccion && par.EstadoRegistro==clsAtributos.EstadoRegistroActivo && clasif.EstadoRegistro==clsAtributos.EstadoRegistroActivo
-                                 select new
+                                  on new { par.CodFormClasif } equals new { CodFormClasif = clasif.Codigo }
+                                        join clas in db.CLASIFICADOR
+                                        on new { par.CodArea } equals new { CodArea = clas.Codigo }
+                                        where clasif.Grupo == clsAtributos.codPrecoccion && par.EstadoRegistro==clsAtributos.EstadoRegistroActivo && clasif.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                                        && clasif.Grupo == clsAtributos.codArea
+                                        select new
                                  {
                                      par.CodFormClasif,
+                                     par.CodArea,
                                      par.DescripcionParametro,
                                      par.EstadoRegistro,
                                      par.FechaIngresoLog,
@@ -57,8 +66,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                                      par.ValorMax,
                                      par.UsuarioIngresoLog,
                                      par.ValorMin,
-                                     clasif.Descripcion
-                                 }).ToList();
+                                     clasif.Descripcion,
+                                     descripcionArea=clas.Descripcion
+                                        }).ToList();
                     return listaActivos.ToList<dynamic>();
                 }
 
@@ -70,7 +80,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var validarNombreRepetido = db.CC_PARAMETROS_LABORATORIO.FirstOrDefault(x => x.NombreParametro.Replace(" ", string.Empty).ToUpper() == guardarModificar.NombreParametro.Replace(" ", string.Empty).ToUpper() 
-                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&x.CodFormClasif==guardarModificar.CodFormClasif);
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&x.CodFormClasif==guardarModificar.CodFormClasif
+                                                                                        && x.CodArea==guardarModificar.CodArea);
                 if (validarNombreRepetido != null && guardarModificar.IdParametro != validarNombreRepetido.IdParametro)
                 {
                     valor = 3;
@@ -112,7 +123,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var validarNombreRepetido = db.CC_PARAMETROS_LABORATORIO.FirstOrDefault(x => x.NombreParametro.Replace(" ", string.Empty).ToUpper() == guardarModificar.NombreParametro.Replace(" ", string.Empty).ToUpper()
-                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.CodFormClasif==guardarModificar.CodFormClasif);
+                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.CodFormClasif==guardarModificar.CodFormClasif && x.CodArea == guardarModificar.CodArea);
                 if (validarNombreRepetido != null && guardarModificar.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                 {
                     valor = 2;

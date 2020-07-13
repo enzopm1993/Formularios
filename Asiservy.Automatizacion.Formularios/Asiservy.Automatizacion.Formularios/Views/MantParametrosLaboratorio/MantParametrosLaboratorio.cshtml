@@ -64,18 +64,25 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>NOMBRE PARÁMETRO</label>
-                            <input type="text" autocomplete="off" maxlength="50" name="name" value=""  id="txtNombre" class="form-control" />
+                            <input type="text" autocomplete="off" maxlength="50" name="name" value="" id="txtNombre" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
-                        <label>CÓDIGO FORMULARIO</label>
+                        <label>FORMULARIO</label>
                         <div class="form-group">
                             @if (ViewBag.CodigoFormulario != null)
                             {
-                                @Html.DropDownList("txtCodFormClasif", new SelectList(ViewBag.CodigoFormulario, "Codigo", "Descripcion"), new { @Class = "form-control"});
+                                @Html.DropDownList("txtCodFormClasif", new SelectList(ViewBag.CodigoFormulario, "Codigo", "Descripcion"), new { @Class = "form-control" });
                             }
-                            else { <span class="badge badge-danger">NO HAY CÓDIGOS PARÁMETROS</span>}
-                        </div>                        
+                            else
+                            { <span class="badge badge-danger">NO HAY CÓDIGOS PARÁMETROS</span>}
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <label>ÁREA</label>
+                        <div class="form-group text-uppercase">                            
+                                @Html.DropDownList("selectAreaLaboratorio", new SelectList(ViewBag.AreaLaboratorio, "Codigo", "Descripcion"), "---SELECCIONE---", new { @Class = "form-control"})
+                           </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
@@ -86,7 +93,7 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>VALOR MAX</label>
-                            <input type="tel" name="name"  value="" maxlength="8" autocomplete="off" id="txtValorMax" class="form-control" />
+                            <input type="tel" name="name" value="" maxlength="8" autocomplete="off" id="txtValorMax" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">

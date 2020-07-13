@@ -5,6 +5,9 @@ $(document).ready(function () {
     $('#txtCodFormClasif').select2({
         width: '100%'
     });
+    $('#selectAreaLaboratorio').select2({
+        width: '100%'
+    });
 });
 
 function mask() {   
