@@ -239,7 +239,7 @@ function GuardarControlCloroDetalle() {
                 IdCloroCisternaDetalle: ListaDatosDetalle.IdCloroCisternaDetalle,
                 Hora: $("#txtHora").val(),
                 Ppm_Cloro: parseFloat($("#txtPpm").val()),
-                Cisterna: $("#txtCisterna").val(),
+                Cisterna: parseInt($("#txtCisterna").val()),
                 Observaciones: $("#txtObservacionDetalle").val()
             },
             success: function (resultado) {
