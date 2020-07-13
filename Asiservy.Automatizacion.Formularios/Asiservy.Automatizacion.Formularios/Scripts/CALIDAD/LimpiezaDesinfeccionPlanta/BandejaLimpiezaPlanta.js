@@ -124,6 +124,7 @@ function SeleccionarBandejaOnChange() {
 }
 
 function AprobarPendiente(estadoReporte) {
+
     if ($("#selectEstadoReporte").val() == 'false') {
         var date = new Date();
         if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.Fecha).format('YYYY-MM-DD')) {
@@ -143,7 +144,7 @@ function AprobarPendiente(estadoReporte) {
             IdLimpiezaDesinfeccionPlanta: listaDatos.IdLimpiezaDesinfeccionPlanta,
             EstadoReporte: estadoReporte,
             FechaAprobado: $('#txtFechaAprobado').val(),
-            Fecha: moment(listaDatos.Fecha).format('DD-MM-YYYY'),
+            Fecha: moment(listaDatos.Fecha).format('YYYY-MM-DD'),
             siAprobar: siAprobar            
         },
         success: function (resultado) {

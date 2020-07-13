@@ -666,7 +666,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 
                 var estadoReporte = clsDLimpiezaDesinfeccionPlanta.ConsultarCabeceraTurno(model.Turno, model.Fecha);
-                if (estadoReporte!=null && estadoReporte.EstadoReporte)
+                if (estadoReporte!=null && siAprobar==0 && estadoReporte.EstadoReporte)
                 {
                     return Json("5", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
                 }

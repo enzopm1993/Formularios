@@ -26,6 +26,7 @@ function ConsultarEstadoReporte() {
             if (resultado == "0") {
                 MensajeAdvertencia('Error al consultar estado del reporte: ConsultarEstadoReporte');
             } else {
+                CambiarMensajeEstado(resultado.EstadoReporte);
                 if (resultado.EstadoReporte == true) {
                     estadoReporte = true;
                 } else {
@@ -144,7 +145,7 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             IdCloroCisterna: ListaDatos.IdCloroCisterna,
-            Fecha:moment(ListaDatos.Fecha).format('DD-MM-YYYY')
+            Fecha:moment(ListaDatos.Fecha).format('YYYY-MM-DD')
         },
          success: function (resultado) {
              $("#modalEliminarControl").modal("hide");
