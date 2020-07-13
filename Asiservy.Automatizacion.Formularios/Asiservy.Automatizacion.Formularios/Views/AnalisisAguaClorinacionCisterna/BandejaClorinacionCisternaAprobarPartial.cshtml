@@ -22,12 +22,12 @@
         <tr>
             <th>ANALISTA</th>
             <th>CISTERNA</th>
-            <th>HORA</th>
+            <th>FECHA - HORA</th>
             <th>STD</th>
             <th>DT</th>
             <th width="80px">CL</th>
-            <th @siOcultar>U. MODIFICACION</th>
-            <th @siOcultar>F. MODIFICACION</th>
+            <th @siOcultar>U. MODIFICACIÓN</th>
+            <th @siOcultar>F. MODIFICACIÓN</th>
         </tr>
     </thead>
     @{ var listaItem = (Model.Where(x => x.IdCisterna == tabla.IdCisterna).OrderByDescending(x => x.IdCisterna));}
@@ -42,7 +42,7 @@
                     @item.NombreCisterna.ToUpper()
                 </td>
                 <td>
-                    @item.Hora.ToString("HH:mm")
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
                     @item.STD
@@ -69,33 +69,33 @@
                     {
                         @date.ToString("dd-MM-yyyy HH:mm")
                     }
-
                 </td>
             </tr>
-                        }
+        }
     </tbody>
     <tfoot>
         <tr>
             <td colspan="3" style="text-align:right">PROMEDIO</td>
             <td>
                 @{decimal v = listaItem.Where(a => a.STD != null)
-  .Select(a => Convert.ToDecimal(a.STD))
-  .DefaultIfEmpty(0)
-  .Average();}
+                      .Select(a => Convert.ToDecimal(a.STD))
+                      .DefaultIfEmpty(0)
+                      .Average();}
                 @v.ToString("0.00")
             </td>
             <td>
                 @{decimal dt = listaItem.Where(a => a.DT != null)
-  .Select(a => Convert.ToDecimal(a.DT))
-  .DefaultIfEmpty(0)
-  .Average();}
+                      .Select(a => Convert.ToDecimal(a.DT))
+                      .DefaultIfEmpty(0)
+                      .Average();
+                }
                 @dt.ToString("0.00")
             </td>
             <td>
                 @{decimal cl = listaItem.Where(a => a.CL != null)
-                                                                           .Select(a => Convert.ToDecimal(a.CL))
-                                                                           .DefaultIfEmpty(0)
-                                                                           .Average();
+                      .Select(a => Convert.ToDecimal(a.CL))
+                      .DefaultIfEmpty(0)
+                      .Average();
                 }
                 @if (cl >= 0.3M && cl <= 1.5M)
                 {

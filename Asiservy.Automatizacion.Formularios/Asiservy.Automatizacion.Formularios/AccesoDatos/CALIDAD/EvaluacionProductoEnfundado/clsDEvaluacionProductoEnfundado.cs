@@ -307,97 +307,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return resultado;
             }
         }
-        public List<DetalleEvaluacionProductoEnfundadoViewModel> ConsultarDetalleControl(int idCabeceraControl)
+        public List<spConsultarDetalleControlEvaluacionProdEnfundado> ConsultarDetalleControl(int idCabeceraControl)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                IEnumerable<spConsutaEmpleadosFiltro> pListEmpleados;
-                pListEmpleados = db.spConsutaEmpleadosFiltro("0", "0", clsAtributos.CargoEmpacado).ToList();
-                var resultado = (from d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE
-                                 join mo in db.CC_MANTENIMIENTO_MORETON on new { IdMoreton = d.Moretones.Value, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { mo.IdMoreton, mo.EstadoRegistro }
-                                 join c in db.CC_MANTENIMIENTO_COLOR on new { d.Color, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Color = c.IdColor, c.EstadoRegistro }
-                                 join o in db.CC_MANTENIMIENTO_OLOR on new { d.Olor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Olor = o.IdOlor, o.EstadoRegistro }
-                                 join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Sabor = s.IdSabor, s.EstadoRegistro }
-                                 join t in db.CC_MANTENIMIENTO_TEXTURA on new { d.Textura, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Textura = t.IdTextura, t.EstadoRegistro }
-                                 join p in db.CC_MANTENIMIENTO_PROTEINA on new { d.Proteina, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Proteina = p.IdProteina, p.EstadoRegistro }
-                                 join cab in db.CC_EVALUACION_PRODUCTO_ENFUNDADO on new { IdEvaluacionProductoEnfundado = d.IdCabeceraEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cab.IdEvaluacionProductoEnfundado, cab.EstadoRegistro }
-                                 //join emp in pListEmpleados on d.Empacador equals emp.CEDULA
-                                 where d.IdCabeceraEvaluacionProductoEnfundado == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                 select new DetalleEvaluacionProductoEnfundadoViewModel
-                                 {
-                                     TLomo=cab.Lomo,
-                                     TMiga=cab.Miga,
-                                     TTrozo=cab.Trozo,
-                                     Buque = d.buque,
-                                     CodMoretones = mo.IdMoreton,
-                                     CodColor = c.IdColor,
-                                     CodOlor = o.IdOlor,
-                                     CodProteinas = p.IdProteina,
-                                     CodSabor = s.IdSabor,
-                                     CodTextura = t.IdTextura,
-                                     Color = c.Descripcion,
-                                     Escamas = d.Escamas,
-                                     Espinas = d.Espinas,
-                                     //HematomasProfundos = d.HematomasProfundos,
-                                    // Hora = d.Hora,
-                                     empacador=d.Empacador,
-                                     Lote = d.Lote,
-                                     Moretones = mo.Descripcion,
-                                     Olor = o.Descripcion,
-                                     Piel = d.Piel,
-                                     Proteinas = p.Descripcion,
-                                     Sabor = s.Descripcion,
-                                     Sangre = d.Sangre,
-                                     Textura = t.Descripcion,
-                                     Trozos = d.Trozo,
-                                     Venas = d.Venas,
-                                     IdDetalle = d.IdDetalleEvaluacionProductoEnfundado,
-                                     IdCabecera = idCabeceraControl,
-                                     Aprobado = cab.EstadoControl,
-                                     Miga=d.Miga,
-                                     Otro=d.Otro,
-                                     FechaControl=cab.FechaProduccion, Hora=d.Hora
-                                     
-                                 }).ToList();
-                var ResultadoFInal = (from r in resultado
-                                      join e in pListEmpleados on r.empacador equals e.CEDULA
-                                      select new DetalleEvaluacionProductoEnfundadoViewModel
-                                      {
-                                          TLomo=r.TLomo,
-                                          TMiga=r.TMiga,
-                                          TTrozo=r.TTrozo,
-                                          Buque = r.Buque,
-                                          CodColor = r.CodColor,
-                                          CodOlor = r.CodOlor,
-                                          CodProteinas = r.CodProteinas,
-                                          CodSabor = r.CodSabor,
-                                          CodTextura = r.CodTextura,
-                                          Color = r.Color,
-                                          Escamas = r.Escamas,
-                                          Espinas = r.Espinas,
-                                          Hora = r.Hora,
-                                          empacador = r.empacador,
-                                          NombreEmpacador = e.NOMBRES,
-                                          Lote = r.Lote,
-                                          CodMoretones=r.CodMoretones,
-                                          Moretones = r.Moretones,
-                                          Olor = r.Olor,
-                                          Piel = r.Piel,
-                                          Proteinas = r.Proteinas,
-                                          Sabor = r.Sabor,
-                                          Sangre = r.Sangre,
-                                          Textura = r.Textura,
-                                          Trozos = r.Trozos,
-                                          Venas = r.Venas,
-                                          IdDetalle = r.IdDetalle,
-                                          IdCabecera = idCabeceraControl,
-                                          Aprobado = r.Aprobado,
-                                          Miga = r.Miga,
-                                          Otro = r.Otro,
-                                          FechaControl = r.FechaControl,
-                                          
-                                      }).ToList();
-                return ResultadoFInal;
+                return db.spConsultarDetalleControlEvaluacionProdEnfundado(idCabeceraControl).ToList();
             }
         }
         //public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo, string Usuario, string Terminal)

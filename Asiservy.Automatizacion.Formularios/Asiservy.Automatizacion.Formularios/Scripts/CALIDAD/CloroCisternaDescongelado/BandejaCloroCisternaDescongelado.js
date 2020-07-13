@@ -169,7 +169,7 @@ function AprobarControlCloroDetalle(data) {
             IdCloroCisterna: listaDatos.IdCloroCisterna,
             FechaAprobacion: $('#txtFechaAprobado').val(),
             EstadoReporte: estadoReporte,
-            Fecha: moment(listaDatos.Fecha).format('DD-MM-YYYY')
+            Fecha: moment(listaDatos.Fecha).format('YYYY-MM-DD')
         },
         success: function (resultado) {
             $("#ModalApruebaCntrolCloro").modal("hide");

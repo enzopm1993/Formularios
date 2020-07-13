@@ -118,7 +118,7 @@ function AprobarPendiente(estadoReporte) {
                 FechaAprobado: $('#txtFechaAprobado').val(),
                 siAprobar: true,
                 EstadoReporte: estadoReporte,
-                Fecha: moment(listaDatos.Fecha).format('DD-MM-YYYY')
+                Fecha: moment(listaDatos.Fecha).format('YYYY-MM-DD')
             },
             success: function (resultado) {
                 if (resultado == "101") {

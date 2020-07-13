@@ -8,7 +8,7 @@
 }
 @foreach (var tabla in listaCisternas)
 {
-<table class="table table-secondary " style="font-size:12px">
+<table class="table text-uppercase" style="font-size:12px">
     <thead>
         <tr>
             <th>ANALISTA</th>
@@ -17,8 +17,8 @@
             <th>STD</th>
             <th>DT</th>
             <th>CL</th>
-            <th>U. MODIFICACION</th>
-            <th>F. MODIFICACION</th>
+            <th>U. MODIFICACIÓN</th>
+            <th>F. MODIFICACIÓN</th>
             <th style="text-align:center">ACCIONES</th>
         </tr>
     </thead>
@@ -29,13 +29,13 @@
            
             <tr>
                 <td>
-                    @item.UsuarioIngresoLog.ToUpper()
+                    @item.UsuarioIngresoLog
                 </td>
                 <td>
-                    @item.NombreCisterna.ToUpper()
+                    @item.NombreCisterna
                 </td>
                 <td>
-                    @item.Hora.ToString("HH:mm")
+                    @item.Hora.ToString("dd-MM-yyyy HH:mm")
                 </td>
                 <td>
                     @item.STD

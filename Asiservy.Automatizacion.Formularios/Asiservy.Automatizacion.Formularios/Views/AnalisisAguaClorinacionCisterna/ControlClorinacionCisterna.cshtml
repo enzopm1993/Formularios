@@ -102,11 +102,33 @@
 </style>
 
 <div class="row">
-    <div class="col-12  text-md-left text-center">
-        <h4 style="float:left">Analisis Agua Clorinacion Cisterna<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
-        <div class=" box_filters ">
+    <div class="col-12">
+        <h5 class="text-md-left text-center" style="float:left">ANÁLISIS DE CLORINACIÓN DE CISTERNA<label id="lblAprobadoPendiente" class="badge badge-danger"></label></h5>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div id="divBotonCrear" class="col-md-1 col-12 col-sm-3 ">
+        <label class="" id="lblAcciones">NUEVO</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+    <div class="col-md-3 col-12 col-sm-7">
+        <label class="" id="lblAcciones">FILTRO</label><br />
+        <div class=" box_filters float-left">
             <div class="itemFilter">
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" />
             </div>
             <div class="itemFilter">
                 <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera()" id="iconSearch" class="fas fa-search"></i></a>
@@ -114,38 +136,24 @@
         </div>
     </div>
 </div>
-
-<div class="row" id="divBotonCrear">
-    <div class="col-12">
-        <div class="col-md-3 col-12 float-left">
-            <label class="" id="lblAcciones">Nuevo Registro</label>
-            <div class="form-group">
-                <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                </button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
+<hr />
 <div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-3 col-12 col-sm-12" style="float:left">
+        <div class="col-md-2 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>FECHA</label>
                 <input type="date" name="name" disabled value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-9 col-12 col-sm-12" style="float:left">
+        <div class="col-md-8 col-12 col-sm-12" style="float:left">
             <div class="form-group">
-                <label>OBSERVACION</label>
-                <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" />
+                <label>OBSERVACIÓN</label>
+                <textarea type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" rows="2"></textarea>
             </div>
         </div>
 
-        <div class="col-md-12 col-12 col-sm-12 text-md-center text-center">
+        <div class="col-md-2 col-12 col-sm-12 text-md-center text-center">
             <div class="form-group">
                 <label>ACCIONES</label><br />
                 <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
@@ -158,12 +166,11 @@
         </div>
     </div>
 </div>
-<hr />
-
+<br />
 @* BOTON INGRESAR DETALLE *@
 <div class="row" id="divBotonCrearDetalle">
     <div class="col-md-9 col-12 col-sm-12 text-center text-md-left">
-        <label class="" id="lblAcciones">Nueva Detalle</label>
+        <label class="" id="lblAcciones">NUEVO DETALLE</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo detalle" class="btn" id="btnModalGenerarRegistroDetalle" onclick="ModalIngresoDetalle()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
@@ -176,123 +183,150 @@
 @*MODAL MOSTRAR TABLA DETALLE*@
 <div id="divMostarTablaDetallesVer" class="table-responsive card">
 </div>
-
-@*MODAL ELIMINAR REGISTRO CABECERA*@
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel"></h4>
-                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
-                <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@*MODAL ELIMINAR REGISTRO DETALLE*@
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabelDetalle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="modal-detalle-si">Si</button>
-                <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleNo()" id="modal-detalle-no">No</button>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body" style="padding:0px">
+                <table class="table table-bordered text-uppercase" style="font-size:9px;">
+                    <thead class="text-center">
+                        <tr>
+                            <th><b>TABLA DE CALIFICACIONES </b></th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:9px">
+                        <tr>
+                            <td><b>STD:</b> solidos totales disueltos</td>
+                        </tr>
+                        <tr>
+                            <td><b>DT:</b> dureza total</td>
+                        </tr>
+                        <tr>
+                            <td><b>cl:</b>cloro libre residual</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-@* MODAL PARA EL INGRESO NUEVO REGISTRO CABECERA*@
-<div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content  modal-sm">
-            <div class="modal-header">
-                <h5 class="modal-title">Crear Nuevo Registro</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>FECHA</label>
-                            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtIngresoFecha" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>OBSERVACION</label>
-                            <input type="text" name="name" value="" maxlength="100" id="txtIngresoObservacion" class="form-control" />
-                        </div>
-                    </div>
+    @*MODAL ELIMINAR REGISTRO CABECERA*@
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                    <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
+        </div>
+    </div>
+
+    @*MODAL ELIMINAR REGISTRO DETALLE*@
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabelDetalle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="modal-detalle-si">Si</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleNo()" id="modal-detalle-no">No</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@* MODAL PARA EL INGRESO/EDITAR NUEVO DETALLE *@
-<div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Crear Nuevo Detalle</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>HORA</label>
-                            <input type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" onchange="OnChangeTextBoxDetalle()" id="txtIngresoFechaDetalle" class="form-control" />
+    @* MODAL PARA EL INGRESO NUEVO REGISTRO CABECERA*@
+    <div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">NUEVO CONTROL</h6>
+                    <button type="button" class="close" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>FECHA</label>
+                                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtIngresoFecha" class="form-control" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <label>CISTERNA</label>
-                        <div class="form-group">
-                            @Html.DropDownList("selectCisterna", new SelectList(ViewBag.ListaCisternas, "IdCisterna", "NombreCisterna", 1), new { @class = "form-control", @onchange = "" })
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>STD</label>
-                            <input type="tel" name="name" value="" onchange="" id="txtStd" maxlength="10" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>DT</label>
-                            <input type="tel" name="name" value="" onchange="" id="txtDt" maxlength="10" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>CL</label>
-                            <input type="tel" name="name" value="" onchange="" id="txtCl" maxlength="10" class="form-control" />
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>OBSERVACIÓN</label>
+                                <textarea type="text" name="name" value="" maxlength="100" id="txtIngresoObservacion" class="form-control" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="GuardarDetalle()" id="btnGuardarAccion">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    @* MODAL PARA EL INGRESO/EDITAR NUEVO DETALLE *@
+    <div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">NUEVO DETALLE</h6>
+                    <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>FECHA - HORA</label>
+                                <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="OnChangeTextBoxDetalle()" id="txtIngresoFechaDetalle" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <label>CISTERNA</label>
+                            <div class="form-group text-uppercase">
+                                @Html.DropDownList("selectCisterna", new SelectList(ViewBag.ListaCisternas, "IdCisterna", "NombreCisterna", 1), new { @class = "form-control text-uppercase", @onchange = "" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>STD</label>
+                                <input type="tel" name="name" autocomplete="off" value="" onchange="" id="txtStd" maxlength="10" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>DT</label>
+                                <input type="tel" name="name" value="" autocomplete="off" onchange="" id="txtDt" maxlength="10" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="form-group">
+                                <label>CL</label>
+                                <input type="tel" name="name" value="" onchange="" autocomplete="off" id="txtCl" maxlength="10" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="GuardarDetalle()" id="btnGuardarAccion">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 

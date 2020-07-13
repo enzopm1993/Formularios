@@ -4,10 +4,12 @@ var options = {
     series: [
         {
             name: "High - 2013",
+            type: 'line',
             data: [28, 29, 33, 36, 32, 32, 33]
         },
         {
             name: "Low - 2013",
+            type: 'line',
             data: [12, 11, 14, 18, 17, 13, 13]
         }
     ],
@@ -33,7 +35,10 @@ var options = {
     stroke: {
         curve: 'smooth'
     },
-    
+    title: {
+        text: 'LOMOS',
+        align: 'left'
+    },
     grid: {
         borderColor: '#e7e7e7',
         row: {
@@ -65,8 +70,12 @@ var options = {
 };
 
 
-var chartRendimiento = new ApexCharts(document.querySelector("#chartRendimiento"), options);
-chartRendimiento.render();
+var chartRendimientoLomo = new ApexCharts(document.querySelector("#chartRendimientoLomo"), options);
+chartRendimientoLomo.render();
+
+
+var chartRendimientoMiga = new ApexCharts(document.querySelector("#chartRendimientoMiga"), options);
+chartRendimientoMiga.render();
 
 
 $(document).ready(function () {
@@ -117,13 +126,17 @@ function CargarReporteAvance() {
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 $("#divChart").prop("hidden", false);
 
-                var Real=[];
-                var Estandar = [];
+                var RealLomo=[];
+                var EstandarLomo = [];
+                var RealMiga = [];
+                var EstandarMiga = [];
                 var Lote = [];
                 //console.log(ListadoGeneral);
                 ListadoGeneral.forEach(function (row, i) {
-                    Real[i] = row.KiloRealLomoPorcentaje + row.KiloRealMigaPorcentaje;
-                    Estandar[i] = row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje;
+                    RealLomo[i] = row.KiloRealLomoPorcentaje;
+                    EstandarLomo[i] = row.KiloStdLomoPorcentaje;
+                    RealMiga[i] =  row.KiloRealMigaPorcentaje;
+                    EstandarMiga[i] = row.KiloStdMigaPorcentaje;
                     Lote[i] = row.Lote;
 
 
@@ -131,17 +144,26 @@ function CargarReporteAvance() {
                 //console.log(Real);
                 //console.log(Estandar);
 
-                var _serie = [{
+                var _serieLomo = [{
                         name: "Real",
-                        data: Real
+                    data: RealLomo
                     },
                     {
                         name: "Estandar",
-                        data: Estandar
+                        data: EstandarLomo
                     }];
 
-                chartRendimiento.updateSeries(_serie)
-                chartRendimiento.updateOptions({
+                var _serieMiga = [{
+                    name: "Real",
+                    data: RealMiga
+                },
+                {
+                    name: "Estandar",
+                    data: EstandarMiga
+                }];
+
+                chartRendimientoLomo.updateSeries(_serieLomo)
+                chartRendimientoLomo.updateOptions({
                      xaxis: {
                     categories: Lote,
                     title: {
@@ -154,7 +176,24 @@ function CargarReporteAvance() {
                         }
                     }
                     })
-
+                chartRendimientoMiga.updateSeries(_serieMiga)
+                chartRendimientoMiga.updateOptions({
+                    title: {
+                        text: 'MIGAS',
+                        align: 'left'
+                    },
+                    xaxis: {
+                        categories: Lote,
+                        title: {
+                            text: 'Lote'
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Rendimiento %'
+                        }
+                    }
+                })
 
                 CerrarModalCargando();
             }

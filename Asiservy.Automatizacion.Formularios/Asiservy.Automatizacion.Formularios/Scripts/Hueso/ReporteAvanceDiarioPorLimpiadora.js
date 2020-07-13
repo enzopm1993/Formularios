@@ -99,7 +99,7 @@ var options = {
         enabled: false
     },
     title: {
-        text: 'Avance %',
+        text: 'Avance por hora %',
         align: 'left'
     },
     xaxis: {
@@ -150,7 +150,7 @@ var options = {
     colors: ['#005FFF', '#70F7D7'],
     markers: {
         size: 2,
-        colors: ['#FF0000', '#FF0000']
+        colors: ['#005FFF', '#70F7D7']
     },
     dataLabels: {
         enabled: false
@@ -244,6 +244,13 @@ function SeleccionarLimpiadora(model) {
 
 function ConsultaKpi() {
     MostrarModalCargando();
+     Horas = [];
+     Avance = [];
+     Real = [];
+     Teorico = [];
+     MigaReal = [];
+     MigaTeorico = [];
+
     var txtFecha = $('#txtFecha').val();
     var table = $('#tblTable');
     table.DataTable().clear();    
@@ -324,7 +331,11 @@ function ConsultaKpi() {
             chartKpiLomo.updateOptions({
                 xaxis: {
                     categories: Horas
-                }
+                },
+                 title: {
+                    text: 'LOMOS',
+                    align: 'left'
+                },
             })
             var serie = [{
                 data: Real
@@ -363,6 +374,15 @@ function CambioKpi() {
             data: Teorico
         }];
         chartKpiLomo.updateSeries(_serie)
+        chartKpiLomo.updateOptions({
+            xaxis: {
+                categories: Horas
+            },
+            title: {
+                text: 'LOMOS',
+                align: 'left'
+            },
+        })
     } else {
         
         var _serie = [{
@@ -373,6 +393,15 @@ function CambioKpi() {
             }];
       //  console.log(_serie);
         chartKpiLomo.updateSeries(_serie)
+        chartKpiLomo.updateOptions({
+            xaxis: {
+                categories: Horas
+            },
+            title: {
+                text: 'MIGAS',
+                align: 'left'
+            },
+        })
 
     }
 }

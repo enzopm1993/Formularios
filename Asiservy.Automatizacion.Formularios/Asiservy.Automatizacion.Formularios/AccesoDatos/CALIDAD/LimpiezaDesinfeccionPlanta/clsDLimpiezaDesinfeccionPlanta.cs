@@ -508,7 +508,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdMantenimiento == idMantenimiento && x.HoraAuditoria==hora);
+                var listado = db.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.FirstOrDefault(x => x.IdMantenimiento == idMantenimiento && x.HoraAuditoria==hora && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                                 
                 return listado;
             }

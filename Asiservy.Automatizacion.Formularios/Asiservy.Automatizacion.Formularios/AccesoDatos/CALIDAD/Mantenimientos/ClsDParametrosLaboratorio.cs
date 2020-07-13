@@ -80,7 +80,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 var model = db.CC_PARAMETROS_LABORATORIO.FirstOrDefault(x => x.IdParametro == guardarModificar.IdParametro);
                 if (model != null)
                 {
-
                     if (model.EstadoRegistro == "I")
                     {
                         valor = 2;
