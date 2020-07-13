@@ -116,7 +116,7 @@ function SeleccionarBandeja(model) {
         {
             date: moment().format("DD-MM-YYYY HH:mm"),
             format: "DD-MM-YYYY HH:mm",
-            minDate: model.Fecha,
+            //minDate: model.Fecha+' 00:00',
             maxDate: moment(),
             ignoreReadonly: true
         });
@@ -158,22 +158,23 @@ function SeleccionarBandeja(model) {
 function AprobarPendiente(estadoReporte) {
     if ($("#selectEstadoReporte").val() == 'false') {
         var date = new Date();
-        if (moment($('#txtFechaAprobado').val()).format('YYYY-DD-MM') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
+        var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
+        if (moment(fechaFiltro).format('YYYY-DD-MM') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
             MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaComparar).format('DD-MM-YYYY')+ '</span>');
             return;
         }
-        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
+        if (moment(fechaFiltro).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
             MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
             return;
         }
-    } else { $('#txtFechaAprobado').val(''); }
+    } else { fechaFiltro=''; }
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSellado",
         type: "POST",
         data: {
             Id: listaDatos.Id,
-            FechaAprobado: $('#txtFechaAprobado').val(),
-            Fecha: listaDatos.Fecha,
+            FechaAprobado: moment(fechaFiltro).format('YYYY-MM-DD HH:mm'),
+            Fecha: moment(listaDatos.FechaComparar).format('YYYY-MM-DD'),
             siAprobar: true,
             EstadoReporte: estadoReporte
         },
