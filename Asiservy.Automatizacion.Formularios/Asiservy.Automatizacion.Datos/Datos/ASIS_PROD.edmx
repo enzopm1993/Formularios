@@ -1580,6 +1580,7 @@
           </Key>
           <Property Name="IdParametro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CodFormClasif" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CodArea" Type="varchar" MaxLength="10" />
           <Property Name="NombreParametro" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ValorMax" Type="decimal" Precision="5" Scale="2" />
           <Property Name="ValorMin" Type="decimal" Precision="5" Scale="2" />
@@ -4759,6 +4760,9 @@
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Hora" Type="time" Mode="In" />
         </Function>
+        <Function Name="spConsultarDetalleControlEvaluacionProdEnfundado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCabecera" Type="int" Mode="In" />
+        </Function>
         <Function Name="spConsultaRecurso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CentroCostos" Type="varchar" Mode="In" />
         </Function>
@@ -6857,6 +6861,9 @@
             <End Role="CC_MANTENIMIENTO_GRUPO_AAC" EntitySet="CC_MANTENIMIENTO_GRUPO_AAC" />
             <End Role="CC_MANTENIMIENTO_EQUIPO_AAC" EntitySet="CC_MANTENIMIENTO_EQUIPO_AAC" />
           </AssociationSet>
+          <FunctionImport Name="spConsultarDetalleControlEvaluacionProdEnfundado" ReturnType="Collection(ASIS_PRODModel.spConsultarDetalleControlEvaluacionProdEnfundado)">
+            <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13221,6 +13228,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodArea" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CC_EVALUACION_PRODUCTO_ENFUNDADO">
           <Key>
@@ -13395,6 +13403,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultarDetalleControlEvaluacionProdEnfundado">
+          <Property Type="Boolean" Name="TLomo" Nullable="true" />
+          <Property Type="Boolean" Name="TMiga" Nullable="true" />
+          <Property Type="Boolean" Name="TTrozo" Nullable="true" />
+          <Property Type="String" Name="Buque" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CodMoretones" Nullable="false" />
+          <Property Type="Int32" Name="CodColor" Nullable="false" />
+          <Property Type="Int32" Name="CodOlor" Nullable="false" />
+          <Property Type="Int32" Name="CodProteinas" Nullable="false" />
+          <Property Type="Int32" Name="CodSabor" Nullable="false" />
+          <Property Type="Int32" Name="CodTextura" Nullable="false" />
+          <Property Type="String" Name="Color" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="Escamas" Nullable="true" />
+          <Property Type="Int32" Name="Espinas" Nullable="true" />
+          <Property Type="String" Name="empacador" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NombreEmpacador" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Moretones" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Olor" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="Piel" Nullable="true" />
+          <Property Type="String" Name="Proteinas" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Sabor" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="Sangre" Nullable="true" />
+          <Property Type="String" Name="Textura" Nullable="false" MaxLength="200" />
+          <Property Type="Decimal" Name="Trozos" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="Venas" Nullable="true" />
+          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdCabecera" Nullable="false" />
+          <Property Type="Boolean" Name="Aprobado" Nullable="true" />
+          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="Otro" Nullable="true" />
+          <Property Type="DateTime" Name="FechaControl" Nullable="true" />
+          <Property Type="DateTime" Name="Hora" Nullable="true" Precision="23" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19591,6 +19633,7 @@
           <EntitySetMapping Name="CC_PARAMETROS_LABORATORIO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO">
               <MappingFragment StoreEntitySet="CC_PARAMETROS_LABORATORIO">
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -19735,6 +19778,44 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarDetalleControlEvaluacionProdEnfundado" FunctionName="ASIS_PRODModel.Store.spConsultarDetalleControlEvaluacionProdEnfundado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarDetalleControlEvaluacionProdEnfundado">
+                <ScalarProperty Name="TLomo" ColumnName="TLomo" />
+                <ScalarProperty Name="TMiga" ColumnName="TMiga" />
+                <ScalarProperty Name="TTrozo" ColumnName="TTrozo" />
+                <ScalarProperty Name="Buque" ColumnName="Buque" />
+                <ScalarProperty Name="CodMoretones" ColumnName="CodMoretones" />
+                <ScalarProperty Name="CodColor" ColumnName="CodColor" />
+                <ScalarProperty Name="CodOlor" ColumnName="CodOlor" />
+                <ScalarProperty Name="CodProteinas" ColumnName="CodProteinas" />
+                <ScalarProperty Name="CodSabor" ColumnName="CodSabor" />
+                <ScalarProperty Name="CodTextura" ColumnName="CodTextura" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Escamas" ColumnName="Escamas" />
+                <ScalarProperty Name="Espinas" ColumnName="Espinas" />
+                <ScalarProperty Name="empacador" ColumnName="empacador" />
+                <ScalarProperty Name="NombreEmpacador" ColumnName="NombreEmpacador" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Moretones" ColumnName="Moretones" />
+                <ScalarProperty Name="Olor" ColumnName="Olor" />
+                <ScalarProperty Name="Piel" ColumnName="Piel" />
+                <ScalarProperty Name="Proteinas" ColumnName="Proteinas" />
+                <ScalarProperty Name="Sabor" ColumnName="Sabor" />
+                <ScalarProperty Name="Sangre" ColumnName="Sangre" />
+                <ScalarProperty Name="Textura" ColumnName="Textura" />
+                <ScalarProperty Name="Trozos" ColumnName="Trozos" />
+                <ScalarProperty Name="Venas" ColumnName="Venas" />
+                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="IdCabecera" ColumnName="IdCabecera" />
+                <ScalarProperty Name="Aprobado" ColumnName="Aprobado" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Otro" ColumnName="Otro" />
+                <ScalarProperty Name="FechaControl" ColumnName="FechaControl" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
