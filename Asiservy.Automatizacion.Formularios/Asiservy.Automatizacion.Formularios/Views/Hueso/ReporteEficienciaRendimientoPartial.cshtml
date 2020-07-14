@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.RENDIMIENTO_KILO_HORA>
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable2">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Periodo)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Talla)
+            </th>
+            <th style="white-space:normal">
+                Limpieza simple lomo
+            </th>
+            <th style="white-space:normal">
+               Limpieza simple miga
+            </th>
+            <th style="white-space:normal">
+                Limpieza intermedia lomo
+            </th>
+            <th  style="white-space:normal">
+                Limpieza intermedia miga
+            </th>
+            <th  style="white-space:normal">
+                Limpieza doble lomo
+            </th>
+            <th  style="white-space:normal">
+                Limpieza doble miga
+            </th>
+          
+        </tr>
+
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Periodo)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Talla)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LimpiezaSimpleLomo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LimpiezaSimpleMiga)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LimpiezaIntermediaLomo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LimpiezaIntermediaMiga)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LimpiezaDobleLomo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LimpiezaDobleMiga)
+                    </td>
+                  </tr>
+            }
+        }
+    </tbody>
+</table>

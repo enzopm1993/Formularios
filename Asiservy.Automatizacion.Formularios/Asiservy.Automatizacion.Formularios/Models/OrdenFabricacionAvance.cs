@@ -17,6 +17,9 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Piezas { get; set; }
         public string Promedio { get; set; }
         public string Barco { get; set; }
+        public decimal Lomos { get; set; }
+        public decimal Migas { get; set; }
+        public decimal Recuperado { get; set; }
 
     }
 }

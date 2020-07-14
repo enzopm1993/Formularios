@@ -251,6 +251,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
+        
+
         public void GenerarAvanceOrdenesApi2(DateTime FechaDesde, DateTime? FechaHasta)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -318,36 +320,76 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
+        public void GenerarAvanceOrdenesApi3(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+             
+                List<CONTROL_AVANCE_API> ListadoControlAvanceApi = new List<CONTROL_AVANCE_API>();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                var ordendesFabricacion = (from p in entities.PROYECCION_PROGRAMACION
+                                           join d in entities.PROYECCION_PROGRAMACION_DETALLE on p.IdProyeccionProgramacion equals d.IdProyeccionProgramacion
+                                           where p.FechaProduccion == Fecha && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           select new { d.OrdenFabricacion }).ToList();
+
+                //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
+                foreach(var orden in ordendesFabricacion)
+                {
+                    int x = int.Parse(orden.OrdenFabricacion.ToString());
+                    var ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOFCompleto(x);
+                    
+                    foreach (var detalle in ListaLotes)
+                    {
+                        var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
+                        if (modelControlAvanceApi == null)
+                        {
+                            if (!ListadoControlAvanceApi.Any(lista => lista.OrdenFabricacion == x && lista.Lote == detalle.Lote))
+                            {
+                                ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
+                                {
+                                    OrdenFabricacion = x,
+                                    Limpieza = detalle.Limpieza,
+                                    Lote = detalle.Lote,
+                                    Peso = detalle.Peso != null ? int.Parse(double.Parse(detalle.Peso).ToString()) : 0,
+                                    Piezas = detalle.Piezas != null ? int.Parse(double.Parse(detalle.Piezas).ToString()) : 0,
+                                    Talla = detalle.Talla,
+                                    Promedio = detalle.Promedio != null ? decimal.Parse(detalle.Promedio) : 0,
+                                    Especie = detalle.Especie,
+                                    Producto = detalle.Producto,
+                                    LomoReal= detalle.Lomos,
+                                    MigaReal = detalle.Migas
+                                });
+                            }
+                        }
+                        else
+                        {
+                            modelControlAvanceApi.Promedio = detalle.Promedio!=null?decimal.Parse(detalle.Promedio):0;
+                            modelControlAvanceApi.Talla = detalle.Talla;
+                            modelControlAvanceApi.LomoReal = detalle.Lomos;
+                            modelControlAvanceApi.MigaReal = detalle.Migas;
+                            modelControlAvanceApi.Especie = detalle.Especie;
+                            modelControlAvanceApi.Lote = detalle.Lote;
+                            modelControlAvanceApi.Limpieza = detalle.Limpieza;
+                            modelControlAvanceApi.Peso = detalle.Peso != null?int.Parse(double.Parse(detalle.Peso).ToString()):0;
+                            modelControlAvanceApi.Piezas = detalle.Piezas!=null?int.Parse(double.Parse(detalle.Piezas).ToString()):0;
+                        }
+                    }
+                }
+                if (ListadoControlAvanceApi.Any())
+                {
+                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi.Distinct());
+                }
+                entities.SaveChanges();
+            }
+        }
+
         public List<spConsultaAvanceDiarioPorLimpiadora> ConsultaControlAvanceDiarioPorLimpiadora(DateTime Fecha, string Linea,string turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 GenerarAvanceOrdenesApi(Fecha,null, Linea);
                 clsDApiProduccion = new clsDApiProduccion();
-                var Rendimientos = clsDApiProduccion.ConsultaRendimientos();
-
-                if (Rendimientos != null)
-                {
-                    entities.Database.ExecuteSqlCommand("TRUNCATE TABLE RENDIMIENTO_KILO_HORA");
-                    foreach (var r in Rendimientos)
-                    {
-                        entities.RENDIMIENTO_KILO_HORA.Add(
-                           new RENDIMIENTO_KILO_HORA()
-                           {
-                               Codigo = r.U_SYP_ITEM_CODE,
-                               Periodo = r.U_SYP_PERIODO,
-                               Talla = r.U_SYP_TALLA,
-                               LimpiezaSimpleLomo = r.U_SYP_LS_LOMO,
-                               LimpiezaSimpleMiga = r.U_SYP_LS_MIGA,
-                               LimpiezaIntermediaLomo = r.U_SYP_LI_LOMO,
-                               LimpiezaIntermediaMiga = r.U_SYP_LI_MIGA,
-                               LimpiezaDobleLomo = r.U_SYP_LD_LOMO,
-                               LimpiezaDobleMiga = r.U_SYP_LD_MIGA
-                           }
-                           );
-                    }
-                    entities.SaveChanges();
-                }
+                GenerarRendimientos();
                 List<spConsultaAvanceDiarioPorLimpiadora> Listado;
                 Listado = entities.spConsultaAvanceDiarioPorLimpiadora(Fecha, Linea, turno).ToList();
                 return Listado;
@@ -417,15 +459,61 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime Fecha, string Turno)
         {
+            clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                GenerarAvanceOrdenesApi2(Fecha, null);
+                GenerarAvanceOrdenesApi3(Fecha);
+                GenerarRendimientos();
                 List<spConsultaReporteRendimientoLote> Listado;
                 Listado = entities.spConsultaReporteRendimientoLote(Fecha, Turno).ToList();
                 return Listado;
             }
 
         }
+
+
+        public void GenerarRendimientos()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                clsDApiProduccion = new clsDApiProduccion();
+                var Rendimientos = clsDApiProduccion.ConsultaRendimientos();
+                if (Rendimientos != null)
+                {
+                    entities.Database.ExecuteSqlCommand("TRUNCATE TABLE RENDIMIENTO_KILO_HORA");
+                    foreach (var r in Rendimientos)
+                    {
+                        entities.RENDIMIENTO_KILO_HORA.Add(
+                           new RENDIMIENTO_KILO_HORA()
+                           {
+                               Codigo = r.U_SYP_ITEM_CODE,
+                               Periodo = r.U_SYP_PERIODO,
+                               Talla = r.U_SYP_TALLA,
+                               LimpiezaSimpleLomo = r.U_SYP_LS_LOMO,
+                               LimpiezaSimpleMiga = r.U_SYP_LS_MIGA,
+                               LimpiezaIntermediaLomo = r.U_SYP_LI_LOMO,
+                               LimpiezaIntermediaMiga = r.U_SYP_LI_MIGA,
+                               LimpiezaDobleLomo = r.U_SYP_LD_LOMO,
+                               LimpiezaDobleMiga = r.U_SYP_LD_MIGA
+                           }
+                           );
+                    }
+                    entities.SaveChanges();
+                }
+            }
+        }
+
+        public List<RENDIMIENTO_KILO_HORA> ConsultaRendimientos()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                GenerarRendimientos();
+                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().ToList();
+            }
+        }
+
+
+
 
     }
 }

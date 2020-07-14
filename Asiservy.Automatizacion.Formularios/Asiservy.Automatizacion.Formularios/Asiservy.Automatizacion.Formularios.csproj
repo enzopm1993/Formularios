@@ -2324,6 +2324,7 @@
     <Content Include="Scripts\Home\Home.js" />
     <Content Include="Scripts\html2canvas.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
+    <Content Include="Scripts\Hueso\ReporteEficienciaRendimiento.js" />
     <Content Include="Scripts\Hueso\ReporteRendimientoLote.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -4249,6 +4250,8 @@
     <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorio.cshtml" />
     <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorioPartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\Hueso\ReporteEficienciaRendimiento.cshtml" />
+    <Content Include="Views\Hueso\ReporteEficienciaRendimientoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

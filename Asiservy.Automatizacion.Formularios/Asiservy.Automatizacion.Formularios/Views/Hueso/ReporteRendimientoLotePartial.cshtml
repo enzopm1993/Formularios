@@ -41,7 +41,7 @@
             <th rowspan="2">
                 Limpieza
             </th>
-            <th rowspan="2">
+            <th rowspan="2" style="white-space:normal">
                 Corte Cocción
             </th>
             <th rowspan="2" style="white-space:normal">
@@ -123,8 +123,45 @@
         </tr>
     </thead>
     <tbody>
+       @{ 
+           int TotalLotes = 0;
+           int TotalPeso = 0;
+           decimal TotalKlRealLomo = 0;
+           decimal TotalKlStdLomo = 0;
+           decimal TotalPorcentajeRealLomo = 0;
+           decimal TotalPorcentajetdLomo = 0;
+
+           decimal TotalKlRealMiga = 0;
+           decimal TotalKlStdMiga = 0;
+           decimal TotalPorcentajeRealMiga = 0;
+           decimal TotalPorcentajetdMiga = 0;
+
+           decimal TotalKlRealGeneral = 0;
+           decimal TotalKlStdGeneral = 0;
+           decimal TotalPorcentajeRealGeneral = 0;
+           decimal TotalPorcentajetdGeneral = 0;
+
+           int Temperatura = 0;
+           int TotalCoches = 0;
+       }
+
         @foreach (var item in Model)
         {
+            TotalLotes = TotalLotes + 1;
+            TotalPeso = TotalPeso + item.PesoLote??0;
+            Temperatura = Temperatura + item.CorteCoccion ?? 0;
+            TotalCoches = TotalCoches + item.TotalCoche ?? 0;
+
+            TotalKlRealLomo = TotalKlRealLomo + item.KiloRealLomo ?? 0;
+            TotalKlStdLomo = TotalKlStdLomo + item.KiloSdtLomo ?? 0;
+            TotalPorcentajeRealLomo = TotalPorcentajeRealLomo + item.KiloRealLomoPorcentaje ?? 0;
+            TotalPorcentajetdLomo = TotalPorcentajetdLomo + item.KiloStdLomoPorcentaje ?? 0;
+
+            TotalKlRealMiga = TotalKlRealMiga + item.KiloRealMiga ?? 0;
+            TotalKlStdMiga = TotalKlStdMiga + item.KiloSdtMiga ?? 0;
+            TotalPorcentajeRealMiga = TotalPorcentajeRealMiga + item.KiloRealMigaPorcentaje ?? 0;
+            TotalPorcentajetdMiga = TotalPorcentajetdMiga + item.KiloStdMigaPorcentaje ?? 0;
+
             decimal totalReal = item.KiloRealLomo ?? 0 + item.KiloRealMiga ?? 0;
             decimal totalStd = item.KiloSdtLomo ?? 0 + item.KiloSdtMiga ?? 0;
             decimal totalDif = totalReal - totalStd;
@@ -133,9 +170,24 @@
             decimal totalStdPorcentaje = item.KiloStdLomoPorcentaje ?? 0 + item.KiloStdMigaPorcentaje ?? 0;
             decimal totalDifPorcentaje = totalRealPorcentaje - totalStdPorcentaje;
 
+
+            TotalKlRealGeneral = TotalKlRealGeneral + totalReal;
+            TotalKlStdGeneral = TotalKlStdGeneral + totalStd;
+            TotalPorcentajeRealGeneral = TotalPorcentajeRealGeneral + totalRealPorcentaje;
+            TotalPorcentajetdGeneral = TotalPorcentajetdGeneral + totalDifPorcentaje;
+
+
+
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lote)
+                <td style="font-size:14px">
+                    @if (item.EstadoLote)
+                    {
+                        <span class="badge badge-success">@item.Lote</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-warning">@item.Lote</span>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Especie)
@@ -227,10 +279,7 @@
                     @Html.DisplayFor(modelItem => item.TipoLimpieza)
                 </td>
                 <td>
-                    @if (item.CorteCoccion != null)
-                    {
-                        @item.CorteCoccion.Value.ToString("yyyy-MM-dd HH:mm")
-                    }
+                   @item.CorteCoccion
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RecetaRoceado)
@@ -248,4 +297,102 @@
             </tr>
         }
     </tbody>
+    <thead>
+        <tr>
+            <td>@TotalLotes</td>
+            <td colspan="2"></td>
+            <td>@TotalPeso</td>
+            <td colspan="2"></td>
+            <td>@TotalKlRealLomo</td>
+            <td>@TotalKlStdLomo</td>
+            <td>
+                @{
+                    decimal dif = TotalKlRealLomo - TotalKlStdLomo;
+                }
+                @dif
+            </td>
+            <td>
+                @{
+                    dif = Math.Round(TotalPorcentajeRealLomo / TotalLotes,2);
+                        }
+                        @dif
+                    </td>
+            <td>
+                @{
+                    dif = Math.Round(TotalPorcentajetdLomo / TotalLotes,2);
+                        }
+                        @dif
+                    </td>
+            <td>
+                @{
+                    dif = Math.Round((TotalPorcentajeRealLomo / TotalLotes) - (TotalPorcentajetdLomo / TotalLotes),2);
+                }
+                @dif
+            </td>
+
+            <td>@TotalKlRealMiga</td>
+            <td>@TotalKlStdMiga</td>
+            <td>
+                @{
+                    dif = TotalKlRealMiga - TotalKlStdMiga;
+                }
+                @dif
+            </td>
+            <td>@{
+                dif = Math.Round(TotalPorcentajeRealMiga / TotalLotes,2);
+                }
+                @dif
+            </td>
+            <td>@{
+                dif = Math.Round(TotalPorcentajetdMiga / TotalLotes,2);
+                }
+                @dif
+            </td>
+            <td>
+                @{
+                    dif = Math.Round((TotalPorcentajeRealMiga / TotalLotes) - (TotalPorcentajetdMiga / TotalLotes),2);
+                }
+                @dif
+            </td>
+
+
+            <td>@TotalKlRealGeneral</td>
+            <td>@TotalKlStdGeneral</td>
+            <td>
+                @{
+                    dif = TotalKlRealGeneral - TotalKlStdGeneral;
+                }
+                @dif
+            </td>
+            <td>
+                @{
+                    dif = Math.Round(TotalPorcentajeRealGeneral / TotalLotes,2);
+                }
+                @dif
+            </td>
+            <td>
+                @{
+                    dif = Math.Round(TotalPorcentajetdGeneral / TotalLotes,2);
+                }
+                @dif
+            </td>
+            <td>
+                @{
+                    dif = Math.Round((TotalPorcentajeRealGeneral / TotalLotes) - (TotalPorcentajetdGeneral / TotalLotes),2);
+                }
+                @dif.ToString("#000.00")
+            </td>
+            <td></td>
+            <td>
+                @{
+                    dif = Temperatura / TotalLotes;
+                }
+                @dif
+            </td>
+            <td colspan="2"></td>
+            <td>@TotalCoches</td>
+            <td></td>
+
+        </tr>
+    </thead>
 </table>
