@@ -3376,6 +3376,7 @@
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
     <Content Include="Scripts\ReporteMaestro\ReporteMaestro.js" />
     <Content Include="Scripts\Seguridad\Clasificador.js" />
@@ -4252,6 +4253,8 @@
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometroPartial.cshtml" />
     <Content Include="Views\Hueso\ReporteEficienciaRendimiento.cshtml" />
     <Content Include="Views\Hueso\ReporteEficienciaRendimientoPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLotePartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
