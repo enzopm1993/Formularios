@@ -302,7 +302,7 @@ function EditarControl() {
                 window.location.reload();
             }
             if (resultado == "102") {
-                MensajeAdvertencia("Problemas con los datos del Lote");
+                MensajeAdvertencia("Problemas con los datos del Lote (Servicio a sap)");
                 return;
             }
             if (resultado == "0") {

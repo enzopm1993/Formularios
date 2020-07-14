@@ -32,10 +32,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> KiloStdMigaPorcentaje { get; set; }
         public Nullable<decimal> KiloDiferenciaMigaPorcentaje { get; set; }
         public string TipoLimpieza { get; set; }
-        public Nullable<System.DateTime> CorteCoccion { get; set; }
+        public Nullable<int> CorteCoccion { get; set; }
         public string RecetaRoceado { get; set; }
         public string DestinoPreliminar { get; set; }
         public Nullable<int> TotalCoche { get; set; }
         public string TallaPromedio { get; set; }
+        public bool EstadoLote { get; set; }
     }
 }

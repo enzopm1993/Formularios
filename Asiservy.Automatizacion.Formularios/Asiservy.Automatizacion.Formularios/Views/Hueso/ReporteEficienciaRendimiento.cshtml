@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ReporteEficienciaRendimiento";
+}
+
+<h4>Reporte de eficiencia y rendimientos</h4>
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5>Eficiencia Kl/Hora</h5>
+        <div class="table-responsive">
+            @{
+                Html.RenderPartial("EficienciaAvanceKiloHoraPartial", ViewData["modelEficiencia"]);
+            }
+        </div>
+        <br />
+        <h5>Rendimientos %</h5>
+        <div class="table-responsive">
+            @{
+                Html.RenderPartial("ReporteEficienciaRendimientoPartial", ViewData["modelRendimiento"]);
+            }
+            @*@Html.Partial("ReporteEficienciaRendimientoPartial", ViewData["modelRendimiento"])*@
+        </div>
+    </div>
+</div>
+
+

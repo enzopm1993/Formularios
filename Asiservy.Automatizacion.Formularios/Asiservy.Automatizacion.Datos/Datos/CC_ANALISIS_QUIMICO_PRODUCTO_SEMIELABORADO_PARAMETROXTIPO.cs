@@ -12,20 +12,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_PARAMETROS_LABORATORIO
+    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_PARAMETROS_LABORATORIO()
+        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO()
         {
-            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO>();
+            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>();
         }
     
-        public int IdParametro { get; set; }
-        public string CodFormClasif { get; set; }
-        public string NombreParametro { get; set; }
-        public Nullable<decimal> ValorMax { get; set; }
-        public Nullable<decimal> ValorMin { get; set; }
-        public string DescripcionParametro { get; set; }
+        public int IdTipoxParametro { get; set; }
+        public int ParametroLaboratorio { get; set; }
+        public Nullable<decimal> Cantidad { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -33,10 +30,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public string CodArea { get; set; }
-        public Nullable<decimal> Mascara { get; set; }
     
+        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
+        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
     }
 }

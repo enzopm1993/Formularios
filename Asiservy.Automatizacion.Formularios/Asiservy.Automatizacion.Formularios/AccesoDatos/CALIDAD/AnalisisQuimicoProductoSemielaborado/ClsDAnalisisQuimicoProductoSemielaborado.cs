@@ -228,11 +228,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                             poSubDetalle.IdTipoAnalisisQuimicoProductoSe,
                             poSubDetalle.IdDetalleAnalisisQuimicoProductoSe,
                             poSubDetalle.TipoProducto,
-                            poSubDetalle.SalEmpaque,
-                            poSubDetalle.SalProceso,
-                            poSubDetalle.HistaminaEmpaque,
-                            poSubDetalle.HistaminaProceso,
-                            poSubDetalle.HumedadProceso,
+                            //poSubDetalle.SalEmpaque,
+                            //poSubDetalle.SalProceso,
+                            //poSubDetalle.HistaminaEmpaque,
+                            //poSubDetalle.HistaminaProceso,
+                            //poSubDetalle.HumedadProceso,
                             poSubDetalle.TerminalIngresoLog,
                             poSubDetalle.TerminalModificacionLog,
                             poSubDetalle.UsuarioIngresoLog,
@@ -263,12 +263,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                     buscarSubDetalle.FechaModificacionLog = poSubDetalleControl.FechaIngresoLog;
                     buscarSubDetalle.UsuarioModificacionLog = poSubDetalleControl.UsuarioIngresoLog;
                     buscarSubDetalle.TerminalModificacionLog = poSubDetalleControl.TerminalIngresoLog;
-                    buscarSubDetalle.TipoProducto = poSubDetalleControl.TipoProducto;
-                    buscarSubDetalle.SalEmpaque = poSubDetalleControl.SalEmpaque;
-                    buscarSubDetalle.SalProceso = poSubDetalleControl.SalProceso;
-                    buscarSubDetalle.HistaminaEmpaque = poSubDetalleControl.HistaminaEmpaque;
-                    buscarSubDetalle.HistaminaProceso = poSubDetalleControl.HistaminaProceso;
-                    buscarSubDetalle.HumedadProceso = poSubDetalleControl.HumedadProceso;
+                    //buscarSubDetalle.TipoProducto = poSubDetalleControl.TipoProducto;
+                    //buscarSubDetalle.SalEmpaque = poSubDetalleControl.SalEmpaque;
+                    //buscarSubDetalle.SalProceso = poSubDetalleControl.SalProceso;
+                    //buscarSubDetalle.HistaminaEmpaque = poSubDetalleControl.HistaminaEmpaque;
+                    //buscarSubDetalle.HistaminaProceso = poSubDetalleControl.HistaminaProceso;
+                    //buscarSubDetalle.HumedadProceso = poSubDetalleControl.HumedadProceso;
                     db.SaveChanges();
                     db.SaveChanges();
                     resultado[0] = "001";

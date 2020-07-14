@@ -28,9 +28,9 @@ var options = {
             show: false
         }
     },
-    colors: ['#005FFF', '#70F7D7'],
+    colors: ['#005FFF', '#B548FF','#70F1D7'],
     dataLabels: {
-        enabled: true,
+        enabled: false,
     },
     stroke: {
         curve: 'smooth'
@@ -78,21 +78,77 @@ var chartRendimientoMiga = new ApexCharts(document.querySelector("#chartRendimie
 chartRendimientoMiga.render();
 
 
+var options = {
+    series: [{
+        name:'Rendimiento',
+        data: [21, 22,1]
+    }],
+    chart: {
+        height: 350,
+        type: 'bar',
+        //events: {
+        //    click: function (chart, w, e) {
+        //        // console.log(chart, w, e)
+        //    }
+        //}
+    },
+    colors: ['#005FFF', '#B548FF', '#70F1D7'],
+    plotOptions: {
+        bar: {
+            columnWidth: '45%',
+            distributed: true
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    xaxis: {
+        categories: [
+            ['REAL'],
+            ['ESTANDAR'],
+            ['DIFERENCIA'],
+           
+        ],
+        labels: {
+            style: {
+                colors: ['#005FFF', '#70F7D7'],
+                fontSize: '12px'
+            }
+        }
+    }
+};
+
+var chartRendimientoGeneralLomo = new ApexCharts(document.querySelector("#chartRendimientoGeneralLomo"), options);
+chartRendimientoGeneralLomo.render();
+
+var chartRendimientoGeneralMiga = new ApexCharts(document.querySelector("#chartRendimientoGeneralMiga"), options);
+chartRendimientoGeneralMiga.render();
+
+var chartRendimientoGeneralTotal = new ApexCharts(document.querySelector("#chartRendimientoGeneralTotal"), options);
+chartRendimientoGeneralTotal.render();
+
+
 $(document).ready(function () {
     CargarReporteAvance();
 });
 
 
 function CargarReporteAvance() {
-    $("#selectLinea").prop("selectedIndex", 0);
     var txtFecha = $('#txtFecha').val();
-    if (txtFecha == "") {
-        MensajeAdvertencia("Igrese una Fecha.");
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
         return;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
     }
     if ($("#selectTurno").val() == "") {
-        MensajeAdvertencia("Seleccione un turno.");
+        $("#selectTurno").css('borderColor', '#FA8072');
         return;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
     }
     $('#btnConsultar').prop("disabled", true);
     $('#DivTableReporteControlAvance').html("");
@@ -128,39 +184,76 @@ function CargarReporteAvance() {
 
                 var RealLomo=[];
                 var EstandarLomo = [];
+                var DiferenciaLomo = [];
+
                 var RealMiga = [];
                 var EstandarMiga = [];
+                var DiferenciaMiga = [];
+
+                var RealLomoGeneral =0;
+                var EstandarLomoGeneral = 0;
+
+                var RealMigaGeneral = 0;
+                var EstandarMigaGeneral = 0;
+
+                var RealTotalGeneral = 0;
+                var EstandarTotalGeneral = 0;
+
                 var Lote = [];
                 //console.log(ListadoGeneral);
                 ListadoGeneral.forEach(function (row, i) {
-                    RealLomo[i] = row.KiloRealLomoPorcentaje;
-                    EstandarLomo[i] = row.KiloStdLomoPorcentaje;
-                    RealMiga[i] =  row.KiloRealMigaPorcentaje;
-                    EstandarMiga[i] = row.KiloStdMigaPorcentaje;
+                    RealLomo[i] = row.KiloRealLomoPorcentaje.toFixed(2);
+                    EstandarLomo[i] = row.KiloStdLomoPorcentaje.toFixed(2);
+                    DiferenciaLomo[i] = (row.KiloRealLomoPorcentaje - row.KiloStdLomoPorcentaje).toFixed(2);
+
+                    RealMiga[i] = row.KiloRealMigaPorcentaje.toFixed(2);
+                    EstandarMiga[i] = row.KiloStdMigaPorcentaje.toFixed(2);
+                    DiferenciaMiga[i] = (row.KiloRealMigaPorcentaje - row.KiloStdMigaPorcentaje).toFixed(2);
+
+                    RealLomoGeneral = RealLomoGeneral+row.KiloRealLomoPorcentaje;
+                    EstandarLomoGeneral = EstandarLomoGeneral+ row.KiloStdLomoPorcentaje;
+
+                    RealMigaGeneral = RealMigaGeneral+row.KiloRealMigaPorcentaje;
+                    EstandarMigaGeneral = EstandarMigaGeneral+ row.KiloStdMigaPorcentaje;
+
+                    RealTotalGeneral = RealTotalGeneral +(row.KiloRealLomoPorcentaje + row.KiloRealMigaPorcentaje);
+                    EstandarTotalGeneral = EstandarTotalGeneral+ (row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje);
+
                     Lote[i] = row.Lote;
 
 
                 });
-                //console.log(Real);
-                //console.log(Estandar);
+                //console.log(RealLomo);
+                //console.log(RealMiga);
 
                 var _serieLomo = [{
                         name: "Real",
                     data: RealLomo
-                    },
+                },
                     {
                         name: "Estandar",
                         data: EstandarLomo
+                    },
+                    {
+                        name: "Diferencia",
+                        type:"column",
+                        data: DiferenciaLomo
                     }];
+
 
                 var _serieMiga = [{
                     name: "Real",
                     data: RealMiga
                 },
-                {
-                    name: "Estandar",
-                    data: EstandarMiga
-                }];
+                    {
+                        name: "Estandar",
+                        data: EstandarMiga
+                    },
+                    {
+                        name: "Diferencia",
+                        type: "column",
+                        data: DiferenciaMiga
+                    }];
 
                 chartRendimientoLomo.updateSeries(_serieLomo)
                 chartRendimientoLomo.updateOptions({
@@ -193,6 +286,53 @@ function CargarReporteAvance() {
                             text: 'Rendimiento %'
                         }
                     }
+                })
+
+                //console.log(RealLomoGeneral);
+
+                var diferenciaGeneral = (RealLomoGeneral - EstandarLomoGeneral).toFixed(2);
+                RealLomoGeneral = RealLomoGeneral.toFixed(2);
+                EstandarLomoGeneral = EstandarLomoGeneral.toFixed(2);
+                var _serieRendimiento = [{
+                    name: 'Rendimiento',
+                    data: [RealLomoGeneral, EstandarLomoGeneral, diferenciaGeneral]
+                }];
+                chartRendimientoGeneralLomo.updateSeries(_serieRendimiento)
+                chartRendimientoGeneralLomo.updateOptions({
+                    title: {
+                        text: 'Rendimiento General Lomos',
+                        align: 'left'
+                    },
+                })
+
+                diferenciaGeneral = (RealMigaGeneral - EstandarMigaGeneral).toFixed(2);
+                RealMigaGeneral = RealMigaGeneral.toFixed(2);
+                EstandarMigaGeneral = EstandarMigaGeneral.toFixed(2);
+                _serieRendimiento = [{
+                    name: 'Rendimiento',
+                    data: [RealMigaGeneral, EstandarMigaGeneral, diferenciaGeneral]
+                }];
+                chartRendimientoGeneralMiga.updateSeries(_serieRendimiento)
+                chartRendimientoGeneralMiga.updateOptions({
+                    title: {
+                        text: 'Rendimiento General Migas',
+                        align: 'left'
+                    },
+                })
+
+                diferenciaGeneral = (RealTotalGeneral - EstandarTotalGeneral).toFixed(2);
+                RealTotalGeneral = RealTotalGeneral.toFixed(2);
+                EstandarTotalGeneral = EstandarTotalGeneral.toFixed(2);
+               _serieRendimiento = [{
+                    name: 'Rendimiento',
+                    data: [RealTotalGeneral, EstandarTotalGeneral, diferenciaGeneral]
+                }];
+                chartRendimientoGeneralTotal.updateSeries(_serieRendimiento)
+                chartRendimientoGeneralTotal.updateOptions({
+                    title: {
+                        text: 'Rendimiento General Total',
+                        align: 'left'
+                    },
                 })
 
                 CerrarModalCargando();

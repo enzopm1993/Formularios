@@ -16,12 +16,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdTipoAnalisisQuimicoProductoSe { get; set; }
         public string TipoProducto { get; set; }
-        public Nullable<decimal> SalProceso { get; set; }
-        public Nullable<decimal> HistaminaProceso { get; set; }
-        public Nullable<decimal> HumedadProceso { get; set; }
-        public Nullable<decimal> SalEmpaque { get; set; }
-        public Nullable<decimal> HistaminaEmpaque { get; set; }
         public int IdDetalleAnalisisQuimicoProductoSe { get; set; }
+        public int IdParametroxTipo { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -31,5 +27,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
+        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
     }
 }
