@@ -10,9 +10,10 @@ $(document).ready(function () {
     });
 });
 
-function mask() {   
-    $('#txtValorMin').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999', 'min': '0' });
-    $('#txtValorMax').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999', 'min': '0' });
+function mask() {
+    $('#txtMascara').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '99999999.99', 'min': '-99999999.99' });
+    $('#txtValorMin').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '99999.99', 'min': '-99999.99' });
+    $('#txtValorMax').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '99999.99', 'min': '-99999.99' });
 }
 
 function CargarCabecera() {
@@ -41,7 +42,10 @@ function CargarCabecera() {
 }
 
 function GuardarCabecera() {
-    $('#cargac').show();
+    $('#cargac').show();    
+    if (document.getElementById('CheckEstadoRegistroOp').checked==true) {
+        document.getElementById('txtMascara').value = document.getElementById('txtMascara').value * -1;
+    }   
     if (document.getElementById('txtValorMin').value > document.getElementById('txtValorMax').value) {
         MensajeAdvertencia('El valor mínimo no puede ser mayor al valor máximo');
         $('#cargac').hide();
@@ -59,6 +63,8 @@ function GuardarCabecera() {
             IdParametro: itemEditar.IdParametro,
             NombreParametro: $("#txtNombre").val(),
             CodFormClasif: document.getElementById('txtCodFormClasif').value,
+            CodArea: document.getElementById('selectAreaLaboratorio').value,
+            Mascara: document.getElementById('txtMascara').value,
             ValorMin: document.getElementById('txtValorMin').value,
             ValorMax: document.getElementById('txtValorMax').value,
             DescripcionParametro: document.getElementById('txtDescripcion').value
@@ -75,7 +81,9 @@ function GuardarCabecera() {
             } else if (resultado == 3) {
                 var sel = document.getElementById("txtCodFormClasif");
                 var text = sel.options[sel.selectedIndex].text;
-                MensajeAdvertencia('!El nombre: <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span> ya existe en:  <span class="badge badge-danger">' + text+'</span>!');
+                var sel = document.getElementById("selectAreaLaboratorio");
+                var area = sel.options[sel.selectedIndex].text;
+                MensajeAdvertencia('!El nombre: <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span> ya existe en:  <span class="badge badge-danger">' + text + '</span>' + '</span> área:  <span class="badge badge-danger">' + area + '</span>!');
                 $('#cargac').hide();
                 return;
             } else if (resultado == 4) {
@@ -120,6 +128,7 @@ function EliminarCabeceraSi() {
             IdParametro: itemEditar.IdParametro,
             NombreParametro: itemEditar.NombreParametro,
             CodFormClasif: document.getElementById('txtCodFormClasif').value,
+            CodArea: itemEditar.CodArea,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
@@ -137,7 +146,11 @@ function EliminarCabeceraSi() {
                 MensajeCorrecto("Registro Actualizado con Éxito");
                 $('#cargac').hide();
             } else if (resultado == "2") {
-                MensajeAdvertencia('!El nombre: <span class="badge badge-danger">' + itemEditar.NombreParametro.toUpperCase() + '</span> ya existe en:  <span class="badge badge-danger">' + itemEditar.Descripcion + '</span>!');
+                var area = ' Sin Área';
+                if (itemEditar.descripcionArea!=null) {
+                    area = itemEditar.descripcionArea;
+                }
+                MensajeAdvertencia('!El nombre: <span class="badge badge-danger">' + itemEditar.NombreParametro.toUpperCase() + '</span> ya existe en:  <span class="badge badge-danger">' + itemEditar.Descripcion + '</span>' + '</span> área:  <span class="badge badge-danger">' + area + '</span>!');
                 $("#modalEliminarControl").modal("hide");
                 $('#cargac').hide();
             }
@@ -159,15 +172,22 @@ function ActualizarCabecera(jdata) {
         $("#txtNombre").val(jdata.NombreParametro);
         $("#txtDescripcion").val(jdata.DescripcionParametro);
         $("#txtValorMax").val(jdata.ValorMax);
-        document.getElementById('txtValorMin').value = jdata.ValorMin;
-        document.getElementById('txtCodFormClasif').value = jdata.CodFormClasif;
+        $('#txtValorMin').val(jdata.ValorMin);
+        
+        $('#txtMascara').val(jdata.Mascara);
         $('#txtCodFormClasif').val(jdata.CodFormClasif).trigger('change');
-        $('#ModalIngresoCabecera').modal('show');
+        $('#selectAreaLaboratorio').val(jdata.CodArea).trigger('change');       
+        var negativo = false;
+        if (jdata.Mascara<0) {
+            negativo = true;
+        }
+        document.getElementById('CheckEstadoRegistroOp').checked = negativo;
+        document.getElementById('txtCodFormClasif').value = jdata.CodFormClasif;
         itemEditar = jdata;
+        $('#ModalIngresoCabecera').modal('show');
     } else {
         MensajeAdvertencia('¡Por favor <span class="badge badge-danger">ACTIVE</span> el PARÁMETRO y vuelva a intentar!');
     }
-
 }
 
 function ModalIngresoCabecera() {
@@ -177,15 +197,20 @@ function ModalIngresoCabecera() {
 }
 
 function LimpiarCabecera() {
-    mask();
-    $('#txtNombre').val('');
-    $('#txtDescripcion').val('');
+    mask();    
     $("#txtNombre").css('border', '');
     $("#txtDescripcion").css('border', '');
     $('#txtValorMin').css('border','');
     $("#txtValorMax").css('border', '');
-    document.getElementById('txtValorMax').value = 0;
-    document.getElementById('txtValorMin').value = 0;
+    $('#txtNombre').val('');
+    $('#txtDescripcion').val('');
+    document.getElementById('txtValorMax').value = '';
+    document.getElementById('txtValorMin').value = '';
+    document.getElementById('txtMascara').value = '';
+    $('#txtCodFormClasif').val('01').trigger('change');
+    document.getElementById('selectAreaLaboratorio').value = null;
+    $('#selectAreaLaboratorio').val(null).trigger('change');
+    document.getElementById('CheckEstadoRegistroOp').checked = false;
 }
 
 function ValidarDatosVacios() {
@@ -202,18 +227,29 @@ function OnChangeTextBox() {
         $("#txtNombre").css('border', '1px dashed red');
         con = 1;
     } else $("#txtNombre").css('border', '');
-    if ($('#txtValorMin').val() == '') {
-        $("#txtValorMin").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtValorMin").css('border', '');
-    if ($('#txtValorMax').val() == '') {
-        $("#txtValorMax").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtValorMax").css('border', '');
+    //if ($('#txtValorMin').val() == '') {
+    //    $("#txtValorMin").css('border', '1px dashed red');
+    //    con = 1;
+    //} else $("#txtValorMin").css('border', '');
+    //if ($('#txtValorMax').val() == '') {
+    //    $("#txtValorMax").css('border', '1px dashed red');
+    //    con = 1;
+    //} else $("#txtValorMax").css('border', '');
     if ($('#txtCodFormClasif').val() == '') {
         $("#txtCodFormClasif").css('border', '1px dashed red');
         con = 1;
     } else $("#txtCodFormClasif").css('border', '');
 
     return con;
+}
+
+function CambioEstado(valor) {
+    if (valor) {
+        $('#LabelEstado').text('SI');
+        $('#txtObservacionDetalle').css('border', '');
+    }
+    else {
+        $('#LabelEstado').text('NO');
+        $("#txtObservacionDetalle").css('border', '1px dashed red');
+    }
 }

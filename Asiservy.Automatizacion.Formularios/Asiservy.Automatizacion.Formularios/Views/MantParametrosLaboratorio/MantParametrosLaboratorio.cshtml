@@ -80,20 +80,35 @@
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <label>ÁREA</label>
-                        <div class="form-group text-uppercase">                            
-                                @Html.DropDownList("selectAreaLaboratorio", new SelectList(ViewBag.AreaLaboratorio, "Codigo", "Descripcion"), "---SELECCIONE---", new { @Class = "form-control"})
-                           </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>VALOR MIN</label>
-                            <input type="tel" name="name" value="" maxlength="8" id="txtValorMin" autocomplete="off" class="form-control" />
+                        <div class="form-group text-uppercase">
+                            @Html.DropDownList("selectAreaLaboratorio", new SelectList(ViewBag.AreaLaboratorio, "Codigo", "Descripcion"), "---SELECCIONE---", new { @Class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-12 col-12 col-sm-12">
+                    <div class="col-md-7 col-7 col-sm-7">
                         <div class="form-group">
-                            <label>VALOR MAX</label>
-                            <input type="tel" name="name" value="" maxlength="8" autocomplete="off" id="txtValorMax" class="form-control" />
+                            <label>MÁSCARA (99.99)</label>
+                            <input type="text" name="name" value="" maxlength="11" id="txtMascara" autocomplete="off" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-5 col-sm-5 text-center" id="ModalCheckBox">
+                        <div class="form-group">
+                            <label>NEGATIVO</label>
+                            <div class="custom-control custom-checkbox mb-3">
+                                @Html.CheckBox("EstadoRegistro", false, new { @id = "CheckEstadoRegistroOp", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                                <label class="custom-control-label" for="CheckEstadoRegistroOp" id="LabelEstado"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label title="Rango para pintar los parámetros en el control">VALOR MIN &nbsp;&nbsp;<span style="background-color:green" class="badge">&nbsp;&nbsp;</span></label>
+                            <input title="Rango para pintar los parámetros en el control" type="text" name="name" value="" maxlength="8" id="txtValorMin" autocomplete="off" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label title="Rango para pintar los parámetros en el control">VALOR MAX &nbsp;&nbsp;<span style="background-color:green" class="badge">&nbsp;&nbsp;</span></label>
+                            <input title="Rango para pintar los parámetros en el control" type="text" name="name" value="" maxlength="8" autocomplete="off" id="txtValorMax" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-12 col-12 col-sm-12">

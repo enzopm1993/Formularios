@@ -15,12 +15,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 {
 
                     var lista = (from par in db.CC_PARAMETROS_LABORATORIO
-                                 join clasif in db.CLASIFICADOR on  par.CodFormClasif  equals clasif.Codigo
-                                 //join clas in db.CLASIFICADOR on  par.CodArea equals clas.Codigo  into leftJoin
-                                 
-                                 from  clasd in db.CLASIFICADOR.Where(v=> v.Codigo==par.CodArea).DefaultIfEmpty()
-                                 //on new { par.CodArea } equals new { CodArea = clas.Codigo }
-                                 where clasif.Grupo == clsAtributos.codPrecoccion    && clasd.Grupo==clsAtributos.codArea
+                                 join clasif in db.CLASIFICADOR on new { par.CodFormClasif, clsAtributos.codPrecoccion } equals new { CodFormClasif= clasif.Codigo, codPrecoccion=clasif.Grupo }
+                                 from  clasd in db.CLASIFICADOR.Where(v=> v.Codigo==par.CodArea && v.Grupo==clsAtributos.codArea && v.EstadoRegistro==clsAtributos.EstadoRegistroActivo).DefaultIfEmpty()
+                                 orderby par.FechaIngresoLog descending
                                  select new
                                  {
                                      par.CodFormClasif,
@@ -33,26 +30,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                                      par.NombreParametro,
                                      par.TerminalIngresoLog,
                                      par.TerminalModificacionLog,
+                                     par.Mascara,
                                      par.ValorMax,
                                      par.UsuarioIngresoLog,
                                      par.ValorMin,
                                      clasif.Descripcion,
                                      descripcionArea = clasd.Descripcion
-                                 }).ToList();
+                                 });
                     return lista.ToList<dynamic>();
 
                 }
                 else
                 {
                     var listaActivos = (from par in db.CC_PARAMETROS_LABORATORIO
-                                 join clasif in db.CLASIFICADOR
-                                  on new { par.CodFormClasif } equals new { CodFormClasif = clasif.Codigo }
-                                        join clas in db.CLASIFICADOR
-                                        on new { par.CodArea } equals new { CodArea = clas.Codigo }
-                                        where clasif.Grupo == clsAtributos.codPrecoccion && par.EstadoRegistro==clsAtributos.EstadoRegistroActivo && clasif.EstadoRegistro==clsAtributos.EstadoRegistroActivo
-                                        && clasif.Grupo == clsAtributos.codArea
+                                        join clasif in db.CLASIFICADOR on new { par.CodFormClasif, par.EstadoRegistro, clsAtributos.codPrecoccion } equals new { CodFormClasif = clasif.Codigo, EstadoRegistro = clsAtributos.EstadoRegistroActivo, codPrecoccion = clasif.Grupo }
+                                        from clasd in db.CLASIFICADOR.Where(v => v.Codigo == par.CodArea && v.Grupo == clsAtributos.codArea && v.EstadoRegistro == clsAtributos.EstadoRegistroActivo).DefaultIfEmpty()
+                                        orderby par.FechaIngresoLog descending
                                         select new
-                                 {
+                                        {
                                      par.CodFormClasif,
                                      par.CodArea,
                                      par.DescripcionParametro,
@@ -63,12 +58,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                                      par.NombreParametro,
                                      par.TerminalIngresoLog,
                                      par.TerminalModificacionLog,
+                                     par.Mascara,
                                      par.ValorMax,
                                      par.UsuarioIngresoLog,
                                      par.ValorMin,
                                      clasif.Descripcion,
-                                     descripcionArea=clas.Descripcion
-                                        }).ToList();
+                                     descripcionArea= clasd.Descripcion
+                                        });
                     return listaActivos.ToList<dynamic>();
                 }
 
@@ -98,6 +94,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                     }
                     else
                     {
+                        model.CodArea = guardarModificar.CodArea;
+                        model.Mascara = guardarModificar.Mascara;
                         model.NombreParametro = guardarModificar.NombreParametro;
                         model.CodFormClasif = guardarModificar.CodFormClasif;
                         model.DescripcionParametro = guardarModificar.DescripcionParametro;

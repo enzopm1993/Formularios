@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PARAMETROS_LABORATORIO>
 @using Newtonsoft.Json;
 @using Asiservy.Automatizacion.Datos.Datos;
-<table class="table table-light table-striped table-bordered table-hover text-uppercase" id="tblDataTable">
+<table class="table table-light table-striped table-bordered text-uppercase" id="tblDataTableMant">
     <thead style="font-size:12px">
         <tr>
             <th>PARÁMETRO</th>
             <th>FORMULARIO</th>
             <th>ÁREA</th>
+            <th>MÁSCARA</th>
             <th>VALOR MIN</th>
             <th>VALOR MAX</th>
             <th>DESCRIPCIÓN</th>
@@ -26,6 +27,7 @@
                 <td>@h.NombreParametro</td>              
                 <td style="white-space:normal">@h.Descripcion</td>
                 <td>@h.descripcionArea</td>
+                <td>@h.Mascara.ToString("0.00")</td>
                 <td style="text-align:center">@h.ValorMin.ToString("0.00")</td>
                 <td style="text-align:center">@h.ValorMax.ToString("0.00")</td>
                 <td style="white-space:normal">                   
@@ -64,3 +66,10 @@
 </table>
 <script src="~/Scripts/General/dataTableJS.js"></script>
 
+<script>
+    var table = $("#tblDataTableMant");
+    table.DataTable().destroy();
+    config.opcionesDT.order = [];
+    table.DataTable(config.opcionesDT);
+    table.DataTable().draw();
+</script>
