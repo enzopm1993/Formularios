@@ -29,6 +29,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDClasificador = new clsDClasificador();
                 var precoccion =clsDClasificador.ConsultarClasificador(clsAtributos.codPrecoccion);
                 ViewBag.CodigoFormulario = precoccion;
+                var areaLaboratorio = clsDClasificador.ConsultarClasificador(clsAtributos.codArea);               
+                ViewBag.AreaLaboratorio = areaLaboratorio;
                 return View();
             }
             catch (DbEntityValidationException e)
