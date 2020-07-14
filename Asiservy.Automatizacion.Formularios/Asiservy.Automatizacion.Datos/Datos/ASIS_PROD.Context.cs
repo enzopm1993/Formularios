@@ -199,7 +199,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
-        public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
         public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_EQUIPO_AAC> CC_MANTENIMIENTO_EQUIPO_AAC { get; set; }
@@ -208,6 +207,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
+        public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2345,19 +2345,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoReporte>("spConsultaProductoTerminadoReporte", fechaDesdeParameter, fechaHastaParameter, lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fecha, string turno)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLote>("spConsultaReporteRendimientoLote", fechaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
@@ -2396,6 +2383,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spKpiAvancePorLimpiadora>("spKpiAvancePorLimpiadora", fechaParameter, cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLote>("spConsultaReporteRendimientoLote", fechaParameter, turnoParameter);
         }
     }
 }

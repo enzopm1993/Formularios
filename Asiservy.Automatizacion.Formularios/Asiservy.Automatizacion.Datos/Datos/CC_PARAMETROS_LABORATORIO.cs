@@ -34,6 +34,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string CodArea { get; set; }
+        public Nullable<decimal> Mascara { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
