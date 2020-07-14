@@ -14,12 +14,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO()
-        {
-            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>();
-        }
-    
         public int IdTipoxParametro { get; set; }
         public int ParametroLaboratorio { get; set; }
         public Nullable<decimal> Cantidad { get; set; }
@@ -30,9 +24,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public int IdTipo { get; set; }
     
         public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
+        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
     }
 }
