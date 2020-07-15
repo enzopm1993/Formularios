@@ -2667,6 +2667,21 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="FONDO_LOGIN">
+          <Key>
+            <PropertyRef Name="IdFondoLogin" />
+          </Key>
+          <Property Name="IdFondoLogin" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="JUSTICA_SOLICITUD">
           <Key>
             <PropertyRef Name="IdJustificaSolicitud" />
@@ -5182,6 +5197,7 @@
           <EntitySet Name="ENTREGA_UNIFORME" EntityType="Self.ENTREGA_UNIFORME" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ERROR" EntityType="Self.ERROR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FONDO_LOGIN" EntityType="Self.FONDO_LOGIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MANTENIMIENTO_CONDICION" EntityType="Self.MANTENIMIENTO_CONDICION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MANTENIMIENTO_PREPARACION" EntityType="Self.MANTENIMIENTO_PREPARACION" Schema="dbo" store:Type="Tables" />
@@ -6920,8 +6936,9 @@
             <End Role="PROYECCION_PROGRAMACION_DETALLE" EntitySet="PROYECCION_PROGRAMACION_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="spConsultaProyeccionProgramacion" ReturnType="Collection(ASIS_PRODModel.spConsultaProyeccionProgramacion)">
-            <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
+          <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="FONDO_LOGIN" EntityType="ASIS_PRODModel.FONDO_LOGIN" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13538,6 +13555,21 @@
           <Property Type="String" Name="RecetaRoceado" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="EstadoLote" Nullable="false" />
         </ComplexType>
+        <EntityType Name="FONDO_LOGIN">
+          <Key>
+            <PropertyRef Name="IdFondoLogin" />
+          </Key>
+          <Property Name="IdFondoLogin" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Imagen" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19933,6 +19965,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="FONDO_LOGIN">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.FONDO_LOGIN">
+              <MappingFragment StoreEntitySet="FONDO_LOGIN">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdFondoLogin" ColumnName="IdFondoLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
