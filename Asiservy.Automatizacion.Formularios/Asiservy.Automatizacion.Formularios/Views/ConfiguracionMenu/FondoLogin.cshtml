@@ -7,7 +7,7 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <button data-toggle="modal" data-target="#exampleModalCenter" data-placement="top" title="Agregar" class="btn" id="Nuevo" onclick="" style="border-color:#2c3e50" type="button">
+        <button data-toggle="modal" data-target="" data-placement="top" title="Agregar" class="btn" id="Nuevo" onclick="MostrarModal()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/add24.png" />
         </button>
     </div>
@@ -20,7 +20,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="ModalLoginFondo" tabindex="-1" role="dialog" aria-labelledby="ModalLoginFondoTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,13 +33,13 @@
                 <form>
                     <div class="form-group">
                         <label for="txtDescripcion">Descripción</label>
-                        <input type="text" class="form-control" id="txtDescripcion" placeholder="Descripción">
+                        <input type="text" class="form-control" id="txtDescripcion" placeholder="">
                     </div>
                     <div id="divInputLoad" class="">
                         <label>Fondo</label>
                         <div class="custom-file" id="divFileUpload">
                             <input type="file" class="file-upload" id="file-upload" accept="image/*">
-                            <label class="custom-file-label" for="file-upload" id="lblfoto">Seleccione archivo</label>
+                            <label class="custom-file-label" for="file-upload" id="lblfoto">Seleccione fondo</label>
                         </div>
                         @*<div id="divFileUpload">
                 <input id="file-upload" type="file" accept="image/*" />
@@ -55,7 +55,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarFondoLogin()">Guardar</button>
             </div>
         </div>
     </div>
