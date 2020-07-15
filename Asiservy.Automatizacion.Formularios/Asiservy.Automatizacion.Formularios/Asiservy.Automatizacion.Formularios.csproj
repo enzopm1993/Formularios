@@ -4262,6 +4262,7 @@
     <Content Include="Views\Avance\ReporteRendimientoLinea.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLogin.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

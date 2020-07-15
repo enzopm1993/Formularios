@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteRendimientoLinea>
+@using Asiservy.Automatizacion.Datos.Datos
+
+@{ 
+
+    var lineas = (List<CLASIFICADOR>)ViewBag.Lineas;
+
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                LINEA
+            </th>
+            @foreach (var h in Model)
+            {
+                <th class=" text-center" style="white-space:normal">
+                    @h.Hora.Value.ToString("yyyy/MM/dd HH:mm")
+                </th>
+            }
+            <th>Total</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+
+        @foreach (var l in lineas)
+        {
+            <tr>
+                <td rowspan="3">@l.Descripcion</td>
+
+                @{var ModelLinea = Model.Where(x => x.Linea == l.Codigo);
+                    var totalTeoricoLinea = ModelLinea.Sum(x => x.KiloTeorico);
+                    var totalRealLinea = ModelLinea.Sum(x => x.KiloReal);
+                    var totalDiferenciaLinea = totalRealLinea > 0 ? Math.Round(((totalRealLinea ?? 0) / (totalRealLinea ?? 0)) * 100, 2) : 0;
+                    }
+                @foreach (var item in Model)
+                {
+
+                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Hora);
+                    if (valor != null)
+                    {
+                        <td>
+                            @valor.KiloTeorico
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td> -- </td>
+
+                    }
+
+                }
+                <td>@totalTeoricoLinea</td>
+            </tr>
+
+            <tr>
+
+                @foreach (var item in Model)
+                {
+
+                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Hora);
+                    if (valor != null)
+                    {
+                        <td>
+                            @valor.KiloReal
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td> -- </td>
+
+                    }
+
+                }
+                <td>@totalRealLinea</td>
+            </tr>
+            <tr>
+                @foreach (var item in Model)
+                {
+
+                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Hora);
+                    if (valor != null)
+                    {
+                        decimal dif = valor.KiloTeorico > 0 ? Math.Round((valor.KiloReal ?? 0) / (valor.KiloTeorico ?? 0) * 100, 2) : 0;
+                        <td>
+                            @dif
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td> -- </td>
+
+                    }
+
+                }
+
+                <td>@totalDiferenciaLinea</td>
+            </tr>
+                    }
+    </tbody>
+    <thead>
+        @{ 
+            var totalReal = Model.Sum(x => x.KiloReal);
+            var totalTeorico = Model.Sum(x => x.KiloTeorico);
+            decimal TotalDiferencias = 0;
+        }
+
+        <tr>
+            <th class="letra10">Kilo Teorico</th>
+            @foreach (var h in Model)
+            {
+                var KiloTeorico = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloTeorico);
+                <th class="letra10">
+                    @KiloTeorico
+                </th>
+            }
+                <th>@totalTeorico</th>
+        </tr>
+        <tr>
+            <th class="letra10">Kilo Real</th>
+            @foreach (var h in Model)
+            {
+                var TotalReal = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloReal);
+                <th class="letra10">
+                    @TotalReal
+                </th>
+            }
+            <th>@totalReal</th>
+
+        </tr>
+        <tr>
+            <th class="letra10">Diferencia</th>
+            @foreach (var h in Model)
+            {
+                var KiloTeorico = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloTeorico);
+                var TotalReal = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloReal);
+                var totalDiferencia = KiloTeorico - TotalReal;
+                TotalDiferencias = TotalDiferencias+ totalDiferencia ??0;
+                <th class="letra10">
+                    @totalDiferencia
+                </th>
+            }
+                <th>@TotalDiferencias</th>
+        </tr>
+        <tr>
+            <th class="letra10" style="white-space:normal">Diferencia Acumulada</th>
+            @{decimal totalDiferenciaAcumulada =0; }
+
+            @foreach (var h in Model)
+            {
+                var KiloTeorico = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloTeorico);
+                var TotalReal = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloReal);
+                var totalDiferencia = KiloTeorico - TotalReal;
+                totalDiferenciaAcumulada = totalDiferenciaAcumulada + totalDiferencia??0;
+                <th class="letra10">
+                    @totalDiferenciaAcumulada
+                </th>
+            }
+        </tr>
+    </thead>
+</table>
+

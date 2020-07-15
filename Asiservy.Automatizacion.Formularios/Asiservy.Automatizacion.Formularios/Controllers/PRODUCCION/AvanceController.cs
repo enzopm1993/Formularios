@@ -1032,12 +1032,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                // lsUsuario = User.Identity.Name.Split('_');s
+                clsDClasificador = new clsDClasificador();
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(ddFecha.Date, Turno);
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLinea(ddFecha.Date, Turno);
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }
-                ViewBag.Model = model;
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion);
                 return PartialView(model);
             }
             catch (Exception ex)
