@@ -156,7 +156,7 @@ function CargarReporteAvance() {
     
     MostrarModalCargando();
     $.ajax({
-        url: "../Hueso/ReporteRendimientoLotePartial",
+        url: "../Avance/ReporteRendimientoLotePartial",
         type: "GET",
         data: {
             ddFecha: txtFecha,
@@ -182,7 +182,8 @@ function CargarReporteAvance() {
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 $("#divChart").prop("hidden", false);
 
-                var RealLomo=[];
+                var TotalToneladas=0;
+                var RealLomo = [];
                 var EstandarLomo = [];
                 var DiferenciaLomo = [];
 
@@ -200,7 +201,7 @@ function CargarReporteAvance() {
                 var EstandarTotalGeneral = 0;
 
                 var Lote = [];
-                //console.log(ListadoGeneral);
+                console.log(ListadoGeneral);
                 ListadoGeneral.forEach(function (row, i) {
                     RealLomo[i] = row.KiloRealLomoPorcentaje.toFixed(2);
                     EstandarLomo[i] = row.KiloStdLomoPorcentaje.toFixed(2);
@@ -220,11 +221,13 @@ function CargarReporteAvance() {
                     EstandarTotalGeneral = EstandarTotalGeneral+ (row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje);
 
                     Lote[i] = row.Lote;
-
+                    TotalToneladas = TotalToneladas+row.PesoLote
 
                 });
                 //console.log(RealLomo);
                 //console.log(RealMiga);
+
+                $("#txtTotalToneladas").html(TotalToneladas+" Kl");
 
                 var _serieLomo = [{
                         name: "Real",

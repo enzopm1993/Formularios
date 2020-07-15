@@ -1,28 +1,19 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>
+﻿@model ICollection<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>
 @using Newtonsoft.Json
-
+@using Asiservy.Automatizacion.Datos.Datos
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
 
             <th>
-                @Html.DisplayNameFor(model => model.TipoProducto)
+                Tipo Producto
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalProceso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HistaminaProceso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HumedadProceso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalEmpaque)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HistaminaEmpaque)
-            </th>
+           @foreach (var item in Model.FirstOrDefault().CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+           {
+               <th>
+                   @item.CC_PARAMETROS_LABORATORIO.DescripcionParametro
+               </th>
+           }
 
 
 
@@ -33,30 +24,31 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var json = JsonConvert.SerializeObject(new {item.HistaminaEmpaque,item.HistaminaProceso,
-                item.HumedadProceso,item.IdDetalleAnalisisQuimicoProductoSe,item.IdTipoAnalisisQuimicoProductoSe,
-            item.SalEmpaque,item.SalProceso,item.TipoProducto});
+            List<dynamic> lista = new List<dynamic>();
+            foreach (var listaParam in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+            {
+                lista.Add(new {listaParam.ParametroLaboratorio, listaParam.Cantidad });
+            }
+            dynamic ObjTipo = new {
+                IdDetalleAnalisisQuimicoProductoSe = item.IdDetalleAnalisisQuimicoProductoSe,
+                IdTipoAnalisisQuimicoProductoSe = item.IdTipoAnalisisQuimicoProductoSe,
+                TipoProducto = item.TipoProducto,
+                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = lista
+            };
+
+            var json = JsonConvert.SerializeObject(ObjTipo);
             string Tipo = item.TipoProducto == "L" ? "Lomo" : item.TipoProducto == "M" ? "Miga" : item.TipoProducto == "T" ? "Trozo" : item.TipoProducto;
             <tr>
 
                 <td>
                    @Tipo
                 </td>
+                @foreach (var ListaCant in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+                {
                 <td>
-                    @Html.DisplayFor(modelItem => item.SalProceso)
+                    @ListaCant.Cantidad
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HistaminaProceso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HumedadProceso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalEmpaque)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HistaminaEmpaque)
-                </td>
+                }
 
 
                 <td>

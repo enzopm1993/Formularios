@@ -50,5 +50,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Marea { get; set; }
         public string CodRecetaRoceado { get; set; }
         public string RecetaRoceado { get; set; }
+        public bool EstadoLote { get; set; }
     }
 }

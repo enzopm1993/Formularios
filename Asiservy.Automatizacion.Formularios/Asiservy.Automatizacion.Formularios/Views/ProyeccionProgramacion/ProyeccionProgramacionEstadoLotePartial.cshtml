@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProyeccionProgramacion>
+@using Newtonsoft.Json;
+
+<table class="table table-bordered" id="tblDataTable">
+    <thead>
+        <tr>
+            <th style="white-space:normal">
+                Orden Fabricación
+            </th>
+            <th>
+                Lote
+            </th>
+
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td class="text-center">
+                    @if (!item.EstadoLote)
+                    {
+                        string json = JsonConvert.SerializeObject(item);
+                    <button id="btnActualizar" class="btn btn-link" onclick="CerrarLote(@json)">Cerrar Lote</button>
+                    }
+                    else
+                    {
+                        <span class="badge badge-success">CERRADO</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
