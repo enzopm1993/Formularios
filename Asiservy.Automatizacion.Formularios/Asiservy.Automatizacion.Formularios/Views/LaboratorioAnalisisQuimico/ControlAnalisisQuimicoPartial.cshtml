@@ -1,23 +1,23 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.OrdenFabricacionAvance>
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.ItemParadaCocina>
+@using Newtonsoft.Json;
 
-
-<table class="table table-bordered text-uppercase">
+<table class="table table-bordered text-uppercase" id="tblDataTable">
     <thead style="font-size:11px">
         <tr>
             <th>COCINADOR</th>
             <th>PARADA</th>
             <th>LOTE/COD. BARCO</th>
-            <th>ESP. TALLA</th>      
+            <th>ESP. TALLA</th>
             <th>Nº COCHE</th>
             <th>SAL</th>
             <th>PROM</th>
-            <th>HISTAMINA ppm</th>
+            <th>HISTAMINA PPM</th>
             <th>VALOR MAX</th>
             <th>VALOR MIN</th>
             <th>HUMEDAD %</th>
             <th>PROM</th>
-            <th>TURNO</th>
-            <th>ANALISTA</th>
+            @*<th>TURNO</th>*@
+            @*<th>ANALISTA</th>*@
             <th>ACCIONES</th>
         </tr>
     </thead>
@@ -25,47 +25,52 @@
     <tbody style="font-size:10px">
         @foreach (var item in Model)
         {
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    @item.Lote / @item.OrdenFabricacion
-                </td>                
-                <td>
-                    @item.Especie - @item.Talla
-                </td>
-                <td>
-                    coche
-                </td>
-                <td onclick="ModalIngresoDetalle()">
-                    sal
-                </td>
-                <td>
-                    @item.Promedio
-                </td>
-                <td>
-                    histamina
-                </td>
-                <td>
-                    vlorMax
-                </td>
-                <td>
-                   valor min
-                </td>
-                <td>
-                    humedad
-                </td>
-                <td>
-                    Prom
-                </td>
-                <td>
-                    turno
-                </td>
-                <td>analista</td>
-                <td>
-                    botones
-                </td>
-            </tr>
+        <tr>
+            <td>@item.COCINA</td>
+            <td>@item.PARADA</td>
+            <td>
+                @item.LOTE / @item.BARCO
+            </td>
+            <td>
+                @item.ESPECIE - @item.TALLA
+            </td>
+            <td>
+                @item.COCHES
+            </td>
+            <td onclick="ModalIngresoDetalle()">
+                sal
+            </td>
+            <td>
+                prom
+            </td>
+            <td>
+                histamina
+            </td>
+            <td>
+                vlorMax
+            </td>
+            <td>
+                valor min
+            </td>
+            <td>
+                humedad
+            </td>
+            <td>
+                Prom
+            </td>
+            @*<td>
+                turno
+            </td>*@
+            @*<td>analista</td>*@
+            <td>
+                @{
+                    string json = JsonConvert.SerializeObject(item);
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="ActulizarDetalle(@json)">Editar</button>
+                <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmarDetalle(@json)">Eliminar</button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

@@ -2244,7 +2244,6 @@
     <Content Include="Scripts\CALIDAD\KardexReactivo\KardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\ReporteKardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.js" />
-    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\MantenimientoTurno.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3459,6 +3458,7 @@
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionProductoEnfundado\clsDEvaluacionProductoEnfundado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\HigieneComedorCocina\clsDHigieneComedorCocina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\KardexReactivo\ClsdKardexReactivo.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\ClsDLaboratorioAnalisisQuimico.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LimpiezaDesinfeccionPlanta\clsDLimpiezaDesinfeccionPlanta.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
@@ -3569,6 +3569,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\LaboratorioAnalisisQuimicoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoMuestraDescongeladoController.cs" />
@@ -3692,6 +3693,7 @@
     <Compile Include="Models\Produccion\EntradaYSalidaDeMateriales\EntradaSalidaMaterialViewModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
+    <Compile Include="Models\Produccion\ItemParadaCocina.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
     <Compile Include="Models\Produccion\Rendimiento.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />
@@ -4260,7 +4262,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />

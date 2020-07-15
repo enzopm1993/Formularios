@@ -11,6 +11,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 {
     public class clsDApiProduccion
     {
+        public List<ItemParadaCocina> ParadasCocinasPorFecha(DateTime fecha)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            RestRequest request;
+            //if (fecha>DateTime.MinValue)
+            //    request = new RestRequest("/api/Produccion/ParadasCocinasPorFecha", Method.GET);
+            //else
+                request = new RestRequest("/api/Produccion/ParadasCocinasPorFecha/" + fecha.ToString("yyyy-MM-dd") + "/", Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var listaParadas = JsonConvert.DeserializeObject<List<ItemParadaCocina>>(content);
+            return listaParadas;
+
+        }
         public object ConsultarObservaciones(string Codigo)
         {
             var client = new RestClient(clsAtributos.BASE_URL_WS);

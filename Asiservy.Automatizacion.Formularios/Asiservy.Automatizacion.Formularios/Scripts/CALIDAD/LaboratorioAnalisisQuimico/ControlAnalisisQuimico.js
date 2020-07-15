@@ -6,7 +6,13 @@ var itemAccionCorrectivaG = [];
 var rotation = 0;
 var actualizarSi = false;
 $(document).ready(function () {
-    CargarCabecera();   
+    CargarCabecera();
+    $('#selectTurno').select2({
+        width: '100%'
+    });
+    $('#selectTurnoInsertar').select2({
+        width: '100%'
+    });    
 });
 
 async function ConsultarEstadoRegistro() {
@@ -26,10 +32,12 @@ function CargarCabecera() {
         $('#cargac').hide();
         return;
     }
+    //console.log(document.getElementById('selectTurno').value);
     $.ajax({
-        url: "../LaboratorioAnalisisQuimico/ConsultarEstadoReporte",
+        url: "../LaboratorioAnalisisQuimico/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val()
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
         },
         type: "GET",
         success: function (resultado) {
@@ -58,7 +66,8 @@ function CargarCabecera() {
             }
             $('#cargac').hide();
         },
-        error: function () {
+        error: function (result) {
+            ////console.log(result.responseText);
             $('#cargac').hide();
             MensajeError(Mensajes.Error, false);
         }
@@ -78,11 +87,14 @@ async function GuardarCabecera(siAprobar) {
             $('#cargac').hide();
             return;
         } else {
+            //console.log(document.getElementById('selectTurnoInsertar').value);
             const data = new FormData();
             data.append('IdAnalisis', itemCabecera.IdAnalisis);
             data.append('Fecha', $("#txtIngresoFecha").val());
+            data.append('Turno', document.getElementById('selectTurnoInsertar').value);   
             data.append('ObservacionCtrl', $("#txtIngresoObservacion").val());
-            data.append('siAprobar', siAprobar);            
+            data.append('siAprobar', siAprobar);   
+            
             var promiseCall = fetch('../LaboratorioAnalisisQuimico/GuardarModificarAnalisisQuimico', {
                 method: 'post',
                 body: data
@@ -96,7 +108,8 @@ async function GuardarCabecera(siAprobar) {
                 window.location.reload();
             }
             if (jsonResult == 0) {
-                MensajeCorrecto('Registro guardado correctamente');
+                MensajeCorrecto('Registro guardado correctamente'); 
+                $('#selectTurno').val(document.getElementById('selectTurnoInsertar').value).trigger('change');                
             } else if (jsonResult == 1) {
                 MensajeCorrecto('Registro actualizado correctamente');
             } else if (jsonResult == 3) {
@@ -105,6 +118,8 @@ async function GuardarCabecera(siAprobar) {
             } else if (jsonResult == 4) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 return;
+            } else if (jsonResult == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             $('#ModalIngresoCabecera').modal('hide');
             $('#divBotonesCRUD').prop('hidden', false);
@@ -116,6 +131,7 @@ async function GuardarCabecera(siAprobar) {
         }
     } catch (e) {
         console.log(e);
+        $('#cargac').hide();
         MensajeError(Mensajes.Error, false);
     }
 }
@@ -159,6 +175,7 @@ async function EliminarCabeceraSi() {
         } else {
             const data = new FormData();
             data.append('IdAnalisis', itemCabecera.IdAnalisis);
+            data.append('Fecha', moment(itemCabecera.Fecha).format('YYYY-MM-DD'));
             var promisess = fetch('../LaboratorioAnalisisQuimico/EliminarAnalisisQuimico', {
                 method: 'post',
                 body: data
@@ -179,6 +196,8 @@ async function EliminarCabeceraSi() {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
+            } else if (jsonResult == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             itemCabecera = [];
             CargarCabecera();
@@ -262,11 +281,13 @@ async function ActualizarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    $('#selectTurnoInsertar').val(document.getElementById('selectTurno').value).trigger('change');  
     itemCabecera = [];
 }
 
 function LimpiarModalIngresoCabecera() {
     $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+    document.getElementById("selectTurnoInsertar").options[0].selected = true;
     $('#txtIngresoObservacion').val('');
 }
 
@@ -317,7 +338,6 @@ async function CargarDetalle() {
         }
         $('#cargac').hide();
     } catch (e) {
-        console.log(e);
         $('#cargac').hide();
         MensajeError(Mensajes.Error,false);
     }
