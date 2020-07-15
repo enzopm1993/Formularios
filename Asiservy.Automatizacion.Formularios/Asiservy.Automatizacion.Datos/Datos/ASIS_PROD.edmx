@@ -4845,6 +4845,10 @@
           <Parameter Name="idControl" Type="int" Mode="In" />
         </Function>
         <Function Name="spConsultaReporteMaestro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultaReporteRendimientoLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+        </Function>
         <Function Name="spConsultaReporteRendimientoLote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
@@ -6940,6 +6944,10 @@
           <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="FONDO_LOGIN" EntityType="ASIS_PRODModel.FONDO_LOGIN" />
+          <FunctionImport Name="spConsultaReporteRendimientoLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteRendimientoLinea)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13572,6 +13580,12 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaReporteRendimientoLinea">
+          <Property Type="DateTime" Name="Hora" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="KiloReal" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="KiloTeorico" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="20" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19984,6 +19998,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaReporteRendimientoLinea" FunctionName="ASIS_PRODModel.Store.spConsultaReporteRendimientoLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteRendimientoLinea">
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
+                <ScalarProperty Name="KiloTeorico" ColumnName="KiloTeorico" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
