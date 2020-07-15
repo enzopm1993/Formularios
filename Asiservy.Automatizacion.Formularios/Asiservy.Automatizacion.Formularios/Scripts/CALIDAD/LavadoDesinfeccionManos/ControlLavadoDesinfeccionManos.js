@@ -39,7 +39,6 @@ function CargarCabecera(opcion) {
         return;
     } else {
         var fechaingresada = moment($('#datetimepicker1').datetimepicker('viewDate')).format('MM-DD-YYYY');
-        //console.log(fechaingresada);
         $.ajax({
             url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
             type: "GET",
@@ -150,7 +149,7 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             IdDesinfeccionManos: ListaDatos.IdDesinfeccionManos,
-            Fecha: moment(ListaDatos.Fecha).format('DD-MM-YYYY')
+            Fecha: moment(ListaDatos.Fecha).format('YYYY-MM-DD')
         },
         success: function (resultado) {
             if (resultado == "101") {

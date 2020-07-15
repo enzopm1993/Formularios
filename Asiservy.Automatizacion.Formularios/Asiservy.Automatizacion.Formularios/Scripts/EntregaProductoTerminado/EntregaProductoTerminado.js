@@ -36,7 +36,7 @@ $(document).ready(function () {
 
     $('#txtUsado').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
         'max': '100000',

@@ -3,6 +3,7 @@
     ViewBag.Title = "KpiEnvaseLata";
 }
 
+
 <style>
     input, select, textarea {
         max-width: 100%
@@ -24,7 +25,7 @@
 
 </style>
 
-<h4>Kpi Envase</h4>
+<h4>Kpi Envase Lata-Pouch</h4>
 
 <div class="card shadow">
     <div class="card-header">
@@ -74,8 +75,66 @@
         <div class="text-center">
             <h4 id="MensajeRegistros" class="text-warning"></h4>
         </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDetalle" id="btnDetalle">
+            Ver Detalles
+        </button>
         <div id="divChart">
 
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalDetalle">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reporte Envase Lata-Pouch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="divDetalle">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered" id="tblTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Fecha
+                                </th>
+                                <th>
+                                    O.F.
+                                </th>
+                                <th>
+                                    O.V.
+                                </th>
+                                <th>
+                                    Producto
+                                </th>
+                                <th>
+                                    Solido
+                                </th>
+                                <th>
+                                    Liquido
+                                </th>
+                                <th>
+                                    Aceite
+                                </th>
+                                <th>
+                                    Empleados
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>

@@ -63,7 +63,8 @@ chart.render();
 function ConsultaKpiPorFecha() {
     $("#spinnerCargando").prop("hidden", false);
     $('#MensajeRegistros').hide();
-
+    var table = $('#tblTable');
+    table.DataTable().clear();    
     $.ajax({
         url: "../KpiProduccion/ConsultaKpiEnvaseLatas",
         type: "GET",
@@ -78,11 +79,34 @@ function ConsultaKpiPorFecha() {
                 $('#MensajeRegistros').show();
                 $("#MensajeRegistros").html("No existen registros.");
                 $("#divChart").html("");
+                $("#btnDetalle").prop("disabled", true);
                 //  console.log(chart);
                 Kpi(null);  
-                
             } else {
-                Kpi(resultado);             
+                $("#btnDetalle").prop("disabled", false);
+                $("#tblTable tbody").empty();
+                config.opcionesDT.order = [];
+                config.opcionesDT.columns = [
+                    { data: 'Fecha' },
+                    { data: 'OrdenFabricacion' },
+                    { data: 'OrdenVenta' },
+                    { data: 'Producto' },
+                    { data: 'Solido' },
+                    { data: 'Liquido' },
+                    { data: 'Aceite' },
+                    { data: 'Empleados' }
+                ];
+                resultado.forEach(function (row, i) {
+                    var poHora = row.Hora;
+                    row.Fecha = moment(row.Fecha).format('YYYY-MM-DD');
+                   
+                });
+                config.opcionesDT.pageLength = 10;
+                table.DataTable().destroy();
+                table.DataTable(config.opcionesDT);
+                table.DataTable().rows.add(resultado);
+                table.DataTable().draw();
+                Kpi(resultado);                             
             }
             $("#spinnerCargando").prop("hidden", true);
         },
@@ -94,14 +118,15 @@ function ConsultaKpiPorFecha() {
 
 }
 
-function Kpi(model) {
-    if (model != null) {
+function Kpi(m) {
+    if (m != null) {
         //console.log(model);
         DesperdicioSolido = [];
         DesperdicioLiquido = [];
         DesperdicioAceites = [];
         Data = [];
-        $.each(model, function (i, item) {
+        Fechas = [];
+        $.each(m, function (i, item) {
             Data[i] = item.OrdenFabricacion;
             Fechas[i] = moment(item.Fecha).format("DD-MM-YYYY");
             DesperdicioSolido[i] = item.Solido;

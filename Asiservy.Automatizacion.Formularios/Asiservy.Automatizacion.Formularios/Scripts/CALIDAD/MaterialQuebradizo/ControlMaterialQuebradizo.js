@@ -187,7 +187,7 @@ function EliminarCabeceraSi() {
                 type: "POST",
                 data: {
                     IdMaterial: itemCabecera.IdMaterial,
-                    Fecha: moment(itemCabecera.Fecha).format('DD-MM-YYYY')
+                    Fecha: moment(itemCabecera.Fecha).format('YYYY-MM-DD')
                 },
                 success: function (resultado) {
                     if (resultado == "101") {

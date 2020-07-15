@@ -1,4 +1,9 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
+
+@{ 
+    var turnos = (List<CLASIFICADOR>)ViewBag.Turno;
+}
+
 <style>
 
 
@@ -159,8 +164,13 @@
 
             <label>Turno</label>
             <select class="form-control" id="selectTurno" onchange="CargarReporteAvance()">
-                <option value="1">Turno A</option>
-                <option value="2">Turno B</option>
+                <option value="">Seleccione</option>
+                @{foreach (var x in turnos)
+                    {
+                        <option value="@x.Codigo">@x.Descripcion</option>
+                    }
+                }
+                <option value="T">Todos</option>
             </select>
         </div>
     </div>
@@ -236,14 +246,76 @@
                 </table>
             </div>
 
-            <div class="card-body" id="">
+            <div class="card-body" id="" style="padding-top:1px">
                 <div class="text-center"><h4 class="text-warning" id="divMensaje"></h4></div>
                 <div class="" id="divChart" hidden>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalDetalle">
-                        Ver detalles
-                    </button>
-                    <div id="chartRendimiento">
 
+                    <div class="row">
+                        <div class="col-md-3 col-6 col-sm-6">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalDetalle">
+                                Ver detalles
+                            </button>
+                        </div>
+                        <div class="col-md-9 col-6 col-sm-6">
+                            <label><b>Total Toneladas: </b></label>
+                            <label id="txtTotalToneladas"></label>
+                           
+                        </div>
+                    </div>
+                    
+
+
+                  
+
+                    <div class="row">
+                        <div class="col-md-6 col-12 col-sm-12">
+                            <div class="card shadow">
+                                <div class=" card-body">
+                                    <div id="chartRendimientoLomo">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 col-sm-12">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div id="chartRendimientoMiga">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4 col-12 col-sm-12">
+                            <div class="card shadow">
+                                <div class=" card-body">
+                                    <div id="chartRendimientoGeneralLomo">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12 col-sm-12">
+                            <div class="card shadow">
+                                <div class=" card-body">
+                                    <div id="chartRendimientoGeneralMiga">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12 col-sm-12">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div id="chartRendimientoGeneralTotal">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -265,7 +337,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div style="padding:25px" class="table-responsive" id="DivTableReporteControlAvance">  </div>
+                <div style="" class="table-responsive" id="DivTableReporteControlAvance">  </div>
+                <div class="table-responsive" style="font-size:12px;">
+                    <table class=" table-bordered">
+                        <tr>
+                            <th colspan="2">Lote</th>
+                            <th colspan="2">% Diferencia</th>
+                        </tr>
+                        <tr>
+                            <td>  <span class="badge badge-success">Lote</span> Cerrado</td>
+                            <td> <span class="badge badge-warning">Lote</span> Abierto</td>
+                            <td>   <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i> Más o igual Lomo/Miga de lo esperado. <br /></td>
+                            <td>  <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i> Menos Lomo/Miga de lo esperado. <br /></td>
+
+                        </tr>
+                        
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

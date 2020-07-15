@@ -11,6 +11,8 @@ using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.Models;
+using System.Web.Configuration;
+using System.Reflection;
 
 namespace ProyectoWeb.Controllers
 {
@@ -42,6 +44,7 @@ namespace ProyectoWeb.Controllers
             {
                 ViewBag.BD = clsAtributos.BDProduccion;
             }
+            ViewBag.version = Assembly.GetExecutingAssembly().GetName().Version;
 
             return View();
         }

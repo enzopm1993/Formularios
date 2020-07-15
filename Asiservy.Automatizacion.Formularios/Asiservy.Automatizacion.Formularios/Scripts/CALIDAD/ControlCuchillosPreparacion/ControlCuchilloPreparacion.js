@@ -379,7 +379,7 @@ function EliminarCabeceraSi() {
         data: {
             IdControlCuchillo: datosCabecera.IdControlCuchillo,
             turno: document.getElementById('selectTurno').value,
-            Fecha: moment(datosCabecera.Fecha).format('DD-MM-YYYY')
+            Fecha: moment(datosCabecera.Fecha).format('YYYY-MM-DD')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -438,10 +438,10 @@ function NuevoRegistroCabecera() {
     LimpiarCabecera();
     
     $('#ModalIngresoRegistroCabecera').modal('show');
-    //$("#txtFechaIngresoCabecera").val(moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY"));
+    
     DatePicker2();
     //$('#datetimepicker2').datetimepicker('viewDate') = moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY");
-   
+    document.getElementById("txtFechaIngresoCabecera").value = moment($('#datetimepicker1').datetimepicker('viewDate')).format("DD-MM-YYYY");
     document.getElementById('selectTurnoIngresar').value = document.getElementById('selectTurno').value;
 }
 
@@ -694,7 +694,7 @@ function ValidarEmpleadoExiste() {
     var selected = '';
         selected = $('#txtEmpleado').val();
     
-    if (datosDetalle.CedulaEmpleado == selected) {
+    if (datosDetalle.Cedula == selected) {
         return false;
     } else {
         var table = $("#tblDataTableCargarDetalle").DataTable();

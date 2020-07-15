@@ -18,8 +18,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Nombre { get; set; }
         public Nullable<int> IdControlDetalle { get; set; }
         public string OrdenFabricacion { get; set; }
+        public string Barco { get; set; }
+        public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
+        public string TipoLimpieza { get; set; }
         public Nullable<decimal> Promedio { get; set; }
         public Nullable<int> HuesoReal { get; set; }
         public Nullable<int> HuesoTeorico { get; set; }

@@ -47,6 +47,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Barco { get; set; }
         public Nullable<int> Marea { get; set; }
         public string RecetaRoceado { get; set; }
+        public bool EstadoLote { get; set; }
     
         public virtual PROYECCION_PROGRAMACION PROYECCION_PROGRAMACION { get; set; }
     }

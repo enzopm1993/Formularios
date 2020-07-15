@@ -2324,6 +2324,7 @@
     <Content Include="Scripts\Home\Home.js" />
     <Content Include="Scripts\html2canvas.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
+    <Content Include="Scripts\Hueso\ReporteEficienciaRendimiento.js" />
     <Content Include="Scripts\Hueso\ReporteRendimientoLote.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -3375,6 +3376,7 @@
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
     <Content Include="Scripts\ReporteMaestro\ReporteMaestro.js" />
     <Content Include="Scripts\Seguridad\Clasificador.js" />
@@ -4248,6 +4250,11 @@
     <Content Include="Views\Hueso\ReporteRendimientoLotePartial.cshtml" />
     <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorio.cshtml" />
     <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorioPartial.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\Hueso\ReporteEficienciaRendimiento.cshtml" />
+    <Content Include="Views\Hueso\ReporteEficienciaRendimientoPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLotePartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4289,6 +4296,12 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

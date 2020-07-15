@@ -12,20 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_VERIFICACION_POTENCIOMETRO
+    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO
     {
-        public int IdVerificacionPotenciometroControl { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Modelo { get; set; }
-        public int Serie { get; set; }
-        public decimal NaCI1 { get; set; }
-        public decimal NaCI2 { get; set; }
-        public decimal NaCI3 { get; set; }
-        public string Codigo { get; set; }
-        public string Observacion { get; set; }
-        public bool EstadoReporte { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public string AprobadoPor { get; set; }
+        public int IdTipoxParametro { get; set; }
+        public int ParametroLaboratorio { get; set; }
+        public Nullable<decimal> Cantidad { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -33,5 +24,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public int IdTipo { get; set; }
+    
+        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
+        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
     }
 }

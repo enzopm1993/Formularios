@@ -16,10 +16,11 @@ $(document).ready(function () {
 });
 
 function ConsultarEstadoRegistro() {
+    var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/ConsultarTermoencogidoSellado",
         data: {
-            fechaControl: moment($("#txtFecha").val()).format('YYYY-DD-MM'),  
+            fechaControl: moment(fechaFiltro).format('YYYY-MM-DD'),  
             turno: document.getElementById('selectTurno').value
         },
         type: "GET",
@@ -49,11 +50,12 @@ function CargarCabecera() {
         $('#cargac').hide();
         return;
     } else {
+        var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
         $.ajax({
             url: "../TemperaturaTermoencogidoSellado/ConsultarTermoencogidoSellado",
             type: "GET",
             data: {
-                fechaControl: moment($("#txtFecha").val()).format('YYYY-DD-MM'),                
+                fechaControl: moment(fechaFiltro).format('YYYY-MM-DD'),                
                 turno: document.getElementById('selectTurno').value
             },
             success: function (resultado) {
@@ -115,12 +117,13 @@ function CambiarMensajeEstado(estadoReporteParametro) {
 
 function GuardarCabecera() {
     $('#cargac').show();
+    var fechaIngreso = $('#datetimepicker2').datetimepicker('viewDate');
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSellado",
         type: "POST",
         data: {
             id: ListaDatos.Id,
-            Fecha: moment($("#txtIngresoFecha").val()).format("YYYY-DD-MM"),
+            Fecha: moment(fechaIngreso).format("YYYY-MM-DD"),
             Observacion: $("#txtIngresoObservacion").val(),
             Turno: document.getElementById('selectTurnoIngresar').value
         },
@@ -184,7 +187,7 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             id: ListaDatos.Id,
-            Fecha: moment(ListaDatos.Fecha).format('MM-DD-YYYY')
+            Fecha: moment(ListaDatos.Fecha).format('YYYY-MM-DD')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -234,7 +237,7 @@ function ActualizarCabeceraActivarCotroles() {
         } else {
             $('#ModalIngresarCabecera').modal('show');
             $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value).trigger('change');
-            $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('MM-DD-YYYY'));
+            $('#txtIngresoFecha').val($('#txtFecha').val());
             $('#txtIngresoObservacion').val($('#txtObservacion').val());
         }
     },500);
@@ -331,13 +334,13 @@ function CargarDetalle(opcion) {
     } else {
         idCabecera = ListaDatos.Id;
     }    
-    
+    var fechaFiltro = $('#datetimepicker1').datetimepicker('viewDate');
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/ControlTermoencogidoSelladoPartial",
         type: "GET",
         data: {
-            fechaDesde: $('#txtFecha').val(),
-            fechaHasta: $('#txtFecha').val(),
+            fechaDesde: moment(fechaFiltro).format('YYYY-MM-DD'),
+            fechaHasta: moment(fechaFiltro).format('YYYY-MM-DD'),
             idCabecera: idCabecera,
             op: op
         },
@@ -432,7 +435,7 @@ function CambioEstado(valor) {
 function ModalIngresarCabecera() {
     DatePicker2();
     $('#ModalIngresarCabecera').modal('show');
-    $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('MM-DD-YYYY'));
+    $('#txtIngresoFecha').val($('#txtFecha').val());
     $('#txtIngresoObservacion').val('');
     $('#selectTurnoIngresar').val(document.getElementById('selectTurno').value).trigger('change');
 }

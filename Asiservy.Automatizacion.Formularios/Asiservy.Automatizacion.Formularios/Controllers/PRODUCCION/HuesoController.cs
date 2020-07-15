@@ -933,7 +933,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Linea = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 return View();
             }
             catch (Exception ex)
@@ -973,6 +973,80 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }
                 ViewBag.Model = model;
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = lsUsuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+
+        [Authorize]
+        public ActionResult ReporteEficienciaRendimiento()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.Apexcharts = "1";
+                ViewBag.Handsontable = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsDControlHueso = new clsDControlHueso();
+                ViewData["modelEficiencia"] = clsDControlHueso.ConsultaEficienciaAvanceKilosHora();
+                ViewData["modelRendimiento"] = clsDControlHueso.ConsultaRendimientos();
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = lsUsuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+
+        }
+
+
+        public ActionResult ReporteEficienciaRendimientoPartial()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                // lsUsuario = User.Identity.Name.Split('_');s
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaRendimientos();
+                
                 return PartialView(model);
             }
             catch (Exception ex)
