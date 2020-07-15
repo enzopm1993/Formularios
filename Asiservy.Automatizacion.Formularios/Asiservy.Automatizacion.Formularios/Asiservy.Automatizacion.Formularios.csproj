@@ -2303,6 +2303,7 @@
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
+    <Content Include="Scripts\ConfiguracionMenu\FondoLogin.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
     <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
@@ -3510,6 +3511,7 @@
     <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
+    <Compile Include="AccesoDatos\General\ClsdConfiguracionMenu.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
@@ -3606,6 +3608,7 @@
     <Compile Include="Controllers\CALIDAD\VerificacionPotenciometroController.cs" />
     <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
+    <Compile Include="Controllers\ConfiguracionMenuController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlConsumoInsumoController.cs" />
@@ -4257,6 +4260,8 @@
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLotePartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.cshtml" />
     <Content Include="Views\Avance\ReporteRendimientoLinea.cshtml" />
+    <Content Include="Views\ConfiguracionMenu\FondoLogin.cshtml" />
+    <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

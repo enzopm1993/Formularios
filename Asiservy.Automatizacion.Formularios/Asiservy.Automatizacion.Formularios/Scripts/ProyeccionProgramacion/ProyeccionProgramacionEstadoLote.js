@@ -28,11 +28,15 @@ function CargarReporte() {
         type: "GET",
         data: { Fecha: $('#txtFecha').val(), Turno: $('#selectTurno').val() },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "0") {
+                $('#DivTableReporteProyeccion').html("No se ha generado la proyección de la programación.");
+                return
+            }
             $('#DivTableReporteProyeccion').html(resultado);
-            $("#spinnerCargando").prop("hidden", true);
             config.opcionesDT.order = [1, "asc"];
             config.opcionesDT.pageLength = 50;
             $('#tblDataTable').DataTable(config.opcionesDT);
