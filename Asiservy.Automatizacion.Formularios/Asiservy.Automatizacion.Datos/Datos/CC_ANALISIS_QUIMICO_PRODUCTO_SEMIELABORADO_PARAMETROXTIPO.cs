@@ -17,6 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdTipoxParametro { get; set; }
         public int ParametroLaboratorio { get; set; }
         public Nullable<decimal> Cantidad { get; set; }
+        public int IdTipo { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -24,9 +25,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public int IdTipo { get; set; }
     
-        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
+        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
     }
 }
