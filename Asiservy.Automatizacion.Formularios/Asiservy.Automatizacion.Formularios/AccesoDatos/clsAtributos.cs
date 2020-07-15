@@ -308,5 +308,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //CÓDIGOS DE FORMULARIOS CLASIFICADOR
         public static string EvaluacionLomosMigasBandeja { get; } = "001";
+        public static string AnalisisQuimicoProductoSemielaborado { get; } = "03";
+        //CÓDIGO DE GRUPO CLASIFICADOR ÁREAS DE TOMA DE MUESTRA DE LABORATORIO
+        public static string CodGrupoAreaLaboratorio { get;} = "045";
+        //CODIGOS AREAS DE PROCESOS EN TOMA DE MUESTRAS DE LABORATORIO
+        public static string ProcesoCalidad { get; } = "001";
+        public static string EmpaqueCalidad { get; } = "002";
+
+
     }
 }

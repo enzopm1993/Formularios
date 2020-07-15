@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimicoProductoSemielaborado
 {
     public class ClsDAnalisisQuimicoProductoSemielaborado
@@ -191,15 +192,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
         }
         public List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> ConsultarSubDetalleControl(int idDetalleControl)
         {
+            List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> resultado = new List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>();
             using (var db = new ASIS_PRODEntities())
             {
-                var resultado = (from d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO
-                                 join cab in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { IdDetalleAnalisisQuimicoProductoSe = d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cab.IdDetalleAnalisisQuimicoProductoSe, cab.EstadoRegistro }
+                resultado = (from d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Include(x=>x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Select(q=>q.CC_PARAMETROS_LABORATORIO))
+                             //join cab in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cab.IdDetalleAnalisisQuimicoProductoSe, cab.EstadoRegistro }
+                             where d.IdDetalleAnalisisQuimicoProductoSe == idDetalleControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             
+                             select d).ToList();
+                //var resultado2 = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Include(x=>x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Select(q=>q.CC_PARAMETROS_LABORATORIO)).toli
 
-                                 where d.IdDetalleAnalisisQuimicoProductoSe == idDetalleControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                 select d).ToList();
-                return resultado;
             }
+            
+            return resultado;
         }
         public object[] GuardarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalle,int IdCabecera)
         {
@@ -228,11 +233,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                             poSubDetalle.IdTipoAnalisisQuimicoProductoSe,
                             poSubDetalle.IdDetalleAnalisisQuimicoProductoSe,
                             poSubDetalle.TipoProducto,
-                            poSubDetalle.SalEmpaque,
-                            poSubDetalle.SalProceso,
-                            poSubDetalle.HistaminaEmpaque,
-                            poSubDetalle.HistaminaProceso,
-                            poSubDetalle.HumedadProceso,
+                            //poSubDetalle.SalEmpaque,
+                            //poSubDetalle.SalProceso,
+                            //poSubDetalle.HistaminaEmpaque,
+                            //poSubDetalle.HistaminaProceso,
+                            //poSubDetalle.HumedadProceso,
                             poSubDetalle.TerminalIngresoLog,
                             poSubDetalle.TerminalModificacionLog,
                             poSubDetalle.UsuarioIngresoLog,
@@ -260,15 +265,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 else
                 {
                     var buscarSubDetalle = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Find(poSubDetalleControl.IdTipoAnalisisQuimicoProductoSe);
+                    foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+                    {
+                        buscarSubDetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault(x => x.ParametroLaboratorio == item.ParametroLaboratorio).Cantidad = item.Cantidad;
+                    }
                     buscarSubDetalle.FechaModificacionLog = poSubDetalleControl.FechaIngresoLog;
                     buscarSubDetalle.UsuarioModificacionLog = poSubDetalleControl.UsuarioIngresoLog;
                     buscarSubDetalle.TerminalModificacionLog = poSubDetalleControl.TerminalIngresoLog;
                     buscarSubDetalle.TipoProducto = poSubDetalleControl.TipoProducto;
-                    buscarSubDetalle.SalEmpaque = poSubDetalleControl.SalEmpaque;
-                    buscarSubDetalle.SalProceso = poSubDetalleControl.SalProceso;
-                    buscarSubDetalle.HistaminaEmpaque = poSubDetalleControl.HistaminaEmpaque;
-                    buscarSubDetalle.HistaminaProceso = poSubDetalleControl.HistaminaProceso;
-                    buscarSubDetalle.HumedadProceso = poSubDetalleControl.HumedadProceso;
+                    //buscarSubDetalle.SalEmpaque = poSubDetalleControl.SalEmpaque;
+                    //buscarSubDetalle.SalProceso = poSubDetalleControl.SalProceso;
+                    //buscarSubDetalle.HistaminaEmpaque = poSubDetalleControl.HistaminaEmpaque;
+                    //buscarSubDetalle.HistaminaProceso = poSubDetalleControl.HistaminaProceso;
+                    //buscarSubDetalle.HumedadProceso = poSubDetalleControl.HumedadProceso;
                     db.SaveChanges();
                     db.SaveChanges();
                     resultado[0] = "001";

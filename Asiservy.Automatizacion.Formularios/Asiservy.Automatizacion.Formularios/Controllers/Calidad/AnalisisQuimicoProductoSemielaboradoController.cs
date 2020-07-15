@@ -10,6 +10,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -22,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         ClsDAnalisisQuimicoProductoSemielaborado ClsDAnalisisQuimicoProductoSemielaborado { get; set; } = null;
         clsDReporte clsDReporte { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
+        ClsDParametrosLaboratorio ClsDParametrosLaboratorio { get; set; } = null;
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -36,6 +38,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 clsDClasificador = new clsDClasificador();
+                ClsDParametrosLaboratorio = new ClsDParametrosLaboratorio();
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
@@ -43,6 +46,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.MascaraInput = "1";
                 ViewBag.MaskedInput = "1";
                 ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
+                ViewBag.ParametrosControl = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.AnalisisQuimicoProductoSemielaborado);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -461,7 +465,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+                {
+                    item.TerminalIngresoLog = Request.UserHostAddress;
+                    item.UsuarioIngresoLog = lsUsuario[0];
+                    item.FechaIngresoLog = DateTime.Now;
+                    item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                }
                 poSubDetalleControl.FechaIngresoLog = DateTime.Now;
                 poSubDetalleControl.UsuarioIngresoLog = lsUsuario[0];
                 poSubDetalleControl.TerminalIngresoLog = Request.UserHostAddress;

@@ -133,5 +133,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 return valor;
             }
         }
+        public List<CC_PARAMETROS_LABORATORIO> ConsultarParametrosFormularios(string CodFormulario)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.CC_PARAMETROS_LABORATORIO.Where(x => x.CodFormClasif == CodFormulario).ToList();
+            }
+        }
     }
 }
