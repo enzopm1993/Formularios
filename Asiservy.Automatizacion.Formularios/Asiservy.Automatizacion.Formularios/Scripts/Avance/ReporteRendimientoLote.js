@@ -156,7 +156,7 @@ function CargarReporteAvance() {
     
     MostrarModalCargando();
     $.ajax({
-        url: "../Hueso/ReporteRendimientoLotePartial",
+        url: "../Avance/ReporteRendimientoLotePartial",
         type: "GET",
         data: {
             ddFecha: txtFecha,

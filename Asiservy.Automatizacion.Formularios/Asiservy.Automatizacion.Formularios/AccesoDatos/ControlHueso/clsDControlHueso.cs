@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
@@ -164,8 +163,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using(ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                List<spConsultaLimpiadorasControlHueso> Listado = new List<spConsultaLimpiadorasControlHueso>();
-                Listado = entities.spConsultaLimpiadorasControlHueso(Linea, Fecha).ToList();
+                List<spConsultaLimpiadorasControlHueso> Listado = entities.spConsultaLimpiadorasControlHueso(Linea, Fecha).ToList();
                 return Listado;
             }
         }
@@ -175,8 +173,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {           
                 GenerarAvanceOrdenesApi(FechaDesde,FechaHasta, Linea);
-                List<spConsultaControlAvanceDiarioPorLinea> Listado = new List<spConsultaControlAvanceDiarioPorLinea>();
-                Listado = entities.spConsultaControlAvanceDiarioPorLinea(FechaDesde,FechaHasta,Turno,Linea).ToList();
+                List<spConsultaControlAvanceDiarioPorLinea> Listado = entities.spConsultaControlAvanceDiarioPorLinea(FechaDesde,FechaHasta,Turno,Linea).ToList();
                 return Listado;
             }
 
@@ -244,7 +241,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
-                    var prueba = ListadoControlAvanceApi.Distinct().ToList();
                     entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi.Distinct());                   
                 }
                 entities.SaveChanges();
@@ -358,8 +354,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 GenerarAvanceOrdenesApi2(Fecha, null);
-                List<spConsultaReporteAvanceDiario> Listado = new List<spConsultaReporteAvanceDiario>();
-                Listado = entities.spConsultaReporteAvanceDiario(Fecha, Turno).ToList();
+                List<spConsultaReporteAvanceDiario> Listado = entities.spConsultaReporteAvanceDiario(Fecha, Turno).ToList();
                 return Listado;
             }
 
@@ -369,8 +364,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                List<AVANCE_KILOS_HORA> Listado = new List<AVANCE_KILOS_HORA>();
-                Listado = entities.AVANCE_KILOS_HORA.ToList();
+                List<AVANCE_KILOS_HORA> Listado = entities.AVANCE_KILOS_HORA.ToList();
                 return Listado;
             }
         }

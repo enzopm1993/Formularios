@@ -25,7 +25,7 @@ function CargarReporteAvance() {
     $("#DivTable").prop("hidden", true); 
     $("#chartPorLinea").html("");
     $.ajax({
-        url: "../Hueso/ReporteControlAvanceDiarioGeneralPartial",
+        url: "../Avance/ReporteControlAvanceDiarioGeneralPartial",
         type: "GET",
         data: {
             ddFecha: txtFecha,
@@ -186,7 +186,7 @@ function CargarReporteAvanceKPI() {
     $("#spinnerCargandokpi1").prop("hidden", false);
 
     $.ajax({
-        url: "../Hueso/ConsultaControlAvanceDiarioGeneral",
+        url: "../Avance/ConsultaControlAvanceDiarioGeneral",
         type: "GET",
         data: {
             ddFecha: txtFecha,

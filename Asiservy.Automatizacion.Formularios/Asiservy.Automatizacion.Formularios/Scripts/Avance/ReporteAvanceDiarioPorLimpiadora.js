@@ -199,7 +199,7 @@ function CargarReporteAvanceLimpiadora() {
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableReporteControlAvancePorLimpiadora').html('');
     $.ajax({
-        url: "../Hueso/ReporteAvanceDiarioPorLimpiadoraPartial",
+        url: "../Avance/ReporteAvanceDiarioPorLimpiadoraPartial",
         type: "GET",
         data: {
             ddFecha: txtFecha,
@@ -256,7 +256,7 @@ function ConsultaKpi() {
     var table = $('#tblTable');
     table.DataTable().clear();    
     $.ajax({
-        url: "../Hueso/ConsultaKpiAvanceLimpiadora",
+        url: "../Avance/ConsultaKpiAvanceLimpiadora",
         type: "GET",
         data: {
             Fecha: txtFecha,
