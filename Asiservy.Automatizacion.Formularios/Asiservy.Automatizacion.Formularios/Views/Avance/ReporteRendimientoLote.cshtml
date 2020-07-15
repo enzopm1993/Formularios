@@ -143,6 +143,16 @@
         font-size: 10px;
     }
 
+
+    .badge{
+        font-size:11px;
+        color:black;
+
+    }
+
+    .badge-secondary {
+        color: white;
+    }
    </style>
 
 @{
@@ -345,10 +355,10 @@
                             <th colspan="2">% Diferencia</th>
                         </tr>
                         <tr>
-                            <td>  <span class="badge badge-success">Lote</span> Cerrado</td>
+                            <td>  <span class="badge badge-secondary">Lote</span> Cerrado</td>
                             <td> <span class="badge badge-warning">Lote</span> Abierto</td>
-                            <td>   <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i> Más o igual Lomo/Miga de lo esperado. <br /></td>
-                            <td>  <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i> Menos Lomo/Miga de lo esperado. <br /></td>
+                            <td>   <span class="badge badge-success">%</span> Más o igual Lomo/Miga de lo esperado. <br /></td>
+                            <td>  <span class="badge badge-danger">%</span> Menos Lomo/Miga de lo esperado. <br /></td>
 
                         </tr>
                         
