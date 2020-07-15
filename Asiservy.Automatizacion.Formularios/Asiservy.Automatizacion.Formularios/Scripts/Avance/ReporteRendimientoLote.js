@@ -202,7 +202,7 @@ function CargarReporteAvance() {
                 var EstandarTotalGeneral = 0;
 
                 var Lote = [];
-                console.log(ListadoGeneral);
+               // console.log(ListadoGeneral);
                 ListadoGeneral.forEach(function (row, i) {
                     RealLomo[i] = row.KiloRealLomoPorcentaje.toFixed(2);
                     EstandarLomo[i] = row.KiloStdLomoPorcentaje.toFixed(2);
