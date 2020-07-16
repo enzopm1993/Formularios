@@ -13,17 +13,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class SPReporteAnalisisQuimicoProductoSe
     {
-        public string Proveedor { get; set; }
         public Nullable<int> OrdenFabricacion { get; set; }
+        public string Proveedor { get; set; }
         public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
-        public string TipoProducto { get; set; }
-        public Nullable<decimal> SalProceso { get; set; }
-        public Nullable<decimal> HistaminaProceso { get; set; }
-        public Nullable<decimal> HumedadProceso { get; set; }
-        public Nullable<decimal> SalEmpaque { get; set; }
-        public Nullable<decimal> HistaminaEmpaque { get; set; }
         public string Cliente { get; set; }
+        public int IdTipoAnalisisQuimicoProductoSe { get; set; }
+        public string TipoProducto { get; set; }
+        public int ParametroLaboratorio { get; set; }
+        public int IdClasificador { get; set; }
+        public string CodArea { get; set; }
+        public string Area { get; set; }
+        public string NombreParametro { get; set; }
+        public string DescripcionParametro { get; set; }
+        public Nullable<decimal> Cantidad { get; set; }
     }
 }
