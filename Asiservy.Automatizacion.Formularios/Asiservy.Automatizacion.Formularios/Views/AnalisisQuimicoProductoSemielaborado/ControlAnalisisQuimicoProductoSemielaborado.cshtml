@@ -74,9 +74,19 @@
         border: 1px solid black;
     }*/
 </style>
-
-<h4>Control Análisis Químico Producto Semielaborado <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
-
+<div class="row"  id="titulo">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;">Control Análisis Químico Producto Semielaborado <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
 <div class="card" id="DivCabecera">
     <div class="row">
         <div class="col-md-4 col-sm-6">
@@ -383,7 +393,7 @@
                         </ul>
                         <script>
                             var IdArray = [];
-                           
+
                         </script>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -395,20 +405,22 @@
 
                                             @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.ProcesoCalidad))
                                             {
+                                                string nummascara;
+                                                nummascara = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
                                                 <div class="col-md-3 col-sm-3">
                                                     <div class="form-group">
-                                                        <label>@item.NombreParametro</label>
+                                                        <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascara</span>
                                                         <input type="text" class="form-control" id="@item.IdParametro" />
                                                     </div>
                                                 </div>
                                                 <script>
-                                                  
+
                                                     IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
-                                                    
+
                                                 </script>
                                             }
-                                    
-                                   
+
+
                                         </div>
                                     </div>
 
@@ -421,9 +433,11 @@
                                         <div class="row">
                                             @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.EmpaqueCalidad))
                                             {
+                                                string nummascarae;
+                                                nummascarae = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
                                                 <div class="col-md-3 col-sm-3">
                                                     <div class="form-group">
-                                                        <label>@item.NombreParametro</label>
+                                                        <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascarae</span>
                                                         <input type="text" class="form-control" id="@item.IdParametro" />
                                                     </div>
                                                 </div>
