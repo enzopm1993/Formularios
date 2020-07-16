@@ -2303,6 +2303,7 @@
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
+    <Content Include="Scripts\ConfiguracionMenu\FondoLogin.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
     <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
@@ -2323,8 +2324,10 @@
     <Content Include="Scripts\EntregaUniforme\EntregaUniforme.js" />
     <Content Include="Scripts\Home\Home.js" />
     <Content Include="Scripts\html2canvas.js" />
-    <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
-    <Content Include="Scripts\Hueso\ReporteRendimientoLote.js" />
+    <Content Include="Scripts\Avance\ReporteControlAvanceDiarioGeneral.js" />
+    <Content Include="Scripts\Avance\ReporteEficienciaRendimiento.js" />
+    <Content Include="Scripts\Avance\ReporteRendimientoLinea.js" />
+    <Content Include="Scripts\Avance\ReporteRendimientoLote.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
@@ -2759,8 +2762,8 @@
     <Content Include="Scripts\Handsontable\dist\numbro\numbro.js" />
     <Content Include="Scripts\Handsontable\dist\pikaday\pikaday.css" />
     <Content Include="Scripts\Handsontable\dist\pikaday\pikaday.js" />
-    <Content Include="Scripts\Hueso\EficienciaAvanceKiloHora.js" />
-    <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
+    <Content Include="Scripts\Avance\EficienciaAvanceKiloHora.js" />
+    <Content Include="Scripts\Avance\ReporteAvanceDiarioPorLimpiadora.js" />
     <Content Include="Scripts\ControlCocheLinea\ControlCocheLinea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteControlCocheLinea.js" />
     <Content Include="Scripts\ControlEnfundado\ControlEnfundado.js" />
@@ -2937,7 +2940,7 @@
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\Empleado\ControlEsfero.js" />
-    <Content Include="Scripts\Hueso\ControlHueso.js" />
+    <Content Include="Scripts\Avance\ControlHueso.js" />
     <Content Include="Scripts\Empleado\EmpleadoEsfero.js" />
     <Content Include="Scripts\Empleado\ReporteDistribucionPorLinea.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoTurno.js" />
@@ -3273,7 +3276,7 @@
     <Content Include="Scripts\gijgo\modular\timepicker.min.js" />
     <Content Include="Scripts\gijgo\modular\tree.js" />
     <Content Include="Scripts\gijgo\modular\tree.min.js" />
-    <Content Include="Scripts\Hueso\ReporteControlAvanceDiario.js" />
+    <Content Include="Scripts\Avance\ReporteControlAvanceDiario.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
     <Content Include="Scripts\i18n\az.js" />
@@ -3375,6 +3378,7 @@
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
     <Content Include="Scripts\ReporteMaestro\ReporteMaestro.js" />
     <Content Include="Scripts\Seguridad\Clasificador.js" />
@@ -3397,6 +3401,7 @@
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermiso.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoDispensario.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoMasivo.js" />
+    <Content Include="Scripts\Soporte\Reporte.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -3507,9 +3512,11 @@
     <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
+    <Compile Include="AccesoDatos\General\ClsdConfiguracionMenu.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
+    <Compile Include="AccesoDatos\General\ClsKpiDescripcionTotal.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
     <Compile Include="AccesoDatos\Marcaciones\ClsMarcaciones.cs" />
@@ -3603,6 +3610,7 @@
     <Compile Include="Controllers\CALIDAD\VerificacionPotenciometroController.cs" />
     <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
+    <Compile Include="Controllers\ConfiguracionMenuController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlConsumoInsumoController.cs" />
@@ -3621,7 +3629,7 @@
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PRODUCCION\HuesoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\AvanceController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PRODUCCION\KpiProduccionController.cs" />
     <Compile Include="Controllers\PRODUCCION\MapeoProductoTunelController.cs" />
@@ -3639,6 +3647,7 @@
     <Compile Include="Controllers\ReporteMaestroController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
+    <Compile Include="Controllers\SoporteController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3652,6 +3661,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\Area.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleDefectoViewModel.cs" />
@@ -3664,6 +3674,7 @@
     <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\TipoProducto.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />
@@ -3797,13 +3808,13 @@
     <Content Include="Views\AuditoriaSangre\ControlAuditoriaSangre.cshtml" />
     <Content Include="Views\AuditoriaSangre\ControlAuditoriaSangrePartial.cshtml" />
     <Content Include="Views\AuditoriaSangre\EmpleadoBuscar.cshtml" />
-    <Content Include="Views\Hueso\ControlHueso.cshtml" />
-    <Content Include="Views\Hueso\ControlHuesoPartial.cshtml" />
-    <Content Include="Views\Hueso\ControlHuesoPartialCabecera.cshtml" />
-    <Content Include="Views\Hueso\ReporteControlAvanceDiario.cshtml" />
-    <Content Include="Views\Hueso\ReporteControlAvanceDiarioPartial.cshtml" />
-    <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadora.cshtml" />
-    <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
+    <Content Include="Views\Avance\ControlHueso.cshtml" />
+    <Content Include="Views\Avance\ControlHuesoPartial.cshtml" />
+    <Content Include="Views\Avance\ControlHuesoPartialCabecera.cshtml" />
+    <Content Include="Views\Avance\ReporteControlAvanceDiario.cshtml" />
+    <Content Include="Views\Avance\ReporteControlAvanceDiarioPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteAvanceDiarioPorLimpiadora.cshtml" />
+    <Content Include="Views\Avance\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangre.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangrePArtial.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
@@ -3881,8 +3892,8 @@
     <Content Include="Views\ControlPesoEnlatado\ReporteControlPesoEnlatadoPartial.cshtml" />
     <Content Include="Views\ControlCuchillo\EmpleadoCuchilloPrestado.cshtml" />
     <Content Include="Views\ControlCuchillo\EmpleadoCuchilloPrestadoPartial.cshtml" />
-    <Content Include="Views\Hueso\EficienciaAvanceKiloHora.cshtml" />
-    <Content Include="Views\Hueso\EficienciaAvanceKiloHoraPartial.cshtml" />
+    <Content Include="Views\Avance\EficienciaAvanceKiloHora.cshtml" />
+    <Content Include="Views\Avance\EficienciaAvanceKiloHoraPartial.cshtml" />
     <Content Include="Views\App\MarcacionesJustificar.cshtml" />
     <Content Include="Views\MoverPersonal\MoverPersonalDataLife.cshtml" />
     <Content Include="Views\MoverPersonal\MoverPersonalDataLifePartial.cshtml" />
@@ -3893,8 +3904,8 @@
     <Content Include="Views\MoverPersonal\PartialBandejaMovimientoPersonalRRHH.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudesRealizadas.cshtml" />
     <Content Include="Views\ControlToalla\PartialControlToalla.cshtml" />
-    <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneralPartial.cshtml" />
-    <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneral.cshtml" />
+    <Content Include="Views\Avance\ReporteControlAvanceDiarioGeneralPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteControlAvanceDiarioGeneral.cshtml" />
     <Content Include="Views\ControlToalla\PartialDetalleToalla.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumo.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoPartial.cshtml" />
@@ -4244,11 +4255,20 @@
     <Content Include="Views\ParametroDefecto\PartialMantDefectos.cshtml" />
     <Content Include="Views\ParametroDefecto\PartialDetalleParametroDeDefectos.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\AnalisisAguaCalderosPartial.cshtml" />
-    <Content Include="Views\Hueso\ReporteRendimientoLote.cshtml" />
-    <Content Include="Views\Hueso\ReporteRendimientoLotePartial.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLote.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLotePartial.cshtml" />
     <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorio.cshtml" />
     <Content Include="Views\MantParametrosLaboratorio\MantParametrosLaboratorioPartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteEficienciaRendimiento.cshtml" />
+    <Content Include="Views\Avance\ReporteEficienciaRendimientoPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLotePartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEstadoLote.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLinea.cshtml" />
+    <Content Include="Views\ConfiguracionMenu\FondoLogin.cshtml" />
+    <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
+    <Content Include="Views\Soporte\Reporte.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

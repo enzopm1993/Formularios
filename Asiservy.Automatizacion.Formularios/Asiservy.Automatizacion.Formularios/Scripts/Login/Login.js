@@ -17,16 +17,28 @@ function Nuevo() {
 
 $('#logoutli').hide();
 $("#btnIngresar").on("click", function () {
-    //var URLdomain = window.location.host;
-    //var URLprotocol = window.location.protocol;
-    //console.log(URLdomain);
-    //console.log(URLprotocol);
-    if ($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == "") {
-        //$("#ModalErrorLogin2").modal("show");
-        MensajeAdvertencia("  Error, Ingrese los campos requeridos");
+
+
+    if ($("#txtUsuario").val() == "") {
+        $("#txtUsuario").css('borderColor', '#FA8072');
         return;
+    } else {
+        $("#txtUsuario").css('borderColor', '#ced4da');
     }
-    $("#btnCargando").prop("hidden",false);
+
+    if ($("#txtPassword").val() == "") {
+        $("#txtPassword").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtPassword").css('borderColor', '#ced4da');
+    }
+
+    //if ($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == "") {
+    //    MensajeAdvertencia("  Error, Ingrese los campos requeridos");
+    //    return;
+    //}
+
+    $("#btnCargando").prop("hidden", false);
     $("#btnIngresar").prop("hidden", true);
     $("#btnNuevo").prop("hidden", true);
     $.ajax({
@@ -51,10 +63,11 @@ $("#btnIngresar").on("click", function () {
             }
             else if (data == 0) {
                 //                $("#ModalErrorLogin").modal("show");
-                MensajeAdvertencia(" Error, usuario o contraseña incorrectos");
+                MensajeAdvertencia(" Error, usuario o contraseña incorrecta.");
                 $("#btnCargando").prop("hidden", true);
                 $("#btnIngresar").prop("hidden", false);
                 $("#btnNuevo").prop("hidden", false);
+                Nuevo();
 
             } else {
                 MensajeError(data, false);

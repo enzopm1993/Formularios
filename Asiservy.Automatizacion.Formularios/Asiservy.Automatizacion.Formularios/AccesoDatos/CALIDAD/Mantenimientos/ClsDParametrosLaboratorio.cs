@@ -15,12 +15,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 {
 
                     var lista = (from par in db.CC_PARAMETROS_LABORATORIO
-                                 join clasif in db.CLASIFICADOR
-                                 on par.CodFormClasif equals clasif.Codigo
-                                 where clasif.Grupo == clsAtributos.codPrecoccion
+                                 join clasif in db.CLASIFICADOR on new { par.CodFormClasif, clsAtributos.codPrecoccion } equals new { CodFormClasif= clasif.Codigo, codPrecoccion=clasif.Grupo }
+                                 from  clasd in db.CLASIFICADOR.Where(v=> v.Codigo==par.CodArea && v.Grupo==clsAtributos.codArea && v.EstadoRegistro==clsAtributos.EstadoRegistroActivo).DefaultIfEmpty()
+                                 orderby par.FechaIngresoLog descending
                                  select new
                                  {
                                      par.CodFormClasif,
+                                     par.CodArea,                                     
                                      par.DescripcionParametro,
                                      par.EstadoRegistro,
                                      par.FechaIngresoLog,
@@ -29,23 +30,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                                      par.NombreParametro,
                                      par.TerminalIngresoLog,
                                      par.TerminalModificacionLog,
+                                     par.Mascara,
                                      par.ValorMax,
                                      par.UsuarioIngresoLog,
                                      par.ValorMin,
-                                     clasif.Descripcion
-                                 }).ToList();
+                                     clasif.Descripcion,
+                                     descripcionArea = clasd.Descripcion
+                                 });
                     return lista.ToList<dynamic>();
 
                 }
                 else
                 {
                     var listaActivos = (from par in db.CC_PARAMETROS_LABORATORIO
-                                 join clasif in db.CLASIFICADOR
-                                 on par.CodFormClasif equals clasif.Codigo
-                                 where clasif.Grupo == clsAtributos.codPrecoccion && par.EstadoRegistro==clsAtributos.EstadoRegistroActivo && clasif.EstadoRegistro==clsAtributos.EstadoRegistroActivo
-                                 select new
-                                 {
+                                        join clasif in db.CLASIFICADOR on new { par.CodFormClasif, par.EstadoRegistro, clsAtributos.codPrecoccion } equals new { CodFormClasif = clasif.Codigo, EstadoRegistro = clsAtributos.EstadoRegistroActivo, codPrecoccion = clasif.Grupo }
+                                        from clasd in db.CLASIFICADOR.Where(v => v.Codigo == par.CodArea && v.Grupo == clsAtributos.codArea && v.EstadoRegistro == clsAtributos.EstadoRegistroActivo).DefaultIfEmpty()
+                                        orderby par.FechaIngresoLog descending
+                                        select new
+                                        {
                                      par.CodFormClasif,
+                                     par.CodArea,
                                      par.DescripcionParametro,
                                      par.EstadoRegistro,
                                      par.FechaIngresoLog,
@@ -54,11 +58,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                                      par.NombreParametro,
                                      par.TerminalIngresoLog,
                                      par.TerminalModificacionLog,
+                                     par.Mascara,
                                      par.ValorMax,
                                      par.UsuarioIngresoLog,
                                      par.ValorMin,
-                                     clasif.Descripcion
-                                 }).ToList();
+                                     clasif.Descripcion,
+                                     descripcionArea= clasd.Descripcion
+                                        });
                     return listaActivos.ToList<dynamic>();
                 }
 
@@ -70,7 +76,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var validarNombreRepetido = db.CC_PARAMETROS_LABORATORIO.FirstOrDefault(x => x.NombreParametro.Replace(" ", string.Empty).ToUpper() == guardarModificar.NombreParametro.Replace(" ", string.Empty).ToUpper() 
-                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&x.CodFormClasif==guardarModificar.CodFormClasif);
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&x.CodFormClasif==guardarModificar.CodFormClasif
+                                                                                        && x.CodArea==guardarModificar.CodArea);
                 if (validarNombreRepetido != null && guardarModificar.IdParametro != validarNombreRepetido.IdParametro)
                 {
                     valor = 3;
@@ -87,6 +94,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                     }
                     else
                     {
+                        model.CodArea = guardarModificar.CodArea;
+                        model.Mascara = guardarModificar.Mascara;
                         model.NombreParametro = guardarModificar.NombreParametro;
                         model.CodFormClasif = guardarModificar.CodFormClasif;
                         model.DescripcionParametro = guardarModificar.DescripcionParametro;
@@ -112,7 +121,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var validarNombreRepetido = db.CC_PARAMETROS_LABORATORIO.FirstOrDefault(x => x.NombreParametro.Replace(" ", string.Empty).ToUpper() == guardarModificar.NombreParametro.Replace(" ", string.Empty).ToUpper()
-                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.CodFormClasif==guardarModificar.CodFormClasif);
+                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.CodFormClasif==guardarModificar.CodFormClasif && x.CodArea == guardarModificar.CodArea);
                 if (validarNombreRepetido != null && guardarModificar.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                 {
                     valor = 2;
@@ -130,6 +139,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                     db.SaveChanges();
                 }
                 return valor;
+            }
+        }
+        public List<CC_PARAMETROS_LABORATORIO> ConsultarParametrosFormularios(string CodFormulario)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.CC_PARAMETROS_LABORATORIO.Where(x => x.CodFormClasif == CodFormulario).ToList();
             }
         }
     }

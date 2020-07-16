@@ -83,11 +83,11 @@ var options = {
     },
     colors: [function ({ value, seriesIndex, w }) {
         if (value < 60) {
-            return '#ff0000'
+            return '#e74a3b'
         } if (value < 80) {
-            return '#ffd800'
+            return '#f6c23e'
         } else {
-            return '#4cff00'
+            return '#1cc88a'
         }
     }],
     plotOptions: {
@@ -147,10 +147,10 @@ var options = {
             show: false
         }
     },
-    colors: ['#005FFF', '#70F7D7'],
+    colors: ['#005FFF', '#B548FF'],
     markers: {
         size: 2,
-        colors: ['#005FFF', '#70F7D7']
+        colors: ['#005FFF', '#B548FF']
     },
     dataLabels: {
         enabled: false
@@ -199,7 +199,7 @@ function CargarReporteAvanceLimpiadora() {
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableReporteControlAvancePorLimpiadora').html('');
     $.ajax({
-        url: "../Hueso/ReporteAvanceDiarioPorLimpiadoraPartial",
+        url: "../Avance/ReporteAvanceDiarioPorLimpiadoraPartial",
         type: "GET",
         data: {
             ddFecha: txtFecha,
@@ -237,6 +237,7 @@ function SeleccionarLimpiadora(model) {
     $("#divKpiMiga").html(""); 
     $("#divKpi2").html("");
     $("#selectTipoKpi").prop("selectedIndex", 0);
+    $("#spanNombre").html(model.Nombre+" ("+model.Cedula+")");
     Datos = model;
     ConsultaKpi();
 }
@@ -255,7 +256,7 @@ function ConsultaKpi() {
     var table = $('#tblTable');
     table.DataTable().clear();    
     $.ajax({
-        url: "../Hueso/ConsultaKpiAvanceLimpiadora",
+        url: "../Avance/ConsultaKpiAvanceLimpiadora",
         type: "GET",
         data: {
             Fecha: txtFecha,
@@ -273,8 +274,11 @@ function ConsultaKpi() {
             configModal.opcionesDT.columns = [
                 { data: 'Hora' },
                 { data: 'OrdenFabricacion' },
+                { data: 'Barco' },
+                { data: 'Lote' },
                 { data: 'Especie' },
                 { data: 'Talla' },
+                { data: 'TipoLimpieza' },
                 { data: 'Promedio' },
                 { data: 'HuesoReal' },
                 { data: 'HuesoTeorico' },
@@ -299,21 +303,26 @@ function ConsultaKpi() {
                 var estilo = 'badge-danger';
                 var estiloMiga = 'badge-danger';
                 var flecha = 'up';
-                if (row.Miga < 0) {
-                    estiloMiga = 'badge-ligth';
+                if (row.MigaReal > 0) {
+                    if (row.Miga < 0) {
+                        estiloMiga = 'badge-success';
+                    } else {
+                        estiloMiga = 'badge-danger';
+                    }
+                }else{
+                         estiloMiga = 'badge-warning';
                 }
-
                 if (row.Avance < 60) {
-                    estilo = "#ff0000";
+                    estilo = "#e74a3b";
                     var flecha = 'down';
 
                 } else
                     if (row.Avance < 80) {
-                        estilo = "#ffd800";
+                        estilo = "#f6c23e";
                         var flecha = 'right';
 
                     } else {
-                        estilo = "#4cff00";
+                        estilo = "#1cc88a";
                         var flecha = 'up';
 
                     }

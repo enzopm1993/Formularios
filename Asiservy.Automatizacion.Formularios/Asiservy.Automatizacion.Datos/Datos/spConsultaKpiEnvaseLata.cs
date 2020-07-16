@@ -18,15 +18,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string OrdenFabricacion { get; set; }
         public string OrdenVenta { get; set; }
         public string Producto { get; set; }
-        public Nullable<int> DesperdicioSolido { get; set; }
-        public Nullable<int> DesperdicioLiquido { get; set; }
-        public Nullable<int> DesperdicioAceite { get; set; }
         public Nullable<int> Empleados { get; set; }
         public Nullable<decimal> Solido { get; set; }
         public Nullable<decimal> Liquido { get; set; }
         public Nullable<decimal> Aceite { get; set; }
-        public Nullable<int> TotalSolido { get; set; }
-        public Nullable<int> TotalLiquido { get; set; }
-        public Nullable<int> TotalAceite { get; set; }
     }
 }

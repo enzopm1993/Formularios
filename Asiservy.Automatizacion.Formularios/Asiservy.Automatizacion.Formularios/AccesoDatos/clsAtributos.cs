@@ -4,6 +4,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //CODIGO GRUPO PARA EL CONTROL DE PRODUCTO SEMIELABORADO
+        public static string codArea { get; set; } = "045";
         //CODIGO GRUPO PARA EL CONTROL DE ANALISIS QUIMICOS DE PRECOCCION
         public static string codPrecoccion { get; set; } = "044";
         //PARAMETROS PARA EL CONTROL DE CLORO EN CISTERNA
@@ -308,5 +310,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //CÓDIGOS DE FORMULARIOS CLASIFICADOR
         public static string EvaluacionLomosMigasBandeja { get; } = "001";
+        public static string AnalisisQuimicoProductoSemielaborado { get; } = "03";
+        //CÓDIGO DE GRUPO CLASIFICADOR ÁREAS DE TOMA DE MUESTRA DE LABORATORIO
+        public static string CodGrupoAreaLaboratorio { get;} = "045";
+        //CODIGOS AREAS DE PROCESOS EN TOMA DE MUESTRAS DE LABORATORIO
+        public static string ProcesoCalidad { get; } = "001";
+        public static string EmpaqueCalidad { get; } = "002";
+
+
     }
 }

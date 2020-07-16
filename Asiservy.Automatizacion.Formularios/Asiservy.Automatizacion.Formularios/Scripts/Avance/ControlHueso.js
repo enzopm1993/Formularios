@@ -38,7 +38,7 @@ function CargarOrdenFabricacion(valor) {
     $("#SelectOrdenFabricacion").empty();
     $("#SelectOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
     $.ajax({
-        url: "../Hueso/ConsultarOrdenesFabricacion",
+        url: "../Avance/ConsultarOrdenesFabricacion",
         type: "GET",
         data: {
             Fecha: valor
@@ -70,7 +70,7 @@ function CargarLotes(valor) {
         return;
     }
     $.ajax({
-        url: "../Hueso/ConsultarLotesPorLinea",
+        url: "../Avance/ConsultarLotesPorLinea",
         type: "GET",
         data: {
             Orden: valor
@@ -211,7 +211,7 @@ function CargarControlHuesoDetalle(id) {
     var bitacora = $('#DivTableControlHueso');  
     bitacora.html('');
     $.ajax({
-        url: "../Hueso/ControlHuesoPartial",
+        url: "../Avance/ControlHuesoPartial",
         type: "GET",
         data: {
             id: id         
@@ -248,7 +248,7 @@ function CargarControlHueso() {
     $('#DivTableControlHueso').html('');
     $('#DivTableControlHuesoDetalle').html('');
     $.ajax({
-        url: "../Hueso/ControlHuesoPartialCabecera",
+        url: "../Avance/ControlHuesoPartialCabecera",
         type: "GET",
         data: {
             Fecha: $("#txtFechaProduccion").val(),
@@ -353,7 +353,7 @@ function GenerarControlHueso() {
     $('#spinnerCargando').prop("hidden", false);     
     $('#btnGenerar').prop("disabled", true);     
     $.ajax({
-        url: "../Hueso/GenerarControlHueso",
+        url: "../Avance/GenerarControlHueso",
         type: "POST",
         data: {
             Linea: $('#txtLinea').val(),
@@ -452,7 +452,7 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
     var txtMiga = '#Miga-' + detalle;
 
         $.ajax({
-            url: "../Hueso/GuardarControlHueso",
+            url: "../Avance/GuardarControlHueso",
             type: "POST",
             data: {
                 IdControlHuesoDetalle: detalle,
@@ -488,7 +488,7 @@ function InactivarRegistro() {
     $('#DivTableControlHueso').html('');
     $('#DivTableControlHuesoDetalle').html('');
     $.ajax({
-        url: "../Hueso/InactivarControlHueso",
+        url: "../Avance/InactivarControlHueso",
         type: "GET",
         data: {
             id: $("#txtIdControlHueso").val()
@@ -558,7 +558,7 @@ function ModificarControlHueso() {
         return;
     }
     $.ajax({
-        url: "../Hueso/ModificarControl",
+        url: "../Avance/ModificarControl",
         type: "GET",
         data: {
             IdControlHueso: $("#txtIdControlModal").val(),

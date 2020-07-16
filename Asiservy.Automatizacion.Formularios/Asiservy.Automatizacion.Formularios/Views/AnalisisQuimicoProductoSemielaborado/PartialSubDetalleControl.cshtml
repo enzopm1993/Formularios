@@ -1,28 +1,29 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>
+﻿@model ICollection<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>
 @using Newtonsoft.Json
-
+@using Asiservy.Automatizacion.Datos.Datos
 <table class="table table-bordered table-striped">
+    @{
+        int ContMax = 0;
+
+        foreach (var c in Model)
+        {
+            ContMax = c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count > ContMax ? c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count : ContMax;
+
+        }
+        var ObjetoMasParametros = Model.FirstOrDefault(x => x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count == ContMax);
+    }
     <thead>
         <tr>
 
             <th>
-                @Html.DisplayNameFor(model => model.TipoProducto)
+                Tipo Producto
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalProceso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HistaminaProceso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HumedadProceso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalEmpaque)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HistaminaEmpaque)
-            </th>
+            @foreach (var item in ObjetoMasParametros.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x=>x.ParametroLaboratorio))
+            {
+                <th>
+                    @item.CC_PARAMETROS_LABORATORIO.DescripcionParametro
+                </th>
+            }
 
 
 
@@ -33,32 +34,44 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var json = JsonConvert.SerializeObject(new {item.HistaminaEmpaque,item.HistaminaProceso,
-                item.HumedadProceso,item.IdDetalleAnalisisQuimicoProductoSe,item.IdTipoAnalisisQuimicoProductoSe,
-            item.SalEmpaque,item.SalProceso,item.TipoProducto});
+            int cont = 0;
+            List<dynamic> lista = new List<dynamic>();
+            foreach (var listaParam in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+            {
+                lista.Add(new { listaParam.ParametroLaboratorio, listaParam.Cantidad });
+            }
+            dynamic ObjTipo = new
+            {
+                IdDetalleAnalisisQuimicoProductoSe = item.IdDetalleAnalisisQuimicoProductoSe,
+                IdTipoAnalisisQuimicoProductoSe = item.IdTipoAnalisisQuimicoProductoSe,
+                TipoProducto = item.TipoProducto,
+                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = lista
+            };
+
+            var json = JsonConvert.SerializeObject(ObjTipo);
             string Tipo = item.TipoProducto == "L" ? "Lomo" : item.TipoProducto == "M" ? "Miga" : item.TipoProducto == "T" ? "Trozo" : item.TipoProducto;
             <tr>
 
                 <td>
-                   @Tipo
+                    @Tipo
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalProceso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HistaminaProceso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HumedadProceso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalEmpaque)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HistaminaEmpaque)
-                </td>
+                @foreach (var ListaCant in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x => x.ParametroLaboratorio))
+                {
+                    cont++;
+                    <td>
+                        @ListaCant.Cantidad
+                    </td>
+                }
 
+                @if (cont < ContMax)
+                {
+                    int ncont = ContMax - cont;
+                    for (int i = 0; i < ncont; i++)
+                    {
+                        <td></td>
 
+                    }
+                }
                 <td>
                     <a href="#" onclick="EditarSubDetalle(@json)">Editar</a>|
                     <a href="#" onclick="ConfirmarEliminarSubDetalle(@json)">Eliminar</a>|

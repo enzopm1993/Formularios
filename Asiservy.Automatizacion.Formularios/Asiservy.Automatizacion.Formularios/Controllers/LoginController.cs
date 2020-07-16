@@ -18,11 +18,12 @@ namespace ProyectoWeb.Controllers
 {
     public class LoginController : Controller
     {
-        clsDError clsDError = null;
-        clsDLogin clsDLogin = null;
-        clsApiUsuario clsApiUsuario = null;
-        string[] lsUsuario;
-        clsDGeneral clsDGeneral = null;
+        clsDError clsDError { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
+        clsApiUsuario clsApiUsuario { get; set; } = null;
+        string[] lsUsuario { get; set; }
+        clsDGeneral clsDGeneral { get; set; } = null;
+        ClsdConfiguracionMenu ClsdConfiguracionMenu { get; set; } = null;
         // GET: Login
         public ActionResult Login()
         {
@@ -31,6 +32,7 @@ namespace ProyectoWeb.Controllers
                 return RedirectToAction("home", "home");
             }
             clsDGeneral = new clsDGeneral();
+            ClsdConfiguracionMenu = new ClsdConfiguracionMenu();
             string BD = clsDGeneral.getDataBase();
             if (BD == clsAtributos.DesarrolloBD)
             {
@@ -45,6 +47,7 @@ namespace ProyectoWeb.Controllers
                 ViewBag.BD = clsAtributos.BDProduccion;
             }
             ViewBag.version = Assembly.GetExecutingAssembly().GetName().Version;
+            ViewBag.FondoLogin = ClsdConfiguracionMenu.ConsultaLoginFondoActivo();
 
             return View();
         }

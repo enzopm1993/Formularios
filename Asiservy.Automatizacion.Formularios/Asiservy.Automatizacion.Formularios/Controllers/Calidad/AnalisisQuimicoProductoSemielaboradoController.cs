@@ -10,6 +10,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
+using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -17,11 +20,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     {
         // GET: AnalisisQuimicoProductoSemielaborado
         string[] lsUsuario { get; set; } = null;
+        public clsDLogin clsDLogin { get; private set; }
         clsDError clsDError { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         ClsDAnalisisQuimicoProductoSemielaborado ClsDAnalisisQuimicoProductoSemielaborado { get; set; } = null;
         clsDReporte clsDReporte { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
+        ClsDParametrosLaboratorio ClsDParametrosLaboratorio { get; set; } = null;
+        public clsDPeriodo clsDPeriodo { get; private set; }
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -34,8 +41,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         public ActionResult ControlAnalisisQuimicoProductoSemielaborado()
         {
             try
-            {
+            {//**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteAnalisisQuimicoProductoSemielaborado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteAnalisisQuimicoProductoSemielaborado";
+                    }
+                }
+                //**
                 clsDClasificador = new clsDClasificador();
+                ClsDParametrosLaboratorio = new ClsDParametrosLaboratorio();
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
@@ -43,6 +62,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.MascaraInput = "1";
                 ViewBag.MaskedInput = "1";
                 ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
+                ViewBag.ParametrosControl = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.AnalisisQuimicoProductoSemielaborado).Where(x=>x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -69,12 +89,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
-
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlAnalisisQuimicoProductoSemielaborado");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlAnalisisQuimicoProductoSemielaborado";
+                    }
+                }
+                //**
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
-                lsUsuario = User.Identity.Name.Split('_');
+                //lsUsuario = User.Identity.Name.Split('_');
 
                 return View();
             }
@@ -236,6 +267,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poCabeceraControl.Fecha.Value))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poCabeceraControl;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 poCabeceraControl.FechaIngresoLog = DateTime.Now;
                 poCabeceraControl.UsuarioIngresoLog = lsUsuario[0];
                 poCabeceraControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -323,7 +363,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarCabeceraControl(int IdCabecera)
+        public JsonResult EliminarCabeceraControl(int IdCabecera,DateTime poFecha)
         {
             try
             {
@@ -331,6 +371,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA poCabecera = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA()
                 {
@@ -364,7 +413,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE poDetalleControl)
+        public JsonResult GuardarDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE poDetalleControl,DateTime poFecha)
         {
             try
             {
@@ -373,7 +422,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 poDetalleControl.FechaIngresoLog = DateTime.Now;
                 poDetalleControl.UsuarioIngresoLog = lsUsuario[0];
                 poDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -452,7 +509,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalleControl,int CabeceraControl)
+        public JsonResult GuardarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalleControl,int CabeceraControl,DateTime poFecha)
         {
             try
             {
@@ -461,7 +518,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
+                foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+                {
+                    item.TerminalIngresoLog = Request.UserHostAddress;
+                    item.UsuarioIngresoLog = lsUsuario[0];
+                    item.FechaIngresoLog = DateTime.Now;
+                    item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                }
                 poSubDetalleControl.FechaIngresoLog = DateTime.Now;
                 poSubDetalleControl.UsuarioIngresoLog = lsUsuario[0];
                 poSubDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -479,6 +551,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                 //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
+       
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -540,7 +613,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarSubDetalleControl(int IdSubdetalle, int IdCabecera)
+        public JsonResult EliminarSubDetalleControl(int IdSubdetalle, int IdCabecera, DateTime poFecha)
         {
             try
             {
@@ -548,6 +621,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalle = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO()
                 {
@@ -581,7 +663,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarDetalleControl(int IdDetalle, int IdCabecera)
+        public JsonResult EliminarDetalleControl(int IdDetalle, int IdCabecera,DateTime poFecha)
         {
             try
             {
@@ -589,6 +671,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE poDetalle = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE()
                 {
@@ -649,6 +740,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 List<SPReporteAnalisisQuimicoProductoSe> resultado;
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultaReporte(IdCabecera);
+               
+                var Areas = (from a in resultado
+                             orderby a.IdClasificador
+                             select new Area { CodArea=a.CodArea, AreaNombre=a.Area,Total=0 }
+                             ).ToList().GroupBy(x=>x.CodArea).Select(g=>g.First()).ToList();
+                foreach (var itemarea in Areas)
+                {
+                    itemarea.Total = resultado.Where(x => x.CodArea == itemarea.CodArea).Select(x => new { x.ParametroLaboratorio, x.NombreParametro, x.CodArea }).Distinct().Count(); 
+                }
+                ViewBag.Areas = Areas;
+                List<dynamic> Parametros = (from p in resultado
+                                                  orderby p.IdClasificador,p.ParametroLaboratorio
+                                  select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro }).Distinct().ToList<dynamic>();
+                List<TipoProducto> TipoProducto = (from t in resultado
+                                              orderby t.IdTipoAnalisisQuimicoProductoSe
+                                              select new TipoProducto { IdTipoAnalisisQuimicoProductoSe=t.IdTipoAnalisisQuimicoProductoSe, TipoProductoNombre=t.TipoProducto,OrdenFabricacion=t.OrdenFabricacion,Lote=t.Lote })
+                                              .ToList().GroupBy(x => new {x.OrdenFabricacion,x.IdTipoAnalisisQuimicoProductoSe }).Select(g => g.First()).ToList(); ;
+                ViewBag.Parametros = Parametros;
+                ViewBag.TipoProducto = TipoProducto;
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -675,7 +785,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdCabecera, DateTime Fecha)
+        public JsonResult AprobarControl(int IdCabecera, DateTime Fecha,DateTime poFecha)
         {
             try
             {
@@ -684,7 +794,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
 
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 string Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.AprobarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress, Fecha);
@@ -710,7 +826,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult ReversarControl(int IdCabecera)
+        public JsonResult ReversarControl(int IdCabecera,DateTime poFecha)
         {
             try
             {
@@ -719,7 +835,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
 
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 string Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ReversarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);

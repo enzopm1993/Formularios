@@ -119,11 +119,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 
-                var lote = clsDApiOrdenFabricacion.ConsultaLotesPorOF(model.OrdenFabricacion).FirstOrDefault(x=> x.Lote == model.Lote);
+                
+                var lotes = clsDApiOrdenFabricacion.ConsultaLotesPorOF(model.OrdenFabricacion);
+                if(lotes != null)
+                {
+                     return Json("102", JsonRequestBehavior.AllowGet);
+                }
+                var lote = lotes.FirstOrDefault(x => x.Lote == model.Lote);
                 if (lote == null)
                 {
                     return Json("102", JsonRequestBehavior.AllowGet);
                 }
+
                 model.PesoProducto = lote.Peso;
                 //model.TipoLimpieza = lote.Limpieza;
                 model.Barco = lote.Barco;

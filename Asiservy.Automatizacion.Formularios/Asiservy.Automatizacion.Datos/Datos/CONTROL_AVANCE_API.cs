@@ -24,5 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public decimal Promedio { get; set; }
         public string Especie { get; set; }
         public string Producto { get; set; }
+        public decimal LomoReal { get; set; }
+        public decimal MigaReal { get; set; }
     }
 }
