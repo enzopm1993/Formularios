@@ -321,7 +321,6 @@ async function ConsultarCabControl(bandera) {
 
 }
 function GuardarCabceraControl() {
- 
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
     $('#btnLimpiar').prop('hidden', true);
@@ -349,7 +348,7 @@ function GuardarCabceraControl() {
         }
         if (Error == 0) {
             IdCabecera = resultado[2].IdAnalisisQuimicoProductoSe;
-            if (resultado[0] == "002" || resultado[0] == "003") {
+            if (resultado[0] == "002" || resultado[0] == "003" || resultado[0] == "444") {
                 MensajeAdvertencia(resultado[1]);
              
                 $('#Observacion').val(resultado[2].Observacion);
@@ -362,8 +361,9 @@ function GuardarCabceraControl() {
                 $('#CardDetalle').prop('hidden', false);
                 $('#brespacio').remove();
                 //SlideCabecera();
+                $('#CardDetalle').prop('hidden', false);
             }
-            $('#CardDetalle').prop('hidden', false);
+            
         }
         $('#btnCargando').prop('hidden', true);
         $('#btnConsultar').prop('hidden', false);
@@ -399,7 +399,7 @@ function EliminarCabecera() {
     Error = 0;
     const data = new FormData();
     data.append('IdCabecera', IdCabecera);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../AnalisisQuimicoProductoSemielaborado/EliminarCabeceraControl", {
         method: 'POST',
@@ -462,7 +462,7 @@ function GuardarDetalleControl() {
         data.append('Cliente', $("#txtCliente").val());
         //console.log(IdCabecera);
         data.append('IdCabeceraAnalisisQuimicoProductoSe', IdCabecera);
-
+        data.append('poFecha', $('#txtFechaProduccion').val());
         fetch("../AnalisisQuimicoProductoSemielaborado/GuardarDetalleControl", {
             method: 'POST',
             body: data
@@ -480,7 +480,7 @@ function GuardarDetalleControl() {
             }
             if (Error == 0) {
 
-                if (resultado[0] == "002" || resultado[0] == "003") {
+                if (resultado[0] == "002" || resultado[0] == "003" || resultado[0] == '444') {
                     MensajeAdvertencia(resultado[1]);
                 }
                 if (resultado[0] == "000" || resultado[0] == "001") {
@@ -600,6 +600,7 @@ function GuardarSubDetalleControl() {
         var data2 = JSON.stringify({
             poSubDetalleControl: data,
             CabeceraControl: IdCabecera,
+            poFecha: $('#txtFechaProduccion').val()
         });
         console.log(data);
         fetch("../AnalisisQuimicoProductoSemielaborado/GuardarSubDetalleControl", {
@@ -622,7 +623,7 @@ function GuardarSubDetalleControl() {
             }
             if (Error == 0) {
 
-                if (resultado[0] == "002" || resultado[0] == "003") {
+                if (resultado[0] == "002" || resultado[0] == "003" || resultado[0] == "444") {
                     MensajeAdvertencia(resultado[1]);
                 }
                 if (resultado[0] == "000" || resultado[0] == "001") {
@@ -638,7 +639,7 @@ function GuardarSubDetalleControl() {
             .catch(function (resultado) {
                 //console.log('error');
                 //console.log(resultado);
-                MensajeError(resultado.responseText, false);
+                MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas', false);
                 $('#cargac').hide();
             })
     }
@@ -697,6 +698,7 @@ function EditarDetalle() {
     $('#cmbLote').prop('disabled', true);
 }
 function EditarSubDetalle(data) {
+    LimpiarControlesSubDetalle();
     $('#ModalSubDetalle').modal('show');
     $('#cmbTipoProducto').val(data.TipoProducto);
     //$('#txtSalProceso').val(data.SalProceso);
@@ -784,7 +786,7 @@ function EliminarSubDetalle() {
     const data = new FormData();
     data.append('IdSubdetalle', IdSubDetalle);
     data.append('IdCabecera', IdCabecera);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../AnalisisQuimicoProductoSemielaborado/EliminarSubDetalleControl", {
         method: 'POST',
@@ -839,7 +841,7 @@ function EliminarDetalle() {
     const data = new FormData();
     data.append('IdDetalle', IdDetalle);
     data.append('IdCabecera', IdCabecera);
-
+    data.append('poFecha', $('#txtFechaProduccion').val());
 
     fetch("../AnalisisQuimicoProductoSemielaborado/EliminarDetalleControl", {
         method: 'POST',

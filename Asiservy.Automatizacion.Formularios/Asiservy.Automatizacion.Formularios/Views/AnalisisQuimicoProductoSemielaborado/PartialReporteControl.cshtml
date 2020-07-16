@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.SPReporteAnalisisQuimicoProductoSe>
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
+@using Newtonsoft.Json
 <style>
     #tblparametro td {
         padding: 0rem;
@@ -68,12 +70,18 @@
                                 <th colspan="4">
 
                                 </th>
-                                <th colspan="3" class="text-center">
+                                @foreach (var Areas in ViewBag.Areas as List<Area>)
+                                {
+                                    <th colspan="@Areas.Total" class="text-center">
+                                        @Areas.AreaNombre
+                                    </th>
+                                }
+                                @*<th colspan="3" class="text-center">
                                     ÁREA PROCESO
                                 </th>
                                 <th colspan="2" class="text-center">
                                     ÁREA DE EMPAQUE
-                                </th>
+                                </th>*@
                                 <th class="text-center">
                                     CLIENTE
                                 </th>
@@ -83,19 +91,19 @@
                                 <th>LOTE/CODIGO</th>
                                 <th>ESPECIE/TALLA</th>
                                 <th>PRODUCTO</th>
-                                <th>% SAL</th>
-                                <th>
-                                    HISTAMINA
-                                </th>
-                                <th>
-                                    HUMEDAD
-                                </th>
-                                <th>
-                                    %SAL
-                                </th>
-                                <th>
-                                    HISTAMINA
-                                </th>
+                                @{ 
+
+                                    var Json=JsonConvert.SerializeObject(ViewBag.Parametros);
+                                    var Dparametros = JsonConvert.DeserializeObject<List<dynamic>>(Json);
+                                    List<TipoProducto> DTipoProd = ViewBag.TipoProducto as List<TipoProducto>;
+
+                                }
+                                @foreach (var parametros in Dparametros)
+                                {
+                                 
+                                    <th class="text-uppercase text-center">@parametros.NombreParametro</th>
+                                }
+                            
                                 <th>
 
                                 </th>
@@ -110,64 +118,44 @@
                                     <td>@item.Especie @item.Talla</td>
                                     <td style="padding:0">
                                         <table style="width:100%;">
-                                            @foreach (var lineadet in Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.Lote == item.Lote))
+                                            @foreach (var tipprod in DTipoProd.Where(x=>x.OrdenFabricacion==item.OrdenFabricacion))
                                             {
                                                 <tr>
-                                                    <td>@lineadet.TipoProducto</td>
+                                                    <td>
+                                                        @tipprod.TipoProductoNombre
+                                                    </td>
                                                 </tr>
                                             }
                                         </table>
-                                    </td>
-                                    <td style="padding:0">
-                                        <table style="width:100%;" cellpadding="0" cellspacing="0">
-                                            @foreach (var lineadet in Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.Lote == item.Lote))
-                                            {
-                                                <tr>
-                                                    <td>@lineadet.SalProceso</td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </td>
-                                    <td style="padding:0">
-                                        <table style="width:100%;" cellpadding="0" cellspacing="0">
-                                            @foreach (var lineadet in Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.Lote == item.Lote))
-                                            {
-                                                <tr>
-                                                    <td>@lineadet.HistaminaProceso</td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </td>
-                                    <td style="padding:0">
-                                        <table style="width:100%;" cellpadding="0" cellspacing="0">
-                                            @foreach (var lineadet in Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.Lote == item.Lote))
-                                            {
-                                                <tr>
-                                                    <td>@lineadet.HumedadProceso</td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </td>
-                                    <td style="padding:0">
-                                        <table style="width:100%;" cellpadding="0" cellspacing="0">
-                                            @foreach (var lineadet in Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.Lote == item.Lote))
-                                            {
-                                                <tr>
-                                                    <td>@lineadet.SalEmpaque</td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </td>
-                                    <td style="padding:0">
-                                        <table style="width:100%;" cellpadding="0" cellspacing="0">
-                                            @foreach (var lineadet in Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.Lote == item.Lote))
-                                            {
-                                                <tr>
-                                                    <td>@lineadet.HistaminaEmpaque</td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </td>
+                                        </td>
+                                    @foreach (var Parametros in Dparametros)
+                                    {
+                                        <td style="padding:0">
+                                            <table style="width:100%;">
+                                                    @foreach (var LineaSd in DTipoProd.Where(x=>x.OrdenFabricacion==item.OrdenFabricacion))
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                @{
+                                                                    var cantidad = Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.TipoProducto == LineaSd.TipoProductoNombre && x.IdTipoAnalisisQuimicoProductoSe == LineaSd.IdTipoAnalisisQuimicoProductoSe
+                                                                    && Parametros.ParametroLaboratorio == x.ParametroLaboratorio).Select(x => x.Cantidad).FirstOrDefault();
+                                                                }
+                                                                @if (cantidad == null)
+                                                                {
+                                                                    <text>
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </text>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @cantidad
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                      }
+                                            </table>
+                                        </td>
+                                    }
                                     <td>
                                         @item.Cliente
                                     </td>

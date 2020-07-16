@@ -1,6 +1,7 @@
 ﻿
 var Error = 0;
 var IdControlAp;
+var FechaCtrl;
 $(document).ready(function () {
     CargarBandeja();
 
@@ -75,7 +76,8 @@ function CargarBandeja() {
         });
     }
 }
-function AbrirModalDetalle(IdCabecera,fecha,estadocontrol) {
+function AbrirModalDetalle(IdCabecera, fecha, estadocontrol) {
+    FechaCtrl = fecha;
     CerrarConfirmacionAprobar();
     //TipoLimpieza = NivelLimpieza;
     $('#cargac').show();
@@ -140,6 +142,9 @@ function AbrirModalDetalle(IdCabecera,fecha,estadocontrol) {
                 }
                 //ConsultarFirma(IdCabecera);
                 $('#ModalDetalle').modal('show');
+                $('.modal-dialog').draggable({
+                    handle: ".modal-header"
+                });
             } else {
                 $('#DivDetalles').empty();
             }
@@ -185,6 +190,7 @@ function AprobarControl() {
     const data = new FormData();
     data.append('IdCabecera', IdControlAp);
     data.append('Fecha', moment(fechaingresada._d).format('YYYY-MM-DD HH:mm'));
+    data.append('poFecha', FechaCtrl);
     //data.append('imagen', image);
     fetch("../AnalisisQuimicoProductoSemielaborado/AprobarControl", {
         method: 'POST',
@@ -202,9 +208,13 @@ function AprobarControl() {
             window.location.reload();
         }
         if (Error == 0) {
-            MensajeCorrecto(resultado);
-            $('#ModalDetalle').modal('hide');
-            CargarBandeja();
+            if (resultado == '444') {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                $('#ModalDetalle').modal('hide');
+                CargarBandeja();
+            }
         }
         $('#BtnSi').prop('hidden', false);
         $('#BtnNo').prop('hidden', false);
@@ -247,7 +257,7 @@ function ReversarControl() {
 
     const data = new FormData();
     data.append('IdCabecera', IdControlAp);
-
+    data.append('poFecha', FechaCtrl);
     fetch("../AnalisisQuimicoProductoSemielaborado/ReversarControl", {
         method: 'POST',
         body: data
@@ -264,9 +274,13 @@ function ReversarControl() {
             window.location.reload();
         }
         if (Error == 0) {
-            MensajeCorrecto(resultado);
-            $('#ModalDetalle').modal('hide');
-            CargarBandeja();
+            if (resultado == '444') {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                $('#ModalDetalle').modal('hide');
+                CargarBandeja();
+            }
         }
         $('#BtnSi').prop('hidden', false);
         $('#BtnNo').prop('hidden', false);

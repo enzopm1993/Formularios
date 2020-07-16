@@ -3658,6 +3658,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\Area.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleDefectoViewModel.cs" />
@@ -3670,6 +3671,7 @@
     <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\TipoProducto.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />
