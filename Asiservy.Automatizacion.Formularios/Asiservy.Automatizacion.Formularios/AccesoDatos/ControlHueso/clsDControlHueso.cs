@@ -456,7 +456,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
+        public List<spConsultaReporteRendimientoLinea> ConsultaReporteRendimientoPorLinea(DateTime Fecha, string Turno)
+        {
+            clsDApiProduccion = new clsDApiProduccion();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<spConsultaReporteRendimientoLinea> Listado;
+                Listado = entities.spConsultaReporteRendimientoLinea(Fecha, Turno).ToList();
+                return Listado;
+            }
 
+        }
 
         public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime Fecha, string Turno)
         {

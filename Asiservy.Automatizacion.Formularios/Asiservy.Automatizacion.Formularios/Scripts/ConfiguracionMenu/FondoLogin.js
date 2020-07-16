@@ -1,4 +1,4 @@
-﻿
+﻿var Model = [];
 
 $(document).ready(function () {
     CargarControl();
@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 
 function CargarControl() {
-    $("#spinnerCargando").prop("hidden", false);
+    MostrarModalCargando();
     $("#DivTableControl").html('');
     $.ajax({
         url: "../ConfiguracionMenu/FondoLoginPartial",
@@ -21,22 +21,145 @@ function CargarControl() {
             } else {
                 $("#DivTableControl").html('');
                 $("#DivTableControl").html(resultado);
-                config.opcionesDT.pageLength = 5;
-                config.opcionesDT.order = [[1, "asc"]];
-                $('#tblDataTable').DataTable(config.opcionesDT);
+               
             }
-            $("#spinnerCargando").prop("hidden", true);
+            CerrarModalCargando();
 
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
             $("#DivTableControl").html('');
-            $("#spinnerCargando").prop("hidden", true);
+            CerrarModalCargando();
+
+        }
+    });
+}
+
+function MostrarModal() {
+    Model = [];
+    console.log(Model);
+
+    $("#txtDescripcion").val('');
+    $("#file-upload").val('');
+    $("#ModalLoginFondo").modal("show");
+    $("#lblfoto").html("Seleccione fondo");
+    $("#file-preview-zone").html('');
+    $("#txtDescripcion").css('borderColor', '#ced4da');
+    $("#lblfoto").css('borderColor', '#ced4da');
+}
+
+function Validar() {
+    var valida = true;
+    if ($("#txtDescripcion").val() == "") {
+        $("#txtDescripcion").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtDescripcion").css('borderColor', '#ced4da');
+    }
+
+    //console.log(Model.IdFondoLogin);
+    if (Model.IdFondoLogin == null) {
+        if ($('#file-upload')[0].files[0] == null) {
+            $("#lblfoto").css('borderColor', '#FA8072');
+            valida = false;
+        } else {
+            $("#lblfoto").css('borderColor', '#ced4da');
+        }
+    }
+
+
+    return valida;
+}
+
+function GuardarFondoLogin() {
+    if (!Validar()) {
+        return;
+    }
+    var imagen = $('#file-upload')[0].files[0];
+    var data = new FormData();
+    data.append("dataImg", imagen);
+    data.append("Descripcion", $("#txtDescripcion").val());
+    data.append("IdFondoLogin", Model.IdFondoLogin);
+    data.append("Vigente", $("#chkVigente").prop("checked"));
+    
+    $.ajax({
+        url: "../ConfiguracionMenu/FondoLogin",
+        type: "POST",
+        cache: false,
+        data: data,
+        contentType: false,
+        processData: false,
+        async: false,
+        data: data,
+        success: function (resultado) {
+            //  $("#spinnerCargandoDetalle").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CargarControl();
+            MensajeCorrecto(resultado);
+            $("#ModalLoginFondo").modal("hide");
+
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado.responseText, false);
+            $("#spinnerCargandoDetalle2").prop("hidden", true);
         }
     });
 }
 
 
+
+
+function EditarControl(model) {
+    Model = model;
+    //onsole.log(model);
+    $("#file-preview-zone").html('');
+    $("#txtDescripcion").val(Model.Descripcion);
+    if (Model.Imagen != null && Model.Imagen != '') {
+        var filePreview = document.createElement('img');
+        filePreview.id = 'file-preview';
+        filePreview.src = "../ImagenSiaa/" + Model.Imagen;
+        var previewZone = document.getElementById('file-preview-zone');
+        previewZone.appendChild(filePreview);
+        $("#file-preview").addClass("img");
+      
+        var img = new Image();
+        img.onload = function () {
+            document.getElementById("file-preview").style.height = "250px";
+            document.getElementById("file-preview").style.width = "350px";
+            $("#ModalLoginFondo").modal("show");
+        }
+        img.src = "../ImagenSiaa/" + Model.Imagen;
+
+    } else {
+        $("#ModalLoginFondo").modal("show");
+    }
+
+    //ModalGenerarControlDetalle();
+}
+
+
+function ActivarControl(m) {
+    $.ajax({
+        url: "../ConfiguracionMenu/ActivarFondoLogin",
+        type: "POST",
+        data: {
+            IdFondoLogin: m.IdFondoLogin
+            },
+        success: function (resultado) {
+            //  $("#spinnerCargandoDetalle").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CargarControl();
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado.responseText, false);
+        }
+    });
+}
 
 
 
@@ -70,8 +193,10 @@ function readFile(input) {
                 if (this.width < 1200 || this.height < 800) {
                     MensajeAdvertencia('Las medidas deben ser: 1200 x 800');
                     $("#file-preview-zone").html('');
-                    $("file-upload").val("");
-                    $("lblfoto").html("");
+                    $("#file-upload").val("");
+                    $("#lblfoto").html("Seleccione fondo");
+                    
+                    
 
                     return;
                 }
@@ -98,45 +223,6 @@ fileUpload.onchange = function (e) {
         readFile(e.srcElement);
 }
 
-//var banderaTamano = false;
-//function validarImagen() {
-//    var o = document.getElementById('file-upload');
-//    var foto = o.files[0];
-//    var c = 0;
-//    console.log(foto);
-
-//    if (o.files.length == 0 || !(/\.(jpg|png)$/i).test(foto.name)) {
-//        MensajeAdvertencia('Ingrese una imagen con alguno de los siguientes formatos: .jpeg/.jpg/.png.');
-//        return false;
-//    }
-
-//    // Si el tamaño de la imagen fue validado
-//    if (banderaTamano) {
-//        return true;
-//    }
-
-//    var img = new Image();
-//    img.onload = function dimension() {
-//        if (this.width.toFixed(0) < 1200 || this.height.toFixed(0) < 800) {
-//            MensajeAdvertencia('Las medidas deben ser: 1200 x 800');
-//        } else {
-//            //alert('Imagen correcta :)');
-//            //// El tamaño de la imagen fue validado
-//            banderaTamano = true;
-
-//            //// Buscamos el formulario
-//            //var form = document.getElementById('formulario');
-//            //// Enviamos de nuevo el formulario con la bandera modificada.
-//            //form.submit();
-
-//            //return true;
-//        }
-//    };
-//    img.src = URL.createObjectURL(foto);
-
-//    // Devolvemos false porque falta validar el tamaño de la imagen
-//    //return false;
-//}
 
 var fileUpload = document.getElementById('file-upload');
 fileUpload.onchange = function (e) {
