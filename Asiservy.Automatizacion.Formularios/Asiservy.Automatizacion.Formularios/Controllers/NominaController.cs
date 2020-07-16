@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.MoverPersonal;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
 using Newtonsoft.Json;

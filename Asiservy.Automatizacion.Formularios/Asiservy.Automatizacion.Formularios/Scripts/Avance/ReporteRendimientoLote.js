@@ -182,6 +182,7 @@ function CargarReporteAvance() {
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 $("#divChart").prop("hidden", false);
 
+                var count = 0;
                 var TotalToneladas=0;
                 var RealLomo = [];
                 var EstandarLomo = [];
@@ -201,7 +202,7 @@ function CargarReporteAvance() {
                 var EstandarTotalGeneral = 0;
 
                 var Lote = [];
-                console.log(ListadoGeneral);
+               // console.log(ListadoGeneral);
                 ListadoGeneral.forEach(function (row, i) {
                     RealLomo[i] = row.KiloRealLomoPorcentaje.toFixed(2);
                     EstandarLomo[i] = row.KiloStdLomoPorcentaje.toFixed(2);
@@ -221,7 +222,8 @@ function CargarReporteAvance() {
                     EstandarTotalGeneral = EstandarTotalGeneral+ (row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje);
 
                     Lote[i] = row.Lote;
-                    TotalToneladas = TotalToneladas+row.PesoLote
+                    TotalToneladas = TotalToneladas + row.PesoLote
+                    count = count + 1;
 
                 });
                 //console.log(RealLomo);
@@ -293,9 +295,9 @@ function CargarReporteAvance() {
 
                 //console.log(RealLomoGeneral);
 
-                var diferenciaGeneral = (RealLomoGeneral - EstandarLomoGeneral).toFixed(2);
-                RealLomoGeneral = RealLomoGeneral.toFixed(2);
-                EstandarLomoGeneral = EstandarLomoGeneral.toFixed(2);
+                var diferenciaGeneral = ((RealLomoGeneral / count) - (EstandarLomoGeneral / count)).toFixed(2);
+                RealLomoGeneral = (RealLomoGeneral / count).toFixed(2);
+                EstandarLomoGeneral = (EstandarLomoGeneral / count ).toFixed(2);
                 var _serieRendimiento = [{
                     name: 'Rendimiento',
                     data: [RealLomoGeneral, EstandarLomoGeneral, diferenciaGeneral]
@@ -308,9 +310,9 @@ function CargarReporteAvance() {
                     },
                 })
 
-                diferenciaGeneral = (RealMigaGeneral - EstandarMigaGeneral).toFixed(2);
-                RealMigaGeneral = RealMigaGeneral.toFixed(2);
-                EstandarMigaGeneral = EstandarMigaGeneral.toFixed(2);
+                diferenciaGeneral = ((RealMigaGeneral / count) - (EstandarMigaGeneral / count)).toFixed(2);
+                RealMigaGeneral = (RealMigaGeneral / count).toFixed(2);
+                EstandarMigaGeneral = (EstandarMigaGeneral / count).toFixed(2);
                 _serieRendimiento = [{
                     name: 'Rendimiento',
                     data: [RealMigaGeneral, EstandarMigaGeneral, diferenciaGeneral]
@@ -323,9 +325,9 @@ function CargarReporteAvance() {
                     },
                 })
 
-                diferenciaGeneral = (RealTotalGeneral - EstandarTotalGeneral).toFixed(2);
-                RealTotalGeneral = RealTotalGeneral.toFixed(2);
-                EstandarTotalGeneral = EstandarTotalGeneral.toFixed(2);
+                diferenciaGeneral = ((RealTotalGeneral / count) - (EstandarTotalGeneral / count)).toFixed(2);
+                RealTotalGeneral = (RealTotalGeneral / count).toFixed(2);
+                EstandarTotalGeneral = (EstandarTotalGeneral / count).toFixed(2);
                _serieRendimiento = [{
                     name: 'Rendimiento',
                     data: [RealTotalGeneral, EstandarTotalGeneral, diferenciaGeneral]

@@ -3401,6 +3401,7 @@
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermiso.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoDispensario.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoMasivo.js" />
+    <Content Include="Scripts\Soporte\Reporte.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -3515,6 +3516,7 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
+    <Compile Include="AccesoDatos\General\ClsKpiDescripcionTotal.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
     <Compile Include="AccesoDatos\Marcaciones\ClsMarcaciones.cs" />
@@ -3645,6 +3647,7 @@
     <Compile Include="Controllers\ReporteMaestroController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
+    <Compile Include="Controllers\SoporteController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4264,6 +4267,8 @@
     <Content Include="Views\Avance\ReporteRendimientoLinea.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLogin.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
+    <Content Include="Views\Soporte\Reporte.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

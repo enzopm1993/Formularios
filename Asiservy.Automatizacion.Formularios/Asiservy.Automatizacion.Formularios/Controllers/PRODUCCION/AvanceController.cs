@@ -3,6 +3,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDControlMiga clsDControlMiga { get; set; } = null;
         clsDGeneral clsDGeneral { get; set; } = null;
         clsDLogin clsDLogin { get; set; } = null;
+        clsDProyeccionProgramacion clsDProyeccionProgramacion { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
 
@@ -1032,12 +1034,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                // lsUsuario = User.Identity.Name.Split('_');s
+                clsDClasificador = new clsDClasificador();
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(ddFecha.Date, Turno);
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLinea(ddFecha.Date, Turno);
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }
-                ViewBag.Model = model;
+                ViewBag.Toneladas = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionReporte(ddFecha.Date, Turno).Sum(x=> x.Toneladas);
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion);
                 return PartialView(model);
             }
             catch (Exception ex)
