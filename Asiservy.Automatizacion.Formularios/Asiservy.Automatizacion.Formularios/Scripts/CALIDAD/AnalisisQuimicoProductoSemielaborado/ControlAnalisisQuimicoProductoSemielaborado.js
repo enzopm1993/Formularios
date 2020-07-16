@@ -171,6 +171,9 @@ function AbrirModalDetalle() {
     //$('#ModalSubDetalle').modal({ backdrop: 'static', keyboard: false, show: true });
     IdDetalle = 0;
     $('#ModalDetalle').modal({ backdrop: 'static', keyboard: false, show: true });
+    $('.modal-dialog').draggable({
+        handle: ".modal-header"
+    });
     LimpiarControlesDetalle();
 
     $('#btnOrden').prop('disabled', false);
@@ -178,6 +181,9 @@ function AbrirModalDetalle() {
 }
 function AbrirModalSubDetalle() {
     $('#ModalSubDetalle').modal({ backdrop: 'static', keyboard: false, show: true });
+    $('.modal-dialog').draggable({
+        handle: ".modal-header"
+    });
     IdSubDetalle = 0;
     LimpiarControlesSubDetalle();
 }
