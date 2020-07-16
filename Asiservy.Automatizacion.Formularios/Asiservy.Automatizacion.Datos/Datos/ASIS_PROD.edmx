@@ -13585,6 +13585,8 @@
           <Property Type="Decimal" Name="KiloReal" Nullable="true" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="KiloTeorico" Nullable="true" Precision="38" Scale="2" />
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Limpiadoras" Nullable="true" />
+          <Property Type="Int32" Name="Despellejadores" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -20005,6 +20007,8 @@
                 <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
                 <ScalarProperty Name="KiloTeorico" ColumnName="KiloTeorico" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Limpiadoras" ColumnName="Limpiadoras" />
+                <ScalarProperty Name="Despellejadores" ColumnName="Despellejadores" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

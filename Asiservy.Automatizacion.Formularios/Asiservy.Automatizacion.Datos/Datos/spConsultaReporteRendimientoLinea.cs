@@ -17,5 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> KiloReal { get; set; }
         public Nullable<decimal> KiloTeorico { get; set; }
         public string Linea { get; set; }
+        public Nullable<int> Limpiadoras { get; set; }
+        public Nullable<int> Despellejadores { get; set; }
     }
 }
