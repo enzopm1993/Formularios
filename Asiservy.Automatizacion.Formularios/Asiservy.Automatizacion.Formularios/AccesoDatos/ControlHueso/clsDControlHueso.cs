@@ -458,6 +458,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         public List<spConsultaReporteRendimientoLinea> ConsultaReporteRendimientoPorLinea(DateTime Fecha, string Turno)
         {
+            GenerarAvanceOrdenesApi2(Fecha, Fecha);
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {

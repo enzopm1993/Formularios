@@ -37,7 +37,7 @@ function CargarControl() {
 
 function MostrarModal() {
     Model = [];
-    console.log(Model);
+    //console.log(Model);
 
     $("#txtDescripcion").val('');
     $("#file-upload").val('');
@@ -81,7 +81,7 @@ function GuardarFondoLogin() {
     data.append("Descripcion", $("#txtDescripcion").val());
     data.append("IdFondoLogin", Model.IdFondoLogin);
     data.append("Vigente", $("#chkVigente").prop("checked"));
-    
+    MostrarModalCargando()
     $.ajax({
         url: "../ConfiguracionMenu/FondoLogin",
         type: "POST",
@@ -104,6 +104,7 @@ function GuardarFondoLogin() {
         error: function (resultado) {
             MensajeError(Mensajes.Error + resultado.responseText, false);
             $("#spinnerCargandoDetalle2").prop("hidden", true);
+            CerrarModalCargando();
         }
     });
 }

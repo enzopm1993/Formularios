@@ -22,15 +22,15 @@
 <table class="table-bordered">
     <tr>
         <th>Total Toneladas: </th>
-        <td>@ViewBag.Toneladas</td>
+        <td class="text-right">@ViewBag.Toneladas</td>
     </tr>
     <tr>
         <th>Total Real: </th>
-        <td>@totalReal</td>
+        <td class="text-right">@totalReal</td>
     </tr>
     <tr>
         <th>Faltante: </th>
-        <td>@faltante</td>
+        <td class="text-right">@faltante</td>
     </tr>
 </table>
 <br />
@@ -190,27 +190,27 @@
             <td rowspan="4" class="bg-light  text-center">
                 @TotalDespellejadores
             </td>
-            <td class=" bg-info-verde">Kilo Teorico</td>
+            <td class=" bg-info">Kilo Teorico</td>
             @foreach (var h in modelo)
             {
                 var KiloTeorico = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloTeorico);
-                <td class=" bg-info-verde">
+                <td class=" bg-info">
                     @KiloTeorico
                 </td>
             }
-            <td class="bg-info-verde ">@totalTeorico</td>
+            <td class="bg-info ">@totalTeorico</td>
             <td class="bg-light" rowspan="4" style="vertical-align: central">@TotalSumaPorrcentajes</td>
         </tr>
-        <tr class="table-info">
-            <td class="">Kilo Real</td>
+        <tr class="">
+            <td class="bg-info-verde">Kilo Real</td>
             @foreach (var h in modelo)
             {
                 var TotalReal = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloReal);
-                <td class="">
+                <td class="bg-info-verde">
                     @TotalReal
                 </td>
             }
-            <td>@totalReal</td>
+            <td class="bg-info-verde">@totalReal</td>
 
         </tr>
         <tr>
