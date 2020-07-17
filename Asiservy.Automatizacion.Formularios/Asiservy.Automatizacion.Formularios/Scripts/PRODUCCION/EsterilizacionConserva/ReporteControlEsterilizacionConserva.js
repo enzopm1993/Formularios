@@ -48,10 +48,12 @@
         $('#DivReporte').html(resultado);
         $('#btnCargando').prop('hidden', true);
         $('#btnConsultar').prop('hidden', false);
+
         if ($('#RegPartial').val() == 0) {
             $('#mensajegeneral').prop('hidden', false);
             $('#btnimprimir').prop('hidden', true)
         } else {
+            $('#lblFechap').text($('#FechaProduccion').val());
             $('#btnimprimir').prop('hidden',false)
             $('#mensajegeneral').prop('hidden', true);
         }
@@ -101,8 +103,9 @@ function imprimirElemento(elemento) {
     return true;
 }
 function imprime4() {
-    var div = document.querySelector("#DivReporte");
-    imprimirElemento(div);
+    //var div = document.querySelector("#DivReporte");
+    //imprimirElemento(div);
+    window.print();
 }
 
 //function imprimirCanvas() {
