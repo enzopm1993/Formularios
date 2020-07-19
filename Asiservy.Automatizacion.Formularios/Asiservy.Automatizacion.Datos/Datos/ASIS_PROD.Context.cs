@@ -1935,15 +1935,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiarioxCargo>("spConsultaMovimientoPersonalDiarioxCargo", fechaParameter, horaParameter, cargoParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
-        {
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
-        }
-    
         public virtual ObjectResult<spReporteTemperaturaInternaRefrigeradora> spReporteTemperaturaInternaRefrigeradora(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2410,6 +2401,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLinea>("spConsultaReporteRendimientoLinea", fechaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
         }
     }
 }

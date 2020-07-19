@@ -1,25 +1,60 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteRendimientoLinea>
 @using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
 
-@{ 
+@{
+    var modelo = Model.Select(x => x.Hora).GroupBy(x=> x.Value);
 
     var lineas = (List<CLASIFICADOR>)ViewBag.Lineas;
+    var totalReal = Model.Sum(x => x.KiloReal);
+    var totalTeorico = Model.Sum(x => x.KiloTeorico);
+
+    var TotalLimpiadoras = Model.Sum(x => x.Limpiadoras);
+    var TotalDespellejadores = Model.Sum(x => x.Despellejadores);
+
+    decimal TotalDiferencias = 0;
+    decimal TotalSumaPorrcentajes = 0;
+
+    var faltante = totalReal - ViewBag.Toneladas;
 
 }
 
-<table class="table table-bordered">
+<table class="table-bordered">
+    <tr>
+        <th>Total Toneladas: </th>
+        <td>@ViewBag.Toneladas</td>
+    </tr>
+    <tr>
+        <th>Total Real: </th>
+        <td>@totalReal</td>
+    </tr>
+    <tr>
+        <th>Faltante: </th>
+        <td>@faltante</td>
+    </tr>
+</table>
+<br />
+
+<table class="table table-bordered table-responsive" id="tblDataTable">
     <thead>
         <tr>
-            <th>
-                LINEA
+            <th class=""> 
+                L.
             </th>
-            @foreach (var h in Model)
+            <th class="">
+                D.
+            </th>
+            <th class="">
+                LINEAS
+            </th>
+            @foreach (var h in modelo)
             {
-                <th class=" text-center" style="white-space:normal">
-                    @h.Hora.Value.ToString("yyyy/MM/dd HH:mm")
+                <th class=" text-center " style="white-space:normal">
+                    @h.Key.ToString("yyyy/MM/dd HH:mm")
                 </th>
             }
-            <th>Total</th>
+            <th class="">Total</th>
+            <th class="">%</th>
         </tr>
     </thead>
 
@@ -28,66 +63,106 @@
 
         @foreach (var l in lineas)
         {
-            <tr>
-                <td rowspan="3">@l.Descripcion</td>
+            var Contador = Model.Count(x => x.Linea == l.Codigo);
+            var TotalLimpiadorasLinea = Contador > 0 ? Model.Where(x => x.Linea == l.Codigo).Sum(x => x.Limpiadoras) / Contador : 0;
+            var TotalDespellejadoresLinea = Contador > 0 ? Model.Where(x => x.Linea == l.Codigo).Sum(x => x.Despellejadores) / Contador : 0;
+            string jsonModel = JsonConvert.SerializeObject(Model.Where(x => x.Linea == l.Codigo));
+            <tr class="">
+                <td rowspan="3">
+                    <button id="btnActualizar" style="font-size:12px" class="btn btn-link" onclick="ModalDetalleLimpiadoras(@jsonModel)">@TotalLimpiadorasLinea</button>
+                </td>
+                <td rowspan="3">
+
+                    <button id="btnActualizar" style="font-size:12px" class="btn btn-link" onclick="ModalDetalleDespellejadores(@jsonModel)">@TotalDespellejadoresLinea</button>
+
+                </td>
+                <td class="" rowspan="3">@l.Descripcion</td>
 
                 @{var ModelLinea = Model.Where(x => x.Linea == l.Codigo);
                     var totalTeoricoLinea = ModelLinea.Sum(x => x.KiloTeorico);
                     var totalRealLinea = ModelLinea.Sum(x => x.KiloReal);
                     var totalDiferenciaLinea = totalRealLinea > 0 ? Math.Round(((totalRealLinea ?? 0) / (totalRealLinea ?? 0)) * 100, 2) : 0;
-                    }
-                @foreach (var item in Model)
+                }
+                @foreach (var item in modelo)
                 {
 
-                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Hora);
+                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Key);
                     if (valor != null)
                     {
-                        <td>
+                        <td class="bg-info " >
                             @valor.KiloTeorico
                         </td>
 
                     }
                     else
                     {
-                        <td> -- </td>
+                        <td class="bg-info"> -- </td>
 
                     }
 
                 }
-                <td>@totalTeoricoLinea</td>
+                <td class="bg-info ">@totalTeoricoLinea</td>
+                <td rowspan="3" class="">
+                    @{decimal porcentaje = totalReal > 0 ? Math.Round(((totalRealLinea ?? 0) / (totalReal ?? 0)) * 100, 2) : 0;
+                        TotalSumaPorrcentajes = TotalSumaPorrcentajes + porcentaje;}
+                    @porcentaje
+                </td>
             </tr>
 
             <tr>
+                <td style="display:none" class="prueba" rowspan="3">
+                    <button id="btnActualizar" style="font-size:12px" class="btn btn-link" onclick="ModalDetalleLimpiadoras(@jsonModel)">@TotalLimpiadorasLinea</button>
+                </td>
+                <td style="display:none" rowspan="3">
 
-                @foreach (var item in Model)
+                    <button id="btnActualizar" style="font-size:12px" class="btn btn-link" onclick="ModalDetalleDespellejadores(@jsonModel)">@TotalDespellejadoresLinea</button>
+
+                </td>
+                <td style="display:none" class="" rowspan="3">@l.Descripcion</td>
+
+                @foreach (var item in modelo)
                 {
 
-                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Hora);
+                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Key);
                     if (valor != null)
                     {
-                        <td>
+                        <td class="bg-info-verde ">
                             @valor.KiloReal
                         </td>
 
                     }
                     else
                     {
-                        <td> -- </td>
+                        <td class="bg-info-verde"> -- </td>
 
                     }
 
                 }
-                <td>@totalRealLinea</td>
+                <td class="bg-info-verde ">@totalRealLinea</td>
+                <td  style="display:none">
+                    @porcentaje
+                </td>
             </tr>
             <tr>
-                @foreach (var item in Model)
+
+                <td style="display:none" rowspan="3">
+                    <button id="btnActualizar" style="font-size:12px" class="btn btn-link" onclick="ModalDetalleLimpiadoras(@jsonModel)">@TotalLimpiadorasLinea</button>
+                </td>
+                <td style="display:none" rowspan="3">
+
+                    <button id="btnActualizar" style="font-size:12px" class="btn btn-link" onclick="ModalDetalleDespellejadores(@jsonModel)">@TotalDespellejadoresLinea</button>
+
+                </td>
+                <td style="display:none" class="" rowspan="3">@l.Descripcion</td>
+
+                @foreach (var item in modelo)
                 {
 
-                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Hora);
+                    var valor = ModelLinea.FirstOrDefault(x => x.Hora == item.Key);
                     if (valor != null)
                     {
                         decimal dif = valor.KiloTeorico > 0 ? Math.Round((valor.KiloReal ?? 0) / (valor.KiloTeorico ?? 0) * 100, 2) : 0;
-                        <td>
+                        <td class="">
                             @dif
                         </td>
 
@@ -100,69 +175,169 @@
 
                 }
 
-                <td>@totalDiferenciaLinea</td>
+                <td class="">@totalDiferenciaLinea</td>
+                <td style="display:none">
+                    @porcentaje
+                </td>
             </tr>
-                    }
-    </tbody>
-    <thead>
-        @{ 
-            var totalReal = Model.Sum(x => x.KiloReal);
-            var totalTeorico = Model.Sum(x => x.KiloTeorico);
-            decimal TotalDiferencias = 0;
         }
-
-        <tr>
-            <th class="letra10">Kilo Teorico</th>
-            @foreach (var h in Model)
+    </tbody>
+    <thead class="font-weight-bold">
+        <tr class="">
+            <td rowspan="4" class="bg-light  text-center">
+                @TotalLimpiadoras
+            </td>
+            <td rowspan="4" class="bg-light  text-center">
+                @TotalDespellejadores
+            </td>
+            <td class=" bg-info-verde">Kilo Teorico</td>
+            @foreach (var h in modelo)
             {
-                var KiloTeorico = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloTeorico);
-                <th class="letra10">
+                var KiloTeorico = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloTeorico);
+                <td class=" bg-info-verde">
                     @KiloTeorico
-                </th>
+                </td>
             }
-                <th>@totalTeorico</th>
+            <td class="bg-info-verde ">@totalTeorico</td>
+            <td class="bg-light" rowspan="4" style="vertical-align: central">@TotalSumaPorrcentajes</td>
         </tr>
-        <tr>
-            <th class="letra10">Kilo Real</th>
-            @foreach (var h in Model)
+        <tr class="table-info">
+            <td class="">Kilo Real</td>
+            @foreach (var h in modelo)
             {
-                var TotalReal = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloReal);
-                <th class="letra10">
+                var TotalReal = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloReal);
+                <td class="">
                     @TotalReal
-                </th>
+                </td>
             }
-            <th>@totalReal</th>
+            <td>@totalReal</td>
 
         </tr>
         <tr>
-            <th class="letra10">Diferencia</th>
-            @foreach (var h in Model)
+            <td class="">Diferencia</td>
+            @foreach (var h in modelo)
             {
-                var KiloTeorico = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloTeorico);
-                var TotalReal = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloReal);
+                var KiloTeorico = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloTeorico);
+                var TotalReal = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloReal);
                 var totalDiferencia = KiloTeorico - TotalReal;
-                TotalDiferencias = TotalDiferencias+ totalDiferencia ??0;
-                <th class="letra10">
+                TotalDiferencias = TotalDiferencias + totalDiferencia ?? 0;
+                <td class="">
                     @totalDiferencia
-                </th>
+                </td>
             }
-                <th>@TotalDiferencias</th>
+            <td>@TotalDiferencias</td>
         </tr>
         <tr>
-            <th class="letra10" style="white-space:normal">Diferencia Acumulada</th>
-            @{decimal totalDiferenciaAcumulada =0; }
+            <td class="" style="white-space:normal">Diferencia Acumulada</td>
+            @{decimal totalDiferenciaAcumulada = 0; }
 
-            @foreach (var h in Model)
+            @foreach (var h in modelo)
             {
-                var KiloTeorico = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloTeorico);
-                var TotalReal = Model.Where(x => x.Hora == h.Hora).Sum(x => x.KiloReal);
+                var KiloTeorico = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloTeorico);
+                var TotalReal = Model.Where(x => x.Hora == h.Key).Sum(x => x.KiloReal);
                 var totalDiferencia = KiloTeorico - TotalReal;
-                totalDiferenciaAcumulada = totalDiferenciaAcumulada + totalDiferencia??0;
-                <th class="letra10">
+                totalDiferenciaAcumulada = totalDiferenciaAcumulada + totalDiferencia ?? 0;
+                <td class="">
                     @totalDiferenciaAcumulada
-                </th>
+                </td>
             }
+            <td class="bg-success">@{ var TotalPorcentaje = totalTeorico > 0 ? Math.Round(((totalReal ?? 0)/ (totalTeorico ?? 0)) * 100, 2):0;}
+
+            @TotalPorcentaje
+            </td>
         </tr>
     </thead>
 </table>
+<br />
+<table class="table-sm table-bordered">
+    <thead>
+        <tr>
+            <th rowspan="3" class="">LIMPIADORAS</th>
+            <th rowspan="3" class="">DESPELLEJADORES</th>
+            <th>LINEAS</th>
+            <th>FECHA-HORA</th>
+            <th>TOTALES</th>
+            <th>RENDIMIENTO POR LINEA</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="">
+            <td rowspan="3" class="text-center">Cantidad</td>
+            <td rowspan="3" class="text-center">Cantidad</td>
+            <td rowspan="3" class="">LINEA</td>
+            <td class="bg-info">Kilo Teórico</td>
+            <td class="bg-info">Total Kilo Teórico linea</td>
+            <td style="white-space:normal" rowspan="3" class="">% Porcentaje Linea =  (total kl real linea / total kl teórico linea)*100</td>
+        </tr>
+
+        <tr class="">
+            <td class="bg-info-verde">Kilo Real</td>
+            <td class="bg-info-verde">Total Kilo Real Linea</td>
+        </tr>
+        <tr class="">
+            <td>% Rendimiento Hora</td>
+            <td>% Rendimiento Linea</td>
+        </tr>
+        <tr>
+            <th rowspan="5" style="white-space:normal">Total Limpiadoras</th>
+            <th rowspan="5" style="white-space:normal">Total Despellejadores</th>
+        </tr>
+        <tr>
+            <td class="bg-info">Kilo teórico</td>
+            <td class="bg-info">KL</td>
+            <td class="bg-info">Total kilo teórico</td>
+            <td rowspan="5">% total rendimiento dia</td>
+
+        </tr>
+        <tr>
+            <td class="bg-info-verde">Kilo real</td>
+            <td class="bg-info-verde">KL</td>
+            <td class="bg-info-verde">Total kilo real</td>
+
+        </tr>
+        <tr>
+            <td>Diferencia</td>
+            <td>(Kilo real-Kilo teórico)</td>
+            <td>Total Diferencia</td>
+
+        </tr>
+        <tr>
+            <td>Diferencia Acumulada</td>
+            <td>Sumatoria de Diferencias</td>
+            <td style="white-space:normal" class="bg-success">% Rendimiento = (total kl real/total kl teórico)*100</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalDetalle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalle por horas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-style="display:none">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 class="font-weight-bold" id="lblTitulo"></h6>
+
+                <table class="table table-bordered" id="tblTable">
+                    <thead>
+                        <tr>
+                            <th>Linea</th>
+                            <th>Hora</th>
+                            <th class="font-italic">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 

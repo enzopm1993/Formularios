@@ -40,16 +40,17 @@ function CargarReporteAvance() {
                 $("#spinnerCargando").prop("hidden", true);
                 $("#divChart").prop("hidden", true);
                 CerrarModalCargando();
-
+                $("#btnImprimir").prop("hidden", true);
 
             } else {
                 $("#spinnerCargando").prop("hidden", true);
                 $('#DivTableReporteControlAvance').html(resultado);
-                config.opcionesDT.pageLength = 50;
-                config.opcionesDT.order = [[0, "asc"]];
+                //config.opcionesDT.pageLength = 50;
+                //config.opcionesDT.order = [[0, "asc"]];
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 $("#divChart").prop("hidden", false);
-                             
+                $("#btnImprimir").prop("hidden", false);
+
                 CerrarModalCargando();
             }
         },
@@ -60,3 +61,63 @@ function CargarReporteAvance() {
         }
     });
 }
+
+
+function ModalDetalleLimpiadoras(resultado) {
+    //console.log(resultado);
+    $("#lblTitulo").html("LIMPIADORAS");
+    var table = $('#tblTable');
+    table.DataTable().clear();    
+    $("#tblTable tbody").empty();
+    config.opcionesDT.order = [];
+    config.opcionesDT.columns = [
+        { data: 'Linea' },
+        { data: 'Hora' },
+        { data: 'Limpiadoras' }
+    ];
+
+
+    resultado.forEach(function (row, i) {
+        row.Hora = moment(row.Hora).format('DD-MM-YYYY HH:mm');
+    });
+    config.opcionesDT.pageLength = -1;
+    table.DataTable().destroy();
+    table.DataTable(config.opcionesDT);
+    table.DataTable().rows.add(resultado);
+    table.DataTable().draw();
+
+    $("#ModalDetalle").modal("show");
+}
+
+
+function ModalDetalleDespellejadores(resultado) {
+    $("#lblTitulo").html("DESPELLEJADORES");
+
+    var table = $('#tblTable');
+    table.DataTable().clear();
+    $("#tblTable tbody").empty();
+    config.opcionesDT.order = [];
+    config.opcionesDT.columns = [
+        { data: 'Linea' },
+        { data: 'Hora' },
+        { data: 'Despellejadores' }
+    ];
+
+
+    resultado.forEach(function (row, i) {
+        row.Hora = moment(row.Hora).format('DD-MM-YYYY HH:mm');
+    });
+    config.opcionesDT.pageLength = -1;
+    table.DataTable().destroy();
+    table.DataTable(config.opcionesDT);
+    table.DataTable().rows.add(resultado);
+    table.DataTable().draw();
+
+    $("#ModalDetalle").modal("show");
+}
+
+
+
+//function printDiv() {
+//    window.print();
+//}

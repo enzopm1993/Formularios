@@ -142,21 +142,21 @@ $('.modal').on('hidden.bs.modal', function (e) {
 });
 $(document).ready(function () {
     //$('#txtTemperaturaTermDigital').mask('9?9.99');
-    $('#txtTemperaturaTermDigital').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
-    $('#txtTemperaturaProductoSalida').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
-    $('#txtTemperaturaInicial').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '99.99' });
+    $('#txtTemperaturaTermDigital').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtTemperaturaProductoSalida').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtTemperaturaInicial').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
 
-    $('#txtPanelInicio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtPanelMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtPanelFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
+    $('#txtPanelInicio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtPanelMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtPanelFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
 
-    $('#txtChartInicio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtChartMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtChartFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
+    $('#txtChartInicio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtChartMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtChartFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
 
-    $('#txtTermometroDigitalInicio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtTermometroDigitalMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.99' });
-    $('#txtTermometroDigitalFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'max': '999.99' });
+    $('#txtTermometroDigitalInicio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtTermometroDigitalMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
+    $('#txtTermometroDigitalFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, 'max': '999.9' });
 
     $('#txtPresionManometroInicio').inputmask({
         'alias': 'integer',

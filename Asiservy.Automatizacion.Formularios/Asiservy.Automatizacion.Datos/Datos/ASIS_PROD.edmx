@@ -6606,9 +6606,6 @@
             <Parameter Name="Cargo" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SPReporteAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe)">
-          <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="CC_ANALISIS_AGUA_TANQUERO" EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO" />
           <AssociationSet Name="FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL" Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_TANQUERO_CC_ANALISIS_AGUA_TANQUERO_CONTROL">
             <End Role="CC_ANALISIS_AGUA_TANQUERO_CONTROL" EntitySet="CC_ANALISIS_AGUA_TANQUERO_CONTROL" />
@@ -6947,6 +6944,9 @@
           <FunctionImport Name="spConsultaReporteRendimientoLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteRendimientoLinea)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SPReporteAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe)">
+            <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -11374,20 +11374,6 @@
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
         </ComplexType>
-        <ComplexType Name="SPReporteAnalisisQuimicoProductoSe">
-          <Property Type="String" Name="Proveedor" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
-          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Especie" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TipoProducto" Nullable="true" MaxLength="5" />
-          <Property Type="Decimal" Name="SalProceso" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="HistaminaProceso" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="HumedadProceso" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="SalEmpaque" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="HistaminaEmpaque" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <EntityType Name="CC_ANALISIS_AGUA_TANQUERO">
           <Key>
             <PropertyRef Name="IdAnalisisAguaTanquero" />
@@ -13585,6 +13571,25 @@
           <Property Type="Decimal" Name="KiloReal" Nullable="true" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="KiloTeorico" Nullable="true" Precision="38" Scale="2" />
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Limpiadoras" Nullable="true" />
+          <Property Type="Int32" Name="Despellejadores" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SPReporteAnalisisQuimicoProductoSe">
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
+          <Property Type="String" Name="Proveedor" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Especie" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="IdTipoAnalisisQuimicoProductoSe" Nullable="false" />
+          <Property Type="String" Name="TipoProducto" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="ParametroLaboratorio" Nullable="false" />
+          <Property Type="Int32" Name="IdClasificador" Nullable="false" />
+          <Property Type="String" Name="CodArea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NombreParametro" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescripcionParametro" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Cantidad" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -18080,24 +18085,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SPReporteAnalisisQuimicoProductoSe" FunctionName="ASIS_PRODModel.Store.SPReporteAnalisisQuimicoProductoSe">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe">
-                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
-                <ScalarProperty Name="SalProceso" ColumnName="SalProceso" />
-                <ScalarProperty Name="HistaminaProceso" ColumnName="HistaminaProceso" />
-                <ScalarProperty Name="HumedadProceso" ColumnName="HumedadProceso" />
-                <ScalarProperty Name="SalEmpaque" ColumnName="SalEmpaque" />
-                <ScalarProperty Name="HistaminaEmpaque" ColumnName="HistaminaEmpaque" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CC_ANALISIS_AGUA_TANQUERO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO">
               <MappingFragment StoreEntitySet="CC_ANALISIS_AGUA_TANQUERO">
@@ -20005,6 +19992,29 @@
                 <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
                 <ScalarProperty Name="KiloTeorico" ColumnName="KiloTeorico" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Limpiadoras" ColumnName="Limpiadoras" />
+                <ScalarProperty Name="Despellejadores" ColumnName="Despellejadores" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPReporteAnalisisQuimicoProductoSe" FunctionName="ASIS_PRODModel.Store.SPReporteAnalisisQuimicoProductoSe">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe">
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="IdTipoAnalisisQuimicoProductoSe" ColumnName="IdTipoAnalisisQuimicoProductoSe" />
+                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
+                <ScalarProperty Name="ParametroLaboratorio" ColumnName="ParametroLaboratorio" />
+                <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
+                <ScalarProperty Name="DescripcionParametro" ColumnName="DescripcionParametro" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
