@@ -87,15 +87,15 @@
 
 
                 <label>Fecha:</label>
-                <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"  onchange="ValidaVacio(this)"/>
                 <label class="text-danger" id="msjerrorfecha" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 <label>Turno:</label>
-                <select class="form-control" id="Turno">
-                    <option value="1">Seleccione...</option>
+                <select class="form-control" id="Turno" onchange="ValidaVacio(this)">
+                    <option value="">Seleccione...</option>
                     <option value="1">Turno A</option>
                     <option value="2">Turno B</option>
                 </select>
@@ -105,20 +105,37 @@
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 <label>Línea:</label>
-                <select class="form-control" id="Linea">
-                    <option value="L">Seleccione...</option>
+                <select class="form-control" id="Linea" onchange="ValidaVacio(this)">
+                    <option value="">Seleccione...</option>
                     <option value="L">Lata</option>
                     <option value="P">Pouch</option>
                 </select>
                 <label class="text-danger" id="msjerrorLinea" hidden>Debe seleccionar una línea</label>
             </div>
         </div>
+
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
 
 
                 <label>Observación:</label>
                 <textarea id="Observacion" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="ckbunidadpresion">
+                    <label class="form-check-label" for="ckbunidadpresion">
+                        UNIDAD DE PRESIÓN AUTOCLAVE
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="ckbconvencionales">
+                    <label class="form-check-label" for="ckbconvencionales">
+                        AUTOCLAVE CONVENCIONALES
+                    </label>
+                </div>
             </div>
         </div>
     </div>

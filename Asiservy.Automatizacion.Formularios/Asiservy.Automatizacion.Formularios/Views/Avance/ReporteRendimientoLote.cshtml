@@ -153,6 +153,16 @@
     .badge-secondary {
         color: white;
     }
+
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
    </style>
 
 @{
@@ -163,17 +173,22 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-4 col-12">
-        <div class="form-group">
-            <label>Fecha</label>
-            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarReporteAvance()" id="txtFecha" class="form-control" />
+
+
+    <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="" />
+        <input type="hidden" id="fechaHasta" value="" />
+        <div id="reportrange" class="selectbox">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
         </div>
     </div>
     <div class="col-md-3 col-6 col-sm-6">
         <div class="form-group">
 
             <label>Turno</label>
-            <select class="form-control" id="selectTurno" onchange="CargarReporteAvance()">
+            <select class="form-control" id="selectTurno" onchange="CargarBarcos()">
                 <option value="">Seleccione</option>
                 @{foreach (var x in turnos)
                     {
@@ -184,9 +199,13 @@
             </select>
         </div>
     </div>
-    <div class="col-md-4 col-12  text-md-left text-center">
+    <div class="col-md-4 col-6 col-sm-6">
+            <label>Barco</label>
+            <select class="js-example-basic-multiple form-control" name="states[]" multiple="multiple" id="SelectBarco">
+            </select>
+    </div>
+    <div class="col-md-12 col-12  text-md-center text-center">
         <label class="">Acciones</label>
-
         <div class="form-group">
             @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnConsultar" onclick="CargarReporteAvance()" style="border-color:#2c3e50" type="button">

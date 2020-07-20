@@ -94,6 +94,43 @@ function CargarDatosOrdenFabricacion() {
 }
 
 
+function ConsultaMateriales() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/ConsultarMateriales",
+        type: "GET",
+        data: {
+            OF: ListadoControl.OrdenFabricacion
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("No existen datos para esta OF.");
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros.");
+            } else {
+                //console.log(resultado);
+                $("#selectMaterial").empty();
+                $("#selectMaterial").append('<option value=""> Seleccione</option>');
+                $.each(resultado, function (key, r) {
+                    $("#selectMaterial").append('<option value=' + r.Codigo + '>' + r.Descripcion + '</option>');
+                });
+            }
+
+       
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+
+
+
+}
+
+
 
 function CargarOrdenFabricacion() {
     valor = $("#txtFecha").val();
@@ -351,6 +388,7 @@ function SeleccionarControlEntregaProductoTerminado(model) {
     //console.log(model);
     $("#txtFecha").val(moment(model.FechaProduccion).format("YYYY-MM-DD"));
 
+    ConsultaMateriales();
     CargarProcesoDetalleMaterial();
     CargarEntregaProductoTerminadoDetalle();
     CargarProcesoDetalleTiemposMuertos();
@@ -477,7 +515,8 @@ function CargarProcesoDetalleMaterial() {
         url: "../EntregaProductoTerminado/ControlConsumoMaterialPartial",
         type: "GET",
         data: {
-            IdControl: ListadoControl.IdProductoTerminado
+            IdControl: ListadoControl.IdProductoTerminado,
+            OrdenFabricacion: ListadoControl.OrdenFabricacion
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -505,9 +544,9 @@ function CargarProcesoDetalleMaterial() {
 function ModalGenerarMaterial() {
     $("#txtIdConsumoMaterial").val(0);
     $("#selectMaterial").prop("selectedIndex", 0).change();   
-    $("#txtUsado").val('0');
-    $("#txtDesechado").val('0');
-    $("#txtRecibido").val('0');
+    $("#txtUsado").val('');
+    $("#txtDesechado").val('');
+    $("#txtRecibido").val('');
     $("#ModalConsumoMaterial").modal("show");
 }
 

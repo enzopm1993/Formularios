@@ -708,4 +708,7 @@ function ValidaVacio(input) {
     if (input.value != '') {
         $(input).css('borderColor', '#ced4da');
     }
+    else {
+        $('#' + input.id).css('borderColor', '#FA8072');
+    }
 }

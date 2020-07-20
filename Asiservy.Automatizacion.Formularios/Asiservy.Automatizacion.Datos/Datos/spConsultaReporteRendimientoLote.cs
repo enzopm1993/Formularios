@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaReporteRendimientoLote
     {
+        public Nullable<System.DateTime> Fecha { get; set; }
         public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }

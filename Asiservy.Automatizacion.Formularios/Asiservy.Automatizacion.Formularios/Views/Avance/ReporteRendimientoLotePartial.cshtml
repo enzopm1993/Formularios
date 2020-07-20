@@ -14,6 +14,9 @@
     <thead>
         <tr>
             <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th rowspan="2">
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th rowspan="2">
@@ -45,16 +48,16 @@
                 Corte Cocción
             </th>
             <th rowspan="2" style="white-space:normal">
-               Receta Roceado
+                Receta Roceado
             </th>
             <th rowspan="2" style="white-space:normal">
                 Destino Preliminar
             </th>
             <th rowspan="2" style="white-space:normal">
-               Total Coches
+                Total Coches
             </th>
-            <th rowspan="2">
-               Talla Promedio
+            <th style="white-space:normal" rowspan="2">
+                Talla Promedio
             </th>
         </tr>
 
@@ -179,6 +182,7 @@
 
 
             <tr>
+                <td>@item.Fecha.Value.ToString("yyyy-MM-dd")</td>
                 <td style="font-size:14px">
                     @if (item.EstadoLote)
                     {

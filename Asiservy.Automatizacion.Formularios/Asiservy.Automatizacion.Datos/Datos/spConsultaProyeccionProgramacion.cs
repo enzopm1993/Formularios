@@ -51,5 +51,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CodRecetaRoceado { get; set; }
         public string RecetaRoceado { get; set; }
         public bool EstadoLote { get; set; }
+        public Nullable<bool> Miga { get; set; }
     }
 }
