@@ -142,7 +142,7 @@
                     {
                     <div class="col-xs-2 text-xs-center">
                         <div class="custom-control custom-switch">
-                            @Html.CheckBox("proyeccion" + item.IdProyeccionProgramacion, item.Finaliza, new { @onchange = "check(this.id,'"+item.IdProyeccionProgramacion+"')", @class = "custom-control-input" })
+                            @Html.CheckBox("proyeccion" + item.IdProyeccionProgramacion, item.Finaliza, new { @onchange = "check(this.id,'"+item.IdProyeccionProgramacion+"','"+item.FechaProduccion + "')", @class = "custom-control-input" })
                             <label class="custom-control-label" for=@("proyeccion" + item.IdProyeccionProgramacion) id="LabelFecha"></label>
                         </div>
                       

@@ -471,7 +471,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         }
 
-        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos)
+        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, bool Protocolo)
         {
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -479,7 +479,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 GenerarRendimientoOrdenesApi(FechaDesde,FechaHasta);
                 GenerarRendimientos();
                 List<spConsultaReporteRendimientoLote> Listado;
-                Listado = entities.spConsultaReporteRendimientoLote(FechaDesde, FechaHasta, Turno, Barcos).ToList();
+                Listado = entities.spConsultaReporteRendimientoLote(FechaDesde, FechaHasta, Turno, Barcos, Protocolo).ToList();
                 return Listado;
             }
 

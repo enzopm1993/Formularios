@@ -204,13 +204,18 @@ function GuardarProyeccionDetalle() {
             Observacion: $('#txtObservacion').val(),
             RecetaRoceado: $('#txtReceta').val(),            
             Lote: $("#txtLote").val(),
-            proceso: 3
+            proceso: 3,
+            FechaProduccion: $("#txtFechaProduccion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
          //  console.log(resultado);
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
+            } 
             if (resultado.Codigo == 1) {
                 $("#validaCocina").prop("hidden", false);
                 $("#validaCocina").text(resultado.Mensaje);
@@ -502,11 +507,19 @@ function FinalizarProyeccionProgramacion() {
         data:
         {
             id: $('#IdProyeccion').val(),
-            proceso: 3
+            proceso: 3,
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
-            ValidaProyeccion();
-            MensajeCorrecto(resultado);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                ValidaProyeccion();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -523,11 +536,19 @@ function HabilitarProyeccionProgramacion() {
         data:
         {
             id: $('#IdProyeccion').val(),
-            proceso: 3
+            proceso: 3,
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
-            ValidaProyeccion();
-            MensajeCorrecto(resultado);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                ValidaProyeccion();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);

@@ -244,6 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 {
                     if (proceso == 1)
                     {
+                        detalle.Protocolo = model.Protocolo;
                         detalle.Miga = model.Miga;
                         detalle.Lote = model.Lote.ToUpper();
                         detalle.Observacion = model.Observacion!=null?model.Observacion.ToUpper():"";

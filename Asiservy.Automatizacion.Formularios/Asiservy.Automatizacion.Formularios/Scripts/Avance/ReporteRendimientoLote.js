@@ -74,7 +74,8 @@ function CargarReporteAvance() {
             FechaDesde: $("#fechaDesde").val(),
             FechaHasta: $("#fechaHasta").val(),
             Turno: $("#selectTurno").val(),
-            Barcos: ListaBarcos
+            Barcos: ListaBarcos,
+            Protocolo: $("#selectProtocolo").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
