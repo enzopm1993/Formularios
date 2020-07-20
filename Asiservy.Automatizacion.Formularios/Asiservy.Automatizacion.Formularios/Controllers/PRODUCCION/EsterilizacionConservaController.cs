@@ -167,6 +167,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 poControlEsterilizacion.UsuarioIngresoLog = lsUsuario[0];
                 poControlEsterilizacion.TerminalIngresoLog = Request.UserHostAddress;
                 poControlEsterilizacion.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                poControlEsterilizacion.CedulaUsuarioCreacion = lsUsuario[1];
                 object[] resultado=null;
                 clsDEsterilizacionConserva = new clsDEsterilizacionConserva();
                 if (poControlEsterilizacion.IdCabControlEsterilizado == 0)
@@ -218,7 +219,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDEsterilizacionConserva = new clsDEsterilizacionConserva();
                 resultado = clsDEsterilizacionConserva.ConsultarCabeceraEsterilizacionConserva(poControlEsterilizacion);
                 if (resultado != null) {
-                    return Json(new { resultado.IdCabControlEsterilizado, resultado.Observacion, resultado.TipoLinea, resultado.Turno, resultado.Fecha }, JsonRequestBehavior.AllowGet);
+                    return Json(new { resultado.IdCabControlEsterilizado, resultado.Observacion, resultado.TipoLinea, resultado.Turno, resultado.Fecha ,resultado.AutoclaveConvencional,resultado.UnidadPresion}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

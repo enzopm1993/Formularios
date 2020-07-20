@@ -180,7 +180,58 @@ $(document).ready(function () {
         'allowPlus': 'false'
     });
 });
+function ValidarCabecera() {
+    var valida = true;
+    if ($('#Fecha').val() == '') {
+        $('#Fecha').css('borderColor', '#FA8072');
+        valida = false;
+        //$('#msjerrorIngreso').prop('hidden', false);
+
+    } else {
+        $('#Fecha').css('borderColor', '#ced4da');
+        //$('#msjerrorIngreso').prop('hidden', true);
+    }
+    if ($('#Turno').prop('selectedIndex') == 0) {
+        $('#Turno').css('borderColor', '#FA8072');
+        valida = false;
+        //$('#msjerrorIngreso').prop('hidden', false);
+
+    } else {
+        $('#Turno').css('borderColor', '#ced4da');
+        //$('#msjerrorIngreso').prop('hidden', true);
+    }
+    if ($('#Linea').prop('selectedIndex') == 0) {
+        $('#Linea').css('borderColor', '#FA8072');
+        valida = false;
+        //$('#msjerrorIngreso').prop('hidden', false);
+
+    } else {
+        $('#Linea').css('borderColor', '#ced4da');
+        //$('#msjerrorIngreso').prop('hidden', true);
+    }
+    return valida;
+}
+function ValidaVacio(input) {
+    //console.log(input.value);
+    if (input.value != '') {
+        $(input).css('borderColor', '#ced4da');
+    } else {
+        $('#' + input.id).css('borderColor', '#FA8072');
+    }
+    //if($('#'+input.id).)
+}
 function GuardarCabEsterilizacion() {
+    if (!ValidarCabecera()) {
+        return;
+    }
+    var UnidadPrresion = false;
+    var AutoclaveConv = false;
+    if ($('#ckbunidadpresion').prop('checked')) {
+        UnidadPrresion = true;
+    }
+    if ($('#ckbconvencionales').prop('checked')) {
+        AutoclaveConv = true;
+    }
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
     $('#btnLimpiar').prop('hidden', true);
@@ -194,7 +245,9 @@ function GuardarCabEsterilizacion() {
             Fecha: $("#Fecha").val(),
             Turno: $("#Turno").val(),
             TipoLinea: $("#Linea").val(),
-            Observacion: $("#Observacion").val()
+            Observacion: $("#Observacion").val(),
+            UnidadPresion: UnidadPrresion,
+            AutoclaveConvencional: AutoclaveConv
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -342,6 +395,16 @@ function ConsultarCabControl() {
                 $("#MensajeRegistros").html('');
                 $('#CabeceraControl').val(resultado.IdCabControlEsterilizado);
                 $('#Observacion').val(resultado.Observacion);
+                if (resultado.UnidadPresion == true) {
+                    $('#ckbunidadpresion').prop('checked', true);
+                } else {
+                    $('#ckbunidadpresion').prop('checked', false);
+                }
+                if (resultado.AutoclaveConvencional == true) {
+                    $('#ckbconvencionales').prop('checked', true);
+                } else {
+                    $('#ckbconvencionales').prop('checked', false);
+                }
                 ConsultarDetalleControl();
                 ConsultarCoches();
             }
@@ -840,7 +903,9 @@ function LimpiarControles() {
     $('#msjerrorfecha').prop('hidden', true);
     $('#msjerrorturno').prop('hidden', true);
     $('#msjerrorLinea').prop('hidden', true);
-    $('#DivNuevoDetalleEsterilizacion').prop('hidden',true);
+    $('#DivNuevoDetalleEsterilizacion').prop('hidden', true);
+    $('#ckbunidadpresion').prop('checked', false);
+    $('#ckbconvencionales').prop('checked', false);
 }
 function EliminarCabControl() {
     $('#btnsicab').prop('disabled', true);
