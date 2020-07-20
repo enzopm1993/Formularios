@@ -923,6 +923,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.Apexcharts = "1";
                 ViewBag.Handsontable = "1";
+                ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Linea = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
@@ -950,7 +951,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public ActionResult ReporteRendimientoLotePartial(DateTime ddFecha, string Turno)
+        public ActionResult ReporteRendimientoLotePartial(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos)
         {
             try
             {
@@ -962,7 +963,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 // lsUsuario = User.Identity.Name.Split('_');s
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(ddFecha.Date, Turno);
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(FechaDesde,FechaHasta, Turno,Barcos);
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }
                 ViewBag.Model = model;

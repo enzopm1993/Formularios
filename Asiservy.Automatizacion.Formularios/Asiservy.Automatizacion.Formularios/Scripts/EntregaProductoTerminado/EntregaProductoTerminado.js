@@ -505,9 +505,9 @@ function CargarProcesoDetalleMaterial() {
 function ModalGenerarMaterial() {
     $("#txtIdConsumoMaterial").val(0);
     $("#selectMaterial").prop("selectedIndex", 0).change();   
-    $("#txtUsado").val('0');
-    $("#txtDesechado").val('0');
-    $("#txtRecibido").val('0');
+    $("#txtUsado").val('');
+    $("#txtDesechado").val('');
+    $("#txtRecibido").val('');
     $("#ModalConsumoMaterial").modal("show");
 }
 

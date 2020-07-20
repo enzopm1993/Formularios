@@ -49,6 +49,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         }
         public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionReporte(DateTime fecha, string Turno)
         {
+            
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var pro = db.PROYECCION_PROGRAMACION.AsNoTracking().FirstOrDefault(x => x.FechaProduccion == fecha
