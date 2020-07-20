@@ -3526,6 +3526,7 @@
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
+    <Compile Include="AccesoDatos\Nomina\ModeloVistaHorasHombre.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresenteBiometrico.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaRetornaAsistencia.cs" />
