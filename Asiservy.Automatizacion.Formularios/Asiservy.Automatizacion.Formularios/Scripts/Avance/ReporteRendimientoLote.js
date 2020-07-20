@@ -1,149 +1,11 @@
 ﻿var ListadoGeneral = [];
 
-var options = {
-    series: [
-        {
-            name: "High - 2013",
-            type: 'line',
-            data: [28, 29, 33, 36, 32, 32, 33]
-        },
-        {
-            name: "Low - 2013",
-            type: 'line',
-            data: [12, 11, 14, 18, 17, 13, 13]
-        }
-    ],
-    chart: {
-        height: 350,
-        type: 'line',
-        dropShadow: {
-            enabled: true,
-            color: '#000',
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 0.2
-        },
-        toolbar: {
-            show: false
-        }
-    },
-    colors: ['#005FFF', '#B548FF','#70F1D7'],
-    dataLabels: {
-        enabled: false,
-    },
-    stroke: {
-        curve: 'smooth'
-    },
-    title: {
-        text: 'LOMOS',
-        align: 'left'
-    },
-    grid: {
-        borderColor: '#e7e7e7',
-        row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-        },
-    },
-    markers: {
-        size: 1
-    },
-    xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        title: {
-            text: 'Month'
-        }
-    },
-    yaxis: {
-        title: {
-            text: 'Temperature'
-        }
-    },
-    legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        floating: true,
-        offsetY: -25,
-        offsetX: -5
-    }
-};
-
-
-var chartRendimientoLomo = new ApexCharts(document.querySelector("#chartRendimientoLomo"), options);
-chartRendimientoLomo.render();
-
-
-var chartRendimientoMiga = new ApexCharts(document.querySelector("#chartRendimientoMiga"), options);
-chartRendimientoMiga.render();
-
-
-var options = {
-    series: [{
-        name:'Rendimiento',
-        data: [21, 22,1]
-    }],
-    chart: {
-        height: 350,
-        type: 'bar',
-        //events: {
-        //    click: function (chart, w, e) {
-        //        // console.log(chart, w, e)
-        //    }
-        //}
-    },
-    colors: ['#005FFF', '#B548FF', '#70F1D7'],
-    plotOptions: {
-        bar: {
-            columnWidth: '45%',
-            distributed: true
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    legend: {
-        show: false
-    },
-    xaxis: {
-        categories: [
-            ['REAL'],
-            ['ESTANDAR'],
-            ['DIFERENCIA'],
-           
-        ],
-        labels: {
-            style: {
-                colors: ['#005FFF', '#70F7D7'],
-                fontSize: '12px'
-            }
-        }
-    }
-};
-
-var chartRendimientoGeneralLomo = new ApexCharts(document.querySelector("#chartRendimientoGeneralLomo"), options);
-chartRendimientoGeneralLomo.render();
-
-var chartRendimientoGeneralMiga = new ApexCharts(document.querySelector("#chartRendimientoGeneralMiga"), options);
-chartRendimientoGeneralMiga.render();
-
-var chartRendimientoGeneralTotal = new ApexCharts(document.querySelector("#chartRendimientoGeneralTotal"), options);
-chartRendimientoGeneralTotal.render();
-
-
 $(document).ready(function () {
-    CargarReporteAvance();
+   // CargarReporteAvance();
 });
 
 
 function CargarReporteAvance() {
-    var txtFecha = $('#txtFecha').val();
-    if ($("#txtFecha").val() == "") {
-        $("#txtFecha").css('borderColor', '#FA8072');
-        return;
-    } else {
-        $("#txtFecha").css('borderColor', '#ced4da');
-    }
     if ($("#selectTurno").val() == "") {
         $("#selectTurno").css('borderColor', '#FA8072');
         return;
@@ -159,7 +21,8 @@ function CargarReporteAvance() {
         url: "../Avance/ReporteRendimientoLotePartial",
         type: "GET",
         data: {
-            ddFecha: txtFecha,
+            FechaDesde: $("#fechaDesde").val(),
+            FechaHasta: $("#fechaHasta").val(),
             Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
@@ -177,7 +40,7 @@ function CargarReporteAvance() {
             } else {
                 $("#spinnerCargando").prop("hidden", true);
                 $('#DivTableReporteControlAvance').html(resultado);
-                config.opcionesDT.pageLength = 50;
+                config.opcionesDT.pageLength = 15;
                 config.opcionesDT.order = [[0, "asc"]];
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 $("#divChart").prop("hidden", false);
@@ -221,7 +84,7 @@ function CargarReporteAvance() {
                     RealTotalGeneral = RealTotalGeneral +(row.KiloRealLomoPorcentaje + row.KiloRealMigaPorcentaje);
                     EstandarTotalGeneral = EstandarTotalGeneral+ (row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje);
 
-                    Lote[i] = row.Lote;
+                    Lote[i] = moment(row.Fecha).format("YYYY-MM-DD") + ' ' + row.Lote;
                     TotalToneladas = TotalToneladas + row.PesoLote
                     count = count + 1;
 
@@ -350,3 +213,227 @@ function CargarReporteAvance() {
         }
     });
 }
+
+
+
+
+
+//FECHA DataRangePicker
+$(function () {
+    var start = moment();
+    var end = moment();
+    var mesesLetras = {
+        '01': "Enero",
+        '02': "Febrero",
+        '03': "Marzo",
+        '04': "Abril",
+        '05': "Mayo",
+        '06': "Junio",
+        '07': "Julio",
+        '08': "Agosto",
+        '09': "Septiembre",
+        '10': "Octubre",
+        '11': "Noviembre",
+        '12': "Diciembre"
+    }
+
+    function cb(start, end) {
+        var fechaMuestraDesde = mesesLetras[start.format('MM')] + ' ' + start.format('D') + ', ' + start.format('YYYY');
+        var fechaMuestraHasta = mesesLetras[end.format('MM')] + ' ' + end.format('D') + ', ' + end.format('YYYY');
+        $("#fechaDesde").val(start.format('YYYY-MM-DD'));
+        $("#fechaHasta").val(end.format('YYYY-MM-DD'));
+
+        $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        maxSpan: {
+            "days": 61
+        },
+        minDate: moment("01/10/2019", "DD/MM/YYYY"),
+        maxDate: moment(),
+        ranges: {
+            'Hoy': [moment(), moment()],
+            'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+            'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+            'Mes actual (hasta hoy)': [moment().startOf('month'), moment()],
+            'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "De",
+            "toLabel": "a",
+            "customRangeLabel": "Personalizada",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        }
+    }, cb);
+    cb(start, end);
+    
+});
+
+
+
+
+
+
+
+var options = {
+    series: [
+        {
+            name: "High - 2013",
+            type: 'line',
+            data: [28, 29, 33, 36, 32, 32, 33]
+        },
+        {
+            name: "Low - 2013",
+            type: 'line',
+            data: [12, 11, 14, 18, 17, 13, 13]
+        }
+    ],
+    chart: {
+        height: 350,
+        type: 'line',
+        dropShadow: {
+            enabled: true,
+            color: '#000',
+            top: 18,
+            left: 7,
+            blur: 10,
+            opacity: 0.2
+        },
+        toolbar: {
+            show: false
+        }
+    },
+    colors: ['#005FFF', '#B548FF', '#70F1D7'],
+    dataLabels: {
+        enabled: false,
+    },
+    stroke: {
+        curve: 'smooth'
+    },
+    title: {
+        text: 'LOMOS',
+        align: 'left'
+    },
+    grid: {
+        borderColor: '#e7e7e7',
+        row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+        },
+    },
+    markers: {
+        size: 1
+    },
+    xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        title: {
+            text: 'Month'
+        }
+    },
+    yaxis: {
+        title: {
+            text: 'Temperature'
+        }
+    },
+    legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true,
+        offsetY: -25,
+        offsetX: -5
+    }
+};
+
+
+var chartRendimientoLomo = new ApexCharts(document.querySelector("#chartRendimientoLomo"), options);
+chartRendimientoLomo.render();
+
+
+var chartRendimientoMiga = new ApexCharts(document.querySelector("#chartRendimientoMiga"), options);
+chartRendimientoMiga.render();
+
+
+var options = {
+    series: [{
+        name: 'Rendimiento',
+        data: [21, 22, 1]
+    }],
+    chart: {
+        height: 350,
+        type: 'bar',
+        //events: {
+        //    click: function (chart, w, e) {
+        //        // console.log(chart, w, e)
+        //    }
+        //}
+    },
+    colors: ['#005FFF', '#B548FF', '#70F1D7'],
+    plotOptions: {
+        bar: {
+            columnWidth: '45%',
+            distributed: true
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    xaxis: {
+        categories: [
+            ['REAL'],
+            ['ESTANDAR'],
+            ['DIFERENCIA'],
+
+        ],
+        labels: {
+            style: {
+                colors: ['#005FFF', '#70F7D7'],
+                fontSize: '12px'
+            }
+        }
+    }
+};
+
+var chartRendimientoGeneralLomo = new ApexCharts(document.querySelector("#chartRendimientoGeneralLomo"), options);
+chartRendimientoGeneralLomo.render();
+
+var chartRendimientoGeneralMiga = new ApexCharts(document.querySelector("#chartRendimientoGeneralMiga"), options);
+chartRendimientoGeneralMiga.render();
+
+var chartRendimientoGeneralTotal = new ApexCharts(document.querySelector("#chartRendimientoGeneralTotal"), options);
+chartRendimientoGeneralTotal.render();
+

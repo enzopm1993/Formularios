@@ -321,7 +321,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         }
 
 
-        public void GenerarRendimientoOrdenesApi(DateTime Fecha)
+        public void GenerarRendimientoOrdenesApi(DateTime FechaDesde, DateTime FechaHasta)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -330,7 +330,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 var ordendesFabricacion = (from p in entities.PROYECCION_PROGRAMACION
                                            join d in entities.PROYECCION_PROGRAMACION_DETALLE on p.IdProyeccionProgramacion equals d.IdProyeccionProgramacion
-                                           where p.FechaProduccion == Fecha && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           where p.FechaProduccion >= FechaDesde 
+                                           && p.FechaProduccion <= FechaHasta
+                                           && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                            select new { d.OrdenFabricacion }).Distinct().ToList();
 
                 //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
@@ -469,15 +471,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         }
 
-        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime Fecha, string Turno)
+        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos)
         {
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                GenerarRendimientoOrdenesApi(Fecha);
+                GenerarRendimientoOrdenesApi(FechaDesde,FechaHasta);
                 GenerarRendimientos();
                 List<spConsultaReporteRendimientoLote> Listado;
-                Listado = entities.spConsultaReporteRendimientoLote(Fecha, Turno).ToList();
+                Listado = entities.spConsultaReporteRendimientoLote(FechaDesde, FechaHasta, Turno, Barcos).ToList();
                 return Listado;
             }
 
