@@ -201,7 +201,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
                 foreach (int x in ordendesFabricacion)
                 {
-                    var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    var ListaLotes = detalleOrden.Where(o => o.OrdenFabricacion == x).ToList();
                     if(ListaLotes == null || ListaLotes.Count==0)
                     {
                         ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea2(x,Linea);
@@ -270,7 +270,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
                 foreach (int x in ordendesFabricacion)
                 {
-                    var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    var ListaLotes = detalleOrden.Where(o => o.OrdenFabricacion == x).ToList();
                     if (ListaLotes == null || ListaLotes.Count == 0)
                     {
                         ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOFCompleto(x);
