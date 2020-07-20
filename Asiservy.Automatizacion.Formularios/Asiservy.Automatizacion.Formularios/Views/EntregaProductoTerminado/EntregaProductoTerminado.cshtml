@@ -348,7 +348,9 @@
                     <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Material</label>
-                            @Html.DropDownList("selectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            <select class="form-control" id="selectMaterial">
+                                <option value="">Seleccione</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">

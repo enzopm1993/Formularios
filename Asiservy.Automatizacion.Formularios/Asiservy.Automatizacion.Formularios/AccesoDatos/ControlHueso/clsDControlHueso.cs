@@ -540,7 +540,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 GenerarRendimientos();
-                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().ToList();
+                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().Where(x=> x.Periodo == DateTime.Now.Year.ToString()).ToList();
             }
         }
 

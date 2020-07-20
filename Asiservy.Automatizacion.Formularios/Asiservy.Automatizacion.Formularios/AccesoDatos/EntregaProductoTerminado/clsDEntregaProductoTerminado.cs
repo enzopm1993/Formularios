@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
 {
     public class clsDEntregaProductoTerminado
     {
+        clsDApiProduccion clsDApiProduccion { get; set; } = null;
         #region PRODUCTO TERMINADO
         public List<spConsultaProductoTerminado> ConsultaControlProductoTerminado(DateTime Fecha, string LineaNegocio,string Linea)
         {
@@ -128,11 +130,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
         #endregion
 
         #region PRODUCTO TERMINADO MATERIALES
-        public List<spConsultaProductoTerminadoMateriales> ConsultaControlProductoTerminadoMateriales(int IdControl)
+        public List<spConsultaProductoTerminadoMateriales> ConsultaControlProductoTerminadoMateriales(int IdControl, int of)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                clsDApiProduccion = new clsDApiProduccion();
+                var materiales = clsDApiProduccion.ConsultaMaterialesOf(of);
                 var lista = entities.spConsultaProductoTerminadoMateriales(IdControl).ToList();
+
+                foreach(var l in lista)
+                {
+                    var m = materiales.FirstOrDefault(x => x.Codigo == l.CodigoMaterial);
+                    if (m != null)
+                    {
+                        l.Material = m.Descripcion;
+                    }
+
+                }
+
                 return lista;
             }
         }
