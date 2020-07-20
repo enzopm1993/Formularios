@@ -57,6 +57,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
+
+        public ActionResult ReporteHorasHombre()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.Pivot = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                               
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GenerarReporteHorasHombre(string fechaIni, string fechaFin)
+        {
+            try
+            {
+
+                ClsNomina clsNomina = new ClsNomina();
+
+                List<ModeloVistaHorasHombre> modeloVistaTablasPersonalPresente = clsNomina.ObtenerReporteHorasHombre(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
+
+
+                JsonResult result = Json(modeloVistaTablasPersonalPresente, JsonRequestBehavior.AllowGet);
+
+                result.MaxJsonLength = 50000000;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+
+
+
         public ActionResult DatosPersonales()
         {
             try

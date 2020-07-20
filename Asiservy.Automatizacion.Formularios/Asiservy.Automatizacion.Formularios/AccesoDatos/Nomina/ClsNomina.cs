@@ -36,6 +36,46 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
             return objTablas;
         }
 
+        public List<ModeloVistaHorasHombre> ObtenerReporteHorasHombre(DateTime fechaIni, DateTime fechaFin)
+        {
+            List<ModeloVistaHorasHombre> objRetorna = new List<ModeloVistaHorasHombre>();
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var rptData = db.ASY_ReporteHorasMovimientoPersonalDetallado(fechaIni, fechaFin).ToList();
+
+                foreach (ASY_ReporteHorasMovimientoPersonalDetallado_Result item in rptData)
+                {
+
+                    objRetorna.Add(new ModeloVistaHorasHombre
+                    {
+                        Fecha = String.Format("{0:dd/MM/yyyy}", item.Fecha),
+                        Cedula = item.Cedula,
+                        Nombre = item.NOMBRES,
+                        CodCentroCosto = item.CodCentroCosto,
+                        CentroCosto = item.CentroCosto,
+                        CodLinea = item.CodLinea,
+                        Linea = item.Linea,
+                        CodRecurso = item.CodRecurso,
+                        Recurso = item.Recurso,
+                        CodCargo = item.CodCargo,
+                        Cargo = item.Cargo,
+                        Turno = item.Turno,
+                       // HoraInico = item.INICIO,
+                        //HoraFin = item.FIN,
+                        HorasReloj = item.HORAS_RELOJ,
+                        DescuentoAlmuerzo = item.DESCUENTO_ALMUERZO,
+                        DescuentoCena = item.DESCUENTO_CENA,
+                        HorasLaboradas = item.HORAS_LABORADAS,
+                        NoFinAsistencia = item.NO_FIN_ASISTENCIA,
+                        TipoRol = item.TIPO_ROL
+                    });
+                }
+
+            }
+
+            return objRetorna;
+        }
+
         public sp_ObtenerInfoEmpleadoParaSAP_Result ObtenerInfoEmpleadoParaSAP(string cedula)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
