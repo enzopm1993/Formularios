@@ -95,6 +95,9 @@
                 @Html.DisplayNameFor(model => model.Miga)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Protocolo)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
 
@@ -219,6 +222,13 @@
                 }
                     <td class="text-center">
                         @if (item.Miga == true)
+                        {
+                            <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+
+                        }
+                    </td>
+                      <td class="text-center">
+                        @if (item.Protocolo == true)
                         {
                             <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
 

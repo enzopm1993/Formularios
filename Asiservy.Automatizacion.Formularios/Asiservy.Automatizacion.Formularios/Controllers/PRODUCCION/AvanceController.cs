@@ -952,7 +952,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public ActionResult ReporteRendimientoLotePartial(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos)
+        public ActionResult ReporteRendimientoLotePartial(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, bool Protocolo)
         {
             try
             {
@@ -967,7 +967,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!string.IsNullOrEmpty(Barcos)){
                     Barcos = Barcos.TrimEnd(',');
                 }
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(FechaDesde,FechaHasta, Turno, Barcos);
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(FechaDesde,FechaHasta, Turno, Barcos, Protocolo);
                 if(FechaDesde == FechaHasta)
                 {
                     ViewBag.Model = model;
