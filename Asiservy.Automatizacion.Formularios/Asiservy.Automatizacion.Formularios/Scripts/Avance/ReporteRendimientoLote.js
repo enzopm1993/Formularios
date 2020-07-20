@@ -2,7 +2,50 @@
 
 $(document).ready(function () {
    // CargarReporteAvance();
+
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2();
+    });
 });
+
+
+function CargarBarcos() {
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+    $.ajax({
+        url: "../Avance/ReporteRendimientoLoteConsultaBarcos",
+        type: "GET",
+        data: {
+            FechaDesde: $("#fechaDesde").val(),
+            FechaHasta: $("#fechaHasta").val(),
+            Turno: $("#selectTurno").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "1") {
+                $("#SelectBarco").empty();
+            } else {
+                //console.log(resultado);
+                $("#SelectBarco").empty();
+                $.each(resultado, function (key, r) {
+                    $("#SelectBarco").append('<option value=' + r.IdBarco + '>' + r.Nombre + '</option>');
+                });
+            }   
+        
+        },
+            error: function (resultado) {
+                MensajeError(resultado.responseText, false);
+                $('#btnConsultar').prop("disabled", false);
+                CerrarModalCargando();
+            }
+        });
+}
 
 
 function CargarReporteAvance() {
@@ -17,13 +60,21 @@ function CargarReporteAvance() {
     $('#divMensaje').html("");
     
     MostrarModalCargando();
+    var ListaBarcos="";
+    $("#SelectBarco").val().forEach(function (e, i) {
+        ListaBarcos = ListaBarcos+e+',';
+    });
+    //console.log($("#SelectBarco").val());
+    //console.log(ListaBarcos);
+
     $.ajax({
         url: "../Avance/ReporteRendimientoLotePartial",
         type: "GET",
         data: {
             FechaDesde: $("#fechaDesde").val(),
             FechaHasta: $("#fechaHasta").val(),
-            Turno: $("#selectTurno").val()
+            Turno: $("#selectTurno").val(),
+            Barcos: ListaBarcos
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -65,7 +116,7 @@ function CargarReporteAvance() {
                 var EstandarTotalGeneral = 0;
 
                 var Lote = [];
-               // console.log(ListadoGeneral);
+              //  console.log(ListadoGeneral);
                 ListadoGeneral.forEach(function (row, i) {
                     RealLomo[i] = row.KiloRealLomoPorcentaje.toFixed(2);
                     EstandarLomo[i] = row.KiloStdLomoPorcentaje.toFixed(2);
@@ -75,21 +126,27 @@ function CargarReporteAvance() {
                     EstandarMiga[i] = row.KiloStdMigaPorcentaje.toFixed(2);
                     DiferenciaMiga[i] = (row.KiloRealMigaPorcentaje - row.KiloStdMigaPorcentaje).toFixed(2);
 
-                    RealLomoGeneral = RealLomoGeneral+row.KiloRealLomoPorcentaje;
-                    EstandarLomoGeneral = EstandarLomoGeneral+ row.KiloStdLomoPorcentaje;
+                    RealLomoGeneral = RealLomoGeneral + row.KiloRealLomoPorcentaje;
+                    EstandarLomoGeneral = EstandarLomoGeneral + row.KiloStdLomoPorcentaje;
 
-                    RealMigaGeneral = RealMigaGeneral+row.KiloRealMigaPorcentaje;
-                    EstandarMigaGeneral = EstandarMigaGeneral+ row.KiloStdMigaPorcentaje;
+                    RealMigaGeneral = RealMigaGeneral + row.KiloRealMigaPorcentaje;
+                    EstandarMigaGeneral = EstandarMigaGeneral + row.KiloStdMigaPorcentaje;
 
-                    RealTotalGeneral = RealTotalGeneral +(row.KiloRealLomoPorcentaje + row.KiloRealMigaPorcentaje);
-                    EstandarTotalGeneral = EstandarTotalGeneral+ (row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje);
+                    RealTotalGeneral = RealTotalGeneral + (row.KiloRealLomoPorcentaje + row.KiloRealMigaPorcentaje);
+                    EstandarTotalGeneral = EstandarTotalGeneral + (row.KiloStdLomoPorcentaje + row.KiloStdMigaPorcentaje);
 
-                    Lote[i] = moment(row.Fecha).format("YYYY-MM-DD") + ' ' + row.Lote;
+                    if ($("#fechaDesde").val() == $("#fechaHasta").val()) {
+                        Lote[i] = row.Lote;
+                    } else {
+                        Lote[i] = moment(row.Fecha).format("YYYY-MM-DD");
+                    }
                     TotalToneladas = TotalToneladas + row.PesoLote
                     count = count + 1;
 
                 });
-                //console.log(RealLomo);
+                
+                
+                //console.log(Lote);
                 //console.log(RealMiga);
 
                 $("#txtTotalToneladas").html(TotalToneladas+" Kl");
@@ -140,7 +197,7 @@ function CargarReporteAvance() {
                 chartRendimientoMiga.updateSeries(_serieMiga)
                 chartRendimientoMiga.updateOptions({
                     title: {
-                        text: 'MIGAS',
+                        text: 'MIGAS %',
                         align: 'left'
                     },
                     xaxis: {
@@ -244,6 +301,7 @@ $(function () {
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
 
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+        CargarBarcos();
     }
 
     $('#reportrange').daterangepicker({
@@ -338,12 +396,15 @@ var options = {
     colors: ['#005FFF', '#B548FF', '#70F1D7'],
     dataLabels: {
         enabled: false,
+        formatter: function (val) {
+            return val + "%";
+        },
     },
     stroke: {
         curve: 'smooth'
     },
     title: {
-        text: 'LOMOS',
+        text: 'LOMOS %',
         align: 'left'
     },
     grid: {
@@ -402,12 +463,23 @@ var options = {
     colors: ['#005FFF', '#B548FF', '#70F1D7'],
     plotOptions: {
         bar: {
+            dataLabels: {
+                position: 'top', // top, center, bottom
+            },
             columnWidth: '45%',
             distributed: true
         }
     },
     dataLabels: {
-        enabled: false
+        enabled: true,
+        formatter: function (val) {
+            return val + "%";
+        },
+        offsetY: -20,
+        style: {
+            fontSize: '12px',
+            colors: ["#304758"]
+        }
     },
     legend: {
         show: false

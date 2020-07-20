@@ -155,7 +155,8 @@ function CargarProcesoDetalleMaterial() {
         url: "../EntregaProductoTerminado/ReporteControlConsumoMaterialPartial",
         type: "GET",
         data: {
-            IdControl: ListadoControl.IdProductoTerminado
+            IdControl: ListadoControl.IdProductoTerminado,
+            OrdenFabricacion: ListadoControl.OrdenFabricacion
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -333,7 +334,7 @@ $(function () {
         }
     }, cb);
     cb(start, end);
-    FiltrarAprobadosFecha();
+    //FiltrarAprobadosFecha();
 });
 
 

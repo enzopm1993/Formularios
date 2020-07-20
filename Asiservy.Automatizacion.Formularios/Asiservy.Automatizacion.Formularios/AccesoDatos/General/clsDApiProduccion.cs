@@ -159,5 +159,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return Lista;
         }
 
+        public List<Material> ConsultaMaterialesOf(int Orden)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            RestRequest request;
+            request = new RestRequest("/api/Produccion/MaterialesOrden/" + Orden, Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            List<Material> Lista = null;
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return Lista;
+            }
+            Lista = JsonConvert.DeserializeObject<List<Material>>(content);
+            return Lista;
+        }
+
     }
 }
