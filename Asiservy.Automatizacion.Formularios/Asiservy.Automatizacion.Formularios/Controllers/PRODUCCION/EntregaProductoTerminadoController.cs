@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDClasificador clsDClasificador { get; set; } = null;
         clsDLogin clsDLogin { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
+        clsDApiProduccion clsDApiProduccion { get; set; } = null;
         clsDEntregaProductoTerminado clsDEntregaProductoTerminado { get; set; } = null;
         clsDPeriodo clsDPeriodo { get; set; } = null;
         
@@ -42,11 +43,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 clsDClasificador = new clsDClasificador();
+                clsDApiProduccion = new clsDApiProduccion();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoProductoTerminado);
-                ViewBag.Material = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMaterialesProductoTerminado);
+               // ViewBag.Material = clsDApiProduccion.ConsultaMaterialesOf()
                 ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
 
                 clsDLogin = new clsDLogin();
@@ -255,7 +257,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
         #region CONSUMO MATERIALES
-        public ActionResult ControlConsumoMaterialPartial(int IdControl)
+        public ActionResult ControlConsumoMaterialPartial(int IdControl, int OrdenFabricacion)
         {
             try
             {
@@ -266,7 +268,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoMateriales(IdControl);
+               
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoMateriales(IdControl, OrdenFabricacion);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -1133,7 +1136,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        public ActionResult ReporteControlConsumoMaterialPartial(int IdControl)
+        public ActionResult ReporteControlConsumoMaterialPartial(int IdControl, int OrdenFabricacion)
         {
             try
             {
@@ -1144,7 +1147,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoMateriales(IdControl);
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoMateriales(IdControl, OrdenFabricacion);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -1296,6 +1299,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        public JsonResult ConsultarMateriales(int OF)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (OF == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                clsDApiProduccion = new clsDApiProduccion();
+                var result = clsDApiProduccion.ConsultaMaterialesOf(OF);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha, string Linea)
         {

@@ -264,14 +264,14 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="5.375" PointY="33.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.75" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Width="1.5" PointX="54.125" PointY="36" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.FONDO_LOGIN" Width="1.5" PointX="37.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="22.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -109,17 +109,23 @@ function GuardarProyeccionDetalle() {
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
             Marea: $("#txtMarea").val(),
             Barco: $("#txtBarco").val(),
-            proceso: 1
+            proceso: 1,
+            Miga: $("#chkMiga").prop("checked"),
+            Protocolo: $("#chkProtocolo").prop("checked"),
+            FechaProduccion: $("#txtFechaProduccion").val()
 
         },
         success: function (resultado) {         
             if (resultado == "101") {
                 window.location.reload();
             }
-            CargarProyeccionProgramacion();
-            Limpiar();
-            MensajeCorrecto(resultado);
-
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                CargarProyeccionProgramacion();
+                Limpiar();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -146,6 +152,9 @@ function GenerarProyeccionProgramacion() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else
             if (resultado > 0) {
                 $("#IdProyeccion").val(resultado);
                 GuardarProyeccionDetalle();
@@ -271,6 +280,8 @@ function Limpiar() {
     $("#txtMarea").prop('selectedIndex', 0);
     $("#txtBarco").prop('selectedIndex', 0).change();
     $('#Observacion').val("");   
+    $('#chkMiga').prop("checked", false); 
+    $('#chkProtocolo').prop("checked", false); 
     $('#txtOrdenFabricacion').val("");   
     $('#IdProyeccionDetalle').val(0);
     $("#btnEliminarDetalle").prop("hidden", true);
@@ -291,6 +302,8 @@ function SeleccionarProyeccionProgramacion(model) {
     $('#IdProyeccionDetalle').val(model.IdProyeccionProgramacionDetalle);
     $("#SelectOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtMarea").val(model.CodMarea);
+    $('#chkMiga').prop("checked", model.Miga); 
+    $('#chkProtocolo').prop("checked", model.Protocolo); 
     $("#txtBarco").val(model.CodBarco).change();
     $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
     $("#btnEliminarDetalle").prop("hidden", false);
@@ -304,16 +317,20 @@ function InactivarRegistro(){
         type: "GET",
         data:
         {
-            id: $('#IdProyeccion').val()
+            id: $('#IdProyeccion').val(),
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            Limpiar();
-            ValidaProyeccion();
-            MensajeCorrecto(resultado);
-
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                Limpiar();
+                ValidaProyeccion();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -331,15 +348,19 @@ function FinalizarProyeccionProgramacion() {
         data:
         {
             id: $('#IdProyeccion').val(),
-            proceso:1
+            proceso: 1,
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                Limpiar();
+                ValidaProyeccion();
+                MensajeCorrecto(resultado);
             }
-            Limpiar();
-            ValidaProyeccion();
-            MensajeCorrecto(resultado);
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -380,15 +401,20 @@ function InactivarDetalle() {
         type: "GET",
         data:
         {
-            id: $('#IdProyeccionDetalle').val()  
+            id: $('#IdProyeccionDetalle').val(),
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            CargarProyeccionProgramacion();
-            Limpiar();
-            MensajeCorrecto(resultado);
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                CargarProyeccionProgramacion();
+                Limpiar();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);          

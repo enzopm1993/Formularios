@@ -471,7 +471,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         }
 
-        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos)
+        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, bool Protocolo)
         {
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -479,8 +479,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 GenerarRendimientoOrdenesApi(FechaDesde,FechaHasta);
                 GenerarRendimientos();
                 List<spConsultaReporteRendimientoLote> Listado;
-                Listado = entities.spConsultaReporteRendimientoLote(FechaDesde, FechaHasta, Turno, Barcos).ToList();
+                Listado = entities.spConsultaReporteRendimientoLote(FechaDesde, FechaHasta, Turno, Barcos, Protocolo).ToList();
                 return Listado;
+            }
+
+        }
+
+        public List<BARCO> ConsultaReporteRendimientoPorLoteBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno)
+        {
+            clsDApiProduccion = new clsDApiProduccion();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Barcos = (from p in entities.PROYECCION_PROGRAMACION
+                                           join d in entities.PROYECCION_PROGRAMACION_DETALLE on p.IdProyeccionProgramacion equals d.IdProyeccionProgramacion
+                                           join b in entities.BARCO on d.Barco equals b.IdBarco+""
+                                           where p.FechaProduccion >= FechaDesde
+                                           && p.FechaProduccion <= FechaHasta
+                                           && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           select b).Distinct().ToList();
+
+                return Barcos;
             }
 
         }
@@ -522,7 +540,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 GenerarRendimientos();
-                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().ToList();
+                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().Where(x=> x.Periodo == DateTime.Now.Year.ToString()).ToList();
             }
         }
 

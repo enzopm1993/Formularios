@@ -51,7 +51,7 @@ function CargarReporte() {
 
 
 function CerrarLote(m) {
-    console.log(m);
+   // console.log(m);
     model = m;
     $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtLote").val(model.Lote);
@@ -64,15 +64,20 @@ function GuardarCerrarLote() {
         url: "../ProyeccionProgramacion/CerrarLote",
         type: "POST",
         data: {
-            IdProyeccionProgramacionDetalle: model.IdProyeccionProgramacionDetalle
+            IdProyeccionProgramacionDetalle: model.IdProyeccionProgramacionDetalle,
+            Fecha: model.FechaProduccion
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#modalCambiarLote").modal("hide");
-            MensajeCorrecto(resultado);
-            CargarReporte();
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                $("#modalCambiarLote").modal("hide");
+                MensajeCorrecto(resultado);
+                CargarReporte();
+            }
         },
         error: function (resultado) {
             MensajeError(resultado.responseText);

@@ -3526,6 +3526,7 @@
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
+    <Compile Include="AccesoDatos\Nomina\ModeloVistaHorasHombre.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresenteBiometrico.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaRetornaAsistencia.cs" />
@@ -3702,6 +3703,7 @@
     <Compile Include="Models\Produccion\EntradaYSalidaDeMateriales\EntradaSalidaMaterialViewModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
+    <Compile Include="Models\Produccion\Material.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
     <Compile Include="Models\Produccion\Rendimiento.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />

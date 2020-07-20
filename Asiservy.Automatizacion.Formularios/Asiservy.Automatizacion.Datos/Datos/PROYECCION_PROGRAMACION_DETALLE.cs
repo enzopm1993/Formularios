@@ -48,6 +48,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> Marea { get; set; }
         public string RecetaRoceado { get; set; }
         public bool EstadoLote { get; set; }
+        public Nullable<bool> Miga { get; set; }
+        public Nullable<bool> Protocolo { get; set; }
     
         public virtual PROYECCION_PROGRAMACION PROYECCION_PROGRAMACION { get; set; }
     }
