@@ -128,7 +128,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                         ListDetalleCoches = DetalleCoches,
                         ListTipoEsterilizacion = TiposEsterilizacion
                     };
-                    ViewBag.Registros = 1;
+                    ViewBag.Registros = detallereporte.Count;
                 }
                 
                 return PartialView(Reporte);

@@ -1,19 +1,34 @@
 ﻿$(function () {
 
-
+    var fechaMuestraDesdeTitulo = '';
+    var fechaMuestraHastaTitulo = '';
+    var fechaMuestraDesdeTituloCerrados = '';
+    var fechaMuestraHastaTituloCerrados = '';
     var optionsDepartamentos = {
+        colors: ['#b84644'],
         chart: {
             height: 350,
             type: 'bar',
         },
         plotOptions: {
             bar: {
+                distributed: true,
                 columnWidth: '50%',
-                endingShape: 'rounded'
+                endingShape: 'rounded',
+                colors: {
+                    ranges: [{
+                        from: 0,
+                        to: 0,
+                        color: undefined
+                    }],
+                    backgroundBarColors: [],
+                    backgroundBarOpacity: 1,
+                    backgroundBarRadius: 0,
+                }
             }
         },
         dataLabels: {
-            enabled: false
+            enabled: true
         },
         stroke: {
             width: 2
@@ -44,6 +59,7 @@
             }
         },
         fill: {
+           
             type: 'gradient',
             gradient: {
                 shade: 'light',
@@ -55,8 +71,7 @@
                 opacityTo: 0.85,
                 stops: [50, 0, 100]
             },
-        },
-
+        }
     }
 
 
@@ -95,6 +110,7 @@
     var iconSearch = "fa-search"
     var start = moment();
     var end = moment();
+
     var mesesLetras = {
         '01': "Enero",
         '02': "Febrero",
@@ -117,6 +133,12 @@
         $("#fechaDesde").val(start.format('YYYY-MM-DD'));
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
 
+        fechaMuestraDesdeTitulo = fechaMuestraDesde;
+        fechaMuestraHastaTitulo = fechaMuestraHasta;
+
+   
+
+       
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
     }
 
@@ -171,6 +193,74 @@
     }, cb);
 
     cb(start, end);
+    
+
+    var startCerrados = moment();
+    var endCerrados = moment();
+
+    function cbCerrados(start, end) {
+        var fechaMuestraDesde = mesesLetras[start.format('MM')] + ' ' + start.format('D') + ', ' + start.format('YYYY');
+        var fechaMuestraHasta = mesesLetras[end.format('MM')] + ' ' + end.format('D') + ', ' + end.format('YYYY');
+        $("#fechaDesdeCerrados").val(start.format('YYYY-MM-DD'));
+        $("#fechaHastaCerrados").val(end.format('YYYY-MM-DD'));
+        fechaMuestraDesdeTituloCerrados = fechaMuestraDesde;
+        fechaMuestraHastaTituloCerrados = fechaMuestraHasta;
+        $('#reportrangeCerrados span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);       
+    }
+
+
+    $('#reportrangeCerrados').daterangepicker({
+        startDate: startCerrados,
+        endDate: endCerrados,
+        minDate: moment("01/06/2020", "DD/MM/YYYY"),
+        maxDate: moment(),
+        ranges: {
+            'Hoy': [moment(), moment()],
+            'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+            'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+            'Mes actual (hasta hoy)': [moment().startOf('month'), moment()],
+            'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "De",
+            "toLabel": "a",
+            "customRangeLabel": "Personalizada",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        }
+    }, cbCerrados);
+
+    cbCerrados(start, end);
+
+
     var table = $("#tblDataTable");
 
     $("#generarReporte").click(function () {
@@ -193,17 +283,27 @@
         $("#generarReporte").addClass("btnWait");
         $.ajax({
             contentType: "application/json; charset=utf-8",
-            url: "../Soporte/ObtenerMarcacionesDia",
+            url: "../Soporte/ObtenerSoportesReporte",
             type: "GET",
             data: {
                 'fechaIni': fechaDesde,
                 'fechaFin': fechaHasta
             },
             success: function (resultado) {
+
+
                 $("#generarReporte").attr('href', "#");
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarReporte").removeClass("btnWait");
+
+                if (fechaMuestraDesdeTitulo == fechaMuestraHastaTitulo) {
+                    $("#titleTabFecha").html(' - ' + fechaMuestraHastaTitulo);
+                    $("#titleTabFecha2").html(' - ' + fechaMuestraHastaTitulo);
+                } else {
+                    $("#titleTabFecha").html(' - ' + fechaMuestraDesdeTitulo + ' - ' + fechaMuestraHastaTitulo);
+                    $("#titleTabFecha2").html(' - ' + fechaMuestraDesdeTitulo + ' - ' + fechaMuestraHastaTitulo);
+                }
 
                 $("#tblDataTable tbody").empty();
 
@@ -217,8 +317,21 @@
                     { data: 'Estado' },
                     { data: 'AgenteAsignado' },
                     { data: 'FechaCreacion' },
+                    { data: 'HoraCreacion' },
+                    { data: 'FechaAsignacion' },
+                    { data: 'HoraAsignacion' },
                     { data: 'FechaCierre' },
-                    { data: 'Dias' }
+                    { data: 'HoraCierre' },
+                    { data: 'FechaInicioSoporte' },
+                    { data: 'HoraInicioSoporte' },
+                    { data: 'FechaFinSoporte' },
+                    { data: 'HoraFinSoporte' },
+                    { data: 'TiempoTicket' },
+                    { data: 'TiempoAsignacionCierre' },
+                    { data: 'TiempoSoporte' },
+                    { data: 'TiempoCreacionFinSoporte' },
+                    { data: 'TiempoTicketLetras' }
+                   
                 ];
                 table.DataTable().destroy();
                 table.DataTable(config.opcionesDT);
@@ -229,12 +342,25 @@
 
                 var permisosTotalLabels = [];
                 var permisosTotalCantidades = [];
+                var coloresDeps = [];
+
 
                 $.each(resultado.TotalTicketsPorDep, function (i, it) {
                     permisosTotalLabels[i] = it.Descripcion;
                     permisosTotalCantidades[i] = it.Total;
+
+                    $.each(resultado.DepartamentoColores, function (i0, dep) {
+                        if (dep.Codigo == it.Descripcion) {
+                            coloresDeps[i] = dep.Descripcion
+                        }
+                    });  
                 });  
+
+
+                
+
                 chartDepartamentos.updateOptions({
+                    colors: coloresDeps,
                     xaxis: {
                         categories: permisosTotalLabels,
                     }
@@ -406,9 +532,6 @@
                             ],
                             "rows": [
                                 {
-                                    "uniqueName": "AgenteAsignado"
-                                },
-                                {
                                     "uniqueName": "Departamento"
                                 },
                                 {
@@ -473,6 +596,321 @@
 
     });
 
+   
+
+
+    var chartDepartamentos_cerrados= new ApexCharts(document.querySelector("#chartPorDepartamento-cerrados"), optionsDepartamentos);
+    chartDepartamentos_cerrados.render();
+
+    var tableCerrados = $("#tblDataTableCerrados");
+    $("#generarReporteCerrados").click(function () {
+        tableCerrados.DataTable().destroy();
+        tableCerrados.DataTable().clear();
+        tableCerrados.DataTable().draw();
+
+        var fechaDesde = $("#fechaDesdeCerrados").val();
+        var fechaHasta = $("#fechaHastaCerrados").val();
+       
+        var f1 = moment(fechaDesde);
+        var f2 = moment(fechaHasta);
+        var diffDays = f2.diff(f1, 'days');
+
+
+        $("#generarReporteCerrados").attr('href', "javascript:void(0)");
+        $("#iconSearchCerrados").removeClass(iconSearch);
+        $("#iconSearchCerrados").addClass(iconLoader);
+        $("#generarReporteCerrados").addClass("btnWait");
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: "../Soporte/ObtenerSoportesReporteCerrados",
+            type: "GET",
+            data: {
+                'fechaIni': fechaDesde,
+                'fechaFin': fechaHasta
+            },
+            success: function (resultado) {
+
+
+                $("#generarReporteCerrados").attr('href', "#");
+                $("#iconSearchCerrados").removeClass(iconLoader);
+                $("#iconSearchCerrados").addClass(iconSearch);
+                $("#generarReporteCerrados").removeClass("btnWait");
+
+                if (fechaMuestraDesdeTituloCerrados == fechaMuestraHastaTituloCerrados) {
+                    $("#titleTabFechaCerrados").html(' - ' + fechaMuestraHastaTituloCerrados);
+                    $("#titleTabFechaCerrados2").html(' - ' + fechaMuestraHastaTituloCerrados);
+                } else {
+                    $("#titleTabFechaCerrados").html(' - ' + fechaMuestraDesdeTituloCerrados + ' - ' + fechaMuestraHastaTituloCerrados);
+                    $("#titleTabFechaCerrados2").html(' - ' + fechaMuestraDesdeTituloCerrados + ' - ' + fechaMuestraHastaTituloCerrados);
+                }
+
+                $("#tblDataTableCerrados tbody").empty();
+
+                config.opcionesDT.order = [];
+                config.opcionesDT.columns = [
+                    { data: 'ID' },
+                    { data: 'Departamento' },
+                    { data: 'Usuario' },
+                    { data: 'Ticket' },
+                    { data: 'Asunto' },
+                    { data: 'Estado' },
+                    { data: 'AgenteAsignado' },
+                    { data: 'FechaCreacion' },
+                    { data: 'HoraCreacion' },
+                    { data: 'FechaAsignacion' },
+                    { data: 'HoraAsignacion' },
+                    { data: 'FechaCierre' },
+                    { data: 'HoraCierre' },
+                    { data: 'FechaInicioSoporte' },
+                    { data: 'HoraInicioSoporte' },
+                    { data: 'FechaFinSoporte' },
+                    { data: 'HoraFinSoporte' },
+                    { data: 'TiempoTicket' },
+                    { data: 'TiempoAsignacionCierre' },
+                    { data: 'TiempoSoporte' },
+                    { data: 'TiempoCreacionFinSoporte' },
+                    { data: 'TiempoTicketLetras' }
+
+                ];
+                tableCerrados.DataTable().destroy();
+                tableCerrados.DataTable(config.opcionesDT);
+                tableCerrados.DataTable().clear();
+                tableCerrados.DataTable().rows.add(resultado.DataPlana);
+                tableCerrados.DataTable().draw();
+
+
+                var permisosTotalLabels = [];
+                var permisosTotalCantidades = [];
+                var coloresDeps = [];
+
+
+                $.each(resultado.TotalTicketsPorDep, function (i, it) {
+                    permisosTotalLabels[i] = it.Descripcion;
+                    permisosTotalCantidades[i] = it.Total;
+
+                    $.each(resultado.DepartamentoColores, function (i0, dep) {
+                        if (dep.Codigo == it.Descripcion) {
+                            coloresDeps[i] = dep.Descripcion
+                        }
+                    });
+                });
+
+
+
+
+                chartDepartamentos_cerrados.updateOptions({
+                    colors: coloresDeps,
+                    xaxis: {
+                        categories: permisosTotalLabels,
+                    }
+                });
+                chartDepartamentos_cerrados.updateSeries([{
+                    name: 'Tickets',
+                    data: permisosTotalCantidades
+                }]);
+
+
+              
+
+                var pivot_agente2 = new WebDataRocks({
+                    container: "#wdr-component-agente-cerrados",
+                    toolbar: true,
+                    beforetoolbarcreated: customizeToolbar,
+                    report: {
+                        dataSource: {
+                            data: resultado.DataPlana
+                        },
+                        "slice": {
+                            "reportFilters": [
+                                {
+                                    "uniqueName": "FechaCierre.Year"
+                                },
+                                {
+                                    "uniqueName": "FechaCierre.Month"
+                                },
+                                {
+                                    "uniqueName": "FechaCierre.Day"
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "uniqueName": "AgenteAsignado"
+                                },
+                                {
+                                    "uniqueName": "Departamento"
+                                },
+                                {
+                                    "uniqueName": "Usuario"
+                                },
+                                {
+                                    "uniqueName": "Asunto"
+                                }
+                            ],
+                            "columns": [
+                                {
+                                    "uniqueName": "Measures"
+                                }
+                            ],
+                            "measures": [
+                                {
+                                    "uniqueName": "Ticket",
+                                    "aggregation": "count"
+                                },
+                                {
+                                    "uniqueName": "ID",
+                                    "aggregation": "count",
+                                    "active": false
+                                }
+                            ]
+
+                        }
+                    },
+                    global: {
+                        // replace this path with the path to your own translated file
+                        localization: config.baseUrl + "Content/webdatarocks/es.json"
+                    }
+                });
+
+                var pivot_depa2 = new WebDataRocks({
+                    container: "#wdr-component-depa-cerrados",
+                    toolbar: true,
+                    beforetoolbarcreated: customizeToolbar,
+                    report: {
+                        dataSource: {
+                            data: resultado.DataPlana
+                        },
+                        "slice": {
+                            "reportFilters": [
+                                {
+                                    "uniqueName": "FechaCierre.Year"
+                                },
+                                {
+                                    "uniqueName": "FechaCierre.Month"
+                                },
+                                {
+                                    "uniqueName": "FechaCierre.Day"
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "uniqueName": "Departamento"
+                                },
+                                {
+                                    "uniqueName": "AgenteAsignado"
+                                },
+                                {
+                                    "uniqueName": "Usuario"
+                                },
+                                {
+                                    "uniqueName": "Asunto"
+                                }
+                            ],
+                            "columns": [
+                                {
+                                    "uniqueName": "Measures"
+                                }
+                            ],
+                            "measures": [
+                                {
+                                    "uniqueName": "Ticket",
+                                    "aggregation": "count"
+                                },
+                                {
+                                    "uniqueName": "ID",
+                                    "aggregation": "count",
+                                    "active": false
+                                }
+                            ]
+
+                        }
+                    },
+                    global: {
+                        // replace this path with the path to your own translated file
+                        localization: config.baseUrl + "Content/webdatarocks/es.json"
+                    }
+                });
+
+                var pivot_dias_agente2 = new WebDataRocks({
+                    container: "#wdr-component-dias-agente-cerrados",
+                    toolbar: true,
+                    beforetoolbarcreated: customizeToolbar,
+                    report: {
+                        dataSource: {
+                            data: resultado.DataPlana
+                        },
+                        "slice": {
+                            "reportFilters": [
+                                {
+                                    "uniqueName": "FechaCierre.Year"
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "uniqueName": "Departamento"
+                                },
+                                {
+                                    "uniqueName": "Usuario"
+                                },
+                                {
+                                    "uniqueName": "Asunto"
+                                }
+                            ],
+                            "columns": [
+                                {
+                                    "uniqueName": "Measures"
+                                },
+                                {
+                                    "uniqueName": "FechaCierre.Month"
+                                },
+                                {
+                                    "uniqueName": "FechaCierre.Day"
+                                }
+                            ],
+                            "measures": [
+                                {
+                                    "uniqueName": "Ticket",
+                                    "aggregation": "count",
+                                    "availableAggregations": [
+                                        "count",
+                                        "distinctcount"
+                                    ]
+                                },
+                                {
+                                    "uniqueName": "ID",
+                                    "aggregation": "count",
+                                    "active": false
+                                }
+                            ]
+
+                        }
+                    },
+                    global: {
+                        // replace this path with the path to your own translated file
+                        localization: config.baseUrl + "Content/webdatarocks/es.json"
+                    }
+                });
+
+                $("#txtTkTotales-cerrados").html(resultado.Totales.Totales);
+                $("#txtTiempoSoporte").html(0);
+                $("#txtTiempoEspera").html(0);
+
+
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                $("#generarReporteCerrados").attr('href', "#");
+                $("#iconSearchCerrados").removeClass(iconLoader);
+                $("#iconSearchCerrados").addClass(iconSearch);
+                $("#generarReporteCerrados").removeClass("btnWait");
+                MensajeError(resultado.statusText, false);
+
+            }
+        });
+
+        return false;
+
+    });
+
     function customizeToolbar(toolbar) {
         var tabs = toolbar.getTabs(); // get all tabs from the toolbar
         toolbar.getTabs = function () {
@@ -483,5 +921,8 @@
             return tabs;
         }
     }
+
+    
     $("#generarReporte").trigger('click');
+    $("#generarReporteCerrados").trigger('click');
 });
