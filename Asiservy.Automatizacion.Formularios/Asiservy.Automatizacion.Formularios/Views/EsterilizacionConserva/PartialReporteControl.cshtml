@@ -191,9 +191,12 @@
                         <tbody>
                             <tr>
                                 <td><strong>fecha de producción:</strong> <label id="lblFechap"></label></td>
-                                @*<td><strong>Turno:</strong> <label id="lblturno"></label></td>
+                                <td><strong>@if (!string.IsNullOrEmpty(Model.ListDetalleReporte.FirstOrDefault().NOMBRES)) { @Model.ListDetalleReporte.FirstOrDefault().NOMBRES}</strong></td>
+                                <td>Unidad de presión autoclave @if (Model.ListDetalleReporte.FirstOrDefault().UnidadPresion == true) { <i class="fas fa-check-square"></i>}</td>        
+                                <td>Autoclave convencionales @if (Model.ListDetalleReporte.FirstOrDefault().AutoclaveConvencional == true){<i class="fas fa-check-square"></i>} </td>
+    @*<td><strong>Turno:</strong> <label id="lblturno"></label></td>
 
-                                <td><strong>Línea:</strong> <label id="lblLinea"></label></td>*@
+        <td><strong>Línea:</strong> <label id="lblLinea"></label></td>*@
                             </tr>
                            
                         </tbody>
