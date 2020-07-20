@@ -109,7 +109,8 @@ function GuardarProyeccionDetalle() {
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
             Marea: $("#txtMarea").val(),
             Barco: $("#txtBarco").val(),
-            proceso: 1
+            proceso: 1,
+            Miga: $("#chkMiga").prop("checked")
 
         },
         success: function (resultado) {         
@@ -271,6 +272,7 @@ function Limpiar() {
     $("#txtMarea").prop('selectedIndex', 0);
     $("#txtBarco").prop('selectedIndex', 0).change();
     $('#Observacion').val("");   
+    $('#chkMiga').prop("checked",false);   
     $('#txtOrdenFabricacion').val("");   
     $('#IdProyeccionDetalle').val(0);
     $("#btnEliminarDetalle").prop("hidden", true);
@@ -291,6 +293,7 @@ function SeleccionarProyeccionProgramacion(model) {
     $('#IdProyeccionDetalle').val(model.IdProyeccionProgramacionDetalle);
     $("#SelectOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtMarea").val(model.CodMarea);
+    $('#chkMiga').prop("checked",model.Miga)
     $("#txtBarco").val(model.CodBarco).change();
     $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
     $("#btnEliminarDetalle").prop("hidden", false);

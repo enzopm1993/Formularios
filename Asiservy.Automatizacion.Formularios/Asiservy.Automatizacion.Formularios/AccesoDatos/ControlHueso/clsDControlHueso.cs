@@ -485,6 +485,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         }
 
+        public List<BARCO> ConsultaReporteRendimientoPorLoteBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno)
+        {
+            clsDApiProduccion = new clsDApiProduccion();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Barcos = (from p in entities.PROYECCION_PROGRAMACION
+                                           join d in entities.PROYECCION_PROGRAMACION_DETALLE on p.IdProyeccionProgramacion equals d.IdProyeccionProgramacion
+                                           join b in entities.BARCO on d.Barco equals b.IdBarco+""
+                                           where p.FechaProduccion >= FechaDesde
+                                           && p.FechaProduccion <= FechaHasta
+                                           && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           select b).Distinct().ToList();
+
+                return Barcos;
+            }
+
+        }
+
 
         public void GenerarRendimientos()
         {
