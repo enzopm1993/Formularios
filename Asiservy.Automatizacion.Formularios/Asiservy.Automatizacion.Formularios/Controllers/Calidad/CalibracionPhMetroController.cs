@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     {
         clsDReporte clsDReporte { get; set; } = null;
         string[] lsUsuario { get; set; } = null;
+        public clsDLogin clsDLogin { get; private set; }
         clsDError clsDError { get; set; } = null;
         clsDCalibracionPhMetro clsDCalibracionPhMetro = null;
         protected void SetSuccessMessage(string message)
@@ -30,12 +31,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlCalibracionPhMetro");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlCalibracionPhMetro";
+                    }
+                }
+                //**
                 ViewBag.DateRangePicker = "1";
 
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
 
-                lsUsuario = User.Identity.Name.Split('_');
+                //lsUsuario = User.Identity.Name.Split('_');
 
                 return View();
             }
@@ -134,8 +147,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                //**
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteCalibracionPhMetro");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteCalibracionPhMetro";
+                    }
+                }
+                //**
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 return View();
             }
             catch (DbEntityValidationException e)
