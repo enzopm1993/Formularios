@@ -60,7 +60,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
                         CodCargo = item.CodCargo,
                         Cargo = item.Cargo,
                         Turno = item.Turno,
-                        HoraInico = item.INICIO,
+                        HoraInicio = item.INICIO,
                         HoraFin = item.FIN,
                         HorasReloj = item.HORAS_RELOJ,
                         DescuentoAlmuerzo = item.DESCUENTO_ALMUERZO,
