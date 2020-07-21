@@ -93,8 +93,8 @@ function CargarReporteAvance() {
             } else {
                 $("#spinnerCargando").prop("hidden", true);
                 $('#DivTableReporteControlAvance').html(resultado);
-                config.opcionesDT.pageLength = 15;
-                config.opcionesDT.order = [[0, "asc"]];
+                config.opcionesDT.pageLength = -1;
+                config.opcionesDT.order = [[0, "asc"], [1, "asc"]];
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 $("#divChart").prop("hidden", false);
 

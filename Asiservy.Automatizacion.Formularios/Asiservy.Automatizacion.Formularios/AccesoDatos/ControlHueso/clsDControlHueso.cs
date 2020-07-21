@@ -496,8 +496,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                                            where p.FechaProduccion >= FechaDesde
                                            && p.FechaProduccion <= FechaHasta
                                            && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                           &&((Protocolo == 1 &&(d.Protocolo == false || d.Protocolo == null))
-                                            ||(Protocolo == 3 &&(d.Protocolo==true)) ) || Protocolo == 2
+                                           &&(((Protocolo == 1 &&(d.Protocolo == false || d.Protocolo == null))
+                                            ||(Protocolo == 3 &&(d.Protocolo==true)) ) || Protocolo == 2)
                                            select b).Distinct().ToList();
 
                 return Barcos;
