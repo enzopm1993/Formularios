@@ -1,5 +1,5 @@
 ﻿$(function () {
-        
+
     var iconLoader = "fa-spinner fa-pulse";
     var iconSearch = "fa-search"
     var start = moment();
@@ -84,14 +84,10 @@
 
     cb(start, end);
 
+    
 
-
-    var table = $("#tblDataTable");
 
     $("#generarReporte").click(function () {
-        table.DataTable().destroy();
-        table.DataTable().clear();
-        table.DataTable().draw();
 
         var fechaDesde = $("#fechaDesde").val();
         var fechaHasta = $("#fechaHasta").val();
@@ -119,129 +115,205 @@
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarReporte").removeClass("btnWait");
+                
 
-
-                $("#tblDataTable tbody").empty();
-
-                config.opcionesDT.order = [];
-                config.opcionesDT.columns = [
-                    { data: 'Fecha' },
-                    { data: 'Cedula' },
-                    { data: 'Nombre' },
-                    { data: 'CodCentroCosto' },
-                    { data: 'CentroCosto' },
-                    { data: 'Linea' },
-                    { data: 'CodRecurso' },
-                    { data: 'Recurso' },
-                    { data: 'Cargo' },
-                    { data: 'Turno' },
-                    { data: 'HoraInicio' },
-                    { data: 'HoraFin' },
-                    { data: 'HorasReloj' },
-                    { data: 'DescuentoAlmuerzo' },
-                    { data: 'DescuentoCena' },
-                    { data: 'HorasLaboradas' },
-                    { data: 'NoFinAsistencia' },
-                    { data: 'TipoRol' }
-
-                ];
-                table.DataTable().destroy();
-                table.DataTable(config.opcionesDT);
-                table.DataTable().clear();
-                table.DataTable().rows.add(resultado);
-                table.DataTable().draw();
-                                             
-
-                var _fechas = [];
-                $.each(resultado, function (i, rowObj) {
-                    if (jQuery.inArray(rowObj.Fecha, _fechas) === -1) {
-                        _fechas.push(rowObj.Fecha);
-                    }
-                });
-
-                var tuplesRows = [];
-                $.each(_fechas, function (i, _rowFecha) {
-                    tuplesRows.push({ "tuple": ["Fecha." + _rowFecha] });
-                });
-
-                var pivot_agente = new WebDataRocks({
-                    container: "#wdr-component-horas",
-                    toolbar: true,
-                    beforetoolbarcreated: customizeToolbar,
-                    report: {
-                        dataSource: {
-                            data: resultado
-                        },
-                        "slice": {
-                            "reportFilters": [
-                                {
-                                    "uniqueName": "TipoRol",
-                                    "filter": {
-                                        "members": [
-                                            "TipoRol.PLANTA"
-                                        ]
-                                    }
-                                }
-                            ],
-                            "rows": [
-                                {
-                                    "uniqueName": "Fecha"
-                                },
-                                {
-                                    "uniqueName": "CodCentroCosto"
-                                },
-                                {
-                                    "uniqueName": "CentroCosto"
-                                },
-                                {
-                                    "uniqueName": "CodRecurso"
-                                },
-                                {
-                                    "uniqueName": "Turno"
-                                },
-                                {
-                                    "uniqueName": "Cargo"
-                                },
-                                {
-                                    "uniqueName": "Nombre"
-                                }
-                            ],
-                            "columns": [
-                                {
-                                    "uniqueName": "Measures"
-                                }
-                            ],
-                            "measures": [
-                                {
-                                    "uniqueName": "Cedula",
-                                    "aggregation": "distinctcount"
-                                },
-                                {
-                                    "uniqueName": "HorasLaboradas",
-                                    "aggregation": "sum"
-                                }
-                            ],
-                            "expands": {
-                                "rows": tuplesRows
-                            },
-                            "tableSizes": {
-                                "columns": [
-                                    {
-                                        "idx": 0,
-                                        "width": 508
-                                    }
-                                ]
-                            }
-                        }
-                        
+                var gridOptions = {
+                    dataSource: resultado,
+                    columns: [{ dataField: 'Fecha', dataType: "date" },
+                    { dataField: 'Cedula', dataType: "string" },
+                    { dataField: 'Nombre', dataType: "string" },
+                    { dataField: 'CodCentroCosto', dataType: "string" },
+                    { dataField: 'CentroCosto', dataType: "string" },
+                    { dataField: 'Linea', dataType: "string" },
+                    { dataField: 'CodRecurso', dataType: "string" },
+                    { dataField: 'Recurso', dataType: "string" },
+                    { dataField: 'Cargo', dataType: "string" },
+                    { dataField: 'Turno', dataType: "string" },
+                    { dataField: 'HoraInicio', dataType: "string" },
+                    { dataField: 'HoraFin', dataType: "string" },
+                    { dataField: 'HorasReloj', dataType: "number" },
+                    { dataField: 'DescuentoAlmuerzo', dataType: "number" },
+                    { dataField: 'DescuentoCena', dataType: "number" },
+                    { dataField: 'HorasLaboradas', dataType: "number" },
+                    { dataField: 'NoFinAsistencia', dataType: "boolean" },
+                    { dataField: 'TipoRol', dataType: "string" }],
+                    paging: {
+                        pageSize: 15
                     },
-                    global: {
-                        // replace this path with the path to your own translated file
-                        localization: config.baseUrl + "Content/webdatarocks/es.json"
+                    pager: {
+                        showPageSizeSelector: true,
+                        allowedPageSizes: [10, 25, 50, 100]
+                    },
+                    searchPanel: {
+                        visible: true,
+                        highlightCaseSensitive: true,
+                        width: 240,
+                        placeholder: "Buscar..."
+                    },
+                    groupPanel: { visible: true },
+                    grouping: {
+                        autoExpandAll: false
+                    },
+                    selection: {
+                        mode: "single"
+                    },
+                    allowColumnResizing: true,
+                    columnResizingMode: "nextColumn",
+                    columnMinWidth: 50,
+                    columnAutoWidth: true,
+                    columnFixing: {
+                        enabled: true
+                    },
+                    showBorders: true,
+                    showRowLines: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: "auto"
+                    },
+                    headerFilter: {
+                        visible: true
+                    },
+                    export: {
+                        enabled: true,
+                        allowExportSelectedData: true
+                    },
+                    onExporting: function (e) {
+                        var workbook = new ExcelJS.Workbook();
+                        var worksheet = workbook.addWorksheet('Datos');
+
+                        DevExpress.excelExporter.exportDataGrid({
+                            component: e.component,
+                            worksheet: worksheet,
+                            autoFilterEnabled: true
+                        }).then(function () {
+                            workbook.xlsx.writeBuffer().then(function (buffer) {
+                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Reporte_' + fechaDesde + '_' + fechaHasta + '.xlsx');
+                            });
+                        });
+                        e.cancel = true;
+                    },
+                    summary: {
+                        totalItems: [{
+                            column: "HorasLaboradas",
+                            summaryType: "sum",
+                            valueFormat: "decimal"
+                        }]
                     }
+                };
+                $("#grid").dxDataGrid(gridOptions).dxDataGrid("instance");
+
+                var pivotGridDataSource = new DevExpress.data.PivotGridDataSource({
+                    store: resultado,
+                    fields: [
+                        {
+                            caption: "Fecha",
+                            dataField: "Fecha",
+                            area: "column",
+                            width: 100
+                        },
+                        {
+                            caption: "Código CC",
+                            dataField: "CodCentroCosto",
+                            area: "row"
+                        },
+                        {
+                            caption: "Centro de Costo",
+                            dataField: "CentroCosto",
+                            area: "row"
+                        },
+                        {
+                            caption: "Código Recurso",
+                            dataField: "CodRecurso",
+                            area: "row"
+                        },
+                        {
+                            caption: "Turno",
+                            dataField: "Turno",
+                            area: "row"
+                        },
+                        {
+                            caption: "Cargo",
+                            dataField: "Cargo",
+                            area: "row"
+                        },
+                        {
+                            caption: "Nombre",
+                            dataField: "Nombre",
+                            area: "row"
+                        },
+                        {
+                            caption: "Tipo de rol",
+                            dataField: "TipoRol",
+                            area: "filter",
+                            filterType: 'include',
+                            filterValues: ['PLANTA']
+                        },
+                        {
+                            caption: "Personas",
+                            dataField: "Cedula",
+                            summaryType: "custom",
+                            area: "data",
+                            width: 50,
+                            calculateCustomSummary: function (options) {
+                                switch (options.summaryProcess) {
+                                    case "start":
+                                        options.arr = [];
+                                        options.totalValue = 0;
+                                        break;
+                                    case "calculate":
+                                        if ($.inArray(options.value, options.arr) == -1) {
+                                            options.arr.push(options.value);
+                                            options.totalValue += 1;
+                                        }
+                                        break;
+                                    case "finalize":
+                                        options.arr = [];
+                                        break;
+                                }
+                            }
+                        },
+                        {
+                            caption: "Horas",
+                            dataField: "HorasLaboradas",
+                            summaryType: "sum",
+                            format: "decimal",
+                            dataType: "number",
+                            area: "data",
+                            width: 50
+                        }
+                    ]
                 });
 
-               
+
+                var pivotGridOptions = {
+                    dataSource: pivotGridDataSource,
+                    allowSortingBySummary: true,
+                    allowSorting: true,
+                    allowFiltering: true,
+                    showBorders: true,
+                    showColumnGrandTotals: false,
+                    showRowGrandTotals: true,
+                    showRowTotals: true,
+                    showColumnTotals: false,
+                    fieldPanel: {
+                        showColumnFields: true,
+                        showDataFields: true,
+                        showFilterFields: true,
+                        showRowFields: true,
+                        allowFieldDragging: true,
+                        visible: true
+                    },
+                    fieldChooser: {
+                        enable: true,
+                        height: 500
+                    },
+                    export: {
+                        enabled: true,
+                        ignoreExcelErrors: true,
+                        fileName: "ResumenHorasDiarias"
+                    },
+                };
+                $("#pivotgrid").dxPivotGrid(pivotGridOptions).dxPivotGrid("instance");
             },
             error: function (resultado) {
                 console.log(resultado);
