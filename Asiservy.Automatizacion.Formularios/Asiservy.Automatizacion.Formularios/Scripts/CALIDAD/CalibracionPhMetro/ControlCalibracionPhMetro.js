@@ -1,8 +1,29 @@
 ﻿IdControl = 0;
 $(document).ready(function () {
-    $('#txtPh4').mask("9?.99");
-    $('#txtPh7').mask("9?.99");
-    $('#txtPh10').mask("99?.99");
+    //$('#txtPh4').mask("9?.99");
+    //$('#txtPh7').mask("9?.99");
+    //$('#txtPh10').mask("99?.99");
+    $('#txtPh4').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 9.99
+    });;
+    $('#txtPh7').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 9.99
+    });
+    $('#txtPh10').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 99.99
+    });
     ConsultarControl();
 });
 function Validar() {

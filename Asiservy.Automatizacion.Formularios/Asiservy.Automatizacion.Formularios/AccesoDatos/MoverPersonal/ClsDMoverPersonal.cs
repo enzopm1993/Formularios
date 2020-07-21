@@ -73,6 +73,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MoverPersonal
                 MoverPersonal.EstadoAprobacion = psEstadoAprobacion;
                 MoverPersonal.UsuarioModificacionLog = psusuario;
                 MoverPersonal.TerminalModificacionLog = psterminal;
+                MoverPersonal.FechaModificacionLog = DateTime.Now;
                 db.SaveChanges();
                 return "RegistroActualizado con éxito";
             }
