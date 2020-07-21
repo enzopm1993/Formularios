@@ -22,7 +22,8 @@ function CargarBarcos() {
         data: {
             FechaDesde: $("#fechaDesde").val(),
             FechaHasta: $("#fechaHasta").val(),
-            Turno: $("#selectTurno").val()
+            Turno: $("#selectTurno").val(),
+            Protocolo: $("#selectProtocolo").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

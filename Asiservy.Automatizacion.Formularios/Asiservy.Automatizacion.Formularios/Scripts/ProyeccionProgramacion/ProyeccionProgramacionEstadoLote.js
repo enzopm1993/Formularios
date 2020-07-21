@@ -5,7 +5,7 @@
 var model = [];
 
 function CargarReporte() {
-    
+    $('#DivTableReporteProyeccion').html('');
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -18,11 +18,7 @@ function CargarReporte() {
     } else {
         $("#selectTurno").css('borderColor', '#ced4da');
     }
-
-
-
     $("#spinnerCargando").prop("hidden", false);
-    $('#DivTableReporteProyeccion').html('');
     $.ajax({
         url: "../ProyeccionProgramacion/ProyeccionProgramacionEstadoLotePartial",
         type: "GET",
@@ -65,7 +61,7 @@ function GuardarCerrarLote() {
         type: "POST",
         data: {
             IdProyeccionProgramacionDetalle: model.IdProyeccionProgramacionDetalle,
-            Fecha: model.FechaProduccion
+            Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

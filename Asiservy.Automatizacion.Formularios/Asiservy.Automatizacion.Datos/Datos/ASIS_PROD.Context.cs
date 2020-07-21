@@ -2382,7 +2382,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProyeccionProgramacion>("spConsultaProyeccionProgramacion", idProyeccionParameter);
         }
     
-        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string barcos, Nullable<bool> protocolo)
+        public virtual ObjectResult<spReporteEsterilizacionDetalle> spReporteEsterilizacionDetalle(Nullable<System.DateTime> fecha, string turno, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEsterilizacionDetalle>("spReporteEsterilizacionDetalle", fechaParameter, turnoParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string barcos, Nullable<int> protocolo)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
                 new ObjectParameter("FechaDesde", fechaDesde) :
@@ -2402,26 +2419,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             var protocoloParameter = protocolo.HasValue ?
                 new ObjectParameter("Protocolo", protocolo) :
-                new ObjectParameter("Protocolo", typeof(bool));
+                new ObjectParameter("Protocolo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLote>("spConsultaReporteRendimientoLote", fechaDesdeParameter, fechaHastaParameter, turnoParameter, barcosParameter, protocoloParameter);
-        }
-    
-        public virtual ObjectResult<spReporteEsterilizacionDetalle> spReporteEsterilizacionDetalle(Nullable<System.DateTime> fecha, string turno, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEsterilizacionDetalle>("spReporteEsterilizacionDetalle", fechaParameter, turnoParameter, lineaParameter);
         }
     }
 }
