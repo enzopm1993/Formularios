@@ -89,10 +89,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 ClsNomina clsNomina = new ClsNomina();
 
-                List<ModeloVistaHorasHombre> modeloVistaTablasPersonalPresente = clsNomina.ObtenerReporteHorasHombre(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
+                List<ModeloVistaHorasHombre> objRptHoras = clsNomina.ObtenerReporteHorasHombre(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
 
 
-                JsonResult result = Json(modeloVistaTablasPersonalPresente, JsonRequestBehavior.AllowGet);
+                JsonResult result = Json(objRptHoras, JsonRequestBehavior.AllowGet);
 
                 result.MaxJsonLength = 50000000;
                 return result;

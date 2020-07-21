@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
         public string CodCargo { get; set; }
         public string Cargo { get; set; }
         public string Turno { get; set; }
-        public string HoraInico { get; set; }
+        public string HoraInicio { get; set; }
         public string HoraFin { get; set; }
         public decimal? HorasReloj { get; set; }
         public decimal? DescuentoAlmuerzo { get; set; }
