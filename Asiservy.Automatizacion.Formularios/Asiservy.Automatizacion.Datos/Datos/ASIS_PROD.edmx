@@ -12486,8 +12486,8 @@
           <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="Turno" Nullable="true" MaxLength="7" />
-          <Property Type="DateTime" Name="INICIO" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="FIN" Nullable="true" Precision="23" />
+          <Property Type="String" Name="INICIO" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="FIN" Nullable="false" MaxLength="30" />
           <Property Type="Decimal" Name="HORAS_RELOJ" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="DESCUENTO_ALMUERZO" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="DESCUENTO_CENA" Nullable="true" Precision="18" Scale="2" />
