@@ -136,6 +136,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 return View();
             }
             catch (DbEntityValidationException e)
