@@ -1,5 +1,5 @@
 ﻿$(function () {
-
+    DevExpress.localization.locale(navigator.language);
     var iconLoader = "fa-spinner fa-pulse";
     var iconSearch = "fa-search"
     var start = moment();
