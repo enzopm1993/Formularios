@@ -471,7 +471,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         }
 
-        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, bool Protocolo)
+        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, int Protocolo)
         {
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -485,7 +485,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
         }
 
-        public List<BARCO> ConsultaReporteRendimientoPorLoteBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno)
+        public List<BARCO> ConsultaReporteRendimientoPorLoteBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno, int Protocolo)
         {
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -496,6 +496,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                                            where p.FechaProduccion >= FechaDesde
                                            && p.FechaProduccion <= FechaHasta
                                            && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           &&((Protocolo == 1 &&(d.Protocolo == false || d.Protocolo == null))
+                                            ||(Protocolo == 3 &&(d.Protocolo==true)) ) || Protocolo == 2
                                            select b).Distinct().ToList();
 
                 return Barcos;
