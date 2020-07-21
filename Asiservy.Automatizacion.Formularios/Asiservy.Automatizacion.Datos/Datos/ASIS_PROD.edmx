@@ -13612,6 +13612,8 @@
           <Property Type="Int32" Name="TotalCoche" Nullable="true" />
           <Property Type="String" Name="TallaPromedio" Nullable="true" MaxLength="250" />
           <Property Type="Boolean" Name="EstadoLote" Nullable="false" />
+          <Property Type="Boolean" Name="Miga" Nullable="false" />
+          <Property Type="Boolean" Name="Protocolo" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -20048,6 +20050,8 @@
                 <ScalarProperty Name="TotalCoche" ColumnName="TotalCoche" />
                 <ScalarProperty Name="TallaPromedio" ColumnName="TallaPromedio" />
                 <ScalarProperty Name="EstadoLote" ColumnName="EstadoLote" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Protocolo" ColumnName="Protocolo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
