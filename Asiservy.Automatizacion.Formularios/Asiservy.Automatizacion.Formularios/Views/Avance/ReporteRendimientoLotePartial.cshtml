@@ -59,6 +59,8 @@
             <th style="white-space:normal" rowspan="2">
                 Talla Promedio
             </th>
+            <th rowspan="2">Miga</th>
+            <th rowspan="2">Protocolo</th>
         </tr>
 
         <tr>
@@ -181,132 +183,146 @@
 
 
 
-            <tr>
-                <td>@item.Fecha.Value.ToString("yyyy-MM-dd")</td>
-                <td style="font-size:14px">
-                    @if (item.EstadoLote)
-                    {
-                        <span class="badge badge-secondary">@item.Lote</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-warning">@item.Lote</span>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especie)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Talla)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PesoLote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Barco)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Turno)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloRealLomo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloSdtLomo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloDiferenciaLomo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloRealLomoPorcentaje)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloStdLomoPorcentaje)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.KiloDiferenciaLomoPorcentaje)*@
-                    @if (item.KiloDiferenciaLomoPorcentaje >= 0)
-                    {
-                        <span class="badge badge-success">@item.KiloDiferenciaLomoPorcentaje</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">@item.KiloDiferenciaLomoPorcentaje</span>
+        <tr>
+            <td>@item.Fecha.Value.ToString("yyyy-MM-dd")</td>
+            <td style="font-size:14px">
+                @if (item.EstadoLote)
+                {
+                    <span class="badge badge-secondary">@item.Lote</span>
+                }
+                else
+                {
+                    <span class="badge badge-warning">@item.Lote</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PesoLote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Turno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloRealLomo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloSdtLomo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloDiferenciaLomo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloRealLomoPorcentaje)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloStdLomoPorcentaje)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.KiloDiferenciaLomoPorcentaje)*@
+                @if (item.KiloDiferenciaLomoPorcentaje >= 0)
+                {
+                    <span class="badge badge-success">@item.KiloDiferenciaLomoPorcentaje</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">@item.KiloDiferenciaLomoPorcentaje</span>
 
-                        @*<i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>*@
-                    }
+                    @*<i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>*@
+                }
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloRealMiga)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloSdtMiga)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloDiferenciaMiga)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloRealMigaPorcentaje)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KiloStdMigaPorcentaje)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.KiloDiferenciaMigaPorcentaje)*@
-                    @if (item.KiloDiferenciaMigaPorcentaje >= 0)
-                    {
-                        <span class="badge badge-success">@item.KiloDiferenciaMigaPorcentaje</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloRealMiga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloSdtMiga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloDiferenciaMiga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloRealMigaPorcentaje)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KiloStdMigaPorcentaje)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.KiloDiferenciaMigaPorcentaje)*@
+                @if (item.KiloDiferenciaMigaPorcentaje >= 0)
+                {
+                    <span class="badge badge-success">@item.KiloDiferenciaMigaPorcentaje</span>
 
-                        @*<i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>*@
-                    }
-                    else
-                    { <span class="badge badge-danger">@item.KiloDiferenciaMigaPorcentaje</span>
+                    @*<i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>*@
+                }
+                else
+                { <span class="badge badge-danger">@item.KiloDiferenciaMigaPorcentaje</span>
+
+            }
+            </td>
+            <td>@totalReal</td>
+            <td>@totalStd</td>
+            <td>@totalDif</td>
+            <td>@totalRealPorcentaje</td>
+            <td>@totalStdPorcentaje</td>
+            <td>
+                @*@totalDifPorcentaje*@
+                @if (totalDifPorcentaje >= 0)
+                {
+                    <span class="badge badge-success">@totalDifPorcentaje</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">@totalDifPorcentaje</span>
+                }
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>
+                @item.CorteCoccion
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecetaRoceado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinoPreliminar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCoche)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TallaPromedio)
+            </td>
+            <td>
+                @if (item.Miga)
+                {
+                    <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
 
                 }
-                </td>
-                <td>@totalReal</td>
-                <td>@totalStd</td>
-                <td>@totalDif</td>
-                <td>@totalRealPorcentaje</td>
-                <td>@totalStdPorcentaje</td>
-                <td>
-                    @*@totalDifPorcentaje*@
-                    @if (totalDifPorcentaje >= 0)
-                    {
-                        <span class="badge badge-success">@totalDifPorcentaje</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">@totalDifPorcentaje</span>
-                    }
+            </td>
+            <td>
+                @if (item.Protocolo)
+                {
+                    <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
+                }
+            </td>
 
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                </td>
-                <td>
-                   @item.CorteCoccion
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RecetaRoceado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DestinoPreliminar)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalCoche)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TallaPromedio)
-                </td>
-
-            </tr>
+        </tr>
         }
     </tbody>
     <thead class="font-weight-bold">
         <tr>
+            <td></td>
             <td>@TotalLotes</td>
             <td colspan="2"></td>
             <td>@TotalPeso</td>
@@ -424,7 +440,7 @@
         </td>
         <td colspan="2"></td>
         <td>@TotalCoches</td>
-        <td></td>
+        <td colspan="3"> </td>
 
         </tr>
     </thead>

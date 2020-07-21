@@ -39,5 +39,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> TotalCoche { get; set; }
         public string TallaPromedio { get; set; }
         public bool EstadoLote { get; set; }
+        public bool Miga { get; set; }
+        public bool Protocolo { get; set; }
     }
 }
