@@ -952,7 +952,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public ActionResult ReporteRendimientoLotePartial(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, bool Protocolo)
+        public ActionResult ReporteRendimientoLotePartial(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, int Protocolo)
         {
             try
             {
@@ -1025,7 +1025,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        public ActionResult ReporteRendimientoLoteConsultaBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno)
+        public ActionResult ReporteRendimientoLoteConsultaBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno, int Protocolo)
         {
             try
             {
@@ -1037,7 +1037,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 // lsUsuario = User.Identity.Name.Split('_');s
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLoteBarcos(FechaDesde, FechaHasta, Turno);
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLoteBarcos(FechaDesde, FechaHasta, Turno,Protocolo);
                 
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }

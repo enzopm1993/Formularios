@@ -4859,7 +4859,7 @@
           <Parameter Name="FechaHasta" Type="date" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
           <Parameter Name="Barcos" Type="varchar" Mode="In" />
-          <Parameter Name="Protocolo" Type="bit" Mode="In" />
+          <Parameter Name="Protocolo" Type="int" Mode="In" />
         </Function>
         <Function Name="spConsultaResidualCloro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -6933,13 +6933,6 @@
           <FunctionImport Name="spConsultaProyeccionProgramacion" ReturnType="Collection(ASIS_PRODModel.spConsultaProyeccionProgramacion)">
           <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaReporteRendimientoLote" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteRendimientoLote)">
-            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-            <Parameter Name="Barcos" Mode="In" Type="String" />
-            <Parameter Name="Protocolo" Mode="In" Type="Boolean" />
-          </FunctionImport>
           <EntitySet Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
           <EntitySet Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
           <AssociationSet Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
@@ -6958,6 +6951,13 @@
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaReporteRendimientoLote" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteRendimientoLote)">
+            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Barcos" Mode="In" Type="String" />
+            <Parameter Name="Protocolo" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -13476,34 +13476,6 @@
           <Property Type="Boolean" Name="Miga" Nullable="true" />
           <Property Type="Boolean" Name="Protocolo" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spConsultaReporteRendimientoLote">
-          <Property Type="DateTime" Name="Fecha" Nullable="true" />
-          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Especie" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Talla" Nullable="true" MaxLength="150" />
-          <Property Type="Int32" Name="PesoLote" Nullable="true" />
-          <Property Type="String" Name="Barco" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="KiloRealLomo" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloSdtLomo" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloDiferenciaLomo" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloRealLomoPorcentaje" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloStdLomoPorcentaje" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloDiferenciaLomoPorcentaje" Nullable="true" Precision="11" Scale="2" />
-          <Property Type="Decimal" Name="KiloRealMiga" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloSdtMiga" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloDiferenciaMiga" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloRealMigaPorcentaje" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloStdMigaPorcentaje" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="KiloDiferenciaMigaPorcentaje" Nullable="true" Precision="11" Scale="2" />
-          <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="CorteCoccion" Nullable="true" />
-          <Property Type="String" Name="RecetaRoceado" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="DestinoPreliminar" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="TotalCoche" Nullable="true" />
-          <Property Type="String" Name="TallaPromedio" Nullable="true" MaxLength="250" />
-          <Property Type="Boolean" Name="EstadoLote" Nullable="false" />
-        </ComplexType>
         <EntityType Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
           <Key>
             <PropertyRef Name="IdCabControlEsterilizado" />
@@ -13612,6 +13584,34 @@
           <Property Type="Int32" Name="MinutosTotalesEsterilizado" Nullable="true" />
           <Property Type="DateTime" Name="TiempoEnfriamiento" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="TemperaturaProductoSalida" Nullable="true" Precision="5" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="spConsultaReporteRendimientoLote">
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Especie" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="PesoLote" Nullable="true" />
+          <Property Type="String" Name="Barco" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="KiloRealLomo" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloSdtLomo" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloDiferenciaLomo" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloRealLomoPorcentaje" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloStdLomoPorcentaje" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloDiferenciaLomoPorcentaje" Nullable="true" Precision="11" Scale="2" />
+          <Property Type="Decimal" Name="KiloRealMiga" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloSdtMiga" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloDiferenciaMiga" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloRealMigaPorcentaje" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloStdMigaPorcentaje" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="KiloDiferenciaMigaPorcentaje" Nullable="true" Precision="11" Scale="2" />
+          <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CorteCoccion" Nullable="true" />
+          <Property Type="String" Name="RecetaRoceado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DestinoPreliminar" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TotalCoche" Nullable="true" />
+          <Property Type="String" Name="TallaPromedio" Nullable="true" MaxLength="250" />
+          <Property Type="Boolean" Name="EstadoLote" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -19944,38 +19944,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaReporteRendimientoLote" FunctionName="ASIS_PRODModel.Store.spConsultaReporteRendimientoLote">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteRendimientoLote">
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="PesoLote" ColumnName="PesoLote" />
-                <ScalarProperty Name="Barco" ColumnName="Barco" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="KiloRealLomo" ColumnName="KiloRealLomo" />
-                <ScalarProperty Name="KiloSdtLomo" ColumnName="KiloSdtLomo" />
-                <ScalarProperty Name="KiloDiferenciaLomo" ColumnName="KiloDiferenciaLomo" />
-                <ScalarProperty Name="KiloRealLomoPorcentaje" ColumnName="KiloRealLomoPorcentaje" />
-                <ScalarProperty Name="KiloStdLomoPorcentaje" ColumnName="KiloStdLomoPorcentaje" />
-                <ScalarProperty Name="KiloDiferenciaLomoPorcentaje" ColumnName="KiloDiferenciaLomoPorcentaje" />
-                <ScalarProperty Name="KiloRealMiga" ColumnName="KiloRealMiga" />
-                <ScalarProperty Name="KiloSdtMiga" ColumnName="KiloSdtMiga" />
-                <ScalarProperty Name="KiloDiferenciaMiga" ColumnName="KiloDiferenciaMiga" />
-                <ScalarProperty Name="KiloRealMigaPorcentaje" ColumnName="KiloRealMigaPorcentaje" />
-                <ScalarProperty Name="KiloStdMigaPorcentaje" ColumnName="KiloStdMigaPorcentaje" />
-                <ScalarProperty Name="KiloDiferenciaMigaPorcentaje" ColumnName="KiloDiferenciaMigaPorcentaje" />
-                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
-                <ScalarProperty Name="CorteCoccion" ColumnName="CorteCoccion" />
-                <ScalarProperty Name="RecetaRoceado" ColumnName="RecetaRoceado" />
-                <ScalarProperty Name="DestinoPreliminar" ColumnName="DestinoPreliminar" />
-                <ScalarProperty Name="TotalCoche" ColumnName="TotalCoche" />
-                <ScalarProperty Name="TallaPromedio" ColumnName="TallaPromedio" />
-                <ScalarProperty Name="EstadoLote" ColumnName="EstadoLote" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
               <MappingFragment StoreEntitySet="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
@@ -20048,6 +20016,38 @@
                 <ScalarProperty Name="MinutosTotalesEsterilizado" ColumnName="MinutosTotalesEsterilizado" />
                 <ScalarProperty Name="TiempoEnfriamiento" ColumnName="TiempoEnfriamiento" />
                 <ScalarProperty Name="TemperaturaProductoSalida" ColumnName="TemperaturaProductoSalida" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaReporteRendimientoLote" FunctionName="ASIS_PRODModel.Store.spConsultaReporteRendimientoLote">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteRendimientoLote">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="PesoLote" ColumnName="PesoLote" />
+                <ScalarProperty Name="Barco" ColumnName="Barco" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="KiloRealLomo" ColumnName="KiloRealLomo" />
+                <ScalarProperty Name="KiloSdtLomo" ColumnName="KiloSdtLomo" />
+                <ScalarProperty Name="KiloDiferenciaLomo" ColumnName="KiloDiferenciaLomo" />
+                <ScalarProperty Name="KiloRealLomoPorcentaje" ColumnName="KiloRealLomoPorcentaje" />
+                <ScalarProperty Name="KiloStdLomoPorcentaje" ColumnName="KiloStdLomoPorcentaje" />
+                <ScalarProperty Name="KiloDiferenciaLomoPorcentaje" ColumnName="KiloDiferenciaLomoPorcentaje" />
+                <ScalarProperty Name="KiloRealMiga" ColumnName="KiloRealMiga" />
+                <ScalarProperty Name="KiloSdtMiga" ColumnName="KiloSdtMiga" />
+                <ScalarProperty Name="KiloDiferenciaMiga" ColumnName="KiloDiferenciaMiga" />
+                <ScalarProperty Name="KiloRealMigaPorcentaje" ColumnName="KiloRealMigaPorcentaje" />
+                <ScalarProperty Name="KiloStdMigaPorcentaje" ColumnName="KiloStdMigaPorcentaje" />
+                <ScalarProperty Name="KiloDiferenciaMigaPorcentaje" ColumnName="KiloDiferenciaMigaPorcentaje" />
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="CorteCoccion" ColumnName="CorteCoccion" />
+                <ScalarProperty Name="RecetaRoceado" ColumnName="RecetaRoceado" />
+                <ScalarProperty Name="DestinoPreliminar" ColumnName="DestinoPreliminar" />
+                <ScalarProperty Name="TotalCoche" ColumnName="TotalCoche" />
+                <ScalarProperty Name="TallaPromedio" ColumnName="TallaPromedio" />
+                <ScalarProperty Name="EstadoLote" ColumnName="EstadoLote" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
