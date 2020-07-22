@@ -87,7 +87,7 @@ async function GuardarControl() {
             window.location.reload();
         }
         IdControl = RespuestaGuardar[2].IDPhMetro;
-        if (RespuestaGuardar[0] == "002") {
+        if (RespuestaGuardar[0] == "002" || RespuestaGuardar[0] == "444") {
             MensajeAdvertencia(RespuestaGuardar[1]);
             
         } else {
@@ -189,7 +189,7 @@ function LimpiarControles() {
     $("#DivContenido :input").prop("disabled", false);
     $('#btnEliminarControl').prop('disabled', true);
     $('#estadocontrol').text('');
-    $('#txtHora').val('');
+    $('#txtHora').val(moment().format("hh:mm"));
     $('#txtCodigoPhMetro').val('');
     $('#txtPh4').val('');
     $('#txtPh7').val('');
@@ -201,7 +201,8 @@ function ConfirmarEliminarControl() {
 }
 async function EliminarControlAjax() {
     let params = {
-        IdControl: IdControl
+        IdControl: IdControl,
+        poFecha: $('#txtHora').val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -229,6 +230,9 @@ async function EliminarControl() {
             $('#ModalEliminarControl').modal('hide');
             LimpiarControles();
             IdControl = 0;
+        } else {
+            MensajeAdvertencia(RespuestaEliminar[1]);
+            $('#ModalEliminarControl').modal('hide');
         }
     } catch (error) {
         MensajeError('Error comuníquese con el departamento de Sistemas' + error, false);
