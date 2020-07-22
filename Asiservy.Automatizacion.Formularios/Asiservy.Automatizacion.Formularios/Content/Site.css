@@ -154,3 +154,7 @@ textarea {
 .choose-position .select2-container--default .select2-selection--single {
     height: 40px;
 }
+.select2-results__option {
+    text-transform: uppercase;
+    font-size:0.8rem;
+}
