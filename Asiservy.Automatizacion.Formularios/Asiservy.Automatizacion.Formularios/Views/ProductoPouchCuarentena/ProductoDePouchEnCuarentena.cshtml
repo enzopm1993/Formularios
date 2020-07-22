@@ -42,9 +42,16 @@
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 <label>Orden de fabricación:</label>
-                <select class="form-control" id="cmbOrdeneFabricacion" onchange="DatosOrdenFabricacion()">
-                    <option value="1">Seleccione...</option>
-                </select>
+                @*<select class="form-control" id="cmbOrdeneFabricacion" onchange="DatosOrdenFabricacion()">
+                        <option value="1">Seleccione...</option>
+                    </select>*@
+                <div class="input-group">
+                    @*@Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: auto; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })*@
+                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                    <button type="button" onclick="" id="btnOrden">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
                 <label class="text-danger" id="msjerrorOrdenFabricacion" hidden>Debe seleccionar una orden de fabricación</label>
             </div>
         </div>
@@ -230,7 +237,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -277,6 +284,43 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
                 <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal ordenes de fabricacion*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="LLenarComboOrdenes()" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
