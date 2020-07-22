@@ -27,7 +27,7 @@
 
 <h4>Kpi Envase Lata-Pouch</h4>
 
-<div class="card shadow">
+<div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
@@ -61,7 +61,7 @@
                 <label class="">Acción</label>
                 <div class="form-group">
                     @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-                    <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="FiltrarAprobadosFecha()" style="border-color:#2c3e50" type="button">
+                    <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultaKpiPorFecha()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="~/Content/icons/ver24.png" />
                     </button>
 
@@ -78,9 +78,39 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDetalle" id="btnDetalle">
             Ver Detalles
         </button>
-        <div id="divChart">
+        <div class="row">
+            <div class="col-md-12 col-12 col-sm-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div id="divChartSolido">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="col-md-12 col-12 col-sm-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div id="divChartLiquido">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <hr />
+            <div class="col-md-12 col-12 col-sm-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div id="divChartAceite">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+       
     </div>
 </div>
 

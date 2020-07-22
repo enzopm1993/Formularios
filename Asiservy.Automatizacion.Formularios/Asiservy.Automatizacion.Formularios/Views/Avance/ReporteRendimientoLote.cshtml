@@ -289,21 +289,21 @@
                 <div class="" id="divChart" hidden>
 
                     <div class="row">
-                        <div class="col-md-3 col-6 col-sm-6">
+                        @*<div class="col-md-3 col-6 col-sm-6">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalDetalle">
                                 Ver detalles
                             </button>
-                        </div>
+                        </div>*@
                         <div class="col-md-9 col-6 col-sm-6">
                             <label><b>Total Toneladas: </b></label>
                             <label id="txtTotalToneladas"></label>
-                           
+
                         </div>
                     </div>
-                    
 
 
-                  
+
+
 
                     <div class="row">
                         <div class="col-md-6 col-12 col-sm-12">
@@ -355,11 +355,29 @@
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <div class="" id="DivTableReporteControlAvance">  </div>
                 </div>
                 
             </div>
             <div class="card-footer">
-                <label><b>Nota:</b> Si el peso de lomo real es 0kl, el estandar de lomo se suma al estandar de miga.</label> <br />
+                <div class="table-responsive" style="font-size:12px;">
+                    <table class=" table-bordered">
+                        <tr>
+                            <th colspan="2">Lote</th>
+                            <th colspan="2">% Diferencia</th>
+                        </tr>
+                        <tr>
+                            <td>  <span class="badge badge-secondary">Lote</span> Cerrado</td>
+                            <td> <span class="badge badge-warning">Lote</span> Abierto</td>
+                            <td>   <span class="badge badge-success">%</span> Más o igual Lomo/Miga de lo esperado. <br /></td>
+                            <td>  <span class="badge badge-danger">%</span> Menos Lomo/Miga de lo esperado. <br /></td>
+
+                        </tr>
+
+                    </table>
+                </div>
+                <label><b>Nota:</b> Si el lote esta destinado a miga el peso estandar de lomo se suma al estandar de miga.</label> <br />
                 <label><b></b> Si la talla no se encuentra en los parametros se considera el mismo valor del real en el estandar</label>
             </div>
 
@@ -378,23 +396,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div style="" class="table-responsive" id="DivTableReporteControlAvance">  </div>
-                <div class="table-responsive" style="font-size:12px;">
-                    <table class=" table-bordered">
-                        <tr>
-                            <th colspan="2">Lote</th>
-                            <th colspan="2">% Diferencia</th>
-                        </tr>
-                        <tr>
-                            <td>  <span class="badge badge-secondary">Lote</span> Cerrado</td>
-                            <td> <span class="badge badge-warning">Lote</span> Abierto</td>
-                            <td>   <span class="badge badge-success">%</span> Más o igual Lomo/Miga de lo esperado. <br /></td>
-                            <td>  <span class="badge badge-danger">%</span> Menos Lomo/Miga de lo esperado. <br /></td>
-
-                        </tr>
-                        
-                    </table>
-                </div>
+                
+              
+             
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
