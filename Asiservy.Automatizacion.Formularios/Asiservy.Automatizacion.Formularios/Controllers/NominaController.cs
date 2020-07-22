@@ -62,11 +62,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                ViewBag.dataTableJS = "1";
-                ViewBag.Pivot = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DateRangePicker = "1";
-                               
+                ViewBag.Title = "Reporte de horas hombre detallado";
+                ViewBag.DxDevWeb = "1";
+
                 return View();
 
             }

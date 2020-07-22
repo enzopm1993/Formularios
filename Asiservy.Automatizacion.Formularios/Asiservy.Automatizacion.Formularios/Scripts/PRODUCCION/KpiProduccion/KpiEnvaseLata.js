@@ -9,59 +9,100 @@ var DesperdicioAceites = [];
 
 var options = {
     series: [{
-        name: 'Solido',
-        data: DesperdicioSolido
-    }, {
-        name: 'Liquido',
-        data: DesperdicioLiquido
-    }, {
-        name: 'Aceite',
-        data: DesperdicioAceites
+        name: '%',
+        data: []
     }],
+    
     chart: {
+        height: 350,
         type: 'bar',
-        height: 350
     },
     plotOptions: {
         bar: {
-            horizontal: false,
-            columnWidth: '55%',
+            dataLabels: {
+                position: 'top', // top, center, bottom
+            },
+            columnWidth: '50%',
             endingShape: 'rounded'
-        },
+        }
     },
     dataLabels: {
-        enabled: false
+        enabled: true,
+        formatter: function (val) {
+            return val + "%";
+        },
+        offsetY: -20,
+        style: {
+            fontSize: '12px',
+            colors: ["#304758"]
+        }
     },
     stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent']
+        width: 2
+    },
+
+    grid: {
+        row: {
+            colors: ['#fff', '#f2f2f2']
+        }
     },
     xaxis: {
-        categories: Data,
+        labels: {
+            rotate: -45
+        },
+        categories: [
+        ],
+        tickPlacement: 'on'
     },
     yaxis: {
         title: {
-            text: '% (Desperdicio)'
-        }
+            text: '%',
+        },
     },
     fill: {
-        opacity: 1
+        type: 'gradient',
+        gradient: {
+            shade: 'light',
+            type: "horizontal",
+            shadeIntensity: 0.25,
+            gradientToColors: undefined,
+            inverseColors: true,
+            opacityFrom: 0.85,
+            opacityTo: 0.85,
+            stops: [50, 0, 100]
+        },
+         //, '#E91E63', '#9C27B0'
     },
-    tooltip: {
-        y: {
-            formatter: function (val) {
-                return val + "%"
-            }
-        }
+    title: {
+        text: undefined,
+        align: 'center',
+        margin: 10,
+        offsetX: 0,
+        offsetY: 0,
+        floating: false,
+        style: {
+            fontSize: '16px',
+            fontWeight: 'bold',
+            fontFamily: undefined,
+            color: '#263238'
+        },
     }
+
 };
-chart = new ApexCharts(document.querySelector("#divChart"), options);
-chart.render();
+
+divChartSolido = new ApexCharts(document.querySelector("#divChartSolido"), options);
+divChartSolido.render();
+
+divChartLiquido = new ApexCharts(document.querySelector("#divChartLiquido"), options);
+divChartLiquido.render();
+
+divChartAceite = new ApexCharts(document.querySelector("#divChartAceite"), options);
+divChartAceite.render();
 
 
 function ConsultaKpiPorFecha() {
-    $("#spinnerCargando").prop("hidden", false);
+   // $("#spinnerCargando").prop("hidden", false);
+    MostrarModalCargando();
     $('#MensajeRegistros').hide();
     var table = $('#tblTable');
     table.DataTable().clear();    
@@ -97,7 +138,6 @@ function ConsultaKpiPorFecha() {
                     { data: 'Empleados' }
                 ];
                 resultado.forEach(function (row, i) {
-                    var poHora = row.Hora;
                     row.Fecha = moment(row.Fecha).format('YYYY-MM-DD');
                    
                 });
@@ -107,12 +147,14 @@ function ConsultaKpiPorFecha() {
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
                 Kpi(resultado);                             
+               
             }
-            $("#spinnerCargando").prop("hidden", true);
+            CerrarModalCargando();
         },
         error: function (resultado) {
-            $("#spinnerCargando").prop("hidden", true);
+          
             MensajeError(Mensajes.Error + resultado.responseText, false);
+            CerrarModalCargando();
         }
     });
 
@@ -120,47 +162,119 @@ function ConsultaKpiPorFecha() {
 
 function Kpi(m) {
     if (m != null) {
-        //console.log(model);
+       // console.log(m);
         DesperdicioSolido = [];
         DesperdicioLiquido = [];
         DesperdicioAceites = [];
         Data = [];
         Fechas = [];
-        $.each(m, function (i, item) {
-            Data[i] = item.OrdenFabricacion;
-            Fechas[i] = moment(item.Fecha).format("DD-MM-YYYY");
-            DesperdicioSolido[i] = item.Solido;
-            DesperdicioLiquido[i] = item.Liquido;
-            DesperdicioAceites[i] = item.Aceite;
-        });
-        Fechas = Fechas.unique();
-        //console.log(Fechas.length);
-        if (Fechas.length > 1) {
+
+        if ($("#fechaDesde").val() == $("#fechaHasta").val()) {
+            $.each(m, function (i, item) {
+                Data[i] = item.OrdenFabricacion;
+                Fechas[i] = moment(item.Fecha).format("DD-MM-YYYY");
+                DesperdicioSolido[i] = item.Solido;
+                DesperdicioLiquido[i] = item.Liquido;
+                DesperdicioAceites[i] = item.Aceite;
+            });
+        } else {
+            var result = Enumerable.From(m).GroupBy("$.Fecha", null,
+                function (key, g) {
+                    var result = {
+                        Fecha: moment(g.Fecha).format("DD-MM-YYYY"),
+                        Solido: (g.Sum("$.Solido") / g.Count()).toFixed(2),
+                        Liquido: (g.Sum("$.Liquido") / g.Count()).toFixed(2),
+                        Aceite: (g.Sum("$.Aceite") / g.Count()).toFixed(2)
+
+
+                    }
+                    return result;
+                }).ToArray();
+
+            $.each(result, function (i, item) {
+                Fechas[i] = item.Fecha;
+                DesperdicioSolido[i] = item.Solido;
+                DesperdicioLiquido[i] = item.Liquido;
+                DesperdicioAceites[i] = item.Aceite;
+            });
             Data = Fechas;
         }
+      
 
         var categories = Data;
-
-        var series = [{
+        var series_Solido = [{
             name: 'Solido',
             data: DesperdicioSolido
-        }, {
-            name: 'Liquido',
-            data: DesperdicioLiquido
-        }, {
-            name: 'Aceite',
-            data: DesperdicioAceites
         }];
+        var Serie_Liquido = [
+            {
+                name: 'Liquido',
+                data: DesperdicioLiquido
+            }];
 
-        chart.updateSeries(series);
-        chart.updateOptions({
+
+        var Serie_Aceite = [
+            {
+                name: 'Aceite',
+                data: DesperdicioAceites
+            }];
+     
+
+
+       // divChartSolido.updateTitle(title_solido);
+        divChartSolido.updateSeries(series_Solido);
+        divChartSolido.updateOptions({
             xaxis: {
                 categories: categories
+            },
+            title: {
+                text: 'SOLIDO'
+            }
+        })
+
+        divChartLiquido.updateSeries(Serie_Liquido);
+        divChartLiquido.updateOptions({
+            xaxis: {
+                categories: categories
+            },
+            title: {
+                text: 'LIQUIDO'
+            },
+            fill: {
+                colors: ['#48FFC1']
+            }
+        })
+
+        divChartAceite.updateSeries(Serie_Aceite);
+        divChartAceite.updateOptions({
+            xaxis: {
+                categories: categories
+            },
+            title: {
+                text: 'ACEITE'
+            },
+            fill: {
+                colors: ['#FFE348']
             }
         })
     } else {
-        chart.updateSeries([]);
-        chart.updateOptions({
+        divChartSolido.updateSeries([]);
+        divChartSolido.updateOptions({
+            xaxis: {
+                categories: []
+            }
+        })
+
+        divChartLiquido.updateSeries([]);
+        divChartLiquido.updateOptions({
+            xaxis: {
+                categories: []
+            }
+        })
+
+
+        divChartAceite.updateSeries([]);
+        divChartAceite.updateOptions({
             xaxis: {
                 categories: []
             }
@@ -249,7 +363,7 @@ $(function () {
         }
     }, cb);
     cb(start, end);
-    ConsultaKpiPorFecha();
+    //ConsultaKpiPorFecha();
 });
 
 

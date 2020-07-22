@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Talla { get; set; }
         public Nullable<int> PesoLote { get; set; }
         public string Barco { get; set; }
+        public Nullable<int> Marea { get; set; }
         public string Turno { get; set; }
         public Nullable<decimal> KiloRealLomo { get; set; }
         public Nullable<decimal> KiloSdtLomo { get; set; }

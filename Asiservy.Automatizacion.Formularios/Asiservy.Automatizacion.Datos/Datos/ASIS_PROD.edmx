@@ -13592,6 +13592,7 @@
           <Property Type="String" Name="Talla" Nullable="true" MaxLength="150" />
           <Property Type="Int32" Name="PesoLote" Nullable="true" />
           <Property Type="String" Name="Barco" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="Marea" Nullable="true" />
           <Property Type="String" Name="Turno" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="KiloRealLomo" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="KiloSdtLomo" Nullable="true" Precision="10" Scale="2" />
@@ -20030,6 +20031,7 @@
                 <ScalarProperty Name="Talla" ColumnName="Talla" />
                 <ScalarProperty Name="PesoLote" ColumnName="PesoLote" />
                 <ScalarProperty Name="Barco" ColumnName="Barco" />
+                <ScalarProperty Name="Marea" ColumnName="Marea" />
                 <ScalarProperty Name="Turno" ColumnName="Turno" />
                 <ScalarProperty Name="KiloRealLomo" ColumnName="KiloRealLomo" />
                 <ScalarProperty Name="KiloSdtLomo" ColumnName="KiloSdtLomo" />

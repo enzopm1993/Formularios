@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteRendimientoLote>
 @using Asiservy.Automatizacion.Datos.Datos
 
-@{ 
+@{
     var modelo = (List<spConsultaReporteRendimientoLote>)ViewBag.Model;
 }
 <script>
@@ -9,439 +9,447 @@
     ListadoGeneral = @Html.Raw(Json.Encode(modelo));
 </script>
 
+<div class="table-responsive">
 
-<table class="table table-bordered table-hover" id="tblDataTable">
-    <thead>
-        <tr>
-            <th rowspan="2">
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th rowspan="2">
-                @Html.DisplayNameFor(model => model.Lote)
-            </th>
-            <th rowspan="2">
-                @Html.DisplayNameFor(model => model.Especie)
-            </th>
-            <th rowspan="2">
-                @Html.DisplayNameFor(model => model.Talla)
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Peso Lote
-            </th>
+    <table class="table table-bordered table-hover " id="tblDataTable">
+        <thead>
+            <tr>
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Lote)
+                </th>
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Especie)
+                </th>
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Talla)
+                </th>
+                <th rowspan="2" style="white-space:normal">
+                    Peso Lote
+                </th>
 
-            <th rowspan="2">
-                @Html.DisplayNameFor(model => model.Barco)
-            </th>
-            <th rowspan="2">
-                @Html.DisplayNameFor(model => model.Turno)
-            </th>
-            <th colspan="6" class="text-center">LOMO</th>
-            <th colspan="6" class="text-center">MIGA</th>
-            <th colspan="6" class="text-center">TOTAL</th>
-
-
-
-            <th rowspan="2">
-                Limpieza
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Corte Cocción
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Receta Roceado
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Destino Preliminar
-            </th>
-            <th rowspan="2" style="white-space:normal">
-                Total Coches
-            </th>
-            <th style="white-space:normal" rowspan="2">
-                Talla Promedio
-            </th>
-            <th rowspan="2">Miga</th>
-            <th rowspan="2">Protocolo</th>
-        </tr>
-
-        <tr>
-
-
-            <th>
-                Kg Real
-            </th>
-            <th>
-                Kg Std
-            </th>
-            <th>
-                Kg Dif
-            </th>
-            <th>
-                % Real
-            </th>
-            <th>
-                % Std
-            </th>
-            <th>
-                % Dif
-            </th>
-
-
-            <th>
-                Kg Real
-            </th>
-            <th>
-                Kg Std
-            </th>
-            <th>
-                Kg Dif
-            </th>
-            <th>
-                % Real
-            </th>
-            <th>
-                % Std
-            </th>
-            <th>
-                % Dif
-            </th>
-
-            <th>
-                Kg Real
-            </th>
-            <th>
-                Kg Std
-            </th>
-            <th>
-                Kg Dif
-            </th>
-            <th>
-                % Real
-            </th>
-            <th>
-                % Std
-            </th>
-            <th>
-                % Dif
-            </th>
-
-
-        </tr>
-    </thead>
-    <tbody>
-       @{ 
-           int TotalLotes = 0;
-           int TotalPeso = 0;
-           decimal TotalKlRealLomo = 0;
-           decimal TotalKlStdLomo = 0;
-           decimal TotalPorcentajeRealLomo = 0;
-           decimal TotalPorcentajetdLomo = 0;
-
-           decimal TotalKlRealMiga = 0;
-           decimal TotalKlStdMiga = 0;
-           decimal TotalPorcentajeRealMiga = 0;
-           decimal TotalPorcentajetdMiga = 0;
-
-           decimal TotalKlRealGeneral = 0;
-           decimal TotalKlStdGeneral = 0;
-           decimal TotalPorcentajeRealGeneral = 0;
-           decimal TotalPorcentajetdGeneral = 0;
-
-           int Temperatura = 0;
-           int TotalCoches = 0;
-       }
-
-        @foreach (var item in Model)
-        {
-            TotalLotes = TotalLotes + 1;
-            TotalPeso = TotalPeso + item.PesoLote??0;
-            Temperatura = Temperatura + item.CorteCoccion ?? 0;
-            TotalCoches = TotalCoches + item.TotalCoche ?? 0;
-
-            TotalKlRealLomo = TotalKlRealLomo + item.KiloRealLomo ?? 0;
-            TotalKlStdLomo = TotalKlStdLomo + item.KiloSdtLomo ?? 0;
-            TotalPorcentajeRealLomo = TotalPorcentajeRealLomo + item.KiloRealLomoPorcentaje ?? 0;
-            TotalPorcentajetdLomo = TotalPorcentajetdLomo + item.KiloStdLomoPorcentaje ?? 0;
-
-            TotalKlRealMiga = TotalKlRealMiga + item.KiloRealMiga ?? 0;
-            TotalKlStdMiga = TotalKlStdMiga + item.KiloSdtMiga ?? 0;
-            TotalPorcentajeRealMiga = TotalPorcentajeRealMiga + item.KiloRealMigaPorcentaje ?? 0;
-            TotalPorcentajetdMiga = TotalPorcentajetdMiga + item.KiloStdMigaPorcentaje ?? 0;
-
-            decimal totalReal = (item.KiloRealLomo ?? 0) + (item.KiloRealMiga ?? 0);
-            decimal totalStd = (item.KiloSdtLomo ?? 0) + (item.KiloSdtMiga ?? 0);
-            decimal totalDif = totalReal - totalStd;
-
-            decimal totalRealPorcentaje = (item.KiloRealLomoPorcentaje ?? 0)+ (item.KiloRealMigaPorcentaje ?? 0);
-            decimal totalStdPorcentaje = (item.KiloStdLomoPorcentaje ?? 0) + (item.KiloStdMigaPorcentaje ?? 0);
-            decimal totalDifPorcentaje = totalRealPorcentaje - totalStdPorcentaje;
-
-
-            TotalKlRealGeneral = TotalKlRealGeneral + totalReal;
-            TotalKlStdGeneral = TotalKlStdGeneral + totalStd;
-            TotalPorcentajeRealGeneral = TotalPorcentajeRealGeneral + totalRealPorcentaje;
-            TotalPorcentajetdGeneral = TotalPorcentajetdGeneral + totalDifPorcentaje;
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Barco)
+                </th>
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Marea)
+                </th>
+                <th rowspan="2">
+                    @Html.DisplayNameFor(model => model.Turno)
+                </th>
+                <th colspan="6" class="text-center">LOMO</th>
+                <th colspan="6" class="text-center">MIGA</th>
+                <th colspan="6" class="text-center">TOTAL</th>
 
 
 
-        <tr>
-            <td>@item.Fecha.Value.ToString("yyyy-MM-dd")</td>
-            <td style="font-size:14px">
-                @if (item.EstadoLote)
-                {
-                    <span class="badge badge-secondary">@item.Lote</span>
-                }
-                else
-                {
-                    <span class="badge badge-warning">@item.Lote</span>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Especie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Talla)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PesoLote)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Barco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Turno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloRealLomo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloSdtLomo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloDiferenciaLomo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloRealLomoPorcentaje)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloStdLomoPorcentaje)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.KiloDiferenciaLomoPorcentaje)*@
-                @if (item.KiloDiferenciaLomoPorcentaje >= 0)
-                {
-                    <span class="badge badge-success">@item.KiloDiferenciaLomoPorcentaje</span>
-                }
-                else
-                {
-                    <span class="badge badge-danger">@item.KiloDiferenciaLomoPorcentaje</span>
+                <th rowspan="2">
+                    Limpieza
+                </th>
+                <th rowspan="2" style="white-space:normal">
+                    Corte Cocción
+                </th>
+                <th rowspan="2" style="white-space:normal">
+                    Receta Roceado
+                </th>
+                <th rowspan="2" style="white-space:normal">
+                    Destino Preliminar
+                </th>
+                <th rowspan="2" style="white-space:normal">
+                    Total Coches
+                </th>
+                <th style="white-space:normal" rowspan="2">
+                    Talla Promedio
+                </th>
+                <th rowspan="2">Miga</th>
+                <th rowspan="2">Protocolo</th>
+            </tr>
 
-                    @*<i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>*@
-                }
+            <tr>
 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloRealMiga)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloSdtMiga)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloDiferenciaMiga)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloRealMigaPorcentaje)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KiloStdMigaPorcentaje)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.KiloDiferenciaMigaPorcentaje)*@
-                @if (item.KiloDiferenciaMigaPorcentaje >= 0)
-                {
-                    <span class="badge badge-success">@item.KiloDiferenciaMigaPorcentaje</span>
 
-                    @*<i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>*@
-                }
-                else
-                { <span class="badge badge-danger">@item.KiloDiferenciaMigaPorcentaje</span>
+                <th>
+                    Kg Real
+                </th>
+                <th>
+                    Kg Std
+                </th>
+                <th>
+                    Kg Dif
+                </th>
+                <th>
+                    % Real
+                </th>
+                <th>
+                    % Std
+                </th>
+                <th>
+                    % Dif
+                </th>
 
-            }
-            </td>
-            <td>@totalReal</td>
-            <td>@totalStd</td>
-            <td>@totalDif</td>
-            <td>@totalRealPorcentaje</td>
-            <td>@totalStdPorcentaje</td>
-            <td>
-                @*@totalDifPorcentaje*@
-                @if (totalDifPorcentaje >= 0)
-                {
-                    <span class="badge badge-success">@totalDifPorcentaje</span>
-                }
-                else
-                {
-                    <span class="badge badge-danger">@totalDifPorcentaje</span>
-                }
 
-            </td>
+                <th>
+                    Kg Real
+                </th>
+                <th>
+                    Kg Std
+                </th>
+                <th>
+                    Kg Dif
+                </th>
+                <th>
+                    % Real
+                </th>
+                <th>
+                    % Std
+                </th>
+                <th>
+                    % Dif
+                </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoLimpieza)
-            </td>
-            <td>
-                @item.CorteCoccion
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecetaRoceado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DestinoPreliminar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalCoche)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TallaPromedio)
-            </td>
-            <td>
-                @if (item.Miga)
-                {
-                    <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
+                <th>
+                    Kg Real
+                </th>
+                <th>
+                    Kg Std
+                </th>
+                <th>
+                    Kg Dif
+                </th>
+                <th>
+                    % Real
+                </th>
+                <th>
+                    % Std
+                </th>
+                <th>
+                    % Dif
+                </th>
 
-                }
-            </td>
-            <td>
-                @if (item.Protocolo)
-                {
-                    <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
-                }
-            </td>
 
-        </tr>
-        }
-    </tbody>
-    <thead class="font-weight-bold">
-        <tr>
-            <td></td>
-            <td>@TotalLotes</td>
-            <td colspan="2"></td>
-            <td>@TotalPeso</td>
-            <td colspan="2"></td>
-            <td>@TotalKlRealLomo</td>
-            <td>@TotalKlStdLomo</td>
-            <td>
-                @{
-                    decimal dif = TotalKlRealLomo - TotalKlStdLomo;
-                }
-                @dif
-            </td>
-            <td>
-                @{
-                    dif = Math.Round((TotalKlRealLomo / TotalPeso)*100, 2);
-                }
-                @dif
-            </td>
-            <td>
-                @{
-                    dif = Math.Round((TotalKlStdLomo / TotalPeso)* 100, 2);
-                }
-                @dif
-            </td>
-            <td>
-                @{
-                    dif = (Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2)) - (Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2));
-                }
-                @if (dif >= 0)
-                {
-                    <span class="badge badge-success">@dif</span>
-                }
-                else
-                {
-                    <span class="badge badge-danger">@dif</span>
-                }
-            </td>
-
-            <td>@TotalKlRealMiga</td>
-            <td>@TotalKlStdMiga</td>
-            <td>
-                @{
-                    dif = TotalKlRealMiga - TotalKlStdMiga;
-                }
-                @dif
-            </td>
-            <td>
-                @{
-                    dif = Math.Round((TotalKlRealMiga / TotalPeso*100), 2);
-            }
-            @dif
-        </td>
-        <td>
+            </tr>
+        </thead>
+        <tbody>
             @{
-                dif = Math.Round((TotalKlStdMiga / TotalPeso*100), 2);
-        }
-        @dif
-        </td>
-        <td>
-            @{
-                dif = (Math.Round((TotalKlRealMiga / TotalPeso * 100), 2)) - (Math.Round((TotalKlStdMiga / TotalPeso * 100), 2));
+                int TotalLotes = 0;
+                int TotalPeso = 0;
+                decimal TotalKlRealLomo = 0;
+                decimal TotalKlStdLomo = 0;
+                decimal TotalPorcentajeRealLomo = 0;
+                decimal TotalPorcentajetdLomo = 0;
+
+                decimal TotalKlRealMiga = 0;
+                decimal TotalKlStdMiga = 0;
+                decimal TotalPorcentajeRealMiga = 0;
+                decimal TotalPorcentajetdMiga = 0;
+
+                decimal TotalKlRealGeneral = 0;
+                decimal TotalKlStdGeneral = 0;
+                decimal TotalPorcentajeRealGeneral = 0;
+                decimal TotalPorcentajetdGeneral = 0;
+
+                int Temperatura = 0;
+                int TotalCoches = 0;
             }
-            @* @dif*@
-            @if (dif >= 0)
+
+            @foreach (var item in Model)
             {
-                <span class="badge badge-success">@dif</span>
-            }
-            else
-            {
-                <span class="badge badge-danger">@dif</span>
-            }
-        </td>
+                TotalLotes = TotalLotes + 1;
+                TotalPeso = TotalPeso + item.PesoLote ?? 0;
+                Temperatura = Temperatura + item.CorteCoccion ?? 0;
+                TotalCoches = TotalCoches + item.TotalCoche ?? 0;
+
+                TotalKlRealLomo = TotalKlRealLomo + item.KiloRealLomo ?? 0;
+                TotalKlStdLomo = TotalKlStdLomo + item.KiloSdtLomo ?? 0;
+                TotalPorcentajeRealLomo = TotalPorcentajeRealLomo + item.KiloRealLomoPorcentaje ?? 0;
+                TotalPorcentajetdLomo = TotalPorcentajetdLomo + item.KiloStdLomoPorcentaje ?? 0;
+
+                TotalKlRealMiga = TotalKlRealMiga + item.KiloRealMiga ?? 0;
+                TotalKlStdMiga = TotalKlStdMiga + item.KiloSdtMiga ?? 0;
+                TotalPorcentajeRealMiga = TotalPorcentajeRealMiga + item.KiloRealMigaPorcentaje ?? 0;
+                TotalPorcentajetdMiga = TotalPorcentajetdMiga + item.KiloStdMigaPorcentaje ?? 0;
+
+                decimal totalReal = (item.KiloRealLomo ?? 0) + (item.KiloRealMiga ?? 0);
+                decimal totalStd = (item.KiloSdtLomo ?? 0) + (item.KiloSdtMiga ?? 0);
+                decimal totalDif = totalReal - totalStd;
+
+                decimal totalRealPorcentaje = (item.KiloRealLomoPorcentaje ?? 0) + (item.KiloRealMigaPorcentaje ?? 0);
+                decimal totalStdPorcentaje = (item.KiloStdLomoPorcentaje ?? 0) + (item.KiloStdMigaPorcentaje ?? 0);
+                decimal totalDifPorcentaje = totalRealPorcentaje - totalStdPorcentaje;
 
 
-        <td>@TotalKlRealGeneral</td>
-        <td>@TotalKlStdGeneral</td>
-        <td>
-            @{
-                dif = TotalKlRealGeneral - TotalKlStdGeneral;
-            }
-            @dif
-        </td>
-        <td>
-            @{
-                dif = (Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlRealMiga / TotalPeso) * 100, 2));
-            }
-            @dif
-        </td>
-        <td>
-            @{
-                dif = (Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlStdMiga / TotalPeso) * 100, 2));
-            }
-            @dif
-        </td>
+                TotalKlRealGeneral = TotalKlRealGeneral + totalReal;
+                TotalKlStdGeneral = TotalKlStdGeneral + totalStd;
+                TotalPorcentajeRealGeneral = TotalPorcentajeRealGeneral + totalRealPorcentaje;
+                TotalPorcentajetdGeneral = TotalPorcentajetdGeneral + totalDifPorcentaje;
 
-        <td>
-            @{
-                dif = ((Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlRealMiga / TotalPeso) * 100, 2))) - ((Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlStdMiga / TotalPeso) * 100, 2)));
-            }
-            @if (dif >= 0)
-            {
-                <span class="badge badge-success">@dif</span>
-            }
-            else
-            {
-                <span class="badge badge-danger">@dif</span>
-            }
-        </td>
-        <td></td>
-        <td>
-            @{
-                dif = Temperatura / TotalLotes;
-            }
-            @dif
-        </td>
-        <td colspan="2"></td>
-        <td>@TotalCoches</td>
-        <td colspan="3"> </td>
 
-        </tr>
-    </thead>
-</table>
+
+                <tr>
+                    <td>@item.Fecha.Value.ToString("yyyy-MM-dd")</td>
+                    <td style="font-size:14px">
+                        @if (item.EstadoLote)
+                        {
+                            <span class="badge badge-secondary">@item.Lote</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-warning">@item.Lote</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Especie)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Talla)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PesoLote)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Barco)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Marea)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloRealLomo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloSdtLomo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloDiferenciaLomo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloRealLomoPorcentaje)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloStdLomoPorcentaje)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.KiloDiferenciaLomoPorcentaje)*@
+                        @if (item.KiloDiferenciaLomoPorcentaje >= 0)
+                        {
+                            <span class="badge badge-success">@item.KiloDiferenciaLomoPorcentaje</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">@item.KiloDiferenciaLomoPorcentaje</span>
+
+                            @*<i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>*@
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloRealMiga)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloSdtMiga)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloDiferenciaMiga)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloRealMigaPorcentaje)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KiloStdMigaPorcentaje)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.KiloDiferenciaMigaPorcentaje)*@
+                        @if (item.KiloDiferenciaMigaPorcentaje >= 0)
+                        {
+                            <span class="badge badge-success">@item.KiloDiferenciaMigaPorcentaje</span>
+
+                            @*<i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>*@
+                        }
+                        else
+                        { <span class="badge badge-danger">@item.KiloDiferenciaMigaPorcentaje</span>
+
+                    }
+                    </td>
+                    <td>@totalReal</td>
+                    <td>@totalStd</td>
+                    <td>@totalDif</td>
+                    <td>@totalRealPorcentaje</td>
+                    <td>@totalStdPorcentaje</td>
+                    <td>
+                        @*@totalDifPorcentaje*@
+                        @if (totalDifPorcentaje >= 0)
+                        {
+                            <span class="badge badge-success">@totalDifPorcentaje</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">@totalDifPorcentaje</span>
+                        }
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                    </td>
+                    <td>
+                        @item.CorteCoccion
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RecetaRoceado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DestinoPreliminar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCoche)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TallaPromedio)
+                    </td>
+                    <td>
+                        @if (item.Miga)
+                        {
+                            <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
+
+                        }
+                    </td>
+                    <td>
+                        @if (item.Protocolo)
+                        {
+                            <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+        <thead class="font-weight-bold">
+            <tr>
+                <td></td>
+                <td>@TotalLotes</td>
+                <td colspan="2"></td>
+                <td>@TotalPeso</td>
+                <td colspan="3"></td>
+                <td>@TotalKlRealLomo</td>
+                <td>@TotalKlStdLomo</td>
+                <td>
+                    @{
+                        decimal dif = TotalKlRealLomo - TotalKlStdLomo;
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2);
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2);
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = (Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2)) - (Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2));
+                    }
+                    @if (dif >= 0)
+                    {
+                        <span class="badge badge-success">@dif</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@dif</span>
+                    }
+                </td>
+
+                <td>@TotalKlRealMiga</td>
+                <td>@TotalKlStdMiga</td>
+                <td>
+                    @{
+                        dif = TotalKlRealMiga - TotalKlStdMiga;
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = Math.Round((TotalKlRealMiga / TotalPeso * 100), 2);
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = Math.Round((TotalKlStdMiga / TotalPeso * 100), 2);
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = (Math.Round((TotalKlRealMiga / TotalPeso * 100), 2)) - (Math.Round((TotalKlStdMiga / TotalPeso * 100), 2));
+                    }
+                    @if (dif >= 0)
+                    {
+                        <span class="badge badge-success">@dif</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@dif</span>
+                    }
+                </td>
+
+
+                <td>@TotalKlRealGeneral</td>
+                <td>@TotalKlStdGeneral</td>
+                <td>
+                    @{
+                        dif = TotalKlRealGeneral - TotalKlStdGeneral;
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = (Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlRealMiga / TotalPeso) * 100, 2));
+                    }
+                    @dif
+                </td>
+                <td>
+                    @{
+                        dif = (Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlStdMiga / TotalPeso) * 100, 2));
+                    }
+                    @dif
+                </td>
+
+                <td>
+                    @{
+                        dif = ((Math.Round((TotalKlRealLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlRealMiga / TotalPeso) * 100, 2))) - ((Math.Round((TotalKlStdLomo / TotalPeso) * 100, 2)) + (Math.Round((TotalKlStdMiga / TotalPeso) * 100, 2)));
+                    }
+                    @if (dif >= 0)
+                    {
+                        <span class="badge badge-success">@dif</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@dif</span>
+                    }
+                </td>
+                <td></td>
+                <td>
+                    @{
+                        dif = Temperatura / TotalLotes;
+                    }
+                    @dif
+                </td>
+                <td colspan="2"></td>
+                <td>@TotalCoches</td>
+                <td colspan="3"> </td>
+
+            </tr>
+        </thead>
+    </table>
+
+</div>

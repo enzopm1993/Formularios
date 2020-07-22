@@ -377,7 +377,8 @@ function HabilitarProyeccionProgramacion() {
         data:
         {
             id: $('#IdProyeccion').val(),
-            proceso:1
+            proceso: 1,
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
