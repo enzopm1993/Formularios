@@ -564,7 +564,7 @@
                         text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
                         titleAttr: 'Imprimir',
                         footer: true
-                      
+
                     },
                     {
                         text: '<img id="imgBtnColumnas"  style="width:100%" src="../../Content/icons/justificar24.png" />',
@@ -603,24 +603,24 @@
         <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
         <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
         @*<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
 
 
 
-        <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-        <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
 
 
 
-        <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
-        <script type="text/javascript" src="https://code.highcharts.com/modules/no-data-to-display.js"></script>*@
+            <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+            <script type="text/javascript" src="https://code.highcharts.com/modules/no-data-to-display.js"></script>*@
 
         <script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
         <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
@@ -708,6 +708,19 @@
 
 
     }
+    @if (ViewBag.DxDevWeb == "1")
+    {
+
+
+        <link rel="stylesheet" href="~/Content/dxdevweb/css/dx.common.css" />
+        <link rel="stylesheet" href="~/Content/dxdevweb/css/dx.light.css" />
+
+        <script type="text/javascript" src="~/Content/dxdevweb/js/dx.viz-web.js"></script>
+        <script type="text/javascript" src="~/Content/dxdevweb/js/dx.messages.es.js"></script>
+        <script src="~/Content/dxdevweb/exceljs.min.js"></script>
+        <script src="~/Content/dxdevweb/FileSaver.min.js"></script>
+    }
+
 
     @if (ViewBag.JavaScrip != null)
     {
@@ -723,7 +736,7 @@
         </script>
         <script src="~/Scripts/jquery-ui.min.js">
         </script>
-    
+
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>
             <link href="~/Content/css/select2.css" rel="stylesheet" />*@
