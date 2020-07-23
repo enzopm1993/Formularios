@@ -3355,6 +3355,7 @@
     <Content Include="Scripts\Nomina\DatosPersonales.js" />
     <Content Include="Scripts\Nomina\DatosPersonales_BACK.js" />
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
+    <Content Include="Scripts\Nomina\ReporteHorasHombre.js" />
     <Content Include="Scripts\Nomina\RptAsistenciaInicialActuales.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -4273,6 +4274,7 @@
     <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
     <Content Include="Views\Soporte\Reporte.cshtml" />
     <Content Include="Views\Soporte\TicketsCerrados.cshtml" />
+    <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
