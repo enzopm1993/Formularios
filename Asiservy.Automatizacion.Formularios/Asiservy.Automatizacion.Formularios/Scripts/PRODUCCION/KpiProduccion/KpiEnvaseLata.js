@@ -93,8 +93,8 @@ var options = {
 divChartSolido = new ApexCharts(document.querySelector("#divChartSolido"), options);
 divChartSolido.render();
 
-divChartLiquido = new ApexCharts(document.querySelector("#divChartLiquido"), options);
-divChartLiquido.render();
+//divChartLiquido = new ApexCharts(document.querySelector("#divChartLiquido"), options);
+//divChartLiquido.render();
 
 divChartAceite = new ApexCharts(document.querySelector("#divChartAceite"), options);
 divChartAceite.render();
@@ -133,7 +133,7 @@ function ConsultaKpiPorFecha() {
                     { data: 'OrdenVenta' },
                     { data: 'Producto' },
                     { data: 'Solido' },
-                    { data: 'Liquido' },
+                  //  { data: 'Liquido' },
                     { data: 'Aceite' },
                     { data: 'Empleados' }
                 ];
@@ -178,18 +178,21 @@ function Kpi(m) {
                 DesperdicioAceites[i] = item.Aceite;
             });
         } else {
-            var result = Enumerable.From(m).GroupBy("$.Fecha", null,
+            var result = Enumerable.From(m).GroupBy(
+                function (e) { return e.Fecha; }
+                , null,
                 function (key, g) {
                     var result = {
-                        Fecha: moment(g.Fecha).format("DD-MM-YYYY"),
+                        Fecha: key,
                         Solido: (g.Sum("$.Solido") / g.Count()).toFixed(2),
                         Liquido: (g.Sum("$.Liquido") / g.Count()).toFixed(2),
                         Aceite: (g.Sum("$.Aceite") / g.Count()).toFixed(2)
-
-
                     }
                     return result;
                 }).ToArray();
+
+         
+         //   console.log(result);
 
             $.each(result, function (i, item) {
                 Fechas[i] = item.Fecha;
@@ -199,18 +202,19 @@ function Kpi(m) {
             });
             Data = Fechas;
         }
-      
+
+       // console.log(Data);
 
         var categories = Data;
         var series_Solido = [{
             name: 'Solido',
             data: DesperdicioSolido
         }];
-        var Serie_Liquido = [
-            {
-                name: 'Liquido',
-                data: DesperdicioLiquido
-            }];
+        //var Serie_Liquido = [
+        //    {
+        //        name: 'Liquido',
+        //        data: DesperdicioLiquido
+        //    }];
 
 
         var Serie_Aceite = [
@@ -232,18 +236,18 @@ function Kpi(m) {
             }
         })
 
-        divChartLiquido.updateSeries(Serie_Liquido);
-        divChartLiquido.updateOptions({
-            xaxis: {
-                categories: categories
-            },
-            title: {
-                text: 'LIQUIDO'
-            },
-            fill: {
-                colors: ['#48FFC1']
-            }
-        })
+        //divChartLiquido.updateSeries(Serie_Liquido);
+        //divChartLiquido.updateOptions({
+        //    xaxis: {
+        //        categories: categories
+        //    },
+        //    title: {
+        //        text: 'LIQUIDO'
+        //    },
+        //    fill: {
+        //        colors: ['#48FFC1']
+        //    }
+        //})
 
         divChartAceite.updateSeries(Serie_Aceite);
         divChartAceite.updateOptions({
@@ -265,12 +269,12 @@ function Kpi(m) {
             }
         })
 
-        divChartLiquido.updateSeries([]);
-        divChartLiquido.updateOptions({
-            xaxis: {
-                categories: []
-            }
-        })
+        //divChartLiquido.updateSeries([]);
+        //divChartLiquido.updateOptions({
+        //    xaxis: {
+        //        categories: []
+        //    }
+        //})
 
 
         divChartAceite.updateSeries([]);
