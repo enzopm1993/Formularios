@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS>
+@using Newtonsoft.Json;
+
+<table class="table table-bordered">
+    <thead style="font-size:10px">
+        <tr>
+            <th>LOTE</th>
+            <th>PARÁMETRO</th>
+            <th>VALOR</th>
+            <th class="text-center">ACCIONES</th>
+        </tr>
+    </thead>
+    @{ 
+        
+             var d = JsonConvert.SerializeObject(ViewBag.ListaElementos);
+        var listObject = JsonConvert.DeserializeObject<dynamic>(d);
+    }
+    <tbody  style="font-size:9px">
+        @foreach (var item in listObject)
+        {
+        <tr>
+            <td>
+                @item.LoteBarco
+            </td>
+            <td>
+                @foreach (var parm in ViewBag.listaParametros)
+                {
+                    if (item.IdParametro==parm.IdParametro)
+                    {
+                        @parm.NombreParametro
+                    }
+                }               
+            </td>
+            <td>
+                @item.Valor.ToString("0.00")
+            </td>
+            <td>
+                @{
+                    var json = JsonConvert.SerializeObject(item);
+                }
+                <button id="btnActualizar" class="btn btn-link" style="padding:0px; font-size:12px;" onclick="ActualizarDetalle(@json)">Editar</button>
+                <button id="btnEliminar" class="btn btn-link" style="padding:0px;font-size:12px" onclick="EliminarConfirmarDetalle(@json)">Eliminar</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

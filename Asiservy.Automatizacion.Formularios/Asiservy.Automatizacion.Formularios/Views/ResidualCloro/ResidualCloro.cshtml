@@ -21,7 +21,7 @@
         <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarResidualCloro()" id="txtFecha" class="form-control" />
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" onchange="CargarResidualCloro()" id="txtFecha" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 col-6 col-sm-6">

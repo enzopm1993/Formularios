@@ -239,7 +239,10 @@
                         {
                             caption: "Nombre",
                             dataField: "Nombre",
-                            area: "row"
+                            area: "row",
+                            selector: function (data) {
+                                return "(" + data.HoraInicio + " - " + data.HoraFin + ") - " + data.Nombre;
+                            }
                         },
                         {
                             caption: "Tipo de rol",

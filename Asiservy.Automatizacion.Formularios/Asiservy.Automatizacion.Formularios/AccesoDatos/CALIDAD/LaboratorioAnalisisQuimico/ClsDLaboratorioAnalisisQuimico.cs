@@ -1,227 +1,406 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using Asiservy.Automatizacion.Datos.Datos;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Asiservy.Automatizacion.Datos.Datos;
+using System.Data.Entity;
+using System.Collections.ObjectModel;
 
-//namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAnalisisQuimico
-//{
-//    public class ClsDLaboratorioAnalisisQuimico
-//    {
-//        public List<CC_ANALISIS_QUIMICO_PRECOCCION_TURNO> ConsultarMantenimiento(string estadoRegistro = null)
-//        {
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                if (estadoRegistro == null)
-//                {
-//                    var lista = db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.ToList();
-//                    return lista;
-//                }
-//                else
-//                {
-//                    var listaVerivicacion = db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.Where(v => v.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-//                    return listaVerivicacion;
-//                }               
-//            }
-//        }
-//        public int GuardarModificarMantenimiento(CC_ANALISIS_QUIMICO_PRECOCCION_TURNO guardarmodificar)
-//        {
-//            int valor = 0;
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                var validarNombreRepetido = db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.FirstOrDefault(x => x.Nombre.Replace(" ", string.Empty).ToUpper() == guardarmodificar.Nombre.Replace(" ", string.Empty).ToUpper() && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                if (validarNombreRepetido != null && guardarmodificar.IdTurno != validarNombreRepetido.IdTurno)
-//                {
-//                    valor = 3;
-//                    return valor;
-//                }
+namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAnalisisQuimico
+{
+    public class ClsDLaboratorioAnalisisQuimico
+    {
+        public int GuardarModificarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL guardarModificar, int siAprobar)
+        {
+            int valor = 0;//GUARDDADO NUEVO
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var validarNombreRepetido = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.Fecha == guardarModificar.Fecha && x.Turno == guardarModificar.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (siAprobar != 1 && validarNombreRepetido != null && guardarModificar.IdAnalisis != validarNombreRepetido.IdAnalisis)
+                {
+                    valor = 5;
+                    return valor;
+                }
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.IdAnalisis == guardarModificar.IdAnalisis && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    if (siAprobar == 1)
+                    {
 
-//                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.FirstOrDefault(x => x.IdTurno == guardarmodificar.IdTurno);
-//                if (model != null)
-//                {
-//                    if (model.EstadoRegistro == "I")
-//                    {
-//                        valor = 2;
-//                        return valor;
-//                    }
-//                    else
-//                    {
-//                        model.Nombre = guardarmodificar.Nombre;
-//                        model.DescripcionMant = guardarmodificar.DescripcionMant;
-//                        model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
-//                        model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
-//                        model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
-//                        valor = 1;
-//                    }
-//                }
-//                else
-//                {
-//                    db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.Add(guardarmodificar);
-//                }
-//                db.SaveChanges();
-//                return valor;
-//            }
-//        }
-//        public int EliminarMantenimiento(CC_ANALISIS_QUIMICO_PRECOCCION_TURNO guardarmodificar)
-//        {
-//            int valor = 0;
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                var validarNombreRepetido = db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.FirstOrDefault(x => x.Nombre.Replace(" ", string.Empty).ToUpper() == guardarmodificar.Nombre.Replace(" ", string.Empty).ToUpper()
-//                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                if (validarNombreRepetido != null && guardarmodificar.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
-//                {
-//                    valor = 2;
-//                    return valor;
-//                }
+                        model.EstadoReporte = guardarModificar.EstadoReporte;
+                        model.AprobadoPor = guardarModificar.UsuarioIngresoLog;
+                        model.FechaAprobado = guardarModificar.FechaAprobado;
+                        valor = 2;//APRROBADO
+                    }
+                    else
+                    {
+                        if (guardarModificar.Fecha != DateTime.MinValue)
+                        {
+                            if (!string.IsNullOrEmpty(guardarModificar.ObservacionCtrl))
+                                model.ObservacionCtrl = guardarModificar.ObservacionCtrl.ToUpper();
+                            else
+                                model.ObservacionCtrl = guardarModificar.ObservacionCtrl;
+                            model.Fecha = guardarModificar.Fecha;
 
-//                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_TURNO.FirstOrDefault(x => x.IdTurno == guardarmodificar.IdTurno);
-//                if (model != null)
-//                {
-//                    model.EstadoRegistro = guardarmodificar.EstadoRegistro;
-//                    model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
-//                    model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
-//                    model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
-//                    valor = 1;
-//                    db.SaveChanges();
-//                }
-//                return valor;
-//            }
-//        }
-//        public int GuardarModificarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL guardarModificar, int siAprobar)
-//        {
-//            int valor = 0;//GUARDDADO NUEVO
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.IdAnalisis == guardarModificar.IdAnalisis && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                if (model != null)
-//                {
-//                    if (siAprobar == 1)
-//                    {
-//                        model.EstadoReporte = guardarModificar.EstadoReporte;
-//                        model.AprobadoPor = guardarModificar.UsuarioIngresoLog;
-//                        model.FechaAprobado = guardarModificar.FechaAprobado;
-//                        valor = 2;//APRROBADO
-//                    }
-//                    else
-//                    {
-//                        if (guardarModificar.Fecha != DateTime.MinValue)
-//                        {
-//                            model.Fecha = guardarModificar.Fecha;
-//                            model.ObservacionCtrl = guardarModificar.ObservacionCtrl;
-//                            valor = 1;//ACTUALIZAR
-//                        }
-//                        else valor = 3;//ERROR DE FECHA
-//                    }
-//                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-//                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-//                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-//                }
-//                else
-//                {
-//                    if (guardarModificar.Fecha != DateTime.MinValue)
-//                    {
-//                        db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Add(guardarModificar);
-//                    }
-//                    else valor = 3;
-//                }
-//                db.SaveChanges();
-//                return valor;
-//            }
-//        }
-//        public CC_ANALISIS_QUIMICO_PRECOCCION_CTRL ConsultarEstadoReporte(int idAnalisis, DateTime fechaControl)
-//        {
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                CC_ANALISIS_QUIMICO_PRECOCCION_CTRL listado;
-//                if (idAnalisis == 0 && fechaControl > DateTime.MinValue)
-//                {
-//                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
-//                                                                                        && x.Fecha.Day == fechaControl.Day
-//                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                }
-//                else
-//                {
-//                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.IdAnalisis == idAnalisis && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                }
-//                CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera;
-//                if (listado != null)
-//                {
-//                    cabecera = new CC_ANALISIS_QUIMICO_PRECOCCION_CTRL();
-//                    cabecera.IdAnalisis = listado.IdAnalisis;
-//                    cabecera.Fecha = listado.Fecha;
-//                    cabecera.ObservacionCtrl = listado.ObservacionCtrl;
-//                    cabecera.EstadoReporte = listado.EstadoReporte;
-//                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
-//                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
-//                    cabecera.FechaAprobado = listado.FechaAprobado;
-//                    cabecera.AprobadoPor = listado.AprobadoPor;
-//                    return cabecera;
-//                }
-//                return listado;
-//            }
-//        }
-//        public int EliminarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL guardarModificar)
-//        {
-//            int valor = 0;
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.IdAnalisis == guardarModificar.IdAnalisis);
-//                if (model != null)
-//                {
-//                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
-//                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-//                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-//                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-//                    valor = 1;
-//                    db.SaveChanges();
-//                }
-//                return valor;
-//            }
-//        }
-//        public int GuardarModificarDetalle(CC_ANALISIS_QUIMICO_PRECOCCION_DET guardarModificar)
-//        {
-//            int valor = 0;//GUARDDADO NUEVO
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
+                            valor = 1;//ACTUALIZAR
+                        }
+                        else valor = 3;//ERROR DE FECHA
+                    }
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                }
+                else
+                {
+                    if (guardarModificar.Fecha != DateTime.MinValue)
+                    {
+                        if (!string.IsNullOrEmpty(guardarModificar.ObservacionCtrl))
+                            guardarModificar.ObservacionCtrl = guardarModificar.ObservacionCtrl.ToUpper();
+                        db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Add(guardarModificar);
+                    }
+                    else valor = 3;
+                }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+        public CC_ANALISIS_QUIMICO_PRECOCCION_CTRL ConsultarEstadoReporte(int idAnalisis, DateTime fechaControl)
+        {
+            CC_ANALISIS_QUIMICO_PRECOCCION_CTRL listado;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
 
-//                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.FirstOrDefault(x => x.IdAnalisisDetalle == guardarModificar.IdAnalisisDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                if (model != null)
-//                {
-//                    model.IdTurno = guardarModificar.IdTurno;
-//                    model.ObservacionDet = guardarModificar.ObservacionDet;
-//                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-//                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-//                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-//                    valor = 1;//ACTUALIZAR                   
-//                }
-//                else
-//                {
-//                    db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.Add(guardarModificar);
-//                }
-//                db.SaveChanges();
-//                return valor;
-//            }
-//        }
-//        public int EliminarDetalle(CC_ANALISIS_QUIMICO_PRECOCCION_DET guardarmodificar)
-//        {
-//            int valor = 0;
-//            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-//            {
-//                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.Where(x => x.IdAnalisisDetalle == guardarmodificar.IdAnalisisDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-//                if (model != null)
-//                {
-//                    foreach (var item in model)
-//                    {
-//                        item.EstadoRegistro = guardarmodificar.EstadoRegistro;
-//                        item.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
-//                        item.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
-//                        item.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
-//                        valor = 1;
-//                    }
-//                    db.SaveChanges();
-//                }
-//                return valor;
-//            }
-//        }
-//    }
-//}
+                if (idAnalisis == 0 && fechaControl > DateTime.MinValue)
+                {
+                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                        && x.Fecha.Day == fechaControl.Day
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                else
+                {
+                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Include(c => c.CC_ANALISIS_QUIMICO_PRECOCCION_DET).FirstOrDefault(x => x.IdAnalisis == idAnalisis && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera;
+                if (listado != null)
+                {
+                    cabecera = new CC_ANALISIS_QUIMICO_PRECOCCION_CTRL();
+                    cabecera.IdAnalisis = listado.IdAnalisis;
+                    cabecera.Fecha = listado.Fecha;
+                    cabecera.ObservacionCtrl = listado.ObservacionCtrl;
+                    cabecera.EstadoReporte = listado.EstadoReporte;
+                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = listado.FechaAprobado;
+                    cabecera.AprobadoPor = listado.AprobadoPor;
+                    return cabecera;
+                }
+
+            }
+            return listado;
+        }
+        public CC_ANALISIS_QUIMICO_PRECOCCION_DET ConsultarDetalleExiste(int idAnalisisDetalle)
+        {
+            CC_ANALISIS_QUIMICO_PRECOCCION_DET detalle;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                detalle = db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.Where(x => x.IdAnalisisDetalle == idAnalisisDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+            }
+            return detalle;
+        }
+        public List<CC_ANALISIS_QUIMICO_PRECOCCION_DET> ConsultarDetalle(int IdAnalisis)
+        {
+            List<CC_ANALISIS_QUIMICO_PRECOCCION_DET> detalle;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                detalle = db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.Where(x => x.IdAnalisis == IdAnalisis && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+            if (detalle != null)
+            {
+                List<CC_ANALISIS_QUIMICO_PRECOCCION_DET> listaDetalle = new List<CC_ANALISIS_QUIMICO_PRECOCCION_DET>();
+                CC_ANALISIS_QUIMICO_PRECOCCION_DET objDetalle;
+                foreach (var item in detalle)
+                {
+                    objDetalle = new CC_ANALISIS_QUIMICO_PRECOCCION_DET();
+                    objDetalle.IdAnalisisDetalle = item.IdAnalisisDetalle;
+                    objDetalle.ObservacionDet = item.ObservacionDet;
+                    objDetalle.IdAnalisis = item.IdAnalisis;
+                    objDetalle.Cocinador = item.Cocinador;
+                    objDetalle.Parada = item.Parada;
+                    listaDetalle.Add(objDetalle);
+                }
+                return listaDetalle;
+            }
+            return null;
+        }
+        public List<dynamic> ConsultarElemento(int idAnalisis, int idParametro, int idAnalisisDetalle)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var elemento = (from det in db.CC_ANALISIS_QUIMICO_PRECOCCION_DET
+                                join ele in db.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS on new { det.IdAnalisisDetalle, det.IdAnalisis, d = det.IdAnalisisDetalle } equals new { ele.IdAnalisisDetalle, IdAnalisis = idAnalisis, d = idAnalisisDetalle }
+                                join par in db.CC_PARAMETROS_LABORATORIO on new { ele.IdParametro, p = idParametro, ele.EstadoRegistro } equals new { par.IdParametro, p = par.IdParametro, EstadoRegistro = clsAtributos.EstadoRegistroActivo }
+                                select new
+                                {
+                                    det.Cocinador,
+                                    det.IdAnalisisDetalle,
+                                    det.ObservacionDet,
+                                    det.Parada,
+                                    ele.IdElemento,
+                                    ele.IdParametro,
+                                    ele.LoteBarco,
+                                    ele.Valor,
+                                    par.Mascara,
+                                    par.NombreParametro,
+                                    par.ValorMax,
+                                    par.ValorMin
+                                });
+                return elemento.ToList<dynamic>();
+            }
+        }
+        public List<sp_Analisis_Quimico_Precoccion> ConsultarDetalleDia(DateTime fechaControl, string turno, int op)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var elemento = db.sp_Analisis_Quimico_Precoccion(op, fechaControl).ToList();
+                //var elemento = (from cab in db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL
+                //                join det in db.CC_ANALISIS_QUIMICO_PRECOCCION_DET on new { cab.Fecha, cab.IdAnalisis, cab.EstadoRegistro} equals new { Fecha = fechaControl, det.IdAnalisis,  EstadoRegistro=clsAtributos.EstadoRegistroActivo}
+                //                let join img in db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO
+                //                where img.IdAnalisisDetalle == det.IdAnalisisDetalle && img.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                //                from ele in db.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS
+                //                from par in db.CC_PARAMETROS_LABORATORIO.Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && x.IdParametro==ele.IdParametro).DefaultIfEmpty()                                
+                //                where ele.IdAnalisisDetalle==det.IdAnalisisDetalle && ele.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                //                select new ClsDetalleDia
+                //                {
+                //                    Turno = cab.Turno,
+                //                    Cocinador = det.Cocinador,
+                //                    IdAnalisisDetalle = det.IdAnalisisDetalle,
+                //                    ObservacionDet = det.ObservacionDet,
+                //                    Parada = det.Parada,
+                //                    IdElemento = ele.IdElemento,
+                //                    IdParametro = ele.IdParametro,
+                //                    LoteBarco = ele.LoteBarco,
+                //                    Valor = ele.Valor,
+                //                    Mascara = par.Mascara,
+                //                    NombreParametro = par.NombreParametro,
+                //                    ValorMax = par.ValorMax,
+                //                    ValorMin = par.ValorMin,
+                //                    RutaFoto=img.RutaFoto
+                //                });
+                return elemento;
+            }
+        }
+        public CC_ANALISIS_QUIMICO_PRECOCCION_CTRL ConsultarCabeceraTurno(string turno, DateTime fechaControl)
+        {
+            CC_ANALISIS_QUIMICO_PRECOCCION_CTRL listado;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                if (turno == null)
+                {
+                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.AsNoTracking().FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                    && x.Fecha.Day == fechaControl.Day
+                                                                                    && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                else
+                {
+                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.AsNoTracking().FirstOrDefault(x => x.Fecha.Year == fechaControl.Year && x.Fecha.Month == fechaControl.Month
+                                                                                        && x.Fecha.Day == fechaControl.Day && x.Turno == turno
+                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+
+            }
+            if (listado != null)
+            {
+                //listado.CC_ANALISIS_QUIMICO_PRECOCCION_DET = null;
+                CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera = new CC_ANALISIS_QUIMICO_PRECOCCION_CTRL();
+                cabecera.AprobadoPor = listado.AprobadoPor;
+                cabecera.EstadoReporte = listado.EstadoReporte;
+                cabecera.Fecha = listado.Fecha;
+                cabecera.FechaAprobado = listado.FechaAprobado;
+                cabecera.IdAnalisis = listado.IdAnalisis;
+                cabecera.ObservacionCtrl = listado.ObservacionCtrl;
+                cabecera.Turno = listado.Turno;
+                return cabecera;
+            }
+            return listado;
+        }
+        public int EliminarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.IdAnalisis == guardarModificar.IdAnalisis);
+                if (model != null)
+                {
+                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+        public int GuardarModificarDetalle(CC_ANALISIS_QUIMICO_PRECOCCION_DET guardarModificar)
+        {
+            int valor = 0;//GUARDDADO NUEVO
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.FirstOrDefault(x => x.IdAnalisisDetalle == guardarModificar.IdAnalisisDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    if (!string.IsNullOrEmpty(guardarModificar.ObservacionDet))
+                        model.ObservacionDet = guardarModificar.ObservacionDet.ToUpper();
+                    else
+                        model.ObservacionDet = guardarModificar.ObservacionDet;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;//ACTUALIZAR                   
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(guardarModificar.ObservacionDet))
+                        guardarModificar.ObservacionDet = guardarModificar.ObservacionDet.ToUpper();
+                    db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.Add(guardarModificar);
+                }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+        public int EliminarDetalle(CC_ANALISIS_QUIMICO_PRECOCCION_DET guardarmodificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_DET.Where(x => x.IdAnalisisDetalle == guardarmodificar.IdAnalisisDetalle && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    foreach (var item in model)
+                    {
+                        item.EstadoRegistro = guardarmodificar.EstadoRegistro;
+                        item.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
+                        item.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
+                        item.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+        public int GuardarModificarElemento(CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS guardarModificar)
+        {
+            int valor = 0;//GUARDDADO NUEVO
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS.FirstOrDefault(x => x.IdElemento == guardarModificar.IdElemento && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    model.Valor = guardarModificar.Valor;
+                    model.LoteBarco = guardarModificar.LoteBarco;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;//ACTUALIZAR                   
+                }
+                else
+                {
+                    db.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS.Add(guardarModificar);
+                }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+        public int EliminarElemento(CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS guardarmodificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS.Where(x => x.IdElemento == guardarmodificar.IdElemento && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                if (model != null)
+                {
+                    model.EstadoRegistro = guardarmodificar.EstadoRegistro;
+                    model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
+                    valor = 1;
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+        public int GuardarModificarFoto(CC_ANALISIS_QUIMICO_PRECOCCION_FOTO guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO.FirstOrDefault(x => x.IdFoto == guardarModificar.IdFoto && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    model.ObservacionFoto = guardarModificar.ObservacionFoto;
+                    if (!string.IsNullOrEmpty(guardarModificar.RutaFoto))
+                        model.RutaFoto = guardarModificar.RutaFoto;
+                    model.Rotation = guardarModificar.Rotation;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;
+                }
+                else
+                {
+                    db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO.Add(guardarModificar);
+                }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+        public List<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO> ConsultarImagen(int idAnalisisDetalle)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listaImagen = db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO.Where(x=> x.IdAnalisisDetalle==idAnalisisDetalle && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+                return listaImagen;
+            }
+        }
+        public int EliminarImagen(CC_ANALISIS_QUIMICO_PRECOCCION_FOTO guardarmodificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO.Where(x => x.IdFoto == guardarmodificar.IdFoto && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    foreach (var item in model)
+                    {
+                        item.EstadoRegistro = guardarmodificar.EstadoRegistro;
+                        item.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
+                        item.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
+                        item.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+    }
+    //public class ClsDetalleDia
+    //{
+    //    public string RutaFoto { get; set; }
+    //    public string Turno { get; set; }
+    //    public string Cocinador { get; set; }
+    //    public int IdAnalisisDetalle;
+    //    public string ObservacionDet;
+    //    public int Parada;
+    //    public int IdElemento;
+    //    public int IdParametro { get; set; }
+    //    public string LoteBarco { get; set; }
+    //    public decimal Valor { get; set; }
+    //    public decimal? Mascara { get; set; }
+    //    public string NombreParametro { get; set; }
+    //    public decimal? ValorMax { get; set; }
+    //    public decimal? ValorMin { get; set; }
+    //}
+}

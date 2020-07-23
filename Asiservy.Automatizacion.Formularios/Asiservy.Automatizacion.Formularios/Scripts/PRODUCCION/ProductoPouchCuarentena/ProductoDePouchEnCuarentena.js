@@ -6,23 +6,32 @@ var IdSubdetalle = 0;
 var IdDetalle_SUBDETALLE = 0;
 var IdCocheAutoclave = 0;
 var IdDetalleEliminar;
+
+$(document).ready(function () {
+    $('#cmbTurno').prop('selectedIndex', 1);
+    LLenarComboOrdenes();
+    ConsultarCabControl();
+});
+$("#btnOrden").on("click", function () {
+    $("#ModalOrdenes").modal('show');
+});
 function LLenarComboOrdenes(orden) {
     $('#txtProducto').val('');
     $('#txtTamanoFunda').val('');
     $('#txtCliente').val('');
     $('#txtPedidoVenta').val('');
     $('#CodProducto').val('');
-    $('#cmbOrdeneFabricacion').empty();
-    $('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
+    $('#SelectOrdenFabricacion').empty();
+    $('#SelectOrdenFabricacion').append('<option>Seleccione...</option>');
     let params = {
-        Fecha: $("#txtFechaProduccion").val()
+        Fecha: $("#txtFechaOrden").val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&');
 
     let url = '../General/ConsultarOFNivel1?' + query;
-    if ($('#txtFechaProduccion').val() == '') {
+    if ($('#txtFechaOrden').val() == '') {
 
     } else {
         fetch(url)
@@ -36,14 +45,14 @@ function LLenarComboOrdenes(orden) {
                 }
                 ListaOrdenesFabricacion = resultado;
                 $.each(ListaOrdenesFabricacion, function (key, value) {
-                    $('#cmbOrdeneFabricacion').append('<option value=' + value.ORDEN_FABRICACION + '>' + value.ORDEN_FABRICACION + '</option>');
+                    $('#SelectOrdenFabricacion').append('<option value=' + value.ORDEN_FABRICACION + '>' + value.ORDEN_FABRICACION + '</option>');
                 });
                 if (orden != null) {
-                    $('#cmbOrdeneFabricacion').val(orden);
+                    $('#SelectOrdenFabricacion').val(orden);
                 }
             })
             .catch(function (resultado) {
-                console.log(resultado);
+                //console.log(resultado);
                 MensajeError(resultado.responseText, false);
                 $('#btnCargando').prop('hidden', true);
                 $('#btnConsultar').prop('hidden', false);
@@ -172,12 +181,13 @@ function ConsultarCabControl() {
             window.location.reload();
         }
         if (Error == 0) {
-            console.log(resultado);
+            //console.log(resultado);
             $('#txtFechaProduccion').prop('disabled', true);
             $('#cmbTurno').prop('disabled', true);
-            LLenarComboOrdenes(resultado.OrdenFabricacion);
+            //LLenarComboOrdenes(resultado.OrdenFabricacion);
             //$("#cmbTurno").val("2");
             if (resultado != "0") {
+                $('#cmbOrdeneFabricacion').val(resultado.OrdenFabricacion);
                 $('#mensajeRegistros').prop('hidden', true);
                 IdCabecera = resultado.IdCabProdPouchCuarentena;
                 $('#CodProducto').val(resultado.CodigoProducto);
@@ -214,10 +224,11 @@ function LimpiarControles() {
     IdCabecera = 0;
     Error = 0;
     IdDetalle = 0;
-    $('#txtFechaProduccion').val('');
+    $('#cmbOrdeneFabricacion').val('');
+    $('#txtFechaProduccion').val(moment().format('YYYY-MM-DD'));
     $('#cmbTurno').prop('selectedIndex', 0);
     $('#cmbOrdeneFabricacion').empty();
-    $('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
+    //$('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
     $('#txtProducto').val('');
     $('#txtTamanoFunda').val('');
     $('#txtCliente').val('');
@@ -326,7 +337,7 @@ function ConsultarDetalleControl() {
             //console.log(resultado);
         })
         .catch(function (resultado) {
-            console.log(resultado);
+            //console.log(resultado);
             MensajeError(resultado.responseText, false);
             $('#btnCargando').prop('hidden', true);
             $('#btnConsultar').prop('hidden', false);
@@ -550,7 +561,7 @@ function ConsultarSubDetalleControl() {
             //console.log(resultado);
         })
         .catch(function (resultado) {
-            console.log(resultado);
+            //console.log(resultado);
             MensajeError(resultado.responseText, false);
             $('#btnCargando').prop('hidden', true);
             $('#btnConsultar').prop('hidden', false);

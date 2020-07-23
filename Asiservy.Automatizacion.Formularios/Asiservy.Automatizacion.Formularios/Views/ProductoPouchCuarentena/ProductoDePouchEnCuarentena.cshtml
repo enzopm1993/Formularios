@@ -21,17 +21,17 @@
 
 <div class="card">
     <div class="row">
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Fecha producción:</label>
-                <input type="date" id="txtFechaProduccion" class="form-control" onchange="LLenarComboOrdenes()" />
+                <input type="date" id="txtFechaProduccion" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label class="text-danger" id="msjErrorFechaProduccion" hidden>seleccione una fecha</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Turno:</label>
-                <select class="form-control" id="cmbTurno">
+                <select class="form-control" id="cmbTurno" onchange="ConsultarCabControl()">
                     <option value="">Seleccione...</option>
                     <option value="1">Turno A</option>
                     <option value="2">Turno B</option>
@@ -42,9 +42,16 @@
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 <label>Orden de fabricación:</label>
-                <select class="form-control" id="cmbOrdeneFabricacion" onchange="DatosOrdenFabricacion()">
-                    <option value="1">Seleccione...</option>
-                </select>
+                @*<select class="form-control" id="cmbOrdeneFabricacion" onchange="DatosOrdenFabricacion()">
+                        <option value="1">Seleccione...</option>
+                    </select>*@
+                <div class="input-group">
+                    @*@Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: auto; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })*@
+                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                    <button type="button" onclick="" id="btnOrden">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
                 <label class="text-danger" id="msjerrorOrdenFabricacion" hidden>Debe seleccionar una orden de fabricación</label>
             </div>
         </div>
@@ -62,33 +69,33 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-xs-6">
             <div class="form-group">
                 <label>Cliente/Etiqueta:</label>
                 <input type="text" id="txtCliente" class="form-control" disabled />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Pedido de venta:</label>
                 <input type="text" id="txtPedidoVenta" class="form-control" disabled />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Código:</label>
                 <input type="text" id="txtCodigo" class="form-control" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Fecha de terminado:</label>
                 <input type="date" id="txtFechaTerminado" class="form-control" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
-                <label>Total Cajas::</label>
+                <label>Total Cajas:</label>
                 <input type="number" id="txtTotalCajas" class="form-control" />
             </div>
         </div>
@@ -99,9 +106,9 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Espere...
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
@@ -230,7 +237,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -277,6 +284,43 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
                 <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal ordenes de fabricacion*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="LLenarComboOrdenes()" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
