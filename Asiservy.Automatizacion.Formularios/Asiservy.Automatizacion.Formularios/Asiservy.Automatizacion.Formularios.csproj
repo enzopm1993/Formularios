@@ -3402,6 +3402,7 @@
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoDispensario.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoMasivo.js" />
     <Content Include="Scripts\Soporte\Reporte.js" />
+    <Content Include="Scripts\Soporte\TicketsCerrados.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -4271,6 +4272,7 @@
     <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
     <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
     <Content Include="Views\Soporte\Reporte.cshtml" />
+    <Content Include="Views\Soporte\TicketsCerrados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

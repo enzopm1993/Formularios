@@ -1,7 +1,96 @@
 ﻿$(function () {
     DevExpress.localization.locale(navigator.language);
-    var fechaMuestraDesdeTitulo = '';
-    var fechaMuestraHastaTitulo = '';
+    var fechaMuestraDesdeTituloCerrados = '';
+    var fechaMuestraHastaTituloCerrados = '';
+    
+
+    var iconLoader = "fa-spinner fa-pulse";
+    var iconSearch = "fa-search"
+    var start = moment();
+    var end = moment();
+
+    var mesesLetras = {
+        '01': "Enero",
+        '02': "Febrero",
+        '03': "Marzo",
+        '04': "Abril",
+        '05': "Mayo",
+        '06': "Junio",
+        '07': "Julio",
+        '08': "Agosto",
+        '09': "Septiembre",
+        '10': "Octubre",
+        '11': "Noviembre",
+        '12': "Diciembre"
+    }
+
+
+
+
+    var startCerrados = moment();
+    var endCerrados = moment();
+
+    function cbCerrados(start, end) {
+        var fechaMuestraDesde = mesesLetras[start.format('MM')] + ' ' + start.format('D') + ', ' + start.format('YYYY');
+        var fechaMuestraHasta = mesesLetras[end.format('MM')] + ' ' + end.format('D') + ', ' + end.format('YYYY');
+        $("#fechaDesdeCerrados").val(start.format('YYYY-MM-DD'));
+        $("#fechaHastaCerrados").val(end.format('YYYY-MM-DD'));
+        fechaMuestraDesdeTituloCerrados = fechaMuestraDesde;
+        fechaMuestraHastaTituloCerrados = fechaMuestraHasta;
+        $('#reportrangeCerrados span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+    }
+
+
+    $('#reportrangeCerrados').daterangepicker({
+        startDate: startCerrados,
+        endDate: endCerrados,
+        minDate: moment("01/06/2020", "DD/MM/YYYY"),
+        maxDate: moment(),
+        ranges: {
+            'Hoy': [moment(), moment()],
+            'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+            'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+            'Mes actual (hasta hoy)': [moment().startOf('month'), moment()],
+            'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "De",
+            "toLabel": "a",
+            "customRangeLabel": "Personalizada",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        }
+    }, cbCerrados);
+
+    cbCerrados(start, end);
     var optionsDepartamentos = {
         colors: ['#b84644'],
         chart: {
@@ -57,7 +146,7 @@
             }
         },
         fill: {
-           
+
             type: 'gradient',
             gradient: {
                 shade: 'light',
@@ -71,146 +160,29 @@
             },
         }
     }
+    
+
+    var chartDepartamentos_cerrados = new ApexCharts(document.querySelector("#chartPorDepartamento-cerrados"), optionsDepartamentos);
+    chartDepartamentos_cerrados.render();
 
 
-    var chartDepartamentos = new ApexCharts(document.querySelector("#chartPorDepartamento"), optionsDepartamentos);    
-    chartDepartamentos.render();
+    $("#generarReporteCerrados").click(function () {
 
-
-
-    var optionsCumplidos = {
-        series: [0, 0],
-        chart: {
-            type: 'donut',
-        },
-        fill: {
-            colors: ['#FF0000','#00FF3E']
-        },
-        colors: ['#FF0000','#00FF3E'],
-        labels: ['Tickets abiertos', 'Tickets cerrados'],
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    };
-
-    var chartCumplimiento = new ApexCharts(document.querySelector("#chartCumplimiento"), optionsCumplidos);
-    chartCumplimiento.render();
-
-    var iconLoader = "fa-spinner fa-pulse";
-    var iconSearch = "fa-search"
-    var start = moment();
-    var end = moment();
-
-    var mesesLetras = {
-        '01': "Enero",
-        '02': "Febrero",
-        '03': "Marzo",
-        '04': "Abril",
-        '05': "Mayo",
-        '06': "Junio",
-        '07': "Julio",
-        '08': "Agosto",
-        '09': "Septiembre",
-        '10': "Octubre",
-        '11': "Noviembre",
-        '12': "Diciembre"
-    }
-
-    function cb(start, end) {
-
-        var fechaMuestraDesde = mesesLetras[start.format('MM')] + ' ' + start.format('D') + ', ' + start.format('YYYY');
-        var fechaMuestraHasta = mesesLetras[end.format('MM')] + ' ' + end.format('D') + ', ' + end.format('YYYY');
-        $("#fechaDesde").val(start.format('YYYY-MM-DD'));
-        $("#fechaHasta").val(end.format('YYYY-MM-DD'));
-
-        fechaMuestraDesdeTitulo = fechaMuestraDesde;
-        fechaMuestraHastaTitulo = fechaMuestraHasta;   
-
-       
-        $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
-    }
-
-
-    $('#reportrange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        minDate: moment("01/06/2020", "DD/MM/YYYY"),
-        maxDate: moment(),
-        ranges: {
-            'Hoy': [moment(), moment()],
-            'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-            'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-            'Mes actual (hasta hoy)': [moment().startOf('month'), moment()],
-            'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        "locale": {
-            "format": "DD/MM/YYYY",
-            "separator": " - ",
-            "applyLabel": "Aplicar",
-            "cancelLabel": "Cancelar",
-            "fromLabel": "De",
-            "toLabel": "a",
-            "customRangeLabel": "Personalizada",
-            "weekLabel": "W",
-            "daysOfWeek": [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            "monthNames": [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],
-            "firstDay": 1
-        }
-    }, cb);
-
-    cb(start, end);
-  
-
-
-    $("#generarReporte").click(function () {
-
-
-        var fechaDesde = $("#fechaDesde").val();
-        var fechaHasta = $("#fechaHasta").val();
-        var metodo = "P";
+        var fechaDesde = $("#fechaDesdeCerrados").val();
+        var fechaHasta = $("#fechaHastaCerrados").val();
 
         var f1 = moment(fechaDesde);
         var f2 = moment(fechaHasta);
         var diffDays = f2.diff(f1, 'days');
 
 
-        $("#generarReporte").attr('href', "javascript:void(0)");
-        $("#iconSearch").removeClass(iconSearch);
-        $("#iconSearch").addClass(iconLoader);
-        $("#generarReporte").addClass("btnWait");
+        $("#generarReporteCerrados").attr('href', "javascript:void(0)");
+        $("#iconSearchCerrados").removeClass(iconSearch);
+        $("#iconSearchCerrados").addClass(iconLoader);
+        $("#generarReporteCerrados").addClass("btnWait");
         $.ajax({
             contentType: "application/json; charset=utf-8",
-            url: "../Soporte/ObtenerSoportesReporte",
+            url: "../Soporte/ObtenerSoportesReporteCerrados",
             type: "GET",
             data: {
                 'fechaIni': fechaDesde,
@@ -219,16 +191,110 @@
             success: function (resultado) {
 
 
-                $("#generarReporte").attr('href', "#");
-                $("#iconSearch").removeClass(iconLoader);
-                $("#iconSearch").addClass(iconSearch);
-                $("#generarReporte").removeClass("btnWait");
+                $("#generarReporteCerrados").attr('href', "#");
+                $("#iconSearchCerrados").removeClass(iconLoader);
+                $("#iconSearchCerrados").addClass(iconSearch);
+                $("#generarReporteCerrados").removeClass("btnWait");
 
-                if (fechaMuestraDesdeTitulo == fechaMuestraHastaTitulo) {
-                    $("#titleTabFecha2").html(' - ' + fechaMuestraHastaTitulo);
+                if (fechaMuestraDesdeTituloCerrados == fechaMuestraHastaTituloCerrados) {
+                    $("#titleTabFechaCerrados2").html(' - ' + fechaMuestraHastaTituloCerrados);
                 } else {
-                    $("#titleTabFecha2").html(' - ' + fechaMuestraDesdeTitulo + ' - ' + fechaMuestraHastaTitulo);
+                    $("#titleTabFechaCerrados2").html(' - ' + fechaMuestraDesdeTituloCerrados + ' - ' + fechaMuestraHastaTituloCerrados);
                 }
+
+
+
+                var gridOptions = {
+                    dataSource: resultado.DataPlana,
+                    columns: [{ dataField: 'ID', dataType: "number" },
+                    { dataField: 'Departamento', dataType: "string" },
+                    { dataField: 'Usuario', dataType: "string" },
+                    { dataField: 'Ticket', dataType: "string" },
+                    { dataField: 'Asunto', dataType: "string" },
+                    { dataField: 'Estado', dataType: "string" },
+                    { dataField: 'AgenteAsignado', dataType: "string" },
+                    { dataField: 'FechaCreacion', dataType: "date" },
+                    { dataField: 'HoraCreacion', dataType: "string" },
+                    { dataField: 'FechaAsignacion', dataType: "date" },
+                    { dataField: 'HoraAsignacion', dataType: "string" },
+                    { dataField: 'FechaCierre', dataType: "date" },
+                    { dataField: 'HoraCierre', dataType: "string" },
+                    { dataField: 'FechaInicioSoporte', dataType: "date" },
+                    { dataField: 'HoraInicioSoporte', dataType: "string" },
+                    { dataField: 'FechaFinSoporte', dataType: "date" },
+                    { dataField: 'HoraFinSoporte', dataType: "string" },
+                    { dataField: 'TiempoTicket', dataType: "string" },
+                    { dataField: 'TiempoAsignacionCierre', dataType: "string" },
+                    { dataField: 'TiempoSoporte', dataType: "string" },
+                    { dataField: 'SoporteHoras', dataType: "number" },
+                    { dataField: 'TiempoCreacionFinSoporte', dataType: "string" },
+                    { dataField: 'TiempoTicketLetras', dataType: "string" }
+                    ],
+                    paging: {
+                        pageSize: 15
+                    },
+                    pager: {
+                        showPageSizeSelector: true,
+                        allowedPageSizes: [10, 25, 50, 100]
+                    },
+                    searchPanel: {
+                        visible: true,
+                        highlightCaseSensitive: true,
+                        width: 240,
+                        placeholder: "Buscar..."
+                    },
+                    groupPanel: { visible: true },
+                    grouping: {
+                        autoExpandAll: false
+                    },
+                    selection: {
+                        mode: "single"
+                    },
+                    allowColumnResizing: true,
+                    columnResizingMode: "nextColumn",
+                    columnMinWidth: 50,
+                    columnAutoWidth: true,
+                    columnFixing: {
+                        enabled: true
+                    },
+                    showBorders: true,
+                    showRowLines: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: "auto"
+                    },
+                    headerFilter: {
+                        visible: true
+                    },
+                    export: {
+                        enabled: true,
+                        allowExportSelectedData: true
+                    },
+                    onExporting: function (e) {
+                        var workbook = new ExcelJS.Workbook();
+                        var worksheet = workbook.addWorksheet('Datos');
+
+                        DevExpress.excelExporter.exportDataGrid({
+                            component: e.component,
+                            worksheet: worksheet,
+                            autoFilterEnabled: true
+                        }).then(function () {
+                            workbook.xlsx.writeBuffer().then(function (buffer) {
+                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'SoportesCerrados.xlsx');
+                            });
+                        });
+                        e.cancel = true;
+                    },
+                    summary: {
+                        totalItems: [{
+                            column: "SoporteHoras",
+                            summaryType: "sum",
+                            valueFormat: "decimal"
+                        }]
+                    }
+                };
+                $("#grid-data-plana-cerrados").dxDataGrid(gridOptions).dxDataGrid("instance");
+
 
                 var permisosTotalLabels = [];
                 var permisosTotalCantidades = [];
@@ -243,36 +309,22 @@
                         if (dep.Codigo == it.Descripcion) {
                             coloresDeps[i] = dep.Descripcion
                         }
-                    });  
-                });  
+                    });
+                });
 
 
-                
 
-                chartDepartamentos.updateOptions({
+
+                chartDepartamentos_cerrados.updateOptions({
                     colors: coloresDeps,
                     xaxis: {
                         categories: permisosTotalLabels,
                     }
                 });
-                chartDepartamentos.updateSeries([{
+                chartDepartamentos_cerrados.updateSeries([{
                     name: 'Tickets',
                     data: permisosTotalCantidades
                 }]);
-
-
-                var tkAbiertos = 0;
-                var tkCerrados = 0;
-                $.each(resultado.DataPlana, function (i, it) {
-                    if (it.Estado == 'Abierto') {
-                        tkAbiertos = tkAbiertos + 1;
-                    }
-                    if (it.Estado == 'Cerrado') {
-                        tkCerrados = tkCerrados + 1;
-                    }
-                });  
-                chartCumplimiento.updateSeries([tkAbiertos,tkCerrados]);
-
 
                 var pivotGridChartAgente = $("#pivotgrid-chart-agente").dxChart({
                     commonSeriesSettings: {
@@ -437,12 +489,12 @@
                         },
                         {
                             caption: "Fecha de creación",
-                            dataField: "FechaCreacion", 
+                            dataField: "FechaCreacion",
                             dataType: "date",
                             area: "filter",
                             groupName: "Date"
                         },
-                        
+
                         { groupName: "Date", groupInterval: "year", groupIndex: 0 },
                         { groupName: "Date", groupInterval: "month", groupIndex: 1 },
                         { groupName: "Date", groupInterval: "day", groupIndex: 2 },
@@ -468,7 +520,7 @@
                                         if (options.totalValue == '' || options.totalValue == null) {
                                             options.totalValue = 0;
                                         }
-                                        options.arr = [];  
+                                        options.arr = [];
                                         break;
                                 }
                             }
@@ -514,7 +566,7 @@
                         format: "decimal",
                         customizeTooltip: function (args) {
                             return {
-                                html: args.seriesName + " | " + args.valueText +  " Tickets"
+                                html: args.seriesName + " | " + args.valueText + " Tickets"
                             };
                         }
                     },
@@ -538,8 +590,8 @@
                             expanded: true
                         },
                         { caption: "Año", groupName: "Fecha", groupInterval: "year", groupIndex: 0 },
-                        { caption: "Mes",  groupName: "Fecha", groupInterval: "month", groupIndex: 1 },
-                        { caption: "Día",  groupName: "Fecha", groupInterval: "day", groupIndex: 2 },
+                        { caption: "Mes", groupName: "Fecha", groupInterval: "month", groupIndex: 1 },
+                        { caption: "Día", groupName: "Fecha", groupInterval: "day", groupIndex: 2 },
                         {
                             caption: "Departamento",
                             dataField: "Departamento",
@@ -618,109 +670,19 @@
                 });
 
 
-                var gridOptions = {
-                    dataSource: resultado.DataPlana,
-                    columns: [{ dataField: 'ID', dataType: "number" },
-                    { dataField: 'Departamento', dataType: "string" },
-                    { dataField: 'Usuario', dataType: "string" },
-                    { dataField: 'Ticket', dataType: "string" },
-                    { dataField: 'Asunto', dataType: "string" },
-                    { dataField: 'Estado', dataType: "string" },
-                    { dataField: 'AgenteAsignado', dataType: "string" },
-                    { dataField: 'FechaCreacion', dataType: "date" },
-                    { dataField: 'HoraCreacion', dataType: "string" },
-                    { dataField: 'FechaAsignacion', dataType: "date" },
-                    { dataField: 'HoraAsignacion', dataType: "string" },
-                    { dataField: 'FechaCierre', dataType: "date" },
-                    { dataField: 'HoraCierre', dataType: "string" },
-                    { dataField: 'FechaInicioSoporte', dataType: "date" },
-                    { dataField: 'HoraInicioSoporte', dataType: "string" },
-                    { dataField: 'FechaFinSoporte', dataType: "date" },
-                    { dataField: 'HoraFinSoporte', dataType: "string" },
-                    { dataField: 'TiempoTicket', dataType: "string" },
-                    { dataField: 'TiempoAsignacionCierre', dataType: "string" },
-                    { dataField: 'TiempoSoporte', dataType: "string" },
-                    { dataField: 'SoporteHoras', dataType: "number" },
-                    { dataField: 'TiempoCreacionFinSoporte', dataType: "string" },
-                    { dataField: 'TiempoTicketLetras', dataType: "string" }
-                    ],
-                    paging: {
-                        pageSize: 15
-                    },
-                    pager: {
-                        showPageSizeSelector: true,
-                        allowedPageSizes: [10, 25, 50, 100]
-                    },
-                    searchPanel: {
-                        visible: true,
-                        highlightCaseSensitive: true,
-                        width: 240,
-                        placeholder: "Buscar..."
-                    },
-                    groupPanel: { visible: true },
-                    grouping: {
-                        autoExpandAll: false
-                    },
-                    selection: {
-                        mode: "single"
-                    },
-                    allowColumnResizing: true,
-                    columnResizingMode: "nextColumn",
-                    columnMinWidth: 50,
-                    columnAutoWidth: true,
-                    columnFixing: {
-                        enabled: true
-                    },
-                    showBorders: true,
-                    showRowLines: true,
-                    filterRow: {
-                        visible: true,
-                        applyFilter: "auto"
-                    },
-                    headerFilter: {
-                        visible: true
-                    },
-                    export: {
-                        enabled: true,
-                        allowExportSelectedData: true
-                    },
-                    onExporting: function (e) {
-                        var workbook = new ExcelJS.Workbook();
-                        var worksheet = workbook.addWorksheet('Datos');
 
-                        DevExpress.excelExporter.exportDataGrid({
-                            component: e.component,
-                            worksheet: worksheet,
-                            autoFilterEnabled: true
-                        }).then(function () {
-                            workbook.xlsx.writeBuffer().then(function (buffer) {
-                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Soportes.xlsx');
-                            });
-                        });
-                        e.cancel = true;
-                    },
-                    summary: {
-                        totalItems: [{
-                            column: "SoporteHoras",
-                            summaryType: "sum",
-                            valueFormat: "decimal"
-                        }]
-                    }
-                };
-                $("#grid-data-plana").dxDataGrid(gridOptions).dxDataGrid("instance");
-               
+                $("#txtTkTotales-cerrados").html(resultado.Totales.Totales);
+                $("#txtTiempoSoporte").html(0);
+                $("#txtTiempoEspera").html(0);
 
-                $("#txtTkTotales").html(resultado.Totales.Totales);
-                $("#txtTkAbiertos").html(resultado.Totales.Abiertos);
-                $("#txtTkCerrados").html(resultado.Totales.Cerrados);
-                $("#txtTkSinAsignar").html(resultado.Totales.SinAsignar);
+
             },
             error: function (resultado) {
                 console.log(resultado);
-                $("#generarReporte").attr('href', "#");
-                $("#iconSearch").removeClass(iconLoader);
-                $("#iconSearch").addClass(iconSearch);
-                $("#generarReporte").removeClass("btnWait");
+                $("#generarReporteCerrados").attr('href', "#");
+                $("#iconSearchCerrados").removeClass(iconLoader);
+                $("#iconSearchCerrados").addClass(iconSearch);
+                $("#generarReporteCerrados").removeClass("btnWait");
                 MensajeError(resultado.statusText, false);
 
             }
@@ -730,10 +692,7 @@
 
     });
 
-   
 
 
-
-    
-    $("#generarReporte").trigger('click');
+    $("#generarReporteCerrados").trigger('click');
 });

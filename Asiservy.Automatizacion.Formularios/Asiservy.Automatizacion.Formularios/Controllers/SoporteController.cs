@@ -15,10 +15,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         // GET: Soporte
         public ActionResult Reporte()
         {
-            ViewBag.dataTableJS = "1";
             ViewBag.Apexcharts = "1";
             ViewBag.DateRangePicker = "1";
-            ViewBag.Pivot = "1";
+
+            ViewBag.Title = "Reporte de tickets de soporte";
+            ViewBag.DxDevWeb = "1";
+        
+
+            ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+            return View();
+        }
+
+        public ActionResult TicketsCerrados()
+        {
+            ViewBag.Apexcharts = "1";
+            ViewBag.DateRangePicker = "1";
+
+            ViewBag.Title = "Reporte de tickets de soporte cerrados";
+            ViewBag.DxDevWeb = "1";
+
+
             ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
             return View();
         }
