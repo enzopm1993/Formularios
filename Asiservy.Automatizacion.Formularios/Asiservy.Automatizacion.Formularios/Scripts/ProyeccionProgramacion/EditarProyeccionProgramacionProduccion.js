@@ -186,17 +186,21 @@ function GuardarProyeccionDetalle() {
             HoraProcesoInicio: $("#txtHoraInicio").val(),
             HoraProcesoFin: $("#txtHoraFin").val(),
             Observacion: $("#observacionedit").val(),
-            proceso: 2
+            proceso: 2,
+            FechaProduccion: $('#txtFechaProduccion').val()
 
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#ModalEditarProyeccion").modal("hide");
-            CargarProyeccionProgramacion();
-            MensajeCorrecto(resultado);
-
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                $("#ModalEditarProyeccion").modal("hide");
+                CargarProyeccionProgramacion();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -240,14 +244,19 @@ function FinalizarProyeccionProgramacion() {
         data:
         {
             id: $('#IdProyeccion').val(),
-            proceso:2
+            proceso: 2,
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {     
             if (resultado == "101") {
                 window.location.reload();
             }
-            ValidaProyeccion();
-            MensajeCorrecto(resultado);
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                ValidaProyeccion();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -264,14 +273,19 @@ function HabilitarProyeccionProgramacion() {
         data:
         {
             id: $('#IdProyeccion').val(),
-            proceso:2
+            proceso: 2,
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {        
             if (resultado == "101") {
                 window.location.reload();
             }
-            ValidaProyeccion();
-            MensajeCorrecto(resultado);
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                ValidaProyeccion();
+                MensajeCorrecto(resultado);
+            }
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);

@@ -3,12 +3,14 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -24,6 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDControlMiga clsDControlMiga { get; set; } = null;
         clsDGeneral clsDGeneral { get; set; } = null;
         clsDLogin clsDLogin { get; set; } = null;
+        clsDProyeccionProgramacion clsDProyeccionProgramacion { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
 
@@ -921,6 +924,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.Apexcharts = "1";
                 ViewBag.Handsontable = "1";
+                ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Linea = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
@@ -948,7 +952,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public ActionResult ReporteRendimientoLotePartial(DateTime ddFecha, string Turno)
+        public ActionResult ReporteRendimientoLotePartial(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, int Protocolo)
         {
             try
             {
@@ -958,12 +962,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                // lsUsuario = User.Identity.Name.Split('_');s
+                // lsUsuario = User.Identity.Name.Split('_');s 
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(ddFecha.Date, Turno);
+                if (!string.IsNullOrEmpty(Barcos)){
+                    Barcos = Barcos.TrimEnd(',');
+                }
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(FechaDesde,FechaHasta, Turno, Barcos, Protocolo);
+                if(FechaDesde == FechaHasta)
+                {
+                    ViewBag.Model = model;
+                }
+                else {
+                    var result = model.GroupBy(a => new { a.Fecha
+                    //    ,a.KiloSdtLomo,a.KiloDiferenciaLomo,
+                    //a.KiloRealLomoPorcentaje,a.KiloStdLomoPorcentaje,a.KiloDiferenciaLomoPorcentaje,
+                    //a.KiloRealMiga,a.KiloSdtMiga,a.KiloDiferenciaMiga
+                    //,a.KiloRealMigaPorcentaje,a.KiloStdMigaPorcentaje,a.KiloDiferenciaMigaPorcentaje
+                    })
+                    .Select(b => new spConsultaReporteRendimientoLote
+                    { Fecha=b.Key.Fecha,
+                        KiloRealLomo = (b.Sum(x => x.KiloRealLomo) / b.Count()),
+                        KiloSdtLomo = (b.Sum(x => x.KiloSdtLomo) / b.Count()),
+                        KiloDiferenciaLomo = (b.Sum(x => x.KiloDiferenciaLomo) / b.Count()),
+                        KiloRealLomoPorcentaje = (b.Sum(x => x.KiloRealLomoPorcentaje) / b.Count()),
+                        KiloStdLomoPorcentaje = (b.Sum(x => x.KiloStdLomoPorcentaje) / b.Count()),
+                        KiloDiferenciaLomoPorcentaje = (b.Sum(x => x.KiloDiferenciaLomoPorcentaje) / b.Count()),
+
+                        KiloRealMiga = (b.Sum(x => x.KiloRealMiga) / b.Count()),
+                        KiloSdtMiga = (b.Sum(x => x.KiloSdtMiga) / b.Count()),
+                        KiloDiferenciaMiga = (b.Sum(x => x.KiloDiferenciaMiga) / b.Count()),
+                        KiloRealMigaPorcentaje = (b.Sum(x => x.KiloRealMigaPorcentaje) / b.Count()),
+                        KiloStdMigaPorcentaje = (b.Sum(x => x.KiloStdMigaPorcentaje) / b.Count()),
+                        KiloDiferenciaMigaPorcentaje = (b.Sum(x => x.KiloDiferenciaMigaPorcentaje) / b.Count())
+                    }).ToList();
+
+                    ViewBag.Model = result;
+
+
+                }
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }
-                ViewBag.Model = model;
+                
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -985,6 +1024,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+
+        public ActionResult ReporteRendimientoLoteConsultaBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno, int Protocolo)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                // lsUsuario = User.Identity.Name.Split('_');s
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLoteBarcos(FechaDesde, FechaHasta, Turno,Protocolo);
+                
+                if (!model.Any())
+                { return Json("1", JsonRequestBehavior.AllowGet); }
+
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = lsUsuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
 
 
         [Authorize]
@@ -1032,12 +1112,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                // lsUsuario = User.Identity.Name.Split('_');s
+                clsDClasificador = new clsDClasificador();
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaReporteRendimientoPorLte(ddFecha.Date, Turno);
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                var model = clsDControlHueso.ConsultaReporteRendimientoPorLinea(ddFecha.Date, Turno);
                 if (!model.Any())
                 { return Json("1", JsonRequestBehavior.AllowGet); }
-                ViewBag.Model = model;
+                ViewBag.Toneladas = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionReporte(ddFecha.Date, Turno).Sum(x=> x.Toneladas);
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion);
                 return PartialView(model);
             }
             catch (Exception ex)

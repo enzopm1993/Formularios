@@ -51,6 +51,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                 BuscarCabeceraControl.FechaModificacionLog = poEsterilizacionConserva.FechaIngresoLog;
                 BuscarCabeceraControl.UsuarioModificacionLog = poEsterilizacionConserva.UsuarioIngresoLog;
                 BuscarCabeceraControl.TerminalModificacionLog = poEsterilizacionConserva.TerminalIngresoLog;
+                BuscarCabeceraControl.UnidadPresion = poEsterilizacionConserva.UnidadPresion;
+                BuscarCabeceraControl.AutoclaveConvencional = poEsterilizacionConserva.AutoclaveConvencional;
                 db.SaveChanges();
                 resultado[0] = "001";
                 resultado[1] = "Registro actualizado con éxito";

@@ -5,7 +5,7 @@
 var model = [];
 
 function CargarReporte() {
-    
+    $('#DivTableReporteProyeccion').html('');
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -18,11 +18,7 @@ function CargarReporte() {
     } else {
         $("#selectTurno").css('borderColor', '#ced4da');
     }
-
-
-
     $("#spinnerCargando").prop("hidden", false);
-    $('#DivTableReporteProyeccion').html('');
     $.ajax({
         url: "../ProyeccionProgramacion/ProyeccionProgramacionEstadoLotePartial",
         type: "GET",
@@ -51,7 +47,7 @@ function CargarReporte() {
 
 
 function CerrarLote(m) {
-    console.log(m);
+   // console.log(m);
     model = m;
     $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtLote").val(model.Lote);
@@ -64,15 +60,20 @@ function GuardarCerrarLote() {
         url: "../ProyeccionProgramacion/CerrarLote",
         type: "POST",
         data: {
-            IdProyeccionProgramacionDetalle: model.IdProyeccionProgramacionDetalle
+            IdProyeccionProgramacionDetalle: model.IdProyeccionProgramacionDetalle,
+            Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#modalCambiarLote").modal("hide");
-            MensajeCorrecto(resultado);
-            CargarReporte();
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                $("#modalCambiarLote").modal("hide");
+                MensajeCorrecto(resultado);
+                CargarReporte();
+            }
         },
         error: function (resultado) {
             MensajeError(resultado.responseText);

@@ -3,8 +3,20 @@
     ViewBag.Title = "ControlCalibracionPhMetro";
 }
 
-<h4>Calibración PhMetro <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label> </h4>
 
+<div class="row" id="titulo">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;">Calibración PhMetro  <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
 <style>
 
     textarea {
@@ -33,42 +45,42 @@
                 @{
                     DateTime fecha = DateTime.Now;
                 }
-                <input type="date" class="form-control" id="txtFecha" value="@fecha.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" />
+                <input type="date" class="form-control" id="txtFecha" value="@fecha.ToString("yyyy-MM-dd")" max="@fecha.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" />
                 <label id="msjfechaerror" class="text-danger" hidden>debe ingresar una fecha</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
-                <input type="time" class="form-control" id="txtHora" />
+                <input type="time" class="form-control" id="txtHora"/>
                 <label id="msjhoraerror" class="text-danger" hidden>debe ingresar una hora</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Código del PhMetro</label>
-                <input type="text" class="form-control" id="txtCodigoPhMetro" />
+                <input type="text" class="form-control" id="txtCodigoPhMetro"  autocomplete="off"/>
                 <label id="msjcodigoerror" class="text-danger" hidden>debe ingresar un código</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
-                <label>Ph = 4,0</label>
-                <input type="tel" class="form-control" id="txtPh4" />
+                <label>Ph = 4,0 <span class="badge badge-secondary">+9.99</span></label>
+                <input type="tel" class="form-control" id="txtPh4" autocomplete="off"/>
                 <label id="msjph40rror" class="text-danger" hidden>Campo obligatorio</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
-                <label>Ph = 7,0</label>
-                <input type="tel" class="form-control" id="txtPh7" />
+                <label>Ph = 7,0 <span class="badge badge-secondary">+9.99</span></label>
+                <input type="tel" class="form-control" id="txtPh7"  autocomplete="off"/>
                 <label id="msjph70error" class="text-danger" hidden>Campo obligatorio</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
-                <label>Ph = 10,0</label>
-                <input type="tel" class="form-control" id="txtPh10" />
+                <label>Ph = 10,0 <span class="badge badge-secondary">+99.99</span></label>
+                <input type="tel" class="form-control" id="txtPh10" autocomplete="off" />
                 <label id="msjph10error" class="text-danger" hidden>Campo obligatorio</label>
             </div>
         </div>

@@ -1,4 +1,9 @@
-﻿function MostrarReporte(data) {
+﻿$(document).ready(function () {
+    $('#fechaDesde').val(moment().format("YYYY-MM-DD"));
+    $('#fechaHasta').val(moment().format("YYYY-MM-DD"));
+    CargarCabReportes();
+});
+function MostrarReporte(data) {
     console.log(data);
     $('#cargac').show();
     Error = 0;

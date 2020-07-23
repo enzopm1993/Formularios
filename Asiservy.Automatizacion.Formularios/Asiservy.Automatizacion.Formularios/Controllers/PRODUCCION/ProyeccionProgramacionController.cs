@@ -21,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDProyeccionProgramacion clsDProyeccionProgramacion { get; set; } = null;
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
         clsDGeneral clsDGeneral { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         clsDLogin clsDLogin { get; set; } = null;
         string[] lsUsuario { get; set; }
@@ -584,6 +585,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.FechaProduccion))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
@@ -616,7 +622,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public JsonResult EliminarProyeccionProgramacionDetalle(int id)
+        public JsonResult EliminarProyeccionProgramacionDetalle(int id, DateTime Fecha)
         {
             try
             {
@@ -624,6 +630,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 PROYECCION_PROGRAMACION_DETALLE model= new PROYECCION_PROGRAMACION_DETALLE();
@@ -657,7 +668,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region METODOS
         [HttpPost]
-        public JsonResult GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model, int? proceso)
+        public JsonResult GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model, int? proceso, DateTime FechaProduccion)
         {
             try
             {
@@ -666,6 +677,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(FechaProduccion))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
@@ -725,7 +743,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public JsonResult InactivarProyeccionProgramacionDetalle(int id)
+        public JsonResult InactivarProyeccionProgramacionDetalle(int id,DateTime Fecha)
         {
             try
             {
@@ -733,6 +751,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 PROYECCION_PROGRAMACION model = new PROYECCION_PROGRAMACION();
@@ -763,7 +786,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public JsonResult FinalizarIngresoProyeccionProgramacion(int id,int proceso, string Observacion)
+        public JsonResult FinalizarIngresoProyeccionProgramacion(int id,int proceso, string Observacion,DateTime Fecha)
         {
             try
             {
@@ -771,6 +794,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 if (proceso == 1)
@@ -812,7 +840,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public JsonResult HabilitarIngresoProyeccionProgramacion(int id, int proceso)
+        public JsonResult HabilitarIngresoProyeccionProgramacion(int id, int proceso, DateTime Fecha)
         {
             try
             {
@@ -820,6 +848,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 if (proceso == 1)
@@ -1013,13 +1046,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public JsonResult CerrarLote(PROYECCION_PROGRAMACION_DETALLE control)
+        public JsonResult CerrarLote(PROYECCION_PROGRAMACION_DETALLE control, DateTime Fecha)
         {
             try
             {
                 if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 lsUsuario = User.Identity.Name.Split('_');
                 control.UsuarioIngresoLog = lsUsuario[0];

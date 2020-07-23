@@ -3354,6 +3354,7 @@
     <Content Include="Scripts\Nomina\DatosPersonales.js" />
     <Content Include="Scripts\Nomina\DatosPersonales_BACK.js" />
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
+    <Content Include="Scripts\Nomina\ReporteHorasHombre.js" />
     <Content Include="Scripts\Nomina\RptAsistenciaInicialActuales.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -3400,6 +3401,8 @@
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermiso.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoDispensario.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoMasivo.js" />
+    <Content Include="Scripts\Soporte\Reporte.js" />
+    <Content Include="Scripts\Soporte\TicketsCerrados.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -3515,6 +3518,7 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
+    <Compile Include="AccesoDatos\General\ClsKpiDescripcionTotal.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
     <Compile Include="AccesoDatos\Marcaciones\ClsMarcaciones.cs" />
@@ -3524,6 +3528,7 @@
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
+    <Compile Include="AccesoDatos\Nomina\ModeloVistaHorasHombre.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresenteBiometrico.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaRetornaAsistencia.cs" />
@@ -3646,6 +3651,7 @@
     <Compile Include="Controllers\ReporteMaestroController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
+    <Compile Include="Controllers\SoporteController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3659,6 +3665,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\Area.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleDefectoViewModel.cs" />
@@ -3671,6 +3678,7 @@
     <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\TipoProducto.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />
@@ -3698,6 +3706,7 @@
     <Compile Include="Models\Produccion\EntradaYSalidaDeMateriales\EntradaSalidaMaterialViewModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
+    <Compile Include="Models\Produccion\Material.cs" />
     <Compile Include="Models\Produccion\ItemParadaCocina.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
     <Compile Include="Models\Produccion\Rendimiento.cs" />
@@ -4264,6 +4273,10 @@
     <Content Include="Views\Avance\ReporteRendimientoLinea.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLogin.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
+    <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
+    <Content Include="Views\Soporte\Reporte.cshtml" />
+    <Content Include="Views\Soporte\TicketsCerrados.cshtml" />
+    <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlElementoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\VerCrearImagenPartial.cshtml" />
     <None Include="Web.Debug.config">

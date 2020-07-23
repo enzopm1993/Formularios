@@ -155,8 +155,9 @@ function CambiarClave(e) {
 }
 
 
-function MostarModalColumns() {
-    var columns = $('#tblDataTable').dataTable().dataTableSettings[0].aoColumns;
+function MostarModalColumns(id) {
+    //console.log(e, dt, node, config);
+    var columns = $('#' + id).dataTable().dataTableSettings[0].aoColumns;
     var options = '';
     var contador = 0;
     var columnas = new Array();

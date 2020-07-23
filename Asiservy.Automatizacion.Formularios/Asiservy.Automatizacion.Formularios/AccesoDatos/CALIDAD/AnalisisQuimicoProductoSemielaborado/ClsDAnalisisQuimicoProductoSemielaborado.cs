@@ -267,7 +267,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                     var buscarSubDetalle = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Find(poSubDetalleControl.IdTipoAnalisisQuimicoProductoSe);
                     foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
                     {
+                        var a = buscarSubDetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault(x => x.ParametroLaboratorio == item.ParametroLaboratorio);
+                        if (buscarSubDetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault(x => x.ParametroLaboratorio == item.ParametroLaboratorio)!=null)
                         buscarSubDetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault(x => x.ParametroLaboratorio == item.ParametroLaboratorio).Cantidad = item.Cantidad;
+                        else
+                        {
+                            item.IdTipo = buscarSubDetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().IdTipo;
+                            db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Add(item);
+                        }
                     }
                     buscarSubDetalle.FechaModificacionLog = poSubDetalleControl.FechaIngresoLog;
                     buscarSubDetalle.UsuarioModificacionLog = poSubDetalleControl.UsuarioIngresoLog;
@@ -279,10 +286,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                     //buscarSubDetalle.HistaminaProceso = poSubDetalleControl.HistaminaProceso;
                     //buscarSubDetalle.HumedadProceso = poSubDetalleControl.HumedadProceso;
                     db.SaveChanges();
-                    db.SaveChanges();
+                   
                     resultado[0] = "001";
                     resultado[1] = "Registro actualizado con éxito";
+                    foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+                    {
+                        item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO = null;
+                    }
                     resultado[2] = poSubDetalleControl;
+                    //resultado[2] = "01";
                 }
                 return resultado;
             }

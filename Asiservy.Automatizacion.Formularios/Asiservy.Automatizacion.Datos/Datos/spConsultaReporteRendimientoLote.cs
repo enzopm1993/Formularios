@@ -13,11 +13,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaReporteRendimientoLote
     {
+        public Nullable<System.DateTime> Fecha { get; set; }
         public string Lote { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
         public Nullable<int> PesoLote { get; set; }
         public string Barco { get; set; }
+        public Nullable<int> Marea { get; set; }
         public string Turno { get; set; }
         public Nullable<decimal> KiloRealLomo { get; set; }
         public Nullable<decimal> KiloSdtLomo { get; set; }
@@ -38,5 +40,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> TotalCoche { get; set; }
         public string TallaPromedio { get; set; }
         public bool EstadoLote { get; set; }
+        public bool Miga { get; set; }
+        public bool Protocolo { get; set; }
     }
 }

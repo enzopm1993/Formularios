@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.MoverPersonal;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
 using Newtonsoft.Json;
@@ -55,6 +56,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
+
+
+        public ActionResult ReporteHorasHombre()
+        {
+            try
+            {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.Title = "Reporte de horas hombre detallado";
+                ViewBag.DxDevWeb = "1";
+
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GenerarReporteHorasHombre(string fechaIni, string fechaFin)
+        {
+            try
+            {
+
+                ClsNomina clsNomina = new ClsNomina();
+
+                List<ModeloVistaHorasHombre> objRptHoras = clsNomina.ObtenerReporteHorasHombre(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
+
+
+                JsonResult result = Json(objRptHoras, JsonRequestBehavior.AllowGet);
+
+                result.MaxJsonLength = 50000000;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+
+
 
         public ActionResult DatosPersonales()
         {

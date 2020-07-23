@@ -201,7 +201,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
                 foreach (int x in ordendesFabricacion)
                 {
-                    var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    var ListaLotes = detalleOrden.Where(o => o.OrdenFabricacion == x).ToList();
                     if(ListaLotes == null || ListaLotes.Count==0)
                     {
                         ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea2(x,Linea);
@@ -270,7 +270,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
                 foreach (int x in ordendesFabricacion)
                 {
-                    var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    var ListaLotes = detalleOrden.Where(o => o.OrdenFabricacion == x).ToList();
                     if (ListaLotes == null || ListaLotes.Count == 0)
                     {
                         ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOFCompleto(x);
@@ -320,7 +320,73 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
-        
+
+        public void GenerarRendimientoOrdenesApi(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+
+                List<CONTROL_AVANCE_API> ListadoControlAvanceApi = new List<CONTROL_AVANCE_API>();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                var ordendesFabricacion = (from p in entities.PROYECCION_PROGRAMACION
+                                           join d in entities.PROYECCION_PROGRAMACION_DETALLE on p.IdProyeccionProgramacion equals d.IdProyeccionProgramacion
+                                           where p.FechaProduccion >= FechaDesde 
+                                           && p.FechaProduccion <= FechaHasta
+                                           && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           select new { d.OrdenFabricacion }).Distinct().ToList();
+
+                //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
+                foreach (var orden in ordendesFabricacion)
+                {
+                    int x = int.Parse(orden.OrdenFabricacion.ToString());
+                    var ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOFCompleto(x);
+
+                    foreach (var detalle in ListaLotes)
+                    {
+                        var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
+                        if (modelControlAvanceApi == null)
+                        {
+                            if (!ListadoControlAvanceApi.Any(lista => lista.OrdenFabricacion == x && lista.Lote == detalle.Lote))
+                            {
+                                ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
+                                {
+                                    OrdenFabricacion = x,
+                                    Limpieza = detalle.Limpieza,
+                                    Lote = detalle.Lote,
+                                    Peso = detalle.Peso != null ? int.Parse(double.Parse(detalle.Peso).ToString()) : 0,
+                                    Piezas = detalle.Piezas != null ? int.Parse(double.Parse(detalle.Piezas).ToString()) : 0,
+                                    Talla = detalle.Talla,
+                                    Promedio = detalle.Promedio != null ? decimal.Parse(detalle.Promedio) : 0,
+                                    Especie = detalle.Especie,
+                                    Producto = detalle.Producto,
+                                    LomoReal = detalle.Lomos,
+                                    MigaReal = detalle.Migas
+                                });
+                            }
+                        }
+                        else
+                        {
+                            modelControlAvanceApi.Promedio = detalle.Promedio != null ? decimal.Parse(detalle.Promedio) : 0;
+                            modelControlAvanceApi.Talla = detalle.Talla;
+                            modelControlAvanceApi.LomoReal = detalle.Lomos;
+                            modelControlAvanceApi.MigaReal = detalle.Migas;
+                            modelControlAvanceApi.Especie = detalle.Especie;
+                            modelControlAvanceApi.Lote = detalle.Lote;
+                            modelControlAvanceApi.Limpieza = detalle.Limpieza;
+                            modelControlAvanceApi.Peso = detalle.Peso != null ? int.Parse(double.Parse(detalle.Peso).ToString()) : 0;
+                            modelControlAvanceApi.Piezas = detalle.Piezas != null ? int.Parse(double.Parse(detalle.Piezas).ToString()) : 0;
+                        }
+                    }
+                }
+                if (ListadoControlAvanceApi.Any())
+                {
+                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi.Distinct());
+                }
+                entities.SaveChanges();
+            }
+        }
+
+
 
         public List<spConsultaAvanceDiarioPorLimpiadora> ConsultaControlAvanceDiarioPorLimpiadora(DateTime Fecha, string Linea,string turno)
         {
@@ -392,18 +458,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
+        public List<spConsultaReporteRendimientoLinea> ConsultaReporteRendimientoPorLinea(DateTime Fecha, string Turno)
+        {
+            GenerarAvanceOrdenesApi2(Fecha, Fecha);
+            clsDApiProduccion = new clsDApiProduccion();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<spConsultaReporteRendimientoLinea> Listado;
+                Listado = entities.spConsultaReporteRendimientoLinea(Fecha, Turno).ToList();
+                return Listado;
+            }
 
+        }
 
-        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime Fecha, string Turno)
+        public List<spConsultaReporteRendimientoLote> ConsultaReporteRendimientoPorLte(DateTime FechaDesde, DateTime FechaHasta, string Turno, string Barcos, int Protocolo)
         {
             clsDApiProduccion = new clsDApiProduccion();
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                GenerarAvanceOrdenesApi2(Fecha, Fecha);
+                GenerarRendimientoOrdenesApi(FechaDesde,FechaHasta);
                 GenerarRendimientos();
                 List<spConsultaReporteRendimientoLote> Listado;
-                Listado = entities.spConsultaReporteRendimientoLote(Fecha, Turno).ToList();
+                Listado = entities.spConsultaReporteRendimientoLote(FechaDesde, FechaHasta, Turno, Barcos, Protocolo).ToList();
                 return Listado;
+            }
+
+        }
+
+        public List<BARCO> ConsultaReporteRendimientoPorLoteBarcos(DateTime FechaDesde, DateTime FechaHasta, string Turno, int Protocolo)
+        {
+            clsDApiProduccion = new clsDApiProduccion();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Barcos = (from p in entities.PROYECCION_PROGRAMACION
+                                           join d in entities.PROYECCION_PROGRAMACION_DETALLE on p.IdProyeccionProgramacion equals d.IdProyeccionProgramacion
+                                           join b in entities.BARCO on d.Barco equals b.IdBarco+""
+                                           where p.FechaProduccion >= FechaDesde
+                                           && p.FechaProduccion <= FechaHasta
+                                           && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                           &&(((Protocolo == 1 &&(d.Protocolo == false || d.Protocolo == null))
+                                            ||(Protocolo == 3 &&(d.Protocolo==true)) ) || Protocolo == 2)
+                                           select b).Distinct().ToList();
+
+                return Barcos;
             }
 
         }
@@ -445,7 +542,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 GenerarRendimientos();
-                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().ToList();
+                return entities.RENDIMIENTO_KILO_HORA.AsNoTracking().Where(x=> x.Periodo == DateTime.Now.Year.ToString()).ToList();
             }
         }
 

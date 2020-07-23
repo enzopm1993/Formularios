@@ -77,8 +77,12 @@ function CargarBandeja() {
                     $('#MensajeRegistros').hide();
 
                     $('#DivEvaluacionLomosMigas').html(resultado);
+                 
+                 
+
                     config.opcionesDT.pageLength = 30;
                     $('#tblBandejaEvaluacion').DataTable(config.opcionesDT);
+
                 }
 
                 $('#cargac').hide();

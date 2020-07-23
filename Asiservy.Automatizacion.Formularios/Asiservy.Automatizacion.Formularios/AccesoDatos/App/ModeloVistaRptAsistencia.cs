@@ -1,4 +1,5 @@
-﻿using Asiservy.Automatizacion.Formularios.Controllers;
+﻿using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +35,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.App
         public Int32 Presentes { get; set; }
         public Int32 Ausentes { get; set; }
     }
-    public class ClsKpiDescripcionTotal
-    {
-        public String Descripcion { get; set; }
-        public Int32 Total { get; set; }
-    }
+
     
 }

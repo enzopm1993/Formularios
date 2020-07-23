@@ -45,7 +45,7 @@ function AprobarControl() {
     const data = new FormData();
     data.append('IdControl', IdControlAp);
     data.append('Fecha', $('#txtfechaaprob').val());
-  
+    data.append('poFecha', $('#txtFecha').val());
     fetch("../CalibracionPhMetro/AprobarControl", {
         method: 'POST',
         body: data
@@ -63,9 +63,14 @@ function AprobarControl() {
         }
         if (Error == 0) {
             $('#ModalAprobar').modal('hide');
-            MensajeCorrecto(resultado);
+            if (resultado == '444') {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+
+                CargarBandeja();
+            }
             
-            CargarBandeja();
         }
 
 
@@ -82,7 +87,7 @@ function ReversarControl() {
 
     const data = new FormData();
     data.append('IdControl', IdControlAp);
-
+    data.append('poFecha', $('#txtFecha').val());
     fetch("../CalibracionPhMetro/ReversarControl", {
         method: 'POST',
         body: data
@@ -100,9 +105,13 @@ function ReversarControl() {
         }
         if (Error == 0) {
             $('#ModalReversar').modal('hide');
-            MensajeCorrecto(resultado);
+            if (resultado == '444') {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
 
-            CargarBandeja();
+                CargarBandeja();
+            }
         }
 
 

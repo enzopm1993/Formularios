@@ -43,8 +43,8 @@ $(document).ready(function () {
         {
             date: moment().format("YYYY-MM-DD HH:mm"),
             format: "DD-MM-YYYY HH:mm",
-            minDate: moment($('#txtFecha').val(), "YYYY-MM-DD HH:mm"),
-            maxDate: moment().add(1, 'days').format("YYYY-MM-DD"),
+            minDate: moment($('#txtFecha').val(), "YYYY-MM-DD HH:mm").add(-2, "days"),
+            maxDate: moment().add(2, 'days').format("YYYY-MM-DD"),
             ignoreReadonly: true
         });
 
@@ -165,6 +165,8 @@ function SeleccionarControl(model) {
     } else {
         $("#selectTurno").css('borderColor', '#ced4da');
     }
+
+  
       
     ConsultarMonitoreoDetalle();
     

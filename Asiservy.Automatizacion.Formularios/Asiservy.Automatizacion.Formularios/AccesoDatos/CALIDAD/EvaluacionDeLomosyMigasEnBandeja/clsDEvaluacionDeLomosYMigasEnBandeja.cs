@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.Models.Calidad;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 
@@ -9,6 +11,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
 {
     public class clsDEvaluacionDeLomosYMigasEnBandeja
     {
+        public clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         public object[] GuardarDetalleFoto(CC_EVALUACION_LOMO_MIGA_FOTO control)
         {
             using (var db = new ASIS_PRODEntities())
@@ -410,8 +413,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
         }
         public List<CabeceraEvaluacionLomosMigasViewModel> ConsultarBandejaEvaluacionLomosyMiga(DateTime? FechaInicio, DateTime? FechaFin,bool EstadoControl)
         {
+            clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+
             using (var db = new ASIS_PRODEntities())
             {
+                //List<CabeceraEvaluacionLomosMigasViewModel> RespuestaClienteActualizado = null;
                 if (EstadoControl == clsAtributos.EstadoReportePendiente)
                 {
                     //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
@@ -446,6 +452,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                          FechaAprobacion=x.FechaAprobacion,
                                          Turno=clt.Descripcion
                                      }).Distinct().ToList();
+                    if (respuesta.Count > 0)
+                    {
+                        List<OrdenFabricacionAvance> DatosOrdenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(
+                            respuesta.Select(f => f.FechaProduccion).Min().Value, respuesta.Select(f => f.FechaProduccion).Max().Value)
+                            .Select(x => new OrdenFabricacionAvance { Fecha = x.Fecha, OrdenFabricacion = x.OrdenFabricacion, Cliente = x.Cliente }).Distinct().ToList();
+                        foreach (var item in respuesta)
+                        {
+                            var buscarOrden = DatosOrdenes.FirstOrDefault(x => x.OrdenFabricacion == item.OrdenFabricacion);
+                            if (buscarOrden != null)
+                            {
+                                item.Cliente = string.IsNullOrEmpty(buscarOrden.Cliente) ? item.Cliente : buscarOrden.Cliente;
+                            }
+                            else
+                            {
+                                string cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(item.OrdenFabricacion.Value.ToString()).FirstOrDefault().CLIENTE;
+                                item.Cliente = string.IsNullOrEmpty(cliente) ? item.Cliente : cliente;
+                            }
+                        }
+
+                    }
 
                     return respuesta;
                 }
@@ -454,6 +480,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                      join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                      join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
+                                     join clt in db.CLASIFICADOR on new { Codigo = x.Turno, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Grupo = clsAtributos.GrupoCodTurno } equals new { clt.Codigo, clt.EstadoRegistro, clt.Grupo }
                                      where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&(x.FechaProduccion>=FechaInicio&&x.FechaProduccion<=FechaFin) && x.EstadoControl == clsAtributos.EstadoReporteActivo  && cl.Codigo != "0"
                                      select new CabeceraEvaluacionLomosMigasViewModel
                                      {
@@ -478,8 +505,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                          UsuarioModificacionLog = x.UsuarioModificacionLog,
                                          NivelLimpiezaDescripcion = cl.Descripcion,
                                          AprobadoPor = x.AprobadoPor,
-                                         FechaAprobacion = x.FechaAprobacion
+                                         FechaAprobacion = x.FechaAprobacion,
+                                         Turno=clt.Descripcion
                                      }).Distinct().ToList();
+                    if (respuesta.Count > 0)
+                    {
+                        List<OrdenFabricacionAvance> DatosOrdenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(
+                            respuesta.Select(f => f.FechaProduccion).Min().Value, respuesta.Select(f => f.FechaProduccion).Max().Value)
+                            .Select(x => new OrdenFabricacionAvance { Fecha = x.Fecha, OrdenFabricacion = x.OrdenFabricacion, Cliente = x.Cliente }).Distinct().ToList();
+                        foreach (var item in respuesta)
+                        {
+                            var buscarOrden = DatosOrdenes.FirstOrDefault(x => x.OrdenFabricacion == item.OrdenFabricacion);
+                            if (buscarOrden != null)
+                            {
+                                item.Cliente = string.IsNullOrEmpty(buscarOrden.Cliente) ? item.Cliente : buscarOrden.Cliente;
+                            }
+                            else
+                            {
+                                string cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(item.OrdenFabricacion.Value.ToString()).FirstOrDefault().CLIENTE;
+                                item.Cliente = string.IsNullOrEmpty(cliente) ? item.Cliente : cliente;
+                            }
+                        }
+
+                    }
                     return respuesta;
                 }
             }
@@ -507,6 +555,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
         {
             using (var db = new ASIS_PRODEntities())
             {
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                  join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                  join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
@@ -538,7 +587,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                      FechaAprobacion = x.FechaAprobacion,
                                      Turno=clt.Descripcion
                                  }).Distinct().ToList();
+                if (respuesta.Count > 0)
+                {
+                    List<OrdenFabricacionAvance> DatosOrdenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(
+                        respuesta.Select(f => f.FechaProduccion).Min().Value, respuesta.Select(f => f.FechaProduccion).Max().Value)
+                        .Select(x => new OrdenFabricacionAvance { Fecha = x.Fecha, OrdenFabricacion = x.OrdenFabricacion, Cliente = x.Cliente }).Distinct().ToList();
+                    foreach (var item in respuesta)
+                    {
+                        var buscarOrden = DatosOrdenes.FirstOrDefault(x => x.OrdenFabricacion == item.OrdenFabricacion);
+                        if (buscarOrden != null)
+                        {
+                            item.Cliente = string.IsNullOrEmpty(buscarOrden.Cliente) ? item.Cliente : buscarOrden.Cliente;
+                        }
+                        else
+                        {
+                            string cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(item.OrdenFabricacion.Value.ToString()).FirstOrDefault().CLIENTE;
+                            item.Cliente = string.IsNullOrEmpty(cliente) ? item.Cliente : cliente;
+                        }
+                    }
 
+                }
                 return respuesta;
             }
         }

@@ -1,8 +1,29 @@
 ﻿IdControl = 0;
 $(document).ready(function () {
-    $('#txtPh4').mask("9?.99");
-    $('#txtPh7').mask("9?.99");
-    $('#txtPh10').mask("99?.99");
+    //$('#txtPh4').mask("9?.99");
+    //$('#txtPh7').mask("9?.99");
+    //$('#txtPh10').mask("99?.99");
+    $('#txtPh4').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 9.99
+    });;
+    $('#txtPh7').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 9.99
+    });
+    $('#txtPh10').inputmask({
+        alias: "integer",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: 99.99
+    });
     ConsultarControl();
 });
 function Validar() {
@@ -66,7 +87,7 @@ async function GuardarControl() {
             window.location.reload();
         }
         IdControl = RespuestaGuardar[2].IDPhMetro;
-        if (RespuestaGuardar[0] == "002") {
+        if (RespuestaGuardar[0] == "002" || RespuestaGuardar[0] == "444") {
             MensajeAdvertencia(RespuestaGuardar[1]);
             
         } else {
@@ -168,7 +189,7 @@ function LimpiarControles() {
     $("#DivContenido :input").prop("disabled", false);
     $('#btnEliminarControl').prop('disabled', true);
     $('#estadocontrol').text('');
-    $('#txtHora').val('');
+    $('#txtHora').val(moment().format("hh:mm"));
     $('#txtCodigoPhMetro').val('');
     $('#txtPh4').val('');
     $('#txtPh7').val('');
@@ -180,7 +201,8 @@ function ConfirmarEliminarControl() {
 }
 async function EliminarControlAjax() {
     let params = {
-        IdControl: IdControl
+        IdControl: IdControl,
+        poFecha: $('#txtHora').val()
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -208,6 +230,9 @@ async function EliminarControl() {
             $('#ModalEliminarControl').modal('hide');
             LimpiarControles();
             IdControl = 0;
+        } else {
+            MensajeAdvertencia(RespuestaEliminar[1]);
+            $('#ModalEliminarControl').modal('hide');
         }
     } catch (error) {
         MensajeError('Error comuníquese con el departamento de Sistemas' + error, false);

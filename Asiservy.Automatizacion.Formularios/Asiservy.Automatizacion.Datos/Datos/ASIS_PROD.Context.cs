@@ -96,7 +96,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
         public virtual DbSet<COCHE_AUTOCLAVE> COCHE_AUTOCLAVE { get; set; }
         public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
-        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
         public virtual DbSet<MODULO> MODULO { get; set; }
         public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<PlantillasMemorandum> PlantillasMemorandum { get; set; }
@@ -126,7 +125,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PROTEINA> CC_MANTENIMIENTO_PROTEINA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_SABOR> CC_MANTENIMIENTO_SABOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TEXTURA> CC_MANTENIMIENTO_TEXTURA { get; set; }
-        public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_CTRL_DET> CC_CUCHILLOS_PREPARACION_CTRL_DET { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_HORA> CC_CUCHILLOS_PREPARACION_HORA { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
@@ -205,10 +203,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_AAC> CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
         public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
-        public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
-        public virtual DbSet<FONDO_LOGIN> FONDO_LOGIN { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
+        public virtual DbSet<FONDO_LOGIN> FONDO_LOGIN { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
+        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
+        public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1473,23 +1473,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter, usuarioParameter, terminalParameter);
         }
     
-        public virtual ObjectResult<spReporteEsterilizacionDetalle> spReporteEsterilizacionDetalle(Nullable<System.DateTime> fecha, string turno, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEsterilizacionDetalle>("spReporteEsterilizacionDetalle", fechaParameter, turnoParameter, lineaParameter);
-        }
-    
         public virtual ObjectResult<spReporteProdPouchCuarentenaDetalle> spReporteProdPouchCuarentenaDetalle(Nullable<System.DateTime> fechäProduccion, string turno)
         {
             var fechäProduccionParameter = fechäProduccion.HasValue ?
@@ -1935,15 +1918,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiarioxCargo>("spConsultaMovimientoPersonalDiarioxCargo", fechaParameter, horaParameter, cargoParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
-        {
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
-        }
-    
         public virtual ObjectResult<spReporteTemperaturaInternaRefrigeradora> spReporteTemperaturaInternaRefrigeradora(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2347,19 +2321,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spKpiAvancePorLimpiadora>("spKpiAvancePorLimpiadora", fechaParameter, cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fecha, string turno)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLote>("spConsultaReporteRendimientoLote", fechaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaKpiEnvaseLata> spConsultaKpiEnvaseLata(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string lineaNegocio)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2381,6 +2342,37 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaKpiEnvaseLata>("spConsultaKpiEnvaseLata", fechaDesdeParameter, fechaHastaParameter, turnoParameter, lineaNegocioParameter);
         }
     
+        public virtual ObjectResult<spConsultarDetalleControlEvaluacionProdEnfundado> spConsultarDetalleControlEvaluacionProdEnfundado(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarDetalleControlEvaluacionProdEnfundado>("spConsultarDetalleControlEvaluacionProdEnfundado", idCabeceraParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteRendimientoLinea> spConsultaReporteRendimientoLinea(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLinea>("spConsultaReporteRendimientoLinea", fechaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
+        }
+    
         public virtual ObjectResult<spConsultaProyeccionProgramacion> spConsultaProyeccionProgramacion(Nullable<int> idProyeccion)
         {
             var idProyeccionParameter = idProyeccion.HasValue ?
@@ -2390,13 +2382,46 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProyeccionProgramacion>("spConsultaProyeccionProgramacion", idProyeccionParameter);
         }
     
-        public virtual ObjectResult<spConsultarDetalleControlEvaluacionProdEnfundado> spConsultarDetalleControlEvaluacionProdEnfundado(Nullable<int> idCabecera)
+        public virtual ObjectResult<spReporteEsterilizacionDetalle> spReporteEsterilizacionDetalle(Nullable<System.DateTime> fecha, string turno, string linea)
         {
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarDetalleControlEvaluacionProdEnfundado>("spConsultarDetalleControlEvaluacionProdEnfundado", idCabeceraParameter);
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEsterilizacionDetalle>("spReporteEsterilizacionDetalle", fechaParameter, turnoParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteRendimientoLote> spConsultaReporteRendimientoLote(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string barcos, Nullable<int> protocolo)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var barcosParameter = barcos != null ?
+                new ObjectParameter("Barcos", barcos) :
+                new ObjectParameter("Barcos", typeof(string));
+    
+            var protocoloParameter = protocolo.HasValue ?
+                new ObjectParameter("Protocolo", protocolo) :
+                new ObjectParameter("Protocolo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLote>("spConsultaReporteRendimientoLote", fechaDesdeParameter, fechaHastaParameter, turnoParameter, barcosParameter, protocoloParameter);
         }
     }
 }

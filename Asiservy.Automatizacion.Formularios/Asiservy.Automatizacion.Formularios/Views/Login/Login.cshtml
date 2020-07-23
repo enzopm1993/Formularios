@@ -1,6 +1,8 @@
 ﻿@using System.Reflection
+@using  Asiservy.Automatizacion.Datos.Datos
 @{
     Layout = null;
+    FONDO_LOGIN  fondo = (FONDO_LOGIN)ViewBag.FondoLogin;
 }
 <!DOCTYPE html>
 <html>
@@ -11,7 +13,7 @@
     <link href="~/Content/Login/Login.css" rel="shortcut icon" />
     <link href="~/Content/Login/Login.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- @*   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">*@
+    @*   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">*@
     <link href="~/Content/Login/font-awesome.min.css" rel="stylesheet" />
     <link rel="apple-touch-icon" sizes="57x57" href="~/Content/ICO/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="~/Content/ICO/apple-icon-60x60.png">
@@ -30,100 +32,113 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="~/Content/ICO/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    @if (fondo != null)
+    {
+    <style>
+        body {
+            background: url("/ImagenSiaa/@fondo.Imagen") no-repeat center center fixed;
+            -webkit-background-size: cover;
+              -moz-background-size: cover;
+              -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+    }
 </head>
 <body>
-    <style>
-        .btn-link:hover {
-            color: #ffd800 !important;
-        }
+        <style>
+            .btn-link:hover {
+                color: #ffd800 !important;
+            }
 
-        .btn-link {
-            font-weight: 400;
-            color: aliceblue;
-            text-decoration: none;
-        }
-        select {
-            background: transparent;
-            border: groove;
-            font-size: 14px;
-            height: 30px;
-            padding: 5px;
-            width: 250px;
-            /*color: aliceblue;*/
-        }
-    </style>   
-    <div class="container relative1">
-        <div class="absolute1" hidden id="response">
-        </div>
+            .btn-link {
+                font-weight: 400;
+                color: aliceblue;
+                text-decoration: none;
+            }
 
-        <div class="d-flex justify-content-center h-100">
-            <div class="card shadow">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-5">
+            select {
+                background: transparent;
+                border: groove;
+                font-size: 14px;
+                height: 30px;
+                padding: 5px;
+                width: 250px;
+                /*color: aliceblue;*/
+            }
+        </style>
+        <div class="container relative1">
+            <div class="absolute1" hidden id="response">
+            </div>
 
-                            <h4 class="text-center" style="color:black">
-                                <b>@ViewBag.BD</b>
-                            </h4>
-                        </div>
-                        <div style=" padding-top: 3px !important;" class="text-center col-md-7 col-12 col-sm-12">
-                            @*<select class="" id="selectBD" onchange="CambiarAmbienteDB(this.value)"></select>*@
-                            <a href="" class="" id="EnlaceBase"></a>
+            <div class="d-flex justify-content-center h-100">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-5">
+
+                                <h4 class="text-center" style="color:black">
+                                    <b>@ViewBag.BD</b>
+                                </h4>
+                            </div>
+                            <div style=" padding-top: 3px !important;" class="text-center col-md-7 col-12 col-sm-12">
+                                @*<select class="" id="selectBD" onchange="CambiarAmbienteDB(this.value)"></select>*@
+                                <a href="" class="" id="EnlaceBase"></a>
+                            </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
+                                    </span>
+                                </div>
+                                <input id="txtUsuario" style="text-transform:uppercase" onkeypress="return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
+
+                            </div>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        @*<i class="fas fa-key">*@
+                                        <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
+                                        @*</i>*@
+                                    </span>
+                                </div>
+                                <input id="txtPassword" type="password" class="form-control" placeholder="CONTRASEÑA">
+                            </div>
+
+                            <div class="form-group text-center">
+
+                                <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-dark" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                                    <i class="fas fa-broom"> Limpiar</i>
+                                </button>
+                                <button title="Ingresar" class="btn btn-outline-primary" id="btnIngresar" style="border-color:#2c3e50" type="button">
+                                    <i class="fas fa-sign-in-alt"> Ingresar</i>
+                                </button>
+
+                                @*<input type="button" id="btnIngresar" value="Ingresar" class="btn float-right login_btn">*@
+                                <button hidden id="btnCargando" class="btn btn-light" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Espere...
+                                </button>
+                            </div>
+
+                            <div class="text-center">
+                                <label></label>
+                                <span class="badge badge-primary">V.@ViewBag.version </span>
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
-                                </span>
-                            </div>
-                            <input id="txtUsuario" style="text-transform:uppercase" onkeypress="return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
-
-                        </div>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    @*<i class="fas fa-key">*@
-                                    <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
-                                    @*</i>*@
-                                </span>
-                            </div>
-                            <input id="txtPassword" type="password" class="form-control" placeholder="CONTRASEÑA">
-                        </div>
-
-                        <div class="form-group text-center">
-
-                            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-dark" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
-                                <i class="fas fa-broom"> Limpiar</i>
-                            </button>
-                            <button title="Ingresar" class="btn btn-outline-primary" id="btnIngresar" style="border-color:#2c3e50" type="button">
-                                <i class="fas fa-sign-in-alt"> Ingresar</i>
-                            </button>
-
-                            @*<input type="button" id="btnIngresar" value="Ingresar" class="btn float-right login_btn">*@
-                            <button hidden id="btnCargando" class="btn btn-light" type="button" disabled>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Espere...
-                            </button>
-                        </div>
-                 
-                        <div class="text-center">
-                            <label></label>
-                            <span class="badge badge-primary">V.@ViewBag.version </span>
-
-                        </div>
-                    </form>
-                </div>         
             </div>
         </div>
-    </div>
 
-    <!-- Modal -->
+        <!-- Modal -->
 
-</body>
+    </body>
 </html>
 
 <script src="~/Scripts/jquery-3.0.0.min.js"></script>

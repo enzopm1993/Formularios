@@ -25,8 +25,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CodCargo { get; set; }
         public string Cargo { get; set; }
         public string Turno { get; set; }
-        public Nullable<System.DateTime> INICIO { get; set; }
-        public Nullable<System.DateTime> FIN { get; set; }
+        public string INICIO { get; set; }
+        public string FIN { get; set; }
         public Nullable<decimal> HORAS_RELOJ { get; set; }
         public Nullable<decimal> DESCUENTO_ALMUERZO { get; set; }
         public Nullable<decimal> DESCUENTO_CENA { get; set; }

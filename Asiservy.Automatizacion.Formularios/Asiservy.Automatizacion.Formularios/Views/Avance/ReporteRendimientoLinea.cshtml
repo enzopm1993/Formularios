@@ -13,7 +13,7 @@
 
     @@media print {
         @@page {
-            size: A4;
+            size: landscape A4;
             background-color: white;
         }
 
@@ -137,22 +137,40 @@
 
     th {
         font-size: 12px;
+        padding: 0px;
+        vertical-align:central;
     }
-
-    td {
+        
+        td {
         font-size: 11px;
     }
 
-    .letra10 {
-        font-size: 10px;
+   
+
+    .table-info {
+        background-color: #aff9b8 !important;
     }
+
+    .bg-info {
+        background-color: #c7ebf1 !important;
+        border-color: #808080 !important;
+        /*kilo teorico*/
+    }
+
+    .bg-info-verde {
+        background-color: #95fbb5 !important;
+        border-color: #808080 !important;
+        /*kilo real*/
+    }
+
+
 </style>
 
 
-<h4>Reporte de Rendimiento por Linea</h4>
+<h4 id="titulo">Reporte de Rendimiento por Linea</h4>
 
 <hr />
-<div class="row">
+<div class="row" id="divCabecera">
     <div class="col-md-4 col-12">
         <div class="form-group">
             <label>Fecha</label>
@@ -170,7 +188,7 @@
                         <option value="@x.Codigo">@x.Descripcion</option>
                     }
                 }
-                <option value="T">Todos</option>
+                
             </select>
         </div>
     </div>
@@ -182,6 +200,9 @@
             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnConsultar" onclick="CargarReporteAvance()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
             </button>
+            @*<button hidden data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>*@
         </div>
     </div>
 
@@ -249,74 +270,10 @@
             <div class="card-body" id="" style="padding-top:1px">
                 <div class="text-center"><h4 class="text-warning" id="divMensaje"></h4></div>
                 <div class="" id="divChart" hidden>
-
-                    <div class="row">
-                        <div class="col-md-3 col-6 col-sm-6">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalDetalle">
-                                Ver detalles
-                            </button>
-                        </div>
-                        <div class="col-md-9 col-6 col-sm-6">
-                            <label><b>Total Toneladas: </b></label>
-                            <label id="txtTotalToneladas"></label>
-
-                        </div>
-                    </div>
+                    <div style="" class="table-responsive" id="DivTableReporteControlAvance">  </div>
 
 
 
-
-
-                    <div class="row">
-                        <div class="col-md-6 col-12 col-sm-12">
-                            <div class="card shadow">
-                                <div class=" card-body">
-                                    <div id="chartRendimientoLomo">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12 col-sm-12">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div id="chartRendimientoMiga">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-4 col-12 col-sm-12">
-                            <div class="card shadow">
-                                <div class=" card-body">
-                                    <div id="chartRendimientoGeneralLomo">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12 col-sm-12">
-                            <div class="card shadow">
-                                <div class=" card-body">
-                                    <div id="chartRendimientoGeneralMiga">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12 col-sm-12">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div id="chartRendimientoGeneralTotal">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -326,38 +283,3 @@
     </div>
 </div>
 
-
-<div class="modal" tabindex="-1" role="dialog" id="ModalDetalle">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Rendimiento por Lote.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="" class="table-responsive" id="DivTableReporteControlAvance">  </div>
-                <div class="table-responsive" style="font-size:12px;">
-                    <table class=" table-bordered">
-                        <tr>
-                            <th colspan="2">Lote</th>
-                            <th colspan="2">% Diferencia</th>
-                        </tr>
-                        <tr>
-                            <td>  <span class="badge badge-success">Lote</span> Cerrado</td>
-                            <td> <span class="badge badge-warning">Lote</span> Abierto</td>
-                            <td>   <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i> Más o igual Lomo/Miga de lo esperado. <br /></td>
-                            <td>  <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i> Menos Lomo/Miga de lo esperado. <br /></td>
-
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>

@@ -6,7 +6,7 @@
             @Html.DisplayNameFor(model => model.Tarjeta)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HoraInicio)
+            Hora Inicio
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Coche)
@@ -24,7 +24,7 @@
             @Html.DisplayFor(modelItem => item.Tarjeta)
         </td>
         <td>
-            @item.HoraInicio.ToString("HH:mm")
+            @item.HoraInicio.ToString("yyyy-MM-dd HH:mm")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Coche)
