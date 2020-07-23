@@ -12,21 +12,21 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_PARAMETROS_LABORATORIO
+    public partial class CC_ANALISIS_QUIMICO_PRECOCCION_CTRL
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_PARAMETROS_LABORATORIO()
+        public CC_ANALISIS_QUIMICO_PRECOCCION_CTRL()
         {
-            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO>();
-            this.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS = new HashSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS>();
+            this.CC_ANALISIS_QUIMICO_PRECOCCION_DET = new HashSet<CC_ANALISIS_QUIMICO_PRECOCCION_DET>();
         }
     
-        public int IdParametro { get; set; }
-        public string CodFormClasif { get; set; }
-        public string NombreParametro { get; set; }
-        public Nullable<decimal> ValorMax { get; set; }
-        public Nullable<decimal> ValorMin { get; set; }
-        public string DescripcionParametro { get; set; }
+        public int IdAnalisis { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string ObservacionCtrl { get; set; }
+        public string Turno { get; set; }
+        public bool EstadoReporte { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -34,12 +34,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public string CodArea { get; set; }
-        public Nullable<decimal> Mascara { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
+        public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_DET> CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
     }
 }

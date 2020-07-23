@@ -129,6 +129,18 @@
     <Compile Include="Datos\CC_ANALISIS_AGUA_TANQUERO_CONTROL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRECOCCION_DET.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRECOCCION_FOTO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -1003,6 +1015,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Analisis_Agua_Clorinacion.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_Analisis_Quimico_Precoccion.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Calibracion_Fluorometro.cs">
