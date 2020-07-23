@@ -19,70 +19,82 @@
         <h4>Reporte de Solicitudes</h4>
     }
     <hr />
-    <div class="row">
-        <div class="col-md-4 col-12">
-            <label>Linea</label>
-            @Html.DropDownList("IdLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CambioLinea(this.value)", @id = "selectLinea" })
-        </div>
-        <div class="col-md-4 col-12">
-            <label>Area</label>
-            <select class="form-control" id="selectArea">
-                <option value="">-- Seleccionar Opción--</option>
 
-            </select>
-            <br />
-        </div>
-        <div class="col-md-4 col-12">
-            <label>Estado</label>
-            @if (ViewBag.Garita != null)
-            {
-                <input type="hidden" name="name" value="true" id="Garita" />
-                @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion", "002"), new { @class = "form-control", @id = "selectEstado", hidden = "hidden" })
-                <input type="text" name="name" class="form-control" value="Aprobado" disabled />
-            }
-            else
-            {
-                @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectEstado" })
+    <div class="card shadow">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-4 col-12">
+                    <label>Linea</label>
+                    @Html.DropDownList("IdLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CambioLinea(this.value)", @id = "selectLinea" })
+                </div>
+                <div class="col-md-4 col-12">
+                    <label>Area</label>
+                    <select class="form-control" id="selectArea">
+                        <option value="">-- Seleccionar Opción--</option>
 
+                    </select>
+                    <br />
+                </div>
+                <div class="col-md-4 col-12">
+                    <label>Estado</label>
+                    @if (ViewBag.Garita != null)
+                    {
+                        <input type="hidden" name="name" value="true" id="Garita" />
+                        @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion", "002"), new { @class = "form-control", @id = "selectEstado", hidden = "hidden" })
+                        <input type="text" name="name" class="form-control" value="Aprobado" disabled />
+                    }
+                    else
+                    {
+                        @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectEstado" })
+
+                    }
+                </div>
+
+            </div>
+            @if (ViewBag.Garita == null)
+            {
+                <div class="row">
+                    <div class="offset-md-3 col-md-3  col-6">
+                        <label>Fecha Desde</label>
+                        <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <label>Fecha Hasta</label>
+                        <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                </div>
+                <br />
             }
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarSolicitudes()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/ver24.png" />
+                    </button>
+                </div>
+
+            </div>
         </div>
-       
+        <div class="card-body">
+
+            <hr />
+            <div id="spinnerCargando" hidden class="text-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+            <div id="RptSolicitudes" class="table-responsive">
+
+            </div>
+
+        </div>
+        </div>
+
     </div>
-    @if (ViewBag.Garita == null)
-    {
-    <div class="row">
-        <div class="offset-md-3 col-md-3  col-6">
-            <label>Fecha Desde</label>
-            <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-        </div>
-        <div class="col-md-3 col-6">
-            <label>Fecha Hasta</label>
-            <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-        </div>
-        
-    </div>
-    <br />
-    }
+
+   
     
-    <div class="row">
-        <div class="col-12 text-center">
-                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarSolicitudes()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/ver24.png" />
-                </button>           
-        </div>
-
-    </div>
-    <hr />
-    <div id="spinnerCargando" hidden class="text-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Cargando...</span>
-        </div>
-    </div>
-    <div id="RptSolicitudes" class="table-responsive">
-
-    </div>
-
-</div>
+   
 
 
 

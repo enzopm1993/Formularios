@@ -51,13 +51,13 @@
             }
 
             var diaSalida = ci.DateTimeFormat.GetDayName(item.FechaSalida.DayOfWeek);
-            var estado = (item.CodEstadoSolicitud == "002" ? "text-success" : item.CodEstadoSolicitud == "001" ? "text-warning" : item.CodEstadoSolicitud == "003" ? "text-secondary" : "text-danger");
+            var estado = (item.CodEstadoSolicitud == "002" ? "success" : item.CodEstadoSolicitud == "001" ? "warning" : item.CodEstadoSolicitud == "003" ? "secondary" : "danger");
         <tr>
             <td>@item.IdSolicitudPermiso</td>
             <td>@item.Linea</td>
             <td hidden>@item.Area</td>
             <td>@item.Nombre</td>
-            <td class="@estado">@item.EstadoSolicitud</td>
+            <td class=""><span class="badge badge-@estado"> @item.EstadoSolicitud </span></td>
             <td>@FechaBiometrico</td>
             <td>@diaSalida, @item.FechaSalida.ToString("dd-MM-yyyy HH:mm")</td>
             @if (ViewBag.Garita != null)
@@ -78,23 +78,29 @@
                 <td>@diaEntrada, @item.FechaRegreso.ToString("dd-MM-yyyy HH:mm")</td>
                 <td>@item.Motivo</td>
                 <td>@item.Observacion</td>
-                <td>@item.FechaIngresoLog</td>
+                <td>@item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")</td>
                 <td>@item.TerminalIngresoLog</td>
                 <td>@item.UsuarioIngresoLog</td>
 
 
-                <td>@item.FechaModificacionLog</td>
-                <td>@item.TerminalModificacionLog</td>
-                <td>@item.UsuarioModificacionLog</td>
-                if (ViewBag.OnlyControl != null )
-                {
                 <td>
-                    @if (item.CodEstadoSolicitud == "003")
+                    @if (item.FechaModificacionLog != null)
                     {
-                        <a class="badge badge-danger btnReversa" onclick="ReversarSolicitud(@item.IdSolicitudPermiso)" href="#">Reversar </a>
+                        @item.FechaModificacionLog.Value.ToString("dd-MM-yyyy HH:mm")
                     }
-
                 </td>
+                <td>@item.TerminalModificacionLog</td>
+
+                <td>@item.UsuarioModificacionLog</td>
+                if (ViewBag.OnlyControl != null)
+                {
+                    <td>
+                        @if (item.CodEstadoSolicitud == "003")
+                        {
+                            <a class="badge badge-danger btnReversa" onclick="ReversarSolicitud(@item.IdSolicitudPermiso)" href="#">Reversar </a>
+                        }
+
+                    </td>
                 }
             }
         </tr>
