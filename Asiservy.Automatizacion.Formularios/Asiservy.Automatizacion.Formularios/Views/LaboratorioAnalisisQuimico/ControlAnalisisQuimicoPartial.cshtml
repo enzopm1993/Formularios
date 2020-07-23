@@ -1,76 +1,144 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.ItemParadaCocina>
+@*@using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Datos;*@
+@using Asiservy.Automatizacion.Datos.Datos;
 @using Newtonsoft.Json;
 
-<table class="table table-bordered text-uppercase" id="tblDataTable">
-    <thead style="font-size:11px">
+<table class="table table-bordered table-hover table-striped text-uppercase" id="tblDataTables">
+    <thead style="font-size:10px">
         <tr>
             <th>COCINADOR</th>
             <th>PARADA</th>
             <th>LOTE/COD. BARCO</th>
             <th>ESP. TALLA</th>
             <th>Nº COCHE</th>
-            <th>SAL</th>
-            <th>PROM</th>
-            <th>HISTAMINA PPM</th>
-            <th>VALOR MAX</th>
-            <th>VALOR MIN</th>
-            <th>HUMEDAD %</th>
-            <th>PROM</th>
-            @*<th>TURNO</th>*@
-            @*<th>ANALISTA</th>*@
-            <th>ACCIONES</th>
+            @if (ViewBag.listaParametros != null)
+            {
+                foreach (var thead in ViewBag.listaParametros)
+                {
+
+                    <th>@thead.NombreParametro</th>
+                    if (thead.NombreParametro.ToUpper() == "HISTAMINA")
+                    {
+                        <th>VALOR MAX</th>
+                        <th>VALOR MIN</th>
+                    }
+                    else
+                    {
+                        <th>PROM</th>}
+                }
+            }
+            <th>ÁNALISTA</th>
+            <th>TURNO</th>
+            @*<th>OBSERVACIÓN</th>*@
         </tr>
     </thead>
-
-    <tbody style="font-size:10px">
-        @foreach (var item in Model)
+    @{
+        var listaAgrupada = (from all in Model
+                             group all by new { all.COCINA, all.PARADA } into listGroup
+                             orderby listGroup.Key.PARADA
+                             select new { listGroup.Key.COCINA, listGroup.Key.PARADA });
+        var consultarDetalleDia = ViewBag.ConsultarDetalleDia as List<sp_Analisis_Quimico_Precoccion>;
+        string[] turnoLetra = new string[] { "", "A","B","C","D","E","F","G" };
+    }
+    <tbody style="font-size:9px">
+        @foreach (var row in listaAgrupada)
         {
-        <tr>
-            <td>@item.COCINA</td>
-            <td>@item.PARADA</td>
-            <td>
-                @item.LOTE / @item.BARCO
-            </td>
-            <td>
-                @item.ESPECIE - @item.TALLA
-            </td>
-            <td>
-                @item.COCHES
-            </td>
-            <td onclick="ModalIngresoDetalle()">
-                sal
-            </td>
-            <td>
-                prom
-            </td>
-            <td>
-                histamina
-            </td>
-            <td>
-                vlorMax
-            </td>
-            <td>
-                valor min
-            </td>
-            <td>
-                humedad
-            </td>
-            <td>
-                Prom
-            </td>
-            @*<td>
-                turno
-            </td>*@
-            @*<td>analista</td>*@
-            <td>
-                @{
-                    string json = JsonConvert.SerializeObject(item);
+            var turno = (from c in consultarDetalleDia where int.Parse(c.Cocinador) == row.COCINA && c.Parada == row.PARADA select c.Turno).FirstOrDefault();
+            var listaCocinaParada = (from c in Model where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA);
+            string json = JsonConvert.SerializeObject(listaCocinaParada);
+            <tr style="cursor:pointer" onclick="ModalIngresoSubDetalle(@json, @row.COCINA, @row.PARADA,@turno)">
+                <td>@row.COCINA</td>
+                <td>@row.PARADA</td>
+                <td>
+                    @foreach (var item in listaCocinaParada)
+                    {
+                        <div>@item.LOTE / @item.BARCO</div>
+                    }
+                </td>
+                <td>
+                    @foreach (var item in listaCocinaParada)
+                    {
+                        <div>@item.ESPECIE - @item.TALLA</div>
+                    }
+                </td>
+                <td>
+                    @foreach (var item in listaCocinaParada)
+                    {
+                        <div>@item.COCHES</div>
+                    }
+                </td>
+                @if (ViewBag.listaParametros != null)
+                {
+                    foreach (var thead in ViewBag.listaParametros)
+                    {
+                        <td style="background-color: rgba(175, 105, 174, 0.07)">
+                            @foreach (var lote in listaCocinaParada)
+                            {
+                                var groupLote = (from item in consultarDetalleDia
+                                                 where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
+                                                 orderby item.Parada
+                                                 select item).ToList();
+                                foreach (var glote in groupLote)
+                                {
+                                    if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)
+                                    {
+                                        <div id="inputParametro_@thead.IdParametro@row.COCINA@row.PARADA@lote.LOTE">@lote.LOTE - @glote.Valor</div>
+                                    }
+                                }
+                                if (!groupLote.Any())
+                                {
+                                    <div>----</div>
+                                }
+                            }
+                        </td>
+                        if (thead.NombreParametro.ToUpper() == "HISTAMINA")
+                        {
+                            var listaValor = (from x in consultarDetalleDia
+                                       where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro                                      
+                                       select new { x.Valor }).ToList();
+                           
+
+                            <td>@listaValor.OrderByDescending(x=>x.Valor).Select(x=>x.Valor).FirstOrDefault()</td>
+                            <td>@listaValor.OrderBy(x => x.Valor).Select(x=>x.Valor).FirstOrDefault()</td>
+                        }
+                        else
+                        {
+                            <td>
+                                @{
+                                    var sum = (from x in consultarDetalleDia
+                                               where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
+                                               select x.Valor).ToList();
+                                    decimal average = 0;
+                                    if (sum.Any() )
+                                    {
+                                       average = sum.Where(a => a.Value != 0)
+                                     .Select(a => Convert.ToDecimal(a.Value))
+                                     .DefaultIfEmpty(0)
+                                     .Average();
+                                    }
+                                }
+
+                                @average.ToString("0.00")
+                            </td>
+                        }
+                    }
+
                 }
-                <button id="btnActualizar" class="btn btn-link" onclick="ActulizarDetalle(@json)">Editar</button>
-                <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmarDetalle(@json)">Eliminar</button>
-            </td>
-        </tr>
+                <td>@ViewBag.Analista</td>
+                <td class="text-center">
+                    @if (turno != null)
+                    {
+                        @turnoLetra[int.Parse(turno)];
+                    }
+
+                </td>
+                @*<td onclick="ModalIngresoSubDetalleObs()">
+                    <input type="hidden" id="inputParametros" value="@ViewBag.listaParametros" />
+                    <label id="lblObservacion">observación</label>
+                </td>*@
+            </tr>
         }
     </tbody>
 </table>
+
 <script src="~/Scripts/General/dataTableJS.js"></script>

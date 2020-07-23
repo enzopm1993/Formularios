@@ -4264,6 +4264,8 @@
     <Content Include="Views\Avance\ReporteRendimientoLinea.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLogin.cshtml" />
     <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ControlElementoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\VerCrearImagenPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
