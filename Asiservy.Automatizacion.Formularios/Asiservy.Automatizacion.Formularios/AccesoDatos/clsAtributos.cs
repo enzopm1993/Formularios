@@ -4,6 +4,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //FORMULARIO ANALISIS QUIMICO DE PRECOCCION
+        public static string codFormPrecoccion { get; set; } = "01";
         //CODIGO GRUPO PARA EL CONTROL DE PRODUCTO SEMIELABORADO
         public static string codArea { get; set; } = "045";
         //CODIGO GRUPO PARA EL CONTROL DE ANALISIS QUIMICOS DE PRECOCCION

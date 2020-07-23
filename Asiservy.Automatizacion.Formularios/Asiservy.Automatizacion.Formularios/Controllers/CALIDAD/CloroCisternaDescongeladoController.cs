@@ -37,7 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteCloroCisternaDescongelado";
                 }
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 if (parametros == null)
                 {
                     ViewBag.ErrorParametro = "99";
@@ -193,7 +193,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (!estadoReporte.EstadoReporte)
                 {
                     ClsdParametroCalidad = new ClsdParametroCalidad();
-                    var parametros=ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                    var parametros=ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                     model.ParamMax = parametros.Maximo;
                     model.ParamMin = parametros.Minimo;
                     int result=clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
@@ -287,7 +287,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarDetalle(IdCloroCisterna);
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 ViewBag.ColorDentroRango = parametros.ColorDentroRango;
                 ViewBag.ColorFueraRango = parametros.ColorFueraRango;
                 ViewBag.ParamMax = parametros.Maximo;
@@ -384,7 +384,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 if (parametros == null)
                 {
                     ViewBag.ErrorParametro = "99";
@@ -546,7 +546,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 
                     ViewBag.ColorDentroRango = parametros.ColorDentroRango;
                     ViewBag.ColorFueraRango = parametros.ColorFueraRango;
@@ -600,7 +600,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 if (parametros == null)
                 {
                     ViewBag.ErrorParametro = "99";
