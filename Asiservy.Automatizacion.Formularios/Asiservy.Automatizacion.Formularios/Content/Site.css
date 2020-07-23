@@ -156,9 +156,9 @@ textarea {
 }
 .select2-results__option {
     text-transform: uppercase;
-    font-size:0.8rem;
+    font-size: 0.7rem
 }
 .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
     TEXT-TRANSFORM: UPPERCASE;
-    font-size: 0.8rem;
+    font-size: 0.7rem
 }

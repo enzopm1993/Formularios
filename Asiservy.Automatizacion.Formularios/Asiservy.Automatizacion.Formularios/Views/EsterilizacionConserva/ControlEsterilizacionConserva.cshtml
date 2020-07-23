@@ -82,19 +82,19 @@
 
         <hr />
 
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-4 col-6">
             <div class="form-group">
 
 
                 <label>Fecha:</label>
-                <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"  onchange="ValidaVacio(this)"/>
+                <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"  onchange="ValidaVacio(this); ConsultarCabControl();"/>
                 <label class="text-danger" id="msjerrorfecha" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-4 col-6">
             <div class="form-group">
                 <label>Turno:</label>
-                <select class="form-control" id="Turno" onchange="ValidaVacio(this)">
+                <select class="form-control" id="Turno" onchange="ValidaVacio(this); ConsultarCabControl();">
                     <option value="">Seleccione...</option>
                     <option value="1">Turno A</option>
                     <option value="2">Turno B</option>
@@ -102,19 +102,22 @@
                 <label class="text-danger" id="msjerrorturno" hidden>Debe seleccionar un turno</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-4">
             <div class="form-group">
                 <label>Línea:</label>
-                <select class="form-control" id="Linea" onchange="ValidaVacio(this)">
+                <select class="form-control" id="Linea" onchange="ValidaVacio(this); ConsultarCabControl();">
                     <option value="">Seleccione...</option>
                     <option value="L">Lata</option>
                     <option value="P">Pouch</option>
                 </select>
                 <label class="text-danger" id="msjerrorLinea" hidden>Debe seleccionar una línea</label>
             </div>
+           
         </div>
-
-        <div class="col-md-4 col-sm-6">
+        <div class="col-sm-12 col-12 col-md-12">
+            <hr />
+        </div>
+        <div class="col-md-4 col-sm-12">
             <div class="form-group">
 
 
@@ -122,7 +125,7 @@
                 <textarea id="Observacion" class="form-control"></textarea>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-12">
             <div class="form-group">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="ckbunidadpresion">
@@ -145,9 +148,9 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Espere...
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabEsterilizacion()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>

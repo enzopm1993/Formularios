@@ -224,7 +224,7 @@
 
 <div class="row">
     <div class="col-12  text-md-left text-center">
-        <h4 style="float:left;" id="titulo">Reporte de evaluación de lomos y migas en bandeja</h4>
+        <h5 style="float:left;" id="titulo">Reporte de evaluación de lomos y migas en bandeja</h5>
         <div class="col-md-3 col-12 col-sm-12 float-right text-right">
             @if (ViewBag.Link == null)
             {
@@ -241,19 +241,22 @@
             <label>Filtrar por Fecha:</label>
             <input type="hidden" id="fechaDesde" value="" />
             <input type="hidden" id="fechaHasta" value="" />
-            <div id="reportrange" class="selectbox">
-                <i class="fa fa-calendar"></i>&nbsp;
-                <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+            <div class="input-group">
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+                </div>
+                <a href="#" id="generarReporteCerrados" class="btn btn-primary btn-sm" onclick="CargarCabReportes()"><i id="iconSearchCerrados" class="fas fa-search"></i></a>
             </div>
         </div>
-        <div class="col-5">
+        @*<div class="col-5">
             <label>Acciones</label>
             <div class="form-group">
                 <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarCabReportes()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/ver24.png" />
                 </button>
             </div>
-        </div>
+        </div>*@
         <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
     </div>
 </div>
@@ -261,39 +264,41 @@
 <center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
 <div id="DivCabReportes" class="card" hidden>
     <div class="row">
-        <div class="table-responsive col-md-12 col-sm-12">
-            <table id="tblDataTableReporte" class="table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>IdEvaluacionDeLomosYMigasEnBandejas</th>
-                        <th>Fecha Producción</th>
-                        <th>Orden de fabricación</th>
-                        <th>Turno</th>
-                        <th>Cliente</th>
-                        <th>Lomo</th>
-                        <th>Miga</th>
-                        <th>Empaque</th>
-                        <th>Enlatado</th>
-                        <th>Pouch</th>
-                        <th>Nivel de limpieza</th>
-                        <th>NivelLimpieza</th>
-                        <th>Observación</th>
-                        <th>EstadoRegistro</th>
-                        <th>FechaIngresoLog</th>
-                        <th>UsuarioIngresoLog</th>
-                        <th>TerminalIngresoLog</th>
-                        <th>FechaModificacionLog</th>
-                        <th>UsuarioModificacionLog</th>
-                        <th>TerminalModificacionLog</th>
-                        <th>Estado control</th>
+        <div class="col-md-12 col-sm-12">
+            <div class="table-responsive">
+                <table id="tblDataTableReporte" class="table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>IdEvaluacionDeLomosYMigasEnBandejas</th>
+                            <th>Fecha Producción</th>
+                            <th>Orden de fabricación</th>
+                            <th>Turno</th>
+                            <th>Cliente</th>
+                            <th>Lomo</th>
+                            <th>Miga</th>
+                            <th>Empaque</th>
+                            <th>Enlatado</th>
+                            <th>Pouch</th>
+                            <th>Nivel de limpieza</th>
+                            <th>NivelLimpieza</th>
+                            <th>Observación</th>
+                            <th>EstadoRegistro</th>
+                            <th>FechaIngresoLog</th>
+                            <th>UsuarioIngresoLog</th>
+                            <th>TerminalIngresoLog</th>
+                            <th>FechaModificacionLog</th>
+                            <th>UsuarioModificacionLog</th>
+                            <th>TerminalModificacionLog</th>
+                            <th>Estado control</th>
 
-                        <th>Aprobado por</th>
-                        <th>Fecha de aprobación</th>
-                    </tr>
+                            <th>Aprobado por</th>
+                            <th>Fecha de aprobación</th>
+                        </tr>
 
-                </thead>
-                <tbody></tbody>
-            </table>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

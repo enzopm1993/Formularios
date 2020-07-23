@@ -8,7 +8,9 @@ var IdCocheAutoclave = 0;
 var IdDetalleEliminar;
 
 $(document).ready(function () {
+    $('#cmbTurno').prop('selectedIndex', 1);
     LLenarComboOrdenes();
+    ConsultarCabControl();
 });
 $("#btnOrden").on("click", function () {
     $("#ModalOrdenes").modal('show');
@@ -223,7 +225,7 @@ function LimpiarControles() {
     Error = 0;
     IdDetalle = 0;
     $('#cmbOrdeneFabricacion').val('');
-    $('#txtFechaProduccion').val('');
+    $('#txtFechaProduccion').val(moment().format('YYYY-MM-DD'));
     $('#cmbTurno').prop('selectedIndex', 0);
     $('#cmbOrdeneFabricacion').empty();
     //$('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
