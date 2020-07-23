@@ -776,7 +776,7 @@ function GenerarControlConsumoDetalle() {
         return;
     }
 
-    if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).format("YYYY-MM-DD")) {
+    if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).add(-1, 'days').format("YYYY-MM-DD")) {
         MensajeAdvertencia("Fecha de inicio no puede ser menor a la de paletizado.")
         return;
     }
