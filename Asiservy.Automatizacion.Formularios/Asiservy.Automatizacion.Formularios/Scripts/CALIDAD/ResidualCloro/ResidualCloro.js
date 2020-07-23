@@ -83,7 +83,7 @@ function CargarResidualCloro() {
     if ($("#txtFecha").val() == '' || $("#selectArea").val() == '' || $("#selectTurno").val() == '') {
         return;
     }
-    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().add(1,'days').format("YYYY-MM-DD")) {
         $("#txtFecha").val("");
         MensajeAdvertencia("Fecha no permitida");
         return;

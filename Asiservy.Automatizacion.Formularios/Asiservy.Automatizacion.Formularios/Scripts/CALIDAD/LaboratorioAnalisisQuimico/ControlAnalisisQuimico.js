@@ -630,7 +630,8 @@ function OnChangeTextBoxDetalle() {
     return con;
 }
 
-async function ActualizarDetalle(jdata) {   
+async function ActualizarDetalle(jdata) { 
+    $('div,html').animate({ scrollTop: 0 }, 500);  
     document.getElementById('txtValor').value = jdata.Valor; 
     $('#selectIngresarLote').val(jdata.LoteBarco).trigger('change');  
     itemEditar = jdata;
@@ -976,8 +977,9 @@ function validarImg(rotacion, id, imagen) {
 //    LimpiarAccionCorrectiva();
 //}
 
-function EditarImagen(jdata) {    
-    LimpiarDatosImagen();
+function EditarImagen(jdata) {  
+    $('div,html').animate({ scrollTop: 0 }, 500);  
+    LimpiarDatosImagen();    
     actulizarFoto = true;
     document.getElementById('txtObservacionFoto').value = jdata.ObservacionFoto;
     if (jdata.RutaFoto != null && jdata.RutaFoto != '') {
@@ -995,10 +997,6 @@ function EditarImagen(jdata) {
         itemImagen = jdata;
     }
 }
-
-//function NuevaImagen() {
-//    LimpiarDatosImagen();
-//}
 
 function EliminarImagenSi() {
     $.ajax({

@@ -71,13 +71,14 @@
                 {
                     foreach (var thead in ViewBag.listaParametros)
                     {
-                        <td style="background-color: rgba(175, 105, 174, 0.07)">
+                        <td style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
                             @foreach (var lote in listaCocinaParada)
                             {
                                 var groupLote = (from item in consultarDetalleDia
                                                  where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
                                                  orderby item.Parada
-                                                 select item).ToList();
+                                                 group item by new { item.IdElemento, item.IdParametro, item.LoteBarco, item.Valor } into x
+                                                 select new { x.Key.IdElemento, x.Key.IdParametro, x.Key.LoteBarco, x.Key.Valor }).ToList();
                                 foreach (var glote in groupLote)
                                 {
                                     if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)

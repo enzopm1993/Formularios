@@ -4235,8 +4235,6 @@
     <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderos.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosDetallePartial.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosPartial.cshtml" />
-    <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurno.cshtml" />
-    <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurnoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.cshtml" />
