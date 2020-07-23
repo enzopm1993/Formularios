@@ -20,6 +20,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime HoraFin { get; set; }
         public int Coches { get; set; }
         public string Linea { get; set; }
+        public string Lote { get; set; }
         public string Talla { get; set; }
         public string Observacion { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -29,5 +30,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string Turno { get; set; }
+        public string EstadoRegistro { get; set; }
     }
 }
