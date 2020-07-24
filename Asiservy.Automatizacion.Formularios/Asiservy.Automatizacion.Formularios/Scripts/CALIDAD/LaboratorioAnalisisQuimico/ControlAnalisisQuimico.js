@@ -69,8 +69,7 @@ function CargarCabecera() {
                 $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
                 $("#txtObservacionVer").val(resultado.ObservacionCtrl);
                 CargarDetalle();
-                CargarParadas();
-                
+                CargarParadas();                
             }
             $('#cargac').hide();
         },
@@ -318,7 +317,8 @@ async function CargarParadas() {
     try {
         $('#cargac').show();
         let params = {
-            fechaDesde: $('#txtFecha').val()
+            fechaDesde: $('#txtFecha').val(),
+            turno: document.getElementById('selectTurno').value
         }
         let query = Object.keys(params)
             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -431,8 +431,7 @@ function mask() {
 }
 
 async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
-    LimpiarDatosImagen();
-    
+    LimpiarDatosImagen();    
     mask();
     siActualizar = false;
     LimpiarDetalle();    
@@ -443,7 +442,8 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
                 throw 'Error';
             }
             var estadoReporte = await estadoReporteAwait.json();
-            if (estadoReporte.EstadoReporte == true) {
+            CambiarMensajeEstado(estadoReporte.EstadoReporte);
+            if (estadoReporte.EstadoReporte == true) {                
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
                 $('#cargac').hide();
                 return;

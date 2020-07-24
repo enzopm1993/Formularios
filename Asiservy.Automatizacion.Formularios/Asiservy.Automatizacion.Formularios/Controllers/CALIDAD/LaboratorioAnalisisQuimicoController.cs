@@ -84,6 +84,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (!User.Identity.IsAuthenticated){
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                ViewBag.Turno = turno;
                 ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
                 ClsDParametrosLaboratorio = new ClsDParametrosLaboratorio();
                 clsDApiProduccion = new clsDApiProduccion();
@@ -91,14 +92,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.listaParametros = parametros;
                 ViewBag.ConsultarDetalleDia = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaDesde, turno, op);
                 var listaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaDesde);
-                ViewBag.Analista = lsUsuario[0];
                 if (listaParadasCocinas != null)
                 {
                     return PartialView(listaParadasCocinas);
                 }
                 else
                 {
-                    return Json("0", JsonRequestBehavior.AllowGet);
+                    return Json(0, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (DbEntityValidationException e)
@@ -364,10 +364,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
                 var lista = ClsDLaboratorioAnalisisQuimico.ConsultarCabeceraTurno(turno, fechaControl);
                 if (lista != null)
-                {
-                    
-                        
-                    
+                {                    
                     return Json(lista, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -835,6 +832,269 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region BANDEJA
+        public ActionResult BandejaAnalisisQuimico()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaAnalisisQuimicoPartial(bool estadoReporte, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
+                var lista = ClsDLaboratorioAnalisisQuimico.ConsultarBadejaEstado(fechaDesde, fechaHasta, estadoReporte);
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
+                if (lista.Any())
+                {
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult BandejaAnalisisQuimicoAprobarPartial(DateTime fechaControl,string turno, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(fechaControl);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
+                }
+                clsDApiProduccion = new clsDApiProduccion();
+                ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaControl);
+                ViewBag.Turno = turno;
+                ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
+                var lista = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaControl, turno, op);
+                if (lista.Count != 0)
+                {
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..") + this.ControllerContext.RouteData.Values["controller"].ToString()+"/";
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json("1", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json("1", JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region REPORTE
+        public ActionResult ReporteAnalisisQuimico()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ControlAnalisisQuimico");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ControlAnalisisQuimico";
+                }
+                ClsDReporte = new clsDReporte();
+                var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        public ActionResult ReporteAnalisisQuimicoPartial(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
+                var lista = ClsDLaboratorioAnalisisQuimico.ConsultarReporteRangoFecha(fechaDesde, fechaHasta);
+                clsDClasificador = new clsDClasificador();
+                var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
+                if (poTurno != null)
+                {
+                    ViewBag.Turno = poTurno;
+                }
+                if (lista.Any())
+                {
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult ReporteAnalisisQuimicoDetallePartial(DateTime fechaControl, string turno, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
+                var lista = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaControl, turno, op);
+                if (lista.Count != 0)
+                {
+                    clsDApiProduccion = new clsDApiProduccion();
+                    ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaControl);
+                    ViewBag.Turno = turno;
+                    ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..")+ this.ControllerContext.RouteData.Values["controller"].ToString() + "/";
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
