@@ -160,7 +160,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var elemento = db.sp_Analisis_Quimico_Precoccion(op, fechaControl).ToList();
+                var elemento = db.sp_Analisis_Quimico_Precoccion(op, fechaControl,"").ToList();
                 //var elemento = (from cab in db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL
                 //                join det in db.CC_ANALISIS_QUIMICO_PRECOCCION_DET on new { cab.Fecha, cab.IdAnalisis, cab.EstadoRegistro} equals new { Fecha = fechaControl, det.IdAnalisis,  EstadoRegistro=clsAtributos.EstadoRegistroActivo}
                 //                let join img in db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO

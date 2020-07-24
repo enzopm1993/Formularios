@@ -1058,7 +1058,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.DxDevWeb = "1";
 
                 clsDGeneral = new clsDGeneral();
                 ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
@@ -1196,7 +1196,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea, string dsEstado, bool dsGarita=false, DateTime? ddFechaDesde=null, DateTime? ddFechaHasta = null)
+        public JsonResult ConsultaSolicitudes(string dsLinea, string dsArea, string dsEstado, bool dsGarita=false, DateTime? ddFechaDesde=null, DateTime? ddFechaHasta = null)
         {
             try
             {
@@ -1216,7 +1216,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 
 
                 var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea, dsArea, dsEstado, dsGarita, ddFechaDesde, ddFechaHasta);
-                return PartialView(pListSolicitudPermiso);
+                return Json(pListSolicitudPermiso, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

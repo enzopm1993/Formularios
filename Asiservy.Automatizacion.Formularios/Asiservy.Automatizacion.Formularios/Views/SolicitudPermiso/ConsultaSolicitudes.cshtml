@@ -47,10 +47,10 @@
             string FechaBiometrico = string.Empty;
             if (item.FechaBiometrico != null)
             {
-                FechaBiometrico = ci.DateTimeFormat.GetDayName(item.FechaBiometrico.Value.DayOfWeek) + ", " + @item.FechaBiometrico.Value.ToString("dd-MM-yyyy HH:mm");
+               // FechaBiometrico = ci.DateTimeFormat.GetDayName(item.FechaBiometrico.Value.DayOfWeek) + ", " + @item.FechaBiometrico.Value.ToString("dd-MM-yyyy HH:mm");
             }
 
-            var diaSalida = ci.DateTimeFormat.GetDayName(item.FechaSalida.DayOfWeek);
+            //var diaSalida = ci.DateTimeFormat.GetDayName(item.FechaSalida);
             var estado = (item.CodEstadoSolicitud == "002" ? "success" : item.CodEstadoSolicitud == "001" ? "warning" : item.CodEstadoSolicitud == "003" ? "secondary" : "danger");
         <tr>
             <td>@item.IdSolicitudPermiso</td>
@@ -59,7 +59,7 @@
             <td>@item.Nombre</td>
             <td class=""><span class="badge badge-@estado"> @item.EstadoSolicitud </span></td>
             <td>@FechaBiometrico</td>
-            <td>@diaSalida, @item.FechaSalida.ToString("dd-MM-yyyy HH:mm")</td>
+            <td> @item.FechaSalida</td>
             @if (ViewBag.Garita != null)
             {
                 <td class="text-center">
@@ -73,12 +73,12 @@
             }
             else
             {
-                var diaEntrada = ci.DateTimeFormat.GetDayName(item.FechaRegreso.DayOfWeek);
+                //var diaEntrada = ci.DateTimeFormat.GetDayName(item.FechaRegreso.DayOfWeek);
 
-                <td>@diaEntrada, @item.FechaRegreso.ToString("dd-MM-yyyy HH:mm")</td>
+                //<td>@diaEntrada, @item.FechaRegreso.ToString("dd-MM-yyyy HH:mm")</td>
                 <td>@item.Motivo</td>
                 <td>@item.Observacion</td>
-                <td>@item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")</td>
+               // <td>@item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")</td>
                 <td>@item.TerminalIngresoLog</td>
                 <td>@item.UsuarioIngresoLog</td>
 
@@ -86,7 +86,7 @@
                 <td>
                     @if (item.FechaModificacionLog != null)
                     {
-                        @item.FechaModificacionLog.Value.ToString("dd-MM-yyyy HH:mm")
+             //           @item.FechaModificacionLog.Value.ToString("dd-MM-yyyy HH:mm")
                     }
                 </td>
                 <td>@item.TerminalModificacionLog</td>
