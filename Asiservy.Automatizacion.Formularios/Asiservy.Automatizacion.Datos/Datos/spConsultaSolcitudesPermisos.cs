@@ -26,16 +26,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CodigoMotivo { get; set; }
         public string Motivo { get; set; }
         public string Observacion { get; set; }
-        public System.DateTime FechaSalida { get; set; }
-        public System.DateTime FechaRegreso { get; set; }
+        public System.DateTime FechaSalida2 { get; set; }
+        public string FechaSalida { get; set; }
+        public string HoraSalida { get; set; }
+        public System.DateTime FechaRegreso2 { get; set; }
+        public string FechaRegreso { get; set; }
+        public string HoraRegreso { get; set; }
         public string CodEstadoSolicitud { get; set; }
         public string EstadoSolicitud { get; set; }
-        public Nullable<System.DateTime> FechaBiometrico { get; set; }
+        public Nullable<System.DateTime> FechaBiometrico2 { get; set; }
         public string UsuarioIngresoLog { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
+        public string FechaIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string FechaModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string Origen { get; set; }
     }

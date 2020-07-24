@@ -4525,6 +4525,7 @@
         <Function Name="sp_Analisis_Quimico_Precoccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="op" Type="int" Mode="In" />
           <Parameter Name="fechaControl" Type="date" Mode="In" />
+          <Parameter Name="turno" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_Calibracion_Fluorometro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
@@ -6334,14 +6335,6 @@
             <End Role="DETALLE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_CONTROL_PESO_CODIFICACION" />
             <End Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
-            <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Area" Mode="In" Type="String" />
-            <Parameter Name="Estado" Mode="In" Type="String" />
-            <Parameter Name="Garita" Mode="In" Type="Boolean" />
-            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaUltimaMarcacion" ReturnType="Collection(DateTime)">
           <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
@@ -7126,6 +7119,15 @@
           <FunctionImport Name="sp_Analisis_Quimico_Precoccion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion)">
             <Parameter Name="op" Mode="In" Type="Int32" />
             <Parameter Name="fechaControl" Mode="In" Type="DateTime" />
+            <Parameter Name="turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Estado" Mode="In" Type="String" />
+            <Parameter Name="Garita" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -9165,33 +9167,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaSolcitudesPermisos">
-          <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
-          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodigoArea" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodigoRecurso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CodigoCargo" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="CodigoMotivo" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Motivo" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
-          <Property Type="DateTime" Name="FechaSalida" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="FechaRegreso" Nullable="false" Precision="23" />
-          <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
-          <Property Type="String" Name="EstadoSolicitud" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="FechaBiometrico" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
-        </ComplexType>
         <EntityType Name="CABECERA_CONTROL_PESO_CODIFICACION">
           <Key>
             <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
@@ -13926,6 +13901,37 @@
           <Property Type="Decimal" Name="ValorMin" Nullable="true" Precision="5" Scale="2" />
           <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
         </ComplexType>
+        <ComplexType Name="spConsultaSolcitudesPermisos">
+          <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodigoArea" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoRecurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodigoCargo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="CodigoMotivo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Motivo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FechaSalida2" Nullable="false" Precision="23" />
+          <Property Type="String" Name="FechaSalida" Nullable="true" MaxLength="62" />
+          <Property Type="String" Name="HoraSalida" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="FechaRegreso2" Nullable="false" Precision="23" />
+          <Property Type="String" Name="FechaRegreso" Nullable="true" MaxLength="62" />
+          <Property Type="String" Name="HoraRegreso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="EstadoSolicitud" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaBiometrico2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FechaIngresoLog" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FechaModificacionLog" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16274,37 +16280,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
-                <ScalarProperty Name="IdSolicitudPermiso" ColumnName="IdSolicitudPermiso" />
-                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="CodigoRecurso" ColumnName="CodigoRecurso" />
-                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
-                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CodigoCargo" ColumnName="CodigoCargo" />
-                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
-                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
-                <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
-                <ScalarProperty Name="CodEstadoSolicitud" ColumnName="CodEstadoSolicitud" />
-                <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
-                <ScalarProperty Name="FechaBiometrico" ColumnName="FechaBiometrico" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="Origen" ColumnName="Origen" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaUltimaMarcacion" FunctionName="ASIS_PRODModel.Store.spConsultaUltimaMarcacion" />
           <EntitySetMapping Name="CABECERA_CONTROL_PESO_CODIFICACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION">
@@ -20458,6 +20433,41 @@
                 <ScalarProperty Name="ValorMax" ColumnName="ValorMax" />
                 <ScalarProperty Name="ValorMin" ColumnName="ValorMin" />
                 <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
+                <ScalarProperty Name="IdSolicitudPermiso" ColumnName="IdSolicitudPermiso" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="CodigoRecurso" ColumnName="CodigoRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodigoCargo" ColumnName="CodigoCargo" />
+                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="FechaSalida2" ColumnName="FechaSalida2" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
+                <ScalarProperty Name="FechaRegreso2" ColumnName="FechaRegreso2" />
+                <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
+                <ScalarProperty Name="HoraRegreso" ColumnName="HoraRegreso" />
+                <ScalarProperty Name="CodEstadoSolicitud" ColumnName="CodEstadoSolicitud" />
+                <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
+                <ScalarProperty Name="FechaBiometrico2" ColumnName="FechaBiometrico2" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
