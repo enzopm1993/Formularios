@@ -38,15 +38,22 @@
                              orderby listGroup.Key.PARADA
                              select new { listGroup.Key.COCINA, listGroup.Key.PARADA });
         var consultarDetalleDia = ViewBag.ConsultarDetalleDia as List<sp_Analisis_Quimico_Precoccion>;
-        string[] turnoLetra = new string[] { "", "A","B","C","D","E","F","G" };
+        string[] turnoLetra = new string[] { "", "A", "B", "C", "D", "E", "F", "G" };
     }
     <tbody style="font-size:9px">
         @foreach (var row in listaAgrupada)
         {
-            var turno = (from c in consultarDetalleDia where int.Parse(c.Cocinador) == row.COCINA && c.Parada == row.PARADA select c.Turno).FirstOrDefault();
-            var listaCocinaParada = (from c in Model where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA);
+            var turno = (from c in consultarDetalleDia where int.Parse(c.Cocinador) == row.COCINA && c.Parada == row.PARADA select c).FirstOrDefault();
+            var listaCocinaParada = (from c in Model where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA).ToList();
             string json = JsonConvert.SerializeObject(listaCocinaParada);
-            <tr style="cursor:pointer" onclick="ModalIngresoSubDetalle(@json, @row.COCINA, @row.PARADA,@turno)">
+            string turnoValidado = "";
+            if (turno!=null)
+            {
+                turnoValidado = turno.Turno;
+            }
+            if (turno == null || turno.Turno == ViewBag.Turno)
+            {
+            <tr style="cursor:pointer" onclick="ModalIngresoSubDetalle(@json, @row.COCINA, @row.PARADA,@turnoValidado)">
                 <td>@row.COCINA</td>
                 <td>@row.PARADA</td>
                 <td>
@@ -95,12 +102,12 @@
                         if (thead.NombreParametro.ToUpper() == "HISTAMINA")
                         {
                             var listaValor = (from x in consultarDetalleDia
-                                       where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro                                      
-                                       select new { x.Valor }).ToList();
-                           
+                                              where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
+                                              select new { x.Valor }).ToList();
 
-                            <td>@listaValor.OrderByDescending(x=>x.Valor).Select(x=>x.Valor).FirstOrDefault()</td>
-                            <td>@listaValor.OrderBy(x => x.Valor).Select(x=>x.Valor).FirstOrDefault()</td>
+
+                            <td>@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                            <td>@listaValor.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
                         }
                         else
                         {
@@ -110,35 +117,36 @@
                                                where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
                                                select x.Valor).ToList();
                                     decimal average = 0;
-                                    if (sum.Any() )
+                                    if (sum.Any())
                                     {
-                                       average = sum.Where(a => a.Value != 0)
-                                     .Select(a => Convert.ToDecimal(a.Value))
-                                     .DefaultIfEmpty(0)
-                                     .Average();
+                                        average = sum.Where(a => a.Value != 0)
+                                      .Select(a => Convert.ToDecimal(a.Value))
+                                      .DefaultIfEmpty(0)
+                                      .Average();
                                     }
                                 }
 
                                 @average.ToString("0.00")
                             </td>
-                        }
+                                            }
+                                        }
+                                    }
+                <td>
+                    @if (turno != null)
+                    {
+                        @turno.UsuarioIngresoLog
                     }
-
-                }
-                <td>@ViewBag.Analista</td>
+                </td>
                 <td class="text-center">
                     @if (turno != null)
                     {
-                        @turnoLetra[int.Parse(turno)];
+                        @turnoLetra[int.Parse(turno.Turno)];
                     }
 
                 </td>
-                @*<td onclick="ModalIngresoSubDetalleObs()">
-                    <input type="hidden" id="inputParametros" value="@ViewBag.listaParametros" />
-                    <label id="lblObservacion">observación</label>
-                </td>*@
             </tr>
-        }
+                                        }
+                                    }
     </tbody>
 </table>
 

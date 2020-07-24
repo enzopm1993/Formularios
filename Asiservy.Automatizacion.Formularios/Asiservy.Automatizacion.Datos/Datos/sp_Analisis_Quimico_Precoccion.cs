@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdAnalisisDetalle { get; set; }
         public string ObservacionDet { get; set; }
         public int Parada { get; set; }
+        public string UsuarioIngresoLog { get; set; }
         public Nullable<int> IdElemento { get; set; }
         public string LoteBarco { get; set; }
         public Nullable<decimal> Valor { get; set; }
@@ -27,5 +28,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> ValorMax { get; set; }
         public Nullable<decimal> ValorMin { get; set; }
         public string RutaFoto { get; set; }
+        public string ObservacionFoto { get; set; }
+        public Nullable<int> Rotation { get; set; }
+        public Nullable<int> IdFoto { get; set; }
     }
 }

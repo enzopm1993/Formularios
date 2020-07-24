@@ -289,17 +289,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         NombreEmpleado = x.Nombre,
                         DescripcionMotivo = DescripcionMotivo != null ? DescripcionMotivo.DescripcionMotivo : "",
                         Observacion = x.Observacion,
-                        FechaSalida = x.FechaSalida,
-                        FechaRegreso = x.FechaRegreso,
+                        FechaSalida = x.FechaSalida2,
+                        FechaRegreso = x.FechaRegreso2,
                         EstadoSolicitud = x.CodEstadoSolicitud,
                         DescripcionEstadoSolicitud = x.EstadoSolicitud,
-                        FechaBiometrico = x.FechaBiometrico,
+                        FechaBiometrico =x.FechaBiometrico2,
                         Origen = x.Origen,
-                        FechaIngresoLog = x.FechaIngresoLog,
+                        FechaIngresoLog = DateTime.Parse(x.FechaIngresoLog),
                         UsuarioIngresoLog = x.UsuarioIngresoLog,
                         TerminalIngresoLog = x.TerminalIngresoLog,
                         UsuarioModificacionLog = x.UsuarioModificacionLog,
-                        FechaModificacionLog = x.FechaModificacionLog,
+                        FechaModificacionLog = string.IsNullOrEmpty(x.FechaModificacionLog) ? new DateTime() : DateTime.Parse(x.FechaModificacionLog),
                         TerminalModificacionLog = x.TerminalModificacionLog
                     });
                 }

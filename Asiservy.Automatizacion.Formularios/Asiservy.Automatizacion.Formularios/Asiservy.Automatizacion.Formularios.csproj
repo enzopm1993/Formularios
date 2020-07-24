@@ -2243,7 +2243,9 @@
     <Content Include="Scripts\CALIDAD\KardexReactivo\BandejaKardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\KardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\ReporteKardexReactivo.js" />
+    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\BandejaAnalisisQuimico.js" />
     <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.js" />
+    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\ReporteAnalisisQuimico.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3773,7 +3775,6 @@
     <Content Include="Views\Mensaje\Correcto.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoEdit.cshtml" />
     <Content Include="Views\SolicitudPermiso\EmpleadoBuscar.cshtml" />
-    <Content Include="Views\SolicitudPermiso\ConsultaSolicitudes.cshtml" />
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitudPartial.cshtml" />
     <Content Include="Views\Mensaje\Advertencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
@@ -4277,6 +4278,12 @@
     <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlElementoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\VerCrearImagenPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\BandejaAnalisisQuimico.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\BandejaAnalisisQuimicoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\BandejaAnalisisQuimicoAprobarPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimico.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

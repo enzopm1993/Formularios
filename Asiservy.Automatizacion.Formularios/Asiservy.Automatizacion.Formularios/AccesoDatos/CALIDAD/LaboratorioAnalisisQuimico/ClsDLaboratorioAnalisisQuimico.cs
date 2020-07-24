@@ -160,31 +160,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var elemento = db.sp_Analisis_Quimico_Precoccion(op, fechaControl).ToList();
-                //var elemento = (from cab in db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL
-                //                join det in db.CC_ANALISIS_QUIMICO_PRECOCCION_DET on new { cab.Fecha, cab.IdAnalisis, cab.EstadoRegistro} equals new { Fecha = fechaControl, det.IdAnalisis,  EstadoRegistro=clsAtributos.EstadoRegistroActivo}
-                //                let join img in db.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO
-                //                where img.IdAnalisisDetalle == det.IdAnalisisDetalle && img.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                //                from ele in db.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS
-                //                from par in db.CC_PARAMETROS_LABORATORIO.Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && x.IdParametro==ele.IdParametro).DefaultIfEmpty()                                
-                //                where ele.IdAnalisisDetalle==det.IdAnalisisDetalle && ele.EstadoRegistro==clsAtributos.EstadoRegistroActivo
-                //                select new ClsDetalleDia
-                //                {
-                //                    Turno = cab.Turno,
-                //                    Cocinador = det.Cocinador,
-                //                    IdAnalisisDetalle = det.IdAnalisisDetalle,
-                //                    ObservacionDet = det.ObservacionDet,
-                //                    Parada = det.Parada,
-                //                    IdElemento = ele.IdElemento,
-                //                    IdParametro = ele.IdParametro,
-                //                    LoteBarco = ele.LoteBarco,
-                //                    Valor = ele.Valor,
-                //                    Mascara = par.Mascara,
-                //                    NombreParametro = par.NombreParametro,
-                //                    ValorMax = par.ValorMax,
-                //                    ValorMin = par.ValorMin,
-                //                    RutaFoto=img.RutaFoto
-                //                });
+                var elemento = db.sp_Analisis_Quimico_Precoccion(op, fechaControl, turno).ToList();               
                 return elemento;
             }
         }
@@ -385,22 +361,73 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                 return valor;
             }
         }
-    }
-    //public class ClsDetalleDia
-    //{
-    //    public string RutaFoto { get; set; }
-    //    public string Turno { get; set; }
-    //    public string Cocinador { get; set; }
-    //    public int IdAnalisisDetalle;
-    //    public string ObservacionDet;
-    //    public int Parada;
-    //    public int IdElemento;
-    //    public int IdParametro { get; set; }
-    //    public string LoteBarco { get; set; }
-    //    public decimal Valor { get; set; }
-    //    public decimal? Mascara { get; set; }
-    //    public string NombreParametro { get; set; }
-    //    public decimal? ValorMax { get; set; }
-    //    public decimal? ValorMin { get; set; }
-    //}
+        public List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> ConsultarBadejaEstado(DateTime fechaDesde, DateTime FechaHasta, bool estadoReporte)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> listado;
+                if (estadoReporte)
+                {
+                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                              && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).OrderByDescending(v => v.Fecha).ToList();            
+                }
+                else
+                {
+                   listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                               && x.Fecha <= FechaHasta).OrderByDescending(v => v.Fecha).ToList();                    
+                }
+                CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera;
+                List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> listaCabecera = new List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL>();
+                if (listado.Any())
+                {
+                    foreach (var item in listado)
+                    {
+                        cabecera = new CC_ANALISIS_QUIMICO_PRECOCCION_CTRL();
+                        cabecera.IdAnalisis = item.IdAnalisis;
+                        cabecera.Fecha = item.Fecha;
+                        cabecera.ObservacionCtrl = item.ObservacionCtrl;
+                        cabecera.EstadoReporte = item.EstadoReporte;
+                        cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                        cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                        cabecera.FechaAprobado = item.FechaAprobado;
+                        cabecera.AprobadoPor = item.AprobadoPor;
+                        cabecera.Turno = item.Turno;
+                        listaCabecera.Add(cabecera);
+                    }
+                }
+                return listaCabecera;
+            }
+        }
+        public List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> ConsultarReporteRangoFecha(DateTime fechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                           && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).OrderByDescending(c => c.Fecha).ToList();
+
+                CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera;
+                List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> listaCabecera = new List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL>();
+                if (listado.Any())
+                {
+                    foreach (var item in listado)
+                    {
+                        cabecera = new CC_ANALISIS_QUIMICO_PRECOCCION_CTRL();
+                        cabecera.IdAnalisis = item.IdAnalisis;
+                        cabecera.Fecha = item.Fecha;
+                        cabecera.ObservacionCtrl = item.ObservacionCtrl;
+                        cabecera.EstadoReporte = item.EstadoReporte;
+                        cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                        cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                        cabecera.UsuarioModificacionLog = item.UsuarioModificacionLog;
+                        cabecera.FechaModificacionLog = item.FechaModificacionLog;
+                        cabecera.FechaAprobado = item.FechaAprobado;
+                        cabecera.AprobadoPor = item.AprobadoPor;
+                        cabecera.Turno = item.Turno;
+                        listaCabecera.Add(cabecera);
+                    }
+                }
+                return listaCabecera;
+            }
+        }
+    }   
 }

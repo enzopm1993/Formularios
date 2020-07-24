@@ -17,7 +17,7 @@ function CargarBandeja() {
         $('#divCalendar').prop('hidden', false);
     }
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/BandejaClorinacionCisternaPartial",
+        url: "../LaboratorioAnalisisQuimico/BandejaAnalisisQuimicoPartial",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: dateAux,
@@ -36,13 +36,11 @@ function CargarBandeja() {
                 $("#divTablaAprobados").show();
                 $("#divTablaAprobados").html(resultado);
             }
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -62,12 +60,13 @@ function SeleccionarBandeja(model) {
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }
-    var op = 0;
+    var op = 1;
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/BandejaClorinacionCisternaAprobarPartial",
+        url: "../LaboratorioAnalisisQuimico/BandejaAnalisisQuimicoAprobarPartial",
         type: "GET",
         data: {
-            idAnalisisAguaControl: listaDatos.IdAnalisisAguaControl,
+            fechaControl: listaDatos.Fecha,
+            turno: model.Turno,
             op: op
         },
         success: function (resultado) {
@@ -77,7 +76,9 @@ function SeleccionarBandeja(model) {
             if (resultado == "0") {
                 MensajeAdvertencia('¡No existe detalle para este registro!');
                 $("#divTblAprobarPendiente").html("No existen registros");
-            } else {
+            } else if (resultado==1) {
+                MensajeError(Mensajes.Error, false);
+            }else {
                 $("#tblAprobarPendientePartial").html('');
                 $("#ModalApruebaPendiente").modal("show");
                 $("#divAprobarPendientePartial").html(resultado);
@@ -86,7 +87,7 @@ function SeleccionarBandeja(model) {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -105,12 +106,13 @@ function AprobarPendiente(estadoReporte) {
     } else { $('#txtFechaAprobado').val(''); }
     var siAprobar = 1;
     $.ajax({
-        url: "../AnalisisAguaClorinacionCisterna/GuardarModificarClorinacionCisterna",
+        url: "../LaboratorioAnalisisQuimico/GuardarModificarAnalisisQuimico",
         type: "POST",
         data: {
-            IdAnalisisAguaControl: listaDatos.IdAnalisisAguaControl,
+            IdAnalisis: listaDatos.IdAnalisis,
             EstadoReporte: estadoReporte,
             FechaAprobado: $('#txtFechaAprobado').val(),
+            Fecha: listaDatos.Fecha,
             siAprobar: siAprobar
         },
         success: function (resultado) {
@@ -119,8 +121,10 @@ function AprobarPendiente(estadoReporte) {
             }
             if (resultado == 2 || resultado == 1) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             } else {
-                MensajeError('Error en: model.Fecha!=DateTime.MinValue - GuardarModificarHigieneControl');
+                MensajeError('Error en: model.Fecha!=DateTime.MinValue - GuardarModificarLaboratorioAnalisisQuimico');
                 return;
             }
             $("#ModalApruebaPendiente").modal("hide");
@@ -128,7 +132,7 @@ function AprobarPendiente(estadoReporte) {
             listaDatos = [];
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -145,6 +149,17 @@ function validar() {
 
 function LimpiarFecha() {
     $("#txtFechaAprobado").css('border', '');
+}
+
+function validarImg(rotacion, id, imagen) {
+    $('#' + id).rotate(parseInt(rotacion));
+    var img = new Image();
+    //img.onload = function () {
+    document.getElementById(id).style.borderRadius = "20px";
+    document.getElementById(id).style.height = "270px";
+    document.getElementById(id).style.width = "270px";
+    //}
+    img.src = $('#btnPath').val() + imagen;
 }
 
 //DATE RANGE PICKER
