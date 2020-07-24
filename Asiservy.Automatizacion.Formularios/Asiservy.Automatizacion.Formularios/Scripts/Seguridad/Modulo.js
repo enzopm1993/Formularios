@@ -25,7 +25,7 @@ function Limpiar() {
     $("#txtId").val("0");
     $("#txtNombre").val("");
     $("#txtOrden").val("");
-
+    $('#lblfoto').text('Seleccione archivo');
     $('#LabelEstado').text('Activo');
     $("#CheckEstadoRegistro").prop('checked', true);
     $('#output').prop('hidden', true);
