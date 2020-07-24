@@ -4515,9 +4515,6 @@
           <Parameter Name="fechaFin" Type="date" Mode="In" />
         </Function>
         <Function Name="EmpleadosDatosPersonales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="fn_RetornaCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
-          <Parameter Name="Tabla" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_Analisis_Agua_Clorinacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idAnalisisAguaControl" Type="int" Mode="In" />
           <Parameter Name="op" Type="int" Mode="In" />
