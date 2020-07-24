@@ -7116,11 +7116,6 @@
             <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
             <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
           </AssociationSet>
-          <FunctionImport Name="sp_Analisis_Quimico_Precoccion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion)">
-            <Parameter Name="op" Mode="In" Type="Int32" />
-            <Parameter Name="fechaControl" Mode="In" Type="DateTime" />
-            <Parameter Name="turno" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Area" Mode="In" Type="String" />
@@ -7128,6 +7123,11 @@
             <Parameter Name="Garita" Mode="In" Type="Boolean" />
             <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Analisis_Quimico_Precoccion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion)">
+            <Parameter Name="op" Mode="In" Type="Int32" />
+            <Parameter Name="fechaControl" Mode="In" Type="DateTime" />
+            <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -13885,22 +13885,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_Analisis_Quimico_Precoccion">
-          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="Cocinador" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="IdAnalisisDetalle" Nullable="false" />
-          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="Parada" Nullable="false" />
-          <Property Type="Int32" Name="IdElemento" Nullable="true" />
-          <Property Type="String" Name="LoteBarco" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Int32" Name="IdParametro" Nullable="true" />
-          <Property Type="Decimal" Name="Mascara" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="String" Name="NombreParametro" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="ValorMax" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="ValorMin" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
-        </ComplexType>
         <ComplexType Name="spConsultaSolcitudesPermisos">
           <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
           <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
@@ -13931,6 +13915,26 @@
           <Property Type="String" Name="FechaModificacionLog" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_Analisis_Quimico_Precoccion">
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Cocinador" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="IdAnalisisDetalle" Nullable="false" />
+          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Parada" Nullable="false" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdElemento" Nullable="true" />
+          <Property Type="String" Name="LoteBarco" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="IdParametro" Nullable="true" />
+          <Property Type="Decimal" Name="Mascara" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="NombreParametro" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="ValorMax" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="ValorMin" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ObservacionFoto" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Rotation" Nullable="true" />
+          <Property Type="Int32" Name="IdFoto" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -20416,26 +20420,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Analisis_Quimico_Precoccion" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Quimico_Precoccion">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Quimico_Precoccion">
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Cocinador" ColumnName="Cocinador" />
-                <ScalarProperty Name="IdAnalisisDetalle" ColumnName="IdAnalisisDetalle" />
-                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
-                <ScalarProperty Name="Parada" ColumnName="Parada" />
-                <ScalarProperty Name="IdElemento" ColumnName="IdElemento" />
-                <ScalarProperty Name="LoteBarco" ColumnName="LoteBarco" />
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
-                <ScalarProperty Name="Mascara" ColumnName="Mascara" />
-                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
-                <ScalarProperty Name="ValorMax" ColumnName="ValorMax" />
-                <ScalarProperty Name="ValorMin" ColumnName="ValorMin" />
-                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
@@ -20468,6 +20452,30 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="Origen" ColumnName="Origen" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Analisis_Quimico_Precoccion" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Quimico_Precoccion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Quimico_Precoccion">
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Cocinador" ColumnName="Cocinador" />
+                <ScalarProperty Name="IdAnalisisDetalle" ColumnName="IdAnalisisDetalle" />
+                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="IdElemento" ColumnName="IdElemento" />
+                <ScalarProperty Name="LoteBarco" ColumnName="LoteBarco" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="Mascara" ColumnName="Mascara" />
+                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
+                <ScalarProperty Name="ValorMax" ColumnName="ValorMax" />
+                <ScalarProperty Name="ValorMin" ColumnName="ValorMin" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+                <ScalarProperty Name="ObservacionFoto" ColumnName="ObservacionFoto" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="IdFoto" ColumnName="IdFoto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
