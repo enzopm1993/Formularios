@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteControlCochePorLineas>
+@using Asiservy.Automatizacion.Formularios.Models.Seguridad
+@{ 
+    var lineas = (List<Clasificador>) ViewBag.Lineas;
 
+
+}
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
@@ -10,31 +15,13 @@
             </th>
             <th>
                 <label>Hora Fin</label>
-
             </th>
-            <th class="text-center">
-                <label>Linea 1</label>
-
-            </th>
-            <th class="text-center">
-                <label>Linea 2</label>
-
-            </th>
-            <th class="text-center">
-                <label>Linea 3</label>
-
-            </th>
-            <th class="text-center">
-                <label>Linea 4</label>
-
-            </th>
-            <th class="text-center">
-                <label>Linea 5</label>
-
-            </th>
-            <th class="text-center">
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
+            @foreach (var l in lineas)
+            {
+                <th colspan="3">
+                   @l.Descripcion
+                </th>
+            }
 
         </tr>
     </thead>
@@ -46,42 +33,42 @@
             int TotalL5 = 0;
             int Total = 0;
         }
+
+
         @foreach (var item in Model)
-        {
+        {           
+        <tr>
 
-            TotalL1 = TotalL1 + int.Parse(item.Linea1.Split('|')[0]);
-            TotalL2 = TotalL2 + int.Parse(item.Linea2.Split('|')[0]);
-            TotalL3 = TotalL3 + int.Parse(item.Linea3.Split('|')[0]);
-            TotalL4 = TotalL4 + int.Parse(item.Linea4.Split('|')[0]);
-            TotalL5 = TotalL5 + int.Parse(item.Linea5.Split('|')[0]);
-            Total = Total + item.Total??0;
-            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraFin)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoraInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoraFin)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Linea1)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Linea2)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Linea3)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Linea4)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Linea5)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
-            </tr>
+            @foreach (var l in lineas)
+            {
+                var x = Model.FirstOrDefault(y => y.HoraInicio == item.HoraInicio && l.Codigo == y.Linea);
+                if (x != null)
+                {
+                    <th>
+                        @x.Lote
+                    </th>
+                    <th>
+                        @x.Talla
+                    </th>
+                    <th>
+                        @x.Coches
+                    </th>
+                }
+                else
+                {
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                }
+            }
+        </tr>
         }
     </tbody>
     <tfoot>

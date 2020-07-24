@@ -48,11 +48,11 @@
     }
 
     #lgnprod {
-        width: 35%;
+        width: calc(6em + 1vw);
     }
 
     #lgndestino {
-        width: 60%;
+        width: calc(13em + 1vw);
     }
 
     canvas {
@@ -68,7 +68,7 @@
 </style>
 <div class="row">
     <div class="col-12  text-md-left text-center">
-        <h4 style="float:left;" >Evaluación de lomos y migas en bandejas<label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+        <h5 style="float:left;" >Evaluación de lomos y migas en bandejas<label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h5>
         <div class="col-md-3 col-12 col-sm-12 float-right text-right">
             @if (ViewBag.Link == null)
             {
@@ -93,14 +93,14 @@
 </div>
 <div class="card" id="DivCabecera">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 col-6">
             <div class="form-group">
                 Fecha de producción:
                 <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-6">
             <div class="form-group">
                 Orden de Fabricación:
                 <div class="input-group">
@@ -122,6 +122,9 @@
                 @Html.DropDownList("cmbTurno", (IEnumerable<SelectListItem>)ViewBag.Turno, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarCabControl()" })
                 <label id="msjTurno" class="text-danger" hidden>Debe ingresar un turno</label>
             </div>
+        </div>
+        <div class="col-12 ">
+            <hr />
         </div>
         <div class="col-md-4">
             <div class="form-group">
@@ -146,13 +149,13 @@
                                 </label>
                             </div>*@
                         <div class="row">
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-md-4 col-sm-4 col-6">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="Lomo" name="RadiosProducto">
                                     <label class="custom-control-label" for="Lomo">Lomo</label>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-md-4 col-sm-4 col-6">
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="Miga" name="RadiosProducto">
@@ -188,19 +191,19 @@
                                 </label>
                             </div>*@
                         <div class="row">
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-md-4 col-sm-4 col-4">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="Empaque" name="RadiosDestinos">
                                     <label class="custom-control-label" for="Empaque">Empaque</label>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-md-4 col-sm-4 col-4">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="Enlatado" name="RadiosDestinos">
                                     <label class="custom-control-label" for="Enlatado">Enlatado</label>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-md-4 col-sm-4 col-4">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="Pouch" name="RadiosDestinos">
                                     <label class="custom-control-label" for="Pouch">Pouch</label>

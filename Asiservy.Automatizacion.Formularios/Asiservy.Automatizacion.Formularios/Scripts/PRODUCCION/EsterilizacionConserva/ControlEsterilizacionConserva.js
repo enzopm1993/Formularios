@@ -179,6 +179,9 @@ $(document).ready(function () {
         'allowMinus': 'false',
         'allowPlus': 'false'
     });
+    $('#Turno').prop('selectedIndex', 1);
+    $('#Linea').prop('selectedIndex', 1);
+    ConsultarCabControl();
 });
 function ValidarCabecera() {
     var valida = true;
@@ -896,7 +899,7 @@ function LimpiarControles() {
     $('#Turno').prop('disabled', false);
     $('#Linea').prop('disabled', false);
     $('#CabeceraControl').val(0);
-    $('#Fecha').val('');
+    $('#Fecha').val(moment().format("YYYY-MM-DD"));
     $('#Observacion').val('');
     $('#Turno').prop('selectedIndex', 0);
     $('#Linea').prop('selectedIndex', 0);

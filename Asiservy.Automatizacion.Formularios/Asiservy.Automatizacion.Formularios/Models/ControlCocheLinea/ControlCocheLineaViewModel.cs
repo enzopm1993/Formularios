@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.ControlCocheLinea
 
         [DisplayName("Linea")]
         public string DescripcionLinea { get; set; }
+        public string Lote { get; set; }
         public string Talla { get; set; }
         public string Observacion { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

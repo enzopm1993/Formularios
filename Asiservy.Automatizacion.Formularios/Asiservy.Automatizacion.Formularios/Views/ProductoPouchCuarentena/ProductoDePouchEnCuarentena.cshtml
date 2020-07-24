@@ -21,17 +21,17 @@
 
 <div class="card">
     <div class="row">
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Fecha producción:</label>
-                <input type="date" id="txtFechaProduccion" class="form-control" onchange="LLenarComboOrdenes()" />
+                <input type="date" id="txtFechaProduccion" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label class="text-danger" id="msjErrorFechaProduccion" hidden>seleccione una fecha</label>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Turno:</label>
-                <select class="form-control" id="cmbTurno">
+                <select class="form-control" id="cmbTurno" onchange="ConsultarCabControl()">
                     <option value="">Seleccione...</option>
                     <option value="1">Turno A</option>
                     <option value="2">Turno B</option>
@@ -69,33 +69,33 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-xs-6">
             <div class="form-group">
                 <label>Cliente/Etiqueta:</label>
                 <input type="text" id="txtCliente" class="form-control" disabled />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Pedido de venta:</label>
                 <input type="text" id="txtPedidoVenta" class="form-control" disabled />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Código:</label>
                 <input type="text" id="txtCodigo" class="form-control" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Fecha de terminado:</label>
                 <input type="date" id="txtFechaTerminado" class="form-control" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
-                <label>Total Cajas::</label>
+                <label>Total Cajas:</label>
                 <input type="number" id="txtTotalCajas" class="form-control" />
             </div>
         </div>
@@ -106,9 +106,9 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Espere...
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>

@@ -1,69 +1,79 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ControlCocheLinea.ControlCocheLineaViewModel>
+@using Newtonsoft.Json;
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdControlCocheLinea)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraInicio)
+                Hora Inicio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraFin)
+                Hora Fin
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Coches)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.DescripcionLinea)
+                Linea
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Talla)
+                Lote
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observacion)
+                Talla
             </th>
-
+            <th>
+                Observación
+            </th>
+            <th>
+                Acciones
+            </th>
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="SelectControlCoche('@item.IdControlCocheLinea','@item.Fecha.ToString("yyyy-MM-dd")','@item.HoraInicio','@item.HoraFin','@item.Linea','@item.Talla','@item.Observacion','@item.Coches')">
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdControlCocheLinea)
-                </td>
-                <td>
-                    <label>@item.Fecha.ToString("yyyy-MM-dd")</label>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoraInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoraFin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Coches)
-                </td>
+           
+        <tr>
+            <td>
+                <label>@item.Fecha.ToString("yyyy-MM-dd")</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Coches)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.DescripcionLinea)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Talla)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionLinea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @{
+                    string json = JsonConvert.SerializeObject(item);
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="EditarControl(@json)">Editar</button>
+                <button id="btnEliminar" class="btn btn-link" onclick="EliminarControl(@json)">Eliminar</button>
+            </td>
 
-
-            </tr>
+        </tr>
         }
     </tbody>
 </table>
