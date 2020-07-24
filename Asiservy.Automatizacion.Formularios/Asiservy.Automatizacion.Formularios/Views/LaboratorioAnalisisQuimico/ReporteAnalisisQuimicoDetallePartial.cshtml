@@ -1,0 +1,212 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Quimico_Precoccion>
+@using Asiservy.Automatizacion.Formularios.Models.Produccion;
+@using Newtonsoft.Json;
+
+@{
+    var groupParametros = (from x in Model
+                           where x.IdParametro != null
+                           group x by new { x.IdParametro, x.NombreParametro } into g
+                           select new { g.Key.IdParametro, g.Key.NombreParametro });
+}
+<div class="table-responsive">
+    <table class="table table-bordered  text-uppercase" id="tblDataTables">
+        <thead style="font-size:10px">
+            <tr>
+                <th>COCINADOR</th>
+                <th>PARADA</th>
+                <th>LOTE/COD. BARCO</th>
+                <th>ESP. TALLA</th>
+                <th>Nº COCHE</th>
+                @if (groupParametros.Any())
+                {
+                    foreach (var thead in groupParametros)
+                    {
+                        <th>@thead.NombreParametro</th>
+                        if (thead.NombreParametro == "HISTAMINA")
+                        {
+                            <th>VALOR MAX</th>
+                            <th>VALOR MIN</th>
+                        }
+                        else
+                        {
+                            <th>PROM</th>
+                        }
+                    }
+                }
+                <th>ÁNALISTA</th>
+            </tr>
+        </thead>
+        @{
+            var goupRows = (from all in Model
+                            group all by new { all.Cocinador, all.Parada, all.UsuarioIngresoLog } into listGroup
+                            orderby listGroup.Key.Parada
+                            select new { listGroup.Key.Cocinador, listGroup.Key.Parada, listGroup.Key.UsuarioIngresoLog });
+            //var consultarDetalleDia = ViewBag.ConsultarDetalleDia as List<sp_Analisis_Quimico_Precoccion>;
+            string[] turnoLetra = new string[] { "", "A", "B", "C", "D", "E", "F", "G" };
+        }
+        <tbody style="font-size:9px">
+            @foreach (var row in goupRows)
+            {
+                var listaCocinaParada = (from c in ViewBag.ListaParadasCocinas as List<ItemParadaCocina> where c.COCINA.ToString() == row.Cocinador && c.PARADA == row.Parada select c).OrderBy(x => x.PARADA);
+
+                <tr style="cursor:pointer">
+                    <td>@row.Cocinador</td>
+                    <td>@row.Parada</td>
+                    <td>
+                        @foreach (var item in listaCocinaParada)
+                        {
+                            <div>@item.LOTE / @item.BARCO</div>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var item in listaCocinaParada)
+                        {
+                            <div>@item.ESPECIE - @item.TALLA</div>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var item in listaCocinaParada)
+                        {
+                            <div>@item.COCHES</div>
+                        }
+                    </td>
+                    @if (groupParametros.Any())
+                    {
+                        foreach (var thead in groupParametros)
+                        {
+                            <td style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
+                                @foreach (var lote in listaCocinaParada)
+                                {
+                                    var groupLote = (from item in Model
+                                                     where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
+                                                     orderby item.Parada
+                                                     group item by new { item.IdElemento, item.IdParametro, item.LoteBarco, item.Valor } into x
+                                                     select new { x.Key.IdElemento, x.Key.IdParametro, x.Key.LoteBarco, x.Key.Valor }).ToList();
+                                    foreach (var glote in groupLote)
+                                    {
+                                        if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)
+                                        {
+                                            <div id="inputParametro_@thead.IdParametro@row.Cocinador@row.Parada@lote.LOTE">@lote.LOTE - @glote.Valor</div>
+                                        }
+                                    }
+                                    if (!groupLote.Any())
+                                    {
+                                        <div>----</div>
+                                    }
+                                }
+                            </td>
+
+                            if (thead.NombreParametro.ToUpper() == "HISTAMINA")
+                            {
+                                var listaValor = (from x in Model
+                                                  where x.Cocinador == row.Cocinador.ToString() && x.Parada == row.Parada && x.IdParametro == thead.IdParametro
+                                                  select new { x.Valor }).ToList();
+
+
+                                <td>@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                                <td>@listaValor.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @{
+                                        var sum = (from x in Model
+                                                   where x.Cocinador == row.Cocinador.ToString() && x.Parada == row.Parada && x.IdParametro == thead.IdParametro
+                                                   select x.Valor).ToList();
+                                        decimal average = 0;
+                                        if (sum.Any())
+                                        {
+                                            average = sum.Where(a => a.Value != 0)
+                                          .Select(a => Convert.ToDecimal(a.Value))
+                                          .DefaultIfEmpty(0)
+                                          .Average();
+                                        }
+                                    }
+
+                                    @average.ToString("0.00")
+                                </td>
+                            }
+                        }
+                    }
+                    <td>
+                        @row.UsuarioIngresoLog
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+<div class="card-footer divFooter ">
+    <br />
+    <table class="table table-borderless text-center">
+        <tr>
+            <td>
+                <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label> <br />
+                <label>Realizado Por</label><br />
+                <label id="txtFechaCreacion"></label>
+            </td>
+            <td>
+                <label id="txtUsuarioAprobacion"></label><br />
+                <label style="border-top:solid 1px">Aprobado Por</label><br />
+                <label id="txtFechaAprobacion"></label>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+@{
+    var listFotos = (from x in Model
+                     group x by new { x.ObservacionFoto, x.IdFoto, x.RutaFoto, x.Rotation, x.Cocinador, x.Parada, x.Turno } into v
+                     select new { v.Key.ObservacionFoto, v.Key.IdFoto, v.Key.RutaFoto, v.Key.Rotation, v.Key.Parada, v.Key.Cocinador, v.Key.Turno }).ToList();
+    int con = 0;
+}
+@foreach (var item in listFotos)
+{
+    if (item.Turno == ViewBag.Turno)
+    {
+        if (con == 0)
+        {
+            <div class="pagebreak"></div>
+            break;
+        }
+        con++;
+    }
+}
+         <div class="row align-center text-uppercase " style="margin:0px;padding:0px;" >
+             @foreach (var item in listFotos)
+             {
+                 if (item.RutaFoto != null)
+                 {
+
+                     <div style="width:270px;margin:0px;" >
+                         <div id="header_@item.IdFoto">
+                             <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img " alt="...">
+                         </div>
+                         <script>
+                            validarImg('@item.Rotation','@item.IdFoto','@item.RutaFoto');
+                         </script>
+                         <div >
+                             <label class="card-text" style="color:black;font-size:10px;white-space:normal;"><b>COCINADOR: </b> @item.Cocinador</label><br id="brOcultar"/>
+                             <label class="card-text floatLabel" style="color:black;font-size:10px;white-space:normal;"><b>PARADA: </b> @item.Parada</label><br />
+                             <label class="card-text" style="color:black;font-size:10px;white-space:normal; padding-left:0.5px"><b>OBSERVACIÓN: </b> @item.ObservacionFoto</label><br />
+                         </div>
+                     </div>
+                 }
+             }
+         </div>
+         <style>
+             .img {
+                 border: 1px solid #ddd;
+                 border-radius: 4px;
+                 padding: 5px;
+                 width: 250px;
+             }
+
+                 .img:hover {
+                     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+                 }
+         </style>
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />
