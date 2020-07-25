@@ -6,6 +6,15 @@
     input, select, textarea {
         max-width: 100%
     }
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
 </style>
 
 
@@ -53,27 +62,34 @@
             </div>
             @if (ViewBag.Garita == null)
             {
-                <div class="row">
-                    <div class="offset-md-3 col-md-3  col-6">
-                        <label>Fecha Desde</label>
-                        <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <div class="row">
+                <div class="col-md-4 offset-md-4 col-12 col-sm-12 form-group" id="divDateRangePicker">
+                    <label>Filtrar por Fecha:</label>
+                    <input type="hidden" id="fechaDesde" value="" />
+                    <input type="hidden" id="fechaHasta" value="" />
+                    <div id="reportrange" class="selectbox">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
                     </div>
-                    <div class="col-md-3 col-6">
-                        <label>Fecha Hasta</label>
-                        <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                    </div>
-
                 </div>
-                <br />
+            </div>
+              
             }
             <div class="row">
                 <div class="col-12 text-center">
                     <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarSolicitudes()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="~/Content/icons/ver24.png" />
                     </button>
+                    @if (ViewBag.Garita == null)
+                    {
+                        <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/clear24.png" />
+                        </button>
+                    }
                 </div>
+              
 
-            </div>
+                </div>
         </div>
         <div class="card-body">
 
