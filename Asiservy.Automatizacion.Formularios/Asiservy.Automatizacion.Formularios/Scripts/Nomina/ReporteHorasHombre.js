@@ -84,7 +84,7 @@
 
     cb(start, end);
 
-    
+
 
 
     $("#generarReporte").click(function () {
@@ -115,7 +115,7 @@
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarReporte").removeClass("btnWait");
-                
+
 
                 var gridOptions = {
                     dataSource: resultado,
@@ -214,12 +214,10 @@
                         {
                             caption: "Código CC",
                             dataField: "CodCentroCosto",
-                            area: "row"
-                        },
-                        {
-                            caption: "Centro de Costo",
-                            dataField: "CentroCosto",
-                            area: "row"
+                            area: "row",
+                            selector: function (data) {
+                                return data.CodCentroCosto + " - " + data.CentroCosto;
+                            }
                         },
                         {
                             caption: "Código Recurso",
@@ -239,7 +237,10 @@
                         {
                             caption: "Nombre",
                             dataField: "Nombre",
-                            area: "row"
+                            area: "row",
+                            selector: function (data) {
+                                return "(" + data.HoraInicio + " - " + data.HoraFin + ") - " + data.Nombre;
+                            }
                         },
                         {
                             caption: "Tipo de rol",
