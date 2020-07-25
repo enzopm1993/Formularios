@@ -40,19 +40,19 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Lavado de Cisterna</h4>
+        <h5 class="text-md-left text-center" style="float:left">BANDEJA LAVADO DE CISTERNA</h5>
     </div>
 </div>
 <br />
 <div class="row">
-    <div class="col-md-3 col-12 col-sm-12">
+    <div class="col-md-3 col-12 col-sm-4">
         <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
-            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>               
     
-    <div class="box_filters col-md-5 col-12 col-sm-12">
+    <div class="box_filters col-md-5 col-12 col-sm-8">
         <div class="itemFilter">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
@@ -75,7 +75,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
+                <h5 class="modal-title" id="exampleModalLabel">APROBAR</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
