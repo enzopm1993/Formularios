@@ -427,7 +427,12 @@ async function ConsultarElemento() {
 }
 
 function mask() {
-    $('#txtValor').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '9999.99' });
+    console.log(document.getElementById('inputMask').value);
+    var inputMask = document.getElementById('inputMask').value;
+    if (inputMask==null) {
+        inputMask = 9999, 99;
+    }
+    $('#txtValor').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': +inputMask });
 }
 
 async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {

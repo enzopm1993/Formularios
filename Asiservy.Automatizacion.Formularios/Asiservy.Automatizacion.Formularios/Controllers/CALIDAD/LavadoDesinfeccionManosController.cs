@@ -71,7 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 clsDClasificador clasificador = new clsDClasificador();
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -94,7 +94,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         //Esta vista sirve para mostrar el detalle ya que no puedo usar la vista IngresoLavadoDesinfeccionManosDetallePartial por que ya esta configurada para ingresar
@@ -113,7 +113,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 clsDClasificador clasificador = new clsDClasificador();
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -137,7 +137,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -146,7 +146,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         //SE USA SOLO PARA EL VIEW DEL REPORTE
@@ -156,7 +156,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 clsDClasificador clasificador = new clsDClasificador();
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -180,7 +180,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -189,7 +189,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -198,7 +198,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -226,7 +226,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -235,7 +235,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         //-------------------------------------------------CONTROL LAVADO Y DESINFECTADO DE MANOS CABECERA-------------------------------------------
@@ -244,7 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -284,7 +284,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -334,7 +334,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -384,7 +384,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -445,7 +445,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -529,7 +529,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
@@ -538,7 +538,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -560,7 +560,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
@@ -569,7 +569,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -578,7 +578,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -632,7 +632,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 clsDClasificador clasificador = new clsDClasificador();
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -656,7 +656,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -665,7 +665,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }       
 
