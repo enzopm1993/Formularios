@@ -11,7 +11,7 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100',
+        'max': '1000',
         'min': '0'
     });
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100000',
+        'max': '1000000',
         'min': '0'
     });
 
@@ -29,7 +29,7 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100000',
+        'max': '1000000',
         'min': '0'
 
     });
@@ -39,7 +39,7 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100000',
+        'max': '1000000',
         'min': '0'
 
     });
