@@ -776,15 +776,15 @@ function GenerarControlConsumoDetalle() {
         return;
     }
 
-    if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).add(-1, 'days').format("YYYY-MM-DD")) {
-        MensajeAdvertencia("Fecha de inicio no puede ser menor a la de paletizado.")
-        return;
-    }
+    //if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).add(-1, 'days').format("YYYY-MM-DD")) {
+    //    MensajeAdvertencia("Fecha de inicio no puede ser menor a la de paletizado.")
+    //    return;
+    //}
 
-    if (moment($("#txtHoraFinDetalle").val()).format("YYYY-MM-DD") > moment(ListadoControl.FechaPaletizado).add(1, 'days').format("YYYY-MM-DD")) {
-        MensajeAdvertencia("Fecha de fin no puede ser mayor a la de paletizado.")
-        return;
-    }
+    //if (moment($("#txtHoraFinDetalle").val()).format("YYYY-MM-DD") > moment(ListadoControl.FechaPaletizado).add(1, 'days').format("YYYY-MM-DD")) {
+    //    MensajeAdvertencia("Fecha de fin no puede ser mayor a la de paletizado.")
+    //    return;
+    //}
 
     $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", false);
     $.ajax({
