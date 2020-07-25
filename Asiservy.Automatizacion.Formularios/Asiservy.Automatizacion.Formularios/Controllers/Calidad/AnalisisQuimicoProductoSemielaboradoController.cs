@@ -61,6 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 ViewBag.MascaraInput = "1";
                 ViewBag.MaskedInput = "1";
+                
                 ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 ViewBag.ParametrosControl = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.AnalisisQuimicoProductoSemielaborado).Where(x=>x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 return View();
@@ -105,6 +106,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
+                ViewBag.DxDevWeb = "1";
                 //lsUsuario = User.Identity.Name.Split('_');
 
                 return View();
@@ -151,13 +153,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     
                     string turno;
+                    string Fecha;
+                    string FechaIngresoLog;
+                    string FechaModificacionLog;
+                    string FechaAprobacion;
                     foreach (var item in Respuesta)
                     {
                         turno = (from t in ListaTurnos
                                  where t.Codigo == item.Turno
                                  select t.Descripcion).FirstOrDefault();
-                        DRespuesta.Add(new { item.AprobadoPor, item.EstadoControl, item.EstadoRegistro, item.Fecha,
-                            item.FechaAprobacion, item.FechaIngresoLog, item.FechaModificacionLog, item.IdAnalisisQuimicoProductoSe, item.Observacion,
+                        Fecha = item.Fecha.Value.ToString("yyyy-MM-dd");
+                        FechaIngresoLog = item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm");
+                        FechaModificacionLog= item.FechaModificacionLog ==null? "":item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                        FechaAprobacion= item.FechaAprobacion==null?"": item.FechaAprobacion.Value.ToString("yyyy-MM-dd HH:mm");
+                        DRespuesta.Add(new { item.AprobadoPor, item.EstadoControl, item.EstadoRegistro, Fecha,
+                            FechaAprobacion, FechaIngresoLog, FechaModificacionLog, item.IdAnalisisQuimicoProductoSe, item.Observacion,
                             item.TerminalIngresoLog, item.TerminalModificacionLog, item.UsuarioIngresoLog, item.UsuarioModificacionLog,turno });
                     }
                     clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();

@@ -1,10 +1,158 @@
-﻿$(document).ready(function () {
+﻿DevExpress.localization.locale(navigator.language);
+var opciosGrid = {
+    //loadPanel: {
+    //    enabled: true
+    //},
+    //dataSource: resultado,
+    keyExpr: "IdAnalisisQuimicoProductoSe",
+    selection: {
+        mode: "single"
+    },
+    hoverStateEnabled: true,
+    showColumnLines: true,
+    showRowLines: true,
+    rowAlternationEnabled: true,
+    showBorders: true,
+    allowColumnResizing: true,
+    columnResizingMode: "nextColumn",
+    columnMinWidth: 50,
+    columnAutoWidth: true,
+    columnFixing: {
+        enabled: true
+    },
+    showBorders: true,
+    showRowLines: true,
+    filterRow: {
+        visible: true,
+        applyFilter: "auto"
+    },
+    headerFilter: {
+        visible: true
+    },
+    paging: {
+        enabled: true,
+        pageSize: 5
+    },
+    pager: {
+        showPageSizeSelector: true,
+        allowedPageSizes: [5, 10,0],
+        showInfo: true,
+        //visible: true,
+        showNavigationButtons: true,
+        infoText: "Página #{0}. Total: {1} ({2} filas)"
+    },
+    searchPanel: { visible: true },
+    columns: [
+        {
+            caption: "Fecha",
+            dataField: "Fecha",
+            area: "column",
+            dataType: "date",
+        },
+        "turno",
+        {
+            dataField: "Observacion",
+            width: 180
+        }
+        , {
+            caption: "Fecha ingreso log",
+            dataField: "FechaIngresoLog",
+            area: "column",
+            dataType: "datetime"
+        }
+        , {
+            caption: "Usuario ingreso log",
+            dataField: "UsuarioIngresoLog",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Terminal ingreso log",
+            dataField: "TerminalIngresoLog",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Usuario modificación log",
+            dataField: "UsuarioModificacionLog",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Fecha modificación log",
+            dataField: "FechaModificacionLog",
+            area: "column",
+            dataType: "datetime"
+        }
+        , {
+            caption: "Terminal modificación log",
+            dataField: "TerminalModificacionLog",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Estado control",
+            dataField: "EstadoControl",
+            area: "column",
+            dataType: "boolean",
+            cellTemplate: function (container, options) {
+                var estiloClass = 'badge badge-danger';
+                var estado = 'PENDIENTE';
+                if (options.value) {
+                    var estiloClass = 'badge badge-success';
+                    var estado = 'APROBADO';
+                }
+                $("<div>")
+                    .append($('<span class="' + estiloClass + '">' + estado + '</span>'))
+                    .appendTo(container);
+            }
+        }
+        , {
+            caption: "Aprobado por",
+            dataField: "AprobadoPor",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Fecha aprobación",
+            dataField: "FechaAprobacion",
+            area: "column",
+            dataType: "datetime"
+        }
+    ],
+    onSelectionChanged: function (selectedItems) {
+        var data = selectedItems.selectedRowsData[0];
+        if (data) {
+            MostrarReporte(data);
+        }
+    }, export: {
+        enabled: true,
+        allowExportSelectedData: true
+    },
+    onExporting: function (e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Reporte');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ListaReportesAnalisisQuimicoSe.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+}
+$(document).ready(function () {
     $('#fechaDesde').val(moment().format("YYYY-MM-DD"));
     $('#fechaHasta').val(moment().format("YYYY-MM-DD"));
     CargarCabReportes();
 });
 function MostrarReporte(data) {
-    console.log(data);
+    //console.log(data);
     $('#cargac').show();
     Error = 0;
     let params = {
@@ -32,7 +180,7 @@ function MostrarReporte(data) {
                 $('#DivReporte').empty();
                 $('#DivReporte').html(resultado);
                 $('#lblUsuarioIngreso').text(data.UsuarioIngresoLog);
-                $('#lblFechaIngreso').text(data.FechaIngresoLog.slice(0,-6));
+                $('#lblFechaIngreso').text(moment(data.FechaIngresoLog).format("DD-MM-YYYY"));
                 $('#lblAprobadoPor').text(data.AprobadoPor);
                 $('#lblFechaAprobacion').text(data.FechaAprobacion);
                 $('#lblFechap').text(data.Fecha);
@@ -70,7 +218,7 @@ function Atras() {
 function CargarCabReportes() {
     Atras();
     $('#cargac').show();
-    var table = $("#tblDataTableReporte");
+    //var table = $("#tblDataTableReporte");
     //    table.DataTable().destroy();
     //    table.DataTable().clear();
     let params = {
@@ -88,94 +236,36 @@ function CargarCabReportes() {
             return respuesta.json();
         })
         .then(function (resultado) {
-            console.log(resultado);
             if (resultado == '101') {
                 window.location.reload();
             }
             if (resultado != '0') {
-                console.log(resultado);
+                opciosGrid.dataSource = resultado;
+                var dataGrid = $("#gridContainer").dxDataGrid(opciosGrid).dxDataGrid("instance");
+                dataGrid.beginCustomLoading();
+
+                dataGrid.endCustomLoading();
                 $('#mensajeRegistros').prop('hidden', true);
                 $("#tblDataTableReporte tbody").empty();
                 $('#DivCabReportes').prop('hidden', false);
-                config.opcionesDT.columns = [
-                    { data: 'IdAnalisisQuimicoProductoSe' },
-                    { data: 'Fecha' },
-                    { data: 'turno' },
-                    { data: 'Observacion' },
-                    { data: 'EstadoRegistro' },
-                    { data: 'FechaIngresoLog' },
-                    { data: 'UsuarioIngresoLog' },
-                    { data: 'TerminalIngresoLog' },
-                    { data: 'FechaModificacionLog' },
-                    { data: 'UsuarioModificacionLog' },
-                    { data: 'TerminalModificacionLog' },
-                    { data: 'EstadoControl' },
-                    { data: 'AprobadoPor' },
-                    { data: 'FechaAprobacion' }
-                ];
-
-                resultado.forEach(function (row) {
-                    row.Fecha = moment(row.Fecha).format('DD-MM-YYYY');
-                    if (row.FechaAprobacion != null) {
-                        row.FechaAprobacion = moment(row.FechaAprobacion).format('DD-MM-YYYY HH:mm');
-                    }
-                    if (row.FechaIngresoLog != null) {
-                        row.FechaIngresoLog = moment(row.FechaIngresoLog).format('DD-MM-YYYY HH:mm');
-                    }
-                    if (row.FechaModificacionLog != null) {
-                        row.FechaModificacionLog = moment(row.FechaModificacionLog).format('DD-MM-YYYY HH:mm');
-                    }
-                    var estiloTrue = '<i class="fas fa-check-square" style="color:green"></i>'
-                    var estiloClass = 'badge badge-danger';
-                    var estado = 'PENDIENTE';
-                    if (row.Observacion != null) {
-                        row.Observacion = row.Observacion.toUpperCase();
-                    }
-                    if (row.EstadoControl == true) {
-                        estiloClass = 'badge badge-success';
-                        estado = 'APROBADO';
-                    }
-                    
-                    row.EstadoControl = '<span class="' + estiloClass + '">' + estado + '</span>';
-                });
-                config.opcionesDT.columnDefs = [
-                    {
-                        "targets": [0,4],
-                        "visible": false,
-                        "searchable": false
-                    }
-                ];
-             
-                table.DataTable().destroy();
-
-                table.DataTable(config.opcionesDT);
-                table.DataTable().clear();
-                table.DataTable().rows.add(resultado);
-                table.DataTable().draw();
-
-                $('#tblDataTableReporte tbody').on('click', 'tr', function () {
-                    var table = $('#tblDataTableReporte').DataTable();
-                    var dataDetalle = table.row(this).data();
-
-                    MostrarReporte(dataDetalle);
-                });
+                $('#cargac').hide();
             } else {
 
                 $('#DivReporte').empty();
                 $('#DivCabReportes').prop('hidden', true);
                 $('#mensajeRegistros').text(Mensajes.SinRegistrosRangoFecha);
                 $('#mensajeRegistros').prop('hidden', false);
+                $('#cargac').hide();
             }
-            $('#cargac').hide();
-            //console.log(resultado);
+  
         })
         .catch(function (resultado) {
             $('#cargac').hide();
-            console.log(resultado);
+            //console.log(resultado);
             MensajeError(resultado, false);
-            //$('#btnCargando').prop('hidden', true);
-            //$('#btnConsultar').prop('hidden', false);
+        
         })
+    
 }
 
 //FECHA DataRangePicker
