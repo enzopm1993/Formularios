@@ -195,7 +195,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
-        public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_EQUIPO_AAC> CC_MANTENIMIENTO_EQUIPO_AAC { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_GRUPO_AAC> CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
@@ -213,6 +212,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_DET> CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO> CC_ANALISIS_QUIMICO_PRECOCCION_FOTO { get; set; }
+        public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1184,35 +1184,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDistribucionPorLinea>("spConsultaDistribucionPorLinea", fechaParameter, lineaParameter, turnoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaSolcitudesPermisos> spConsultaSolcitudesPermisos(string linea, string area, string estado, Nullable<bool> garita, Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            var areaParameter = area != null ?
-                new ObjectParameter("Area", area) :
-                new ObjectParameter("Area", typeof(string));
-    
-            var estadoParameter = estado != null ?
-                new ObjectParameter("Estado", estado) :
-                new ObjectParameter("Estado", typeof(string));
-    
-            var garitaParameter = garita.HasValue ?
-                new ObjectParameter("Garita", garita) :
-                new ObjectParameter("Garita", typeof(bool));
-    
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("FechaDesde", fechaDesde) :
-                new ObjectParameter("FechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("FechaHasta", fechaHasta) :
-                new ObjectParameter("FechaHasta", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolcitudesPermisos>("spConsultaSolcitudesPermisos", lineaParameter, areaParameter, estadoParameter, garitaParameter, fechaDesdeParameter, fechaHastaParameter);
         }
     
         public virtual ObjectResult<Nullable<System.DateTime>> spConsultaUltimaMarcacion(string cedula)
@@ -2428,7 +2399,36 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<sp_Analisis_Quimico_Precoccion> sp_Analisis_Quimico_Precoccion(Nullable<int> op, Nullable<System.DateTime> fechaControl)
+        public virtual ObjectResult<spConsultaSolcitudesPermisos> spConsultaSolcitudesPermisos(string linea, string area, string estado, Nullable<bool> garita, Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(string));
+    
+            var garitaParameter = garita.HasValue ?
+                new ObjectParameter("Garita", garita) :
+                new ObjectParameter("Garita", typeof(bool));
+    
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolcitudesPermisos>("spConsultaSolcitudesPermisos", lineaParameter, areaParameter, estadoParameter, garitaParameter, fechaDesdeParameter, fechaHastaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Analisis_Quimico_Precoccion> sp_Analisis_Quimico_Precoccion(Nullable<int> op, Nullable<System.DateTime> fechaControl, string turno)
         {
             var opParameter = op.HasValue ?
                 new ObjectParameter("op", op) :
@@ -2438,7 +2438,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaControl", fechaControl) :
                 new ObjectParameter("fechaControl", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion>("sp_Analisis_Quimico_Precoccion", opParameter, fechaControlParameter);
+            var turnoParameter = turno != null ?
+                new ObjectParameter("turno", turno) :
+                new ObjectParameter("turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion>("sp_Analisis_Quimico_Precoccion", opParameter, fechaControlParameter, turnoParameter);
         }
     }
 }
