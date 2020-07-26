@@ -368,7 +368,8 @@ function InactivarControl() {
         url: "../VerificacionPotenciometro/EliminarVerificacionPotenciometro",
         type: "POST",
         data: {
-            IdVerificacionPotenciometroControl: modelEditar.IdVerificacionPotenciometroControl
+            IdVerificacionPotenciometroControl: modelEditar.IdVerificacionPotenciometroControl,
+            Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
