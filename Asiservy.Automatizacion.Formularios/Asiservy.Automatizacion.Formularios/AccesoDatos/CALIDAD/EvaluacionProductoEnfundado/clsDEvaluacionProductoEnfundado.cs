@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProductoEnfundado
 {
+   
     public class clsDEvaluacionProductoEnfundado
     {
+        public clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         public object[] GuardarCabeceraControl(CC_EVALUACION_PRODUCTO_ENFUNDADO poCabeceraControl)
         {
             using (var db = new ASIS_PRODEntities())
@@ -307,97 +311,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return resultado;
             }
         }
-        public List<DetalleEvaluacionProductoEnfundadoViewModel> ConsultarDetalleControl(int idCabeceraControl)
+        public List<spConsultarDetalleControlEvaluacionProdEnfundado> ConsultarDetalleControl(int idCabeceraControl)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                IEnumerable<spConsutaEmpleadosFiltro> pListEmpleados;
-                pListEmpleados = db.spConsutaEmpleadosFiltro("0", "0", clsAtributos.CargoEmpacado).ToList();
-                var resultado = (from d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE
-                                 join mo in db.CC_MANTENIMIENTO_MORETON on new { IdMoreton = d.Moretones.Value, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { mo.IdMoreton, mo.EstadoRegistro }
-                                 join c in db.CC_MANTENIMIENTO_COLOR on new { d.Color, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Color = c.IdColor, c.EstadoRegistro }
-                                 join o in db.CC_MANTENIMIENTO_OLOR on new { d.Olor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Olor = o.IdOlor, o.EstadoRegistro }
-                                 join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Sabor = s.IdSabor, s.EstadoRegistro }
-                                 join t in db.CC_MANTENIMIENTO_TEXTURA on new { d.Textura, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Textura = t.IdTextura, t.EstadoRegistro }
-                                 join p in db.CC_MANTENIMIENTO_PROTEINA on new { d.Proteina, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Proteina = p.IdProteina, p.EstadoRegistro }
-                                 join cab in db.CC_EVALUACION_PRODUCTO_ENFUNDADO on new { IdEvaluacionProductoEnfundado = d.IdCabeceraEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cab.IdEvaluacionProductoEnfundado, cab.EstadoRegistro }
-                                 //join emp in pListEmpleados on d.Empacador equals emp.CEDULA
-                                 where d.IdCabeceraEvaluacionProductoEnfundado == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                 select new DetalleEvaluacionProductoEnfundadoViewModel
-                                 {
-                                     TLomo=cab.Lomo,
-                                     TMiga=cab.Miga,
-                                     TTrozo=cab.Trozo,
-                                     Buque = d.buque,
-                                     CodMoretones = mo.IdMoreton,
-                                     CodColor = c.IdColor,
-                                     CodOlor = o.IdOlor,
-                                     CodProteinas = p.IdProteina,
-                                     CodSabor = s.IdSabor,
-                                     CodTextura = t.IdTextura,
-                                     Color = c.Descripcion,
-                                     Escamas = d.Escamas,
-                                     Espinas = d.Espinas,
-                                     //HematomasProfundos = d.HematomasProfundos,
-                                    // Hora = d.Hora,
-                                     empacador=d.Empacador,
-                                     Lote = d.Lote,
-                                     Moretones = mo.Descripcion,
-                                     Olor = o.Descripcion,
-                                     Piel = d.Piel,
-                                     Proteinas = p.Descripcion,
-                                     Sabor = s.Descripcion,
-                                     Sangre = d.Sangre,
-                                     Textura = t.Descripcion,
-                                     Trozos = d.Trozo,
-                                     Venas = d.Venas,
-                                     IdDetalle = d.IdDetalleEvaluacionProductoEnfundado,
-                                     IdCabecera = idCabeceraControl,
-                                     Aprobado = cab.EstadoControl,
-                                     Miga=d.Miga,
-                                     Otro=d.Otro,
-                                     FechaControl=cab.FechaProduccion, Hora=d.Hora
-                                     
-                                 }).ToList();
-                var ResultadoFInal = (from r in resultado
-                                      join e in pListEmpleados on r.empacador equals e.CEDULA
-                                      select new DetalleEvaluacionProductoEnfundadoViewModel
-                                      {
-                                          TLomo=r.TLomo,
-                                          TMiga=r.TMiga,
-                                          TTrozo=r.TTrozo,
-                                          Buque = r.Buque,
-                                          CodColor = r.CodColor,
-                                          CodOlor = r.CodOlor,
-                                          CodProteinas = r.CodProteinas,
-                                          CodSabor = r.CodSabor,
-                                          CodTextura = r.CodTextura,
-                                          Color = r.Color,
-                                          Escamas = r.Escamas,
-                                          Espinas = r.Espinas,
-                                          Hora = r.Hora,
-                                          empacador = r.empacador,
-                                          NombreEmpacador = e.NOMBRES,
-                                          Lote = r.Lote,
-                                          CodMoretones=r.CodMoretones,
-                                          Moretones = r.Moretones,
-                                          Olor = r.Olor,
-                                          Piel = r.Piel,
-                                          Proteinas = r.Proteinas,
-                                          Sabor = r.Sabor,
-                                          Sangre = r.Sangre,
-                                          Textura = r.Textura,
-                                          Trozos = r.Trozos,
-                                          Venas = r.Venas,
-                                          IdDetalle = r.IdDetalle,
-                                          IdCabecera = idCabeceraControl,
-                                          Aprobado = r.Aprobado,
-                                          Miga = r.Miga,
-                                          Otro = r.Otro,
-                                          FechaControl = r.FechaControl,
-                                          
-                                      }).ToList();
-                return ResultadoFInal;
+                return db.spConsultarDetalleControlEvaluacionProdEnfundado(idCabeceraControl).ToList();
             }
         }
         //public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo, string Usuario, string Terminal)
@@ -432,6 +350,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
         {
             using (var db = new ASIS_PRODEntities())
             {
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 if (EstadoControl == clsAtributos.EstadoReportePendiente)
                 {
                     //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
@@ -470,7 +389,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                          Proveedor=x.Proveedor,
                                          Turno=clt.Descripcion
                                      }).Distinct().ToList();
+                    if (respuesta.Count > 0)
+                    {
+                        List<OrdenFabricacionAvance> DatosOrdenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(
+                            respuesta.Select(f => f.FechaProduccion).Min().Value, respuesta.Select(f => f.FechaProduccion).Max().Value)
+                            .Select(x => new OrdenFabricacionAvance { Fecha = x.Fecha, OrdenFabricacion = x.OrdenFabricacion, Cliente = x.Cliente }).Distinct().ToList();
+                        foreach (var item in respuesta)
+                        {
+                            var buscarOrden = DatosOrdenes.FirstOrDefault(x => x.OrdenFabricacion == item.OrdenFabricacion);
+                            if (buscarOrden != null)
+                            {
+                                item.Cliente =string.IsNullOrEmpty(buscarOrden.Cliente)?item.Cliente: buscarOrden.Cliente;
+                            }
+                            else
+                            {
+                                string cliente= clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(item.OrdenFabricacion.Value.ToString()).FirstOrDefault().CLIENTE;
+                                item.Cliente = string.IsNullOrEmpty(cliente)?item.Cliente:cliente;
+                            }
+                        }
 
+                    }
                     return respuesta;
                 }
                 else
@@ -510,7 +448,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                          Proveedor = x.Proveedor,
                                          Turno=clt.Descripcion
                                      }).Distinct().ToList();
+                    if (respuesta.Count > 0)
+                    {
+                        List<OrdenFabricacionAvance> DatosOrdenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(
+                            respuesta.Select(f => f.FechaProduccion).Min().Value, respuesta.Select(f => f.FechaProduccion).Max().Value)
+                            .Select(x => new OrdenFabricacionAvance { Fecha = x.Fecha, OrdenFabricacion = x.OrdenFabricacion, Cliente = x.Cliente }).Distinct().ToList();
+                        foreach (var item in respuesta)
+                        {
+                            var buscarOrden = DatosOrdenes.FirstOrDefault(x => x.OrdenFabricacion == item.OrdenFabricacion);
+                            if (buscarOrden != null)
+                            {
+                                item.Cliente = buscarOrden.Cliente;
+                            }
+                            else
+                            {
+                                item.Cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(item.OrdenFabricacion.Value.ToString()).FirstOrDefault().CLIENTE;
+                            }
+                        }
+
+                    }
                     return respuesta;
+
                 }
             }
 
@@ -573,6 +531,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
         {
             using (var db = new ASIS_PRODEntities())
             {
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 var respuesta = (from x in db.CC_EVALUACION_PRODUCTO_ENFUNDADO
                                  join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                  join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE on new { IdCabeceraEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionProductoEnfundado, d.EstadoRegistro }
@@ -608,7 +567,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                                      FechaAprobacion = x.FechaAprobacion,
                                      Turno=clt.Descripcion
                                  }).Distinct().ToList();
+                if (respuesta.Count > 0)
+                {
+                    List<OrdenFabricacionAvance> DatosOrdenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(
+                        respuesta.Select(f => f.FechaProduccion).Min().Value, respuesta.Select(f => f.FechaProduccion).Max().Value)
+                        .Select(x => new OrdenFabricacionAvance { Fecha = x.Fecha, OrdenFabricacion = x.OrdenFabricacion, Cliente = x.Cliente }).Distinct().ToList();
+                    foreach (var item in respuesta)
+                    {
+                        var buscarOrden = DatosOrdenes.FirstOrDefault(x => x.OrdenFabricacion == item.OrdenFabricacion);
+                        if (buscarOrden != null)
+                        {
+                            item.Cliente = string.IsNullOrEmpty(buscarOrden.Cliente) ? item.Cliente : buscarOrden.Cliente;
+                        }
+                        else
+                        {
+                            string cliente = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(item.OrdenFabricacion.Value.ToString()).FirstOrDefault().CLIENTE;
+                            item.Cliente = string.IsNullOrEmpty(cliente) ? item.Cliente : cliente;
+                        }
+                    }
 
+                }
                 return respuesta;
             }
         }

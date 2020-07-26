@@ -63,7 +63,7 @@ function construirDataTable() {
 
 function cerrarmodalconfirm() {
     $('#ModalMensajeCP').modal('hide');
-    ConsultarEmpleados();
+    //ConsultarEmpleados();
 }
 function CerrarModalMensaje() {
     //javascript: window.location.reload();
@@ -261,7 +261,7 @@ function Mover(result) {
 function ConsultarEmpleados() {
     //ConsultarEmpleado = "ConsultarEmpleado";
   
-    if ($('#SelectAreaOrigen').val() != "") {
+    if ($('#SelectAreaOrigen').prop('selectedIndex') != 0) {
         MostrarModalCargando();
         $.ajax({
             url: "../Asistencia/EmpleadosCambioPersonalPartial",

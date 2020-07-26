@@ -44,7 +44,7 @@ function ConsultaComunicados() {
             }
             if (resultado == "0") {
                 $("#pNotaComunicados").prop("hidden", true);
-                $("#divComunicados").html('<div class="text-center"><h5 class="text-warning">  NO EXISTE NINGUN COMUNICADO.</h5></div>');
+                $("#divComunicados").html('<div class="text-center"><h5 class="text-warning">  NO EXISTE NINGÚN COMUNICADO.</h5></div>');
                 return;
             }
             $("#divComunicados").html(resultado);

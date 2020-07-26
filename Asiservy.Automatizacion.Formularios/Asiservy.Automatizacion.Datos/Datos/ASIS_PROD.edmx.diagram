@@ -101,13 +101,10 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="29.375" PointY="51.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Width="1.5" PointX="31.625" PointY="52.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="28.375" PointY="6" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="3.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="35.875" PointY="29.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PlantillasMemorandum" Width="1.5" PointX="20.375" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="0.75" PointY="23.625" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.875" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO" Width="1.5" PointX="21.375" PointY="44" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="30.75" PointY="1.125" />
@@ -134,16 +131,11 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="39.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="0.75" PointY="35.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="35.75" PointY="16.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="41.75" PointY="5.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Width="1.5" PointX="33.625" PointY="28.625" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION_CTRL_DET" Width="1.5" PointX="45.875" PointY="19" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION_HORA" Width="1.5" PointX="43.625" PointY="16.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CUCHILLOS_PREPARACION_CTRL_DET_CC_CUCHILLOS_PREPARACION" />
@@ -209,9 +201,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" Width="1.5" PointX="45.375" PointY="40.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Width="1.5" PointX="47.625" PointY="40" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="36.625" PointY="49.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Width="1.5" PointX="35.625" PointY="36.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.OPCION" Width="1.5" PointX="35.375" PointY="11" />
@@ -258,7 +248,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="34.375" PointY="49.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="3.375" PointY="31.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="33.375" PointY="36.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO" />
@@ -268,6 +257,21 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="5.375" PointY="33.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Width="1.5" PointX="54.125" PointY="36" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.FONDO_LOGIN" Width="1.5" PointX="37.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="22.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="32.375" PointY="63.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Width="1.5" PointX="34.625" PointY="56.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

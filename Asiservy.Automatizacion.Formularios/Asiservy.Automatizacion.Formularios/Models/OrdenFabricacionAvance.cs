@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.Models
 {
-    public class OrdenFabricacionAvance
+    public class OrdenFabricacionAvance: IEquatable<OrdenFabricacionAvance>
     {
-        public string OrdenFabricacion { get; set; }
+        public int OrdenFabricacion { get; set; }
         public string Lote { get; set; }
         public string Producto { get; set; }
         public string Especie { get; set; }
@@ -17,6 +17,26 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Piezas { get; set; }
         public string Promedio { get; set; }
         public string Barco { get; set; }
+        public decimal Lomos { get; set; }
+        public decimal Migas { get; set; }
+        public decimal Recuperado { get; set; }
+        public string Cliente { get; set; }
+        public DateTime? Fecha { get; set; }
 
+        public bool Equals(OrdenFabricacionAvance other)
+        {
+            if (OrdenFabricacion == other.OrdenFabricacion && Fecha == other.Fecha)
+                return true;
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashOrdenFabricacion = OrdenFabricacion.GetHashCode();
+            int hashFecha = Fecha == null ? 0 : Fecha.GetHashCode();
+
+            return hashOrdenFabricacion ^ hashFecha;
+        }
     }
 }

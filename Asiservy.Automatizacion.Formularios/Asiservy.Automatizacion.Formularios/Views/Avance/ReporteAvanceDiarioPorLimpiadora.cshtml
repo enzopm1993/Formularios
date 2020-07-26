@@ -34,7 +34,7 @@
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
                 {
-                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion"), "Selecciones", new { @class = "form-control", @id = "selectLinea", @onchange = "CargarReporteAvanceLimpiadora()" })
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea", @onchange = "CargarReporteAvanceLimpiadora()" })
                 }
                 else
                 {
@@ -97,7 +97,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Avance del dia</h5>
+                <h5 class="modal-title">Avance del día <span id="spanNombre" class="badge badge-light"></span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -107,14 +107,18 @@
                 <div class="row">
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="card shadow">
+                          
                             <div class="card-body  table-responsive">
                                 <table class="table table-bordered" id="tblTable" style="width:300px; overflow-y:auto">
                                     <thead style="font-size:13px">
                                         <tr>
-                                            <th>Hora</th>
-                                            <th>O. Fabricación</th>
+                                            <th style="white-space:normal">Hora</th>
+                                            <th>O. F.</th>
+                                            <th>Barco</th>
+                                            <th>Lote</th>
                                             <th>Especie</th>
                                             <th>Talla</th>
+                                            <th>Limpieza</th>
                                             <th>Promedio</th>
                                             <th style="white-space:normal">Hueso Real</th>
                                             <th style="white-space:normal">Hueso Teórico</th>
@@ -129,6 +133,58 @@
                                     <tbody style="font-size:12px" id="tblBody"></tbody>
                                 </table>
                             </div>
+                            <div class="card-footer">
+
+                                <div class="" style="font-size:14px; float:right">
+                                    <table class="table table-bordered text-right">
+                                        <tr>
+                                            <th>Diferencia de Miga</th>
+                                        </tr>
+                                        <tr>
+                                            <td> <span class="badge badge-success"> Miga </span> menos de lo esperado.<br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span class="badge badge-warning"> Miga</span> No se ha ingresado. <br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span class="badge badge-danger">Miga </span> más de lo esperado. <br /></td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="" style="font-size:12px; float:right">
+                                    <table class="table table-bordered text-right">
+                                        <tr>
+                                            <th>Avance %</th>
+                                        </tr>
+                                        <tr>
+                                            <td> <span class="badge badge-success"> Avance </span> más del 80%.<br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span class="badge badge-warning"> Avance</span> Entre 80% y 60%. <br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span class="badge badge-danger">Avance </span> menos del 60%. <br /></td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+                                <div class="" style="font-size:12px; float:right">
+                                    <table class="table table-bordered text-right">
+                                        <tr>
+                                            <th>Kilo Real-Teorico</th>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span class="badge text-white" style="background-color:#005FFF"> Kilo</span> Real. <br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span class="badge text-white" style="background-color:#B548FF">Kilo </span> Teorico. <br /></td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
                         </div>
                         
                     </div>
@@ -140,14 +196,17 @@
                             <option value="1">Lomo</option>
                             <option value="2">Miga</option>
                         </select>
-                        <div id="divKpiPadre">
-                            <div class="card shadow" id="divKpi">
-                            </div>
+                        <div class="card shadow">
+                                <div id="divKpiPadre">
+                                    <div class="card shadow" id="divKpi">
+                                    </div>
+                                </div>
+                                <div id="divKpiMigaPadre" hidden>
+                                    <div class="card shadow" id="divKpiMiga">
+                                    </div>
+                                </div>
                         </div>
-                        <div id="divKpiMigaPadre" hidden>
-                            <div class="card shadow" id="divKpiMiga" >
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="col-md-6 col-12 col-sm-12">
                         <div class="card shadow" id="divKpi2">

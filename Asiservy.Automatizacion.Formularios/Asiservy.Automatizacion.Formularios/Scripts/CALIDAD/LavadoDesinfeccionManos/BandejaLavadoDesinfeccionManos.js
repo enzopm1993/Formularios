@@ -154,6 +154,7 @@ function AprobarPendiente(estadoReporte) {
         data: {
             IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
             FechaAprobado: $('#txtFechaAprobado').val(),
+            Fecha: moment(listaDatos.FechaComparar).format('YYYY-MM-DD'),
             siAprobar: true,
             EstadoReporte: estadoReporte
         },

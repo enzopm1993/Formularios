@@ -1,0 +1,428 @@
+﻿<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    #seccionNuevaMarcacion {
+        display: none;
+    }
+
+    .muestraSeccion {
+        display: flex !important;
+    }
+
+    .mostrarBloques {
+        display: flex !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#tkHistorico" role="tab" data-toggle="tab" id="tabTkhistorico">Reporte histórtico <span id="titleTabFecha"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#tkCerrados" role="tab" data-toggle="tab">Soportes cerrados por fecha <span id="titleTabFechaCerrados"></span></a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade show active" id="tkHistorico">
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <h3 style="float: left;">Reporte de tickets de soporte <span id="titleTabFecha2"></span></h3>
+                        <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+                        <div class="box_filters">
+
+                            <div class="itemFilter">
+                                <input type="hidden" id="fechaDesde" value="" />
+                                <input type="hidden" id="fechaHasta" value="" />
+                                <div id="reportrange" class="selectbox">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <span></span> <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="itemFilter">
+                                <a href="#" id="generarReporte" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tickets totales</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTkTotales">0</span> Tickets</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Cerrados</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTkCerrados">0</span> Tickets</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-thumbs-up fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Abiertos</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTkAbiertos">0</span> Tickets</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Tickets sin asignar</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTkSinAsignar">0</span> Ticket(s)</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-question fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Cumplimiento</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="chartCumplimiento"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Tickets por departamento</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="chartPorDepartamento"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Resumen por agente</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="wdr-component-agente"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Resumen por departamento</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="wdr-component-depa"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Resumen de tickets cerrados en el día por agente</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="wdr-component-dias-agente"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-12">
+                        <h3 style="float: left;">Tabla de información</h3>
+                        <div class="table-responsive">
+                            <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Departamento</th>
+                                        <th>Usuario</th>
+                                        <th>Ticket</th>
+                                        <th>Asunto</th>
+                                        <th>Estado</th>
+                                        <th>Agente Asignado</th>
+                                        <th>Fecha Creación</th>
+                                        <th>Hora Creación</th>
+                                        <th>Fecha Asignación</th>
+                                        <th>Hora Asignación </th>
+                                        <th>Fecha Cierre</th>
+                                        <th>Hora Cierre</th>
+                                        <th>Fecha Inicio Soporte</th>
+                                        <th>Hora Inicio Soporte</th>
+                                        <th>Fecha Fin Soporte</th>
+                                        <th>Hora Fin Soporte</th>
+                                        <th>Duración del Ticket</th>
+                                        <th>Duración desde su asignación hasta su cierre</th>
+                                        <th>Duración Soporte</th>
+                                        <th>Duración desde se creación hasta finalizar el soporte</th>
+                                        <th>Descripción duración del Ticket</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:14px" id="bodyDataTickets"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="tkCerrados" class="tab-pane fade ">
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <h3 style="float: left;">Reporte de tickets de cerrados <span id="titleTabFechaCerrados2"></span></h3>
+                        <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+                        <div class="box_filters">
+
+                            <div class="itemFilter">
+                                <input type="hidden" id="fechaDesdeCerrados" value="" />
+                                <input type="hidden" id="fechaHastaCerrados" value="" />
+                                <div id="reportrangeCerrados" class="selectbox">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <span></span> <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="itemFilter">
+                                <a href="#" id="generarReporteCerrados" class="btn btn-primary btn-sm"><i id="iconSearchCerrados" class="fas fa-search"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tickets totales</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTkTotales-cerrados">0</span> Tickets cerrados</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-thumbs-up fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Tiempo de soporte</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTiempoSoporte">0</span> </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Tiempo de espera</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="txtTiempoEspera">0</span> Ticket(s)</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-question fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Tickets cerrados por departamento</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="chartPorDepartamento-cerrados"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Resumen por agente</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="wdr-component-agente-cerrados"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Resumen por departamento</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="wdr-component-depa-cerrados"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Resumen de tickets cerrados en el día por agente</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="wdr-component-dias-agente-cerrados"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-12">
+                        <h3 style="float: left;">Tabla de información</h3>
+                        <div class="table-responsive">
+                            <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableCerrados">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Departamento</th>
+                                        <th>Usuario</th>
+                                        <th>Ticket</th>
+                                        <th>Asunto</th>
+                                        <th>Estado</th>
+                                        <th>Agente Asignado</th>
+                                        <th>Fecha Creación</th>
+                                        <th>Hora Creación</th>
+                                        <th>Fecha Asignación</th>
+                                        <th>Hora Asignación </th>
+                                        <th>Fecha Cierre</th>
+                                        <th>Hora Cierre</th>
+                                        <th>Fecha Inicio Soporte</th>
+                                        <th>Hora Inicio Soporte</th>
+                                        <th>Fecha Fin Soporte</th>
+                                        <th>Hora Fin Soporte</th>
+                                        <th>Duración del Ticket</th>
+                                        <th>Duración desde su asignación hasta su cierre</th>
+                                        <th>Duración Soporte</th>
+                                        <th>Duración desde se creación hasta finalizar el soporte</th>
+                                        <th>Descripción duración del Ticket</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:14px" id="bodyDataTicketsCerrados"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

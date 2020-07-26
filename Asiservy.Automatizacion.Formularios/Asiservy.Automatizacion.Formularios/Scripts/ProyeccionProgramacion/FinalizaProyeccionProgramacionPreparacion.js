@@ -26,17 +26,17 @@ function validar() {
 
 }
 
-function check(idCheck, idProyeccion) {
+function check(idCheck, idProyeccion,Fecha) {
     var checkPreparacion = "#ckeck" + idProyeccion;
 
     if ($("#" + idCheck).prop("checked")) {
         var urlFinalizar = "../ProyeccionProgramacion/FinalizarIngresoProyeccionProgramacion";
-        FinalizaHabilitaProyeccion(idCheck, idProyeccion, urlFinalizar);
+        FinalizaHabilitaProyeccion(idCheck, idProyeccion, urlFinalizar, Fecha);
         $("#txtObservacion" + idProyeccion).prop("disabled", true);
         $(checkPreparacion).prop("checked", false);
     } else {
         var urlHabilita = "../ProyeccionProgramacion/HabilitarIngresoProyeccionProgramacion";
-        FinalizaHabilitaProyeccion(idCheck, idProyeccion, urlHabilita);
+        FinalizaHabilitaProyeccion(idCheck, idProyeccion, urlHabilita, Fecha);
         $("#txtObservacion" + idProyeccion).prop("disabled", false);
         $(checkPreparacion).prop("checked", true);
 
@@ -44,24 +44,32 @@ function check(idCheck, idProyeccion) {
 
 }
 
-function FinalizaHabilitaProyeccion(idCheck, idProyeccion, url) {
+function FinalizaHabilitaProyeccion(idCheck, idProyeccion, url, Fecha) {
     $.ajax({
         url: url,
         type: "GET",
         data: {
             id: idProyeccion,
             proceso: 4,
-            Observacion: $("#txtObservacion" + idProyeccion).val()
+            Observacion: $("#txtObservacion" + idProyeccion).val(),
+            Fecha: Fecha
         },
         success: function (resultado) {         
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "800") {
+                var checkPreparacion = "#ckeck" + idProyeccion;
+                var checkFinaliza = "#proyeccion" + idProyeccion;
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                $("#txtObservacion" + idProyeccion).prop("disabled", false);
+                $(checkPreparacion).prop("checked", false);
+                $(checkFinaliza).prop("checked", false);
+            } 
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
             $("#txtObservacion" + idProyeccion).prop("disabled", false);
-            $('#' + idCheck).prop("checked", false);
         }
     });
 }

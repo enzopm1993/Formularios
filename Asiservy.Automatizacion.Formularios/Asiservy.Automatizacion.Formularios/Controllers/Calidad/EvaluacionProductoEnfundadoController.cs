@@ -16,6 +16,7 @@ using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroDefecto;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ParametroCalidad;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -100,6 +101,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Turno = new SelectList(clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno), "Codigo", "Descripcion");
                 List<ParametroDefectoViewModel> resultado = ClsDParametroDefecto.ConsultarCabecerasParametroDefecto().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.ParametrosMaximo = resultado;
+                
                 //ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
                 return View();
             }
@@ -644,7 +646,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                List<DetalleEvaluacionProductoEnfundadoViewModel> resultado;
+                List<spConsultarDetalleControlEvaluacionProdEnfundado> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 resultado = clsDEvaluacionProductoEnfundado.ConsultarDetalleControl(IdCabeceraControl);
                 if (resultado.Count == 0)
@@ -919,7 +921,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                List<DetalleEvaluacionProductoEnfundadoViewModel> resultado;
+                List<spConsultarDetalleControlEvaluacionProdEnfundado> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 resultado = clsDEvaluacionProductoEnfundado.ConsultarDetalleControl(IdCabeceraControl);
                 if (resultado.Count == 0)

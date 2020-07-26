@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion;
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 {
 
@@ -45,24 +43,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
 
-                List<spConsultaProyeccionProgramacion> Listado = new List<spConsultaProyeccionProgramacion>();
-                Listado = db.spConsultaProyeccionProgramacion(Id).ToList();
+                List<spConsultaProyeccionProgramacion> Listado  = db.spConsultaProyeccionProgramacion(Id).ToList();
                 return Listado;
             }
         }
         public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionReporte(DateTime fecha, string Turno)
         {
+            
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var pro = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == fecha
+                var pro = db.PROYECCION_PROGRAMACION.AsNoTracking().FirstOrDefault(x => x.FechaProduccion == fecha
                                                                         && ((Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
                                                                        || (Turno == clsAtributos.TurnoDos && x.Turno == Turno))
                                                                         && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
-
-                //var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha
-                //                && ((Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
-                //                || (Turno == clsAtributos.TurnoDos && x.Turno == Turno))
-                //                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
                 List<spConsultaProyeccionProgramacion> Listado = new List<spConsultaProyeccionProgramacion>();
                 if(pro!=null)
@@ -76,7 +69,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var proyeccion = db.PROYECCION_PROGRAMACION_DETALLE.FirstOrDefault(x => x.IdProyeccionProgramacionDetalle == model.IdProyeccionProgramacionDetalle);
-
+                string resp = string.Empty;
                 if (proyeccion != null)
                 {
                     proyeccion.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
@@ -84,10 +77,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                     proyeccion.TerminalModificacionLog = model.TerminalIngresoLog;
                     proyeccion.FechaModificacionLog = DateTime.Now;
                     db.SaveChanges();
+                    resp= proyeccion.Lote;
                 }
-                return proyeccion.Lote;
+                return resp;
 
-                
             }
         }
 
@@ -118,7 +111,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             {                
                 var proyeccion = db.PROYECCION_PROGRAMACION.Where(x =>
                 x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
-                && x.EditaProduccion == true).FirstOrDefault();
+                && x.EditaProduccion).FirstOrDefault();
                 return proyeccion;
             }
         }
@@ -246,12 +239,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                //var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.IdProyeccionProgramacion==model.IdProyeccionProgramacion);
                 var detalle = db.PROYECCION_PROGRAMACION_DETALLE.FirstOrDefault(x => x.IdProyeccionProgramacionDetalle == model.IdProyeccionProgramacionDetalle);
                 if (detalle != null)
                 {
                     if (proceso == 1)
                     {
+                        detalle.Protocolo = model.Protocolo;
+                        detalle.Miga = model.Miga;
                         detalle.Lote = model.Lote.ToUpper();
                         detalle.Observacion = model.Observacion!=null?model.Observacion.ToUpper():"";
                         detalle.OrdenFabricacion = model.OrdenFabricacion;  
@@ -328,6 +322,36 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 }
             }
         }
+
+
+        public void CerrarProyeccionProgramacion(PROYECCION_PROGRAMACION_DETALLE model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var proyeccion = db.PROYECCION_PROGRAMACION_DETALLE.FirstOrDefault(x => x.IdProyeccionProgramacionDetalle == model.IdProyeccionProgramacionDetalle);
+                if (proyeccion != null)
+                {
+                    BITACORA_PROYECCION bitacora = new BITACORA_PROYECCION();
+
+                    bitacora.Observacion = "Cerrar Lote";
+                    bitacora.IdProyeccionProgramacion = proyeccion.IdProyeccionProgramacion;
+                    bitacora.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                    bitacora.TerminalIngresoLog = model.TerminalIngresoLog;
+                    bitacora.FechaIngresoLog = DateTime.Now;
+                    bitacora.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    db.BITACORA_PROYECCION.Add(bitacora);
+
+                    proyeccion.EstadoLote = true;
+                    proyeccion.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    proyeccion.TerminalModificacionLog = model.TerminalIngresoLog;
+                    proyeccion.FechaModificacionLog = DateTime.Now;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+
+
 
     }
 }

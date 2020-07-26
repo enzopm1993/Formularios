@@ -117,7 +117,7 @@ function CargarReporteAvance() {
     $('#btnConsultar').prop("disabled", true);
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
-        url: "../Hueso/ReporteControlAvanceDiarioPartial",
+        url: "../Avance/ReporteControlAvanceDiarioPartial",
         type: "GET",
         data: {
             ddFechaDesde: txtFechaDesde,

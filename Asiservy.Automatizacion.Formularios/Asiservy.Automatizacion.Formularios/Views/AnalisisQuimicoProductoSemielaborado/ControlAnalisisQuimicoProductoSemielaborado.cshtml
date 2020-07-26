@@ -1,4 +1,6 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
+@using Asiservy.Automatizacion.Formularios.AccesoDatos
+@using Newtonsoft.Json
 @{
     ViewBag.Title = "ControlAnalisisQuimicoProductoSemielaborado";
 }
@@ -72,14 +74,25 @@
         border: 1px solid black;
     }*/
 </style>
-<h4>Control Análisis Químico Producto Semielaborado <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
-
+<div class="row"  id="titulo">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;">Control Análisis Químico Producto Semielaborado <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
 <div class="card" id="DivCabecera">
     <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -91,54 +104,54 @@
             </div>
         </div>
         @*<div class="col-md-4 col-sm-6">
-            <div class="form-group">
-                Orden de Fabricación:
-                <div class="input-group">
-                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
-                    <button type="button" onclick="" id="btnOrden">
-                        <img src="~/Content/images/buscar.png" />
-                    </button><br />
+                <div class="form-group">
+                    Orden de Fabricación:
+                    <div class="input-group">
+                        <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                        <button type="button" onclick="" id="btnOrden">
+                            <img src="~/Content/images/buscar.png" />
+                        </button><br />
+                    </div>
+                    <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
                 </div>
-                <label class="text-danger" id="msjerrorordenfb" hidden>Debe ingresar la orden de fabricación</label>
-            </div>
-        </div>*@
+            </div>*@
 
         @*<div class="col-md-4">
-            <fieldset>
-                <legend id="lgnprod">Tipo producto</legend>
+                <fieldset>
+                    <legend id="lgnprod">Tipo producto</legend>
 
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
 
-                        <div class="row" style="padding-left:10px">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbLomoCongelado" value="option1">
-                                <label class="form-check-label" for="ckbLomoCongelado">Lomo congelado</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbLomoPrecocido" value="option2">
-                                <label class="form-check-label" for="ckbLomoPrecocido">Lomos Precocidos</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbProductoEnlatado" value="option3">
-                                <label class="form-check-label" for="ckbProductoEnlatado">Prod P. Enlatado </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbProductoPouch" value="option3">
-                                <label class="form-check-label" for="ckbProductoPouch">Prod P. Pouch </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="ckbOtro" value="option3">
-                                <label class="form-check-label" for="ckbOtro">Otros </label>
-                            </div>
+                            <div class="row" style="padding-left:10px">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbLomoCongelado" value="option1">
+                                    <label class="form-check-label" for="ckbLomoCongelado">Lomo congelado</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbLomoPrecocido" value="option2">
+                                    <label class="form-check-label" for="ckbLomoPrecocido">Lomos Precocidos</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbProductoEnlatado" value="option3">
+                                    <label class="form-check-label" for="ckbProductoEnlatado">Prod P. Enlatado </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbProductoPouch" value="option3">
+                                    <label class="form-check-label" for="ckbProductoPouch">Prod P. Pouch </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="ckbOtro" value="option3">
+                                    <label class="form-check-label" for="ckbOtro">Otros </label>
+                                </div>
 
+                            </div>
+                            <label id="msjerrorProducto" class="text-danger" hidden>Debe seleccionar el Producto</label>
                         </div>
-                        <label id="msjerrorProducto" class="text-danger" hidden>Debe seleccionar el Producto</label>
                     </div>
-                </div>
 
-            </fieldset>
-        </div>*@
+                </fieldset>
+            </div>*@
 
         <div class="col-md-4">
             <div class="form-group">
@@ -378,7 +391,10 @@
                                 <a class="nav-link" data-toggle="tab" href="#Empaque" id="areaemp">Área Empaque</a>
                             </li>
                         </ul>
+                        <script>
+                            var IdArray = [];
 
+                        </script>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane container-fluid active" id="Proceso">
@@ -386,27 +402,25 @@
                                     <div class="col-md-12 col-sm-12">
                                         <br />
                                         <div class="row">
-                                            <div class="col-md-4 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>% Sal</label>
-                                                    <input type="text" class="form-control" id="txtSalProceso" />
-                                                    <label class="text-danger" id="msjerrorsalproceso" hidden>% de sal es un campo requerido</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>Histamina</label>
-                                                    <input type="text" class="form-control" id="txtHistaminaProceso" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>Humedad</label>
-                                                    <input type="text" class="form-control" id="txtHumedadProceso" />
-                                                    <label class="text-danger" id="msjerrorhumedad" hidden>Humedad es un campo requerido</label>
 
+                                            @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.ProcesoCalidad))
+                                            {
+                                                string nummascara;
+                                                nummascara = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
+                                                <div class="col-md-3 col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascara</span>
+                                                        <input type="text" class="form-control" id="@item.IdParametro" />
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <script>
+
+                                                    IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
+
+                                                </script>
+                                            }
+
+
                                         </div>
                                     </div>
 
@@ -414,26 +428,27 @@
                             </div>
                             <div class="tab-pane container-fluid fade" id="Empaque">
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
                                         <br />
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-12">
-
-                                                <div class="form-group">
-                                                    <label>% Sal</label>
-                                                    <input type="text" class="form-control" id="txtSalEmpaque" />
+                                            @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.EmpaqueCalidad))
+                                            {
+                                                string nummascarae;
+                                                nummascarae = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
+                                                <div class="col-md-3 col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascarae</span>
+                                                        <input type="text" class="form-control" id="@item.IdParametro" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>Histamina</label>
-                                                    <input type="text" class="form-control" id="txtHistaminaEmpaque" />
-                                                </div>
-                                            </div>
+                                                <script>
 
+                                                    IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
+
+                                                </script>
+                                            }
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -495,7 +510,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h6 class="modal-title">¿Esta seguro que desea eliminar el control?</h6>
             </div>
-            
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
                 <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>

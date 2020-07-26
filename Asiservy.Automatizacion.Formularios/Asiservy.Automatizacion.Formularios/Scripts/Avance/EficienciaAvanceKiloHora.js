@@ -6,7 +6,7 @@ function CargarEficienciaAvanceKilosHora() {
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableEficiencia').html('');
     $.ajax({
-        url: "../Hueso/EficienciaAvanceKiloHoraPartial",
+        url: "../Avance/EficienciaAvanceKiloHoraPartial",
         type: "GET",     
         success: function (resultado) {
             if (resultado == "101") {
@@ -49,7 +49,7 @@ function NuevaEficienciaAvance() {
 function GuardarModificarEficiencia() {
    
     $.ajax({
-        url: "../Hueso/EficienciaAvanceKiloHora",
+        url: "../Avance/EficienciaAvanceKiloHora",
         type: "POST",
         data:
         {

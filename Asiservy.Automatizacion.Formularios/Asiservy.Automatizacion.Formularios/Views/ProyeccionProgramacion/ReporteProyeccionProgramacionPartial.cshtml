@@ -17,16 +17,16 @@
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
-               Barco
+                Barco
             </th>
             <th>
-               Marea
+                Marea
             </th>
             <th>
-               Orden
+                Orden
             </th>
             <th>
-               Kilos
+                Kilos
             </th>
             @if (ViewBag.RolCamara == null)
             {
@@ -68,13 +68,13 @@
 
                 </th>
                 <th>
-                   Coches
+                    Coches
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Cocina)
                 </th>
                 <th>
-                   Evicerado Inicio
+                    Evicerado Inicio
 
                 </th>
                 <th>
@@ -99,25 +99,30 @@
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Miga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Protocolo)
+            </th>
 
-            
             @if (ViewBag.rolAsistenteProduccion != null)
             {
                 <th>
                     Fecha Ingreso
                 </th>
                 <th>
-                  Usario Ingreso
+                    Usario Ingreso
                 </th>
                 <th>
                     Fecha Modificacion
                 </th>
                 <th>
-                   Usuario Modificacion
+                    Usuario Modificacion
                 </th>
             }
 
-            </tr>
+        </tr>
     </thead>
     <tbody>
         @{ 
@@ -251,6 +256,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
+            <td class="text-center">
+                @if (item.Miga==true)
+                {
+                    <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
+
+                }
+            </td>
+            <td class="text-center">
+                @if (item.Protocolo==true)
+                {
+                    <i class="fa fa-check-circle text-center text-success" aria-hidden="true"></i>
+                }
+            </td>
             @if (ViewBag.rolAsistenteProduccion != null)
             {
                 <td>
@@ -266,7 +284,7 @@
                     @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
                 </td>
             }
-            </tr>
+        </tr>
                 
                 i++;
             }
@@ -307,7 +325,9 @@
             <td></td>
             <td></td>
             <td></td>
-           
+            <td></td>
+            <td></td>
+
             @if (ViewBag.rolAsistenteProduccion != null)
             {
                 <td></td>
@@ -316,7 +336,7 @@
                 <td></td>
             }
 
-            </tr>
+        </tr>
 
     </tfoot>
 </table>

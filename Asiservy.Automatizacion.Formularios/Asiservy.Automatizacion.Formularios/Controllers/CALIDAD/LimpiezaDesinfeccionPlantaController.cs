@@ -492,11 +492,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteLimpiezaPlanta";
                 }
-                
-                ViewBag.Path = clsAtributos.UrlImagen.Replace("~","..");
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarAreaAuditoriaActivos("A");
                 ViewBag.ListaAreasAuditar = lista;
+                ViewBag.Path = clsAtributos.UrlImagen.Replace("~","..");                
                 clsDClasificador = new clsDClasificador();
                 var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
                 if (poTurno != null)
@@ -667,7 +666,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 
                 var estadoReporte = clsDLimpiezaDesinfeccionPlanta.ConsultarCabeceraTurno(model.Turno, model.Fecha);
-                if (estadoReporte!=null && estadoReporte.EstadoReporte)
+                if (estadoReporte!=null && siAprobar==0 && estadoReporte.EstadoReporte)
                 {
                     return Json("5", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
                 }
@@ -807,6 +806,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                var listaArea = clsDLimpiezaDesinfeccionPlanta.ConsultarAreaAuditoriaActivos("A");
+                ViewBag.ListaAreasAuditar = listaArea;
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarIntermediaJoinObjeto(idAuditoria);
                 if (lista.Count != 0)
                 {
@@ -892,7 +893,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     var estadoReporte = clsDLimpiezaDesinfeccionPlanta.ConsultarEstadoReporte(listaDetalle[0].IdLimpiezaDesinfeccionPlanta, DateTime.MinValue);
                    
-                        if (estadoReporte.EstadoReporte)
+                        if (estadoReporte!=null && estadoReporte.EstadoReporte)
                         {
                             return Json("4", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
                         }

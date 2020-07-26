@@ -7,14 +7,30 @@
     input, select, textarea {
         max-width: 100%;
     }
+
     .btn-link:hover {
         color: white;
         text-decoration: underline;
     }
-      
 </style>
 
-<h4>Cloro en Agua de AutoClave <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+@*<h4>Cloro en Agua de AutoClave <label id="lblAprobadoPendiente" class="badge"> </label></h4>*@
+
+
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center text-uppercase" style="float:left">Cloro en Agua de AutoClave <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Reporte</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>}
+        </div>
+    </div>
+</div>
+
 
 
 <hr />
@@ -30,7 +46,7 @@
         <div class="col-md-2 col-6 col-sm-6">
             <div class="form-group">
                 <label>Turno</label>
-                @Html.DropDownList("selectTurno",new SelectList(ViewBag.Turnos,"Codigo","Descripcion"),"Seleccione", new { @class="form-control", @onchange= "ConsultarControl()" })
+                @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turnos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "ConsultarControl()" })
             </div>
         </div>
 
@@ -126,7 +142,7 @@
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
 
-         
+
 
         </div>
     </div>

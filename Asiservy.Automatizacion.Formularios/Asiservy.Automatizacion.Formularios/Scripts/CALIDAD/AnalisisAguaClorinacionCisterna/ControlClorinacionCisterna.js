@@ -351,7 +351,7 @@ function GuardarDetalle() {
 
 function ActualizarDetalle(jdata) {
     ModalIngresoDetalle();
-    document.getElementById('txtIngresoFechaDetalle').value = moment(jdata.Hora).format('HH:mm');
+    document.getElementById('txtIngresoFechaDetalle').value = moment(jdata.Hora).format('YYYY-MM-DDTHH:mm');
     $('#cargac').show();     
     if (jdata.STD!=null)
         document.getElementById('txtStd').value = jdata.STD;
@@ -445,7 +445,7 @@ function EliminarDetalleSi() {
 function LimpiarDetalle() {
     MascaraInputs();
     var date = new Date();
-    $('#txtIngresoFechaDetalle').val(moment(date).format('HH:mm'));
+    $('#txtIngresoFechaDetalle').val(moment(date).format('YYYY-MM-DDTHH:mm'));
     //$('#txtStd').val('');
     //$('#txtDt').val('');
     //$('#txtCl').val('');

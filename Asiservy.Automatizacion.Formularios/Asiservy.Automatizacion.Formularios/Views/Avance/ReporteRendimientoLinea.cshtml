@@ -1,10 +1,19 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
+
+@{
+    ViewBag.Title = "ReporteRendimientoLinea";
+}
+
+@{
+    var turnos = (List<CLASIFICADOR>)ViewBag.Turno;
+}
+
 <style>
 
 
     @@media print {
         @@page {
-            size: A4;
+            size: landscape A4;
             background-color: white;
         }
 
@@ -128,26 +137,40 @@
 
     th {
         font-size: 12px;
+        padding: 0px;
+        vertical-align:central;
     }
-
-    td {
+        
+        td {
         font-size: 11px;
     }
 
-    .letra10 {
-        font-size: 10px;
+   
+
+    .table-info {
+        background-color: #aff9b8 !important;
     }
 
-   </style>
+    .bg-info {
+        background-color: #c7ebf1 !important;
+        border-color: #808080 !important;
+        /*kilo teorico*/
+    }
 
-@{
-    ViewBag.Title = "ReporteRendimientoLote";
-}
+    .bg-info-verde {
+        background-color: #95fbb5 !important;
+        border-color: #808080 !important;
+        /*kilo real*/
+    }
 
-<h4>Reporte de Rendimiento por Lote</h4>
+
+</style>
+
+
+<h4 id="titulo">Reporte de Rendimiento por Linea</h4>
 
 <hr />
-<div class="row">
+<div class="row" id="divCabecera">
     <div class="col-md-4 col-12">
         <div class="form-group">
             <label>Fecha</label>
@@ -159,8 +182,13 @@
 
             <label>Turno</label>
             <select class="form-control" id="selectTurno" onchange="CargarReporteAvance()">
-                <option value="1">Turno A</option>
-                <option value="2">Turno B</option>
+                <option value="">Seleccione</option>
+                @{foreach (var x in turnos)
+                    {
+                        <option value="@x.Codigo">@x.Descripcion</option>
+                    }
+                }
+                
             </select>
         </div>
     </div>
@@ -172,6 +200,9 @@
             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnConsultar" onclick="CargarReporteAvance()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
             </button>
+            @*<button hidden data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>*@
         </div>
     </div>
 
@@ -236,40 +267,19 @@
                 </table>
             </div>
 
-            <div class="card-body" id="">
+            <div class="card-body" id="" style="padding-top:1px">
                 <div class="text-center"><h4 class="text-warning" id="divMensaje"></h4></div>
                 <div class="" id="divChart" hidden>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalDetalle">
-                        Ver detalles
-                    </button>
-                    <div id="chartRendimiento">
+                    <div style="" class="table-responsive" id="DivTableReporteControlAvance">  </div>
 
-                    </div>
+
+
                 </div>
-                
+
             </div>
-                    
+
 
         </div>
     </div>
 </div>
 
-
-<div class="modal" tabindex="-1" role="dialog" id="ModalDetalle">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Rendimiento por Lote.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="padding:25px" class="table-responsive" id="DivTableReporteControlAvance">  </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>

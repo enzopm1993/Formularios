@@ -334,21 +334,9 @@
                     <div class="col-md-7 col-12 col-sm-12">
                         <div class="form-group">
                             <label>AREA AUDITAR</label>
-                            @*<select id="selectAreaAuditar" class="form-control js-example-basic-single" onchange="ConsultarIntermidia()"></select>*@
                             @Html.DropDownList("selectAreaAuditar", new SelectList(ViewBag.ListaAreasAuditar, "IdAuditoria", "NombreAuditoria"), new { @class = "form-control js-example-basic-single", @onchange = "ConsultarIntermidia()" })
                         </div>
                     </div>
-
-                    @*<div class="col-md-3 col-12 col-sm-12">
-                            <div class="form-group">
-                                <label>TURNO</label>
-                                <select id="selectTurno" class="form-control">
-                                    <option value="TURNO_A">TURNO A</option>
-                                    <option value="TURNO_B">TURNO B</option>
-                                    <option value="TURNO_C">TURNO C</option>
-                                </select>
-                            </div>
-                        </div>*@
                     <div id="divMostarTablaDetalles" class="table-responsive">
 
                     </div>

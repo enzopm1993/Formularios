@@ -143,9 +143,9 @@
 <br id="brCabecera" />
 <div class="row text-center text-md-left align-self-sm-center" id="divFiltro">
     <div class="col-12">
-        <h4 style="float:left">Reporte Analisis Agua Clorinación Cisterna Planta</h4>
+        <h5 style="float:left">REPORTE ANÁLISIS AGUA CLORINACIÓN CISTERNA PLANTA</h5>
         <div class="box_filters text-center text-md-left">
-            <div class="itemFilter col-12 col-sm-12 col-md-10">
+            <div class="itemFilter col-12 col-sm-10 col-md-10">
                 <input type="hidden" id="fechaDesde" value="" />
                 <input type="hidden" id="fechaHasta" value="" />
                 <div id="reportrange" class="selectbox">
@@ -153,26 +153,35 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
             </div>
-            <div class="itemFilter col-12 col-md-1 col-sm-12">
+            <div class="itemFilter col-12 col-md-1 col-sm-1">
                 <a href="#" onclick="CargarCabecera()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search text-center"></i></a>
             </div>
         </div>
     </div>
 </div>
+<br />
+<div class="row" id="brCabecera">
+    <div class="col-md-12 col-12 col-sm-12 float-right text-right">
+        @if (ViewBag.Link == null)
+        {
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Control</a>
+        }
+        else
+        {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Control</a>}
+    </div>
+</div>
 <hr />
 
-<br id="brCabecera" />
 <div hidden class="card col-md-12 col-12 col-sm-12" id="divBotones">
     <div class="text-center">
-        <label class="">Acción</label><br />
+        <label class="">ACCIÓN</label><br />
         <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
             <img style="width:100%" src="../../Content/icons/print24.png" />
         </button>
         <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50;" type="button">
             <img style="width:100%" src="~/Content/icons/atras24.png" />
-        </button>       
+        </button>
     </div>
-
 </div>
 
 @*MODAL MOSTRAR TABLA CABECERA*@
@@ -290,7 +299,7 @@
                             <td>STD: CADA TRES HORAS</td>
                         </tr>
                         <tr><td>DT: INICIO DE JORNADA c1-c2-c4-c5-c6-c9<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inicio y final de jornada c3-c7-c8</td></tr>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -307,7 +316,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>            
+            </div>
         </div>
         <div class="row" style="margin-right:0px;">
             <div class="col-md-3 col-12 col-sm-12">

@@ -8,6 +8,17 @@
             -webkit-print-color-adjust: exact;
        
         }
+        #wrapper #content-wrapper {
+            background-color: white;
+        }
+
+        .card-header {
+            background-color: white;
+        }
+
+        .card-footer {
+            background-color: white;
+        }
         #tablaDatos td {
             font-size: 0.6rem;
         }
@@ -110,8 +121,20 @@
     }
     
 </style>
-<h4 id="titulo">Reporte Calibración PhMetro</h4>
 
+<div class="row" id="titulo">
+    <div class="col-12  text-md-left text-center">
+        <h4 style="float:left;">Reporte Calibración PhMetro</h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Control</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Control</a>}
+        </div>
+    </div>
+</div>
 <div class="card">
     <div class="row" id="divfiltros">
         <div class="col-md-5 col-sm-7 form-group" id="divDateRangePicker">

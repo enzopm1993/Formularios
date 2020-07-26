@@ -11,7 +11,7 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100',
+        'max': '1000',
         'min': '0'
     });
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100000',
+        'max': '1000000',
         'min': '0'
     });
 
@@ -29,17 +29,17 @@ $(document).ready(function () {
         'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100000',
+        'max': '1000000',
         'min': '0'
 
     });
 
     $('#txtUsado').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '100000',
+        'max': '1000000',
         'min': '0'
 
     });
@@ -90,6 +90,43 @@ function CargarDatosOrdenFabricacion() {
             MensajeError(resultado.responseText, false);
         }
     });
+
+}
+
+
+function ConsultaMateriales() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/ConsultarMateriales",
+        type: "GET",
+        data: {
+            OF: ListadoControl.OrdenFabricacion
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("No existen datos para esta OF.");
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros.");
+            } else {
+                //console.log(resultado);
+                $("#selectMaterial").empty();
+                $("#selectMaterial").append('<option value=""> Seleccione</option>');
+                $.each(resultado, function (key, r) {
+                    $("#selectMaterial").append('<option value=' + r.Codigo + '>' + r.Descripcion + '</option>');
+                });
+            }
+
+       
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+
+
 
 }
 
@@ -351,6 +388,7 @@ function SeleccionarControlEntregaProductoTerminado(model) {
     //console.log(model);
     $("#txtFecha").val(moment(model.FechaProduccion).format("YYYY-MM-DD"));
 
+    ConsultaMateriales();
     CargarProcesoDetalleMaterial();
     CargarEntregaProductoTerminadoDetalle();
     CargarProcesoDetalleTiemposMuertos();
@@ -477,7 +515,8 @@ function CargarProcesoDetalleMaterial() {
         url: "../EntregaProductoTerminado/ControlConsumoMaterialPartial",
         type: "GET",
         data: {
-            IdControl: ListadoControl.IdProductoTerminado
+            IdControl: ListadoControl.IdProductoTerminado,
+            OrdenFabricacion: ListadoControl.OrdenFabricacion
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -505,9 +544,9 @@ function CargarProcesoDetalleMaterial() {
 function ModalGenerarMaterial() {
     $("#txtIdConsumoMaterial").val(0);
     $("#selectMaterial").prop("selectedIndex", 0).change();   
-    $("#txtUsado").val('0');
-    $("#txtDesechado").val('0');
-    $("#txtRecibido").val('0');
+    $("#txtUsado").val('');
+    $("#txtDesechado").val('');
+    $("#txtRecibido").val('');
     $("#ModalConsumoMaterial").modal("show");
 }
 
@@ -737,15 +776,15 @@ function GenerarControlConsumoDetalle() {
         return;
     }
 
-    if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).format("YYYY-MM-DD")) {
-        MensajeAdvertencia("Fecha de inicio no puede ser menor a la de paletizado.")
-        return;
-    }
+    //if (moment($("#txtHoraInicioDetalle").val()).format("YYYY-MM-DD") < moment(ListadoControl.FechaPaletizado).add(-1, 'days').format("YYYY-MM-DD")) {
+    //    MensajeAdvertencia("Fecha de inicio no puede ser menor a la de paletizado.")
+    //    return;
+    //}
 
-    if (moment($("#txtHoraFinDetalle").val()).format("YYYY-MM-DD") > moment(ListadoControl.FechaPaletizado).add(1, 'days').format("YYYY-MM-DD")) {
-        MensajeAdvertencia("Fecha de fin no puede ser mayor a la de paletizado.")
-        return;
-    }
+    //if (moment($("#txtHoraFinDetalle").val()).format("YYYY-MM-DD") > moment(ListadoControl.FechaPaletizado).add(1, 'days').format("YYYY-MM-DD")) {
+    //    MensajeAdvertencia("Fecha de fin no puede ser mayor a la de paletizado.")
+    //    return;
+    //}
 
     $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", false);
     $.ajax({
