@@ -18,7 +18,7 @@
                         <td>PRODUCTO:  @Model.ListaReporteDetalle.FirstOrDefault().Producto</td>
                     </tr>
                     <tr>
-                        <td>FECHA DE TERMINADO:  @Model.ListaReporteDetalle.FirstOrDefault().FechaTerminado.Value.ToShortDateString()</td>
+                        <td>FECHA DE TERMINADO: @if (Model.ListaReporteDetalle.FirstOrDefault().FechaTerminado!=null) {@Model.ListaReporteDetalle.FirstOrDefault().FechaTerminado.Value.ToShortDateString()}</td>
                         <td>TAMAÑO FUNDA:  @Model.ListaReporteDetalle.FirstOrDefault().TamanoFunda</td>
                     </tr>
                     <tr>
