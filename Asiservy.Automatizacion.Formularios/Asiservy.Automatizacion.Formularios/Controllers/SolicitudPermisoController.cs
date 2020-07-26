@@ -11,6 +11,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System.Data.Entity.Validation;
 using RestSharp;
 using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -1053,10 +1054,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DxDevWeb = "1";
-
+                ViewBag.DateRangePicker = "1";
+                ViewBag.select2 = "1";
                 clsDGeneral = new clsDGeneral();
                 ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Estados = clsDGeneral.ConsultarEstadosSolicitudSelect();
@@ -1210,10 +1211,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 int RolOC = ValidarRolOnlyControl();
                 if (RolOC > 0)
                     ViewBag.OnlyControl = RolOC;
-                
 
                 var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea, dsArea, dsEstado, dsGarita, ddFechaDesde, ddFechaHasta);
-                return Json(pListSolicitudPermiso, JsonRequestBehavior.AllowGet);
+                JsonResult result = Json(pListSolicitudPermiso, JsonRequestBehavior.AllowGet);
+             //   result.MaxJsonLength = 867530900;
+
+                return result;
             }
             catch (DbEntityValidationException e)
             {

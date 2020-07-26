@@ -1,5 +1,6 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL
-
+    @using Asiservy.Automatizacion.Datos.Datos;
+@using Newtonsoft.Json;
 @{
     ViewBag.Title = "ControlAnalisisQuimico";
 }
@@ -151,20 +152,12 @@
 
 <div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        @*<div class="col-md-3 col-12 col-sm-12" style="float:left">
-                <div class="form-group">
-                    <label>FECHA</label>
-                    <input type="date" name="name" disabled value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
-                </div>
-            </div>*@
-
         <div class="col-md-9 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>OBSERVACIÓN</label>
                 <textarea type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" rows="2"></textarea>
             </div>
         </div>
-
         <div class="col-md-3 col-12 col-sm-12 text-md-center text-center">
             <div class="form-group">
                 <label>ACCIONES</label><br />
@@ -179,19 +172,6 @@
     </div>
 </div>
 <hr />
-
-@* BOTON INGRESAR DETALLE *@
-@*<div class="row" id="divBotonCrearDetalle">
-        <div class="col-md-9 col-12 col-sm-12 text-center text-md-left">
-            <label class="" id="lblAcciones">NUEVO DETALLE</label>
-            <div class="form-group">
-                <button data-toggle="tooltip" data-placement="top" title="Crear nuevo detalle" class="btn" id="btnModalGenerarRegistroDetalle" onclick="ModalIngresoDetalle()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                </button>
-            </div>
-        </div>
-    </div>
-    <br />*@
 
 @*MODAL MOSTRAR TABLA DETALLE*@
 <div id="divMostarTablaDetallesVer" class="table-responsive">
@@ -294,7 +274,6 @@
                         <b><label id="lblParada"></label></b>
                     </div>
                     <div class="col-md-12 col-sm-12">
-
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
@@ -304,7 +283,6 @@
                                 <a class="nav-link" data-toggle="tab" href="#DivFotos" id="areaemp" onclick="CargarImagen()">IMAGENES</a>
                             </li>
                         </ul>
-
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane container-fluid active" id="divParametros">
@@ -327,6 +305,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-12 col-sm-12">
+                                        @{
+                                            var json = ViewBag.listaParametros as CC_PARAMETROS_LABORATORIO;
+                                        }
+                                        <input type="hidden" value="@json" id="inputMask" />
                                         <label>LOTE - BARCO</label>
                                         <div class="form-group">
                                             <select id="selectIngresarLote" class="form-control"></select>
@@ -380,7 +362,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Salir</button>
@@ -388,118 +369,6 @@
         </div>
     </div>
 </div>
-
-@* MODAL PARA EL INGRESO/EDITAR NUEVO DETALLE *@
-@*<div class="modal" tabindex="-1" id="ModalIngresoSubDetalle" role="dialog" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6>INGRESO PARÁMETROS</h6>
-                    <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <b><label id="lblCocinador"></label></b>
-                        <b><label id="lblParada"></label></b>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <label>PARÁMETRO</label>
-                        <div class="form-group" style="text-transform:capitalize">
-                            @if (ViewBag.Turno != null)
-                            {
-                                @Html.DropDownList("selectParametros", new SelectList(ViewBag.listaParametros, "IdParametro", "NombreParametro"), new { @Class = "form-control", @onchange = "ConsultarElemento()" });
-                            }
-                            else
-                            { <label class="badge badge-danger">No existen turnos</label>}
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <label>LOTE - BARCO</label>
-                        <div class="form-group">
-                            <select id="selectIngresarLote" class="form-control"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <label>VALOR</label>
-                        <div class="form-group">
-                            <input type="text" autocomplete="off" name="name" id="txtValor" maxlength="8" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <label>GUARDADO</label>
-                        <div class="table-responsive" id="divElementos">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="float-right btn " id="btnNuevo" onclick="NewElement()" style="border-color:#2c3e50" type="button">
-                        <img style="width:100%" src="~/Content/icons/clear24.png" />
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="GuardarElemento()" id="btnGuadarElemento">Agregar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Salir</button>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-@* MODAL PARA EL INGRESO/EDITAR ACCION CORRECTIVA DETALLE *@
-@*<div class="modal" tabindex="-1" id="modalAccionCorrectiva" role="dialog" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Fotos</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="SalirAccicionCorrectiva()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 col-12 col-sm-12">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary" onclick="GuardarAccionCorrectiva()" id="btnAccionCorrectiva">Agregar</button>
-                                <button data-toggle="tooltip" data-placement="top" title="Nueva Foto" class="btn" id="btnNuevo" onclick="NuevaFoto()" style="border-color:#2c3e50; padding:0px" type="button">
-                                    <img style="width:100%" src="~/Content/icons/clear24.png" />
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-12 col-sm-12">
-                            <div class="form-group">
-                                <label>Acción Correctiva</label>
-                                <input class="form-control" id="txtAccionCorrectiva" onchange="OnChangeTextBoxAccion()" maxlength="200" type="text" size="500" name="name" value="" autocomplete="off" />
-                            </div>
-                        </div>
-                        <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
-                            <label>Adjuntar imagen</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="file-upload" onclick="OnChangeTextBoxAccion()" accept="image/*">
-                                <label class="custom-file-label" for="customFile" onclick="OnChangeTextBoxAccion()" id="lblfoto">Seleccione archivo</label>
-                            </div>
-                            <br />
-                            <div class="text-center" style="justify-content:center">
-                                <br />
-                                <div id="file-preview-zone" style="height:auto">
-                                </div>
-                                <br />
-                            </div>
-                        </div>
-
-                    </div>
-                    <div id="divListarFotos" class="table-responsive"></div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" disabled hidden id="btncargandoimg">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Espere...
-                    </button>
-
-                    <button type="button" class="btn btn-secondary" onclick="SalirAccicionCorrectiva()" data-dismiss="modal" id="btncancelarguardarfoto">Salir</button>
-                </div>
-            </div>
-        </div>
-    </div>*@
 
 @*MODAL ELIMINAR REGISTRO ACCION CORRECTIVA*@
 <div class="modal" style="background-color:rgba(224, 224, 235, .4)" id="modalEliminarImagen" role="dialog" data-backdrop="static">

@@ -71,7 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -93,7 +93,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -153,7 +153,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -216,7 +216,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -265,11 +265,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-               
+
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -324,7 +324,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -422,7 +422,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -463,7 +463,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -541,7 +541,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -549,32 +549,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarBadejaEstado(fechaDesde, fechaHasta, estadoReporte);
               
-                    //List<sp_Control_Termoencogido_Sellado_Detalle> listaNueva = new List<sp_Control_Termoencogido_Sellado_Detalle>();
-                    //sp_Control_Termoencogido_Sellado_Detalle objNuevo;
-                    //var listaFecha = (from ssi in poCloroCisterna
-                    //                  group ssi by new { ssi.Fecha, ssi.ObservacionCAB } into g
-                    //                  select new { g.Key.Fecha }).ToList();//agrupo por fecha para poder saber el total de las filas 
-
-                    //foreach (var item in listaFecha)
-                    //{
-                    //    objNuevo = new sp_Control_Termoencogido_Sellado_Detalle();
-                    //    var stringLista = (from x in poCloroCisterna
-                    //                       where x.Fecha == item.Fecha
-                    //                       select new { x.Fecha, x.ObservacionCAB, x.EstadoReporte, x.UsuarioIngresoLog, x.Id, x.IdCabecera, x.HoraVerificacion,
-                    //                       x.Temperatura, x.CorrectoSellado, x.Observacion, x.EstadoRegistroCAB}).First();
-                    //    objNuevo.Fecha = stringLista.Fecha;
-                    //    objNuevo.ObservacionCAB = stringLista.ObservacionCAB;
-                    //    objNuevo.EstadoReporte = stringLista.EstadoReporte;
-                    //    objNuevo.UsuarioIngresoLog = stringLista.UsuarioIngresoLog;
-                    //    objNuevo.Id = stringLista.Id;
-                    //    objNuevo.IdCabecera = stringLista.IdCabecera;
-                    //    objNuevo.HoraVerificacion = stringLista.HoraVerificacion;
-                    //    objNuevo.Temperatura = stringLista.Temperatura;
-                    //    objNuevo.CorrectoSellado = stringLista.CorrectoSellado;
-                    //    objNuevo.Observacion = stringLista.Observacion;
-                    //    objNuevo.EstadoRegistroCAB = stringLista.EstadoRegistroCAB;
-                    //    listaNueva.Add(objNuevo);
-                    //}
                     clsDClasificador = new clsDClasificador();
                     var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
 
@@ -624,7 +598,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }

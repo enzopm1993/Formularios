@@ -111,6 +111,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 TkTotales tkTotales = new TkTotales();
                 tkTotales.Totales = dataView.Count();
+                tkTotales.SoporteMinutos = dataView.Sum(x => x.SoporteMinutos);
+                
 
                 var DepColores = dataView
                     .GroupBy(x => new { x.Departamento, x.Color })
@@ -129,6 +131,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Total = g.Count()
 
                     }).OrderByDescending(c => c.Total).ToList();
+
+
+                
 
                 envioVista.DataPlana = dataView;
                 envioVista.Totales = tkTotales;
@@ -165,6 +170,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public int Abiertos { get; set; }
         public int Cerrados { get; set; }
         public int SinAsignar { get; set; }
+        public int SoporteMinutos  { get; set; }
     }
 
     public class ItemTicket
