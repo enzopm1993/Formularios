@@ -178,7 +178,7 @@ function ConsultarSolicitudes() {
 
                             }
                         },
-                      { caption:"Biometrico",dataField: "FechaBiometrico", dataType: "string" },
+                      { caption:"Biometrico",dataField: "FechaBiometrico2", dataType: "string" },
                       { caption: "Salida",dataField: "FechaSalida", dataType: "dateTime", dataType: "date" },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
                         {
@@ -292,14 +292,17 @@ function ConsultarSolicitudes() {
 
                             }
                         },
-                        { dataField: "FechaBiometrico", dataType: "string" },
+                        { dataField: "FechaBiometrico2", dataType: "string" },
                         {
                             dataField: "FechaSalida", dataType: "date", cellTemplate: function (container, options) {
                                 container.append("<div>" + options.data.FechaSalida + "</div>")
                             }
                         },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
-                        { dataField: "FechaRegreso", dataType: "date" },
+                        {
+                            dataField: "FechaRegreso", dataType: "date", cellTemplate: function (container, options) {
+                                container.append("<div>" + options.data.FechaRegreso + "</div>")
+                            } },
                         { caption: "Hora Regreso", dataField: "HoraRegreso", dataType: "time" },
                         "Motivo",
                         "Observacion",
