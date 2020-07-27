@@ -15,7 +15,7 @@
     
 }
 function ConsultarAsistenciaSalida(Linea) {
-    $("#spinnerCargando").prop("hidden", false);
+    
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#mensajeturno').show();
         return false;
@@ -28,7 +28,7 @@ function ConsultarAsistenciaSalida(Linea) {
     } else {
         $('#mensajefecha').hide();
     }
-    
+    $("#spinnerCargando").prop("hidden", false);
     $("#txtFecha").prop('disabled', true);
     $("#TurnoGen").prop('disabled', true);
     $.ajax({
@@ -42,6 +42,9 @@ function ConsultarAsistenciaSalida(Linea) {
         },
         success: function (resultado) {
             //console.log(resultado);
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistenciaFin').empty();
             $('#PartialAsistenciaFin').html(resultado);
@@ -166,7 +169,9 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
             CodLinea: $('#Linea').val()
         },
         success: function (resultado) {
-            
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado == '2') {
                 
                 MensajeAdvertencia('La hora de salida no puede ser menor a la de ingreso', false);
