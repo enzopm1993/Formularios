@@ -13924,7 +13924,7 @@
           <Property Type="String" Name="HoraRegreso" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="EstadoSolicitud" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="FechaBiometrico2" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="FechaBiometrico2" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="FechaIngresoLog" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
