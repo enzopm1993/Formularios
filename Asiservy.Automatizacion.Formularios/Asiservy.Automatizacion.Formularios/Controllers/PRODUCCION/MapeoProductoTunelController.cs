@@ -121,7 +121,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 
                 
                 var lotes = clsDApiOrdenFabricacion.ConsultaLotesPorOF(model.OrdenFabricacion);
-                if(lotes != null)
+                if(lotes == null)
                 {
                      return Json("102", JsonRequestBehavior.AllowGet);
                 }

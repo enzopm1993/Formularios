@@ -1977,6 +1977,13 @@
     <Content Include="Content\DataTables\media\images\sort_desc.png" />
     <Content Include="Content\DataTables\media\images\sort_desc_disabled.png" />
     <Content Include="Content\DateRangePicker\daterangepicker.css" />
+    <Content Include="Content\dxdevweb\css\dx.common.css" />
+    <Content Include="Content\dxdevweb\css\dx.light.css" />
+    <Content Include="Content\dxdevweb\exceljs.min.js" />
+    <Content Include="Content\dxdevweb\FileSaver.min.js" />
+    <Content Include="Content\dxdevweb\images\buttons_sprite.png" />
+    <Content Include="Content\dxdevweb\js\dx.messages.es.js" />
+    <Content Include="Content\dxdevweb\js\dx.viz-web.js" />
     <Content Include="Content\EditarAsistenciaCss\EditAsistencia.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\gijgo\combined\gijgo.css" />
@@ -2482,6 +2489,16 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\images\__Search-512.webp" />
+    <Content Include="Content\dxdevweb\css\icons\dxicons.ttf" />
+    <Content Include="Content\dxdevweb\css\icons\dxicons.woff" />
+    <Content Include="Content\dxdevweb\css\icons\dxicons.woff2" />
+    <Content Include="Content\dxdevweb\css\icons\dxiconsios.ttf" />
+    <Content Include="Content\dxdevweb\css\icons\dxiconsios.woff" />
+    <Content Include="Content\dxdevweb\css\icons\dxiconsios.woff2" />
+    <Content Include="Content\dxdevweb\css\icons\dxiconsmaterial.ttf" />
+    <Content Include="Content\dxdevweb\css\icons\dxiconsmaterial.woff" />
+    <Content Include="Content\dxdevweb\css\icons\dxiconsmaterial.woff2" />
+    <Content Include="Content\dxdevweb\js\es.json" />
     <None Include="Scripts\linq-vsdoc.js" />
     <Content Include="Scripts\inputmask\bindings\inputmask.binding.js" />
     <Content Include="Scripts\inputmask\inputmask.js" />
@@ -4284,6 +4301,7 @@
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimico.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoDetallePartial.cshtml" />
+    <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

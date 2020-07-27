@@ -2399,6 +2399,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter, turnoParameter);
         }
     
+        public virtual ObjectResult<sp_Analisis_Quimico_Precoccion> sp_Analisis_Quimico_Precoccion(Nullable<int> op, Nullable<System.DateTime> fechaControl, string turno)
+        {
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            var fechaControlParameter = fechaControl.HasValue ?
+                new ObjectParameter("fechaControl", fechaControl) :
+                new ObjectParameter("fechaControl", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("turno", turno) :
+                new ObjectParameter("turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion>("sp_Analisis_Quimico_Precoccion", opParameter, fechaControlParameter, turnoParameter);
+        }
+    
         public virtual ObjectResult<spConsultaSolcitudesPermisos> spConsultaSolcitudesPermisos(string linea, string area, string estado, Nullable<bool> garita, Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta)
         {
             var lineaParameter = linea != null ?
@@ -2426,23 +2443,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FechaHasta", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolcitudesPermisos>("spConsultaSolcitudesPermisos", lineaParameter, areaParameter, estadoParameter, garitaParameter, fechaDesdeParameter, fechaHastaParameter);
-        }
-    
-        public virtual ObjectResult<sp_Analisis_Quimico_Precoccion> sp_Analisis_Quimico_Precoccion(Nullable<int> op, Nullable<System.DateTime> fechaControl, string turno)
-        {
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            var fechaControlParameter = fechaControl.HasValue ?
-                new ObjectParameter("fechaControl", fechaControl) :
-                new ObjectParameter("fechaControl", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("turno", turno) :
-                new ObjectParameter("turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion>("sp_Analisis_Quimico_Precoccion", opParameter, fechaControlParameter, turnoParameter);
         }
     }
 }

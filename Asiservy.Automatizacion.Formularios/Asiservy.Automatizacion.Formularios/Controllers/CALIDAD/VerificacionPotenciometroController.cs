@@ -165,7 +165,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (model.IdVerificacionPotenciometroControl>0 )
+                if (model.IdVerificacionPotenciometroControl==0 )
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
