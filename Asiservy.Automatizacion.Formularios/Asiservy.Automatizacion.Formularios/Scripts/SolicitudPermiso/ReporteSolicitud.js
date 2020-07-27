@@ -178,7 +178,7 @@ function ConsultarSolicitudes() {
 
                             }
                         },
-                      { caption:"Biometrico",dataField: "FechaBiometrico2", dataType: "string" },
+                      { caption:"Biometrico",dataField: "FechaBiometrico", dataType: "string" },
                       { caption: "Salida",dataField: "FechaSalida", dataType: "dateTime", dataType: "date" },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
                         {
@@ -292,7 +292,7 @@ function ConsultarSolicitudes() {
 
                             }
                         },
-                        { dataField: "FechaBiometrico2", dataType: "string" },
+                        { dataField: "FechaBiometrico", dataType: "string" },
                         {
                             dataField: "FechaSalida", dataType: "date", cellTemplate: function (container, options) {
                                 container.append("<div>" + options.data.FechaSalida + "</div>")
