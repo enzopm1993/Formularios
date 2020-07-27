@@ -64,6 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolPouch { get; } = 40;
         public static int RolEnlatado { get; } = 27;
         public static int AsistenteProduccion { get; } = 16;
+        public static int ControladorPrincipal { get; } = 3;
         public static int SeguridadIndustrial { get; } = 41;
         public static int RolEtiquetadoLata { get; } = 36;
         public static int RolEtiquetadoPouch { get; } = 37;
@@ -83,6 +84,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //ClasificadorGenerico de Lineas
         public static string CodGrupoLineaProduccion { get; } = "002";
         public static string CodGrupoLineasAprobarSolicitudProduccion { get; } = "014";
+
+
 
         //ClasificadorGenerico de Grupo de Enfermedades
         public static string CodGrupoEnfermedadDiagnostico { get; } = "E";
