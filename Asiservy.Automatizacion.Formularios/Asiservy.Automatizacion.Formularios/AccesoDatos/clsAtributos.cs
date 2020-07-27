@@ -62,6 +62,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolPouch { get; } = 40;
         public static int RolEnlatado { get; } = 27;
         public static int AsistenteProduccion { get; } = 16;
+        public static int ControladorPrincipal { get; } = 3;
         public static int SeguridadIndustrial { get; } = 41;
         public static int RolEtiquetadoLata { get; } = 36;
         public static int RolEtiquetadoPouch { get; } = 37;
