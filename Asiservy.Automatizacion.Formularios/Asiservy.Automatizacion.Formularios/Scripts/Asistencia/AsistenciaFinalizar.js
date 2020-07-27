@@ -127,6 +127,11 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
     } else {
         $('#mensajefechafin').hide();
     }
+    if (($('#TurnoGen').val() == 1) && $('#txtHorasalida' + Fila).val() == '') {
+        MensajeAdvertencia("Debe ingresar la hora de salida");
+        $('#CheckSalida-' + (parseInt(Fila) + 1)).prop('checked', false);
+        return;
+    }
     var FechaFinalizacion;
     if (($('#TurnoGen').val() == 2)) {
         FechaFinalizacion = $('#txtFechaFin').val();
