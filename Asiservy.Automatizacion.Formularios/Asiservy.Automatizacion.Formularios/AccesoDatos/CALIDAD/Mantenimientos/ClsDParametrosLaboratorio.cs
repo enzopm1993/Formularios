@@ -96,7 +96,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                     {
                         model.CodArea = guardarModificar.CodArea;
                         model.Mascara = guardarModificar.Mascara;
-                        model.NombreParametro = guardarModificar.NombreParametro;
+                        model.NombreParametro = guardarModificar.NombreParametro.ToUpper();
                         model.CodFormClasif = guardarModificar.CodFormClasif;
                         model.DescripcionParametro = guardarModificar.DescripcionParametro;
                         model.ValorMax = guardarModificar.ValorMax;
@@ -109,6 +109,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 }
                 else
                 {
+                    guardarModificar.NombreParametro = guardarModificar.NombreParametro.ToUpper();
                     db.CC_PARAMETROS_LABORATORIO.Add(guardarModificar);
                 }
                 db.SaveChanges();

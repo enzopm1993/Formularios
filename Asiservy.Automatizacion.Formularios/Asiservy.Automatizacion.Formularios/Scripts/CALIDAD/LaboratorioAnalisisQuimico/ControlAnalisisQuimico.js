@@ -1,17 +1,30 @@
 ﻿var itemCabecera = [];
 var itemDetalle = [];
-var siActualizar = [];
-var itemAccionCorrectiva = [];
-var itemAccionCorrectivaG = [];
+var itemEditar = [];
+var itemImagen = [];
+var itemEditarImagen = [];
+var siActualizar = false;
 var rotation = 0;
-var actualizarSi = false;
+var actulizarFoto = false;
 $(document).ready(function () {
-    CargarCabecera();   
+    CargarCabecera();
+    $('#selectTurno').select2({
+        width: '100%'
+    });
+    $('#selectTurnoInsertar').select2({
+        width: '100%'
+    });
+    $('#selectIngresarLote').select2({
+        width: '100%'
+    });
+    $('#selectParametros').select2({
+        width: '100%'
+    });
 });
 
 async function ConsultarEstadoRegistro() {
     const data = new FormData();
-    data.append('fechaControl', $("#txtFecha").val());
+    data.append('idAnalisis', itemCabecera.IdAnalisis);
     var promesa = fetch("../LaboratorioAnalisisQuimico/ConsultarEstadoReporte", {
         method: 'POST',
         body: data
@@ -27,9 +40,10 @@ function CargarCabecera() {
         return;
     }
     $.ajax({
-        url: "../LaboratorioAnalisisQuimico/ConsultarEstadoReporte",
+        url: "../LaboratorioAnalisisQuimico/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val()
+            fechaControl: $("#txtFecha").val(),
+            turno: document.getElementById('selectTurno').value
         },
         type: "GET",
         success: function (resultado) {
@@ -55,10 +69,11 @@ function CargarCabecera() {
                 $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
                 $("#txtObservacionVer").val(resultado.ObservacionCtrl);
                 CargarDetalle();
+                CargarParadas();                
             }
             $('#cargac').hide();
         },
-        error: function () {
+        error: function (result) {
             $('#cargac').hide();
             MensajeError(Mensajes.Error, false);
         }
@@ -81,8 +96,10 @@ async function GuardarCabecera(siAprobar) {
             const data = new FormData();
             data.append('IdAnalisis', itemCabecera.IdAnalisis);
             data.append('Fecha', $("#txtIngresoFecha").val());
+            data.append('Turno', document.getElementById('selectTurnoInsertar').value);   
             data.append('ObservacionCtrl', $("#txtIngresoObservacion").val());
-            data.append('siAprobar', siAprobar);            
+            data.append('siAprobar', siAprobar);   
+            
             var promiseCall = fetch('../LaboratorioAnalisisQuimico/GuardarModificarAnalisisQuimico', {
                 method: 'post',
                 body: data
@@ -96,7 +113,8 @@ async function GuardarCabecera(siAprobar) {
                 window.location.reload();
             }
             if (jsonResult == 0) {
-                MensajeCorrecto('Registro guardado correctamente');
+                MensajeCorrecto('Registro guardado correctamente'); 
+                $('#selectTurno').val(document.getElementById('selectTurnoInsertar').value).trigger('change');                
             } else if (jsonResult == 1) {
                 MensajeCorrecto('Registro actualizado correctamente');
             } else if (jsonResult == 3) {
@@ -105,6 +123,8 @@ async function GuardarCabecera(siAprobar) {
             } else if (jsonResult == 4) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 return;
+            } else if (jsonResult == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             $('#ModalIngresoCabecera').modal('hide');
             $('#divBotonesCRUD').prop('hidden', false);
@@ -115,7 +135,7 @@ async function GuardarCabecera(siAprobar) {
             CargarCabecera();
         }
     } catch (e) {
-        console.log(e);
+        $('#cargac').hide();
         MensajeError(Mensajes.Error, false);
     }
 }
@@ -159,6 +179,7 @@ async function EliminarCabeceraSi() {
         } else {
             const data = new FormData();
             data.append('IdAnalisis', itemCabecera.IdAnalisis);
+            data.append('Fecha', moment(itemCabecera.Fecha).format('YYYY-MM-DD'));
             var promisess = fetch('../LaboratorioAnalisisQuimico/EliminarAnalisisQuimico', {
                 method: 'post',
                 body: data
@@ -179,6 +200,8 @@ async function EliminarCabeceraSi() {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
+            } else if (jsonResult == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             itemCabecera = [];
             CargarCabecera();
@@ -262,11 +285,13 @@ async function ActualizarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarModalIngresoCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    $('#selectTurnoInsertar').val(document.getElementById('selectTurno').value).trigger('change');  
     itemCabecera = [];
 }
 
 function LimpiarModalIngresoCabecera() {
     $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+    document.getElementById("selectTurnoInsertar").options[0].selected = true;
     $('#txtIngresoObservacion').val('');
 }
 
@@ -288,11 +313,12 @@ function OnChangeTextBox() {
 }
 
 //DETALLE
-async function CargarDetalle() {
+async function CargarParadas() {
     try {
         $('#cargac').show();
         let params = {
-            fechaDesde: $('#txtFecha').val()
+            fechaDesde: $('#txtFecha').val(),
+            turno: document.getElementById('selectTurno').value
         }
         let query = Object.keys(params)
             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -314,39 +340,147 @@ async function CargarDetalle() {
         } else {
             $('#divMostarTablaDetallesVer').prop('hidden', false);
             $('#divMostarTablaDetallesVer').html(jsonResult);
+            //ConsultarElemento();
         }
         $('#cargac').hide();
     } catch (e) {
-        console.log(e);
         $('#cargac').hide();
         MensajeError(Mensajes.Error,false);
     }
 }
 
-async function ModalIngresoDetalle() {
-    siActualizar = false;
-    LimpiarDetalle();
+async function CargarDetalle() {
     try {
-        var estadoReporteAwait = await ConsultarEstadoRegistro();
-        if (!estadoReporteAwait.ok) {
+        $('#cargac').show();
+        let params = {
+            idAnalisis: itemCabecera.IdAnalisis
+        }
+        let query = Object.keys(params)
+            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+            .join('&');
+        let url = '../LaboratorioAnalisisQuimico/ConsultarDetalle?' + query;
+        var promiseCall = fetch(url);
+        var objectPromise = await promiseCall;
+        if (!objectPromise.ok) {
             throw 'Error';
         }
-        var estadoReporte = await estadoReporteAwait.json();
-        if (estadoReporte.EstadoReporte == true) {
-            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-            $('#cargac').hide();
-            return;
-        } else {
-            $('#ModalIngresoDetalle').modal('show');
-            $('#cargac').hide();
+        var jsonResult = await objectPromise.json();
+        if (jsonResult == "101") {
+            window.location.reload();
         }
+        if (jsonResult == "0") {
+            
+           
+        } else {
+            itemDetalle = jsonResult;
+        }
+        $('#cargac').hide();
     } catch (e) {
+        $('#cargac').hide();
+        MensajeError(Mensajes.Error, false);
+    }
+}
+
+async function ConsultarElemento() {
+    try {
+        const data = new FormData();
+        var idAnalisisDetalle = 0;
+        if (itemDetalle != null) {
+            if (!siActualizar) {
+                itemDetalle.forEach(function (row) {
+                    if (row.Cocinador == document.getElementById('lblCocinador').value && row.Parada == document.getElementById('lblParada').value) {
+                        idAnalisisDetalle = row.IdAnalisisDetalle;
+                    }
+                });
+            } else {
+                idAnalisisDetalle = itemEditar.IdAnalisisDetalle;
+                siActualizar = false;
+            }
+        }
+        data.append('idAnalisis', itemCabecera.IdAnalisis);
+        data.append('idParametro', document.getElementById('selectParametros').value);
+        data.append('idAnalisisDetalle', idAnalisisDetalle);
+        var promiseCall = fetch("../LaboratorioAnalisisQuimico/ControlElementoPartial", {
+            method: 'POST',
+            body: data
+        });
+        var objectPromise = await promiseCall;
+        if (!objectPromise.ok) {
+            throw 'Error';
+        }
+        var jsonResult = await objectPromise.text();
+        if (jsonResult == "101") {
+            window.location.reload();
+        }
+        if (jsonResult == "0") {
+            $('#divElementos').html('<span class="badge">SIN DATOS</span>');
+
+        } else {
+            $('#divElementos').html(jsonResult);
+        }
+        CargarImagen();
+        $('#cargac').hide();
+    } catch (e) {
+        $('#cargac').hide();
+        MensajeError(Mensajes.Error, false);
+    }   
+}
+
+function mask() {
+    console.log(document.getElementById('inputMask').value);
+    var inputMask = document.getElementById('inputMask').value;
+    if (inputMask==null) {
+        inputMask = 9999, 99;
+    }
+    $('#txtValor').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': +inputMask });
+}
+
+async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
+    LimpiarDatosImagen();    
+    mask();
+    siActualizar = false;
+    LimpiarDetalle();    
+    try {
+        if (turno == document.getElementById('selectTurno').value || turno == null) {
+            var estadoReporteAwait = await ConsultarEstadoRegistro();
+            if (!estadoReporteAwait.ok) {
+                throw 'Error';
+            }
+            var estadoReporte = await estadoReporteAwait.json();
+            CambiarMensajeEstado(estadoReporte.EstadoReporte);
+            if (estadoReporte.EstadoReporte == true) {                
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                $('#cargac').hide();
+                return;
+            } else {
+                CargarDetalle();
+                document.getElementById('lblCocinador').innerText = 'COCINA: ' + cocina;
+                document.getElementById('lblParada').innerText = 'PARADA: ' + parada;
+                document.getElementById('lblCocinador').value = cocina;
+                document.getElementById('lblParada').value = parada;
+                $('#tblImagenes').html('');
+                jdata.forEach(function (row) {
+                    var x = document.getElementById("selectIngresarLote");
+                    var option = document.createElement("option");
+                    option.text = row.LOTE + ' - ' + row.BARCO;
+                    option.value = row.LOTE + '-' + row.BARCO;
+                    x.add(option);
+                });
+                $('#ModalIngresoSubDetalle').modal('show');
+                ConsultarElemento();
+                $('#cargac').hide();
+            }
+        } else
+            MensajeAdvertencia('El registro fue ingresado en otro TURNO');
+    } catch (e) {
+        console.log(e);
         MensajeError(Mensajes.Error,false);
     }   
 }
 
 async function GuardarDetalle() {
     try {
+        LimpiarDetalle();
         if (OnChangeTextBoxDetalle()==1) {
             MensajeAdvertencia('Por favor ingrese todos los datos requeridos');
             return;
@@ -365,9 +499,8 @@ async function GuardarDetalle() {
             var data = new FormData();
             data.append('IdAnalisisDetalle', itemDetalle.IdAnalisisDetalle);
             data.append('IdAnalisis', itemCabecera.IdAnalisis);
-            data.append('IdTurno', document.getElementById('selectTurno').value);
-            data.append('Cocinador', document.getElementById('txtCocinador').value);
-            data.append('Parada', document.getElementById('txtParada').value);
+            data.append('Cocinador', document.getElementById('lblCocinador').value);
+            data.append('Parada', document.getElementById('lblParada').value);
             data.append('ObservacionDet', document.getElementById('txtObservacionesDet').value);
             var promiseCall = fetch('../LaboratorioAnalisisQuimico/GuardarModificarDetalle', {
                 method: 'post',
@@ -397,15 +530,95 @@ async function GuardarDetalle() {
             }
             $('#selectTurnoFiltro').val($('#selectTurno').val());
             $('#selectAreaAuditarFiltro').val($('#selectAreaAuditar').val()).trigger('change');
-            LimpiarDetalle();
-            CargarDetalle();
-            $('#ModalIngresoDetalle').modal('hide');
             $('#cargac').hide();
         }
     } catch (ex) {
-        console.log(ex);
         $('#cargac').hide();
         MensajeError(Mensajes.Error,false);
+    }
+}
+
+async function GuardarElemento(){
+    try {
+        if (OnChangeTextBoxDetalle() == 1) {
+            MensajeAdvertencia('Por favor ingrese todos los datos requeridos');
+            return;
+        }
+        $('#cargac').show();
+        const estadoReporteAwait = await ConsultarEstadoRegistro();
+        if (!estadoReporteAwait.ok) {
+            throw 'Error';
+        }
+        var estadoReporte = await estadoReporteAwait.json();
+        if (estadoReporte.EstadoReporte == true) {
+            $('#cargac').hide();
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+            return;
+        } else {
+            var idAnalisisDetalle = 0;
+            var idElemento = 0;
+            if (itemDetalle != null) {
+                if (!siActualizar) {
+                    itemDetalle.forEach(function (row) {
+                        if (row.Cocinador == document.getElementById('lblCocinador').value && row.Parada == document.getElementById('lblParada').value) {
+                            idAnalisisDetalle = row.IdAnalisisDetalle;
+                        }
+                    });
+                } else {
+                    idAnalisisDetalle = itemEditar.IdAnalisisDetalle;
+                    idElemento = itemEditar.IdElemento;                    
+                }
+            }
+            var data = new FormData();
+            data.append('idAnalisis', itemCabecera.IdAnalisis);
+            data.append('IdAnalisisDetalle', idAnalisisDetalle);
+            data.append('IdElemento', idElemento);
+            data.append('IdParametro', document.getElementById('selectParametros').value);
+            data.append('Valor', document.getElementById('txtValor').value);
+            data.append('LoteBarco', document.getElementById('selectIngresarLote').value);
+            data.append('Cocinador', document.getElementById('lblCocinador').value);
+            data.append('Parada', document.getElementById('lblParada').value);
+            var promiseCall = fetch('../LaboratorioAnalisisQuimico/GuardarModificarElemento', {
+                method: 'post',
+                body: data
+            });
+            var objectPromise = await promiseCall;
+            if (!objectPromise.ok) {
+                throw 'Error';
+            }
+            var jsonResult = await objectPromise.json();
+            if (jsonResult == "101") {
+                window.location.reload();
+            }
+            if (jsonResult == 0) {
+                MensajeCorrecto('Registro guardado correctamente');
+            } else if (jsonResult == 1) {
+                MensajeCorrecto('Registro actualizado correctamente');
+            } else if (jsonResult == 2) {
+                MensajeAdvertencia('¡Error! No se a guardado  : <span class="badge badge-danger">' + 'SIN DATOS' + '</span>');
+                $('#cargac').hide();
+                $('#ModalIngresoSubDetalle').modal('hide');
+                return;
+            } else if (jsonResult == 3) {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                $('#cargac').hide();
+                return;
+            } else if (jsonResult == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                $('#ModalIngresoSubDetalle').modal('hide');
+                $('#cargac').hide();
+                return;
+            }
+            $("#txtValor").css('border', '');
+            $("#txtValor").css('background-color', 'white');
+            document.getElementById('txtValor').value = '';
+            var callCargarDetalle= await CargarDetalle();
+            ConsultarElemento();
+            $('#cargac').hide();
+        }
+    } catch (ex) {
+        $('#cargac').hide();
+        MensajeError(Mensajes.Error, false);
     }
 }
 
@@ -422,21 +635,15 @@ function OnChangeTextBoxDetalle() {
     return con;
 }
 
-async function ActualizarDetalle(jModel) {
-    document.getElementById('selectVerificacion').value = jModel[0].TipoVerificacion;
-    ModalIngresoDetalle();
-    $('#cargac').show();
-    setTimeout(function () {
-        jModel.forEach(function (rowModel) {
-            $('#checkMateriales_' + rowModel.IdMantenimiento + '_' + rowModel.IdMantMaterial).prop('checked', rowModel.EstadoVerificacion);
-            document.getElementById('txtObservacion_' + rowModel.IdMantenimiento).value = rowModel.Observaciones;
-        });
-    }, 500);
-
-    itemDetalle = jModel;
+async function ActualizarDetalle(jdata) { 
+    $('div,html').animate({ scrollTop: 0 }, 500);  
+    document.getElementById('txtValor').value = jdata.Valor; 
+    $('#selectIngresarLote').val(jdata.LoteBarco).trigger('change');  
+    itemEditar = jdata;
     siActualizar = true;
     $('#cargac').hide();
-
+    $("#txtValor").css('border', '1px dashed green');
+    $("#txtValor").css('background-color', 'lightgrey');
 }
 
 function CambiarMensajeEstado(estadoReporteParametro) {
@@ -455,51 +662,51 @@ function CambiarMensajeEstado(estadoReporteParametro) {
     }
 }
 
-function EliminarConfirmarDetalle(jdata) {
-    ConsultarEstadoRegistro();
-    setTimeout(function () {
-        if (estadoReporte == true) {
+async function EliminarConfirmarDetalle(jdata) {
+    try {
+        var estadoReporteAwait = await ConsultarEstadoRegistro();
+        if (!estadoReporteAwait.ok) {
+            throw 'Error';
+        }
+        var estadoReporte = await estadoReporteAwait.json();
+        if (estadoReporte == "101") {
+            window.location.reload();
+        }
+        if (estadoReporte.EstadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
+            $("#ModalIngresoSubDetalle").modal("hide");
             $("#modalEliminarControlDetalle").modal("show");
-            $("#myModalLabelDetalle").text("¿Desea Eliminar el detalle?");
-            itemDetalle = jdata;
+            $("#myModalLabelDetalle").text("¿Desea Eliminar el registro?");
+            itemEditar = jdata;
         }
-    }, 200);
+    } catch (e) {
+        MensajeError(Mensajes.Error, false);
+    }
 }
 
-function EliminarDetalleSi() {
-    var model = [];
-    itemDetalle.forEach(function (det) {
-        var detalle = {};
-        detalle.IdMaterial = det.IdMaterial;
-        detalle.IdMaterialDetalle = det.IdMaterialDetalle;
-        detalle.IdMantMaterial = det.IdMantMaterial;
-        detalle.IdMantenimiento = det.IdMantenimiento;
-        detalle.EstadoVerificacion = det.EstadoVerificacion;
-        detalle.Observaciones = det.Observaciones;
-        model.push(detalle);
-    });
+function EliminarDetalleSi() {    
     $.ajax({
-        url: "../MaterialQuebradizo/EliminarDetalle",
+        url: "../LaboratorioAnalisisQuimico/EliminarElemento",
         type: "POST",
         data: {
-            listaDetalle: model
+            idAnalisis: itemCabecera.IdAnalisis,
+            IdElemento: itemEditar.IdElemento
         },
         success: function (resultado) {
-            itemDetalle = [];
             if (resultado == "101") {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdMaterial");
+                MensajeAdvertencia("Falta Parametro IdElemento");
                 $("#modalEliminarControlDetalle").modal("hide");
                 $('#cargac').hide();
                 return;
             } else if (resultado == "1") {
                 $("#modalEliminarControlDetalle").modal("hide");
-                CargarDetalle();
+                $("#ModalIngresoSubDetalle").modal("show");
+                ConsultarElemento();
                 MensajeCorrecto("Registro eliminado con Éxito");
                 $('#cargac').hide();
             } else if (resultado == '2') {
@@ -509,6 +716,10 @@ function EliminarDetalleSi() {
             } else if (resultado == '3') {
                 MensajeAdvertencia('¡No se encontro ningun registro Cabecera en esta fecha!');
                 $('#cargac').hide();
+                return;
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                $('#modalEliminarControlDetalle').modal('hide');
                 return;
             }
         },
@@ -520,40 +731,60 @@ function EliminarDetalleSi() {
 }
 
 function LimpiarDetalle() {
-    $('#txtCocinador').val('');
-    $('#txtParada').val('');
-    $('#txtObservacionesDet').val('');
-    var e = document.getElementById('selectTurno').value = 1;
-    itemDetalle = [];
+    CargarParadas();
+    LimpiarDatosImagen();
+    mask();   
+    $("#txtValor").css('border', '');
+    $("#txtValor").css('background-color', 'white');
+    document.getElementById('txtValor').value = '';
+    document.getElementById('selectIngresarLote').innerHTML = '';
+    $('#divElementos').html('');
 }
 
-function EliminarDetalleNo() {
+function NewElement() {
+    document.getElementById('txtValor').value = '';
+    siActualizar = false;
+    CargarDetalle();
+    $("#txtValor").css('border', '');
+    $("#txtValor").css('background-color', 'white');
+}
+
+function EliminarDetalleNo() {    
     $("#modalEliminarControlDetalle").modal("hide");
+    $("#ModalIngresoSubDetalle").modal("show");    
 }
 
-function AccionCorrectiva(jdata) {
-    ConsultarEstadoRegistro();
-    setTimeout(function () {
-        if (estadoReporte == true) {
-            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+//function AccionCorrectiva(jdata) {
+//    ConsultarEstadoRegistro();
+//    setTimeout(function () {
+//        if (estadoReporte == true) {
+//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+//            return;
+//        } else {
+//            LimpiarDatosImagen();
+//            itemAccionCorrectiva = jdata;
+//            itemAccionCorrectivaG = jdata;
+//            $("#modalAccionCorrectiva").modal("show");
+//            CargarImagen();
+//        }
+//    }, 200);
+//}
+
+async function GuardarImagen() {
+    try {
+        if (OnChangeTextBoxDetalle() == 1) {
+            MensajeAdvertencia('Por favor ingrese todos los datos requeridos');
             return;
-        } else {
-            LimpiarAccionCorrectiva();
-            itemAccionCorrectiva = jdata;
-            itemAccionCorrectivaG = jdata;
-            $("#modalAccionCorrectiva").modal("show");
-            CargarAccionCorrectiva();
         }
-    }, 200);
-}
-
-function GuardarAccionCorrectiva() {
-    $('#cargac').show();
-    ConsultarEstadoRegistro();
-    setTimeout(function () {
-        if (estadoReporte == true) {
+        $('#cargac').show();
+        const estadoReporteAwait = await ConsultarEstadoRegistro();
+        if (!estadoReporteAwait.ok) {
+            throw 'Error';
+        }
+        var estadoReporte = await estadoReporteAwait.json();
+        if (estadoReporte.EstadoReporte == true) {
             $('#cargac').hide();
-            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
             return;
         } else {
             if (OnChangeTextBoxAccion() == 1) {
@@ -562,67 +793,85 @@ function GuardarAccionCorrectiva() {
                 return;
             }
             $('#cargac').show();
+            var idAnalisisDetalle = 0;
+            if (itemDetalle != null) {
+                if (!actulizarFoto) {
+                    //console.log(document.getElementById('lblCocinador').value);
+                    //console.log(document.getElementById('lblParada').value);
+                    itemDetalle.forEach(function (row) {
+                        if (row.Cocinador == document.getElementById('lblCocinador').value && row.Parada == document.getElementById('lblParada').value) {
+                            idAnalisisDetalle = row.IdAnalisisDetalle;
+                        }
+                    });
+                } else {
+                    idAnalisisDetalle = itemImagen.IdAnalisisDetalle;
+                }
+            }
             var imagen = $('#file-upload')[0].files[0];
             var data = new FormData();
             data.append("dataImg", imagen);
-            data.append("IdMaterial", itemAccionCorrectiva.IdMaterial);
-            data.append("IdMantenimiento", itemAccionCorrectiva.IdMantenimiento);
-            data.append("IdAccion", itemAccionCorrectiva.IdAccion);
-            data.append("DescripcionAccion", $("#txtAccionCorrectiva").val());
+            data.append('IdAnalisis', itemCabecera.IdAnalisis);
+            data.append("IdAnalisisDetalle", idAnalisisDetalle);
+            data.append('Cocinador', document.getElementById('lblCocinador').value);
+            data.append('Parada', document.getElementById('lblParada').value);
+            data.append("IdFoto", itemImagen.IdFoto);
+            data.append("ObservacionFoto", document.getElementById('txtObservacionFoto').value);
             data.append("Rotation", rotation);
-            $.ajax({
-                url: "../MaterialQuebradizo/GuardarModificarAccionCorrectiva",
-                type: "POST",
-                cache: false,
-                data: data,
-                contentType: false,
-                processData: false,
-                async: false,
-                data: data,
-                success: function (resultado) {
-                    if (resultado == "101") {
-                        window.location.reload();
-                    }
-                    if (resultado == 0) {
-                        MensajeCorrecto('Acción Correctiva guardada correctamente');
-                    } else if (resultado == 1) {
-                        MensajeCorrecto('Registro actualizado correctamente');
-                    } else if (resultado == 3) {
-                        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-                        $('#cargac').hide();
-                        return;
-                    } else if (resultado == 4) {
-                        MensajeAdvertencia('¡Solo se permiten imagenes!', 5);
-                        $('#cargac').hide();
-                        return;
-                    } else {
-                        var mb = parseFloat(resultado / (1024 * 1024)).toFixed(2);
-                        MensajeAdvertencia('¡Exedio el limite de capacidad permitido!:  <span class="badge badge-success">5Mb</span>: Su imagen:<span class="badge badge-danger">' + mb + 'Mb</span>');
-                        $('#cargac').hide();
-                        return;
-                    }
-                    CargarAccionCorrectiva();
-                    LimpiarAccionCorrectiva();
-                    NuevaFoto();
-                    $('#cargac').hide();
-                },
-                error: function (resultado) {
-                    //console.log(resultado.innerText);
-                    $('#cargac').hide();
-                    MensajeError(Mensajes.Error, false);
-                }
+            var promiseCall = fetch('../LaboratorioAnalisisQuimico/GuardarFoto', {
+                method: 'post',
+                body: data
             });
+            var objectPromise = await promiseCall;
+            if (!objectPromise.ok) {
+                throw 'Error';
+            }
+            var jsonResult = await objectPromise.json();
+            if (jsonResult == "101") {
+                window.location.reload();
+            }
+            if (jsonResult == 0) {
+                MensajeCorrecto('Imagen guardada correctamente');
+            } else if (jsonResult == 1) {
+                MensajeCorrecto('Registro actualizado correctamente');
+            } else if (jsonResult == 3) {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                $('#cargac').hide();
+                return;
+            } else if (jsonResult == 4) {
+                MensajeAdvertencia('¡Solo se permiten imagenes!', 5);
+                $('#cargac').hide();
+                return;
+            } else if (jsonResult == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                $('#ModalIngresoSubDetalle').modal('hide');
+                $('#cargac').hide();
+                return;
+            } else {
+                var mb = parseFloat(resultado / (1024 * 1024)).toFixed(2);
+                MensajeAdvertencia('¡Exedio el limite de capacidad permitido!:  <span class="badge badge-success">5Mb</span>: Su imagen:<span class="badge badge-danger">' + mb + 'Mb</span>');
+                $('#cargac').hide();
+                return;
+            }
+            var callCargarDetalle = await CargarDetalle();
+            CargarImagen();
+            LimpiarDatosImagen();
+            $('#cargac').hide();
+            itemImagen = [];
         }
-    }, 200);
+    } catch (ex) {
+        console.log(ex);
+        $('#cargac').hide();
+        MensajeError(Mensajes.Error, false);
+    }
 }
 
 function OnChangeTextBoxAccion() {
     var con = 0;
-    if ($('#txtAccionCorrectiva').val() == '') {
-        $("#txtAccionCorrectiva").css('border', '1px dashed red');
+    if ($('#txtObservacionFoto').val() == '') {
+        $("#txtObservacionFoto").css('border', '1px dashed red');
         con = 1;
-    } else { $("#txtAccionCorrectiva").css('border', ''); }
-    if (!actualizarSi) {
+    } else { $("#txtObservacionFoto").css('border', ''); }
+    if (!actulizarFoto) {
         if ($('#file-upload').val() == '') {
             $("#file-upload").css('border', '1px dashed red');
             con = 1;
@@ -635,39 +884,45 @@ function OnChangeTextBoxAccion() {
     return con;
 }
 
-function LimpiarAccionCorrectiva() {
-    $("#txtAccionCorrectiva").val("");
+function LimpiarDatosImagen() {
+    $("#txtObservacionFoto").val("");
     $("#file-upload").val('');
     $("#file-preview-zone").html('');
     $('#lblfoto').text('Seleccione archivo');
     $("#lblfoto").css('border', '');
     $("#file-upload").css('border', '');
-    $("#txtAccionCorrectiva").css('border', '');
+    $("#txtObservacionFoto").css('border', '');
     rotation = 0;
-    actualizarSi = false;
+    actulizarFoto = false;
 }
 
-function CargarAccionCorrectiva() {
-    $('#cargac').show();
-    var op = 1;
+function CargarImagen() {
+    var idAnalisisDetalle = 0;
+    if (itemDetalle != null) {
+        if (!actulizarFoto) {
+            itemDetalle.forEach(function (row) {
+                if (row.Cocinador == document.getElementById('lblCocinador').value && row.Parada == document.getElementById('lblParada').value) {
+                    idAnalisisDetalle = row.IdAnalisisDetalle;
+                }
+            });
+        } else {
+            idAnalisisDetalle = itemImagen.IdAnalisisDetalle;
+        }
+    }
     $.ajax({
-        url: "../MaterialQuebradizo/VerCrearImagenPartial",
+        url: "../LaboratorioAnalisisQuimico/VerCrearImagenPartial",
         data: {
-            idMaterial: itemCabecera.IdMaterial,
-            idArea: itemAccionCorrectiva.IdMantenimiento,
-            op: op
+            idAnalisisDetalle: idAnalisisDetalle
         },
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
-            }
-            $('#divListarFotos').html(resultado);
-            $('#cargac').hide();
-        },
+            } else if (resultado == 0) {
+                $('#divListarImagen').html('<span class="badge">SIN DATOS</span>');
+            } else 
+                $('#divListarImagen').html(resultado);},
         error: function (resultado) {
-            //console.log(resultado.responseText, false)
-            $('#cargac').hide();
             MensajeError(Mensajes.Error, false);
         }
     });
@@ -687,14 +942,8 @@ function readFile(input) {
             var image = new Image();
             image.src = e.target.result;
             image.onload = function () {
-                //if (this.width < this.height) {
                 document.getElementById("file-preview").style.height = "250px";
                 document.getElementById("file-preview").style.width = "250px";
-                //}
-                //else {
-                //    document.getElementById("file-preview").style.height = "300px";
-                //    document.getElementById("file-preview").style.width = "250px";
-                //}
             };
         }
         reader.readAsDataURL(input.files[0]);
@@ -726,18 +975,18 @@ function validarImg(rotacion, id, imagen) {
     img.src = $('#btnPath').val() + imagen;
 }
 
-function SalirAccicionCorrectiva() {
-    itemAccionCorrectiva = [];
-    itemDetalle = [];
-    $('#modalAccionCorrectiva').modal('hide');
-    LimpiarAccionCorrectiva();
-}
+//function SalirAccicionCorrectiva() {
+//    itemAccionCorrectiva = [];
+//    itemDetalle = [];
+//    $('#modalAccionCorrectiva').modal('hide');
+//    LimpiarAccionCorrectiva();
+//}
 
-function EditarAccionCorrectiva(jdata) {
-    LimpiarAccionCorrectiva();
-    itemAccionCorrectiva = [];
-    actualizarSi = true;
-    $("#txtAccionCorrectiva").val(jdata.DescripcionAccion);
+function EditarImagen(jdata) {  
+    $('div,html').animate({ scrollTop: 0 }, 500);  
+    LimpiarDatosImagen();    
+    actulizarFoto = true;
+    document.getElementById('txtObservacionFoto').value = jdata.ObservacionFoto;
     if (jdata.RutaFoto != null && jdata.RutaFoto != '') {
         var filePreview = document.createElement('img');
         filePreview.id = 'file-preview';
@@ -750,42 +999,38 @@ function EditarAccionCorrectiva(jdata) {
 
         document.getElementById("file-preview").style.height = "250px";
         document.getElementById("file-preview").style.width = "250px";
-        itemAccionCorrectiva = jdata;
+        itemImagen = jdata;
     }
 }
 
-function NuevaFoto() {
-    itemAccionCorrectiva = itemAccionCorrectivaG;
-    LimpiarAccionCorrectiva();
-}
-
-function EliminarAccionCorrectiva() {
+function EliminarImagenSi() {
     $.ajax({
-        url: "../MaterialQuebradizo/EliminarAccionCorrectiva",
+        url: "../LaboratorioAnalisisQuimico/EliminarImagen",
         type: "POST",
         data: {
-            IdAccion: itemAccionCorrectiva.IdAccion,
-            IdMaterial: itemAccionCorrectiva.IdMaterial
+            IdFoto: itemImagen.IdFoto,
+            idAnalisis: itemCabecera.IdAnalisis
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdAccion");
-                $("#modalEliminarControlDetalle").modal("hide");
+                MensajeAdvertencia("Falta Parametro IdFoto");
+                $("#modalEliminarImagen").modal("hide");
+                $("#ModalIngresoSubDetalle").modal("show");
                 $('#cargac').hide();
                 return;
             } else if (resultado == "1") {
-                CargarAccionCorrectiva();
-                $("#modalEliminarAccionCorrectiva").modal("hide");
+                CargarImagen();
+                $("#modalEliminarImagen").modal("hide");
                 MensajeCorrecto("Registro eliminado con Éxito");
             } else if (resultado == '2') {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
             }
-            $("#modalAccionCorrectiva").modal("show");
+            $("#ModalIngresoSubDetalle").modal("show");
             $('#cargac').hide();
         },
         error: function () {
@@ -795,22 +1040,34 @@ function EliminarAccionCorrectiva() {
     });
 }
 
-function EliminarAccionCorrectivaNo() {
-    $("#modalEliminarAccionCorrectiva").modal("hide");
-    $("#modalAccionCorrectiva").modal("show");
+function EliminarImagenNo() {
+    $("#modalEliminarImagen").modal("hide");
+    $("#ModalIngresoSubDetalle").modal("show");
 }
 
-function EliminarConfirmarAccionCorrectiva(jdata) {
-    ConsultarEstadoRegistro();
-    setTimeout(function () {
-        if (estadoReporte == true) {
-            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+async function EliminarImagenConfirmar(jdata) {
+    try {
+        if (OnChangeTextBoxDetalle() == 1) {
+            MensajeAdvertencia('Por favor ingrese todos los datos requeridos');
+            return;
+        }
+        const estadoReporteAwait = await ConsultarEstadoRegistro();
+        if (!estadoReporteAwait.ok) {
+            throw 'Error';
+        }
+        var estadoReporte = await estadoReporteAwait.json();
+        if (estadoReporte.EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
             return;
         } else {
-            $("#modalAccionCorrectiva").modal("hide");
-            $("#modalEliminarAccionCorrectiva").modal("show");
-            $("#accionCorrectiva").text("¿Desea Eliminar la Acción Correctiva?");
-            itemAccionCorrectiva = jdata;
+            $("#ModalIngresoSubDetalle").modal("hide");
+            $("#modalEliminarImagen").modal("show");
+            $("#accionCorrectiva").text("¿Desea Eliminar la Imagen?");
+            itemImagen = jdata;
         }
-    }, 200);
+    } catch (ex) {
+        //console.log(ex);
+        $('#cargac').hide();
+        MensajeError(Mensajes.Error, false);
+    }
 }

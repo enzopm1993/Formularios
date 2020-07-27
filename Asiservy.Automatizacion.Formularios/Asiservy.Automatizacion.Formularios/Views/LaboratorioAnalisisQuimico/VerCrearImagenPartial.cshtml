@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO>
+@using Newtonsoft.Json;
+<table class="table table-secondary" id="tblImagenes">
+    <tr>
+        <th>IMAGENES GUARDADAS</th>
+    </tr>
+    @*AGRUPAR LOS DATOS POR IdAccion*@
+    @{
+        //var listaImagen = (from x in Model
+        //                             group x by new { x.ObservacionFoto, x.IdFoto, x.RutaFoto, x.Rotation } into v
+        //                             select new { v.Key.ObservacionFoto, v.Key.IdFoto, v.Key.RutaFoto, v.Key.Rotation }).ToList();
+        var listaImagen = (from x in Model
+                           orderby  x.FechaIngresoLog  descending
+                           select new {x.EstadoRegistro, x.FechaIngresoLog,x.FechaModificacionLog, x.IdAnalisisDetalle, x.IdFoto, x.ObservacionFoto, x.Rotation, x.RutaFoto, x.TerminalIngresoLog,
+                           x.TerminalModificacionLog, x.UsuarioIngresoLog, x.UsuarioModificacionLog}).ToList();
+    }
+    @foreach (var item in listaImagen)
+    {
+        if (item.RutaFoto != null)
+        {
+            <tr class="text-center imgImprimir">
+                <td style="white-space:normal">
+                    <div id="header_@item.IdFoto">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
+
+                    </div>
+
+                    <script>
+                            validarImg('@item.Rotation','@item.IdFoto','@item.RutaFoto');
+                    </script>
+                    <div>
+                        <label class="card-text" style="color:black;font-size:11px;white-space:normal"><b>ACCIÓN CORRECTIVA: </b> @item.ObservacionFoto.ToUpper()</label><br />
+                    </div>
+                </td>
+                <td>
+                    @{
+
+                        var json = JsonConvert.SerializeObject(listaImagen.Where(x => x.IdFoto == item.IdFoto).First());
+                    }
+                    <button id="btnEliminarAC" class="btn btn-link " style="font-size:13px" onclick="EliminarImagenConfirmar(@json)">Eliminar</button><br />
+                    <button id="bntEditarAC" class="btn btn-link " style="font-size:13px" onclick="EditarImagen(@json)">Editar</button>
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>
+<style>
+    .img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+        .img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
+
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />

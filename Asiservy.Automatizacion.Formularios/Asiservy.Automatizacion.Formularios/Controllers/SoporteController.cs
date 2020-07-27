@@ -15,10 +15,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         // GET: Soporte
         public ActionResult Reporte()
         {
-            ViewBag.dataTableJS = "1";
             ViewBag.Apexcharts = "1";
             ViewBag.DateRangePicker = "1";
-            ViewBag.Pivot = "1";
+
+            ViewBag.Title = "Reporte de tickets de soporte";
+            ViewBag.DxDevWeb = "1";
+        
+
+            ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+            return View();
+        }
+
+        public ActionResult TicketsCerrados()
+        {
+            ViewBag.Apexcharts = "1";
+            ViewBag.DateRangePicker = "1";
+
+            ViewBag.Title = "Reporte de tickets de soporte cerrados";
+            ViewBag.DxDevWeb = "1";
+
+
             ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
             return View();
         }
@@ -95,6 +111,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 TkTotales tkTotales = new TkTotales();
                 tkTotales.Totales = dataView.Count();
+                tkTotales.SoporteMinutos = dataView.Sum(x => x.SoporteMinutos);
+                
 
                 var DepColores = dataView
                     .GroupBy(x => new { x.Departamento, x.Color })
@@ -113,6 +131,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Total = g.Count()
 
                     }).OrderByDescending(c => c.Total).ToList();
+
+
+                
 
                 envioVista.DataPlana = dataView;
                 envioVista.Totales = tkTotales;
@@ -149,6 +170,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public int Abiertos { get; set; }
         public int Cerrados { get; set; }
         public int SinAsignar { get; set; }
+        public int SoporteMinutos  { get; set; }
     }
 
     public class ItemTicket

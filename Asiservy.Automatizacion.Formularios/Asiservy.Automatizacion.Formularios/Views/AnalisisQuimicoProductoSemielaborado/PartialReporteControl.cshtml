@@ -3,12 +3,12 @@
 @using Newtonsoft.Json
 <style>
     #tblparametro td {
-        padding: 0rem;
+        /*padding: 0rem;*/
         font-size: 0.6rem;
     }
  
     #tblparametro th {
-        padding: 0rem;
+        /*padding: 0rem;*/
         font-size: 0.6rem;
     }
 </style>
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-12 table-responsive">
 
-            <div class="card-header divHeader" id="divhead">
+            <div class="card-header divHeader table-responsive" id="divhead">
                 <table id="tbltitulo" class="table table-bordered">
                     <tbody>
                         <tr>
@@ -168,57 +168,62 @@
        
         </div>
             <div class="card-footer divFooter" id="divfoot">
-                <table id="tblparametro" border="1">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th class="text-center">MIN</th>
-                            <th class="text-center">MAX</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>HISTAMINA</td>
-                            <td>3.61</td>
-                            <td>8.4</td>
-                        </tr>
-                        <tr>
-                            <td>HUMEDAD</td>
-                            <td>67.48</td>
-                            <td>69.92</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <center>
+                <div class="row table-responsive">
+                    <div style="width:20%; float:left" class="col-7 col-md-2">
+                        <table id="tblparametro" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center">MIN</th>
+                                    <th class="text-center">MAX</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>HISTAMINA</td>
+                                    <td>3.61</td>
+                                    <td>8.4</td>
+                                </tr>
+                                <tr>
+                                    <td>HUMEDAD</td>
+                                    <td>67.48</td>
+                                    <td>69.92</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width:80%; float:right" class="col-5 col-md-10">
+                        <center>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <label id="lblUsuarioIngreso"></label>
+                                            @*@Model.FirstOrDefault().UsuarioIngresoLog*@
+                                            <br />
+                                            <input type="text" value="Realizado Por" id="realizado" />
+                                            <br />
+                                            <label id="lblFechaIngreso"></label>
+                                            @*@Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")*@
+                                        </td>
+                                        <td>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </td>
+                                        <td class="text-center">
+                                            <label id="lblAprobadoPor"></label>
+                                            @*@Model.FirstOrDefault().AprobadoPor*@
+                                            <br />
+                                            <input type="text" value="Revisado Por" id="revisado" />
+                                            <br />
+                                            <label id="lblFechaAprobacion"></label>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">
-                                    <label id="lblUsuarioIngreso"></label>
-                                    @*@Model.FirstOrDefault().UsuarioIngresoLog*@
-                                    <br />
-                                    <input type="text" value="Realizado Por" id="realizado" />
-                                    <br />
-                                    <label id="lblFechaIngreso"></label>
-                                    @*@Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")*@
-                                </td>
-                                <td>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                </td>
-                                <td class="text-center">
-                                    <label id="lblAprobadoPor"></label>
-                                    @*@Model.FirstOrDefault().AprobadoPor*@
-                                    <br />
-                                    <input type="text" value="Revisado Por" id="revisado" />
-                                    <br />
-                                    <label id="lblFechaAprobacion"></label>
-                                </td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-                </center>
+                            </table>
+                        </center>
+                    </div>
+                </div>
             </div>
     </div>
 </div>

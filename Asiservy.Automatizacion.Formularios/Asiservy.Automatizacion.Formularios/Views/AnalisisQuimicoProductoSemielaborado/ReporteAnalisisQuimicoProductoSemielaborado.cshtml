@@ -7,7 +7,20 @@
         @@page {
             size: landscape;
         }
+        #wrapper #content-wrapper {
+            background-color: white;
+        }
+        #tblparametro {
+            border: 1px solid #e3e6f0;
+            border-collapse: collapse;
+        }
+        .card-header {
+            background-color: white;
+        }
 
+        .card-footer {
+            background-color: white;
+        }
         * {
             -webkit-print-color-adjust: exact;
         }
@@ -16,9 +29,9 @@
             page-break-before: always;
         }
 
-        table {
+        /*table {
             page-break-after: auto
-        }
+        }*/
 
         div.divCont {
             top: 100px;
@@ -147,6 +160,14 @@
     }
 
     @@media screen {
+        .dx-column-indicators {
+            float: unset !important;
+        }
+
+        .dx-datagrid-action.dx-cell-focus-disabled {
+            text-align: center !important;
+            vertical-align: middle !important;
+        }
         #logo {
             display: none;
         }
@@ -157,16 +178,31 @@
             border-right: 0px;
             border-left: 0px;
             border-top-color: black;
+            background-color:transparent;
+            font-size:0.7rem;
         }
 
-        #realizado {
+        #realizado  {
             text-align: center;
             border-bottom: 0px;
             border-right: 0px;
             border-left: 0px;
             border-top-color: black;
+            background-color: transparent;
+            font-size: 0.7rem;
         }
-
+        #lblUsuarioIngreso {
+            font-size: 0.7rem;
+        }
+        #lblFechaIngreso {
+            font-size: 0.7rem;
+        }
+        #lblFechaAprobacion {
+            font-size: 0.7rem;
+        }
+        #lblAprobadoPor {
+            font-size: 0.7rem;
+        }
         #tblDataTableReporte tbody tr {
             cursor: pointer;
             text-align: center;
@@ -247,29 +283,25 @@
 </div>
 <div class="card" id="card1">
     <div class="row">
-        <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
+        <div class="col-md-5 col-sm-12 form-group" id="divDateRangePicker">
             <label>Filtrar por Fecha:</label>
-            <input type="hidden" id="fechaDesde" value="" />
-            <input type="hidden" id="fechaHasta" value="" />
-            <div id="reportrange" class="selectbox">
-                <i class="fa fa-calendar"></i>&nbsp;
-                <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+            <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <div class="input-group">
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+                </div>
+                <a href="#" id="generarReporteCerrados" class="btn btn-primary btn-sm" onclick="CargarCabReportes()"><i id="iconSearchCerrados" class="fas fa-search"></i></a>
             </div>
         </div>
-        <div class="col-5">
-            <label>Acciones</label>
-            <div class="form-group">
-                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarCabReportes()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/ver24.png" />
-                </button>
-            </div>
-        </div>
+       
         <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
     </div>
 </div>
 <br />
 <center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
-<div id="DivCabReportes" class="card" hidden>
+@*<div id="DivCabReportes" class="card" hidden>
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="table-responsive">
@@ -298,7 +330,18 @@
             </div>
         </div>
     </div>
+</div>*@
+@*2323*@
+<div id="DivCabReportes" class="card" hidden>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="demo-container" id="DivCabReportes">
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+    </div>
 </div>
+@*2323*@
 <div>
     <div style="padding-bottom:10px;" id="DivBotonImpr" hidden>
         <center>

@@ -45,14 +45,14 @@
                 @{
                     DateTime fecha = DateTime.Now;
                 }
-                <input type="date" class="form-control" id="txtFecha" value="@fecha.ToString("yyyy-MM-dd")" max="@fecha.ToString("yyyy-MM-dd") onchange="ConsultarControl()" />
+                <input type="date" class="form-control" id="txtFecha" value="@fecha.ToString("yyyy-MM-dd")" max="@fecha.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" />
                 <label id="msjfechaerror" class="text-danger" hidden>debe ingresar una fecha</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
-                <input type="time" class="form-control" id="txtHora" />
+                <input type="time" class="form-control" id="txtHora"/>
                 <label id="msjhoraerror" class="text-danger" hidden>debe ingresar una hora</label>
             </div>
         </div>

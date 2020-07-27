@@ -92,7 +92,8 @@ function CargarCabecera() {
                     return true;
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+                //MensajeError(resultado.responseText, false);
+                                MensajeError(Mensajes.Error, false);
                 $('#cargac').hide();
             }
         });

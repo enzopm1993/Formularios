@@ -11,125 +11,186 @@
 </style>
 
 <h4>Control Coche Por Linea</h4>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <div class="row">
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="card shadow">
+    <div class="card-header">
+        <div class="row">
 
-        <div class="col-md-2 col-2">
-            <div class="form-group">
-                <label>Id</label>
-                <input type="text" name="name" id="txtIdControlCoche" value="0" class="form-control" readonly />
+            <div class="col-md-3 col-5">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlCoche()" class="form-control" />
+
+                </div>
+            </div>
+            <div class="col-md-2 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Turno</label>
+                    @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "CargarControlCoche()" })
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Hora Inicio</label>
+                    <input type="datetime-local" id="txtHoraInicio" name="name" value="" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Hora Fin</label>
+                    <input type="datetime-local" id="txtHoraFin" name="name" value="" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-1 col-6">
+                <div class="form-group">
+                    <label>Coches</label>
+                    <input type="number" id="txtCoches" class="form-control" name="name" value="" />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-6">
+                <div class="form-group">
+                    <label>Linea</label>
+                    @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLineas" })
+
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Lote</label>
+                    <select class="form-control" id="selectLote" onchange="CambiaLote()">
+                        
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Talla</label>
+                    <select class="form-control" id="selectTalla"></select>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    <label>Observación</label>
+                    @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control", @id = "txtObservacion", @maxlength = "250" } })
+
+                </div>
             </div>
         </div>
+        <div class="text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            @*<input type="button" name="name" id="btnGuardar" value="Guardar" onclick="GuardarControl()" class="btn btn-primary" />
+                <input type="button" name="name" id="btnNuevo" value="Nuevo" onclick="Nuevo()" class="btn btn-info" />*@
 
-        <div class="col-md-3 col-5">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
-                @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
-                <input type="date" id="txtFecha" name="name" value="@FechaActual" onchange="CargarControlCoche()" class="form-control" />
-                <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
-
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-5">
-            <div class="form-group">
-                <label>Turno:</label>
-                <select name="cmbTurno" id="cmbTurno" class="form-control" onchange="CargarControlCoche()">
-                    <option value="1">Turno 1</option>
-                    <option value="2">Turno 2</option>
-                </select>
-
-            </div>
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
         </div>
 
-        
+
     </div>
-    <div class="row">
-        <div class="col-md-4 col-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
-                <input type="datetime-local" id="txtHoraInicio" name="name" value="" class="form-control" />
-                <span class="field-validation-valid text-danger" hidden id="txtValidaHoraInicio"> Ingrese la Hora </span>
-
+    <div class="card-body">
+        <hr />
+        <div class="d-flex justify-content-center">
+            <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
 
-        <div class="col-md-4 col-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label" })
-                <input type="datetime-local" id="txtHoraFin" name="name" value="" class="form-control" />
-                <span class="field-validation-valid text-danger" hidden id="txtValidaHoraFin"> Ingrese la Hora </span>
+        <div class="table-responsive" id="DivTableControlCoche">
 
-            </div>
         </div>
-
-        <div class="col-md-1 col-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Coches, htmlAttributes: new { @class = "control-label" })
-                <input type="number" id="txtCoches" class="form-control" name="name" value="0" />
-                <span class="field-validation-valid text-danger" hidden id="txtValidaCoche">Ingrese #Coches </span>
-
-            </div>
-        </div>
-
-        <div class="col-md-3 col-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Linea, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLineas" })
-                <span class="field-validation-valid text-danger" hidden id="txtValidaLinea">Selecciones una linea </span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Talla, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })
-                <span class="field-validation-valid text-danger" hidden id="txtValidaTalla">Selecciones una talla </span>
-            </div>
-        </div>
-
-        <div class="col-md-8 col-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control", @id = "txtObservacion", @maxlength = "250" } })
-                @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="text-center">
-        <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Espere...
-        </button>
-        @*<input type="button" name="name" id="btnGuardar" value="Guardar" onclick="GuardarControl()" class="btn btn-primary" />
-        <input type="button" name="name" id="btnNuevo" value="Nuevo" onclick="Nuevo()" class="btn btn-info" />*@
-      
-        <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
-            <img style="width:100%" src="~/Content/icons/add24.png" />
-        </button>
-        <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
-            <img style="width:100%" src="~/Content/icons/clear24.png" />
-        </button>
-    </div>
-
-
-    <hr />
-    <div class="d-flex justify-content-center">
-        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-
-    <div class="table-responsive" id="DivTableControlCoche">
-
     </div>
 </div>
-}
 
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalControl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Coche Linea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control" readonly id="txtFechaModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Turno</label>
+                        <input type="text" class="form-control" readonly id="txtTurnoModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Linea</label>
+                        @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLineasModal" })
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Lote</label>
+                        <input type="text" class="form-control" readonly id="txtLoteModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Talla</label>
+                        <input type="text" class="form-control" readonly id="txtTallaModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Hora Inicio</label>
+                        <input type="datetime-local" class="form-control" id="txtHoraInicioModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Hora Fin</label>
+                        <input type="datetime-local" class="form-control" id="txtHoraFinModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Coches</label>
+                        <input type="number" class="form-control" id="txtCochesModal" name="name" value="" />
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <label>Observación</label>
+                        <input type="text" class="form-control" id="txtObservacionModal" maxlength="250" name="name" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ModificarControl()">Actualizar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

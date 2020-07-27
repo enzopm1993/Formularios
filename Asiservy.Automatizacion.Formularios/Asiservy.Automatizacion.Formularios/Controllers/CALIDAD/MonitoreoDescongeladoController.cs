@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.BLZ;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDescongelado;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
@@ -87,14 +88,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
                 ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado();
 
-
-                ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x=> x.Turno== Turno).ToList();
-                var model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
+                List<spConsultaMonitoreoDescongelado> Lista2 = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x => x.Turno != Turno).ToList();
+                List<spConsultaMonitoreoDescongelado> Lista = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x => x.Turno == Turno).ToList();
+                ViewBag.Control = Lista;
+                List<RegistroDescongeladoEmparrilladoMP> model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-               
+                if (Lista2.Any())
+                {
+                    model = model.Where(x => !Lista2.Select(l => l.Tanque).Contains(x.U_SYP_TANQUE)).ToList();
+                }
+
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)

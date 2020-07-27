@@ -2,7 +2,8 @@
 var inputSelect = [];
 var listaIdIntermedia = [];
 $(document).ready(function () {
-    CargarCabecera(0);    
+    CargarCabecera(0);
+    document.getElementById("txtFechaCabecera").disabled = true; 
 });
 function CargarCabecera(op) {
     $('#cargac').show();
@@ -40,6 +41,12 @@ function CargarCabecera(op) {
 }
 
 function GuardarCabecera() {
+    console.log(moment(document.getElementById("txtFechaCabecera").value).format('YYYY-MM-DD'));
+    var date = document.getElementById("txtFechaCabecera").value;
+    if (date>moment().format('YYYY-MM-DD') || moment(date).format('YYYY')<2015) {
+        MensajeAdvertencia('Fecha incorrecta o Mayor a la fecha actual');
+        return;
+    }
     $('#cargac').show();
     $.ajax({
         url: "../LavadoCisterna/GuardarModificarLavadoCisterna",
@@ -130,7 +137,7 @@ function ActualizarCabecera(jdata, jIdIntermedia) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         return;
     } else {
-        $("#txtFechaCabecera").prop('disabled',true);
+        //$("#txtFechaCabecera").prop('disabled',true);
         var date = $("#txtFechaCabecera").val(moment(jdata[1]).format("YYYY-MM-DD"));        
         $("#txtFechaCabecera").val(date[0].defaultValue);
         $("#txtNCisterna").val(jdata[2]);

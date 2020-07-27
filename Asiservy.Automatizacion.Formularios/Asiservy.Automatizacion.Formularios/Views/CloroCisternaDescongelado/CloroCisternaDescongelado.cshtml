@@ -29,28 +29,28 @@ else
 </div>
 <hr />
 <div class="row" id="divCabecera1">
-    <div class="col-md-3 col-12 col-sm-12">
+    <div class="col-md-2 col-12 col-sm-6">
         <div class="form-group">
             <label>FECHA</label>
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" max="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
         </div>
     </div>
-    <div class="col-md-7 col-12 col-sm-12">
-        <div class="form-group">
-            <label>OBSERVACIÓN</label>
-            <textarea type="text" name="name" value="" id="txtObservacion" class="form-control text-uppercase" maxlength="200" rows="2"></textarea>
-        </div>
-    </div>
-    <div class="col-md-2 col-12 col-sm-12">
+    <div class="col-md-2 col-12 col-sm-6">
         <label>TURNO</label>
         <div class="form-group">
             @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
         </div>
     </div>
-</div>
+    <div class="col-md-5 col-12 col-sm-9">
+        <div class="form-group">
+            <label>OBSERVACIÓN</label>
+            <textarea type="text" name="name" value="" id="txtObservacion" class="form-control text-uppercase" maxlength="200" rows="2"></textarea>
+        </div>
+    </div>
+@*</div>
 
-<div class="row  text-center" id="divCabecera2">
-    <div class="col-md-12 col-12">
+<div class="row  text-center" id="divCabecera2">*@
+    <div class="col-md-2 col-12 col-sm-3 text-center">
         <label class="" id="lblAcciones">ACCIONES</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
@@ -164,7 +164,7 @@ else
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-9 col-sm-8 col-10">
+                        <div class="col-md-9 col-sm-6 col-5">
                             <h6>INGRESO HORA</h6>
                             <div class="form-group">
                                 <button data-toggle="tooltip" data-placement="top" title="Crear Registro Hora" class="btn" id="btnModalGenerar" onclick="ModalGenerarHoraControlCloroCisterna()" style="border-color:#2c3e50" type="button">
@@ -172,7 +172,7 @@ else
                                 </button>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-4 col-2 text-right text-sm-right text-md-right">
+                        <div class="col-md-3 col-sm-6 col-7 text-right text-sm-right text-md-right">
                             <div class="card shadow">
                                 <div hidden id="divParametros" class="card-body" style="font-size:12px;padding:4px">
                                     <span class="badge"><label id="lblFrecuencia">FRECUENCIA CADA 3 HORAS</label></span><br />
@@ -196,18 +196,6 @@ else
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row" hidden>
-    <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-body">
-                Frecuencia: 3 horas<br />
-                Min: 0.3 ppm<br />
-                Max: 1.5 ppm
             </div>
         </div>
     </div>

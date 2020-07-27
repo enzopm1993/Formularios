@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                IEnumerable<CONTROL_COCHE_LINEA> poControl = entities.CONTROL_COCHE_LINEA;
+                IEnumerable<CONTROL_COCHE_LINEA> poControl = entities.CONTROL_COCHE_LINEA.Where(X=> X.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 List<CONTROL_COCHE_LINEA> ListadoControl;
                 List<ControlCocheLineaViewModel> ListadoFinal = new List<ControlCocheLineaViewModel>();
                 if (filtros != null)
@@ -43,6 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
                     ListadoFinal.Add(new ControlCocheLineaViewModel {
                         IdControlCocheLinea = x.IdControlCocheLinea,
                         Linea = x.Linea,
+                        Lote=x.Lote,
                         Coches=x.Coches,
                         DescripcionLinea = Linea.Descripcion,
                         Fecha = x.Fecha,
@@ -67,15 +68,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var ControlCoche = entities.CONTROL_COCHE_LINEA.FirstOrDefault(x=> (x.IdControlCocheLinea == model.IdControlCocheLinea)
-                || (x.Fecha==model.Fecha&&x.Turno==model.Turno && x.HoraInicio == model.HoraInicio && x.HoraFin == model.HoraFin && x.Linea == model.Linea));
-
+                var ControlCoche = entities.CONTROL_COCHE_LINEA.FirstOrDefault(x => (x.IdControlCocheLinea == model.IdControlCocheLinea));
                 if(ControlCoche != null)
                 {
                     ControlCoche.HoraInicio = model.HoraInicio;
                     ControlCoche.HoraFin = model.HoraFin;
+                    ControlCoche.Linea = model.Linea;
                     ControlCoche.Coches = model.Coches;
-                    ControlCoche.Talla = model.Talla;
+                    ControlCoche.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     ControlCoche.Observacion = model.Observacion;
                     ControlCoche.FechaModificacionLog = DateTime.Now;
                     ControlCoche.TerminalModificacionLog = model.TerminalIngresoLog;
@@ -89,6 +89,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
                 return clsAtributos.MsjRegistroGuardado;
 
                     
+            }
+        }
+
+        public string EliminarControl(CONTROL_COCHE_LINEA model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var ControlCoche = entities.CONTROL_COCHE_LINEA.FirstOrDefault(x => (x.IdControlCocheLinea == model.IdControlCocheLinea));
+                if (ControlCoche != null)
+                {
+                    ControlCoche.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    ControlCoche.FechaModificacionLog = DateTime.Now;
+                    ControlCoche.TerminalModificacionLog = model.TerminalIngresoLog;
+                    ControlCoche.UsuarioModificacionLog = model.UsuarioIngresoLog;
+
+                    entities.SaveChanges();
+
+                }
+                return clsAtributos.MsjRegistroGuardado;
+
+
             }
         }
 

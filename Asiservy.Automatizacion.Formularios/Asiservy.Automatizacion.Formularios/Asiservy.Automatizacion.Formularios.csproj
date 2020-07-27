@@ -2250,8 +2250,9 @@
     <Content Include="Scripts\CALIDAD\KardexReactivo\BandejaKardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\KardexReactivo.js" />
     <Content Include="Scripts\CALIDAD\KardexReactivo\ReporteKardexReactivo.js" />
+    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\BandejaAnalisisQuimico.js" />
     <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.js" />
-    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\MantenimientoTurno.js" />
+    <Content Include="Scripts\CALIDAD\LaboratorioAnalisisQuimico\ReporteAnalisisQuimico.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3420,6 +3421,7 @@
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoDispensario.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoMasivo.js" />
     <Content Include="Scripts\Soporte\Reporte.js" />
+    <Content Include="Scripts\Soporte\TicketsCerrados.js" />
     <Content Include="Scripts\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -3481,6 +3483,7 @@
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionProductoEnfundado\clsDEvaluacionProductoEnfundado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\HigieneComedorCocina\clsDHigieneComedorCocina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\KardexReactivo\ClsdKardexReactivo.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\ClsDLaboratorioAnalisisQuimico.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LimpiezaDesinfeccionPlanta\clsDLimpiezaDesinfeccionPlanta.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
@@ -3594,6 +3597,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\LaboratorioAnalisisQuimicoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoMuestraDescongeladoController.cs" />
@@ -3722,6 +3726,7 @@
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
     <Compile Include="Models\Produccion\Material.cs" />
+    <Compile Include="Models\Produccion\ItemParadaCocina.cs" />
     <Compile Include="Models\Produccion\ProductoPouchCuarentena\ReporteProductoPouchCuarentenaViewModel.cs" />
     <Compile Include="Models\Produccion\Rendimiento.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />
@@ -3787,7 +3792,6 @@
     <Content Include="Views\Mensaje\Correcto.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoEdit.cshtml" />
     <Content Include="Views\SolicitudPermiso\EmpleadoBuscar.cshtml" />
-    <Content Include="Views\SolicitudPermiso\ConsultaSolicitudes.cshtml" />
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitudPartial.cshtml" />
     <Content Include="Views\Mensaje\Advertencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
@@ -4249,8 +4253,6 @@
     <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderos.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosDetallePartial.cshtml" />
     <Content Include="Views\AnalisisAguaCalderos\ReporteAnalisisAguaCalderosPartial.cshtml" />
-    <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurno.cshtml" />
-    <Content Include="Views\LaboratorioAnalisisQuimico\MantenimientoTurnoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimico.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ControlAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\EntradaySalidaDeMaterialesEnAreasDeProceso\MantenimientoMaterial.cshtml" />
@@ -4289,6 +4291,16 @@
     <Content Include="Views\ConfiguracionMenu\FondoLoginPartial.cshtml" />
     <Content Include="Views\Avance\ReporteRendimientoLineaPartial.cshtml" />
     <Content Include="Views\Soporte\Reporte.cshtml" />
+    <Content Include="Views\Soporte\TicketsCerrados.cshtml" />
+    <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ControlElementoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\VerCrearImagenPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\BandejaAnalisisQuimico.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\BandejaAnalisisQuimicoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\BandejaAnalisisQuimicoAprobarPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimico.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoPartial.cshtml" />
+    <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoDetallePartial.cshtml" />
     <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -4298,7 +4310,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccesoDatos\CALIDAD\LaboratorioAnalisisQuimico\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />

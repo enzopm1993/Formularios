@@ -1,24 +1,46 @@
-﻿
+﻿var Model = [];
+var Proyeccion = [];
 $(document).ready(function () {
     CargarControlCoche();
+    $("#selectLote").select2({
+        width: '100%'
+    });
+    $("#selectLinea").select2({
+        width: '100%'
+    });
+    $("#selectTalla").select2({
+        width: '100%'
+    });
+    $("#selectLoteModal").select2({
+        width: '100%'
+    });
+    $("#selectLineaModal").select2({
+        width: '100%'
+    });
+    $("#selectTallaModal").select2({
+        width: '100%'
+    });
+
 });
 
 
-function SelectControlCoche(id, fecha, horaInicio, horaFin, Linea, talla,observacion, coche) {
-    
-
-    $("#txtIdControlCoche").val(id);
-    $("#txtFecha").val(fecha);
-    $("#txtHoraInicio").val(moment(horaInicio).format("YYYY-MM-DDThh:mm"));
-    $("#txtHoraFin").val(moment(horaFin).format("YYYY-MM-DDThh:mm"));
-    $("#txtCoches").val(coche);
-    $("#selectLineas").val(Linea);
-    $("#selectTalla").val(talla);
-
-    $("#txtObservacion").val(observacion);
-} 
 function CargarControlCoche() {
 
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+
+    ConsultarLotes();
     $('#spinnerCargando').prop("hidden", false);
     var DivControl = $('#DivTableControlCoche');
     DivControl.html('');
@@ -27,7 +49,7 @@ function CargarControlCoche() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
-            Turno: $("#cmbTurno").val()
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -51,94 +73,141 @@ function CargarControlCoche() {
 
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError("Error: Comuníquese con sistemas", false);
             $('#spinnerCargando').prop("hidden", true);  
         }
     });
 
 }
 
-function Nuevo() {
-    $("#txtIdControlCoche").val("0");
+function ConsultarLotes() {
+    $.ajax({
+        url: "../ControlCocheLinea/ConsultaLotes",
+        type: "GET",
+        data: {
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#selectLote").empty();
+            if (resultado == "0") {
+                $("#selectLote").append('<option value="">No Existe Programación</option>');
+            }
+            $("#selectLote").append('<option value="">Seleccione</option>');
+            $.each(resultado, function (key, registro) {
+                $("#selectLote").append('<option value=' + registro.Lote + '>' + registro.Lote + '</option>');
+              
+            });
+            Proyeccion = resultado;
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+            
+        }
+    });
+}
 
-    //var fecha = new Date();
-    //// console.log(fecha);
-    //var dia = fecha.getDate();
-    //var mes = fecha.getMonth() + 1;
-    //if (dia < 10)
-    //    dia = "0" + dia;
-    //if (mes < 10)
-    //    mes = "0" + mes;
-    //var fechaFinal = fecha.getFullYear() + "-" + mes + "-" + dia;    
-    //$("#txtFecha").val(fechaFinal);
-    $("#txtHoraInicio").val("00:00");
-    $("#txtHoraFin").val("00:00");
-    $("#txtCoches").val("0");
+
+function CambiaLote() {
+    if ($("#selectLote").val() != "") {
+        var queryResult = Enumerable.From(Proyeccion)
+            .Where(function (x) { return x.Lote == $("#selectLote").val() })
+            .Select(function (x) { return x.Talla })
+            .ToArray();
+        console.log(queryResult);
+        $("#selectTalla").empty();
+        $.each(queryResult, function (key, registro) {
+          $("#selectTalla").append('<option value=' + registro + '>' + registro + '</option>');
+        });
+    }
+
+}
+
+function Nuevo() {
+    
+    
+    $("#txtHoraInicio").val("");
+    $("#txtHoraFin").val("");
+    $("#txtCoches").val("");
     $("#selectLineas").prop("selectedIndex",0);  
-    $("#selectTalla").prop("selectedIndex", 0);  
+    $("#selectLote").prop("selectedIndex", 0).change();
+    $("#selectTalla").empty();  
     $("#txtObservacion").val("");
 
-    $("#txtValidaFecha").prop("hidden", true);
-    $("#txtValidaHoraInicio").prop("hidden", true);
-    $("#txtValidaHoraFin").prop("hidden", true);
-    $("#txtValidaCoche").prop("hidden", true);
-    $("#txtValidaLinea").prop("hidden", true);
-    $("#txtValidaTalla").prop("hidden", true);
+    $("#txtHoraInicio").css('borderColor', '#ced4da');
+    $("#txtHoraFin").css('borderColor', '#ced4da');
+    $("#txtCoches").css('borderColor', '#ced4da');
+    $("#selectLineas").css('borderColor', '#ced4da');
 }
 
 
 
 function validar() {
-  
-   var fecha =  $("#txtFecha").val();
-   var horaInicio= $("#txtHoraInicio").val();
-   var horaFin= $("#txtHoraFin").val();
-   var coches= $("#txtCoches").val();
-   var linea= $("#selectLineas").val();
-    var talla = $("#selectTalla").val();
     var bool = true;
-    
-    if (fecha == "") {
-        $("#txtValidaFecha").prop("hidden", false);
-        bool= false;
-    } else {
-        $("#txtValidaFecha").prop("hidden", true);
-    }
-    if (horaInicio == "") {
-        $("#txtValidaHoraInicio").prop("hidden", false);
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
         bool = false;
     } else {
-        $("#txtValidaHoraInicio").prop("hidden", true);
-    }
-    if (horaFin == "") {
-        $("#txtValidaHoraFin").prop("hidden", false);
-        bool = false;
-    } else {
-        $("#txtValidaHoraFin").prop("hidden", true);
-        if (horaInicio >= horaFin) {
-            MensajeAdvertencia("Hora fin tiene que ser mayor a la de inicio");
-            bool = false;
-        }
-    }    
-    if (coches == "" || coches<=0) {
-        $("#txtValidaCoche").prop("hidden", false);
-        bool = false;
-    } else {
-        $("#txtValidaCoche").prop("hidden", true);
-    }
-    if (linea == "" || linea == null) {
-        $("#txtValidaLinea").prop("hidden", false);
-        bool = false;
-    } else {
-        $("#txtValidaLinea").prop("hidden", true);
-    }
-    if (talla == "" || talla == null) {
-        $("#txtValidaTalla").prop("hidden", false);
-        bool = false;
-    } else {
-        $("#txtValidaTalla").prop("hidden", true);
+        $("#txtFecha").css('borderColor', '#ced4da');
     }
 
+    if ($("#txtHoraInicio").val() == "") {
+        $("#txtHoraInicio").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#txtHoraInicio").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtHoraFin").val() == "") {
+        $("#txtHoraFin").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#txtHoraFin").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtCoches").val() == "") {
+        $("#txtCoches").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#txtCoches").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectLineas").val() == "") {
+        $("#selectLineas").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#selectLineas").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectLote").val() == "") {
+        $("#selectLote").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+
+        bool = false;
+    } else {
+        $("#selectLote").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+
+    }
+
+    if ($("#selectTalla").val() == "") {
+        $("#selectTalla").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+
+        bool = false;
+    } else {
+        $("#selectTalla").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+
+    }
+       
     return bool;
 }
 
@@ -153,15 +222,15 @@ function GuardarControl() {
         url: "../ControlCocheLinea/ControlCocheLinea",
         type: "POST",
         data: {
-            IdControlCocheLinea: $("#txtIdControlCoche").val(),
             Fecha: $("#txtFecha").val(),
             HoraInicio: $("#txtHoraInicio").val(),
             HoraFin: $("#txtHoraFin").val(),
             Coches: $("#txtCoches").val(),
             Linea: $("#selectLineas").val(),
+            Lote: $("#selectLote").val(),
             Talla: $("#selectTalla").val(),
             Observacion: $("#txtObservacion").val(),
-            Turno: $("#cmbTurno").val()
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {           
             CargarControlCoche();            
@@ -171,13 +240,8 @@ function GuardarControl() {
          
         },
         error: function (resultado) {
-          
-            CargarControlCoche();
-            $("#btnGuardar").prop("disabled", false);
-             $('#spinnerCargando').prop("hidden", true);
-
-            MensajeError(resultado.responseText, false);
-            Nuevo();
+            MensajeError("Error: Comuníquese con sistemas", false);
+           // Nuevo();
 
         }
     });
@@ -185,3 +249,169 @@ function GuardarControl() {
 }
 
 
+
+
+function NuevoEditar() {
+    $("#txtHoraInicioModal").val("");
+    $("#txtHoraFinModal").val("");
+    $("#txtCochesModal").val("");
+    $("#selectLineasModal").prop("selectedIndex", 0);
+    $("#selectLoteModal").prop("selectedIndex", 0).change();
+    $("#selectTallaModal").prop("selectedIndex", 0).change();
+    $("#txtObservacionModal").val("");
+
+    $("#txtHoraInicioModal").css('borderColor', '#ced4da');
+    $("#txtHoraFinModal").css('borderColor', '#ced4da');
+    $("#txtCochesModal").css('borderColor', '#ced4da');
+    $("#selectLineasModal").css('borderColor', '#ced4da');
+}
+
+
+function EditarControl(model) {
+    Model = model;
+    $("#ModalControl").modal("show");
+
+    $("#txtFechaModal").val(moment(Model.Fecha).format("YYYY-MM-DD"));
+    $("#txtHoraInicioModal").val(moment(Model.HoraInicio).format("YYYY-MM-DDThh:mm"));
+    $("#txtHoraFinModal").val(moment(Model.HoraFin).format("YYYY-MM-DDThh:mm"));
+    $("#txtCochesModal").val(Model.Coches);
+    $("#selectLineasModal").val(Model.Linea);
+    $("#txtLoteModal").val(Model.Lote);
+    $("#txtTallaModal").val(Model.Talla);
+    $("#txtObservacionModal").val(Model.Observacion);
+    $("#txtTurnoModal").val($("#selectTurno option:selected").text());
+} 
+
+
+
+
+function ValidaEditar() {
+    var bool = true;
+    if ($("#txtHoraInicioModal").val() == "") {
+        $("#txtHoraInicioModal").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#txtHoraInicioModal").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtHoraFinModal").val() == "") {
+        $("#txtHoraFinModal").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#txtHoraFinModal").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtCochesModal").val() == "") {
+        $("#txtCochesModal").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#txtCochesModal").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectLineasModal").val() == "") {
+        $("#selectLineasModal").css('borderColor', '#FA8072');
+        bool = false;
+    } else {
+        $("#selectLineasModal").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectLoteModal").val() == "") {
+        $("#selectLoteModal").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+
+        bool = false;
+    } else {
+        $("#selectLoteModal").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+
+    }
+
+    if ($("#selectTallaModal").val() == "") {
+        $("#selectTallaModal").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+
+        bool = false;
+    } else {
+        $("#selectTallaModal").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+
+    }
+    return bool;
+}
+
+
+function ModificarControl() {
+    if (!ValidaEditar()) {
+        return;
+    }
+  
+    $.ajax({
+        url: "../ControlCocheLinea/ControlCocheLinea",
+        type: "POST",
+        data: {
+            IdControlCocheLinea: Model.IdControlCocheLinea,
+            Fecha: $("#txtFecha").val(),
+            HoraInicio: $("#txtHoraInicioModal").val(),
+            HoraFin: $("#txtHoraFinModal").val(),
+            Coches: $("#txtCochesModal").val(),
+            Linea: $("#selectLineasModal").val(),
+            Observacion: $("#txtObservacionModal").val(),
+           
+        },
+        success: function (resultado) {
+            CargarControlCoche();
+            MensajeCorrecto(resultado);
+            NuevoEditar();
+            $("#ModalControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+            $("#ModalControl").modal("hide");
+        }
+    });
+
+    //alert("generado");
+}
+
+
+
+function InactivarControl() {
+    //console.log(model);
+    $.ajax({
+        url: "../ControlCocheLinea/EliminarControl",
+        type: "POST",
+        data: {
+            IdControlCocheLinea: Model.IdControlCocheLinea,
+            Fecha: Model.Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            MensajeCorrecto("Registro eliminado con exito");
+            CargarControlCoche();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+function EliminarControl(model) {
+    $("#modalEliminarControlDetalle").modal('show');
+    Model = model;
+}
+
+$("#modal-detalle-si").on("click", function () {
+    InactivarControl();
+    $("#modalEliminarControlDetalle").modal('hide');
+});
+
+$("#modal-detalle-no").on("click", function () {
+    $("#modalEliminarControlDetalle").modal('hide');
+});

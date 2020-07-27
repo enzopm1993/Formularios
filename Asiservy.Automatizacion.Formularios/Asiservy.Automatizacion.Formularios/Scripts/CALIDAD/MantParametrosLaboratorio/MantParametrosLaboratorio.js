@@ -83,6 +83,7 @@ function GuardarCabecera() {
                 var text = sel.options[sel.selectedIndex].text;
                 var sel = document.getElementById("selectAreaLaboratorio");
                 var area = sel.options[sel.selectedIndex].text;
+                if (area == '---SELECCIONE---') area = '';
                 MensajeAdvertencia('!El nombre: <span class="badge badge-danger">' + $('#txtNombre').val().toUpperCase() + '</span> ya existe en:  <span class="badge badge-danger">' + text + '</span>' + '</span> área:  <span class="badge badge-danger">' + area + '</span>!');
                 $('#cargac').hide();
                 return;
@@ -146,7 +147,7 @@ function EliminarCabeceraSi() {
                 MensajeCorrecto("Registro Actualizado con Éxito");
                 $('#cargac').hide();
             } else if (resultado == "2") {
-                var area = ' Sin Área';
+                var area = '';
                 if (itemEditar.descripcionArea!=null) {
                     area = itemEditar.descripcionArea;
                 }

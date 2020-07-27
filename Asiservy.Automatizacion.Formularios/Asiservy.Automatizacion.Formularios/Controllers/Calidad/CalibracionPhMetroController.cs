@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhMetro;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         public clsDLogin clsDLogin { get; private set; }
         clsDError clsDError { get; set; } = null;
         clsDCalibracionPhMetro clsDCalibracionPhMetro = null;
+        public clsDPeriodo clsDPeriodo { get; private set; }
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -193,6 +195,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poControl.Fecha.Value))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poControl;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 poControl.FechaIngresoLog = DateTime.Now;
                 poControl.UsuarioIngresoLog = lsUsuario[0];
                 poControl.TerminalIngresoLog = Request.UserHostAddress;
@@ -274,7 +285,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         
-        public JsonResult EliminarControl(int IdControl)
+        public JsonResult EliminarControl(int IdControl,DateTime poFecha)
         {
             try
             {
@@ -282,6 +293,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    object[] respuesta = new object[3];
+                    respuesta[0] = "444";
+                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    respuesta[2] = poFecha;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 CC_CALIBRACION_PHMETRO poCabecera = new CC_CALIBRACION_PHMETRO()
                 {
@@ -315,7 +335,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdControl,DateTime Fecha)
+        public JsonResult AprobarControl(int IdControl,DateTime Fecha,DateTime poFecha)
         {
             try
             {
@@ -324,7 +344,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
 
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 clsDCalibracionPhMetro = new clsDCalibracionPhMetro();
                 string Respuesta = clsDCalibracionPhMetro.AprobarControl(IdControl, lsUsuario[0], Request.UserHostAddress,Fecha);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
@@ -349,7 +375,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult ReversarControl(int IdControl)
+        public JsonResult ReversarControl(int IdControl,DateTime poFecha)
         {
             try
             {
@@ -358,7 +384,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+                {
+                    string respuesta = "444";
 
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                }
                 clsDCalibracionPhMetro = new clsDCalibracionPhMetro();
                 string Respuesta = clsDCalibracionPhMetro.ReversarControl(IdControl, lsUsuario[0], Request.UserHostAddress);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);

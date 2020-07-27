@@ -37,7 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteCloroCisternaDescongelado";
                 }
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 if (parametros == null)
                 {
                     ViewBag.ErrorParametro = "99";
@@ -81,7 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -134,7 +134,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -174,7 +174,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -193,7 +193,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (!estadoReporte.EstadoReporte)
                 {
                     ClsdParametroCalidad = new ClsdParametroCalidad();
-                    var parametros=ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                    var parametros=ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                     model.ParamMax = parametros.Maximo;
                     model.ParamMin = parametros.Minimo;
                     int result=clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongelado(model);
@@ -228,7 +228,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -280,14 +280,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarDetalle(IdCloroCisterna);
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 ViewBag.ColorDentroRango = parametros.ColorDentroRango;
                 ViewBag.ColorFueraRango = parametros.ColorFueraRango;
                 ViewBag.ParamMax = parametros.Maximo;
@@ -327,7 +327,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -384,7 +384,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 if (parametros == null)
                 {
                     ViewBag.ErrorParametro = "99";
@@ -408,7 +408,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -417,7 +417,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -425,6 +425,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {           
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 clsDClasificador = new clsDClasificador();
                 var poTurno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno).ToList();
@@ -446,7 +451,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -464,7 +469,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -504,7 +509,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -546,7 +551,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 
                     ViewBag.ColorDentroRango = parametros.ColorDentroRango;
                     ViewBag.ColorFueraRango = parametros.ColorFueraRango;
@@ -599,8 +604,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 ClsdParametroCalidad = new ClsdParametroCalidad();
-                var parametros = ClsdParametroCalidad.ConsultaMantenimientoParametroCalidadCod(clsAtributos.CC_CodParametroCloroCisterna);
+                var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
                 if (parametros == null)
                 {
                     ViewBag.ErrorParametro = "99";
@@ -653,7 +663,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -695,6 +705,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDCloroCisternaDescongelado = new clsDCloroCisternaDescongelado();
                 var poCloroCisterna = clsDCloroCisternaDescongelado.ConsultarEstadoReporte(idControlCloro);
                 if (poCloroCisterna != null)

@@ -13,16 +13,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaReporteControlCochePorLineas
     {
-        public int id { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public string Turno { get; set; }
-        public Nullable<System.DateTime> HoraInicio { get; set; }
-        public Nullable<System.DateTime> HoraFin { get; set; }
-        public string Linea1 { get; set; }
-        public string Linea2 { get; set; }
-        public string Linea3 { get; set; }
-        public string Linea4 { get; set; }
-        public string Linea5 { get; set; }
-        public Nullable<int> Total { get; set; }
+        public int IdControlCocheLinea { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.DateTime HoraInicio { get; set; }
+        public System.DateTime HoraFin { get; set; }
+        public int Coches { get; set; }
+        public string Linea { get; set; }
+        public string Lote { get; set; }
+        public string Talla { get; set; }
+        public string Observacion { get; set; }
     }
 }
