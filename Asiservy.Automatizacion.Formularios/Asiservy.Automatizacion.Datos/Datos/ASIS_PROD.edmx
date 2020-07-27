@@ -13925,6 +13925,7 @@
           <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="EstadoSolicitud" Nullable="true" MaxLength="100" />
           <Property Type="DateTime" Name="FechaBiometrico2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FechaBiometrico" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="FechaIngresoLog" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
@@ -20466,6 +20467,7 @@
                 <ScalarProperty Name="CodEstadoSolicitud" ColumnName="CodEstadoSolicitud" />
                 <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
                 <ScalarProperty Name="FechaBiometrico2" ColumnName="FechaBiometrico2" />
+                <ScalarProperty Name="FechaBiometrico" ColumnName="FechaBiometrico" />
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
