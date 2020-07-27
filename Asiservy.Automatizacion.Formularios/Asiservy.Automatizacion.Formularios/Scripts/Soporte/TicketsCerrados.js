@@ -326,26 +326,26 @@
                     data: permisosTotalCantidades
                 }]);
 
-                var pivotGridChartAgente = $("#pivotgrid-chart-agente").dxChart({
-                    commonSeriesSettings: {
-                        type: "bar"
-                    },
-                    tooltip: {
-                        enabled: true,
-                        format: "decimal",
-                        customizeTooltip: function (args) {
-                            return {
-                                html: args.seriesName + " | " + args.valueText + " Tickets"
-                            };
-                        }
-                    },
-                    size: {
-                        height: 300
-                    },
-                    adaptiveLayout: {
-                        width: 450
-                    }
-                }).dxChart("instance");
+                //var pivotGridChartAgente = $("#pivotgrid-chart-agente").dxChart({
+                //    commonSeriesSettings: {
+                //        type: "bar"
+                //    },
+                //    tooltip: {
+                //        enabled: true,
+                //        format: "decimal",
+                //        customizeTooltip: function (args) {
+                //            return {
+                //                html: args.seriesName + " | " + args.valueText + " Tickets"
+                //            };
+                //        }
+                //    },
+                //    size: {
+                //        height: 300
+                //    },
+                //    adaptiveLayout: {
+                //        width: 450
+                //    }
+                //}).dxChart("instance");
                 var pivotGridDataSource1 = new DevExpress.data.PivotGridDataSource({
                     store: resultado.DataPlana,
                     fields: [
@@ -375,8 +375,8 @@
 
                         },
                         {
-                            caption: "Fecha de creación",
-                            dataField: "FechaCreacion",
+                            caption: "Fecha fin soporte",
+                            dataField: "FechaFinSoporte",
                             dataType: "date",
                             area: "filter",
                             groupName: "Date"
@@ -411,6 +411,32 @@
                                         break;
                                 }
                             }
+                        },
+                        {
+                            caption: "Tiempo de soporte (en minutos)",
+                            dataField: "SoporteMinutos",
+                            summaryType: "sum",
+                            area: "data",
+                            width: 50
+
+                        },
+                        {
+                            caption: "Tiempo de soporte (en horas)",
+                            dataField: "SoporteHoras",
+                            summaryType: "sum",
+                            area: "data",
+                            format: { type: 'fixedPoint', precision: 2 },
+                            width: 50
+                           
+                        },
+                        {
+                            caption: "Tiempo de soporte (en días)",
+                            dataField: "SoporteDias",
+                            summaryType: "sum",
+                            area: "data",
+                            format: { type: 'fixedPoint', precision: 2 },
+                            width: 50
+
                         }
                     ]
                 });
@@ -420,7 +446,7 @@
                     allowSorting: true,
                     allowFiltering: true,
                     showBorders: true,
-                    showColumnGrandTotals: true,
+                    showColumnGrandTotals: false,
                     showRowGrandTotals: true,
                     showRowTotals: true,
                     showColumnTotals: false,
@@ -438,32 +464,32 @@
                     }
                 };
                 var pivotGridAgente = $("#pivotgrid-component-agente").dxPivotGrid(pivotGridOptions1).dxPivotGrid("instance");
-                pivotGridAgente.bindChart(pivotGridChartAgente, {
-                    dataFieldsDisplayMode: "splitPanes",
-                    alternateDataFields: false
-                });
+                //pivotGridAgente.bindChart(pivotGridChartAgente, {
+                //    dataFieldsDisplayMode: "splitPanes",
+                //    alternateDataFields: false
+                //});
 
 
-                var pivotGridChartDepa = $("#pivotgrid-chart-depa").dxChart({
-                    commonSeriesSettings: {
-                        type: "bar"
-                    },
-                    tooltip: {
-                        enabled: true,
-                        format: "decimal",
-                        customizeTooltip: function (args) {
-                            return {
-                                html: args.seriesName + " | " + args.valueText + " Tickets"
-                            };
-                        }
-                    },
-                    size: {
-                        height: 300
-                    },
-                    adaptiveLayout: {
-                        width: 450
-                    }
-                }).dxChart("instance");
+                //var pivotGridChartDepa = $("#pivotgrid-chart-depa").dxChart({
+                //    commonSeriesSettings: {
+                //        type: "bar"
+                //    },
+                //    tooltip: {
+                //        enabled: true,
+                //        format: "decimal",
+                //        customizeTooltip: function (args) {
+                //            return {
+                //                html: args.seriesName + " | " + args.valueText + " Tickets"
+                //            };
+                //        }
+                //    },
+                //    size: {
+                //        height: 300
+                //    },
+                //    adaptiveLayout: {
+                //        width: 450
+                //    }
+                //}).dxChart("instance");
                 var pivotGridDataSource2 = new DevExpress.data.PivotGridDataSource({
                     store: resultado.DataPlana,
                     fields: [
@@ -488,8 +514,8 @@
 
                         },
                         {
-                            caption: "Fecha de creación",
-                            dataField: "FechaCreacion",
+                            caption: "Fecha fin soporte",
+                            dataField: "FechaFinSoporte",
                             dataType: "date",
                             area: "filter",
                             groupName: "Date"
@@ -524,6 +550,32 @@
                                         break;
                                 }
                             }
+                        },
+                        {
+                            caption: "Tiempo de soporte (en minutos)",
+                            dataField: "SoporteMinutos",
+                            summaryType: "sum",
+                            area: "data",
+                            width: 50
+
+                        },
+                        {
+                            caption: "Tiempo de soporte (en horas)",
+                            dataField: "SoporteHoras",
+                            summaryType: "sum",
+                            area: "data",
+                            format: { type: 'fixedPoint', precision: 2 },
+                            width: 50
+
+                        },
+                        {
+                            caption: "Tiempo de soporte (en días)",
+                            dataField: "SoporteDias",
+                            summaryType: "sum",
+                            area: "data",
+                            format: { type: 'fixedPoint', precision: 2 },
+                            width: 50
+
                         }
                     ]
                 });
@@ -533,7 +585,7 @@
                     allowSorting: true,
                     allowFiltering: true,
                     showBorders: true,
-                    showColumnGrandTotals: true,
+                    showColumnGrandTotals: false,
                     showRowGrandTotals: true,
                     showRowTotals: true,
                     showColumnTotals: false,
@@ -551,38 +603,38 @@
                     }
                 };
                 var pivotGridDepa = $("#pivotgrid-component-depa").dxPivotGrid(pivotGridOptions2).dxPivotGrid("instance");
-                pivotGridDepa.bindChart(pivotGridChartDepa, {
-                    dataFieldsDisplayMode: "splitPanes",
-                    alternateDataFields: false
-                });
+                //pivotGridDepa.bindChart(pivotGridChartDepa, {
+                //    dataFieldsDisplayMode: "splitPanes",
+                //    alternateDataFields: false
+                //});
 
 
-                var pivotGridChartDiasAgente = $("#pivotgrid-chart-dias-agente").dxChart({
-                    commonSeriesSettings: {
-                        type: "bar"
-                    },
-                    tooltip: {
-                        enabled: true,
-                        format: "decimal",
-                        customizeTooltip: function (args) {
-                            return {
-                                html: args.seriesName + " | " + args.valueText + " Tickets"
-                            };
-                        }
-                    },
-                    size: {
-                        height: 300
-                    },
-                    adaptiveLayout: {
-                        width: 450
-                    }
-                }).dxChart("instance");
+                //var pivotGridChartDiasAgente = $("#pivotgrid-chart-dias-agente").dxChart({
+                //    commonSeriesSettings: {
+                //        type: "bar"
+                //    },
+                //    tooltip: {
+                //        enabled: true,
+                //        format: "decimal",
+                //        customizeTooltip: function (args) {
+                //            return {
+                //                html: args.seriesName + " | " + args.valueText + " Tickets"
+                //            };
+                //        }
+                //    },
+                //    size: {
+                //        height: 300
+                //    },
+                //    adaptiveLayout: {
+                //        width: 450
+                //    }
+                //}).dxChart("instance");
                 var pivotGridDataSource3 = new DevExpress.data.PivotGridDataSource({
                     store: resultado.DataPlana,
                     fields: [
                         {
-                            caption: "Fecha de creación",
-                            dataField: "FechaCreacion",
+                            caption: "Fecha fin soporte",
+                            dataField: "FechaFinSoporte",
                             dataType: "date",
                             area: "column",
                             groupName: "Fecha",
@@ -664,15 +716,39 @@
                     }
                 };
                 var pivotGridDiasAgente = $("#pivotgrid-dias-agente").dxPivotGrid(pivotGridOptions3).dxPivotGrid("instance");
-                pivotGridDiasAgente.bindChart(pivotGridChartDiasAgente, {
-                    dataFieldsDisplayMode: "splitPanes",
-                    alternateDataFields: false
-                });
+                //pivotGridDiasAgente.bindChart(pivotGridChartDiasAgente, {
+                //    dataFieldsDisplayMode: "splitPanes",
+                //    alternateDataFields: false
+                //});
 
-
+                var tiempoSoporteMuestra = '';
+                if (resultado.Totales.SoporteMinutos < 60) {
+                    if ((resultado.Totales.SoporteMinutos  == 1)) {
+                        tiempoSoporteMuestra = resultado.Totales.SoporteMinutos + ' minuto';
+                    } else {
+                        tiempoSoporteMuestra = resultado.Totales.SoporteMinutos + ' minutos';
+                    }
+                } else {
+                    var horas = resultado.Totales.SoporteMinutos / 60;
+                    if (horas < 24) {
+                        if (horas == 1) {
+                            tiempoSoporteMuestra = horas.toFixed(1) + ' hora';
+                        } else {
+                            
+                            tiempoSoporteMuestra = horas.toFixed(1) + ' horas';
+                        }                      
+                    } else {
+                        var dias = horas / 24;
+                        if (dias == 1) {
+                            tiempoSoporteMuestra = dias.toFixed(1) + ' día';
+                        } else {
+                            tiempoSoporteMuestra = dias.toFixed(1) + ' días';
+                        }    
+                    }
+                }
 
                 $("#txtTkTotales-cerrados").html(resultado.Totales.Totales);
-                $("#txtTiempoSoporte").html(0);
+                $("#txtTiempoSoporte").html(tiempoSoporteMuestra);
                 $("#txtTiempoEspera").html(0);
 
 

@@ -29,28 +29,28 @@ else
 </div>
 <hr />
 <div class="row" id="divCabecera1">
-    <div class="col-md-3 col-12 col-sm-12">
+    <div class="col-md-2 col-12 col-sm-6">
         <div class="form-group">
             <label>FECHA</label>
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFecha" class="form-control" max="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
         </div>
     </div>
-    <div class="col-md-7 col-12 col-sm-12">
-        <div class="form-group">
-            <label>OBSERVACIÓN</label>
-            <textarea type="text" name="name" value="" id="txtObservacion" class="form-control text-uppercase" maxlength="200" rows="2"></textarea>
-        </div>
-    </div>
-    <div class="col-md-2 col-12 col-sm-12">
+    <div class="col-md-2 col-12 col-sm-6">
         <label>TURNO</label>
         <div class="form-group">
             @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
         </div>
     </div>
-</div>
+    <div class="col-md-5 col-12 col-sm-9">
+        <div class="form-group">
+            <label>OBSERVACIÓN</label>
+            <textarea type="text" name="name" value="" id="txtObservacion" class="form-control text-uppercase" maxlength="200" rows="2"></textarea>
+        </div>
+    </div>
+@*</div>
 
-<div class="row  text-center" id="divCabecera2">
-    <div class="col-md-12 col-12">
+<div class="row  text-center" id="divCabecera2">*@
+    <div class="col-md-2 col-12 col-sm-3 text-center">
         <label class="" id="lblAcciones">ACCIONES</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">

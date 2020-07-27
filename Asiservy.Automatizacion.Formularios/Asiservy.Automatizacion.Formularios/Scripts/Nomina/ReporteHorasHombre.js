@@ -214,12 +214,10 @@
                         {
                             caption: "Código CC",
                             dataField: "CodCentroCosto",
-                            area: "row"
-                        },
-                        {
-                            caption: "Centro de Costo",
-                            dataField: "CentroCosto",
-                            area: "row"
+                            area: "row",
+                             selector: function (data) {
+                                 return data.CodCentroCosto +" - " + data.CentroCosto;
+                            }
                         },
                         {
                             caption: "Código Recurso",

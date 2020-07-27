@@ -7,6 +7,8 @@
                            where x.IdParametro != null
                            group x by new { x.IdParametro, x.NombreParametro } into g
                            select new { g.Key.IdParametro, g.Key.NombreParametro });
+    int tfoot = groupParametros.Count();
+    int? idParametro = 0;
 }
 <div class="table-responsive">
     <table class="table table-bordered  text-uppercase" id="tblDataTables">
@@ -24,11 +26,14 @@
                         <th>@thead.NombreParametro</th>
                         if (thead.NombreParametro == "HISTAMINA")
                         {
+                            idParametro = thead.IdParametro; ;
+                            tfoot += 2;
                             <th>VALOR MAX</th>
                             <th>VALOR MIN</th>
                         }
                         else
                         {
+                            tfoot++;
                             <th>PROM</th>
                         }
                     }
@@ -41,7 +46,6 @@
                             group all by new { all.Cocinador, all.Parada, all.UsuarioIngresoLog } into listGroup
                             orderby listGroup.Key.Parada
                             select new { listGroup.Key.Cocinador, listGroup.Key.Parada, listGroup.Key.UsuarioIngresoLog });
-            //var consultarDetalleDia = ViewBag.ConsultarDetalleDia as List<sp_Analisis_Quimico_Precoccion>;
             string[] turnoLetra = new string[] { "", "A", "B", "C", "D", "E", "F", "G" };
         }
         <tbody style="font-size:9px">
@@ -135,8 +139,28 @@
 
             }
         </tbody>
+        <tfoot style="font-size:10px">
+            <tr>
+                @{ tfoot += 6;
+                    var listaValue = (from x in Model
+                                      where x.IdParametro == idParametro
+                                      select new { x.Valor }).ToList();
+
+                    if (idParametro != 0)
+                    {
+                        <td colspan="@tfoot">
+                            <b>
+                                HISTAMINA MAX: @listaValue.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()<br />
+                                HISTAMINA MIN: @listaValue.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()
+                            </b>
+                        </td>
+                    }
+                }
+            </tr>
+        </tfoot>
     </table>
 </div>
+
 <div class="card-footer divFooter ">
     <br />
     <table class="table table-borderless text-center">
