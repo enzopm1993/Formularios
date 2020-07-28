@@ -129,9 +129,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                         ListTipoEsterilizacion = TiposEsterilizacion
                     };
                     ViewBag.Registros = detallereporte.Count;
+                    return PartialView(Reporte);
+                }
+                else
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
                 }
                 
-                return PartialView(Reporte);
+                
             }
             catch (DbEntityValidationException e)
             {

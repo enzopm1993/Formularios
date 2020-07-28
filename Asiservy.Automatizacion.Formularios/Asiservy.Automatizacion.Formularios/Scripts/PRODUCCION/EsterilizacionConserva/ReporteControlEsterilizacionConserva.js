@@ -45,18 +45,26 @@
         if (resultado == '"101"') {
             window.location.reload();
         }
-        $('#DivReporte').html(resultado);
-        $('#btnCargando').prop('hidden', true);
-        $('#btnConsultar').prop('hidden', false);
-
-        if ($('#RegPartial').val() == 0) {
+        if (resultado == "0") {
+            $('#DivReporte').html('');
             $('#mensajegeneral').prop('hidden', false);
             $('#btnimprimir').prop('hidden', true)
         } else {
-            $('#lblFechap').text($('#FechaProduccion').val());
-            $('#btnimprimir').prop('hidden',false)
             $('#mensajegeneral').prop('hidden', true);
+            $('#DivReporte').html(resultado);
+            $('#btnimprimir').prop('hidden', false)
         }
+        $('#btnCargando').prop('hidden', true);
+        $('#btnConsultar').prop('hidden', false);
+
+        //if ($('#RegPartial').val() == 0) {
+        //    $('#mensajegeneral').prop('hidden', false);
+        //    $('#btnimprimir').prop('hidden', true)
+        //} else {
+        //    $('#lblFechap').text($('#FechaProduccion').val());
+        //    $('#btnimprimir').prop('hidden',false)
+        //    $('#mensajegeneral').prop('hidden', true);
+        //}
     })
     .catch(function (resultado) {
         MensajeError(resultado.responseText, false);
