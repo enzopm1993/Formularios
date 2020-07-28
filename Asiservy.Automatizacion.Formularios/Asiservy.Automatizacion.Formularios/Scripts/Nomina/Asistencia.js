@@ -393,7 +393,8 @@
                         { dataField: 'INGRESO', dataType: "string" },
                         { dataField: 'ALMUERZO', dataType: "string" },
                         { dataField: 'CENA', dataType: "string" },
-                        { dataField: 'SALIDA', dataType: "string" },
+                        { dataField: 'SALIDA', dataType: "string" }, 
+                        { dataField: 'HORAS_LABORADAS', dataType: "number" },
                         { dataField: 'DIA_FERIADO', dataType: "boolean" },
                         { dataField: 'DESC_DIA_FERIADO', dataType: "string" },
                         { dataField: 'DIA_ESPECIAL', dataType: "boolean" },
@@ -406,8 +407,7 @@
                         { dataField: 'DIA_INICIA_PERMISO', dataType: "date" },
                         { dataField: 'DIA_FIN_PERMISO', dataType: "date" },
                         { dataField: 'HORA_INICIA_PERMISO', dataType: "string" },
-                        { dataField: 'HORA_FIN_PERMISO', dataType: "string" },
-                        { dataField: 'HORAS_LABORADAS', dataType: "number" }],
+                        { dataField: 'HORA_FIN_PERMISO', dataType: "string" }],
                     paging: {
                         pageSize: 15
                     },
