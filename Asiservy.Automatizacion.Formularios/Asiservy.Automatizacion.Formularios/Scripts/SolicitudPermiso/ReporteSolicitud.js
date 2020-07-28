@@ -179,7 +179,7 @@ function ConsultarSolicitudes() {
                             }
                         },
                       { caption:"Biometrico",dataField: "FechaBiometrico", dataType: "string" },
-                      { caption: "Salida",dataField: "FechaSalida", dataType: "dateTime", dataType: "date" },
+                      { caption: "Salida",dataField: "FechaSalida", dataType: "string" },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
                         {
                             caption: "Medico", alignment: "center", cellTemplate: function (container, options) {
