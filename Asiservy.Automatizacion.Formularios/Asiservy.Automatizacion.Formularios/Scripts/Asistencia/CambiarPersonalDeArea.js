@@ -279,6 +279,9 @@ function ConsultarEmpleados() {
                 tipo: $('#optcambiaremp').val()
             },
             success: function (data) {
+                if (data == "101") {
+                    window.location.reload();
+                }
                 $('#DivEmpleados').html(data);
                 $('#btnGuardarCambioEmp').show();
                 $('#Guardar').show();

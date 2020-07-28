@@ -206,6 +206,9 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         },
         success: function (resultado) {
             //if (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#spinnerCargando").prop("hidden", true);
             $('#GenerarAsistencia').show();
             $('#horaservidor').show();
@@ -258,6 +261,10 @@ function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
             HoraServidor: $('#horaservidor').val()
         },
         success: function (resultado) {
+
+            if (resultado == "101") {
+                window.location.reload();
+            }
             //MensajeCorrecto(resultado, true);
             $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistencia').html(resultado);
@@ -393,6 +400,9 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                 //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
