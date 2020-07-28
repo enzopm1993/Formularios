@@ -1526,6 +1526,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="Observacion" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="CC_MONITOREO_DESCONGELADO_DETALLE">
           <Key>
@@ -6905,7 +6906,6 @@
             <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
           </AssociationSet>
           <EntitySet Name="CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" />
-          <EntitySet Name="CC_MONITOREO_DESCONGELADO_CONTROL" EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" />
           <EntitySet Name="CC_MONITOREO_DESCONGELADO_DETALLE" EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_DETALLE" />
           <EntitySet Name="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" />
           <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MANTENIMIENTO_MUESTRA_DESCONGELADO">
@@ -6920,10 +6920,6 @@
           <EntitySet Name="CC_MONITOREO_DESCONGELADO" EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" />
           <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO" Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO">
             <End Role="CC_MANTENIMIENTO_TIPO_DESCONGELADO" EntitySet="CC_MANTENIMIENTO_TIPO_DESCONGELADO" />
-            <End Role="CC_MONITOREO_DESCONGELADO" EntitySet="CC_MONITOREO_DESCONGELADO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
-            <End Role="CC_MONITOREO_DESCONGELADO_CONTROL" EntitySet="CC_MONITOREO_DESCONGELADO_CONTROL" />
             <End Role="CC_MONITOREO_DESCONGELADO" EntitySet="CC_MONITOREO_DESCONGELADO" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MONITOREO_DESCONGELADO" Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MONITOREO_DESCONGELADO">
@@ -7126,6 +7122,11 @@
             <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="CC_MONITOREO_DESCONGELADO_CONTROL" EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" />
+          <AssociationSet Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
+            <End Role="CC_MONITOREO_DESCONGELADO_CONTROL" EntitySet="CC_MONITOREO_DESCONGELADO_CONTROL" />
+            <End Role="CC_MONITOREO_DESCONGELADO" EntitySet="CC_MONITOREO_DESCONGELADO" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -12512,25 +12513,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_MONITOREO_DESCONGELADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" FromRole="CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" ToRole="CC_MONITOREO_DESCONGELADO_DETALLE" />
         </EntityType>
-        <EntityType Name="CC_MONITOREO_DESCONGELADO_CONTROL">
-          <Key>
-            <PropertyRef Name="IdMonitoreoDescongeladoControl" />
-          </Key>
-          <Property Name="IdMonitoreoDescongeladoControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
-          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
-          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_MONITOREO_DESCONGELADO" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" FromRole="CC_MONITOREO_DESCONGELADO_CONTROL" ToRole="CC_MONITOREO_DESCONGELADO" />
-        </EntityType>
         <EntityType Name="CC_MONITOREO_DESCONGELADO_DETALLE">
           <Key>
             <PropertyRef Name="IdMonitoreoDescongeladoDetalle" />
@@ -12643,8 +12625,8 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_MANTENIMIENTO_TIPO_DESCONGELADO" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO" FromRole="CC_MONITOREO_DESCONGELADO" ToRole="CC_MANTENIMIENTO_TIPO_DESCONGELADO" />
-          <NavigationProperty Name="CC_MONITOREO_DESCONGELADO_CONTROL" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" FromRole="CC_MONITOREO_DESCONGELADO" ToRole="CC_MONITOREO_DESCONGELADO_CONTROL" />
           <NavigationProperty Name="CC_MONITOREO_DESCONGELADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_DETALLE_CC_MONITOREO_DESCONGELADO" FromRole="CC_MONITOREO_DESCONGELADO" ToRole="CC_MONITOREO_DESCONGELADO_DETALLE" />
+          <NavigationProperty Name="CC_MONITOREO_DESCONGELADO_CONTROL" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" FromRole="CC_MONITOREO_DESCONGELADO" ToRole="CC_MONITOREO_DESCONGELADO_CONTROL" />
         </EntityType>
         <Association Name="FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO">
           <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_TIPO_DESCONGELADO" Role="CC_MANTENIMIENTO_TIPO_DESCONGELADO" Multiplicity="1" />
@@ -12655,18 +12637,6 @@
             </Principal>
             <Dependent Role="CC_MONITOREO_DESCONGELADO">
               <PropertyRef Name="IdTipoMonitoreo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
-          <End Type="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Role="CC_MONITOREO_DESCONGELADO_CONTROL" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Role="CC_MONITOREO_DESCONGELADO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MONITOREO_DESCONGELADO_CONTROL">
-              <PropertyRef Name="IdMonitoreoDescongeladoControl" />
-            </Principal>
-            <Dependent Role="CC_MONITOREO_DESCONGELADO">
-              <PropertyRef Name="IdMonitoreoDescongeladoControl" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13934,6 +13904,38 @@
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="CC_MONITOREO_DESCONGELADO_CONTROL">
+          <Key>
+            <PropertyRef Name="IdMonitoreoDescongeladoControl" />
+          </Key>
+          <Property Name="IdMonitoreoDescongeladoControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MONITOREO_DESCONGELADO" Relationship="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" FromRole="CC_MONITOREO_DESCONGELADO_CONTROL" ToRole="CC_MONITOREO_DESCONGELADO" />
+        </EntityType>
+        <Association Name="FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL">
+          <End Type="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Role="CC_MONITOREO_DESCONGELADO_CONTROL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Role="CC_MONITOREO_DESCONGELADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MONITOREO_DESCONGELADO_CONTROL">
+              <PropertyRef Name="IdMonitoreoDescongeladoControl" />
+            </Principal>
+            <Dependent Role="CC_MONITOREO_DESCONGELADO">
+              <PropertyRef Name="IdMonitoreoDescongeladoControl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19270,25 +19272,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_MONITOREO_DESCONGELADO_CONTROL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL">
-              <MappingFragment StoreEntitySet="CC_MONITOREO_DESCONGELADO_CONTROL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdMonitoreoDescongeladoControl" ColumnName="IdMonitoreoDescongeladoControl" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_MONITOREO_DESCONGELADO_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_DETALLE">
               <MappingFragment StoreEntitySet="CC_MONITOREO_DESCONGELADO_DETALLE">
@@ -20478,6 +20461,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_MONITOREO_DESCONGELADO_CONTROL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL">
+              <MappingFragment StoreEntitySet="CC_MONITOREO_DESCONGELADO_CONTROL">
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdMonitoreoDescongeladoControl" ColumnName="IdMonitoreoDescongeladoControl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -40,8 +40,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         public virtual CC_MANTENIMIENTO_TIPO_DESCONGELADO CC_MANTENIMIENTO_TIPO_DESCONGELADO { get; set; }
-        public virtual CC_MONITOREO_DESCONGELADO_CONTROL CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_MONITOREO_DESCONGELADO_DETALLE> CC_MONITOREO_DESCONGELADO_DETALLE { get; set; }
+        public virtual CC_MONITOREO_DESCONGELADO_CONTROL CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
     }
 }
