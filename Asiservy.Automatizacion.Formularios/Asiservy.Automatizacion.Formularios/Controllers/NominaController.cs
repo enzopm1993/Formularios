@@ -979,6 +979,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string DIA_FIN_PERMISO { get; set; }
         public string HORA_INICIA_PERMISO { get; set; }
         public string HORA_FIN_PERMISO { get; set; }
+        public decimal HORAS_LABORADAS { get; set; }
     }
 
     class EnvioSapLogin
