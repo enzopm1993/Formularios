@@ -47,6 +47,11 @@ function CargarOrdenFabricacion(valor) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "0") {
+                $("#SelectOrdenFabricacion").empty();
+                $("#SelectOrdenFabricacion").append("<option value='' >-- Error de servicio--</option>");
+                return;
+            }
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
