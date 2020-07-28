@@ -8,9 +8,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-            <th>
-                Turno
-            </th>
+           
             <th>
                 Estado
             </th>
@@ -38,7 +36,6 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
             var m = new CC_MONITOREO_DESCONGELADO_CONTROL
             {
                 IdMonitoreoDescongeladoControl = item.IdMonitoreoDescongeladoControl,
@@ -59,15 +56,7 @@
                 <td>
                     @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
-                <td>
-                    @{
-
-                        if (T != null)
-                        {
-                            @T.Descripcion
-                        }
-                    }
-                </td>
+               
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>

@@ -174,6 +174,7 @@ $(function () {
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
 
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+        FiltrarAprobadosFecha();
     }
 
     $('#reportrange').daterangepicker({

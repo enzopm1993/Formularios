@@ -79,7 +79,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -88,19 +88,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsdMantenimientoTipoDescongelado = new ClsdMantenimientoTipoDescongelado();
                 ViewBag.Tipo = ClsdMantenimientoTipoDescongelado.ConsultaManteminetoTipoDescongelado();
 
-                List<spConsultaMonitoreoDescongelado> Lista2 = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x => x.Turno != Turno).ToList();
-                List<spConsultaMonitoreoDescongelado> Lista = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x => x.Turno == Turno).ToList();
+                var Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(Fecha);
+                if (Control != null)
+                {
+                    ViewBag.Observacion = Control.Observacion;
+                }
+                List<spConsultaMonitoreoDescongelado> Lista = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).ToList();
                 ViewBag.Control = Lista;
                 List<RegistroDescongeladoEmparrilladoMP> model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                if (Lista2.Any())
-                {
-                    model = model.Where(x => !Lista2.Select(l => l.Tanque).Contains(x.U_SYP_TANQUE)).ToList();
-                }
-
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
@@ -124,17 +123,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult MonitoreoDescongeladoDetallePartial(DateTime Fecha,string Tanque, string Lote, int Tipo, string Turno)
+        public JsonResult MonitoreoDescongeladoDetallePartial(DateTime Fecha,string Tanque, string Lote, int Tipo)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-               var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo, Turno);
+               var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha,Tanque,Lote,Tipo);
                 return model != null ? Json(model, JsonRequestBehavior.AllowGet) : Json("0",JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -158,12 +157,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control,List<CC_MONITOREO_DESCONGELADO_DETALLE> detalle, string Turno)
+        public ActionResult MonitoreoDescongelado(CC_MONITOREO_DESCONGELADO control,List<CC_MONITOREO_DESCONGELADO_DETALLE> detalle)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -177,12 +176,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("800", JsonRequestBehavior.AllowGet);
                 }
-                if ( clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha, Turno).Any(x => x.EstadoReporte))
+                var Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha);
+                if (Control!= null && Control.EstadoReporte)
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
 
-                clsDMonitoreoDescongelado.GuardarModificarMonitoreoDescongelado(control,detalle,Turno);
+                clsDMonitoreoDescongelado.GuardarModificarMonitoreoDescongelado(control,detalle);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -205,17 +205,66 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
+        [HttpPost]
+        public ActionResult GuardarObservacion(CC_MONITOREO_DESCONGELADO_CONTROL control)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
+                control.UsuarioIngresoLog = lsUsuario[0];
+                control.FechaIngresoLog = DateTime.Now;
+                control.TerminalIngresoLog = Request.UserHostAddress;
+                control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(control.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                var Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(control.Fecha);
+                if (Control != null && Control.EstadoReporte)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                clsDMonitoreoDescongelado.GuardarObservacion(control);
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         public JsonResult ValidaEstadoReporte(DateTime Fecha,string Turno)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
-                var control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(Fecha, Turno).FirstOrDefault();
+                var control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(Fecha);
                 if (control!=null)
                 {
                     if (control.EstadoReporte)
@@ -258,7 +307,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -277,9 +326,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("800", JsonRequestBehavior.AllowGet);
                 }
 
-                if (clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha,Turno).Any(x => x.EstadoReporte))
+                var Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha);
+                if (Control != null && Control.EstadoReporte)
                 {
-                    return Json(1, JsonRequestBehavior.AllowGet);
+                    return Json("1", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado.EliminarMonitoreoDescongelado(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
@@ -389,7 +439,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -424,12 +474,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult AprobarBandejaControlCloro(CC_MONITOREO_DESCONGELADO_CONTROL model,string Turno)
+        public ActionResult AprobarBandejaControlCloro(CC_MONITOREO_DESCONGELADO_CONTROL model)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -447,7 +497,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("800", JsonRequestBehavior.AllowGet);
                 }
-                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model,Turno);
+                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -470,12 +520,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReversarBandejaControl(CC_MONITOREO_DESCONGELADO_CONTROL model,string Turno)
+        public ActionResult ReversarBandejaControl(CC_MONITOREO_DESCONGELADO_CONTROL model)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -493,7 +543,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("800", JsonRequestBehavior.AllowGet);
                 }
-                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model,Turno);
+                clsDMonitoreoDescongelado.Aprobar_ReporteMonitoreoDescongelado(model);
                 return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -572,7 +622,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -587,7 +637,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     ViewBag.Turno = poTurno.Descripcion;
                 }
-                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x=> x.Turno==Turno).ToList();
+                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).ToList();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

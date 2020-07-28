@@ -750,10 +750,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 List<SPReporteAnalisisQuimicoProductoSe> resultado;
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultaReporte(IdCabecera);
-               
+                //var MinMaxItems = resultado.Where(x => x.CalcMinMax == true).GroupBy(x => x.ParametroLaboratorio).Select(g => g.First()).ToList();
                 var Areas = (from a in resultado
-                             orderby a.IdClasificador
-                             select new Area { CodArea=a.CodArea, AreaNombre=a.Area,Total=0 }
+                                 orderby a.IdClasificador
+                                 select new Area { CodArea=a.CodArea, AreaNombre=a.Area,Total=0 }
                              ).ToList().GroupBy(x=>x.CodArea).Select(g=>g.First()).ToList();
                 foreach (var itemarea in Areas)
                 {
@@ -762,7 +762,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Areas = Areas;
                 List<dynamic> Parametros = (from p in resultado
                                                   orderby p.IdClasificador,p.ParametroLaboratorio
-                                  select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro }).Distinct().ToList<dynamic>();
+                                  select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro}).Distinct().ToList<dynamic>();
                 List<TipoProducto> TipoProducto = (from t in resultado
                                               orderby t.IdTipoAnalisisQuimicoProductoSe
                                               select new TipoProducto { IdTipoAnalisisQuimicoProductoSe=t.IdTipoAnalisisQuimicoProductoSe, TipoProductoNombre=t.TipoProducto,OrdenFabricacion=t.OrdenFabricacion,Lote=t.Lote })
