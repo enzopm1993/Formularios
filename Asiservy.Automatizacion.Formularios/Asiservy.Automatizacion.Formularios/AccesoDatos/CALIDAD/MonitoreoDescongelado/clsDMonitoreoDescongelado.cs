@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
 
        
 
-        public List<spConsultaMonitoreoDescongeladoDetalle> ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,int Tipo, string Turno)
+        public List<spConsultaMonitoreoDescongeladoDetalle> ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,int Tipo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -30,7 +30,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                              && x.Tanque == Tanque
                              && x.IdTipoMonitoreo == Tipo
                              && x.Lote == Lote
-                             && y.Turno == Turno
+                         //    && y.Turno == Turno
                              && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                              select x
                             ).FirstOrDefault();
@@ -42,14 +42,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public void GuardarModificarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model, List<CC_MONITOREO_DESCONGELADO_DETALLE> detalle, string Turno)
+        public void GuardarModificarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model, List<CC_MONITOREO_DESCONGELADO_DETALLE> detalle)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
                     CC_MONITOREO_DESCONGELADO_CONTROL poControlReporte = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha 
-                    && x.Turno==Turno 
                     && x.EstadoRegistro== clsAtributos.EstadoRegistroActivo);
                     int idControl = 0;
                     int idCabecera = 0;
@@ -61,7 +60,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     {
                         CC_MONITOREO_DESCONGELADO_CONTROL control = new CC_MONITOREO_DESCONGELADO_CONTROL();
                         control.Fecha = model.Fecha;
-                        control.Turno = Turno;
                         control.EstadoReporte = false;
                         control.FechaIngresoLog = model.FechaIngresoLog;
                         control.TerminalIngresoLog = model.TerminalIngresoLog;
@@ -75,11 +73,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     var poControl = entities.CC_MONITOREO_DESCONGELADO.FirstOrDefault(x => x.IdMonitoreoDescongelado == model.IdMonitoreoDescongelado);
                     if (poControl != null)
                     {
+                        poControl.Turno = model.Turno;
                         poControl.Hora = model.Hora;
-                        //poControl.Muestra1 = model.Muestra1;
-                        //poControl.Muestra2 = model.Muestra2;
                         poControl.TemperaturaAgua = model.TemperaturaAgua;
-                        //poControl.Muestra3 = model.Muestra3;
                         poControl.Observacion = !string.IsNullOrEmpty(model.Observacion)? model.Observacion.ToUpper():model.Observacion;
                         poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                         poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -96,7 +92,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                     }
                     foreach(var d in detalle)
                     {
-                        //var poMuestra = entities.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO.FirstOrDefault(x=> x.IdMuestra = d.cod);
                         var poControlDetalle = entities.CC_MONITOREO_DESCONGELADO_DETALLE.FirstOrDefault(x => x.IdMonitoreoDescongelado == idCabecera && x.IdMuestra == d.IdMuestra && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                         if (poControlDetalle != null)
                         {
@@ -131,7 +126,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 using (var transaction = entities.Database.BeginTransaction())
                 {
                     CC_MONITOREO_DESCONGELADO_CONTROL poControlReporte = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha
-                    && x.Turno == model.Turno
+                //    && x.Turno == model.Turno
                     && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
                     if (poControlReporte != null)
@@ -196,13 +191,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
-        public List<CC_MONITOREO_DESCONGELADO_CONTROL> ConsultaMonitoreoDescongeladoControl(DateTime Fecha, string Turno)
+        public CC_MONITOREO_DESCONGELADO_CONTROL ConsultaMonitoreoDescongeladoControl(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => x.Fecha == Fecha
-                                                                && x.Turno == Turno
-                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                return entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == Fecha
+                                                               // && x.Turno == Turno
+                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
             }
         }
 
@@ -213,11 +208,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                 return entities.CC_MONITOREO_DESCONGELADO_CONTROL.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
-        public void Aprobar_ReporteMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO_CONTROL controlCloro, string Turno)
+        public void Aprobar_ReporteMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO_CONTROL controlCloro)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.IdMonitoreoDescongeladoControl == controlCloro.IdMonitoreoDescongeladoControl || (x.Fecha == controlCloro.Fecha&&x.Turno==Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.IdMonitoreoDescongeladoControl == controlCloro.IdMonitoreoDescongeladoControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (model != null)
                 {
                     model.EstadoReporte = controlCloro.EstadoReporte;

@@ -148,7 +148,7 @@ function GuardarObservacion() {
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            Turno: $("#selectTurno").val(),
+       //     Turno: $("#selectTurno").val(),
             Observacion: $("#txtObservacionCabecera").val(),
 
         },
@@ -220,7 +220,7 @@ function ConsultarMonitoreoDetalle() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
-            Turno: $("#selectTurno").val(),
+            //Turno: $("#selectTurno").val(),
             Tanque: DatosCabecera.U_SYP_TANQUE,
             Lote: DatosCabecera.U_SYP_LOTE,
             Tipo: $("#selectTipo").val()
