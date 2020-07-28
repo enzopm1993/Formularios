@@ -307,6 +307,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Handsontable = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.Pivot = "1";
+                ViewBag.Title = "Reporte de asistencia";
+                ViewBag.DxDevWeb = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 ModeloVistaAsistencia dataView = new ModeloVistaAsistencia();
@@ -945,6 +947,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class ClsRegistroAsistencia
     {
         public string DIA { get; set; }
+        public string DIA_FORMAT { get; set; }
         public string NOMBRE_DIA { get; set; }
         public int NUMERO_DIA { get; set; }
         public string EMPRESA { get; set; }

@@ -1,5 +1,5 @@
 ﻿$(function () {
-
+    DevExpress.localization.locale(navigator.language);
     var fileNameExcel = "DatosAsistencia-CSV-file_";
 
     var optionsGenero = {
@@ -172,26 +172,6 @@
 
     cb(start, end);
 
-    $("#exportExcel").click(function () {
-
-        var hotInstance = $('#data-asistencia').handsontable('getInstance');
-
-        var exportPlugin1 = hotInstance.getPlugin('exportFile');
-
-        exportPlugin1.downloadFile('csv', {
-            bom: false,
-            columnDelimiter: ',',
-            columnHeaders: true,
-            exportHiddenColumns: true,
-            exportHiddenRows: true,
-            fileExtension: 'csv',
-            filename: fileNameExcel,
-            mimeType: 'text/csv',
-            rowDelimiter: '\r\n',
-            rowHeaders: false
-        });
-        return false;
-    });
 
     $("#generarAsistencia").click(function () {
         var fechaDesde = $("#fechaDesde").val();
@@ -389,42 +369,101 @@
                 }
 
                 
+                var weekdays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                var gridOptions = {
+                    dataSource: resultado.dataGeneral,
+                    columns: [
+                        {
+                            caption: "DÍA" ,dataField: "DIA_FORMAT", dataType: "date", cellTemplate: function (container, options) {
+                                var dia = weekdays[moment(options.data.DIA_FORMAT).isoWeekday()-1];
+                                container.append("<div>" + dia + ", " + options.data.DIA_FORMAT + "</div>")
+                            }
+                        },
+                        { dataField: 'EMPRESA', dataType: "string" },
+                        { dataField: 'CEDULA', dataType: "string" },
+                        { dataField: 'CODIGO', dataType: "string" },
+                        { dataField: 'ESTADO_EMPLEADO', dataType: "string" },
+                        { dataField: 'GENERO', dataType: "string" },
+                        { dataField: 'NOMBRES', dataType: "string" },
+                        { dataField: 'TIPO_ROL', dataType: "string" },
+                        { dataField: 'AREA', dataType: "string" },
+                        { dataField: 'CARGO', dataType: "string" },
+                        { dataField: 'LINEA', dataType: "string" },
+                        { dataField: 'RECURSO', dataType: "string" },
+                        { dataField: 'INGRESO', dataType: "string" },
+                        { dataField: 'ALMUERZO', dataType: "string" },
+                        { dataField: 'CENA', dataType: "string" },
+                        { dataField: 'SALIDA', dataType: "string" },
+                        { dataField: 'DIA_FERIADO', dataType: "boolean" },
+                        { dataField: 'DESC_DIA_FERIADO', dataType: "string" },
+                        { dataField: 'DIA_ESPECIAL', dataType: "boolean" },
+                        { dataField: 'DESC_MODALIDAD', dataType: "string" },
+                        { dataField: 'PRESENTE', dataType: "boolean" },
+                        { dataField: 'AUSENTE', dataType: "boolean" },
+                        { dataField: 'CON_PERMISO', dataType: "boolean" },
+                        { dataField: 'NOVEDAD', dataType: "string" },
+                        { dataField: 'OBSERVACION', dataType: "string" },
+                        { dataField: 'DIA_INICIA_PERMISO', dataType: "date" },
+                        { dataField: 'DIA_FIN_PERMISO', dataType: "date" },
+                        { dataField: 'HORA_INICIA_PERMISO', dataType: "string" },
+                        { dataField: 'HORA_FIN_PERMISO', dataType: "string" }],
+                    paging: {
+                        pageSize: 15
+                    },
+                    pager: {
+                        showPageSizeSelector: true,
+                        allowedPageSizes: [10, 25, 50, 100]
+                    },
+                    searchPanel: {
+                        visible: true,
+                        highlightCaseSensitive: true,
+                        width: 240,
+                        placeholder: "Buscar..."
+                    },
+                    groupPanel: { visible: true },
+                    grouping: {
+                        autoExpandAll: false
+                    },
+                    selection: {
+                        mode: "single"
+                    },
+                    allowColumnResizing: true,
+                    columnResizingMode: "nextColumn",
+                    columnMinWidth: 50,
+                    columnAutoWidth: true,
+                    columnFixing: {
+                        enabled: true
+                    },
+                    showBorders: true,
+                    showRowLines: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: "auto"
+                    },
+                    headerFilter: {
+                        visible: true
+                    },
+                    export: {
+                        enabled: true,
+                        allowExportSelectedData: true
+                    },
+                    onExporting: function (e) {
+                        var workbook = new ExcelJS.Workbook();
+                        var worksheet = workbook.addWorksheet('Datos');
 
-                var keys = Object.keys(resultado.dataGeneral[0]);
-                var columns_obj = [];
-                $.each(keys, function (i, it) {
-                    columns_obj[i] = it ;
-                });
-
-                var hotSettings = {
-                    readOnly: true,
-                    data: resultado.dataGeneral,
-                    stretchH: 'all',
-                    autoWrapRow: true,
-                    height: 600,
-                    filters: true,
-                    rowHeaders: true,
-                    dropdownMenu: true,
-                    fixedColumnsLeft: 1,
-                    colHeaders: columns_obj,
-                    language: 'es-MX',
-                    dropdownMenu: [
-                        'filter_by_condition',
-                        'filter_by_value',
-                        'filter_action_bar'
-                    ],
-                    licenseKey: 'non-commercial-and-evaluation'
+                        DevExpress.excelExporter.exportDataGrid({
+                            component: e.component,
+                            worksheet: worksheet,
+                            autoFilterEnabled: true
+                        }).then(function () {
+                            workbook.xlsx.writeBuffer().then(function (buffer) {
+                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Reporte_' + fechaDesde + '_' + fechaHasta + '.xlsx');
+                            });
+                        });
+                        e.cancel = true;
+                    }
                 };
-
-                $('#data-asistencia').handsontable(hotSettings);
-
-                var hotInstance = $('#data-asistencia').handsontable('getInstance');
-                hotInstance.getPlugin('Filters').clearConditions();
-                hotInstance.getPlugin('Filters').filter();
-                hotInstance.render();
-
-                $("#exportExcel").show();
-              
+                $("#grid").dxDataGrid(gridOptions).dxDataGrid("instance");
 
                 //$("#data-asistencia").slideDown();
             },
