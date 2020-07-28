@@ -641,7 +641,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     ViewBag.Turno = poTurno.Descripcion;
                 }
-                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).Where(x=> x.Turno==Turno).ToList();
+                var model = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).ToList();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
