@@ -27,6 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Area { get; set; }
         public string NombreParametro { get; set; }
         public string DescripcionParametro { get; set; }
+        public Nullable<bool> CalcMinMax { get; set; }
         public Nullable<decimal> Cantidad { get; set; }
     }
 }

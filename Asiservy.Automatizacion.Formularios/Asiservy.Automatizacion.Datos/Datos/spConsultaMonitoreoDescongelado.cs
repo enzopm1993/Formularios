@@ -25,6 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Talla { get; set; }
         public System.DateTime Hora { get; set; }
         public string Observacion { get; set; }
+        public string ObservacionGeneral { get; set; }
         public int IdMuestra { get; set; }
         public decimal Cantidad { get; set; }
     }

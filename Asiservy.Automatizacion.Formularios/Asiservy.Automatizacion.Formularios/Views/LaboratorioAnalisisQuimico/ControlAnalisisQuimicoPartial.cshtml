@@ -47,106 +47,106 @@
             var listaCocinaParada = (from c in Model where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA).ToList();
             string json = JsonConvert.SerializeObject(listaCocinaParada);
             string turnoValidado = "";
-            if (turno!=null)
+            if (turno != null)
             {
                 turnoValidado = turno.Turno;
             }
             if (turno == null || turno.Turno == ViewBag.Turno)
             {
-            <tr style="cursor:pointer" onclick="ModalIngresoSubDetalle(@json, @row.COCINA, @row.PARADA,@turnoValidado)">
-                <td>@row.COCINA</td>
-                <td>@row.PARADA</td>
-                <td>
-                    @foreach (var item in listaCocinaParada)
-                    {
-                        <div>@item.LOTE / @item.BARCO</div>
-                    }
-                </td>
-                <td>
-                    @foreach (var item in listaCocinaParada)
-                    {
-                        <div>@item.ESPECIE - @item.TALLA</div>
-                    }
-                </td>
-                <td>
-                    @foreach (var item in listaCocinaParada)
-                    {
-                        <div>@item.COCHES</div>
-                    }
-                </td>
-                @if (ViewBag.listaParametros != null)
-                {
-                    foreach (var thead in ViewBag.listaParametros)
-                    {
-                        <td style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
-                            @foreach (var lote in listaCocinaParada)
-                            {
-                                var groupLote = (from item in consultarDetalleDia
-                                                 where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
-                                                 orderby item.Parada
-                                                 group item by new { item.IdElemento, item.IdParametro, item.LoteBarco, item.Valor } into x
-                                                 select new { x.Key.IdElemento, x.Key.IdParametro, x.Key.LoteBarco, x.Key.Valor }).ToList();
-                                foreach (var glote in groupLote)
-                                {
-                                    if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)
-                                    {
-                                        <div id="inputParametro_@thead.IdParametro@row.COCINA@row.PARADA@lote.LOTE">@lote.LOTE - @glote.Valor</div>
-                                    }
-                                }
-                                if (!groupLote.Any())
-                                {
-                                    <div>----</div>
-                                }
-                            }
-                        </td>
-                        if (thead.NombreParametro.ToUpper() == "HISTAMINA")
+                <tr style="cursor:pointer" onclick="ModalIngresoSubDetalle(@json, @row.COCINA, @row.PARADA,@turnoValidado)">
+                    <td>@row.COCINA</td>
+                    <td>@row.PARADA</td>
+                    <td>
+                        @foreach (var item in listaCocinaParada)
                         {
-                            var listaValor = (from x in consultarDetalleDia
-                                              where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
-                                              select new { x.Valor }).ToList();
-
-
-                            <td>@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
-                            <td>@listaValor.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                            <div>@item.LOTE / @item.BARCO</div>
                         }
-                        else
+                    </td>
+                    <td>
+                        @foreach (var item in listaCocinaParada)
                         {
-                            <td>
-                                @{
-                                    var sum = (from x in consultarDetalleDia
-                                               where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
-                                               select x.Valor).ToList();
-                                    decimal average = 0;
-                                    if (sum.Any())
+                            <div>@item.ESPECIE - @item.TALLA</div>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var item in listaCocinaParada)
+                        {
+                            <div>@item.COCHES</div>
+                        }
+                    </td>
+                    @if (ViewBag.listaParametros != null)
+                    {
+                        foreach (var thead in ViewBag.listaParametros)
+                        {
+                            <td style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
+                                @foreach (var lote in listaCocinaParada)
+                                {
+                                    var groupLote = (from item in consultarDetalleDia
+                                                     where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
+                                                     orderby item.Parada
+                                                     group item by new { item.IdElemento, item.IdParametro, item.LoteBarco, item.Valor } into x
+                                                     select new { x.Key.IdElemento, x.Key.IdParametro, x.Key.LoteBarco, x.Key.Valor }).ToList();
+                                    foreach (var glote in groupLote)
                                     {
-                                        average = sum.Where(a => a.Value != 0)
-                                      .Select(a => Convert.ToDecimal(a.Value))
-                                      .DefaultIfEmpty(0)
-                                      .Average();
+                                        if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)
+                                        {
+                                            <div id="inputParametro_@thead.IdParametro@row.COCINA@row.PARADA@lote.LOTE">@lote.LOTE _ @glote.Valor</div>
+                                        }
+                                    }
+                                    if (!groupLote.Any())
+                                    {
+                                        <div>----</div>
                                     }
                                 }
-
-                                @average.ToString("0.00")
                             </td>
-                                            }
-                                        }
-                                    }
-                <td>
-                    @if (turno != null)
-                    {
-                        @turno.UsuarioIngresoLog
-                    }
-                </td>
-                <td class="text-center">
-                    @if (turno != null)
-                    {
-                        @turnoLetra[int.Parse(turno.Turno)];
-                    }
+                            if (thead.NombreParametro.ToUpper() == "HISTAMINA")
+                            {
+                                var listaValor = (from x in consultarDetalleDia
+                                                  where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
+                                                  select new { x.Valor }).ToList();
 
-                </td>
-            </tr>
+
+                                <td>@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                                <td>@listaValor.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @{
+                                        var sum = (from x in consultarDetalleDia
+                                                   where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
+                                                   select x.Valor).ToList();
+                                        decimal average = 0;
+                                        if (sum.Any())
+                                        {
+                                            average = sum.Where(a => a.Value != 0)
+                                          .Select(a => Convert.ToDecimal(a.Value))
+                                          .DefaultIfEmpty(0)
+                                          .Average();
                                         }
                                     }
+
+                                    @average.ToString("0.00")
+                                </td>
+                            }
+                        }
+                    }
+                    <td>
+                        @if (turno != null)
+                        {
+                            @turno.UsuarioIngresoLog
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (turno != null)
+                        {
+                            @turnoLetra[int.Parse(turno.Turno)];
+                        }
+
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
 

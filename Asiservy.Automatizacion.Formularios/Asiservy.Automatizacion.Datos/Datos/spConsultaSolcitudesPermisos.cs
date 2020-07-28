@@ -35,6 +35,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CodEstadoSolicitud { get; set; }
         public string EstadoSolicitud { get; set; }
         public Nullable<System.DateTime> FechaBiometrico2 { get; set; }
+        public string FechaBiometrico { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string FechaIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }

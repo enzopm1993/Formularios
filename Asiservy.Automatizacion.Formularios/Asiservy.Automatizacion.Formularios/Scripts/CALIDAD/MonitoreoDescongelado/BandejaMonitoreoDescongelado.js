@@ -51,10 +51,10 @@ function AprobarControl() {
     //var estadoReporte = data;
     //console.log(listaDatos);
     //console.log(moment($("#txtFechaAprobacion").val()) < moment(listaDatos.FechaIngresoLog));
-    if (moment($("#txtFechaAprobacion").val()) < moment(listaDatos.Fecha)) {
-        MensajeAdvertencia("Fecha de Aprobación no puede ser menor a la Fecha de Creación.");
-        return;
-    }
+    //if (moment($("#txtFechaAprobacion").val()) < moment(listaDatos.Fecha)) {
+    //    MensajeAdvertencia("Fecha de Aprobación no puede ser menor a la Fecha de Producción.");
+    //    return;
+    //}
     if (moment($("#txtFechaAprobacion").val()) > moment()) {
         MensajeAdvertencia("Fecha de Aprobación no puede ser mayor a la fecha actual.");
         return;

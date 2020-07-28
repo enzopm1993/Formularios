@@ -337,10 +337,13 @@
                                         @*@if (NumeroDetalle <= 1)
                                 {*@
 
-                                        @{TimeSpan? TiempoEspera = item.HoraInicioCalentamiento == null ? item.HoraInicioViento - Model.ListDetalleCoches.FirstOrDefault().HoraInicio : item.HoraInicioCalentamiento - Model.ListDetalleCoches.FirstOrDefault().HoraInicio;
-                                        }
-                                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@Model.ListDetalleCoches.FirstOrDefault().Tarjeta</td>
-                                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@Model.ListDetalleCoches.FirstOrDefault().HoraInicio.ToString("hh:mm")</td>
+                                        @{
+                                            var cochesf = Model.ListDetalleCoches.Where(x => x.IdCocheAutoclave == item.IdCocheAutoclave).FirstOrDefault();
+                                            TimeSpan? TiempoEspera = item.HoraInicioCalentamiento == null ? item.HoraInicioViento - cochesf.HoraInicio : item.HoraInicioCalentamiento - cochesf.HoraInicio;
+
+                                            }
+                                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@cochesf.Tarjeta</td>
+                                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@cochesf.HoraInicio.ToString("hh:mm")</td>
                                         <td style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@TiempoEspera</td>
                                         @*//}*@
 
@@ -612,10 +615,12 @@
 
                 for (int i = 1; i < NumeroDetalle; i++)
                 {
-                    TimeSpan? TiempoEspera2 = item.HoraInicioCalentamiento == null ? item.HoraInicioViento - Model.ListDetalleCoches[i].HoraInicio : item.HoraInicioCalentamiento - Model.ListDetalleCoches[i].HoraInicio;
+                                    @*@Model.ListDetalleCoches*@
+                    var coches=Model.ListDetalleCoches.Where(x=>x.IdCocheAutoclave==item.IdCocheAutoclave).ToList();
+                    TimeSpan? TiempoEspera2 = item.HoraInicioCalentamiento == null ? item.HoraInicioViento - coches[i].HoraInicio : item.HoraInicioCalentamiento - Model.ListDetalleCoches[i].HoraInicio;
                     <tr>
-                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@Model.ListDetalleCoches[i].Tarjeta</td>
-                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@Model.ListDetalleCoches[i].HoraInicio.ToString("hh:mm")</td>
+                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@coches[i].Tarjeta</td>
+                        <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@coches[i].HoraInicio.ToString("hh:mm")</td>
                         <td class="text-center" style="padding-bottom:0px;padding-top:0px;padding-left:0px;padding-right:0px;">@TiempoEspera2</td>
                     </tr>
                 }

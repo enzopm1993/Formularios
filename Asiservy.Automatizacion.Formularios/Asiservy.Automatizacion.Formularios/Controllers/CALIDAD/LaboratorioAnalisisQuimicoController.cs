@@ -41,7 +41,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.MascaraInput = "1";
                 ViewBag.usuarioAnalista = lsUsuario[0];
                 ClsDParametrosLaboratorio = new ClsDParametrosLaboratorio();
-                var parametros = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.codFormPrecoccion).Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var parametros = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.codFormPrecoccion).Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+               
                 ViewBag.listaParametros = parametros;
                 clsDLogin = new clsDLogin();
                 var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteAnalisisQuimico");
@@ -89,7 +90,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ClsDParametrosLaboratorio = new ClsDParametrosLaboratorio();
                 clsDApiProduccion = new clsDApiProduccion();
                 var parametros = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.codFormPrecoccion).Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
-                ViewBag.listaParametros = parametros;
+                ViewBag.listaParametros = parametros ;
                 ViewBag.ConsultarDetalleDia = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaDesde, turno, op);
                 var listaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaDesde);
                 if (listaParadasCocinas != null)
@@ -671,7 +672,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (dataImg != null)
                 {
                     decimal mb = 1024 * 1024 * 5;//bytes to Mb; max 5Mb
-                    var supportedTypes = new[] { "jpg", "jpeg" };
+                    var supportedTypes = new[] { "jpg", "jpeg", "PNG","png" };
                     var fileExt = Path.GetExtension(dataImg.FileName).Substring(1);
                     if (!supportedTypes.Contains(fileExt))
                     {

@@ -5,6 +5,7 @@ var itemImagen = [];
 var itemEditarImagen = [];
 var siActualizar = false;
 var rotation = 0;
+var inputMask = JSON.parse(document.getElementById('inputMask').value);
 var actulizarFoto = false;
 $(document).ready(function () {
     CargarCabecera();
@@ -383,6 +384,7 @@ async function CargarDetalle() {
 
 async function ConsultarElemento() {
     try {
+        showTextBox();
         const data = new FormData();
         var idAnalisisDetalle = 0;
         if (itemDetalle != null) {
@@ -426,18 +428,39 @@ async function ConsultarElemento() {
     }   
 }
 
-function mask() {
-    console.log(document.getElementById('inputMask').value);
-    var inputMask = document.getElementById('inputMask').value;
-    if (inputMask==null) {
+function mask() {   
+    if (inputMask == null) {
         inputMask = 9999, 99;
-    }
-    $('#txtValor').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': +inputMask });
+    } else {       
+        inputMask.forEach(function (row) {
+            var max = 0;
+            var min = 0;
+            if (row.Mascara<0) {
+                max = row.Mascara * -1;
+                min = row.Mascara;
+            } else {
+                max = row.Mascara;
+            }
+            $('#txtValor_' + row.IdParametro).inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': +max,'min':min });
+            $("#txtValor_" + row.IdParametro).css('border', '');
+            $("#txtValor_" + row.IdParametro).css('background-color', 'white');
+            document.getElementById('txtValor_' + row.IdParametro).value = '';
+        });
+    }    
+}
+
+function showTextBox() {
+    inputMask.forEach(function (row) {
+        if (document.getElementById('selectParametros').value == row.IdParametro) {
+            $('#txtValor_' + row.IdParametro).prop('hidden', false);
+        } else { $('#txtValor_' + row.IdParametro).prop('hidden', true);}
+    });
 }
 
 async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
     LimpiarDatosImagen();    
     mask();
+    showTextBox();
     siActualizar = false;
     LimpiarDetalle();    
     try {
@@ -473,7 +496,6 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
         } else
             MensajeAdvertencia('El registro fue ingresado en otro TURNO');
     } catch (e) {
-        console.log(e);
         MensajeError(Mensajes.Error,false);
     }   
 }
@@ -555,6 +577,12 @@ async function GuardarElemento(){
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
             return;
         } else {
+            var valor = 0;
+            inputMask.forEach(function (row) {
+                if (document.getElementById('selectParametros').value == row.IdParametro) {
+                    valor=document.getElementById('txtValor_'+row.IdParametro).value;
+                }
+            });
             var idAnalisisDetalle = 0;
             var idElemento = 0;
             if (itemDetalle != null) {
@@ -574,7 +602,7 @@ async function GuardarElemento(){
             data.append('IdAnalisisDetalle', idAnalisisDetalle);
             data.append('IdElemento', idElemento);
             data.append('IdParametro', document.getElementById('selectParametros').value);
-            data.append('Valor', document.getElementById('txtValor').value);
+            data.append('Valor', valor);
             data.append('LoteBarco', document.getElementById('selectIngresarLote').value);
             data.append('Cocinador', document.getElementById('lblCocinador').value);
             data.append('Parada', document.getElementById('lblParada').value);
@@ -608,10 +636,8 @@ async function GuardarElemento(){
                 $('#ModalIngresoSubDetalle').modal('hide');
                 $('#cargac').hide();
                 return;
-            }
-            $("#txtValor").css('border', '');
-            $("#txtValor").css('background-color', 'white');
-            document.getElementById('txtValor').value = '';
+            }            
+            mask();
             var callCargarDetalle= await CargarDetalle();
             ConsultarElemento();
             $('#cargac').hide();
@@ -636,14 +662,18 @@ function OnChangeTextBoxDetalle() {
 }
 
 async function ActualizarDetalle(jdata) { 
-    $('div,html').animate({ scrollTop: 0 }, 500);  
-    document.getElementById('txtValor').value = jdata.Valor; 
-    $('#selectIngresarLote').val(jdata.LoteBarco).trigger('change');  
+    $('div,html').animate({ scrollTop: 0 }, 500);
+    inputMask.forEach(function (row) {
+        $("#txtValor_"+row.IdParametro).css('border', '1px dashed green');
+        $("#txtValor_"+row.IdParametro).css('background-color', 'lightgrey');
+        document.getElementById('txtValor_' + row.IdParametro).value = jdata.Valor;
+    });
+    //document.getElementById('txtValor').value = jdata.Valor; 
+    $('#selectIngresarLote').val(jdata.LoteBarco).trigger('change');
     itemEditar = jdata;
     siActualizar = true;
     $('#cargac').hide();
-    $("#txtValor").css('border', '1px dashed green');
-    $("#txtValor").css('background-color', 'lightgrey');
+   
 }
 
 function CambiarMensajeEstado(estadoReporteParametro) {
@@ -733,10 +763,7 @@ function EliminarDetalleSi() {
 function LimpiarDetalle() {
     CargarParadas();
     LimpiarDatosImagen();
-    mask();   
-    $("#txtValor").css('border', '');
-    $("#txtValor").css('background-color', 'white');
-    document.getElementById('txtValor').value = '';
+    mask();      
     document.getElementById('selectIngresarLote').innerHTML = '';
     $('#divElementos').html('');
 }
@@ -753,22 +780,6 @@ function EliminarDetalleNo() {
     $("#modalEliminarControlDetalle").modal("hide");
     $("#ModalIngresoSubDetalle").modal("show");    
 }
-
-//function AccionCorrectiva(jdata) {
-//    ConsultarEstadoRegistro();
-//    setTimeout(function () {
-//        if (estadoReporte == true) {
-//            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-//            return;
-//        } else {
-//            LimpiarDatosImagen();
-//            itemAccionCorrectiva = jdata;
-//            itemAccionCorrectivaG = jdata;
-//            $("#modalAccionCorrectiva").modal("show");
-//            CargarImagen();
-//        }
-//    }, 200);
-//}
 
 async function GuardarImagen() {
     try {
@@ -796,8 +807,6 @@ async function GuardarImagen() {
             var idAnalisisDetalle = 0;
             if (itemDetalle != null) {
                 if (!actulizarFoto) {
-                    //console.log(document.getElementById('lblCocinador').value);
-                    //console.log(document.getElementById('lblParada').value);
                     itemDetalle.forEach(function (row) {
                         if (row.Cocinador == document.getElementById('lblCocinador').value && row.Parada == document.getElementById('lblParada').value) {
                             idAnalisisDetalle = row.IdAnalisisDetalle;
@@ -859,7 +868,6 @@ async function GuardarImagen() {
             itemImagen = [];
         }
     } catch (ex) {
-        console.log(ex);
         $('#cargac').hide();
         MensajeError(Mensajes.Error, false);
     }
@@ -975,13 +983,6 @@ function validarImg(rotacion, id, imagen) {
     img.src = $('#btnPath').val() + imagen;
 }
 
-//function SalirAccicionCorrectiva() {
-//    itemAccionCorrectiva = [];
-//    itemDetalle = [];
-//    $('#modalAccionCorrectiva').modal('hide');
-//    LimpiarAccionCorrectiva();
-//}
-
 function EditarImagen(jdata) {  
     $('div,html').animate({ scrollTop: 0 }, 500);  
     LimpiarDatosImagen();    
@@ -1066,7 +1067,6 @@ async function EliminarImagenConfirmar(jdata) {
             itemImagen = jdata;
         }
     } catch (ex) {
-        //console.log(ex);
         $('#cargac').hide();
         MensajeError(Mensajes.Error, false);
     }

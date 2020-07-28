@@ -1085,7 +1085,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
 
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(liststring[1]);
-                if (roles.FirstOrDefault(x => x.Value == clsAtributos.AsistenteProduccion || x.Value == clsAtributos.ControladorPrincipal) != null)
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.AsistenteProduccion||x.Value==clsAtributos.ControladorPrincipal) != null)
                 {
                   //  ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
                    var poLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });

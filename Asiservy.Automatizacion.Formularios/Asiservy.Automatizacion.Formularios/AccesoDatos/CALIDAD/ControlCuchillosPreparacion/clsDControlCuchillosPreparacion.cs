@@ -153,25 +153,48 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
         //--------------------------------------HORA--------------------------------------------------------------------------
         public int GuardarModificarHora(CC_CUCHILLOS_PREPARACION_HORA guardarModificar)
         {
+            CC_CUCHILLOS_PREPARACION_HORA ultimaHora;
+            List<CC_CUCHILLOS_PREPARACION_CTRL_DET> ultimosCuchillosEmpleados = new List<CC_CUCHILLOS_PREPARACION_CTRL_DET>();
             int valor = 0;
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            using (ASIS_PRODEntities dbHora = new ASIS_PRODEntities())
             {
-                var model = db.CC_CUCHILLOS_PREPARACION_HORA.FirstOrDefault(x => x.IdHora == guardarModificar.IdHora && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                if (model != null)
+                    ultimaHora = (from x in dbHora.CC_CUCHILLOS_PREPARACION_HORA
+                                  where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.IdControlCuchillo == guardarModificar.IdControlCuchillo
+                                  orderby x.IdHora descending
+                                  select x).FirstOrDefault();
+                    var model = dbHora.CC_CUCHILLOS_PREPARACION_HORA.FirstOrDefault(x => x.IdHora == guardarModificar.IdHora && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    if (model != null)
+                    {
+                        model.Descripcion = guardarModificar.Descripcion;
+                        model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                        model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                        model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
+                    else
+                    {
+                        dbHora.CC_CUCHILLOS_PREPARACION_HORA.Add(guardarModificar);
+                    }
+                    
+                    if (ultimaHora != null)
+                        ultimosCuchillosEmpleados = (from x in dbHora.CC_CUCHILLOS_PREPARACION_CTRL_DET.AsNoTracking()
+                                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.IdHora == ultimaHora.IdHora
+                                                     select x).ToList();
+                if (ultimosCuchillosEmpleados != null)
                 {
-                    model.Descripcion = guardarModificar.Descripcion;
-                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-                    valor = 1;
+                    foreach (var item in ultimosCuchillosEmpleados)
+                    {
+                        item.IdHora = guardarModificar.IdHora;
+                        item.IdControlCuchilloDetalle = 0;
+                        item.TerminalIngresoLog = guardarModificar.TerminalIngresoLog;
+                        item.UsuarioIngresoLog = guardarModificar.UsuarioIngresoLog;
+                        item.FechaIngresoLog = guardarModificar.FechaIngresoLog;
+                        dbHora.CC_CUCHILLOS_PREPARACION_CTRL_DET.Add(item);
+                    }
                 }
-                else
-                {
-                    db.CC_CUCHILLOS_PREPARACION_HORA.Add(guardarModificar);
-                }
-                db.SaveChanges();
+                dbHora.SaveChanges();
                 return valor;
-            }
+            }            
         }
 
         public int EliminarHora(CC_CUCHILLOS_PREPARACION_HORA guardarModificar)

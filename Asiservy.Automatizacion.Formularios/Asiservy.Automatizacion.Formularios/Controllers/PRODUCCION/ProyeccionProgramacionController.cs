@@ -43,9 +43,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 dynamic result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(Fecha);
                 List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
-                foreach (var x in result)
+                if (result != null)
                 {
-                    Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
+                    foreach (var x in result)
+                    {
+                        Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
+                    }
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 return Json(Listado, JsonRequestBehavior.AllowGet);
             }
