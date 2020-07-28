@@ -31,6 +31,9 @@
             <th>
                 Talla
             </th>
+            <th>
+                Barco
+            </th>
 
         </tr>
     </thead>
@@ -41,41 +44,44 @@
 
 
 
-            <tr onclick="SeleccionarControl(@json)" class="text-center">
-                @if (Tipo != null)
+        <tr onclick="SeleccionarControl(@json)" class="text-center">
+            @if (Tipo != null)
+            {
+                foreach (var t in Tipo)
                 {
-                    foreach (var t in Tipo)
-                    {
-                        var control = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.IdTipoMonitoreo == t.IdTipoMonitoreo);
+                    var control = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.IdTipoMonitoreo == t.IdTipoMonitoreo);
 
-                        if (control != null)
-                        {
-                            <td>
-                                <i class="fas fa-check-circle" style="color: @t.Color"></i>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <i class="fas fa-check-circle" style="color: darkgray"></i>
-                            </td>
-                        }
+                    if (control != null)
+                    {
+                        <td>
+                            <i class="fas fa-check-circle" style="color: @t.Color"></i>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <i class="fas fa-check-circle" style="color: darkgray"></i>
+                        </td>
                     }
                 }
+            }
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.U_SYP_LOTE)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.U_SYP_ESPECIE)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.U_SYP_TALLA)
-                </td>
-            </tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_LOTE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_ESPECIE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_TALLA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_BARCO)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

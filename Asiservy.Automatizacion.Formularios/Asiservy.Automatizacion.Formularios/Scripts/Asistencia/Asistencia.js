@@ -292,6 +292,9 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
 
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#spinnerCargando").prop("hidden", true);
             $('#GenerarAsistencia').show();
             $('#horaservidor').show();
@@ -356,7 +359,9 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
             HoraServidor: $('#horaservidor').val()
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistencia').hide();
@@ -499,6 +504,9 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 if (resultado == '888') {
                     MensajeError('No se puede cambiar asistencia, el periodo se encuentra cerrado');
                 } else {

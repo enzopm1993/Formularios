@@ -425,6 +425,28 @@
             }
 
         }
+        let $select;
+        let optionSelected;
+        let select2Closing = false;
+
+        $('select').on('select2:closing', function (event) {
+            select2Closing = true;
+            $select = $(event.target);
+            optionSelected = $('.select2-results__option--highlighted').text();
+            setTimeout(function () {
+                select2Closing = false;
+            }, 1);
+        });
+
+        $(document).bind('keydown', function (event) {
+            if (event.key === 'Tab' && select2Closing) {
+                const val = $select.find('option').filter(function () {
+                    return $(this).text() === optionSelected;
+                }).first().prop('value');
+                $select.val(val);
+                $select.trigger('change');
+            }
+        });
     </script>
     <script>
 
@@ -727,7 +749,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=2.9";
+        string url = "/Scripts/" + js + ".js?v=3.0";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>
