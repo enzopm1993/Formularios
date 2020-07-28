@@ -210,9 +210,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_DET> CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO> CC_ANALISIS_QUIMICO_PRECOCCION_FOTO { get; set; }
-        public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
+        public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2317,15 +2317,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteRendimientoLinea>("spConsultaReporteRendimientoLinea", fechaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
-        {
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
-        }
-    
         public virtual ObjectResult<spConsultaProyeccionProgramacion> spConsultaProyeccionProgramacion(Nullable<int> idProyeccion)
         {
             var idProyeccionParameter = idProyeccion.HasValue ?
@@ -2443,6 +2434,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
+        }
+    
+        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
         }
     }
 }
