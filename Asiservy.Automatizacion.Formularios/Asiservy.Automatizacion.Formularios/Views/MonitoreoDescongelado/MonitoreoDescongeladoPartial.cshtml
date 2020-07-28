@@ -9,6 +9,28 @@
 
 }
 
+@if (Control.Any())
+{
+<div class="row">
+    <div class="col-md-12 col-12 col-sm-12">
+        <label>Observación</label>
+        <input type="text" maxlength="250" readonly id="txtObservacionCabecera" class="form-control" name="name" value="@ViewBag.Observacion" />
+    </div>
+    <div class="col-md-12 text-md-center col-sm-12 col-12 text-center">
+        <label class="">Acción</label>
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditarObservacion" onclick="EditarObservacion()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardarObservacion" onclick="GuardarObservacion()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+}
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr class="text-center">

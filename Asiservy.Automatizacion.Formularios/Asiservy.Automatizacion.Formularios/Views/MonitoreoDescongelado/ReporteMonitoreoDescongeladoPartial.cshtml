@@ -17,6 +17,7 @@
 
     var Muestra = (List<MantenimientoMuestraDescongeladoModel>)ViewBag.Muestra;
     var Tipo =(List<MantenimientoTipoDescongeladoModel>) ViewBag.Tipo;
+    int col = 4;
 }
 
 <h6><b>Turno:</b>@ViewBag.Turno</h6>
@@ -37,7 +38,7 @@
                 }
                 cont += Muestra.Count;
                 <th colspan="@cont" class="text-center">@t.Descripcion</th>
-
+                col += col;
             }
         </tr>
        
@@ -149,4 +150,12 @@
 
         }
     </tbody>
+    <thead>
+        <tr>
+            <td style="white-space:normal" colspan="@col">
+                <label><b>Observación: </b></label>
+                <label>@Model.FirstOrDefault().ObservacionGeneral</label>
+            </td>
+        </tr>
+    </thead>
 </table>

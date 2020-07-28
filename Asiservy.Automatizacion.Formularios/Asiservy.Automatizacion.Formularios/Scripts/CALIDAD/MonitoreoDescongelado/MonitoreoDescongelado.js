@@ -135,9 +135,52 @@ function ConsultarMonitoreoDescongelado() {
     });
 }
 
+function EditarObservacion() {
+    $("#btnEditarObservacion").prop("hidden", true);
+    $("#txtObservacionCabecera").prop("readonly", false);
+    $("#btnGuardarObservacion").prop("hidden", false);
+}
+
+
+function GuardarObservacion() {
+    $.ajax({
+        url: "../MonitoreoDescongelado/GuardarObservacion",
+        type: "POST",
+        data: {
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val(),
+            Observacion: $("#txtObservacionCabecera").val(),
+
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == "1") {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+            } else {
+                MensajeCorrecto(resultado);
+                ConsultarMonitoreoDescongelado();
+            }
+           
+
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+
+        }
+    });
+}
+
 function nuevoControl(){
     $("#txtHora").css('borderColor', '#ced4da');
 }
+
+
 
 function SeleccionarControl(model) {
     nuevoControl();
@@ -165,8 +208,6 @@ function SeleccionarControl(model) {
     } else {
         $("#selectTurno").css('borderColor', '#ced4da');
     }
-
-  
       
     ConsultarMonitoreoDetalle();
     

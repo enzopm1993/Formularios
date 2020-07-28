@@ -17,6 +17,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
             }
         }
 
+       
+
         public List<spConsultaMonitoreoDescongeladoDetalle> ConsultaMonitoreoDescongelado(DateTime Fecha, string Tanque, string Lote,int Tipo, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -117,6 +119,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
 
 
                     entities.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+        }
+
+        public void GuardarObservacion(CC_MONITOREO_DESCONGELADO_CONTROL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                using (var transaction = entities.Database.BeginTransaction())
+                {
+                    CC_MONITOREO_DESCONGELADO_CONTROL poControlReporte = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha
+                    && x.Turno == model.Turno
+                    && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                    if (poControlReporte != null)
+                    {
+                        poControlReporte.Observacion = model.Observacion;
+                        poControlReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControlReporte.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControlReporte.FechaModificacionLog = model.FechaIngresoLog;
+                        entities.SaveChanges();
+
+                    }
                     transaction.Commit();
                 }
             }
