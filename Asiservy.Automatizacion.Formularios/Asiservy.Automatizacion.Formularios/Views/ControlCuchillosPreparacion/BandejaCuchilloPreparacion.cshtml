@@ -45,15 +45,15 @@
 </div>
 <br />
 <div class="row">
-    <div class="col-md-3 col-12 col-sm-12">
+    <div class="col-md-3 col-12 col-sm-4">
         <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
             <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
 
-    <div class="box_filters col-md-8 col-12 col-sm-12">
-        <div class="itemFilter col-md-6  col-12 col-sm-12" hidden id="divFiltroFecha">
+    <div class="box_filters col-md-8 col-12 col-sm-8">
+        <div class="itemFilter col-md-6  col-10 col-sm-10" hidden id="divFiltroFecha">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -61,7 +61,7 @@
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="itemFilter col-md-1 col-5 col-sm-12 text-center text-md-center">
+        <div class="float-sm-left text-center text-md-center">
             <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
@@ -76,7 +76,7 @@
 
     @* MODAL APRUEBA CONTROL*@
     <div class="modal fade" id="ModalApruebaPendiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">APROBAR</h5>
@@ -85,23 +85,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-md-4 col-12 col-sm-12">
+                    <div class="col-md-4 col-12 col-sm-6">
                         <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
                     </div>
                     <br />
-                    <div class="table-responsive" id="tblAprobarPendientePartial">
-                        @*<table class="table-hover table-bordered table-striped table" style="font-size:11px;width:100%" id="tblDataTableAprobar">
-                            <thead>
-                                <tr style="font-size:11px">
-                                    <th>HORA</th>
-                                    <th>CODIGO CUCHILLO</th>
-                                    <th>ESTADO</th>
-                                    <th>EMPLEADO</th>
-                                    <th>USUARIO CREACION</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size:11px"></tbody>
-                        </table>*@
+                    <div class="table-responsive" id="tblAprobarPendientePartial">                       
                     </div>
                 </div>
                 <div class="modal-footer">

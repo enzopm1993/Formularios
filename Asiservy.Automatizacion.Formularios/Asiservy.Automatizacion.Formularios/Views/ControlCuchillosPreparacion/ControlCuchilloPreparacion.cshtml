@@ -68,26 +68,17 @@
         </div>
     </div>
 
-    <div class="col-md-2 col-12 col-sm-12 text-uppercase">
+    <div class="col-md-2 col-12 col-sm-4 text-uppercase">
         <label>Turno</label>
         <div class="form-group">
             @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), new { @Class = "form-control", @onchange = "CargarCabecera()" })
         </div>
     </div>
 
-    @*<div class="box_filters">
-            <br />
-            <div class="itemFilter">
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera()" id="txtFechaFiltro" class="form-control" />
-            </div>
-            <div class="itemFilter">
-                <a onclick="CargarCabecera()" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
-            </div>
-        </div>*@
-    <div class="col-md-4 col-12 col-sm-12 text-md-center ">
+    <div class="col-md-4 col-12 col-sm-8 text-md-center ">
         <br />
-        <div class="box_filters col-sm-12">
-            <div class="itemFilter  col-sm-8">
+        <div class="box_filters itemFilter float-md-left float-sm-left col-sm-8 text-center">
+            <div class="itemFilter col-10 col-sm-10 ">
                 <div class="form-group" id="divfechaap">
                     <input type="hidden" id="fechacontrol" value="" />
                     <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -98,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <div class="itemFilter col-sm-1">
+            <div class="float-md-left ">
                 <a onclick="CargarCabecera(0)" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
@@ -157,7 +148,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">NUEVA HORA</h5>
+                <h7 class="modal-title">NUEVA HORA</h7>
                 <button type="button" class="close" data-dismiss="modal" onclick="limpiarHora()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -232,7 +223,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">CUCHILLO DETALLE</h5>
+                <h7 class="modal-title">CUCHILLO DETALLE</h7>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

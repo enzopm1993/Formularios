@@ -13,6 +13,12 @@ $(document).ready(function () {
     $('#selectTurnoIngresar').select2({
         width: '100%'
     });
+    $('#txtCodigoCuchillo').select2({
+        width: '100%'
+    });
+    $('#txtEmpleado').select2({
+        width: '100%'
+    });
 });
 
 function ConsultarEstadoReporte() {
@@ -181,7 +187,8 @@ function GuardarHora() {
                 $('#modalIngresoHora').modal('hide');
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+                $('#cargac').hide();
+                MensajeError(Mensajes.Error, false);
             }
         });
     }
@@ -451,15 +458,14 @@ function GuardarControlDetalle() {
         return;
     }
     else {
-
-            if ($('#txtCodigoCuchillo').val() == "" || $('#txtEmpleado').val() == "") {
-                MensajeAdvertencia('Seleccione el CUCHILLO o EMPLEADO ');
-                return;
-            }
+        if ($('#txtCodigoCuchillo').val() == "" || $('#txtEmpleado').val() == "") {
+            MensajeAdvertencia('Seleccione el CUCHILLO o EMPLEADO ');
+            return;
+        }
         if ($("#CheckEstadoRegistroOp").prop('checked') == false && $('#txtObservacionDetalle').val() == '') {
             $("#txtObservacionDetalle").css('border', '1px dashed red');
-                MensajeAdvertencia('La observación es obligatoria');
-                return;                       
+            MensajeAdvertencia('La observación es obligatoria');
+            return;
         }
         $.ajax({
             url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloDetalle",
@@ -501,10 +507,11 @@ function GuardarControlDetalle() {
                 datosDetalle = [];
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+                ('#cargac').hide();
+                MensajeError(Mensajes.Error, false);
             }
         });
-    }
+    }    
 }
 
 function ConsultarDetalle(jdata) {
@@ -625,6 +632,7 @@ function CambioEstado(valor) {
 
 function ModalGenerarDetalle() {
     ConsultarEstadoReporte();
+    CambioEstado(false);
     setTimeout(function () {
         if (estadoR == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);

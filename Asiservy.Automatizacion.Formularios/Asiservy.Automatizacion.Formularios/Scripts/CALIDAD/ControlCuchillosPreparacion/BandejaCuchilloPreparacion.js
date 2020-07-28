@@ -35,16 +35,7 @@ function CargarBandeja() {
             
             $('#divTablaAplrobados').empty();
             $('#divTablaAplrobados').html(resultado);
-            $('#cargac').hide();
-            
-           
-            //$('#tblDataTable').DataTable({               
-            //    ordering: true,
-            //    columnDefs: [{
-            //        orderData: [[0, 'asc'], [1, 'asc']],
-            //        targets: [1]
-            //    }]
-            //});
+            $('#cargac').hide();    
         },
         error: function (resultado) {
             $('#cargac').hide();
