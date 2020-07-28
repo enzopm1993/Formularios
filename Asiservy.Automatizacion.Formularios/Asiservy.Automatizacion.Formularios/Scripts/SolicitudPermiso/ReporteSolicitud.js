@@ -1,4 +1,6 @@
 ﻿
+var weekdays = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+
 $(document).ready(function () {
    // ConsultarSolicitudes();
     $("#selectLinea").select2({
@@ -179,7 +181,12 @@ function ConsultarSolicitudes() {
                             }
                         },
                       { caption:"Biometrico",dataField: "FechaBiometrico", dataType: "string" },
-                      { caption: "Salida",dataField: "FechaSalida", dataType: "string" },
+                      {
+                          dataField: "FechaSalida", dataType: "date", cellTemplate: function (container, options) {
+                              var dia = weekdays[moment(options.data.FechaSalida2).isoWeekday()];
+                              container.append("<div>" + dia + ", " + options.data.FechaSalida + "</div>")
+                          }
+                      },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
                         {
                             caption: "Medico", alignment: "center", cellTemplate: function (container, options) {
@@ -295,13 +302,15 @@ function ConsultarSolicitudes() {
                         { dataField: "FechaBiometrico", dataType: "string" },
                         {
                             dataField: "FechaSalida", dataType: "date", cellTemplate: function (container, options) {
-                                container.append("<div>" + options.data.FechaSalida + "</div>")
+                                var dia = weekdays[moment(options.data.FechaSalida2).isoWeekday()];
+                                container.append("<div>" + dia+", " +options.data.FechaSalida + "</div>")
                             }
                         },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
                         {
                             dataField: "FechaRegreso", dataType: "date", cellTemplate: function (container, options) {
-                                container.append("<div>" + options.data.FechaRegreso + "</div>")
+                                var dia = weekdays[moment(options.data.FechaSalida2).isoWeekday()];
+                                container.append("<div>" + dia + ", " + options.data.FechaRegreso + "</div>")
                             } },
                         { caption: "Hora Regreso", dataField: "HoraRegreso", dataType: "time" },
                         "Motivo",
