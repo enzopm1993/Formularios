@@ -84,7 +84,7 @@
 
     cb(start, end);
 
-    
+
 
 
     $("#generarReporte").click(function () {
@@ -115,7 +115,7 @@
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarReporte").removeClass("btnWait");
-                
+
 
                 var gridOptions = {
                     dataSource: resultado,
@@ -215,8 +215,8 @@
                             caption: "Código CC",
                             dataField: "CodCentroCosto",
                             area: "row",
-                             selector: function (data) {
-                                 return data.CodCentroCosto +" - " + data.CentroCosto;
+                            selector: function (data) {
+                                return data.CodCentroCosto + " - " + data.CentroCosto;
                             }
                         },
                         {

@@ -190,7 +190,7 @@ function LimpiarControles() {
     $('#btnEliminarControl').prop('disabled', true);
     $('#estadocontrol').text('');
     $('#txtHora').val(moment().format("hh:mm"));
-    $('#txtCodigoPhMetro').val('');
+    $('#txtCodigoPhMetro').val('PH.01.01');
     $('#txtPh4').val('');
     $('#txtPh7').val('');
     $('#txtPh10').val('');

@@ -299,7 +299,10 @@ function ConsultarSolicitudes() {
                             }
                         },
                         { caption: "Hora Salida", dataField: "HoraSalida", dataType: "time" },
-                        { dataField: "FechaRegreso", dataType: "date" },
+                        {
+                            dataField: "FechaRegreso", dataType: "date", cellTemplate: function (container, options) {
+                                container.append("<div>" + options.data.FechaRegreso + "</div>")
+                            } },
                         { caption: "Hora Regreso", dataField: "HoraRegreso", dataType: "time" },
                         "Motivo",
                         "Observacion",

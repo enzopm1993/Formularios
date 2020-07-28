@@ -7104,14 +7104,6 @@
             <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
             <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
-            <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Area" Mode="In" Type="String" />
-            <Parameter Name="Estado" Mode="In" Type="String" />
-            <Parameter Name="Garita" Mode="In" Type="Boolean" />
-            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="sp_Analisis_Quimico_Precoccion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion)">
             <Parameter Name="op" Mode="In" Type="Int32" />
             <Parameter Name="fechaControl" Mode="In" Type="DateTime" />
@@ -7126,6 +7118,14 @@
             <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
             <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Estado" Mode="In" Type="String" />
+            <Parameter Name="Garita" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13836,37 +13836,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaSolcitudesPermisos">
-          <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
-          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodigoArea" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodigoRecurso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CodigoCargo" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="CodigoMotivo" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Motivo" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
-          <Property Type="DateTime" Name="FechaSalida2" Nullable="false" Precision="23" />
-          <Property Type="String" Name="FechaSalida" Nullable="true" MaxLength="62" />
-          <Property Type="String" Name="HoraSalida" Nullable="true" MaxLength="30" />
-          <Property Type="DateTime" Name="FechaRegreso2" Nullable="false" Precision="23" />
-          <Property Type="String" Name="FechaRegreso" Nullable="true" MaxLength="62" />
-          <Property Type="String" Name="HoraRegreso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
-          <Property Type="String" Name="EstadoSolicitud" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="FechaBiometrico2" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="FechaIngresoLog" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="FechaModificacionLog" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="sp_Analisis_Quimico_Precoccion">
           <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Cocinador" Nullable="false" MaxLength="1" />
@@ -13933,6 +13902,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaSolcitudesPermisos">
+          <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodigoArea" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoRecurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodigoCargo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="CodigoMotivo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Motivo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FechaSalida2" Nullable="false" Precision="23" />
+          <Property Type="String" Name="FechaSalida" Nullable="true" MaxLength="62" />
+          <Property Type="String" Name="HoraSalida" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="FechaRegreso2" Nullable="false" Precision="23" />
+          <Property Type="String" Name="FechaRegreso" Nullable="true" MaxLength="62" />
+          <Property Type="String" Name="HoraRegreso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="EstadoSolicitud" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaBiometrico2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FechaBiometrico" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FechaIngresoLog" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FechaModificacionLog" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20396,41 +20397,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
-                <ScalarProperty Name="IdSolicitudPermiso" ColumnName="IdSolicitudPermiso" />
-                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="CodigoRecurso" ColumnName="CodigoRecurso" />
-                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
-                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CodigoCargo" ColumnName="CodigoCargo" />
-                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
-                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="FechaSalida2" ColumnName="FechaSalida2" />
-                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
-                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
-                <ScalarProperty Name="FechaRegreso2" ColumnName="FechaRegreso2" />
-                <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
-                <ScalarProperty Name="HoraRegreso" ColumnName="HoraRegreso" />
-                <ScalarProperty Name="CodEstadoSolicitud" ColumnName="CodEstadoSolicitud" />
-                <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
-                <ScalarProperty Name="FechaBiometrico2" ColumnName="FechaBiometrico2" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="Origen" ColumnName="Origen" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Analisis_Quimico_Precoccion" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Quimico_Precoccion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Quimico_Precoccion">
@@ -20476,6 +20442,42 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
+                <ScalarProperty Name="IdSolicitudPermiso" ColumnName="IdSolicitudPermiso" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="CodigoRecurso" ColumnName="CodigoRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodigoCargo" ColumnName="CodigoCargo" />
+                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="FechaSalida2" ColumnName="FechaSalida2" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
+                <ScalarProperty Name="FechaRegreso2" ColumnName="FechaRegreso2" />
+                <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
+                <ScalarProperty Name="HoraRegreso" ColumnName="HoraRegreso" />
+                <ScalarProperty Name="CodEstadoSolicitud" ColumnName="CodEstadoSolicitud" />
+                <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
+                <ScalarProperty Name="FechaBiometrico2" ColumnName="FechaBiometrico2" />
+                <ScalarProperty Name="FechaBiometrico" ColumnName="FechaBiometrico" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
