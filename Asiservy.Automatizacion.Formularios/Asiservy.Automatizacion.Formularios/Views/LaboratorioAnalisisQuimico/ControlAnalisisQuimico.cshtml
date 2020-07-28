@@ -305,21 +305,24 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-12 col-sm-12">
-                                        @{
-                                            var json = ViewBag.listaParametros as CC_PARAMETROS_LABORATORIO;
-                                        }
-                                        <input type="hidden" value="@json" id="inputMask" />
                                         <label>LOTE - BARCO</label>
                                         <div class="form-group">
                                             <select id="selectIngresarLote" class="form-control"></select>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 col-12 col-sm-12">
-                                        <label>VALOR</label>
-                                        <div class="form-group">
-                                            <input type="text" autocomplete="off" name="name" id="txtValor" maxlength="8" class="form-control" />
+                                    @{
+                                        var json = (from x in ViewBag.listaParametros as List<CC_PARAMETROS_LABORATORIO> select new { x.IdParametro, x.Mascara }).ToList();
+                                        <div class="col-md-12 col-12 col-sm-12">
+                                            <label>VALOR</label>
+                                            <div class="form-group">
+                                                @foreach (var item in json)
+                                                {
+                                                    <input hidden type="text" autocomplete="off" name="name" id="txtValor_@item.IdParametro" maxlength="8" class="form-control" />
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    <input type="hidden" value="@JsonConvert.SerializeObject(json)" id="inputMask" />
                                     <div class="col-md-12 col-12 col-sm-12">
                                         <label>GUARDADO</label>
                                         <div class="table-responsive" id="divElementos">
