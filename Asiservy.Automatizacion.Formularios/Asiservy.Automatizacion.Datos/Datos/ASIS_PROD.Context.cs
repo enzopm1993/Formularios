@@ -213,6 +213,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_APARIENCIA_AS> CC_MANTENIMIENTO_APARIENCIA_AS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

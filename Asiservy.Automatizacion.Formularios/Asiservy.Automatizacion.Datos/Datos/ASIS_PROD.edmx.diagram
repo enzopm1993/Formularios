@@ -280,6 +280,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="30" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_APARIENCIA_AS" Width="1.5" PointX="33.375" PointY="26.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
