@@ -128,7 +128,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_MORETON> CC_MANTENIMIENTO_MORETON { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
@@ -210,9 +209,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
         public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_REACTIVO> CC_MANTENIMIENTO_REACTIVO { get; set; }
         public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1727,27 +1727,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion>("sp_Control_Cuchillos_Preparacion", idControlCuchilloParameter, opParameter);
         }
     
-        public virtual ObjectResult<sp_Calibracion_Fluorometro> sp_Calibracion_Fluorometro(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCalibracionFluor, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idCalibracionFluorParameter = idCalibracionFluor.HasValue ?
-                new ObjectParameter("idCalibracionFluor", idCalibracionFluor) :
-                new ObjectParameter("idCalibracionFluor", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Calibracion_Fluorometro>("sp_Calibracion_Fluorometro", fechaDesdeParameter, fechaHastaParameter, idCalibracionFluorParameter, opParameter);
-        }
-    
         public virtual ObjectResult<spConsutaEmpleadosCambioPersonal> spConsutaEmpleadosCambioPersonal(string area, string linea, string cargo, string recurso, string tipo)
         {
             var areaParameter = area != null ?
@@ -2443,6 +2422,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdCabecera", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
+        }
+    
+        public virtual ObjectResult<sp_Calibracion_Fluorometro> sp_Calibracion_Fluorometro(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCalibracionFluor, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idCalibracionFluorParameter = idCalibracionFluor.HasValue ?
+                new ObjectParameter("idCalibracionFluor", idCalibracionFluor) :
+                new ObjectParameter("idCalibracionFluor", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Calibracion_Fluorometro>("sp_Calibracion_Fluorometro", fechaDesdeParameter, fechaHastaParameter, idCalibracionFluorParameter, opParameter);
         }
     }
 }
