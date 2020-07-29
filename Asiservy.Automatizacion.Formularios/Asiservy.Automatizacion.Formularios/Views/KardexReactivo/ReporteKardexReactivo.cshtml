@@ -8,9 +8,11 @@
     @@media print {
         @@page {
             size: landscape A4;
-            margin:5px;
+            margin: 5px;
         }
-
+        * {
+            -webkit-print-color-adjust: exact;
+        }
         .shadow {
             box-shadow: 0 0.15rem 1.75rem 0 #fff !important;
         }
@@ -59,6 +61,10 @@
         input, select, textarea {
             max-width: 100%
         }
+
+        tr{
+            font-size:10px;
+        }
     }
 
     @@media screen {
@@ -105,7 +111,16 @@
         border-collapse: collapse;
     }
 </style>
-<h4 id="titulo">Reporte Kardex Reactivo</h4>
+
+<div class="row" id="titulo">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center" style="float:left">Reporte Kardex Reactivo <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Control</a>
+        </div>
+    </div>
+</div>
+<hr />
 
 
 

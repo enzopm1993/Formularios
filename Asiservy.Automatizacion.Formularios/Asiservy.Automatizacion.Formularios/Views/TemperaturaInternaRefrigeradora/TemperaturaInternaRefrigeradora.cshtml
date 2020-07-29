@@ -8,9 +8,16 @@
         max-width: 100%;
     }
 </style>
-<h4>Temperatura Interna de Refrigeradora <label id="lblAprobadoPendiente" class="badge"> </label></h4>
 
-
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center" style="float:left">Temperatura Interna de Refrigeradora <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>
+        </div>
+    </div>
+</div>
+<hr />
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
@@ -27,17 +34,17 @@
                 <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
             </div>
         </div>
-       
+
         <div class="col-md-2 col-4 col-sm-6">
             <div class="form-group">
-                <label>Temperatura</label>
-                <input type="number" class="form-control" id="txtTemperatura" autocomplete="off" min="0" name="name" value="" />
+                <label>Temperatura ºC</label>
+                <input type="text" class="form-control" id="txtTemperatura" autocomplete="off" min="" name="name" value="" />
             </div>
         </div>
-    
-        <div class="col-md-4 col-6 col-sm-6">
+
+        <div class="col-md-5 col-6 col-sm-6">
             <div class="form-group">
-                <label class="label-control"> Observacion</label>
+                <label class="label-control"> Observación</label>
                 <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
             </div>
         </div>

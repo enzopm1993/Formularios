@@ -26,6 +26,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
+       
+
         public ActionResult TicketsCerrados()
         {
             ViewBag.Apexcharts = "1";
@@ -38,6 +40,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
             return View();
         }
+
+
         [HttpGet]
         public JsonResult ObtenerSoportesReporte(string fechaIni, string fechaFin)
         {
@@ -45,12 +49,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 var client = new RestClient("http://192.168.0.4/");
 
-                string URL = "/osticket/scp/report.php?tipo=todos&fechaini=" + fechaIni + "&fechafin="+ fechaFin;
+                string URL = "/osticket/scp/report.php?tipo=todos&fechaini=" + fechaIni + "&fechafin=" + fechaFin;
                 var request = new RestRequest(URL, Method.GET);
                 IRestResponse response = client.Execute(request);
                 var content = response.Content;
                 List<ItemTicket> dataView = JsonConvert.DeserializeObject<List<ItemTicket>>(content);
-                
+
                 ReturnVista envioVista = new ReturnVista();
 
 
@@ -112,7 +116,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 TkTotales tkTotales = new TkTotales();
                 tkTotales.Totales = dataView.Count();
                 tkTotales.SoporteMinutos = dataView.Sum(x => x.SoporteMinutos);
-                
+
 
                 var DepColores = dataView
                     .GroupBy(x => new { x.Departamento, x.Color })
@@ -133,7 +137,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     }).OrderByDescending(c => c.Total).ToList();
 
 
-                
+
 
                 envioVista.DataPlana = dataView;
                 envioVista.Totales = tkTotales;
@@ -170,7 +174,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public int Abiertos { get; set; }
         public int Cerrados { get; set; }
         public int SinAsignar { get; set; }
-        public int SoporteMinutos  { get; set; }
+        public int SoporteMinutos { get; set; }
     }
 
     public class ItemTicket
@@ -211,5 +215,5 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public decimal CreacionFinSoporteDias { get; set; }
         public string Color { get; set; }
     }
-    
+
 }

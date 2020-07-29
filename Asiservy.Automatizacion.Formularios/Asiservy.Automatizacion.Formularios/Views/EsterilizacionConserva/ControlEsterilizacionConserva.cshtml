@@ -87,7 +87,7 @@
 
 
                 <label>Fecha:</label>
-                <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"  onchange="ValidaVacio(this); ConsultarCabControl();"/>
+                <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" onchange="ValidaVacio(this); ConsultarCabControl();" />
                 <label class="text-danger" id="msjerrorfecha" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -112,7 +112,7 @@
                 </select>
                 <label class="text-danger" id="msjerrorLinea" hidden>Debe seleccionar una línea</label>
             </div>
-           
+
         </div>
         <div class="col-sm-12 col-12 col-md-12">
             <hr />
@@ -149,8 +149,8 @@
                 Espere...
             </button>
             @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>*@
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabEsterilizacion()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
@@ -212,7 +212,7 @@
                         <div class="col-md-3 col-sm-12">
                             <div class="form-group">
                                 <label>Temperatura Inicial °C:</label>
-                                <input type="text" id="txtTemperaturaInicial" class="form-control" />
+                                <input type="text" id="txtTemperaturaInicial" autocomplete="off" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -226,6 +226,7 @@
                             <button class="tablinks" onclick="AbrirRegion(event, 'CondicionesProceso')" style="font-size:15px">Condiciones del Proceso de Esterilización</button>
                             <button class="tablinks" onclick="AbrirRegion(event, 'Enfriamiento')" style="font-size:15px">Enfriamiento</button>
                             <button class="tablinks" onclick="AbrirRegion(event, 'HoraChequeo')" style="font-size:15px">Hora de Chequeo</button>
+                            <button class="tablinks" onclick="AbrirRegion(event, 'M3H')" style="font-size:15px">M<sup>3</sup>/H</button>
                         </div>
 
                         <div id="InicioProceso" class="tabcontent" style="padding-bottom:10px">
@@ -246,7 +247,7 @@
 
                                         <div class="form-group">
                                             <label>Temperatura term. digital:</label>
-                                            <input type="text" id="txtTemperaturaTermDigital" class="form-control" />
+                                            <input type="text" id="txtTemperaturaTermDigital" autocomplete="off" class="form-control" />
                                         </div>
 
                                     </fieldset>
@@ -293,17 +294,17 @@
                                         <legend class="the-legend">Panel(Auto-Spray)(Auto-Convencional)"</legend>
                                         <div class="form-group">
                                             <label>Inicio:</label>
-                                            <input type="text" id="txtPanelInicio" class="form-control" />
+                                            <input type="text" id="txtPanelInicio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Medio:</label>
-                                            <input type="text" id="txtPanelMedio" class="form-control" />
+                                            <input type="text" id="txtPanelMedio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Final:</label>
-                                            <input type="text" id="txtPanelFinal" class="form-control" />
+                                            <input type="text" id="txtPanelFinal" autocomplete="off" class="form-control" />
                                         </div>
                                     </fieldset>
                                 </div>
@@ -312,17 +313,17 @@
                                         <legend class="the-legend">Chart</legend>
                                         <div class="form-group">
                                             <label>Inicio:</label>
-                                            <input type="text" id="txtChartInicio" class="form-control" />
+                                            <input type="text" id="txtChartInicio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Medio:</label>
-                                            <input type="text" id="txtChartMedio" class="form-control" />
+                                            <input type="text" id="txtChartMedio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Final:</label>
-                                            <input type="text" id="txtChartFinal" class="form-control" />
+                                            <input type="text" id="txtChartFinal" autocomplete="off" class="form-control" />
                                         </div>
                                     </fieldset>
                                 </div>
@@ -331,17 +332,17 @@
                                         <legend class="the-legend">Termómetro digital</legend>
                                         <div class="form-group">
                                             <label>Inicio:</label>
-                                            <input type="text" id="txtTermometroDigitalInicio" class="form-control" />
+                                            <input type="text" id="txtTermometroDigitalInicio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Medio:</label>
-                                            <input type="text" id="txtTermometroDigitalMedio" class="form-control" />
+                                            <input type="text" id="txtTermometroDigitalMedio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Final:</label>
-                                            <input type="text" id="txtTermometroDigitalFinal" class="form-control" />
+                                            <input type="text" id="txtTermometroDigitalFinal" autocomplete="off" class="form-control" />
                                         </div>
                                     </fieldset>
                                 </div>
@@ -350,17 +351,17 @@
                                         <legend class="the-legend">Presión Manómetro</legend>
                                         <div class="form-group">
                                             <label>Inicio:</label>
-                                            <input type="text" id="txtPresionManometroInicio" class="form-control" />
+                                            <input type="text" id="txtPresionManometroInicio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Medio:</label>
-                                            <input type="text" id="txtPresionManometroMedio" class="form-control" />
+                                            <input type="text" id="txtPresionManometroMedio" autocomplete="off" class="form-control" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Final:</label>
-                                            <input type="text" id="txtPresionManometroFinal" class="form-control" />
+                                            <input type="text" id="txtPresionManometroFinal" autocomplete="off" class="form-control" />
                                         </div>
                                     </fieldset>
                                 </div>
@@ -378,7 +379,7 @@
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Temperatura producto a la salida::</label>
-                                        <input type="text" id="txtTemperaturaProductoSalida" class="form-control" />
+                                        <input type="text" id="txtTemperaturaProductoSalida" autocomplete="off" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -402,6 +403,63 @@
                                         <label>Final:</label>
                                         <input type="datetime-local" id="txtHoraChequeoFinal" class="form-control" />
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="M3H" class="tabcontent" style="padding-bottom:10px">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Inicio:</label>
+                                        <div class="row">
+                                            <div class="border col-md-12" style="padding-bottom:10px;padding-right:10px;padding-top:10px">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" autocomplete="off" id="txtm3h1Inicio" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" autocomplete="off" id="txtm3h2Inicio" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Medio:</label>
+                                        <div class="row">
+                                            <div class="col-md-12 border" style="padding-bottom:10px;padding-right:10px;padding-top:10px">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" autocomplete="off" id="txtm3h1Medio" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" autocomplete="off" id="txtm3h2Medio" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Final:</label>
+                                        <div class="row">
+                                            <div class="col-md-12 border" style="padding-bottom:10px;padding-right:10px;padding-top:10px">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" autocomplete="off" id="txtm3h1Final" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" autocomplete="off" id="txtm3h2Final" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -470,7 +528,41 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="ModalTipoM3h" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
 
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body table-responsive" id="divtipom3h">
+                <table id="modaltableTipoM3h" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Inicio</th>
+                            <th colspan="2">Medio</th>
+                            <th colspan="2">Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="ModalDetalleCoche" data-backdrop="static">
     <div class="modal-dialog modal-sm">

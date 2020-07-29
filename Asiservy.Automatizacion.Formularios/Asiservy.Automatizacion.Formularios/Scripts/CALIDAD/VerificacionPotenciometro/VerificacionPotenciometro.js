@@ -4,20 +4,21 @@
     //$("#txtNaCI2").mask("9?.99");
     //$("#txtNaCI3").mask("9?.99");
     
-    $('#txtSerie').inputmask({
-        'alias': 'integer',
-        'groupSeparator': '',
-        'autoGroup': true,
-        'digitsOptional': true,
-        'max': '2000000000'
-    });
+    //$('#txtSerie').inputmask({
+    //    'alias': 'integer',
+    //    'groupSeparator': '',
+    //    'autoGroup': true,
+    //    'digitsOptional': true,
+    //    'max': '2000000000'
+    //});
     $('#txtNaCI1').inputmask({
         'alias': 'decimal',
         'groupSeparator': '',
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '10.00'
+        'max': '100.00',
+        'min': '-100.00'
     });
 
     $('#txtNaCI2').inputmask({
@@ -26,7 +27,8 @@
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '10.00'
+        'max': '100.00',
+        'min': '-100.00'
     });
 
     $('#txtNaCI3').inputmask({
@@ -35,24 +37,26 @@
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '10.00'
+        'max': '100.00',
+        'min': '-100.00'
     });
 
 
-    $('#txtSerieModal').inputmask({
-        'alias': 'integer',
-        'groupSeparator': '',
-        'autoGroup': true,
-        'digitsOptional': true,
-        'max': '2000000000'
-    });
+    //$('#txtSerieModal').inputmask({
+    //    'alias': 'integer',
+    //    'groupSeparator': '',
+    //    'autoGroup': true,
+    //    'digitsOptional': true,
+    //    'max': '2000000000'
+    //});
     $('#txtNaCI1Modal').inputmask({
         'alias': 'decimal',
         'groupSeparator': '',
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '10.00'
+        'max': '100.00',
+        'min': '-100.00'
     });
 
     $('#txtNaCI2Modal').inputmask({
@@ -61,7 +65,8 @@
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '10.00'
+        'max': '100.00',
+        'min': '-100.00'
     });
 
     $('#txtNaCI3Modal').inputmask({
@@ -70,7 +75,8 @@
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
-        'max': '10.00'
+        'max': '100.00',
+        'min': '-100.00'
     });
 });
 
@@ -128,14 +134,8 @@ function ConsultarControl() {
                 $("#btnGenerar").prop("hidden", false);
                 $("#btnEditar").prop("hidden", true);
                 $("#btnEliminar").prop("hidden", true);
-                $("#txtModelo").val("");
-                $("#txtSerie").val("");
-                $("#txtNaCI1").val("");
-                $("#txtNaCI2").val("");
-                $("#txtNaCI3").val("");
-                $("#txtCodigo").val("");
-                $("#txtObservacion").val(resultado[0].Observacion);
                 $("#divTable").html('');
+                NuevoControl();
 
             } else {
                 $("#divTable").html(resultado);
@@ -150,6 +150,15 @@ function ConsultarControl() {
     });
 }
 
+function NuevoControl() {
+    $("#txtModelo").val("");
+    $("#txtSerie").val("");
+    $("#txtNaCI1").val("");
+    $("#txtNaCI2").val("");
+    $("#txtNaCI3").val("");
+    $("#txtCodigo").val("");
+    $("#txtObservacion").val("");
+}
 
 function Validar() {
     var valida = true;
@@ -240,6 +249,7 @@ function GuardarControl() {
                 MensajeAdvertencia(Mensajes.ControlAprobado);
             }
             else {
+                NuevoControl();
                 ConsultarControl();
             }
             //  $('#btnConsultar').prop("disabled", true);

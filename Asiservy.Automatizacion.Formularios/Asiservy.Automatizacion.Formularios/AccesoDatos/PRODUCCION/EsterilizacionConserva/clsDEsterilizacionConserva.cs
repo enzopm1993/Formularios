@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Where(x => x.Fecha == poEsterilizacionConserva.Fecha && x.Turno == poEsterilizacionConserva.Turno
-                  && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                 &&x.TipoLinea==poEsterilizacionConserva.TipoLinea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
@@ -158,6 +158,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                         item.TermometroDigital = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Inicio).TermometroDigital;
                         item.PresionManometro = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Inicio).PresionManometro;
                         item.HoraChequeo = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Inicio).HoraChequeo;
+                        item.M3H1= poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Inicio).M3H1;
+                        item.M3H2 = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Inicio).M3H2;
                     }
                     if (item.Tipo == clsAtributos.Medio)
                     {
@@ -166,6 +168,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                         item.TermometroDigital = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Medio).TermometroDigital;
                         item.PresionManometro = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Medio).PresionManometro;
                         item.HoraChequeo = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Medio).HoraChequeo;
+                        item.M3H1= poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Medio).M3H1;
+                        item.M3H2 = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Medio).M3H2;
                     }
                     if (item.Tipo == clsAtributos.Final)
                     {
@@ -174,6 +178,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                         item.TermometroDigital = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Final).TermometroDigital;
                         item.PresionManometro = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Final).PresionManometro;
                         item.HoraChequeo = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Final).HoraChequeo;
+                        item.M3H1= poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Final).M3H1;
+                        item.M3H2 = poDetalleEsterilizacion.TIPO_ESTERILIZACION_CONSERVA.FirstOrDefault(x => x.Tipo == clsAtributos.Final).M3H2;
                     }
                     item.FechaModificacionLog = poDetalleEsterilizacion.FechaIngresoLog;
                     item.UsuarioModificacionLog = poDetalleEsterilizacion.UsuarioIngresoLog;

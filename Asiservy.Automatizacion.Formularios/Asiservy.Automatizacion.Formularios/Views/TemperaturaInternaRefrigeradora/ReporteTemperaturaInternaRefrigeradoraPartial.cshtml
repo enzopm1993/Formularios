@@ -9,7 +9,7 @@
             @Html.DisplayNameFor(model => model.Hora)
         </th>
         <th>
-            Temperatura º <br />
+            Temperatura ºC <br />
             Refrigeradora
         </th>
         <th>
@@ -32,17 +32,17 @@
         <td>
             @item.Hora
         </td>
-        <td>
+        <td class="text-center">
             @Html.DisplayFor(modelItem => item.Temperatura)
         </td>
-        <td>
+        <td style="white-space:normal">
             @Html.DisplayFor(modelItem => item.Observacion)
         </td>
-        <td>
+        <td class=" text-center">
             @item.UsuarioIngresoLog <br />
             @item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")
         </td>
-      <td>
+      <td class=" text-center">
           @if (item.EstadoReporte)
           {
               @item.AprobadoPor @:<br />

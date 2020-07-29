@@ -63,7 +63,9 @@
             <th>
                 Hora de chequeo
             </th>
-            
+            <th>
+                M<sup>3</sup>/H
+            </th>
         </tr>
     </thead>
 
@@ -123,7 +125,8 @@
                 @Html.DisplayFor(modelItem => item.TemperaturaProductoSalida)
             </td>
             <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTipos(@item.IdDetalleControlEsterilizacionConserva,'HoraChequeo')"></i></td>
-            
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTiposM3H(@item.IdDetalleControlEsterilizacionConserva)"></i></td>
+
         </tr>
         }
     </tbody>

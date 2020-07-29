@@ -1,5 +1,15 @@
 ﻿$(document).ready(function () {
     ConsultarControl();
+
+    $('#txtTemperatura').inputmask({
+        'alias': 'integer',
+        'groupSeparator': '',
+        'autoGroup': true,
+        'digitsOptional': true,
+        'max': '100.00',
+        'min': '-100.00'
+    });
+
 });
 
 function ValidaEstadoReporte(Fecha) {
@@ -151,7 +161,9 @@ function GuardarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
-            }
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
@@ -159,6 +171,8 @@ function GuardarControl() {
             } else {
                 NuevoControl();
                 ConsultarControl();
+                MensajeCorrecto(resultado);
+
             }
             //  $('#btnConsultar').prop("disabled", true);
         },
@@ -187,7 +201,9 @@ function InactivarControl() {
             }
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
-            }
+            } else if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else
             if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
@@ -195,6 +211,7 @@ function InactivarControl() {
             } else {
                 ConsultarControl();
                 NuevoControl();
+                MensajeCorrecto(resultado);
             }
             $("#modalEliminarControl").modal("hide");
         },

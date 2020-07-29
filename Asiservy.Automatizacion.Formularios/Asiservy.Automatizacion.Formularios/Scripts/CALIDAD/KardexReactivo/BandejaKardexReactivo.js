@@ -120,10 +120,13 @@ function AprobarControl() {
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                CargarBandeja();
+                $("#ModalApruebaCntrol").modal("hide");
             }
-            MensajeCorrecto(resultado);
-            CargarBandeja();
-            $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
             MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
@@ -145,9 +148,13 @@ function ReversarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            MensajeCorrecto(resultado);
-            FiltrarAprobadosFecha();
-            $("#ModalApruebaCntrol").modal("hide");
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                FiltrarAprobadosFecha();
+                $("#ModalApruebaCntrol").modal("hide");
+            }
         },
         error: function (resultado) {
             MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);

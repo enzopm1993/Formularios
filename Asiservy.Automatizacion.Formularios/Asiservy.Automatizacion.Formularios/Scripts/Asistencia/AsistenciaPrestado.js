@@ -270,6 +270,9 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
             Hora: $('#horaservidor').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             //MensajeCorrecto(resultado, true);
             $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistencia').html(resultado);
@@ -405,6 +408,9 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno: $('#TurnoGen').val()//agregado 2020-02-20 por error al cambiar asistencia a falta
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                 //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
