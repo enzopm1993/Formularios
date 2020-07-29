@@ -158,6 +158,7 @@ $(document).ready(function () {
     $('#txtTermometroDigitalMedio').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, /*'placeholder': '0.00',*/'max': '999.9' });
     $('#txtTermometroDigitalFinal').inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 1, 'digitsOptional': false, 'max': '999.9' });
 
+
     $('#txtPresionManometroInicio').inputmask({
         'alias': 'integer',
         'min': '0',
@@ -179,6 +180,51 @@ $(document).ready(function () {
         'allowMinus': 'false',
         'allowPlus': 'false'
     });
+    //--
+    $('#txtm3h1Inicio').inputmask({
+        'alias': 'integer',
+        'min': '0',
+        'max': '9999',
+        'allowMinus': 'false',
+        'allowPlus': 'false'
+    });
+    $('#txtm3h2Inicio').inputmask({
+        'alias': 'integer',
+        'min': '0',
+        'max': '9999',
+        'allowMinus': 'false',
+        'allowPlus': 'false'
+    });
+    $('#txtm3h1Medio').inputmask({
+        'alias': 'integer',
+        'min': '0',
+        'max': '9999',
+        'allowMinus': 'false',
+        'allowPlus': 'false'
+    });
+    $('#txtm3h2Medio').inputmask({
+        'alias': 'integer',
+        'min': '0',
+        'max': '9999',
+        'allowMinus': 'false',
+        'allowPlus': 'false'
+    });
+    $('#txtm3h1Final').inputmask({
+        'alias': 'integer',
+        'min': '0',
+        'max': '9999',
+        'allowMinus': 'false',
+        'allowPlus': 'false'
+    });
+    $('#txtm3h2Final').inputmask({
+        'alias': 'integer',
+        'min': '0',
+        'max': '9999',
+        'allowMinus': 'false',
+        'allowPlus': 'false'
+    });
+
+    //--
     $('#Turno').prop('selectedIndex', 1);
     $('#Linea').prop('selectedIndex', 1);
     ConsultarCabControl();
@@ -524,7 +570,9 @@ function GuardarDetalleEsterilizacion() {
             PresionManometro: $('#txtPresionManometroInicio').val(),
             HoraChequeo: $('#txtHoraChequeoInicio').val(),
             IdDetalleControlEsterilizacion: $('#IdDetalleControl').val(),
-            Tipo: 'I'
+            Tipo: 'I',
+            M3H1: $('#txtm3h1Inicio').val(),
+            M3H2: $('#txtm3h2Inicio').val()
         },
         {
             Panel: $('#txtPanelMedio').val(),
@@ -533,7 +581,9 @@ function GuardarDetalleEsterilizacion() {
             PresionManometro: $('#txtPresionManometroMedio').val(),
             HoraChequeo: $('#txtHoraChequeoMedio').val(),
             IdDetalleControlEsterilizacion: $('#IdDetalleControl').val(),
-            Tipo: 'M'
+            Tipo: 'M',
+            M3H1: $('#txtm3h1Medio').val(),
+            M3H2: $('#txtm3h2Medio').val()
         },
         {
             Panel: $('#txtPanelFinal').val(),
@@ -542,7 +592,9 @@ function GuardarDetalleEsterilizacion() {
             PresionManometro: $('#txtPresionManometroFinal').val(),
             HoraChequeo: $('#txtHoraChequeoFinal').val(),
             IdDetalleControlEsterilizacion: $('#IdDetalleControl').val(),
-            Tipo: 'F'
+            Tipo: 'F',
+            M3H1: $('#txtm3h1Final').val(),
+            M3H2: $('#txtm3h2Final').val()
         }
     ];
     
@@ -687,6 +739,29 @@ function AbrirModalTipos(ideDetalle, tipo) {
         }
     });
 }
+function AbrirModalTiposM3H(ideDetalle) {
+    $.ajax({
+        url: "../EsterilizacionConserva/ConsultarTipoEsterilizacionM3H",
+        type: "GET",
+        data: {
+            idDetalle: ideDetalle
+        },
+        success: function (resultado) {
+            //console.log(resultado);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#modaltableTipoM3h tbody").empty();
+            $('#modaltableTipoM3h tbody').append('<tr><td>' + resultado.Inicio + '</td><td>' + resultado.Inicio2 + '</td><td>' + resultado.Medio + '</td><td>' + resultado.Medio2 + '</td><td>' + resultado.Final + '</td><td>' + resultado.Final2 +'</td></tr >');
+            $('#ModalTipoM3h').modal('show');
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+}
 function EditarDetalleControl(data) {
     $('#idcochehide').val('');
     $('#btnEliminarDetalleControl').prop('disabled', false);
@@ -784,7 +859,40 @@ function EditarDetalleControl(data) {
                 .Where(function (x) { return x.Tipo == 'F' })
                 .Select(function (x) { return x.HoraChequeo })
                 .SingleOrDefault();
+            //--
+            //--
+            var M3h1Inicio = Enumerable.From(resultado)
+                .Where(function (x) { return x.Tipo == 'I' })
+                .Select(function (x) { return x.M3H1 })
+                .SingleOrDefault();
+            var M3h1Medio = Enumerable.From(resultado)
+                .Where(function (x) { return x.Tipo == 'M' })
+                .Select(function (x) { return x.M3H1 })
+                .SingleOrDefault();
+            var M3h1Final = Enumerable.From(resultado)
+                .Where(function (x) { return x.Tipo == 'F' })
+                .Select(function (x) { return x.M3H1 })
+                .SingleOrDefault();
+            var M3h2Inicio = Enumerable.From(resultado)
+                .Where(function (x) { return x.Tipo == 'I' })
+                .Select(function (x) { return x.M3H2 })
+                .SingleOrDefault();
+            var M3h2Medio = Enumerable.From(resultado)
+                .Where(function (x) { return x.Tipo == 'M' })
+                .Select(function (x) { return x.M3H2 })
+                .SingleOrDefault();
+            var M3h2Final = Enumerable.From(resultado)
+                .Where(function (x) { return x.Tipo == 'F' })
+                .Select(function (x) { return x.M3H2 })
+                .SingleOrDefault();
+            //--
             //console.log(HoraChequeoInicio);
+            $('#txtm3h1Inicio').val(M3h1Inicio);
+            $('#txtm3h2Inicio').val(M3h2Inicio);
+            $('#txtm3h1Medio').val(M3h1Medio);
+            $('#txtm3h2Medio').val(M3h2Medio);
+            $('#txtm3h1Final').val(M3h1Final);
+            $('#txtm3h2Final').val(M3h2Final);
             $('#txtPanelInicio').val(PanelInicio);
             $('#txtPanelMedio').val(PanelMedio);
             $('#txtPanelFinal').val(PanelFinal);
@@ -809,6 +917,12 @@ function EditarDetalleControl(data) {
     });
 }
 function LimpiarControlesDetalle() {
+    $('#txtm3h1Inicio').val('');
+    $('#txtm3h2Inicio').val('');
+    $('#txtm3h1Medio').val('');
+    $('#txtm3h2Medio').val('');
+    $('#txtm3h1Final').val('');
+    $('#txtm3h2Final').val('');
     $('#idcochehide').val('');
     $('#btnEliminarDetalleControl').prop('disabled', true);
     $('#txtAutoclave').val('');
