@@ -6,23 +6,26 @@
     <thead>
         <tr>
             <th>
-                ID
+                Id
             </th>
             <th>
-                DESCRIPCION
+                Descripción
             </th>
             <th>
-                UNID. MEDICION
+                Unidad de Medicicón
             </th>
             <th>
-                FECHA CREACION
+               Valor predeterminado
+            </th>
+            <th>
+                Fecha Creación
             </th>
 
             <th>
-                FECHA MODIFICACION
+                Fecha Modificación
             </th>
-            <th>ESTADO</th>
-            <th>ACCIONES</th>
+            <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -32,57 +35,58 @@
             DateTime fecham = Convert.ToDateTime(item.FechaModificacionLog);
 
             string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdReactivo)
-                </td>
-                <td>
-                    @item.Descripcion
-                </td>
-                <td>@item.Abreviatura</td>
-                <td>
-                    @fecha
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdReactivo)
+            </td>
+            <td>
+                @item.Descripcion
+            </td>
+            <td>@item.Abreviatura</td>
+            <td>@item.ValorPredeterminado</td>
+            <td>
+                @fecha
+            </td>
 
-                <td>
-                    @if (fecham.ToString() != "1/1/0001 12:00:00 AM")
+            <td>
+                @if (fecham.ToString() != "1/1/0001 12:00:00 AM")
+                {
+                    @fecham.ToString("dd-MM-yyyy HH:mm")
+                }
+            </td>
+            <td>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <span class="badge badge-success">ACTIVO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">INACTIVO</span>
+                }
+            </td>
+            <td>
+
+                @{
+                    var x = new CC_MANTENIMIENTO_REACTIVO
                     {
-                        @fecham.ToString("dd-MM-yyyy HH:mm")
-                    }
-                </td>
-                <td>
-                    @if (item.EstadoRegistro == "A")
-                    {
-                        <span class="badge badge-success">ACTIVO</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">INACTIVO</span>
-                    }
-                </td>
-                <td>
-                    
-                    @{
-                        var x = new CC_MANTENIMIENTO_REACTIVO
-                        {
-                            IdReactivo = item.IdReactivo,
-                            Descripcion = item.Descripcion,
-                            Abreviatura = item.Abreviatura,
-                            EstadoRegistro = item.EstadoRegistro
-                        };
-                        string json = JsonConvert.SerializeObject(x);
-                    }
-                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
-                    @if (item.EstadoRegistro == "A")
-                    {
-                        <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
-                    }
-                    else
-                    {
-                        <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
-                    }
-                </td>
-            </tr>
+                        IdReactivo = item.IdReactivo,
+                        Descripcion = item.Descripcion,
+                        Abreviatura = item.Abreviatura,
+                        EstadoRegistro = item.EstadoRegistro
+                    };
+                    string json = JsonConvert.SerializeObject(x);
+                }
+                <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                }
+                else
+                {
+                    <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

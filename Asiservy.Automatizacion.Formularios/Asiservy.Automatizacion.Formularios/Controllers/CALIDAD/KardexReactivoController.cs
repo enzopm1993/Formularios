@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ClsdMantenimientoReactivo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
+        private clsDLogin clsDLogin { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
         private ClsdMantenimientoReactivo ClsdMantenimientoReactivo { get; set; } = null;
+        private clsDPeriodo clsDPeriodo { get; set; } = null;
+
+        
 
         #region CONTROL 
         [Authorize]
@@ -33,7 +38,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 ViewBag.MaskedInput = "1";
                 ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
+                clsDLogin = new clsDLogin();
                 ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x=> x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteKardexReactivo");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteKardexReactivo";
+                }
+                else ViewBag.Link = null;
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -67,7 +81,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
@@ -146,6 +164,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 if (model == null)
                 {
@@ -360,6 +383,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
                 model.FechaAprobacion = DateTime.Now;
                 model.AprobadoPor = lsUsuario[0];
@@ -400,6 +428,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
                 model.FechaAprobacion = null;
@@ -447,6 +480,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 clsDReporte = new clsDReporte();
+                clsDLogin = new clsDLogin();
                 var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {
@@ -455,6 +489,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.NombreReporte = rep.Nombre;
                 }
                 lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "KardexReactivo");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "KardexReactivo";
+                }
+                else ViewBag.Link = null;
                 return View();
             }
             catch (DbEntityValidationException e)

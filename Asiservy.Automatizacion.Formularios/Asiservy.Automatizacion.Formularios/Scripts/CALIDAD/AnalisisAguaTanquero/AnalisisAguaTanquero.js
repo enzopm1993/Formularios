@@ -3,7 +3,7 @@
 
     $('#txtStd').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
         'max': '10000',
@@ -12,7 +12,7 @@
 
     $('#txtDureza').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
         'max': '1000',
@@ -21,7 +21,7 @@
 
     $('#txtPh').inputmask({
         'alias': 'decimal',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,
@@ -32,7 +32,7 @@
 
     $('#txtStdModal').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
         'max': '10000',
@@ -41,7 +41,7 @@
 
     $('#txtDurezaModal').inputmask({
         'alias': 'integer',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'autoGroup': true,
         'digitsOptional': true,
         'max': '1000',
@@ -50,7 +50,7 @@
 
     $('#txtPhModal').inputmask({
         'alias': 'decimal',
-        'groupSeparator': ',',
+        'groupSeparator': '',
         'digits': 2,
         'autoGroup': true,
         'digitsOptional': true,

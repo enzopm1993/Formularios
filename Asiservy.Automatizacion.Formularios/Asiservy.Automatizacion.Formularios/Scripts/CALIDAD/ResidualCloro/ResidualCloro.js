@@ -167,7 +167,7 @@ function GuardarControl() {
     if (!Validar()) {
         return;
     }
-    if (moment($("#txtFecha").val()).format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) {
+    if (moment($("#txtFecha").val()).format('YYYY-MM-DD') > moment().add(1,'days').format('YYYY-MM-DD')) {
         MensajeAdvertencia("No puede ingresar una fecha mayor a: " + moment().format('YYYY-MM-DD'));
         return;
     }

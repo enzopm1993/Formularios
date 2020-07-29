@@ -67,6 +67,7 @@ function GuardarModificarControl() {
             IdReactivo: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             Abreviatura: $("#txtAbreviatura").val(),
+            ValorPredeterminado: $("#txtValorPredeterminado").val(),
             EstadoRegistro: estado
         },
         success: function (resultado) {
@@ -106,6 +107,7 @@ function NuevoControl() {
     $("#txtIdControl").val('0');
     $("#txtDescripcion").val('');
     $("#txtAbreviatura").val('');
+    $("#txtValorPredeterminado").val('');
     $("#CheckEstadoRegistro").prop("checked", true);
     $('#LabelEstado').text('Activo');
 }
@@ -114,6 +116,7 @@ function NuevoControl() {
 function ActualizarCabecera(model) {
     $("#txtIdControl").val(model.IdReactivo);
     $("#txtDescripcion").val(model.Descripcion);
+    $("#txtValorPredeterminado").val(model.ValorPredeterminado);
     $("#txtAbreviatura").val(model.Abreviatura)
 }
 

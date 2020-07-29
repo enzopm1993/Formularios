@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdReactivo { get; set; }
         public string Descripcion { get; set; }
         public string Abreviatura { get; set; }
+        public Nullable<decimal> ValorPredeterminado { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
