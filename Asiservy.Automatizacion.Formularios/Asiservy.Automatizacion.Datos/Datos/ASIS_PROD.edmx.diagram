@@ -153,19 +153,14 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO" Width="1.5" PointX="38.375" PointY="16.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_TANQUERO_CONTROL" Width="1.5" PointX="38.375" PointY="21.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" Width="1.5" PointX="34.375" PointY="44" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Width="1.5" PointX="42.375" PointY="29.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE" Width="1.5" PointX="47.875" PointY="24" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA1" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Width="1.5" PointX="11" PointY="35" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="43.375" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_CONTROL" Width="1.5" PointX="44.375" PointY="48.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_MANT" Width="1.5" PointX="44.375" PointY="1.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO" Width="1.5" PointX="46.375" PointY="34.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_KARDEX_REACTIVO_DETALLE" Width="1.5" PointX="48.625" PointY="30.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_KARDEX_REACTIVO" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_AGUA_CLORINACION_DETALLE" Width="1.5" PointX="50.625" PointY="24.625" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_CONTROL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CLORINACION_DETALLE_CC_ANALISIS_AGUA_CLORINACION_MANT" />
@@ -280,6 +275,11 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="3.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="43.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Width="1.5" PointX="5.375" PointY="34" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

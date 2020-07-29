@@ -137,10 +137,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO> CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_TANQUERO_CONTROL> CC_ANALISIS_AGUA_TANQUERO_CONTROL { get; set; }
         public virtual DbSet<CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL> CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL { get; set; }
-        public virtual DbSet<CC_MANTENIMIENTO_REACTIVO> CC_MANTENIMIENTO_REACTIVO { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
-        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_CONTROL> CC_ANALISIS_AGUA_CLORINACION_CONTROL { get; set; }
         public virtual DbSet<CC_ANALISIS_AGUA_CLORINACION_MANT> CC_ANALISIS_AGUA_CLORINACION_MANT { get; set; }
         public virtual DbSet<CC_KARDEX_REACTIVO> CC_KARDEX_REACTIVO { get; set; }
@@ -213,6 +211,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
         public virtual DbSet<CC_PARAMETROS_LABORATORIO> CC_PARAMETROS_LABORATORIO { get; set; }
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_REACTIVO> CC_MANTENIMIENTO_REACTIVO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

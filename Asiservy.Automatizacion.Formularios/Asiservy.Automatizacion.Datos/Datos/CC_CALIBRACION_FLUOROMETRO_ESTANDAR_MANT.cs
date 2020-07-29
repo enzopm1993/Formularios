@@ -30,6 +30,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public bool DatoNumerico { get; set; }
+        public int Orden { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
