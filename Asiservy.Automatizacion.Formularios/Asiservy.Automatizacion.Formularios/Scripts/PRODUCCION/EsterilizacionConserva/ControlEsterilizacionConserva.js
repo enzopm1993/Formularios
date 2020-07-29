@@ -751,6 +751,12 @@ function AbrirModalTiposM3H(ideDetalle) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            resultado.Inicio = resultado.Inicio == null ? '' : resultado.Inicio;
+            resultado.Inicio2 = resultado.Inicio2 == null ? '' : resultado.Inicio2;
+            resultado.Medio = resultado.Medio == null ? '' : resultado.Medio;
+            resultado.Medio2 = resultado.Medio2 == null ? '' : resultado.Medio2;
+            resultado.Final = resultado.Final == null ? '' : resultado.Final;
+            resultado.Final2 = resultado.Final2 == null ? '' : resultado.Final2;
             $("#modaltableTipoM3h tbody").empty();
             $('#modaltableTipoM3h tbody').append('<tr><td>' + resultado.Inicio + '</td><td>' + resultado.Inicio2 + '</td><td>' + resultado.Medio + '</td><td>' + resultado.Medio2 + '</td><td>' + resultado.Final + '</td><td>' + resultado.Final2 +'</td></tr >');
             $('#ModalTipoM3h').modal('show');
