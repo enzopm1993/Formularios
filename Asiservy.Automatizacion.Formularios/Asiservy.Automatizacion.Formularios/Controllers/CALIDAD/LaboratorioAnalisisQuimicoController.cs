@@ -29,6 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
        
         #region CONTROL
+        [Authorize]
         public ActionResult ControlAnalisisQuimico()
         {
             try
@@ -204,6 +205,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult GuardarModificarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL model, int siAprobar)
         {
             try
@@ -263,6 +265,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult EliminarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL model)
         {
             try
@@ -392,6 +395,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult GuardarModificarDetalle(CC_ANALISIS_QUIMICO_PRECOCCION_DET model)
         {
             try
@@ -453,6 +457,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult GuardarModificarElemento(CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS model,int idAnalisis, CC_ANALISIS_QUIMICO_PRECOCCION_DET detalle)
         {
             try
@@ -523,6 +528,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult EliminarDetalle(CC_ANALISIS_QUIMICO_PRECOCCION_DET model)
         {
             try
@@ -584,6 +590,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult EliminarElemento(CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS model, int idAnalisis)
         {
             try
@@ -645,6 +652,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult GuardarFoto(CC_ANALISIS_QUIMICO_PRECOCCION_FOTO model, HttpPostedFileBase dataImg, CC_ANALISIS_QUIMICO_PRECOCCION_DET detalle)
         {
             try
@@ -781,6 +789,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
+        [HttpPost]
         public JsonResult EliminarImagen(CC_ANALISIS_QUIMICO_PRECOCCION_FOTO model, int idAnalisis)
         {
             try
@@ -839,6 +848,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         #endregion
 
         #region BANDEJA
+        [Authorize]
         public ActionResult BandejaAnalisisQuimico()
         {
             try
@@ -914,7 +924,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        
         public ActionResult BandejaAnalisisQuimicoAprobarPartial(DateTime fechaControl,string turno, int op)
         {
             try
@@ -967,6 +977,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         #endregion
 
         #region REPORTE
+        [Authorize]
         public ActionResult ReporteAnalisisQuimico()
         {
             try

@@ -7,21 +7,26 @@ using System.Net;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System.Collections.Generic;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class CalibracionFluorometroController : Controller
     {
+        clsDPeriodo clsDPeriodo { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         ClsDCalibracionFluorometro ClsDCalibracionFluorometro { get; set; } = null;
         string[] lsUsuario { get; set; } = null;
         public clsDReporte ClsDReporte { get; set; } = null;
+        [Authorize]
         public ActionResult MantenimientoEstandar()
         {
             try
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.MascaraInput = "1";
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -43,13 +48,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-
         public ActionResult MantenimientoEstandarPartial()
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -71,7 +75,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -80,16 +84,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public JsonResult GuardarModificarEstandar(CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT model)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -133,18 +137,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public JsonResult EliminarEstandar(CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT model)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-               
-                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
                     model.FechaIngresoLog = DateTime.Now;
                     model.TerminalIngresoLog = Request.UserHostAddress;
                     model.UsuarioIngresoLog = lsUsuario[0];
@@ -179,11 +183,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Authorize]
         public ActionResult CalibracionFluorometro()
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteCalibracionFluorometro");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteCalibracionFluorometro";
+                }
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.MascaraInput = "1";
@@ -213,13 +224,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-
-        public JsonResult ConsultarCalibracionFluorometroJson(int idCalibracionFluor = 0,DateTime? fecha=null)
+        public JsonResult ConsultarCalibracionFluorometroJson(DateTime fecha, int idCalibracionFluor = 0)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -262,13 +272,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }       
-
         public ActionResult CalibracionFluorometroPartial(int op, DateTime? fechaDesde, DateTime? fechaHasta, int idCalibracionFluor=0, int ocultarSi=0)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -284,7 +293,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -293,18 +302,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public JsonResult GuardarModificarCalibracionFluor(CC_CALIBRACION_FLUOROMETRO_CTRL model, bool siAprobar, List<CC_CALIBRACION_FLUOROMETRO_DET> detalle)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.FechaHora);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
                 model.FechaIngresoLog = DateTime.Now;
@@ -318,7 +333,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 if (siAprobar)
                 {
-                    var estadoReporte = ClsDCalibracionFluorometro.ConsultarCalibracionFluorIdFecha(model.IdCalibracionFluor);
+                    var estadoReporte = ClsDCalibracionFluorometro.ConsultarCalibracionFluorIdFecha(model.IdCalibracionFluor, DateTime.MinValue);
                     if (estadoReporte.EstadoReporte)
                     {
                         return Json("5", JsonRequestBehavior.AllowGet);//REGISTRO APROBADO
@@ -376,15 +391,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public JsonResult EliminarCalibracionFluor(CC_CALIBRACION_FLUOROMETRO_CTRL model)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.FechaHora);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
                 model.FechaIngresoLog = DateTime.Now;
@@ -421,6 +442,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         //---------------------------------------------------------BANDEJA------------------------------------------------------------------------
+        [Authorize]
         public ActionResult BandejaCalibracionFluorometro()
         {
             try
@@ -449,13 +471,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-
         public ActionResult BandejaCalibracionFluorometroPartial(bool estadoReporte, DateTime fechaDesde, DateTime fechaHasta)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -477,7 +498,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -486,18 +507,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public JsonResult BandejaAprobarReverso(CC_CALIBRACION_FLUOROMETRO_CTRL model, bool siAprobar)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                bool periodo = clsDPeriodo.ValidaFechaPeriodo(model.FechaHora);
+                if (!periodo)
+                {
+                    return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
                 model.FechaIngresoLog = DateTime.Now;
@@ -531,10 +558,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         //---------------------------------------------------------REPORTE------------------------------------------------------------------------
+        [Authorize]
         public ActionResult ReporteCalibracionFluorometro()
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], this.ControllerContext.RouteData.Values["controller"].ToString());
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + this.ControllerContext.RouteData.Values["controller"].ToString();
+                }
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";               
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
@@ -572,7 +607,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
+                if (!User.Identity.IsAuthenticated)
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -592,7 +627,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -601,7 +636,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 

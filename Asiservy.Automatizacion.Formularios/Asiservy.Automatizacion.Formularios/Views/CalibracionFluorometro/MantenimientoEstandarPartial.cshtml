@@ -1,12 +1,14 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT>
 @using Newtonsoft.Json;
 
-<table class="table table-bordered" id="tblDataTable">
+<table class="table table-bordered table-hover text-uppercase" id="tblDataTable">
     <thead style="font-size:13px">
         <tr>
+            <th>ORDEN</th>
             <th>
                 NOMBRE ESTANDAR
             </th>
+            <th>ES NUMÉRICO</th>
             <th>
                 DESCRIPCION
             </th>
@@ -23,11 +25,20 @@
         </tr>
     </thead>
     <tbody style="font-size:12px">
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderBy(x=> x.Orden))
         {
             <tr>
+                <td>@item.Orden</td>
                 <td>
                     @item.NombEstandar.ToUpper()
+                </td>
+                <td class="text-center">
+                    @if (item.DatoNumerico)
+                    {
+                        <i class="fas fa-check-circle" style="color: green"></i>
+                    }
+                    else
+                    { <i class="fas fa-check-circle" style="color: darkgray"></i>}
                 </td>
                 @if (!string.IsNullOrEmpty(item.DescEstandar))
                 {

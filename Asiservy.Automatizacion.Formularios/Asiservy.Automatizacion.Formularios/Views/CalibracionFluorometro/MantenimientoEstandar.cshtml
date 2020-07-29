@@ -12,7 +12,7 @@
 <hr />
 <div class="row" id="divCabecera1">
     <div class="col-md-4 col-12  text-md-left text-center">
-        <label class="" id="lblAcciones">Nuevo Estandar</label>
+        <label class="" id="lblAcciones">NUEVO ESTANDAR</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
@@ -51,23 +51,38 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Nuevo Objeto Auditar</h5>
+                <h5 class="modal-title">NUEVO ESTANDAR</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarCabecera()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-6 col-12 col-sm-6">
                         <div class="form-group">
                             <label>NOMBRE</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtNombre" class="form-control" />
+                            <input type="text" name="name" autocomplete="off" value="" onchange="OnChangeTextBox()" id="txtNombre" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-6 col-12 col-sm-6">
                         <div class="form-group">
-                            <label>DESCRIPCION</label>
-                            <input type="text" name="name" value="" onchange="OnChangeTextBox()" id="txtDescripcion" class="form-control" />
+                            <label>DESCRIPCIÓN</label>
+                            <input type="text" name="name" value="" autocomplete="off" onchange="OnChangeTextBox()" id="txtDescripcion" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>ORDEN</label>
+                            <input type="text"  name="name" value="1" autocomplete="off" onchange="OnChangeTextBox()" id="txtOrden" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 col-sm-6 text-center" id="ModalCheckBox">
+                        <div class="form-group">
+                            <label>TIPO DATO</label>
+                            <div class="custom-control custom-checkbox mb-3">
+                                @Html.CheckBox("tipoCampo", true, new { @id = "chkTipoCampo", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                                <label class="custom-control-label" for="chkTipoCampo" id="LabelEstado">Numérico</label>
+                            </div>
                         </div>
                     </div>
                 </div>
