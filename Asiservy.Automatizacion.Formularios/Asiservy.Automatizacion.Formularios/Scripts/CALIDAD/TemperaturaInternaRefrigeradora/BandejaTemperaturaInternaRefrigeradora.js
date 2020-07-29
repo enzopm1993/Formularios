@@ -1,6 +1,8 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
+
+  
 });
 
 //CARGAR BANDEJA
@@ -71,10 +73,13 @@ function AprobarControl() {
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                CargarBandeja();
+                $("#ModalApruebaCntrol").modal("hide");
             }
-            MensajeCorrecto(resultado);
-            CargarBandeja();
-            $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
             MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
@@ -95,10 +100,13 @@ function ReversarControl() {
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            } if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else {
+                MensajeCorrecto(resultado);
+                FiltrarAprobadosFecha();
+                $("#ModalApruebaCntrol").modal("hide");
             }
-            MensajeCorrecto(resultado);
-            FiltrarAprobadosFecha();
-            $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
             MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);

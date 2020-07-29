@@ -5,7 +5,7 @@
 var model = [];
 
 function FiltrarAprobadosFecha() {
-    $("#spinnerCargando").prop("hidden", false);
+    MostrarModalCargando();
     $("#MensajeRegistros").html('');
 
     $.ajax({
@@ -28,11 +28,12 @@ function FiltrarAprobadosFecha() {
                 $("#divDetalle").prop("hidden", false);
                 $('#divTableDetalle').html(resultado);
             }
-            $("#spinnerCargando").prop("hidden", true);
+            CerrarModalCargando();
             $("#divDateRangePicker").prop('hidden', false);
         },
         error: function (resultado) {
-            $("#spinnerCargando").prop("hidden", true);
+            CerrarModalCargando();
+
             MensajeError(Mensajes.Error + resultado.responseText, false);
         }
     });
@@ -66,6 +67,7 @@ $(function () {
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
 
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+        FiltrarAprobadosFecha();
     }
 
     $('#reportrange').daterangepicker({
