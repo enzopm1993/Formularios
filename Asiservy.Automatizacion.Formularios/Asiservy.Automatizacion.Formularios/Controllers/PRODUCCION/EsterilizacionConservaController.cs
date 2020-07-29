@@ -515,14 +515,89 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                                          where t.Tipo == clsAtributos.Final
                                          select t.HoraChequeo).FirstOrDefault();
                     return Json(new {Inicio=HInicio,Medio=HMedio,Final=HFinal }, JsonRequestBehavior.AllowGet);
+                }else if (Tipo == "M3h")
+                {
+                    int? MInicio1= (from t in resultado
+                                    where t.Tipo == clsAtributos.Inicio
+                                    select t.M3H1).FirstOrDefault();
+                    int? MInicio2 = (from t in resultado
+                                     where t.Tipo == clsAtributos.Inicio
+                                     select t.M3H2).FirstOrDefault();
+                    int? MMedio1 = (from t in resultado
+                                     where t.Tipo == clsAtributos.Medio
+                                     select t.M3H1).FirstOrDefault();
+                    int? MMedio2 = (from t in resultado
+                                     where t.Tipo == clsAtributos.Medio
+                                     select t.M3H2).FirstOrDefault();
+                    int? MFinal1 = (from t in resultado
+                                     where t.Tipo == clsAtributos.Final
+                                     select t.M3H1).FirstOrDefault();
+                    int? MFinal2 = (from t in resultado
+                                     where t.Tipo == clsAtributos.Final
+                                     select t.M3H2).FirstOrDefault();
+                    return Json(new { Inicio = MInicio1,Inicio2= MInicio2, Medio = MMedio1, Medio2= MMedio2, Final = MFinal1, Final2= MFinal1 }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     var respuesta = new { Inicio, Medio, Final };
-
                     return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
                 
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ConsultarTipoEsterilizacionM3H(int idDetalle)
+        {
+            //ConsultarTiposEsterilizacion
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                clsDEsterilizacionConserva = new clsDEsterilizacionConserva();
+                var resultado = clsDEsterilizacionConserva.ConsultarTiposEsterilizacion(idDetalle);
+
+                int? MInicio1 = (from t in resultado
+                                    where t.Tipo == clsAtributos.Inicio
+                                    select t.M3H1).FirstOrDefault();
+                int? MInicio2 = (from t in resultado
+                                    where t.Tipo == clsAtributos.Inicio
+                                    select t.M3H2).FirstOrDefault();
+                int? MMedio1 = (from t in resultado
+                                where t.Tipo == clsAtributos.Medio
+                                select t.M3H1).FirstOrDefault();
+                int? MMedio2 = (from t in resultado
+                                where t.Tipo == clsAtributos.Medio
+                                select t.M3H2).FirstOrDefault();
+                int? MFinal1 = (from t in resultado
+                                where t.Tipo == clsAtributos.Final
+                                select t.M3H1).FirstOrDefault();
+                int? MFinal2 = (from t in resultado
+                                where t.Tipo == clsAtributos.Final
+                                select t.M3H2).FirstOrDefault();
+
+                return Json(new { Inicio = MInicio1, Inicio2 = MInicio2, Medio = MMedio1, Medio2 = MMedio2, Final = MFinal1, Final2 = MFinal2 }, JsonRequestBehavior.AllowGet);
+
             }
             catch (DbEntityValidationException e)
             {
@@ -559,7 +634,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDEsterilizacionConserva = new clsDEsterilizacionConserva();
                 var resultado = clsDEsterilizacionConserva.ConsultarTiposEsterilizacion(idDetalle);
                 var respuesta = (from t in resultado
-                                 select new { t.Tipo, t.Panel, t.Chart, t.TermometroDigital, t.PresionManometro, t.HoraChequeo }).ToList();
+                                 select new { t.Tipo, t.Panel, t.Chart, t.TermometroDigital, t.PresionManometro, t.HoraChequeo,t.M3H1,t.M3H2 }).ToList();
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
                
 
