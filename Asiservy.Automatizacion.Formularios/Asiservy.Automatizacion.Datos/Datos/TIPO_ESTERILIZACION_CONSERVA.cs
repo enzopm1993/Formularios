@@ -21,6 +21,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> TermometroDigital { get; set; }
         public Nullable<int> PresionManometro { get; set; }
         public Nullable<System.DateTime> HoraChequeo { get; set; }
+        public Nullable<int> M3H1 { get; set; }
+        public Nullable<int> M3H2 { get; set; }
         public int IdDetalleControlEsterilizacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -29,8 +31,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> M3H1 { get; set; }
-        public Nullable<int> M3H2 { get; set; }
     
         public virtual DETALLE_CONTROL_ESTERILIZACION_CONSERVA DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     }
