@@ -24,6 +24,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                     }
                     else
                     {
+                        model.Orden = guardarModificar.Orden;
+                        model.DatoNumerico = guardarModificar.DatoNumerico;
                         model.DescEstandar = guardarModificar.DescEstandar;
                         model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                         model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
@@ -69,12 +71,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.Take(200).OrderBy(x=> x.NombEstandar).ToList();
+                var lista = db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.Take(200).OrderBy(x=> x.Orden).ToList();
                 List<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> listaEstandar = new List<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT>();
                 CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT estadar;
                 if (op==1)
                 {
-                    lista = db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.Where(c=> c.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Take(200).OrderBy(x => x.NombEstandar).ToList();                    
+                    lista = db.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.Where(c=> c.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Take(200).OrderBy(x => x.Orden).ToList();                    
                 }                
                 foreach (var item in lista)
                 {
@@ -85,6 +87,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
                     estadar.UsuarioIngresoLog = item.UsuarioIngresoLog;
                     estadar.FechaIngresoLog = item.FechaIngresoLog;
                     estadar.EstadoRegistro = item.EstadoRegistro;
+                    estadar.DatoNumerico = item.DatoNumerico;
+                    estadar.Orden = item.Orden;
                     listaEstandar.Add(estadar);
                 }
                 return listaEstandar;
@@ -195,20 +199,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
         //    }
         //}
 
-        public CC_CALIBRACION_FLUOROMETRO_CTRL ConsultarCalibracionFluorIdFecha(int idCalibracionFluor, DateTime? fecha=null)
+        public CC_CALIBRACION_FLUOROMETRO_CTRL ConsultarCalibracionFluorIdFecha(int idCalibracionFluor, DateTime fecha)
         {
             CC_CALIBRACION_FLUOROMETRO_CTRL calibracionID;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 calibracionID = new CC_CALIBRACION_FLUOROMETRO_CTRL();
-                if (idCalibracionFluor != 0 && fecha==null)
+                if (idCalibracionFluor != 0 && fecha==DateTime.MinValue)
                 {
                     calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.IdCalibracionFluor == idCalibracionFluor
                                                                         && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 }
-                else if(fecha!=null)
+                else if(fecha!=DateTime.MinValue)
                 {
-                    calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.FechaHora == fecha
+                    calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.FechaHora.Year == fecha.Year && c.FechaHora.Month==fecha.Month && c.FechaHora.Day==fecha.Day
                                                                        && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 }
                 return calibracionID;

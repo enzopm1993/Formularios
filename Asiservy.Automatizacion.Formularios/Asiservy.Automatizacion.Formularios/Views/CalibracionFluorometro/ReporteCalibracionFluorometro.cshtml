@@ -133,21 +133,34 @@
 
 <br id="brCabecera" />
 <div class="row" id="divFiltro">
-    <div class="col-12 text-center text-md-left">
-        <h4 style="float:left">Reporte Calibración del Fluorometro</h4>
-        <div class="box_filters">
-            <div class="itemFilter col-md-10 col-12 col-sm-12">
-                <input type="hidden" id="fechaDesde" value="" />
-                <input type="hidden" id="fechaHasta" value="" />
-                <div id="reportrange" class="selectbox">
-                    <i class="fa fa-calendar"></i>&nbsp;
-                    <span></span> <i class="fa fa-caret-down"></i>
-                </div>
-            </div>
-            <div class="itemFilter col-md-1 col-12 col-sm-12">
-                <a href="#" onclick="CargarCabecera(1)" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+    <div class="col-12 col-md-6 text-center text-md-left text-uppercase">
+        <h5 style="float:left">Reporte Calibración del Fluorómetro</h5>
+    </div>
+    <div class="box_filters col-sm-12 col-md-6">
+        <div class="float-sm-right float-right col-md-1 col-1 col-sm-1">
+            <a href="#" onclick="CargarCabecera(1)" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+        </div>
+        <div class=" float-sm-right col-md-8 col-10 col-sm-6" style="font-size:14px">
+            <input type="hidden" id="fechaDesde" value="" />
+            <input type="hidden" id="fechaHasta" value="" />
+            <div id="reportrange" class="selectbox">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
+
+    </div>
+    
+</div>
+<br id="divFiltro" />
+<div class="row" id="divFiltro">
+    <div class="col-md-12 col-12 col-sm-12 float-right text-right">
+        @if (ViewBag.Link == null)
+        {
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Control</a>
+        }
+        else
+        {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Control</a>}
     </div>
 </div>
 <hr />

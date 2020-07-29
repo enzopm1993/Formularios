@@ -43,20 +43,20 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Calibración Fluorometro</h4>
+        <h4 class="text-md-left text-center text-uppercase" style="float:left">Bandeja Calibración Fluorómetro</h4>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-3 col-12 col-sm-12">
+    <div class="col-md-3 col-12 col-sm-3">
         <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
-            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
 
-    <div class="box_filters col-md-6 col-12 col-sm-12">
-        <div class="itemFilter" hidden id="divCalendar">
+    <div class="box_filters col-md-6 col-12 col-sm-9" style="font-size:14px">
+        <div class="itemFilter col-md-7 col-10 col-sm-9" hidden id="divCalendar">
             <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <div id="reportrange" class="selectbox text-md-left text-center">
@@ -64,7 +64,7 @@
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="itemFilter col-md-1 col-12 col-sm-12 text-md-left text-center">
+        <div class="text-md-left text-sm-left text-center">
             <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
@@ -78,19 +78,20 @@
 
     @* MODAL APRUEBA CONTROL*@
     <div class="modal fade" id="ModalApruebaPendiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">APROBAR</h5>
                     <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="col-md-12 col-12 col-sm-12">
-                        <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                        <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onkeydown="return(false)" onchange="validar()" id="txtFechaAprobado" class="form-control" />
                     </div>
                     <br />
+
                     <div class="table-responsive" id="divAprobarPendientePartial">
 
                     </div>
@@ -102,5 +103,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 

@@ -87,7 +87,7 @@ else
 
     <!-- Modal -->
     <div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">DETALLE</h5>
@@ -96,8 +96,8 @@ else
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-md-6 col-12 col-sm-12">
-                        <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                    <div class="col-md-4 col-12 col-sm-6">
+                        <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onkeydown="return(false)" max="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
                     </div>
                     <br />
                     <div class="table-responsive">

@@ -1,6 +1,9 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
+    $('#selectEstadoReporte').select2({
+        width: '100%'
+    });
 });
 
 //CARGAR BANDEJA
@@ -111,6 +114,7 @@ function AprobarPendiente(estadoReporte) {
         type: "POST",
         data: {
             IdCalibracionFluor: listaDatos.IdCalibracionFluor,
+            FechaHora: listaDatos.FechaHora,
             EstadoReporte: estadoReporte,
             FechaAprobado: $('#txtFechaAprobado').val(),
             siAprobar: siAprobar
@@ -121,7 +125,12 @@ function AprobarPendiente(estadoReporte) {
             }
             if (resultado == 2 || resultado == 1) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
-            } else {
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                $("#ModalApruebaPendiente").modal("hide");
+                $('#cargac').hide();
+                return;
+            }   else {
                 MensajeError('Error en: Controller - CalibracionFluorometro/BandejaAprobarReverso');
                 return;
             }

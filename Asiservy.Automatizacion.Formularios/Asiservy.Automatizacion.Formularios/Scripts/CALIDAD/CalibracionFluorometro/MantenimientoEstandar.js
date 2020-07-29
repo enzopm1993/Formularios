@@ -1,6 +1,7 @@
 ﻿var itemEditar = [];
 $(document).ready(function () {
     CargarCabecera();
+    $('#txtOrden').inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': 99, 'min': 1 });
 });
 
 function CargarCabecera() {
@@ -18,13 +19,13 @@ function CargarCabecera() {
                 $("#divMostarTablaCabecera").html(resultado);
             }
             itemEditar = 0;
-            setTimeout(function () {
+            
                 $('#cargac').hide();
-            }, 200);
+           
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -37,7 +38,9 @@ function GuardarCabecera() {
         data: {
             IdEstandar: itemEditar.IdEstandar,
             NombEstandar: $('#txtNombre').val(),
-            DescEstandar: $("#txtDescripcion").val()
+            DescEstandar: $("#txtDescripcion").val(),
+            Orden: document.getElementById('txtOrden').value,
+            DatoNumerico: $("#chkTipoCampo").prop('checked')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -69,33 +72,35 @@ function GuardarCabecera() {
         },
         error: function (resultado) {
             $('#cargac').hide();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
 
 function ModalIngresoCabecera() {
     LimpiarCabecera();
-    //$("#txtNombre").prop('disabled', false);
-    $('#ModalIngresoCabecera').modal('show');   
+    $('#ModalIngresoCabecera').modal('show');
+    CambioEstado(true);
     itemEditar = [];
 }
 
 function ActualizarCabecera(jdata) {
+    LimpiarCabecera();
     if (jdata.EstadoRegistro == 'A') {
         $("#txtNombre").val(jdata.NombEstandar);
-        //$("#txtNombre").prop('disabled', true);
         $("#txtDescripcion").val(jdata.DescEstandar);
+        document.getElementById('txtOrden').value = jdata.Orden;
+        CambioEstado(jdata.DatoNumerico);
         $('#ModalIngresoCabecera').modal('show');
         itemEditar = jdata;
     } else {
         MensajeAdvertencia('¡Por favor ACTIVE el registro y vuelva a intentar!');
     }
-
 }
 
 function LimpiarCabecera() {
     $("#txtNombre").val('');
+    document.getElementById('txtOrden').value = 1;
     $("#txtDescripcion").val('');
 }
 
@@ -165,4 +170,15 @@ function OnChangeTextBox() {
         con = 1;
     } else $("#txtNombre").css('border', '');
     return con;
+}
+
+function CambioEstado(valor) {
+    if (valor) {
+        $('#LabelEstado').text('Numérico');  
+        $("#chkTipoCampo").prop('checked',true)
+    }
+    else {
+        $('#LabelEstado').text('AlfaNumérico');       
+        $("#chkTipoCampo").prop('checked', false)
+    }
 }

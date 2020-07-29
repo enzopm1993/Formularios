@@ -10,7 +10,9 @@ function MascaraInputs() {
     json.forEach(function (row) {
         $('#Estandar_' + row.IdEstandar).val('');
         $('#Estandar_' + row.IdEstandar).css('border', '');
-        $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '999.99' });
+        if (row.DatoNumerico) {
+            $('#Estandar_' + row.IdEstandar).inputmask({ 'alias': 'decimal', 'groupSeparator': '', 'autoGroup': true, 'digits': 2, 'digitsOptional': true, 'max': '9999.99', 'min': '-9999.99' });
+        }        
     });
 }
 
@@ -99,7 +101,9 @@ function GuardarCabecera(siAprobar) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             } else if (resultado == 6) {
                 MensajeAdvertencia('¡No existen ESTANDARES ingresados!', 5);
-            }
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);               
+            }         
             $('#ModalIngresoCabecera').modal('hide');
             $('#divMostarTablaDetalle').prop('hidden', false);
             itemEditar = 0;
@@ -176,7 +180,8 @@ function EliminarCabeceraSi() {
         url: "../CalibracionFluorometro/EliminarCalibracionFluor",
         type: "POST",
         data: {
-            IdCalibracionFluor: idCalibracionFluor
+            IdCalibracionFluor: idCalibracionFluor,
+            FechaHora:moment(itemEditar.FechaHora).format('YYYY-MM-DD')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -196,7 +201,11 @@ function EliminarCabeceraSi() {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
                 return;
-            }
+            } else if (resultado == 100) {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                $("#modalEliminarControl").modal("hide");
+                $('#cargac').hide();
+            }   
             itemEditar = 0;
         },
         error: function (resultado) {
@@ -232,7 +241,8 @@ function ConsultarEstadoRegistro(idCalibracionFluor) {
     $.ajax({
         url: "../CalibracionFluorometro/ConsultarCalibracionFluorometroJson",
         data: {
-            idCalibracionFluor: idCalibracionFluor
+            idCalibracionFluor: idCalibracionFluor,
+            fecha: '0001-01-01'
         },
         type: "GET",
         success: function (resultado) {
