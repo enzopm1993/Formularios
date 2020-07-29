@@ -470,6 +470,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 clsDReporte = new clsDReporte();
+                clsDLogin = new clsDLogin();
                 var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {
@@ -478,6 +479,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.NombreReporte = rep.Nombre;
                 }
                 lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "VerificacionPotenciometro");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "VerificacionPotenciometro";
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
