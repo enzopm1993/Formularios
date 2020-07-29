@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdVerificacionPotenciometroControl { get; set; }
         public System.DateTime Fecha { get; set; }
         public string Modelo { get; set; }
-        public int Serie { get; set; }
+        public string Serie { get; set; }
         public decimal NaCI1 { get; set; }
         public decimal NaCI2 { get; set; }
         public decimal NaCI3 { get; set; }

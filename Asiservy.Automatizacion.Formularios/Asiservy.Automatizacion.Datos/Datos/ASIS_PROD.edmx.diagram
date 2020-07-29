@@ -250,7 +250,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="5.375" PointY="33.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Width="1.5" PointX="54.125" PointY="36" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Width="1.5" PointX="49.875" PointY="40.5" />
@@ -280,6 +279,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="8.625" PointY="51.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="3.375" PointY="31.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
