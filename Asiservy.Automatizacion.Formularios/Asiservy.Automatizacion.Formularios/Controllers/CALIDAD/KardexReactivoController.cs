@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
+        private clsDLogin clsDLogin { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
         private ClsdMantenimientoReactivo ClsdMantenimientoReactivo { get; set; } = null;
 
@@ -33,7 +34,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.select2 = "1";
                 ViewBag.MaskedInput = "1";
                 ClsdMantenimientoReactivo = new ClsdMantenimientoReactivo();
+                clsDLogin = new clsDLogin();
                 ViewBag.Reactivos = ClsdMantenimientoReactivo.ConsultaManteminetoReactivo().Where(x=> x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteKardexReactivo");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteKardexReactivo";
+                }
+                else ViewBag.Link = null;
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -447,6 +457,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";
                 ViewBag.dataTableJS = "1";
                 clsDReporte = new clsDReporte();
+                clsDLogin = new clsDLogin();
                 var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
                 if (rep != null)
                 {
@@ -455,6 +466,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.NombreReporte = rep.Nombre;
                 }
                 lsUsuario = User.Identity.Name.Split('_');
+                var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "KardexReactivo");
+                if (usuarioOpcion)
+                {
+                    ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "KardexReactivo";
+                }
+                else ViewBag.Link = null;
                 return View();
             }
             catch (DbEntityValidationException e)

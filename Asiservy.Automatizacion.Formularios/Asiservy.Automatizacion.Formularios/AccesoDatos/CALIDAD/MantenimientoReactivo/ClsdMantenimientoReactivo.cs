@@ -26,6 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ClsdMantenimie
                 {
                     poControl.Descripcion = model.Descripcion;
                     poControl.Abreviatura = model.Abreviatura;
+                    poControl.ValorPredeterminado = model.ValorPredeterminado;
                     poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;

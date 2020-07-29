@@ -21,7 +21,7 @@
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
 
-        <div class="col-md-2 col-6 col-sm-6">
+        <div class="col-md-1 col-6 col-sm-6">
             <div class="form-group">
                 <label>Id</label>
                 <input type="text" disabled class="form-control" id="txtIdControl" name="name" value="0" />
@@ -40,15 +40,21 @@
                 <input type="text" class="form-control" maxlength="5" id="txtAbreviatura" autocomplete="off" name="name" value="" />
             </div>
         </div>
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Valor Predeterminado</label>
+                <input type="number" class="form-control" maxlength="6" id="txtValorPredeterminado" autocomplete="off" name="name" value="" />
+            </div>
+        </div>
         @*<div class="col-md-3 col-sm-12">
-                <div class="form-group">
-                    <label></label>
-                    <div class="custom-control custom-checkbox mb-3">
-                        @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
-                        <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
-                    </div>
+            <div class="form-group">
+                <label></label>
+                <div class="custom-control custom-checkbox mb-3">
+                    @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                    <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
                 </div>
-            </div>*@
+            </div>
+        </div>*@
     </div>
 </div>
 

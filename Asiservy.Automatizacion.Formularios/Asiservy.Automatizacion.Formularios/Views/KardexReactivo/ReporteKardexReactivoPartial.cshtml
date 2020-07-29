@@ -10,7 +10,7 @@
 
 
 <table class="table table-bordered">
-    <tr style="font-size:10px">
+    <tr>
         <th>
             Fecha
         </th>
@@ -20,7 +20,7 @@
                 @r.Descripcion @r.Abreviatura.
             </th>
         }
-        <th>Estadp</th>
+        <th>Estado</th>
         <th>Ingreso</th>
         <th>Aprobación</th>
 
@@ -29,7 +29,7 @@
 
 @foreach (var item in modelo) {
     var Control = Model.FirstOrDefault(y => y.Fecha == item);
-    <tr  style="font-size:9px">
+    <tr>
         <td>
             @item.ToString("dd-MM-yyyy")
         </td>

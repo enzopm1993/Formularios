@@ -52,9 +52,9 @@ function ConsultarControl() {
             }
             $("#divCabecera2").prop("hidden", false);
             if (resultado == "0") {
-                mantenimientos.forEach(function(x){
-                    $("#txtReactivo-" + x).val("");
-                    $("#txtReactivo-" + x).prop("disabled", false);
+                mantenimientos.forEach(function (x) {
+                    $("#txtReactivo-" + x.IdReactivo).val(x.ValorPredeterminado);
+                    $("#txtReactivo-" + x.IdReactivo).prop("disabled", false);
                 });
                 $("#h4Mensaje").html(Mensajes.SinRegistros);
                 $("#btnGenerar").prop("hidden", false);
@@ -62,8 +62,8 @@ function ConsultarControl() {
                 $("#btnEliminar").prop("hidden", true);
             } else {
                 mantenimientos.forEach(function (x) {
-                    $("#txtReactivo-" + x).val("");
-                    $("#txtReactivo-" + x).prop("disabled", true);
+                    $("#txtReactivo-" + x.IdReactivo).val("");
+                    $("#txtReactivo-" + x.IdReactivo).prop("disabled", true);
                     resultado.forEach(function (y) {
                         if (x = y.IdReactivo) {
                             $("#txtReactivo-" + x).val(y.Valor);
@@ -111,14 +111,14 @@ function Validar() {
     }
     var contador = 0;
     mantenimientos.forEach(function (x) {
-        if ($("#txtReactivo-" + x).val() > 9999.9999){
-            $("#txtReactivo-" + x).css('borderColor', '#FA8072');
+        if ($("#txtReactivo-" + x.IdReactivo).val() > 9999.9999){
+            $("#txtReactivo-" + x.IdReactivo).css('borderColor', '#FA8072');
             valida = false;
         } else {
-            $("#txtReactivo-" + x).css('borderColor', '#ced4da');
+            $("#txtReactivo-" + x.IdReactivo).css('borderColor', '#ced4da');
         }
 
-        if ($("#txtReactivo-" + x).val() != "") {
+        if ($("#txtReactivo-" + x.IdReactivo).val() != "") {
             contador += 1;
         }
 
@@ -148,8 +148,8 @@ function GuardarControl() {
 
     var obj = [];
     mantenimientos.forEach(function (x) {
-        if ($("#txtReactivo-" + x).val() > 0) {
-            obj.push({ IdReactivo: x, Valor: $("#txtReactivo-" + x).val() });
+        if ($("#txtReactivo-" + x.IdReactivo).val() > 0) {
+            obj.push({ IdReactivo: x.IdReactivo, Valor: $("#txtReactivo-" + x.IdReactivo).val() });
  }
     });
 
@@ -210,7 +210,7 @@ function InactivarControl() {
                 MensajeAdvertencia(Mensajes.ControlAprobado);
             } else {
                 ConsultarControl();
-                NuevoControl();
+                //NuevoControl();
             }
             $("#modalEliminarControl").modal("hide");
         },
