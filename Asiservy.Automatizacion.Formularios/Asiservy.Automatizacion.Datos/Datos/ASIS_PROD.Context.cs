@@ -214,6 +214,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_APARIENCIA_AS> CC_MANTENIMIENTO_APARIENCIA_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_CALIFICACION_AS> CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS> CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

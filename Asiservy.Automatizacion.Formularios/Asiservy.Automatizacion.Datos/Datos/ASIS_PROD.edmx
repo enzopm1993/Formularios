@@ -1185,6 +1185,21 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_CALIFICACION_AS">
+          <Key>
+            <PropertyRef Name="IdCalificacion" />
+          </Key>
+          <Property Name="IdCalificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_CISTERNA">
           <Key>
             <PropertyRef Name="IdCisterna" />
@@ -1263,6 +1278,22 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+            <PropertyRef Name="IdCalificacion" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="int" Nullable="false" />
+          <Property Name="IdCalificacion" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_MORETON">
           <Key>
             <PropertyRef Name="IdMoreton" />
@@ -1316,6 +1347,21 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Abreviatura" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="MaximoPermitido" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -5273,15 +5319,18 @@
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" store:Type="Tables" />
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_APARIENCIA_AS" EntityType="Self.CC_MANTENIMIENTO_APARIENCIA_AS" Schema="dbo" Table="CC.MANTENIMIENTO_APARIENCIA_AS" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_CALIFICACION_AS" EntityType="Self.CC_MANTENIMIENTO_CALIFICACION_AS" Schema="dbo" Table="CC.MANTENIMIENTO_CALIFICACION_AS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_CISTERNA" EntityType="Self.CC_MANTENIMIENTO_CISTERNA" Schema="dbo" Table="CC.MANTENIMIENTO_CISTERNA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_COLOR" EntityType="Self.CC_MANTENIMIENTO_COLOR" Schema="dbo" Table="CC.MANTENIMIENTO_COLOR" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_DEFECTO" EntityType="Self.CC_MANTENIMIENTO_DEFECTO" Schema="dbo" Table="CC.MANTENIMIENTO_DEFECTO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_EQUIPO_AAC" EntityType="Self.CC_MANTENIMIENTO_EQUIPO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_EQUIPO_AAC" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_GRUPO_AAC" EntityType="Self.CC_MANTENIMIENTO_GRUPO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_GRUPO_AAC" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_INTERMEDIO_AS" EntityType="Self.CC_MANTENIMIENTO_INTERMEDIO_AS" Schema="dbo" Table="CC.MANTENIMIENTO_INTERMEDIO_AS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_MORETON" EntityType="Self.CC_MANTENIMIENTO_MORETON" Schema="dbo" Table="CC.MANTENIMIENTO_MORETON" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" EntityType="Self.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" Schema="dbo" Table="CC.MANTENIMIENTO_MUESTRA_DESCONGELADO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_OLOR" EntityType="Self.CC_MANTENIMIENTO_OLOR" Schema="dbo" Table="CC.MANTENIMIENTO_OLOR" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_AAC" EntityType="Self.CC_MANTENIMIENTO_PARAMETRO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_PARAMETRO_AAC" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="Self.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Schema="dbo" Table="CC.MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PEDILUVIO" EntityType="Self.CC_MANTENIMIENTO_PEDILUVIO" Schema="dbo" Table="CC.MANTENIMIENTO_PEDILUVIO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PROTEINA" EntityType="Self.CC_MANTENIMIENTO_PROTEINA" Schema="dbo" Table="CC.MANTENIMIENTO_PROTEINA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_REACTIVO" EntityType="Self.CC_MANTENIMIENTO_REACTIVO" Schema="dbo" Table="CC.MANTENIMIENTO_REACTIVO" store:Type="Tables" />
@@ -7151,6 +7200,9 @@
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="CC_MANTENIMIENTO_APARIENCIA_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_APARIENCIA_AS" />
+          <EntitySet Name="CC_MANTENIMIENTO_CALIFICACION_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" />
+          <EntitySet Name="CC_MANTENIMIENTO_INTERMEDIO_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13984,6 +14036,52 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_CALIFICACION_AS">
+          <Key>
+            <PropertyRef Name="IdCalificacion" />
+          </Key>
+          <Property Name="IdCalificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+            <PropertyRef Name="IdCalificacion" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" />
+          <Property Name="IdCalificacion" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20551,6 +20649,54 @@
                 <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="IdApariencia" ColumnName="IdApariencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_CALIFICACION_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_CALIFICACION_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
+                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
