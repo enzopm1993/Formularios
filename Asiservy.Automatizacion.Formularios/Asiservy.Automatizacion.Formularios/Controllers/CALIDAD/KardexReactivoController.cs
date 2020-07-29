@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ClsdMantenimientoReactivo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.KardexReactivo;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDLogin clsDLogin { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
         private ClsdMantenimientoReactivo ClsdMantenimientoReactivo { get; set; } = null;
+        private clsDPeriodo clsDPeriodo { get; set; } = null;
+
+        
 
         #region CONTROL 
         [Authorize]
@@ -77,7 +81,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
@@ -156,6 +164,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 if (model == null)
                 {
@@ -370,6 +383,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
                 model.FechaAprobacion = DateTime.Now;
                 model.AprobadoPor = lsUsuario[0];
@@ -410,6 +428,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
                 }
                 ClsdKardexReactivo = new ClsdKardexReactivo();
                 model.FechaAprobacion = null;

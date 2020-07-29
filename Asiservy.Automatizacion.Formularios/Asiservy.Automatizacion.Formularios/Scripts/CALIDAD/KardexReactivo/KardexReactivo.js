@@ -65,8 +65,8 @@ function ConsultarControl() {
                     $("#txtReactivo-" + x.IdReactivo).val("");
                     $("#txtReactivo-" + x.IdReactivo).prop("disabled", true);
                     resultado.forEach(function (y) {
-                        if (x = y.IdReactivo) {
-                            $("#txtReactivo-" + x).val(y.Valor);
+                        if (x.IdReactivo == y.IdReactivo) {
+                            $("#txtReactivo-" + x.IdReactivo).val(y.Valor);
                         }
                     });
                 });
@@ -91,7 +91,7 @@ function ConsultarControl() {
 function EditarControl() {
     mantenimientos.forEach(function (x) {
         //data here
-        $("#txtReactivo-" + x).prop("disabled", false);
+        $("#txtReactivo-" + x.IdReactivo).prop("disabled", false);
         //console.log(object);
     });
     $("#btnGenerar").prop("hidden", false);
@@ -168,6 +168,9 @@ function GuardarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else 
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
@@ -201,6 +204,9 @@ function InactivarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else 
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
