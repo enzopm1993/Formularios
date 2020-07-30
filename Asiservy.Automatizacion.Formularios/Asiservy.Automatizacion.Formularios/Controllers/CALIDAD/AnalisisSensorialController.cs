@@ -269,6 +269,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+              //  model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 ClsdParametrosSensoriales.EliminarParametroSensorial(model);
                 return Json("1", JsonRequestBehavior.AllowGet);
             }
@@ -389,6 +390,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+             //   model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 ClsdParametrosSensoriales.EliminarMantenimientoCalificacion(model);
                 return Json("1", JsonRequestBehavior.AllowGet);
             }

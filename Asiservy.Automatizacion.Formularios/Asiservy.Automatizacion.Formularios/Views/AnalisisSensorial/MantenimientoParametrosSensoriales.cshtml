@@ -27,12 +27,13 @@
                         <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostarModal()" style="border-color:#2c3e50" type="button">
                             <img style="width:100%" src="~/Content/icons/add24.png" />
                         </button>
+                        @*<a href="#" id="agregarParametro" class="btn btn-primary btn-sm" onclick="MostarModal()"><i id="btnGenerar" class="fas fa-plus-circle"></i></a>*@
                     </div>
 
                 </div>
-                <div class="col-md-9 col-12 col-sm-12">
+                <div class="col-md-9 col-12 col-sm-12 text-right">
                     <button class="btn btn-outline-primary" onclick="MostrarModalCalificacion()">Mantenimiento Calificacion</button>
-                    <button class="btn btn-outline-primary">Mantenimiento Parametro</button>
+                    <button class="btn btn-outline-primary" onclick="MostrarModalParametro()">Mantenimiento Parametro</button>
                 </div>
             </div>
         </div>
@@ -66,6 +67,51 @@
     </div>
 </div>
 
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalControlIntermedia">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Guardar - Modificar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="divCabecera1">
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Parametro</label>
+                            <select class="form-control" id="selectParametro">
+                                <option value="value">text</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Calificación</label>
+                            <select class="form-control" id="selectCalificacion">
+                                <option value="value">text</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input type="text" class="form-control" maxlength="250" id="txtDescripcionIntermedia" autocomplete="off" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarModificar()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -120,7 +166,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Mantenimiento</h5>
+                <h5 class="modal-title" id="tituloModal"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -131,9 +177,11 @@
                         <div class="row">
                             <div class="col-md-3 col-12 col-sm-12">
                                 <div class="form-group">
-                                    <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostarModalGuardarParametro(1)" style="border-color:#2c3e50" type="button">
+                                    @*<button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostarModalGuardar()" style="border-color:#2c3e50" type="button">
                                         <img style="width:100%" src="~/Content/icons/add24.png" />
-                                    </button>
+                                    </button>*@
+                                    <a href="#" id="agregarParametro" class="btn btn-primary btn-sm" onclick="MostarModalGuardar()"><i id="btnGenerar" class="fas fa-plus-circle"></i></a>
+
                                 </div>
 
                             </div>

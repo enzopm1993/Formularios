@@ -12,7 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.ToList();
+                var lista = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.AsNoTracking().Include("CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS").Include("CC_MANTENIMIENTO_CALIFICACION_AS").ToList();
                 return lista;
             }
         }
@@ -63,7 +63,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS.ToList();
+
+                var lista = (from x in entities.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS.AsNoTracking()
+                             select x).ToList();
+                lista= lista.Select(x=> new CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS()
+                             {
+                                 Abreviatura = x.Abreviatura,
+                                 Descripcion= x.Descripcion,
+                                 EstadoRegistro= x.EstadoRegistro,
+                                 FechaIngresoLog= x.FechaIngresoLog,
+                                 FechaModificacionLog=x.FechaModificacionLog,
+                                 IdParametroSensorial=x.IdParametroSensorial,
+                                 TerminalIngresoLog=x.TerminalIngresoLog,
+                                 TerminalModificacionLog=x.TerminalModificacionLog,
+                                 UsuarioIngresoLog=x.UsuarioIngresoLog,
+                                 UsuarioModificacionLog=x.UsuarioModificacionLog
+                             }).ToList();
                 return lista;
             }
         }
@@ -116,7 +131,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_CALIFICACION_AS.ToList();
+                var lista = (from x in entities.CC_MANTENIMIENTO_CALIFICACION_AS
+                             select x).ToList();
+
+                lista = lista.Select(x=> new CC_MANTENIMIENTO_CALIFICACION_AS()
+                             {
+                                 Abreviatura = x.Abreviatura,
+                                 Descripcion = x.Descripcion,
+                                 EstadoRegistro = x.EstadoRegistro,
+                                 FechaIngresoLog = x.FechaIngresoLog,
+                                 FechaModificacionLog = x.FechaModificacionLog,
+                                 IdCalificacion = x.IdCalificacion,
+                                 TerminalIngresoLog = x.TerminalIngresoLog,
+                                 TerminalModificacionLog = x.TerminalModificacionLog,
+                                 UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                 UsuarioModificacionLog = x.UsuarioModificacionLog
+                             })
+                             .ToList();
                 return lista;
             }
         }

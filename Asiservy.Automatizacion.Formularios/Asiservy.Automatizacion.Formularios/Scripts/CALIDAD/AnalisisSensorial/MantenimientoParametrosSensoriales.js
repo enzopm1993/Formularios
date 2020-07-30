@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 function ConsultarReporte() {
     $("#chartCabecera2").html('');
-    $("#divCabecera2").prop("hidden", false);
+ 
     $.ajax({
         url: "../AnalisisSensorial/MantenimientoIntermediaPartial",
         type: "GET",
@@ -15,26 +15,26 @@ function ConsultarReporte() {
             }
             if (resultado == "0") {
                 $("#chartCabecera2").html("No existen registros");
-                $("#spinnerCargando").prop("hidden", true);
+ 
             } else {
+                console.log(resultado);
                 $("#spinnerCargando").prop("hidden", true);
-                $("#chartCabecera2").html(resultado);
+               // $("#chartCabecera2").html(resultado);
 
             }
         },
         error: function(resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
-            $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargando").prop("hidden", true);
+ 
         }
     });
 }
 
 function MostarModal() {
-    $("#ModalControl").modal("show");
+   // bandera = 3;
+    $("#ModalControlIntermedia").modal("show");
     NuevoControl();
 }
-
 
 function Validar() {
     var bool = true;
@@ -102,17 +102,6 @@ function GuardarModificarControl() {
     //alert("generado");
 }
 
-function CambioEstado(valor) {
-    //  console.log(valor);
-    if (valor)
-        $('#LabelEstado').text('Activo');
-    else
-        $('#LabelEstado').text('Inactivo');
-
-}
-
-
-
 function ActualizarCabecera(model) {
     $("#txtIdControl").val(model.IdApariencia);
     $("#txtDescripcion").val(model.Descripcion);
@@ -122,6 +111,7 @@ function ActualizarCabecera(model) {
 }
 
 function InactivarConfirmar(jdata) {
+    console.log(jdata);
     $("#modalEliminarControl").modal("show");
     itemEditar = jdata;
     $("#myModalLabel").text("¿Desea inactivar el registro?");
@@ -135,16 +125,11 @@ function ActivarConfirmar(jdata) {
     itemEditar.EstadoRegistro = 'A';
 }
 
-
 function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-
-
-
-function EliminarCabeceraSi() {
-    MostrarModalCargando();
+function EliminarCabecera() {
     $.ajax({
         url: "../AnalisisSensorial/EliminarMantenimientoApariencia",
         type: "POST",
@@ -160,15 +145,24 @@ function EliminarCabeceraSi() {
                 $("#modalEliminarControl").modal("hide");
                 ConsultarReporte();
                 MensajeCorrecto("Registro Actualizado con Éxito");
-                CerrarModalCargando();
                 itemEditar = 0;
             }
         },
         error: function (resultado) {
             CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
         }
     });
+}
+
+function EliminarCabeceraSi() {
+    if (bandera == 1) {
+        EliminarCalificacion();
+    } else if (bandera == 2) {
+        EliminarParametroSensorial();
+    }
+
+
+    
 }
 
 
@@ -183,11 +177,11 @@ function NuevoMantenimiento() {
 }
 
 function MostrarModalCalificacion() {
+    bandera = 1;
+    $("#tituloModal").html("Mantenimiento Calificación");
     ConsultarMantenimientoCalificacion();
     $("#ModalCalificacion").modal("show");
 }
-
-
 
 function ConsultarMantenimientoCalificacion() {
   //  $("#divMantenimientoCalificacion").html('');
@@ -199,9 +193,11 @@ function ConsultarMantenimientoCalificacion() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divMantenimientoCalificacion").html("No existen registros");
+                
+                CargarDevExpressCalificacion(null);
+
             } else {
-                CargarDevExpressCalificacion(resultado)
+                CargarDevExpressCalificacion(resultado);
                // $("#divMantenimientoCalificacion").html(resultado);
 
             }
@@ -212,34 +208,14 @@ function ConsultarMantenimientoCalificacion() {
     });
 }
 
-
-function MostarModalGuardarParametro(b) {
-    bandera = b;
+function EditarManteniminetoCalificacion(IdCalificacion, Descripcion, Abreviatura) {
+    //console.log(IdCondicion);
+    bandera = 1;
     $("#ModalControl").modal("show");
+    $("#txtIdControl").val(IdCalificacion);
+    $("#txtDescripcion").val(Descripcion);
+    $("#txtAbreviatura").val(Abreviatura);
 }
-
-function EditarManteniminetoCalificacion(model) {
-    console.log(model);
-    $("#ModalControl").modal("show");
-    $("#txtIdControl").val(model.IdCondicion);
-    $("#txtDescripcion").val(model.Descripcion);
-    $("#txtAbreviatura").val(model.Abreviatura);
-}
-
-function GuardarModificar() {
-    if (bandera == 1) {
-        GuardarModificarCalificacion();
-
-    } else {
-        GuardarModificarParametroSensorial();
-
-    }
-}
-
-
-
-
-
 
 function Validar() {
     var bool = true;
@@ -270,7 +246,7 @@ function GuardarModificarCalificacion() {
         url: "../AnalisisSensorial/MantenimientoCalificacion",
         type: "POST",
         data: {
-            IdApariencia: $("#txtIdControl").val(),
+            IdCalificacion: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             Abreviatura: $("#txtAbreviatura").val()
         },
@@ -298,17 +274,91 @@ function GuardarModificarCalificacion() {
     //alert("generado");
 }
 
+function EliminarCalificacion() {
+    console.log(itemEditar);
+    $.ajax({
+        url: "../AnalisisSensorial/EliminarCalificacion",
+        type: "POST",
+        data: {
+            IdCalificacion: itemEditar.IdCalificacion,
+            EstadoRegistro: itemEditar.EstadoRegistro
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "1") {
+                $("#modalEliminarControl").modal("hide");
+                ConsultarMantenimientoCalificacion();
+                MensajeCorrecto("Registro Actualizado con Éxito");
+                itemEditar = 0;
+            }
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado, false);
+            $("#modalEliminarControl").modal("hide");
+        }
+    });
+}
 
+function GuardarModificar() {
+    if (bandera == 1) {
+        GuardarModificarCalificacion();
+
+    } else {
+        GuardarModificarParametroSensorial();
+
+    }
+}
+
+
+
+/////////////////////////////////////// PARAMETRO SENSORIAL //////////////////////////////////////////////
+
+function MostrarModalParametro() {
+    bandera = 2;
+    $("#tituloModal").html("Parametro Sensorial");
+    ConsultarParametroSensorial();
+    $("#ModalCalificacion").modal("show");
+}
+
+function ConsultarParametroSensorial() {
+    //  $("#divMantenimientoCalificacion").html('');
+    $.ajax({
+        url: "../AnalisisSensorial/MantenimientoParametroSensorialPartial",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                CargarDevExpressParametroSensorial(null);
+            } else {
+                CargarDevExpressParametroSensorial(resultado);
+                // $("#divMantenimientoCalificacion").html(resultado);
+
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+function MostarModalGuardar() {
+    NuevoMantenimiento();
+    $("#ModalControl").modal("show");
+}
 
 function GuardarModificarParametroSensorial() {
     if (!Validar()) { return; }
 
   //  MostrarModalCargando();
     $.ajax({
-        url: "../AnalisisSensorial/MantenimientoApariencia",
+        url: "../AnalisisSensorial/MantenimientoParametroSensorial",
         type: "POST",
         data: {
-            IdApariencia: $("#txtIdControl").val(),
+            IdParametroSensorial: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             Abreviatura: $("#txtAbreviatura").val()
         },
@@ -322,7 +372,7 @@ function GuardarModificarParametroSensorial() {
                 return;
             } else {
                 NuevoMantenimiento();
-                ConsultarReporte();
+                ConsultarParametroSensorial();
             }
             $("#ModalControl").modal("hide");
         },
@@ -336,7 +386,43 @@ function GuardarModificarParametroSensorial() {
     //alert("generado");
 }
 
+function EditarParametroSensorial(IdCalificacion, Descripcion, Abreviatura) {
+    //console.log(IdCondicion);
+    bandera = 2;
+    $("#ModalControl").modal("show");
+    $("#txtIdControl").val(IdCalificacion);
+    $("#txtDescripcion").val(Descripcion);
+    $("#txtAbreviatura").val(Abreviatura);
+}
 
+function EliminarParametroSensorial() {
+    //console.log(itemEditar);
+    $.ajax({
+        url: "../AnalisisSensorial/EliminarParametroSensorial",
+        type: "POST",
+        data: {
+            IdParametroSensorial: itemEditar.IdParametroSensorial,
+            EstadoRegistro: itemEditar.EstadoRegistro
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "1") {
+                $("#modalEliminarControl").modal("hide");
+                ConsultarParametroSensorial();
+                MensajeCorrecto("Registro Actualizado con Éxito");
+                itemEditar = 0;
+            }
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado, false);
+            $("#modalEliminarControl").modal("hide");
+        }
+    });
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 function CargarDevExpressCalificacion(data) {
     //console.log(data);
@@ -386,13 +472,9 @@ function CargarDevExpressCalificacion(data) {
             width: 240,
             placeholder: "Buscar..."
         },
-        groupPanel: { visible: true },
-        grouping: {
-            autoExpandAll: false
-        },
 
         columns: [
-            { dataField: "IdCalificacion", caption: "Id", sortOrder: "desc" },
+            { dataField: "IdCalificacion", caption: "Id", sortOrder: "ascss" },
             { caption: "Descripción", dataField: "Descripcion", area: "column" },
             { dataField: "Abreviatura", width: 180 },
             {
@@ -404,7 +486,7 @@ function CargarDevExpressCalificacion(data) {
                     if (options.data.EstadoRegistro == "A") {
                          estiloClass = 'badge badge-success';
                     }else{
-                         estiloClass = 'badge badge-warning';
+                         estiloClass = 'badge badge-danger';
                         estado = "Inactivo";
                     } 
                     $("<div>")
@@ -414,57 +496,58 @@ function CargarDevExpressCalificacion(data) {
                 }
             },
             {
-                caption: "", cellTemplate: function (container, options) {
-                    $("<divxº>")
-                        //.append($('<a class="badge badge-danger btnReversa" onclick="ReversarSolicitud(' + options.data.IdSolicitudPermiso + ')"> Reversar</span>'))
-                        .append($('<button id="btnActualizar" class="btn btn-link" onclick="EditarManteniminetoCalificacion(' + "'" + options.data + "'" + ')"/button>'))
+                caption: "Acciones", cellTemplate: function (container, options) {
+                    var btnEditar = '<button id="btnActualizar" class="btn btn-link" onclick="EditarManteniminetoCalificacion(' + options.data.IdCalificacion + ',' + "'" + options.data.Descripcion + "'" + ',' + "'" + options.data.Abreviatura + "'"+')"> Editar</button>';
+                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ")'> Inactivar</button>";
+                    if (options.data.EstadoRegistro == "I") {
+                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data) + ")'> Activar</button>";
+                    }
+                    $("<div>")
+                        .append($(btnEditar))
+                        .append($(btnActivar))
                         .appendTo(container);
-
                 }
             },
             {
-                caption: "Fecha ingreso log",
-                dataField: "FechaIngresoLog",
-                area: "column",
-                dataType: "datetime"
+                caption: "Fecha Ingreso" ,
+                cellTemplate: function (container, options) {
+                    var fecha = moment(options.data.FechaIngresoLog).format("DD-MM-YYYY");
+                  //  console.log(fecha);
+                    $("<div>")
+                        .append($('<label>'+fecha+'</label>'))
+                        .appendTo(container);
+                }
             }
             , {
-                caption: "Usuario ingreso log",
+                caption: "Usuario Ingreso",
                 dataField: "UsuarioIngresoLog",
                 area: "column",
                 dataType: "string"
             }
+            
             , {
-                caption: "Terminal ingreso log",
-                dataField: "TerminalIngresoLog",
-                area: "column",
-                dataType: "string"
-            }
-            , {
-                caption: "Usuario modificación log",
+                caption: "Usuario modificación",
                 dataField: "UsuarioModificacionLog",
                 area: "column",
                 dataType: "string"
             }
             , {
-                caption: "Fecha modificación log",
-                dataField: "FechaModificacionLog",
-                area: "column",
-                dataType: "datetime"
+                caption: "Fecha Modificación",
+                cellTemplate: function (container, options) {
+                    if (options.data.FechaModificacionLog != null) {
+                        var fecha = moment(options.data.FechaModificacionLog).format("DD-MM-YYYY");
+                        //console.log(fecha);
+                        $("<div>")
+                            .append($('<label>' + fecha + '</label>'))
+                            .appendTo(container);
+                    }
+                }
             }
-            , {
-                caption: "Terminal modificación log",
-                dataField: "TerminalModificacionLog",
-                area: "column",
-                dataType: "string"
-            }
-            
+           
 
         ],
       
-        selection: {
-            mode: 'multiple'
-        }, export: {
+         export: {
             enabled: true,
             allowExportSelectedData: true
         },
@@ -489,8 +572,154 @@ function CargarDevExpressCalificacion(data) {
 
     $("#divMantenimientoCalificacion").dxDataGrid(opciosGrid);
 }
+function CargarDevExpressParametroSensorial(data) {
+    //console.log(data);
+    DevExpress.localization.locale(navigator.language);
+    var opciosGrid = {
+        dataSource: data,
+        loadPanel: {
+            enabled: true
+        },
+        keyExpr: "IdParametroSensorial",
+        selection: {
+            mode: "single"
+        },
+        hoverStateEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        showBorders: true,
+        allowColumnResizing: true,
+        columnResizingMode: "nextColumn",
+        columnMinWidth: 50,
+        columnAutoWidth: true,
+        columnFixing: {
+            enabled: true
+        },
+        showBorders: true,
+        showRowLines: true,
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        headerFilter: {
+            visible: true
+        },
+        paging: {
+            pageSize: 10
+        },
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [10, 20, 50, 100],
+            showInfo: true
+        },
+        searchPanel: {
+            visible: true,
+            highlightCaseSensitive: true,
+            width: 240,
+            placeholder: "Buscar..."
+        },
+
+        columns: [
+            { dataField: "IdParametroSensorial", caption: "Id", sortOrder: "ascss" },
+            { caption: "Descripción", dataField: "Descripcion", area: "column" },
+            { dataField: "Abreviatura", width: 180 },
+            {
+                caption: "Estado",
+                dataField: "EstadoRegistro", dataType: "string",
+                cellTemplate: function (container, options) {
+                    var estiloClass = 'badge';
+                    var estado = "Activo";
+                    if (options.data.EstadoRegistro == "A") {
+                        estiloClass = 'badge badge-success';
+                    } else {
+                        estiloClass = 'badge badge-danger';
+                        estado = "Inactivo";
+                    }
+                    $("<div>")
+                        .append($('<span class="' + estiloClass + '">' + estado + '</span>'))
+                        .appendTo(container);
+
+                }
+            },
+            {
+                caption: "Acciones", cellTemplate: function (container, options) {
+                    var btnEditar = '<button id="btnActualizar" class="btn btn-link" onclick="EditarParametroSensorial(' + options.data.IdParametroSensorial + ',' + "'" + options.data.Descripcion + "'" + ',' + "'" + options.data.Abreviatura + "'" + ')"> Editar</button>';
+                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ")'> Inactivar</button>";
+                    if (options.data.EstadoRegistro == "I") {
+                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data)+")'> Activar</button>";
+                    }
+                    $("<div>")
+                        .append($(btnEditar))
+                        .append($(btnActivar))
+                        .appendTo(container);
+                }
+            },
+            {
+                caption: "Fecha Ingreso",
+                cellTemplate: function (container, options) {
+                    var fecha = moment(options.data.FechaIngresoLog).format("DD-MM-YYYY");
+                    //console.log(fecha);
+                    $("<div>")
+                        .append($('<label>' + fecha + '</label>'))
+                        .appendTo(container);
+                }
+            }
+            , {
+                caption: "Usuario Ingreso",
+                dataField: "UsuarioIngresoLog",
+                area: "column",
+                dataType: "string"
+            }
+
+            , {
+                caption: "Usuario modificación",
+                dataField: "UsuarioModificacionLog",
+                area: "column",
+                dataType: "string"
+            }
+            , {
+                caption: "Fecha Modificación",
+                cellTemplate: function (container, options) {
+                    if (options.data.FechaModificacionLog != null) {
+                        var fecha = moment(options.data.FechaModificacionLog).format("DD-MM-YYYY");
+                        console.log(fecha);
+                        $("<div>")
+                            .append($('<label>' + fecha + '</label>'))
+                            .appendTo(container);
+                    }
+                }
+            }
 
 
+        ],
+
+        export: {
+            enabled: true,
+            allowExportSelectedData: true
+        },
+        onExporting: function (e) {
+            var workbook = new ExcelJS.Workbook();
+            var worksheet = workbook.addWorksheet('Reporte');
+
+
+
+            DevExpress.excelExporter.exportDataGrid({
+                component: e.component,
+                worksheet: worksheet,
+                autoFilterEnabled: true
+            }).then(function () {
+                workbook.xlsx.writeBuffer().then(function (buffer) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ManteniminetoCalificacionAS.xlsx');
+                });
+            });
+            e.cancel = true;
+        }
+    }
+
+    $("#divMantenimientoCalificacion").dxDataGrid(opciosGrid);
+}
 
 var modal_lv = 0;
 $('.modal').on('shown.bs.modal', function (e) {
