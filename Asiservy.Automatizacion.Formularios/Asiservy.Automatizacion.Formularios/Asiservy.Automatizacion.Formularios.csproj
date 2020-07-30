@@ -2274,6 +2274,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoMoretones\MantenimientoMoreton.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoParametroAac\MantenimientoParametroAac.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoPCC\MantenimientoPCC.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoPediluvio\MantenimientoPediluvio.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
@@ -3492,6 +3493,7 @@
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoGrupoAac\ClsdMantenimientoGrupoAac.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoMoretones\ClsDMantenimientoMoretones.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoParametroAac\ClsdMantenimientoParametroAac.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoPCC\ClsDMantenimientoPCC.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoPediluvio\ClsDMantenimientoPediluvio.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoReactivo\ClsdMantenimientoReactivo.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoMoreton.cs" />
@@ -3602,6 +3604,7 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoMuestraDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoPCCController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoTipoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantParametrosLaboratorioController.cs" />
     <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
@@ -4302,6 +4305,8 @@
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoDetallePartial.cshtml" />
     <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
+    <Content Include="Views\MantenimientoPCC\MantenimientoPCC.cshtml" />
+    <Content Include="Views\MantenimientoPCC\MantenimientoPCCPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

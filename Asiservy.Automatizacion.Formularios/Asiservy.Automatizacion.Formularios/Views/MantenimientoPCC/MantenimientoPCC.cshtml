@@ -1,10 +1,10 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.CC_HIGIENE_COMEDOR_COCINA_MANT
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_PCC_MANTENIMIENTO
 
 @{
-    ViewBag.Title = "MantHigieneComedorCocina";
+    ViewBag.Title = "MantenimientoPCC";
 }
 
-<h5>Mantenimiento Higiene Comedor Cocina</h5>
+<h5>MANTENIMIENTO DE PCC</h5>
 
 <style>
     input, select, textarea {
@@ -14,8 +14,8 @@
 
 <hr />
 <div class="row" id="divCabecera1">
-    <div class="col-md-4 col-12  text-md-left text-center">
-        <label class="" id="lblAcciones">NUEVO ÁRTICULO</label>
+    <div class="col-md-4 col-12  text-md-left text-sm-left text-center">
+        <label class="" id="lblAcciones">NUEVO REGISTRO</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera(true)" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
@@ -53,38 +53,27 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">NUEVO ÁRTICULO</h5>
+                <h5 class="modal-title">NUEVO REGISTRO</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="LimpiarCabecera()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6 col-12 col-sm-12">
+                    <div class="col-md-3 col-12 col-sm-3">
                         <div class="form-group">
-                            <label>NOMBRE</label>
-                            <input type="text" autocomplete="off" name="name" value="" onchange="OnChangeTextBox()" id="txtNombre" class="form-control" />
+                            <label>NÚMERO</label>
+                            <input type="text" autocomplete="off"  name="name" value="" onchange="OnChangeTextBox()" id="txtNumero" class="form-control " />
                         </div>
                     </div>
-                    <div class="col-md-6 col-12 col-sm-12">
+                    
+                    <div class="col-md-9 col-12 col-sm-9">
                         <div class="form-group">
-                            <label>CATEGORIA</label>
-                            <select id='selectCategoria' class="form-control" onchange="OnChangeTextBox()">
-                                <option value='0' selected>--SELECCIONE CATEGORIA--</option>
-                                <option value='UTENCILIOS'>UTENCILIOS</option>
-                                <option value='ALIMENTOS'>ALIMENTOS</option>
-                                <option value='VARIOS'>VARIOS</option>                                
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>OBSERVACÓN</label>
-                            <input type="text" name="name" value="" autocomplete="off" onchange="OnChangeTextBox()" id="txtObservacion" class="form-control" />
+                            <label>DESCRIPCIÓN</label>
+                            <input type="text" name="name" value="" maxlength="100" autocomplete="off" onchange="OnChangeTextBox()" id="txtDescripcion" class="form-control" />
                         </div>
                     </div>
                 </div>
-               
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios()" id="btnGenerarControlRegistro">Guardar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarCabecera()">Cancelar</button>
@@ -93,5 +82,3 @@
         </div>
     </div>
 </div>
-
-
