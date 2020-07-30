@@ -151,12 +151,12 @@ function ConsultarControl() {
 }
 
 function NuevoControl() {
-    $("#txtModelo").val("");
-    $("#txtSerie").val("");
+    //$("#txtModelo").val("");
+    //$("#txtSerie").val("");
     $("#txtNaCI1").val("");
     $("#txtNaCI2").val("");
     $("#txtNaCI3").val("");
-    $("#txtCodigo").val("");
+    //$("#txtCodigo").val("");
     $("#txtObservacion").val("");
 }
 
