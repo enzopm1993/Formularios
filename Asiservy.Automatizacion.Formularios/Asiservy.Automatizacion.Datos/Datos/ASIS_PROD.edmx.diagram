@@ -281,9 +281,11 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_APARIENCIA_AS" Width="1.5" PointX="33.375" PointY="26.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Width="1.5" PointX="33.375" PointY="30.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Width="1.5" PointX="35.375" PointY="27.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Width="1.5" PointX="35.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Width="1.5" PointX="51.375" PointY="11.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Width="1.5" PointX="53.625" PointY="30" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Width="1.5" PointX="51.375" PointY="30.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

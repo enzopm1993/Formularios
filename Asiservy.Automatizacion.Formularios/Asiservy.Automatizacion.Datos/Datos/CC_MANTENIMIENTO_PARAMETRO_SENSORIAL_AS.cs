@@ -14,6 +14,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS()
+        {
+            this.CC_MANTENIMIENTO_INTERMEDIO_AS = new HashSet<CC_MANTENIMIENTO_INTERMEDIO_AS>();
+        }
+    
         public int IdParametroSensorial { get; set; }
         public string Descripcion { get; set; }
         public string Abreviatura { get; set; }
@@ -24,5 +30,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
     }
 }

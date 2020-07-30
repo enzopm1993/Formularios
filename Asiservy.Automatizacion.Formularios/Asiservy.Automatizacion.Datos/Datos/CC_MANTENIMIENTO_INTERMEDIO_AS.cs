@@ -14,6 +14,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_MANTENIMIENTO_INTERMEDIO_AS
     {
+        public int IdIntermedia { get; set; }
         public int IdParametroSensorial { get; set; }
         public int IdCalificacion { get; set; }
         public string Descripcion { get; set; }
@@ -24,5 +25,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual CC_MANTENIMIENTO_CALIFICACION_AS CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
+        public virtual CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
     }
 }

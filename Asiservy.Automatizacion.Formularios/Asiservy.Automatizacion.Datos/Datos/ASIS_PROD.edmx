@@ -502,6 +502,7 @@
           <Property Name="IdTipoAnalisisQuimicoProductoSe" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TipoProducto" Type="char" MaxLength="1" />
           <Property Name="IdDetalleAnalisisQuimicoProductoSe" Type="int" Nullable="false" />
+          <Property Name="NumeroMuestra" Type="int" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1280,9 +1281,9 @@
         </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
           <Key>
-            <PropertyRef Name="IdParametroSensorial" />
-            <PropertyRef Name="IdCalificacion" />
+            <PropertyRef Name="IdIntermedia" />
           </Key>
+          <Property Name="IdIntermedia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdParametroSensorial" Type="int" Nullable="false" />
           <Property Name="IdCalificacion" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="250" Nullable="false" />
@@ -3967,6 +3968,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+          <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" Type="Self.CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
+          <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Type="Self.CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Type="Self.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Type="Self.CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
           <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" Type="Self.CC_MATERIAL_QUEBRADIZO_CTRL" Multiplicity="1" />
           <End Role="CC_MATERIAL_QUEBRADIZO_DET" Type="Self.CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
@@ -5598,6 +5623,14 @@
             <End Role="CC_MANTENIMIENTO_GRUPO_AAC" EntitySet="CC_MANTENIMIENTO_GRUPO_AAC" />
             <End Role="CC_MANTENIMIENTO_EQUIPO_AAC" EntitySet="CC_MANTENIMIENTO_EQUIPO_AAC" />
           </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="Self.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="Self.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
           <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" Association="Self.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
             <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" EntitySet="CC_MATERIAL_QUEBRADIZO_CTRL" />
             <End Role="CC_MATERIAL_QUEBRADIZO_DET" EntitySet="CC_MATERIAL_QUEBRADIZO_DET" />
@@ -7203,6 +7236,14 @@
           <EntitySet Name="CC_MANTENIMIENTO_CALIFICACION_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" />
           <EntitySet Name="CC_MANTENIMIENTO_INTERMEDIO_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" />
           <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13186,6 +13227,7 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
           <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
+          <Property Name="NumeroMuestra" Type="Int32" />
         </EntityType>
         <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
           <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Multiplicity="1" />
@@ -14050,12 +14092,13 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_CALIFICACION_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
         </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
           <Key>
-            <PropertyRef Name="IdParametroSensorial" />
-            <PropertyRef Name="IdCalificacion" />
+            <PropertyRef Name="IdIntermedia" />
           </Key>
+          <Property Name="IdIntermedia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" />
           <Property Name="IdCalificacion" Type="Int32" Nullable="false" />
           <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -14066,6 +14109,8 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_CALIFICACION_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_INTERMEDIO_AS" ToRole="CC_MANTENIMIENTO_CALIFICACION_AS" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_INTERMEDIO_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
         </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
           <Key>
@@ -14081,7 +14126,32 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
         </EntityType>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19955,6 +20025,7 @@
           <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
               <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+                <ScalarProperty Name="NumeroMuestra" ColumnName="NumeroMuestra" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -20681,6 +20752,7 @@
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
                 <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
+                <ScalarProperty Name="IdIntermedia" ColumnName="IdIntermedia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
