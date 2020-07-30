@@ -12,19 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT
+    public partial class CC_MANTENIMIENTO_APARIENCIA_AS
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT()
-        {
-            this.CC_CALIBRACION_FLUOROMETRO_DET = new HashSet<CC_CALIBRACION_FLUOROMETRO_DET>();
-        }
-    
-        public int IdEstandar { get; set; }
-        public string NombEstandar { get; set; }
-        public string DescEstandar { get; set; }
-        public bool DatoNumerico { get; set; }
-        public int Orden { get; set; }
+        public int IdApariencia { get; set; }
+        public string Descripcion { get; set; }
+        public string Abreviatura { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,8 +24,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
     }
 }

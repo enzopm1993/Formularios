@@ -2216,6 +2216,7 @@
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\BandejaAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoApariencia.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -3471,6 +3472,7 @@
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaClorinacionCisterna\ClsAnalisisAguaClorinacionCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaTanquero\ClsdAnalisisAguaTanquero.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\ClsDAnalisisQuimicoProductoSemielaborado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdMantenimientoApariencia.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
@@ -3594,6 +3596,7 @@
     <Compile Include="Controllers\CALIDAD\AnalisisAguaClorinacionCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaTanqueroController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisQuimicoProductoSemielaboradoController.cs" />
+    <Compile Include="Controllers\CALIDAD\AnalisisSensorialController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
@@ -4305,6 +4308,8 @@
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoPartial.cshtml" />
     <Content Include="Views\LaboratorioAnalisisQuimico\ReporteAnalisisQuimicoDetallePartial.cshtml" />
     <Content Include="Views\Nomina\ReporteHorasHombre.cshtml" />
+    <Content Include="Views\AnalisisSensorial\MantenimientoApariencia.cshtml" />
+    <Content Include="Views\AnalisisSensorial\MantenimientoAparienciaPartial.cshtml" />
     <Content Include="Views\MantenimientoPCC\MantenimientoPCC.cshtml" />
     <Content Include="Views\MantenimientoPCC\MantenimientoPCCPartial.cshtml" />
     <None Include="Web.Debug.config">

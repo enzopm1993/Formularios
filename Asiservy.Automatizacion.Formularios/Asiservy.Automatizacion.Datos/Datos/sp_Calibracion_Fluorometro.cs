@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public int IdCalibracionFluorDetalle { get; set; }
         public int IdEstandar { get; set; }
-        public decimal ValorEstandar { get; set; }
+        public string ValorEstandar { get; set; }
         public string NombEstandar { get; set; }
         public string DescEstandar { get; set; }
     }
