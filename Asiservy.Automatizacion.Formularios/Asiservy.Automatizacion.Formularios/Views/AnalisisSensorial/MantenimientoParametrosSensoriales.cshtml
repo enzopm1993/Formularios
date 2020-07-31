@@ -15,6 +15,10 @@
 </style>
 
 <h4>Mantenimiento de Parametros Sensoriales</h4>
+<div class="text-right">
+    <a style="text-decoration:underline;" href="../AnalisisSensorial/MantenimientoApariencia">Mantenimiento Apariencia</a>
+
+</div>
 
 <hr />
 <div id="divCabecera2">
@@ -32,8 +36,8 @@
 
                 </div>
                 <div class="col-md-9 col-12 col-sm-12 text-right">
-                    <button class="btn btn-outline-primary" onclick="MostrarModalCalificacion()">Mantenimiento Calificacion</button>
-                    <button class="btn btn-outline-primary" onclick="MostrarModalParametro()">Mantenimiento Parametro</button>
+                    <button class="btn btn-outline-primary" disabled onclick="MostrarModalCalificacion()" id="btnMantenimientoCalificacion">Mantenimiento Calificacion</button>
+                    <button class="btn btn-outline-primary" disabled onclick="MostrarModalParametro()" id="btnMantenimientoParametro">Mantenimiento Parametro</button>
                 </div>
             </div>
         </div>
@@ -84,8 +88,8 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Parametro</label>
-                            <select class="form-control" id="selectParametro">
-                                <option value="value">text</option>
+                            <select class="form-control" id="selectParametro" onchange="CambiaParmetro()">
+                                <option value="">Seleccione</option>
                             </select>
                         </div>
                     </div>
@@ -93,7 +97,7 @@
                         <div class="form-group">
                             <label>Calificación</label>
                             <select class="form-control" id="selectCalificacion">
-                                <option value="value">text</option>
+                                <option value="">Seleccione</option>
                             </select>
                         </div>
                     </div>

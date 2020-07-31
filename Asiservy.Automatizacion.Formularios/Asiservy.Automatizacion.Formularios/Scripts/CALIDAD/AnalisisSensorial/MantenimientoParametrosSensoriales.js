@@ -1,12 +1,16 @@
 ﻿var itemEditar = [];
+//MostrarModalCargando();
 $(document).ready(function () {
     ConsultarReporte();
-    ConsultarComboCalificacion();
+    // ConsultarComboCalificacion();
+  //  CerrarModalCargando();
     ConsultarComboParametroSensorial();
+    $("#btnMantenimientoCalificacion").prop("disabled", false);
+    $("#btnMantenimientoParametro").prop("disabled", false);
 });
 
 function ConsultarReporte() {
-    $("#chartCabecera2").html('');
+    //$("#chartCabecera2").html('');
  
     $.ajax({
         url: "../AnalisisSensorial/MantenimientoIntermediaPartial",
@@ -19,10 +23,10 @@ function ConsultarReporte() {
                 $("#chartCabecera2").html("No existen registros");
  
             } else {
-                console.log(resultado);
+              //  console.log(resultado);
                 $("#spinnerCargando").prop("hidden", true);
                // $("#chartCabecera2").html(resultado);
-
+                CargarDevExpressIntermedia(resultado);
             }
         },
         error: function(resultado) {
@@ -35,13 +39,15 @@ function ConsultarReporte() {
 function MostarModal() {
    // bandera = 3;
     $("#ModalControlIntermedia").modal("show");
+   // ConsultarComboParametroSensorial();
     NuevoControl();
 }
 
 function NuevoControl() {
-    $("#selectCalificacion").prop("selectedIndex", 0);
-    $("#selectParametro").prop("selectedIndex", 0);
     $("#txtDescripcionIntermedia").val("");
+    $("#selectCalificacion").empty();
+    $("#selectCalificacion").append('<option value="">Seleccione</option>');
+    ConsultarComboParametroSensorial();
 }
 
 function ValidarControl() {
@@ -81,7 +87,7 @@ function GuardarModificarControl() {
         url: "../AnalisisSensorial/MantenimientoIntermedia",
         type: "POST",
         data: {
-            IdIntermedia: $("#txtIdControl").val(),
+       //     IdIntermedia: $("#txtIdControl").val(),
             IdParametroSensorial: $("#selectParametro").val(),
             IdCalificacion: $("#selectCalificacion").val(),
             Descripcion: $("#txtDescripcionIntermedia").val(),
@@ -111,39 +117,46 @@ function GuardarModificarControl() {
     //alert("generado");
 }
 
-function ActualizarCabecera(model) {
-    $("#txtIdControl").val(model.IdApariencia);
-    $("#txtDescripcion").val(model.Descripcion);
-    $("#txtAbreviatura").val(model.Abreviatura);
-    $("#ModalControl").modal("show");
+function EditarIntermedia(model) {
+    //  $("#txtIdControl").val(model.IdApariencia);
+    //console.log(model);
+    $("#selectParametro").empty();
+    $("#selectParametro").append('<option value="' + model.IdParametroSensorial + '">' + model.DescripcionParametroSensorial + '</option>');
+    $("#selectCalificacion").empty();
+    $("#selectCalificacion").append('<option value="' + model.IdCalificacion + '">' + model.DescripcionCalificacion + '</option>');
+    $("#txtDescripcionIntermedia").val(model.Descripcion);
+    $("#ModalControlIntermedia").modal("show");
 
 }
 
-function InactivarConfirmar(jdata) {
-    console.log(jdata);
+function InactivarConfirmar(jdata,b) {
+    console.log(b);
+    bandera = b;
     $("#modalEliminarControl").modal("show");
     itemEditar = jdata;
     $("#myModalLabel").text("¿Desea inactivar el registro?");
     itemEditar.EstadoRegistro = 'I';
 }
 
-function ActivarConfirmar(jdata) {
+function ActivarConfirmar(jdata,b) {
     $("#modalEliminarControl").modal("show");
     $("#myModalLabel").text("¿Desea activar el registro?");
     itemEditar = jdata;
     itemEditar.EstadoRegistro = 'A';
+    bandera = b;
 }
 
 function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-function EliminarCabecera() {
+function EliminarIntermedia() {
     $.ajax({
-        url: "../AnalisisSensorial/EliminarMantenimientoApariencia",
+        url: "../AnalisisSensorial/EliminarIntermedia",
         type: "POST",
         data: {
-            IdApariencia: itemEditar.IdApariencia,
+            IdParametroSensorial: itemEditar.IdParametroSensorial,
+            IdCalificacion: itemEditar.IdCalificacion,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
@@ -168,6 +181,10 @@ function EliminarCabeceraSi() {
         EliminarCalificacion();
     } else if (bandera == 2) {
         EliminarParametroSensorial();
+    } else if (bandera == 3) {
+        EliminarIntermedia();
+    } else {
+        MensajeAdvertencia("No se pudo eliminar");
     }
 
 
@@ -175,11 +192,12 @@ function EliminarCabeceraSi() {
 }
 
 
-function ConsultarComboCalificacion() {
+function ConsultarComboCalificacion(idParametro) {
     //  $("#divMantenimientoCalificacion").html('');
     $.ajax({
-        url: "../AnalisisSensorial/MantenimientoCalificacionPartial",
+        url: "../AnalisisSensorial/ConsultaComboMantenimientoCalificacion",
         type: "GET",
+        data: { IdParametro: idParametro },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
@@ -228,6 +246,15 @@ function ConsultarComboParametroSensorial() {
             MensajeError("Error: Comuníquese con sistemas", false);
         }
     });
+}
+
+function CambiaParmetro() {
+    if ($("#selectParametro").val() != '') {
+        ConsultarComboCalificacion($("#selectParametro").val());
+    } else {
+        $("#selectCalificacion").empty();
+        $("#selectCalificacion").append('<option value="">Seleccione</option>');
+    }
 }
 
 ////////////////////////////////////////////////// MANTENIMIENTO CALIFICACION //////////////////////////////////
@@ -339,7 +366,7 @@ function GuardarModificarCalificacion() {
 }
 
 function EliminarCalificacion() {
-    console.log(itemEditar);
+   // console.log(itemEditar);
     $.ajax({
         url: "../AnalisisSensorial/EliminarCalificacion",
         type: "POST",
@@ -489,6 +516,163 @@ function EliminarParametroSensorial() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+function CargarDevExpressIntermedia(data) {
+    //console.log(data);
+    DevExpress.localization.locale(navigator.language);
+    var opciosGrid = {
+        dataSource: data,
+        loadPanel: {
+            enabled: true
+        },
+        keyExpr: "IdIntermedia",
+        selection: {
+            mode: "single"
+        },
+        hoverStateEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        showBorders: true,
+        allowColumnResizing: true,
+        columnResizingMode: "nextColumn",
+        columnMinWidth: 50,
+        columnAutoWidth: true,
+        columnFixing: {
+            enabled: true
+        },
+        showBorders: true,
+        showRowLines: true,
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        headerFilter: {
+            visible: true
+        },
+        paging: {
+            pageSize: 10
+        },
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [10, 20, 50, 100],
+            showInfo: true
+        },
+        searchPanel: {
+            visible: true,
+            highlightCaseSensitive: true,
+            width: 240,
+            placeholder: "Buscar..."
+        }, groupPanel: { visible: true },
+        grouping: {
+            autoExpandAll: true
+        },
+
+        columns: [
+            { dataField: "IdIntermedia", caption: "Id", sortOrder: "ascss" },
+           // { caption: "Parametro", dataField: "DescripcionParametroSensorial"  },
+            { caption: "Calificación", dataField: "DescripcionCalificacion", area: "row"},
+            { dataField: "Descripcion" },
+            {
+                caption: "Estado",
+                dataField: "EstadoRegistro", dataType: "string",
+                cellTemplate: function (container, options) {
+                    var estiloClass = 'badge';
+                    var estado = "Activo";
+                    if (options.data.EstadoRegistro == "A") {
+                         estiloClass = 'badge badge-success';
+                    }else{
+                         estiloClass = 'badge badge-danger';
+                        estado = "Inactivo";
+                    } 
+                    $("<div>")
+                        .append($('<span class="' + estiloClass + '">' + estado+'</span>'))
+                        .appendTo(container);
+
+                }
+            },
+            {
+                caption: "Acciones", cellTemplate: function (container, options) {
+                  //  var btnEditar = '<button id="" class="btn btn-link" onclick="EditarIntermedia(' + options.data.IdCalificacion + ',' + "'" + options.data.Descripcion + "'" + ',' + "'" + options.data.Abreviatura + "'"+')"> Editar</button>';
+                    var btnEditar = "<button id='' class='btn btn-link' onclick='EditarIntermedia(" + JSON.stringify(options.data) + ")'> Editar</button>";
+                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ",3)'> Inactivar</button>";
+                    if (options.data.EstadoRegistro == "I") {
+                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data) + ",3)'> Activar</button>";
+                    }
+                    $("<div>")
+                        .append($(btnEditar))
+                        .append($(btnActivar))
+                        .appendTo(container);
+                }
+            },
+            {
+                caption: "Fecha Ingreso" ,
+                cellTemplate: function (container, options) {
+                    var fecha = moment(options.data.FechaIngresoLog).format("DD-MM-YYYY");
+                  //  console.log(fecha);
+                    $("<div>")
+                        .append($('<label>'+fecha+'</label>'))
+                        .appendTo(container);
+                }
+            }
+            , {
+                caption: "Usuario Ingreso",
+                dataField: "UsuarioIngresoLog",
+                area: "column",
+                dataType: "string"
+            }
+            
+            , {
+                caption: "Usuario modificación",
+                dataField: "UsuarioModificacionLog",
+                area: "column",
+                dataType: "string"
+            }
+            , {
+                caption: "Fecha Modificación",
+                cellTemplate: function (container, options) {
+                    if (options.data.FechaModificacionLog != null) {
+                        var fecha = moment(options.data.FechaModificacionLog).format("DD-MM-YYYY");
+                        //console.log(fecha);
+                        $("<div>")
+                            .append($('<label>' + fecha + '</label>'))
+                            .appendTo(container);
+                    }
+                }
+            },{
+                caption: "Parametro",
+                dataField: "DescripcionParametroSensorial",
+                groupIndex: 0
+            }
+           
+
+        ],
+      
+         export: {
+            enabled: true,
+            allowExportSelectedData: true
+        },
+        onExporting: function (e) {
+            var workbook = new ExcelJS.Workbook();
+            var worksheet = workbook.addWorksheet('Reporte');
+
+
+
+            DevExpress.excelExporter.exportDataGrid({
+                component: e.component,
+                worksheet: worksheet,
+                autoFilterEnabled: true
+            }).then(function () {
+                workbook.xlsx.writeBuffer().then(function (buffer) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ManteniminetoCalificacionAS.xlsx');
+                });
+            });
+            e.cancel = true;
+        }
+    }
+
+    $("#chartCabecera2").dxDataGrid(opciosGrid);
+}
 function CargarDevExpressCalificacion(data) {
     //console.log(data);
     DevExpress.localization.locale(navigator.language);
@@ -563,9 +747,9 @@ function CargarDevExpressCalificacion(data) {
             {
                 caption: "Acciones", cellTemplate: function (container, options) {
                     var btnEditar = '<button id="btnActualizar" class="btn btn-link" onclick="EditarManteniminetoCalificacion(' + options.data.IdCalificacion + ',' + "'" + options.data.Descripcion + "'" + ',' + "'" + options.data.Abreviatura + "'"+')"> Editar</button>';
-                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ")'> Inactivar</button>";
+                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ",1)'> Inactivar</button>";
                     if (options.data.EstadoRegistro == "I") {
-                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data) + ")'> Activar</button>";
+                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data) + ",1)'> Activar</button>";
                     }
                     $("<div>")
                         .append($(btnEditar))
@@ -711,9 +895,9 @@ function CargarDevExpressParametroSensorial(data) {
             {
                 caption: "Acciones", cellTemplate: function (container, options) {
                     var btnEditar = '<button id="btnActualizar" class="btn btn-link" onclick="EditarParametroSensorial(' + options.data.IdParametroSensorial + ',' + "'" + options.data.Descripcion + "'" + ',' + "'" + options.data.Abreviatura + "'" + ')"> Editar</button>';
-                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ")'> Inactivar</button>";
+                    var btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='InactivarConfirmar(" + JSON.stringify(options.data) + ",2)'> Inactivar</button>";
                     if (options.data.EstadoRegistro == "I") {
-                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data)+")'> Activar</button>";
+                        btnActivar = "<button id='btnActualizar' class='btn btn-link' onclick='ActivarConfirmar(" + JSON.stringify(options.data)+",2)'> Activar</button>";
                     }
                     $("<div>")
                         .append($(btnEditar))

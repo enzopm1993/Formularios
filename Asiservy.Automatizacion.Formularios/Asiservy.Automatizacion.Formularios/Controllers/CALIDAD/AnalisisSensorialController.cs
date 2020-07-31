@@ -334,6 +334,46 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
+        public JsonResult ConsultaComboMantenimientoCalificacion(int IdParametro)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdParametrosSensoriales = new ClsdParametrosSensoriales();
+                var model = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var ListaIntermedia = ClsdParametrosSensoriales.ConsultaIntermedia2().Where(x=> x.IdParametroSensorial == IdParametro).Select(x=> x.IdCalificacion).ToList();
+                model = model.Where(x => !ListaIntermedia.Contains(x.IdCalificacion));
+
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public ActionResult MantenimientoCalificacion(CC_MANTENIMIENTO_CALIFICACION_AS model)
         {
