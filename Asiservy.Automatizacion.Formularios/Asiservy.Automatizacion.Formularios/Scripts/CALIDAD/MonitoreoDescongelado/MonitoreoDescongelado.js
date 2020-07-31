@@ -106,6 +106,7 @@ function ConsultarMonitoreoDescongelado() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
+            FechaProduccion: $("#txtFechaProduccion").val(),
             Turno: $("#selectTurno").val()
         },
         success: function (resultado) {

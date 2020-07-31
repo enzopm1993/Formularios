@@ -184,7 +184,7 @@ $(function () {
             "days": 61
         },
         minDate: moment("01/10/2019", "DD/MM/YYYY"),
-        maxDate: moment(),
+        maxDate: moment().add(1,"month"),
         ranges: {
             'Hoy': [moment(), moment()],
             'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
