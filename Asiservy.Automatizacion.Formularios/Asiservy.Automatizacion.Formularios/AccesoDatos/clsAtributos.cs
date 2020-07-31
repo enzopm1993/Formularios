@@ -4,6 +4,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //GRUPO PARA LA TEMPERATURA DE COCINAMIENTO DE CALIDAD
+        public static string codGroupTemperatura { get; set; } = "046";
         //FORMULARIO ANALISIS QUIMICO DE PRECOCCION
         public static string codFormPrecoccion { get; set; } = "01";
         //CODIGO GRUPO PARA EL CONTROL DE PRODUCTO SEMIELABORADO

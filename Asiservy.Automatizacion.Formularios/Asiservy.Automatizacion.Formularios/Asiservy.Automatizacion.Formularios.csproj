@@ -2280,6 +2280,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoReactivo\MantenimientoReactivo.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoTemperatura\MantenimientoTemperatura.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTipoDescongelado\MantenimientoTipoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MantParametrosLaboratorio\MantParametrosLaboratorio.js" />
@@ -3495,7 +3496,7 @@
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoGrupoAac\ClsdMantenimientoGrupoAac.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoMoretones\ClsDMantenimientoMoretones.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoParametroAac\ClsdMantenimientoParametroAac.cs" />
-    <Compile Include="AccesoDatos\CALIDAD\MantenimientoPCC\ClsDMantenimientoPCC.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoPCC.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoPediluvio\ClsDMantenimientoPediluvio.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoReactivo\ClsdMantenimientoReactivo.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoMoreton.cs" />
@@ -3504,6 +3505,7 @@
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoTextura.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDParametrosLaboratorio.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoTemperatura.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoMuestraDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\ClsdMantenimientoTipoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
@@ -3608,6 +3610,7 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoMuestraDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoParametroAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoPCCController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoTemperaturaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoTipoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantParametrosLaboratorioController.cs" />
     <Compile Include="Controllers\CALIDAD\MaterialQuebradizoController.cs" />
@@ -4312,6 +4315,8 @@
     <Content Include="Views\AnalisisSensorial\MantenimientoAparienciaPartial.cshtml" />
     <Content Include="Views\MantenimientoPCC\MantenimientoPCC.cshtml" />
     <Content Include="Views\MantenimientoPCC\MantenimientoPCCPartial.cshtml" />
+    <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperatura.cshtml" />
+    <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperaturaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4325,6 +4330,7 @@
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\MantenimientoCocinamiento\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

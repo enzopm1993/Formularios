@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Asiservy.Automatizacion.Datos.Datos;
 
-namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoPCC
+namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
 {
     public class ClsDMantenimientoPCC
     {
@@ -11,20 +11,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoP
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_PCC_MANTENIMIENTO.AsNoTracking().ToList();
-                //List<CC_PCC_MANTENIMIENTO> listaObjeto = new List<CC_PCC_MANTENIMIENTO>();
-                //CC_PCC_MANTENIMIENTO objeto;
-                //foreach (var item in lista)
-                //{
-                //    objeto = new CC_PCC_MANTENIMIENTO();
-                //    objeto.IdObjeto = item.IdObjeto;
-                //    objeto.NombreObjeto = item.NombreObjeto;
-                //    objeto.DescripcionObjeto = item.DescripcionObjeto;
-                //    objeto.UsuarioIngresoLog = item.UsuarioIngresoLog;
-                //    objeto.FechaIngresoLog = item.FechaIngresoLog;
-                //    objeto.EstadoRegistro = item.EstadoRegistro;
-                //    listaObjeto.Add(objeto);
-                //}
+                var lista = db.CC_PCC_MANTENIMIENTO.AsNoTracking().ToList();               
                 return lista;
             }
         }

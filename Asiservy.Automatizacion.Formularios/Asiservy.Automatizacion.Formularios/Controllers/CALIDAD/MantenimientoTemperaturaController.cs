@@ -12,19 +12,23 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class MantenimientoPCCController : Controller
+    public class MantenimientoTemperaturaController : Controller
     {
         clsDError clsDError { get; set; } = null;
-        ClsDMantenimientoPCC ClsDMantenimientoPCC { get; set; } = null;
+        ClsDMantenimientoTemperatura ClsDMantenimientoTemperatura { get; set; } = null;
+        clsDClasificador clasificador { get; set; } = null;
         string[] lsUsuario;
         [Authorize]
-        public ActionResult MantenimientoPCC()
+        public ActionResult MantenimientoTemperatura()
         {
             try
             {
+                ViewBag.select2 = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.MascaraInput = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clasificador = new clsDClasificador();
+                ViewBag.CodFormulario = clasificador.ConsultarClasificador(clsAtributos.codGroupTemperatura).ToList();
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -46,7 +50,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult MantenimientoPCCPartial()
+        public ActionResult MantenimientoTemperaturaPartial()
         {
             try
             {
@@ -55,10 +59,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsDMantenimientoPCC = new ClsDMantenimientoPCC();
-                var lista = ClsDMantenimientoPCC.ConsultarRegistro();
+                ClsDMantenimientoTemperatura = new ClsDMantenimientoTemperatura();
+                var lista = ClsDMantenimientoTemperatura.ConsultarRegistro();
                 if (lista.Count != 0)
                 {
+                    clasificador = new clsDClasificador();
+                    ViewBag.CodFormulario = clasificador.ConsultarClasificador(clsAtributos.codGroupTemperatura).ToList();
                     return PartialView(lista);
                 }
                 else
@@ -86,7 +92,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarModificarRegistro(CC_PCC_MANTENIMIENTO model)
+        public JsonResult GuardarModificarRegistro(CC_MANTENIMIENTO_TEMPERATURA model)
         {
             try
             {
@@ -95,14 +101,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (model.Numero>0)
+                if (model.CodFormulario !=null)
                 {
-                    ClsDMantenimientoPCC = new ClsDMantenimientoPCC();
+                    ClsDMantenimientoTemperatura = new ClsDMantenimientoTemperatura();
                     model.FechaIngresoLog = DateTime.Now;
                     model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     model.TerminalIngresoLog = Request.UserHostAddress;
                     model.UsuarioIngresoLog = lsUsuario[0];
-                    var valor = ClsDMantenimientoPCC.GuardarModificarRegistro(model);
+                    var valor = ClsDMantenimientoTemperatura.GuardarModificarRegistro(model);
                     if (valor == 0)
                     {
                         return Json("0", JsonRequestBehavior.AllowGet);
@@ -136,7 +142,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarRegistro(CC_PCC_MANTENIMIENTO model)
+        public JsonResult EliminarRegistro(CC_MANTENIMIENTO_TEMPERATURA model)
         {
             try
             {
@@ -145,11 +151,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsDMantenimientoPCC = new ClsDMantenimientoPCC();
+                ClsDMantenimientoTemperatura = new ClsDMantenimientoTemperatura();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = ClsDMantenimientoPCC.EliminarRegistro(model);
+                var valor = ClsDMantenimientoTemperatura.EliminarRegistro(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
