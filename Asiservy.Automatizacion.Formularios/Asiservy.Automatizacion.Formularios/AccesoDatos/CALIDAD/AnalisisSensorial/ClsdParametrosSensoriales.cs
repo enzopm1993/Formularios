@@ -8,11 +8,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
     public class ClsdParametrosSensoriales
     {
         #region MANTENIMIENTO INTERMEDIA
-        public List<CC_MANTENIMIENTO_INTERMEDIO_AS> ConsultaIntermedia()
+        public List<dynamic> ConsultaIntermedia()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.AsNoTracking().Include("CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS").Include("CC_MANTENIMIENTO_CALIFICACION_AS").ToList();
+                var lista = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.AsNoTracking().Include("CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS").AsNoTracking().Include("CC_MANTENIMIENTO_CALIFICACION_AS").AsNoTracking().ToList();
+                //List<dynamic> prueba  = (from x in lista 
+                //               select new 
+                //                {
+                //                    IdCalificacion=x.IdCalificacion,
+                //                    UsuarioModificacionLog=x.UsuarioModificacionLog,
+                //                    CC_MANTENIMIENTO_CALIFICACION_AS=x.CC_MANTENIMIENTO_CALIFICACION_AS,
+                //                    CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS=x.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS,
+                //                    Descripcion=x.Descripcion,
+                //                    EstadoRegistro=x.EstadoRegistro,
+                //                    FechaIngresoLog=x.FechaIngresoLog,
+                //                    FechaModificacionLog=x.FechaModificacionLog,
+                //                   IdIntermedia=x.IdIntermedia,
+                //                   IdParametroSensorial=x.IdParametroSensorial,
+                //                   TerminalIngresoLog=x.TerminalIngresoLog,
+                //                    TerminalModificacionLog=x.TerminalModificacionLog,
+                //                    UsuarioIngresoLog=x.UsuarioIngresoLog
+                //                }).ToList();
+
                 return lista;
             }
         }

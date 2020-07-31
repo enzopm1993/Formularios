@@ -1,6 +1,8 @@
 ﻿var itemEditar = [];
 $(document).ready(function () {
     ConsultarReporte();
+    ConsultarComboCalificacion();
+    ConsultarComboParametroSensorial();
 });
 
 function ConsultarReporte() {
@@ -36,46 +38,53 @@ function MostarModal() {
     NuevoControl();
 }
 
-function Validar() {
+function NuevoControl() {
+    $("#selectCalificacion").prop("selectedIndex", 0);
+    $("#selectParametro").prop("selectedIndex", 0);
+    $("#txtDescripcionIntermedia").val("");
+}
+
+function ValidarControl() {
     var bool = true;
 
 
-    if ($("#txtDescripcion").val() == "") {
-        $("#txtDescripcion").css('borderColor', '#FA8072');
+    if ($("#txtDescripcionIntermedia").val() == "") {
+        $("#txtDescripcionIntermedia").css('borderColor', '#FA8072');
         bool = false;
     } else {
-        $("#txtDescripcion").css('borderColor', '#ced4da');
+        $("#txtDescripcionIntermedia").css('borderColor', '#ced4da');
     }
 
-    if ($("#txtAbreviatura").val() == "") {
-        $("#txtAbreviatura").css('borderColor', '#FA8072');
+    if ($("#selectCalificacion").val() == "") {
+        $("#selectCalificacion").css('borderColor', '#FA8072');
         bool = false;
     } else {
-        $("#txtAbreviatura").css('borderColor', '#ced4da');
+        $("#selectCalificacion").css('borderColor', '#ced4da');
     }
 
-    if ($("#selectColor1").val() == "") {
-        $("#selectColor1").css('borderColor', '#FA8072');
+    if ($("#selectParametro").val() == "") {
+        $("#selectParametro").css('borderColor', '#FA8072');
         bool = false;
     } else {
-        $("#selectColor1").css('borderColor', '#ced4da');
+        $("#selectParametro").css('borderColor', '#ced4da');
     }
 
     return bool;
 }
 
 function GuardarModificarControl() {
-    if (!Validar()) { return; }
+    if (!ValidarControl()) { return; }
 
     var estado = 'A';
     MostrarModalCargando();
     $.ajax({
-        url: "../AnalisisSensorial/MantenimientoApariencia",
+        url: "../AnalisisSensorial/MantenimientoIntermedia",
         type: "POST",
         data: {
-            IdApariencia: $("#txtIdControl").val(),
-            Descripcion: $("#txtDescripcion").val(),
-            Abreviatura: $("#txtAbreviatura").val(),
+            IdIntermedia: $("#txtIdControl").val(),
+            IdParametroSensorial: $("#selectParametro").val(),
+            IdCalificacion: $("#selectCalificacion").val(),
+            Descripcion: $("#txtDescripcionIntermedia").val(),
             EstadoRegistro: estado
         },
         success: function (resultado) {
@@ -90,7 +99,7 @@ function GuardarModificarControl() {
                 NuevoControl();
                 ConsultarReporte();
             }
-            $("#ModalControl").modal("hide");
+            $("#ModalControlIntermedia").modal("hide");
         },
         error: function (resultado) {
             MensajeError(Mensajes.Error + resultado, false);
@@ -166,9 +175,63 @@ function EliminarCabeceraSi() {
 }
 
 
+function ConsultarComboCalificacion() {
+    //  $("#divMantenimientoCalificacion").html('');
+    $.ajax({
+        url: "../AnalisisSensorial/MantenimientoCalificacionPartial",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+
+                CargarDevExpressCalificacion(null);
+
+            } else {
+                $("#selectCalificacion").empty();
+                $("#selectCalificacion").append('<option value="">Seleccione</option>');
+                $.each(resultado, function (key, registro) {
+                    //console.log(resultado);
+                    $("#selectCalificacion").append('<option value=' + registro.IdCalificacion + '>' + registro.Descripcion + '</option>');
+                });   
+
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+function ConsultarComboParametroSensorial() {
+    //  $("#divMantenimientoCalificacion").html('');
+    $.ajax({
+        url: "../AnalisisSensorial/MantenimientoParametroSensorialPartial",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                CargarDevExpressParametroSensorial(null);
+            } else {
+                $("#selectParametro").empty();
+                $("#selectParametro").append('<option value="">Seleccione</option>');
+                $.each(resultado, function (key, registro) {
+                    //console.log(resultado);
+                    $("#selectParametro").append('<option value=' + registro.IdParametroSensorial + '>' + registro.Descripcion + '</option>');
+                });  
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
 ////////////////////////////////////////////////// MANTENIMIENTO CALIFICACION //////////////////////////////////
 var bandera = 0;
-
 
 function NuevoMantenimiento() {
     $("#txtIdControl").val('');
@@ -261,6 +324,7 @@ function GuardarModificarCalificacion() {
             } else {
                 NuevoMantenimiento();
                 ConsultarMantenimientoCalificacion();
+                ConsultarComboCalificacion();
             }
             $("#ModalControl").modal("hide");
         },
@@ -305,10 +369,10 @@ function GuardarModificar() {
     if (bandera == 1) {
         GuardarModificarCalificacion();
 
-    } else {
+    } else if (bandera == 2) {
         GuardarModificarParametroSensorial();
 
-    }
+    } 
 }
 
 
@@ -373,6 +437,7 @@ function GuardarModificarParametroSensorial() {
             } else {
                 NuevoMantenimiento();
                 ConsultarParametroSensorial();
+                ConsultarComboParametroSensorial();
             }
             $("#ModalControl").modal("hide");
         },
