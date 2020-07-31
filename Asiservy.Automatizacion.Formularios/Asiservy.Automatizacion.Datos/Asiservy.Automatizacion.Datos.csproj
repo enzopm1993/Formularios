@@ -261,6 +261,12 @@
     <Compile Include="Datos\CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_APARIENCIA_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_CALIFICACION_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_CISTERNA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -276,6 +282,9 @@
     <Compile Include="Datos\CC_MANTENIMIENTO_GRUPO_AAC.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_INTERMEDIO_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_MORETON.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -288,6 +297,9 @@
     <Compile Include="Datos\CC_MANTENIMIENTO_PARAMETRO_AAC.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_PEDILUVIO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -298,6 +310,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_SABOR.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_TEMPERATURA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_TEXTURA.cs">
@@ -349,6 +364,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_PARAMETRO_DEFECTO_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_PCC_MANTENIMIENTO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA.cs">

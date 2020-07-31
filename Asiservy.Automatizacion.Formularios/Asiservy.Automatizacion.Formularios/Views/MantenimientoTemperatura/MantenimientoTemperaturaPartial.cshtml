@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_TEMPERATURA>
+@using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
+@if (ViewBag.CodFormulario != null)
+{
+    <table class="table table-bordered table-hover text-uppercase" id="tblDataTable">
+        <thead style="font-size:12px">
+            <tr>
+                <th>FORMULARIO</th>
+                <th>VALOR MAX</th>
+                <th>VALOR MIN</th>
+                <th>DESCRIPCIÓN</th>
+                <th>FECHA CREACIÓN</th>
+                <th>USUARIO CREACIÓN</th>
+                <th>ESTADO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:11px">
+
+            @foreach (var item in Model)
+            {
+
+
+                var form = (from x in ViewBag.CodFormulario as List<CLASIFICADOR> where x.Codigo == item.CodFormulario select x).FirstOrDefault();
+                <tr>
+                    <td>
+                        @form.Descripcion
+                    </td>
+                    <td>@item.ValorMax</td>
+                    <td>@item.ValorMin</td>
+                    <td>
+                        @item.Descripcion
+                    </td>
+                    <td>
+                        @item.FechaIngresoLog.ToString("dd-MM-yyyy")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                    </td>
+                    <td>
+                        @if (item.EstadoRegistro == "A")
+                        {
+                            <span class="badge badge-success">ACTIVO</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">INACTIVO</span>
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var json = JsonConvert.SerializeObject(item);
+                        }
+                        <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                        @if (item.EstadoRegistro == "A")
+                        {
+                            <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                        }
+                        else
+                        {
+                            <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json, @JsonConvert.SerializeObject(form.Descripcion))">Activar</button>
+                        }
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{<span class="badge badge-danger">NO EXISTEN DATOS EN EL CLASIFICADOR 046</span>}
+<script src="~/Scripts/General/dataTableJS.js"></script>

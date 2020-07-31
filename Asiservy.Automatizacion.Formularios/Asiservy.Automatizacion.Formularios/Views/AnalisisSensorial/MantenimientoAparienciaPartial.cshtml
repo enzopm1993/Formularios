@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_APARIENCIA_AS>
+@using Newtonsoft.Json;
+
+
+<table class="table table-light table-striped table-bordered" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+              Id
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Abreviatura)
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Ingreso
+            </th>
+            <th>
+                Modificación
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdApariencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Abreviatura)
+                </td>
+                <td>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <span class="badge badge-success">ACTIVO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">INACTIVO</span>
+                    }
+                </td>
+                <td>
+                    @item.UsuarioIngresoLog <br />
+                    @item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")
+                </td>
+                <td>
+                    @item.UsuarioModificacionLog <br />
+                    @if (item.FechaModificacionLog != null)
+                    {
+                        @item.FechaModificacionLog.Value.ToString("dd-MM-yyyy HH:mm")
+                    }
+                </td>
+                <td>
+                    @{
+                        string json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                    }
+                    else
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

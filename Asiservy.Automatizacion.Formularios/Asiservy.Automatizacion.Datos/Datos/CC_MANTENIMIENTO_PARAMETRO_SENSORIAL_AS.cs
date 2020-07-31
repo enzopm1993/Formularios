@@ -12,17 +12,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO
+    public partial class CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO()
+        public CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS()
         {
-            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO>();
+            this.CC_MANTENIMIENTO_INTERMEDIO_AS = new HashSet<CC_MANTENIMIENTO_INTERMEDIO_AS>();
         }
     
-        public int IdTipoAnalisisQuimicoProductoSe { get; set; }
-        public string TipoProducto { get; set; }
-        public int IdDetalleAnalisisQuimicoProductoSe { get; set; }
+        public int IdParametroSensorial { get; set; }
+        public string Descripcion { get; set; }
+        public string Abreviatura { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -30,10 +30,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> NumeroMuestra { get; set; }
     
-        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
+        public virtual ICollection<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
     }
 }

@@ -124,7 +124,7 @@
             </button>
         </div>
     </div>
-    <div class="col-md-2 col-12 col-sm-12">
+    <div class="col-md-2 col-12 col-sm-4">
         <label>TURNO</label>
         <div class="form-group">
             @if (ViewBag.Turno != null)
@@ -135,10 +135,10 @@
             { <label class="badge badge-danger">No existen turnos</label>}
         </div>
     </div>
-    <div class="col-md-4 col-12 col-sm-12 text-md-center ">
+    <div class="col-md-4 col-10 col-sm-6 text-md-center ">
         <br />
         <div class="box_filters col-sm-12">
-            <div class="itemFilter  col-sm-8">
+            <div class="itemFilter  col-sm-9">
                 <div class="form-group" id="divfechaap">
                     <input type="hidden" id="fechacontrol" value="" />
                     <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div class="itemFilter col-sm-1">
+            <div class="col-1 float-sm-right col-sm-2">
                 <a onclick="CargarCabecera(0)" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>

@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "MantenimientoParametrosSensoriales";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .btn-link:hover {
+        color: white;
+        text-decoration: underline;
+    }
+</style>
+
+<h4>Mantenimiento de Parametros Sensoriales</h4>
+<div class="text-right">
+    <a style="text-decoration:underline;" href="../AnalisisSensorial/MantenimientoApariencia">Mantenimiento Apariencia</a>
+
+</div>
+
+<hr />
+<div id="divCabecera2">
+    <div class="card shadow">
+        <div class="card-header">
+
+            <div class="row">
+                <div class="col-md-3 col-12 col-sm-12">
+                    <div class="form-group">
+                        <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostarModal()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                        @*<a href="#" id="agregarParametro" class="btn btn-primary btn-sm" onclick="MostarModal()"><i id="btnGenerar" class="fas fa-plus-circle"></i></a>*@
+                    </div>
+
+                </div>
+                <div class="col-md-9 col-12 col-sm-12 text-right">
+                    <button class="btn btn-outline-primary" disabled onclick="MostrarModalCalificacion()" id="btnMantenimientoCalificacion">Mantenimiento Calificacion</button>
+                    <button class="btn btn-outline-primary" disabled onclick="MostrarModalParametro()" id="btnMantenimientoParametro">Mantenimiento Parametro</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR REGISTRO*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"></h4>
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalControlIntermedia">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Guardar - Modificar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="divCabecera1">
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Parametro</label>
+                            <select class="form-control" id="selectParametro" onchange="CambiaParmetro()">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Calificación</label>
+                            <select class="form-control" id="selectCalificacion">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input type="text" class="form-control" maxlength="250" id="txtDescripcionIntermedia" autocomplete="off" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarModificarControl()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalControl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Guardar - Modificar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="divCabecera1">
+
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input type="text" disabled autocomplete="off" maxlength="10" class="form-control" id="txtIdControl" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <input type="text" class="form-control" maxlength="250" id="txtDescripcion" autocomplete="off" name="name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Abreviatura</label>
+                            <input type="text" class="form-control" maxlength="5" id="txtAbreviatura" autocomplete="off" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarModificar()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalCalificacion">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModal"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-3 col-12 col-sm-12">
+                                <div class="form-group">
+                                    @*<button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostarModalGuardar()" style="border-color:#2c3e50" type="button">
+                                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                                    </button>*@
+                                    <a href="#" id="agregarParametro" class="btn btn-primary btn-sm" onclick="MostarModalGuardar()"><i id="btnGenerar" class="fas fa-plus-circle"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="divMantenimientoCalificacion">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-primary" onclick="GuardarModificarControl()">Guardar</button>*@
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
