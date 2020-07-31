@@ -3708,6 +3708,7 @@
     <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\SemiElaborado_SubDetalle_ParamxSubdetalleViewModel.cs" />
     <Compile Include="Models\CALIDAD\TipoProducto.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />

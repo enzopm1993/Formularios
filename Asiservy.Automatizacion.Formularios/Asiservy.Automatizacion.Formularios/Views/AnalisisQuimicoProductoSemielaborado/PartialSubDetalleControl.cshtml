@@ -1,84 +1,150 @@
-﻿@model ICollection<Asiservy.Automatizacion.Datos.Datos.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>
+﻿@model ICollection<Asiservy.Automatizacion.Datos.Datos.SPSubdetalleAnalisisQuimicoProductoSe>
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
-<table class="table table-bordered table-striped">
-    @{
-        int ContMax = 0;
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD
+@*<table class="table table-bordered table-striped">
+        @{
+            int ContMax = 0;
 
-        foreach (var c in Model)
-        {
-            ContMax = c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count > ContMax ? c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count : ContMax;
+            foreach (var c in Model)
+            {
+                ContMax = c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count > ContMax ? c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count : ContMax;
 
+            }
+            var ObjetoMasParametros = Model.FirstOrDefault(x => x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count == ContMax);
         }
-        var ObjetoMasParametros = Model.FirstOrDefault(x => x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count == ContMax);
-    }
-    <thead>
-        <tr>
-
-            <th>
-                Tipo Producto
-            </th>
-            @foreach (var item in ObjetoMasParametros.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x=>x.ParametroLaboratorio))
-            {
-                <th>
-                    @item.CC_PARAMETROS_LABORATORIO.DescripcionParametro
-                </th>
-            }
-
-
-
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            int cont = 0;
-            List<dynamic> lista = new List<dynamic>();
-            foreach (var listaParam in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
-            {
-                lista.Add(new { listaParam.ParametroLaboratorio, listaParam.Cantidad });
-            }
-            dynamic ObjTipo = new
-            {
-                IdDetalleAnalisisQuimicoProductoSe = item.IdDetalleAnalisisQuimicoProductoSe,
-                IdTipoAnalisisQuimicoProductoSe = item.IdTipoAnalisisQuimicoProductoSe,
-                TipoProducto = item.TipoProducto,
-                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = lista
-            };
-
-            var json = JsonConvert.SerializeObject(ObjTipo);
-            string Tipo = item.TipoProducto == "L" ? "Lomo" : item.TipoProducto == "M" ? "Miga" : item.TipoProducto == "T" ? "Trozo" : item.TipoProducto;
+        <thead>
             <tr>
 
-                <td>
-                    @Tipo
-                </td>
-                @foreach (var ListaCant in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x => x.ParametroLaboratorio))
+                <th>
+                    Tipo Producto
+                </th>
+                @foreach (var item in ObjetoMasParametros.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x=>x.ParametroLaboratorio))
                 {
-                    cont++;
+                    <th>
+                        @item.CC_PARAMETROS_LABORATORIO.DescripcionParametro
+                    </th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                int cont = 0;
+                List<dynamic> lista = new List<dynamic>();
+                foreach (var listaParam in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+                {
+                    lista.Add(new { listaParam.ParametroLaboratorio, listaParam.Cantidad });
+                }
+                dynamic ObjTipo = new
+                {
+                    IdDetalleAnalisisQuimicoProductoSe = item.IdDetalleAnalisisQuimicoProductoSe,
+                    IdTipoAnalisisQuimicoProductoSe = item.IdTipoAnalisisQuimicoProductoSe,
+                    TipoProducto = item.TipoProducto,
+                    CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = lista
+                };
+
+                var json = JsonConvert.SerializeObject(ObjTipo);
+                string Tipo = item.TipoProducto == "L" ? "Lomo" : item.TipoProducto == "M" ? "Miga" : item.TipoProducto == "T" ? "Trozo" : item.TipoProducto;
+                <tr>
+
                     <td>
-                        @ListaCant.Cantidad
+                        @Tipo
+                    </td>
+                    @foreach (var ListaCant in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x => x.ParametroLaboratorio))
+                    {
+                        cont++;
+                        <td>
+                            @ListaCant.Cantidad
+                        </td>
+                    }
+
+                    @if (cont < ContMax)
+                    {
+                        int ncont = ContMax - cont;
+                        for (int i = 0; i < ncont; i++)
+                        {
+                            <td></td>
+
+                        }
+                    }
+
+                </tr>
+            }
+        </tbody>
+
+    </table>*@
+
+<table class="table table-bordered table-striped" id="tblReporte">
+    <thead style="font-size:0.8rem">
+        <tr>
+            <th>
+
+            </th>
+            @foreach (var Areas in ViewBag.Areas as List<Area>)
+            {
+                <th colspan="@Areas.Total" class="text-center">
+                    ÁREA @Areas.AreaNombre
+                </th>
+            }
+        </tr>
+        <tr>
+            <th>TIPO PRODUCTO</th>
+            @{
+                var Json = JsonConvert.SerializeObject(ViewBag.Parametros);
+                var Dparametros = JsonConvert.DeserializeObject<List<dynamic>>(Json);
+                List<TipoProducto> DTipoProd = ViewBag.TipoProducto as List<TipoProducto>;
+            }
+            @foreach (var parametros in Dparametros)
+            {
+                <th class="text-uppercase text-center">@parametros.NombreParametro</th>
+            }
+        </tr>
+    </thead>
+    <TBODY>
+            <tr>
+            
+                <td style="padding:0">
+                    <table style="width:100%;" class="table-bordered">
+                        @foreach (var tipprod in DTipoProd)
+                        {
+                            <tr>
+                                <td>
+                                    @tipprod.TipoProductoNombre
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+                @foreach (var Parametros in Dparametros)
+                {
+                    <td style="padding:0">
+                        <table style="width:100%;">
+                            @foreach (var LineaSd in DTipoProd)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        @{
+                                            var cantidad = Model.Where(x=>x.TipoProducto == LineaSd.TipoProductoNombre && x.IdTipoAnalisisQuimicoProductoSe == LineaSd.IdTipoAnalisisQuimicoProductoSe
+                                            && Parametros.ParametroLaboratorio == x.ParametroLaboratorio).Select(x => x.Cantidad).FirstOrDefault();
+                                        }
+                                        @if (cantidad == null)
+                                        {
+                                            <text>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </text>
+                                        }
+                                        else
+                                        {
+                                            @cantidad
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
                     </td>
                 }
-
-                @if (cont < ContMax)
-                {
-                    int ncont = ContMax - cont;
-                    for (int i = 0; i < ncont; i++)
-                    {
-                        <td></td>
-
-                    }
-                }
-                <td>
-                    <a href="#" onclick="EditarSubDetalle(@json)">Editar</a>|
-                    <a href="#" onclick="ConfirmarEliminarSubDetalle(@json)">Eliminar</a>|
-
-                </td>
             </tr>
-        }
-    </tbody>
-
-</table>
+    </TBODY>
+    </table>

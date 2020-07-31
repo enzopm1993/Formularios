@@ -2,21 +2,150 @@
 var IdCabecera = 0;
 var IdDetalle = 0;
 var IdSubDetalle = 0;
-var Error = 0;
+var Error = 0; 
 var DatosDetalle;
 var ListaLotes;
+var paramSeleccionado;
+var SubDxParam = 0;
+var IdELiminarParamSubdetalle = 0;
+var opciosGrid = {
+    loadPanel: {
+        enabled: true
+    },
+    groupPanel: { visible: true },
+    grouping: {
+        autoExpandAll: false
+    },
+    //dataSource: resultado,
+    keyExpr: "IdTipoxParametro",
+    selection: {
+        mode: "single"
+    },
+    hoverStateEnabled: true,
+    showColumnLines: true,
+    showRowLines: true,
+    rowAlternationEnabled: true,
+    showBorders: true,
+    allowColumnResizing: true,
+    columnResizingMode: "nextColumn",
+    columnMinWidth: 50,
+    columnAutoWidth: true,
+    //columnFixing: {
+    //    enabled: true
+    //},
+    showBorders: true,
+    showRowLines: true,
+    filterRow: {
+        visible: true,
+        applyFilter: "auto"
+    },
+    headerFilter: {
+        visible: true
+    },
+    paging: {
+        enabled: true,
+        pageSize: 5
+    },
+    pager: {
+        showPageSizeSelector: true,
+        allowedPageSizes: [5, 10, 0],
+        showInfo: true,
+        //visible: true,
+        showNavigationButtons: true,
+        infoText: "Página #{0}. Total: {1} ({2} filas)"
+    },
+    searchPanel: { visible: true },
+    columns: [
+        //{
+          
+        //    dataField: "IdTipoxParametro",
+        //    area: "column",
+        //    dataType: "number",
+        //    hidingPriority: 0,
+        //    sortOrder: "desc"
+        //},
+        {
+            caption: "N° Muestra",
+            dataField: "NMuestra",
+            area: "column",
+            dataType: "number",
+        }
+        , {
+            caption: "Tipo Producto",
+            dataField: "TipoProducto",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Area",
+            dataField: "Area",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Parametro",
+            dataField: "Parametro",
+            area: "column",
+            dataType: "string"
+        }
+        , {
+            caption: "Cantidad",
+            dataField: "Cantidad",
+            area: "column",
+            dataType: "number"
+        }
+        , 
+        {
+            caption: "Acciones", cellTemplate: function (container, options) {
+                var btnEditar = "<button id='btnActualizar' class='btn btn-link' onclick='ModificarParamSubDetalleModal(" + JSON.stringify(options.data) + ")'> Editar</button>";
+                var btnActivar = "<button id='btnEliminar' class='btn btn-link' onclick='InactivarParamSubdetalleConfirmar(" + JSON.stringify(options.data) + ")'> Eliminar</button>";
+             
+                $("<div>")
+                    .append($(btnEditar))
+                    .append($(btnActivar))
+                    .appendTo(container);
+            }
+        },
+       
+    ]
+    //,onSelectionChanged: function (selectedItems) {
+    //    var data = selectedItems.selectedRowsData[0];
+    //    if (data) {
+    //        ModificarParamSubDetalleModal(data);
+    //    }
+    //}
+    , export: {
+        enabled: true,
+        allowExportSelectedData: true
+    },
+    onExporting: function (e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Reporte');
 
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ListaReportesAnalisisQuimicoSe.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+}
 $(document).ready(function () {
     
-    IdArray.forEach(Objeto =>
-        $('#' + Objeto.IdParametro).inputmask({
-            alias: "decimal",
-            clearMaskOnLostFocus: true,
-            'digitsOptional': true,
-            'digits': 2,
-            max: Objeto.Mascara
-        })
-    );
+    //IdArray.forEach(Objeto =>
+    //    $('#' + Objeto.IdParametro).inputmask({
+    //        alias: "decimal",
+    //        clearMaskOnLostFocus: true,
+    //        'digitsOptional': true,
+    //        'digits': 2,
+    //        max: Objeto.Mascara
+    //    })
+    //);
     $('#cmbTurno').prop('selectedIndex', 1);
     ConsultarCabControl();
     LLenarComboOrdenes();
@@ -53,6 +182,306 @@ $("#modal-orden-si").on("click", function () {
     //ConsultarCabControl();
 
 });
+function InactivarParamSubdetalleConfirmar(data) {
+    $('#ModalEliminarParametroSubdetalle').modal('show');
+    IdELiminarParamSubdetalle = data.IdTipoxParametro;
+}
+function EliminarParametroSubdetalle() {
+    $('#cargac').show();
+    Error = 0;
+    const data = new FormData();
+    data.append('IdTipoxParametro', IdELiminarParamSubdetalle);
+    data.append('poFecha', $('#txtFechaProduccion').val());
+    data.append('IdCabecera', IdCabecera);
+
+    fetch("../AnalisisQuimicoProductoSemielaborado/EliminarParametroSubDetalle", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#ModalEliminarParametroSubdetalle').modal('hide');
+            //if (resultado[0] == "002") {
+            //    MensajeAdvertencia(resultado[1]);
+            //} else {
+
+            if (resultado[0] != '002') {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+                ConsultarSubDetalleControl();
+                ConsultarRegModalParametros(IdDetalle);
+            }
+            //}
+
+        }
+
+        $('#cargac').hide();
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+            $('#cargac').hide();
+        })
+}
+function ValidarIngresoParametros() {
+    var valida = true;
+
+    if ($('#cmbMuestra').prop('selectedIndex') == 0) {
+        $('#cmbMuestra').css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $('#cmbMuestra').css('borderColor', '#ced4da');
+    }
+    if ($('#cmbTipoProducto').prop('selectedIndex') == 0) {
+        $('#cmbTipoProducto').css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $('#cmbTipoProducto').css('borderColor', '#ced4da');
+    }
+    if ($('#cmbArea').prop('selectedIndex') == 0) {
+        $('#cmbArea').css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $('#cmbArea').css('borderColor', '#ced4da');
+    }
+    if ($('#cmbParametro').prop('selectedIndex') == 0) {
+        $('#cmbParametro').css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $('#cmbParametro').css('borderColor', '#ced4da');
+    }
+    if ($('#txtCantidadParametro').val() == '') {
+        $('#txtCantidadParametro').css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $('#txtCantidadParametro').css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+function LimpiarParamModal() {
+    $('#cmbMuestra').prop('selectedIndex', 0);
+    $('#cmbTipoProducto').prop('selectedIndex', 0);
+    $('#cmbArea').prop('selectedIndex', 0);
+    $('#cmbParametro').prop('selectedIndex', 0);
+    SubDxParam = 0;
+    $('#cmbMuestra').prop('disabled', false);
+    $('#cmbTipoProducto').prop('disabled', false);
+    $('#cmbArea').prop('disabled', false);
+    $('#cmbParametro').prop('disabled', false);
+    $('#txtCantidadParametro').val('');
+    $('#cmbParametro').empty();
+    $('#cmbParametro')
+        .append($("<option></option>")
+            .text('SELECCIONE..'));
+}
+function ModificarParamSubDetalleModal(data) {
+    //console.log(data);
+    $('#cmbMuestra').val(data.NMuestra);
+    $('#cmbTipoProducto').val(data.CodTipoProducto);
+    $('#cmbArea').val(data.CodArea);
+    $('#txtCantidadParametro').val(data.Cantidad)
+    ConsultarParamxArea(data.IdParametro);
+    
+    $('#cmbMuestra').prop('disabled',true);
+    $('#cmbTipoProducto').prop('disabled', true);
+    $('#cmbArea').prop('disabled', true);
+    $('#cmbParametro').prop('disabled', true);
+    SubDxParam = data.IdTipoxParametro;
+
+    $('#txtCantidadParametro').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: data.Mascara
+    });
+    $('#spancantidad').text(data.Mascara);
+}
+function ConsultarRegModalParametros(IdDetalle) {
+
+    $('#cargac').show();
+    Error = 0;
+    let params = {
+        IdDetalle: IdDetalle
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../AnalisisQuimicoProductoSemielaborado/ConsultarSubDetalle_ParamxSubdetalle?' + query;
+    fetch(url)
+        //,body: data
+        .then(function (respuesta) {
+            return respuesta.json();
+        })
+        .then(function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado != '0') {
+                DevExpress.localization.locale(navigator.language);
+                opciosGrid.dataSource = resultado;
+                $("#gridContainer").dxDataGrid(opciosGrid).dxDataGrid("instance");
+                
+            } else {
+              
+            }
+            $('#cargac').hide();
+        })
+        .catch(function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#cargac').hide();
+        })
+}
+function GuardarSubDetalle_ParamxSubdetalle() {
+    if (!ValidarIngresoParametros()) {
+        return;
+    }
+    var ParamxSubdetalle =
+       [ {
+            IdTipoxParametro:SubDxParam,
+            ParametroLaboratorio:$('#cmbParametro').val(),
+            Cantidad: $('#txtCantidadParametro').val(),
+            IdTipo: IdSubDetalle,
+            EstadoRegistro:'A'
+        }];
+    
+    var parametro =
+    {
+        IdTipoAnalisisQuimicoProductoSe: IdSubDetalle,
+        TipoProducto: $('#cmbTipoProducto').val(),
+        IdDetalleAnalisisQuimicoProductoSe: IdDetalle,
+        NumeroMuestra: $('#cmbMuestra').val(),
+        EstadoRegistro: 'A',
+        CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO: ParamxSubdetalle
+    };
+    var data = JSON.stringify(
+        {
+            poSubdetalle: parametro,
+            poFecha: $('#txtFechaProduccion').val()
+        }
+    );
+    //console.log(data);
+    fetch("../AnalisisQuimicoProductoSemielaborado/GuardarSubDetalle_ParamxSubdetalle", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            ConsultarRegModalParametros(IdDetalle);
+            //LimpiarParamModal();
+            
+            ConsultarSubDetalleControl(1);
+            if (resultado[0] == "002") {
+                MensajeAdvertencia(resultado[1]);
+            } else {
+                MensajeCorrecto(resultado[1]);
+            }
+            if (resultado[0] == "000") {
+                $('#txtCantidadParametro').val('');
+            }
+            if (resultado[0] == "001") {
+                LimpiarParamModal();
+            }
+        }
+
+    })
+    .catch(function (resultado) {
+        MensajeError("Error comuníquese con el departamento de Sistemas", false);
+
+    })
+}
+function ConsultarMascara() {
+    
+    var Mascara = Enumerable.From(paramSeleccionado)
+        .Where(function (x) { return x.IdParametro == $('#cmbParametro').val() })
+        .Select(function (x) { return x.Mascara})
+        .SingleOrDefault();
+    //console.log(objeto);
+    $('#txtCantidadParametro').inputmask({
+        alias: "decimal",
+        clearMaskOnLostFocus: true,
+        'digitsOptional': true,
+        'digits': 2,
+        max: Mascara
+    });
+    $('#spancantidad').text(Mascara);
+}
+function ConsultarParamxArea(IdParametro) {
+    if (IdParametro == null) {
+        $('#cargac').show();
+    }
+    
+    Error = 0;
+    let params = {
+        IdArea: $('#cmbArea').val()
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../AnalisisQuimicoProductoSemielaborado/ConsultarParametroxArea?' + query;
+    fetch(url)
+        //,body: data
+        .then(function (respuesta) {
+            return respuesta.json();
+        })
+        .then(function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado != '0') {
+                $('#cmbParametro').empty();
+                $('#cmbParametro')
+                    .append($("<option></option>")
+                        .text('SELECCIONE..'));
+                resultado.forEach(function (value) {
+                    $('#cmbParametro')
+                        .append($("<option></option>")
+                            .attr("value", value.IdParametro)
+                            .text(value.NombreParametro));
+                });
+                paramSeleccionado = resultado;
+                if (IdParametro != null) {
+                    $('#cmbParametro').val(IdParametro);
+                }
+            } else {
+                $('#cmbParametro').empty();
+                $('#cmbParametro')
+                    .append($("<option></option>")
+                        .text('SELECCIONE..'));
+            }
+            $('#cargac').hide();
+        })
+        .catch(function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#cargac').hide();
+        })
+}
 function DatosOrdenFabricacion() {
     Error = 0;
     $('#cargac').show();
@@ -186,6 +615,7 @@ function AbrirModalSubDetalle() {
     });
     IdSubDetalle = 0;
     LimpiarControlesSubDetalle();
+    LimpiarParamModal();
 }
 async function LlenarComboOrdenesAjax() {
     let params = {
@@ -576,6 +1006,7 @@ function VerSubDetalle(data) {
     DatosDetalle = data;
     IdDetalle = data.IdDetalleAnalisisQuimicoProductoSe;
     ConsultarSubDetalleControl();
+    ConsultarRegModalParametros(data.IdDetalleAnalisisQuimicoProductoSe);
 }
 function Atras() {
     $('#CardDetalle').prop('hidden', false);
@@ -651,8 +1082,11 @@ function GuardarSubDetalleControl() {
     }
     
 }
-function ConsultarSubDetalleControl() {
-    $('#cargac').show();
+function ConsultarSubDetalleControl(bandera) {
+    if (bandera != 1) {
+        $('#cargac').show();
+    }
+    
     Error = 0;
     let params = {
         IdDetalleControl: IdDetalle
@@ -724,9 +1158,9 @@ function LimpiarControlesSubDetalle() {
     //$('#txtHumedadProceso').val('');
     //$('#txtSalEmpaque').val('');
     //$('#txtHistaminaEmpaque').val('');
-    IdArray.forEach(function (objeto) {
-        $('#' + objeto.IdParametro).val('');
-    });
+    //IdArray.forEach(function (objeto) {
+    //    $('#' + objeto.IdParametro).val('');
+    //});
     $('#msjerrorTipoProducto').prop('hidden', true);
     $('#msjerrorsalproceso').prop('hidden', true);
     $('#msjerrorhumedad').prop('hidden', true);
@@ -894,4 +1328,12 @@ function EliminarDetalle() {
             MensajeError(resultado.responseText, false);
             $('#cargac').hide();
         })
+}
+function ValidaVacio(input) {
+    if (input.value != '') {
+        $(input).css('borderColor', '#ced4da');
+    }
+    else {
+        $('#' + input.id).css('borderColor', '#FA8072');
+    }
 }
