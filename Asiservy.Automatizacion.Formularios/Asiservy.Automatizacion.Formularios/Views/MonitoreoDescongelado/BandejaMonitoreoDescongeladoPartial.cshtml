@@ -3,7 +3,6 @@
 @using Asiservy.Automatizacion.Datos.Datos
 
 
-@{ var poTurno = (List<CLASIFICADOR>)ViewBag.Turno;}
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
@@ -11,9 +10,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-            <th>
-                Turno
-            </th>
+         
             <th>
                 Estado
             </th>
@@ -56,16 +53,7 @@
                     @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
 
-                <td>
-
-                    @{
-                        var T = poTurno.FirstOrDefault(x => x.Codigo == item.Turno);
-                        if (T != null)
-                        {
-                            @T.Descripcion
-                        }
-                    }
-                </td>
+               
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>

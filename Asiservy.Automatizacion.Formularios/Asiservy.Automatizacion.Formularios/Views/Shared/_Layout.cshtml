@@ -749,7 +749,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=3.0";
+        string url = "/Scripts/" + js + ".js?v=3.1";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>
