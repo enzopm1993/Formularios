@@ -22,6 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDLavadoDesinfeccionManos clsDLavadoDesinfeccionManos { get; set; } = null;
         string[] lsUsuario { get; set; } =null;
         //-----------------------------------------------------INICIALIZAR VISTA----------------------------------------------------------------
+        [Authorize]
         public ActionResult ControlLavadoDesinfeccionManos()
         {
             try
@@ -278,7 +279,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        
+        [HttpPost]
         public ActionResult GuardarModificarControlLavadoDesinfeccionManos(CC_CONTROL_LAVADO_DESINFECCION_MANOS model, bool siAprobar = false)
         {
             try
@@ -328,7 +329,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public ActionResult EliminarControlLavadoDesinfeccionManos(CC_CONTROL_LAVADO_DESINFECCION_MANOS model)
         {
             try
@@ -377,7 +378,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-------------------------------------------------CONTROL LAVADO Y DESINFECTADO DE MANOS DETALLE---------------------------------------------        
-
+        [HttpPost]
         public JsonResult GuardarModificarControlLavadoDesinfeccionManosDetalle(List<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> model)
         {
             int valor=5;
@@ -438,7 +439,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public ActionResult EliminarLavadoDesinfeccionManosDetalle(List<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> model)
         {
             int valor = 5;
@@ -498,6 +499,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-------------------------------------------------REPORTE LAVADO Y DESINFECCION DE MANOS----------------------------------------------------
+        [Authorize]
         public ActionResult ReporteLavadoDesinfeccionManos()
         {
             try
@@ -543,6 +545,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-------------------------------------------------BANDEJA LAVADO Y DESINFECCION DE MANOS----------------------------------------------------
+        [Authorize]
         public ActionResult BandejaLavadoDesinfeccionManos()
         {
             try

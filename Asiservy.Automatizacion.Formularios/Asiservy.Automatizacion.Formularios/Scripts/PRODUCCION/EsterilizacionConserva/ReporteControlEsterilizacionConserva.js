@@ -52,7 +52,8 @@
         } else {
             $('#mensajegeneral').prop('hidden', true);
             $('#DivReporte').html(resultado);
-            $('#btnimprimir').prop('hidden', false)
+            $('#btnimprimir').prop('hidden', false);
+            $('#lblFechap').text($('#FechaProduccion').val());
         }
         $('#btnCargando').prop('hidden', true);
         $('#btnConsultar').prop('hidden', false);
