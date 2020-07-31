@@ -217,6 +217,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_CALIFICACION_AS> CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS> CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_TEMPERATURA> CC_MANTENIMIENTO_TEMPERATURA { get; set; }
+        public virtual DbSet<CC_PCC_MANTENIMIENTO> CC_PCC_MANTENIMIENTO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

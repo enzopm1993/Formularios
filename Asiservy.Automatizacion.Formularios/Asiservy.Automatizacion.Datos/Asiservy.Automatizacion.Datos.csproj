@@ -312,6 +312,9 @@
     <Compile Include="Datos\CC_MANTENIMIENTO_SABOR.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_TEMPERATURA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_TEXTURA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -361,6 +364,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_PARAMETRO_DEFECTO_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_PCC_MANTENIMIENTO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA.cs">
