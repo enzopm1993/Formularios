@@ -35,7 +35,7 @@ async function ConsultarEstadoRegistro() {
 
 function CargarCabecera() {
     $('#cargac').show();
-    if ($('#txtFecha').val() == '') {
+    if ($('#txtFechaProduccion').val() == '') {
         MensajeAdvertencia('Fecha invalida');
         $('#cargac').hide();
         return;
@@ -43,7 +43,7 @@ function CargarCabecera() {
     $.ajax({
         url: "../LaboratorioAnalisisQuimico/ConsultarCabeceraTurno",
         data: {
-            fechaControl: $("#txtFecha").val(),
+            fechaControl: $("#txtFechaProduccion").val(),
             turno: document.getElementById('selectTurno').value
         },
         type: "GET",
@@ -58,8 +58,11 @@ function CargarCabecera() {
                 $('#divBotonCrearDetalle').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').html(resultado);
+                $('#txtFecha').prop('disabled', false);
+                document.getElementById('txtFecha').value = document.getElementById('txtFechaProduccion').value;
                 itemCabecera = [];
                 LimpiarModalIngresoCabecera();
+                CargarParadas();
             } else {
                 itemCabecera = resultado;
                 CambiarMensajeEstado(resultado.EstadoReporte);
@@ -68,6 +71,8 @@ function CargarCabecera() {
                 $('#divMostarTablaDetalle').html(resultado);
                 $('#divBotonCrear').prop('hidden', true);
                 $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
+                $("#txtFecha").val(moment(resultado.FechaAsignada).format('YYYY-MM-DD'));
+                $('#txtFecha').prop('disabled', true);
                 $("#txtObservacionVer").val(resultado.ObservacionCtrl);
                 CargarDetalle();
                 CargarParadas();                
@@ -97,6 +102,7 @@ async function GuardarCabecera(siAprobar) {
             const data = new FormData();
             data.append('IdAnalisis', itemCabecera.IdAnalisis);
             data.append('Fecha', $("#txtIngresoFecha").val());
+            data.append('FechaAsignada', $("#txtFecha").val());
             data.append('Turno', document.getElementById('selectTurnoInsertar').value);   
             data.append('ObservacionCtrl', $("#txtIngresoObservacion").val());
             data.append('siAprobar', siAprobar);   
@@ -115,16 +121,27 @@ async function GuardarCabecera(siAprobar) {
             }
             if (jsonResult == 0) {
                 MensajeCorrecto('Registro guardado correctamente'); 
+                $('#txtFecha').prop('disabled', true);
+                document.getElementById("txtFechaProduccion").value = moment($("#txtIngresoFecha").val()).format('YYYY-MM-DD');
                 $('#selectTurno').val(document.getElementById('selectTurnoInsertar').value).trigger('change');                
             } else if (jsonResult == 1) {
                 MensajeCorrecto('Registro actualizado correctamente');
+                document.getElementById("txtFechaProduccion").value = moment($("#txtIngresoFecha").val()).format('YYYY-MM-DD');
+                $('#selectTurno').val(document.getElementById('selectTurnoInsertar').value).trigger('change'); 
             } else if (jsonResult == 3) {
                 MensajeAdvertencia('Error al ingresar la FECHA  : <span class="badge badge-danger">' + moment($("#txtIngresoFecha").val()).format('DD-MM-YYYY') + '</span>');
+                $('#cargac').hide();
                 return;
             } else if (jsonResult == 4) {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 return;
-            } else if (jsonResult == 100) {
+            } else if (jsonResult == 5) {
+                var t = document.getElementById("selectTurnoInsertar");
+                var selectedText = t.options[t.selectedIndex].text;
+                MensajeAdvertencia('Error, ya existe una FECHA  : <span class="badge badge-danger">' + moment($("#txtIngresoFecha").val()).format('DD-MM-YYYY') + '</span>, TURNO: <span class="badge badge-danger">' + selectedText +'</span>');
+                $('#cargac').hide();
+                return;
+            }else if (jsonResult == 100) {
                 MensajeAdvertencia(Mensajes.MensajePeriodo);
             }
             $('#ModalIngresoCabecera').modal('hide');
@@ -196,7 +213,8 @@ async function EliminarCabeceraSi() {
                 $('#cargac').hide();
                 return;
             } else if (jsonResult == 1) {                           
-                MensajeCorrecto("Registro eliminado con Éxito");                
+                MensajeCorrecto("Registro eliminado con Éxito");   
+                $('#txtFecha').prop('disabled', false);
             } else if (jsonResult == '2') {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();
@@ -277,6 +295,7 @@ async function ActualizarCabecera() {
             $("#txtIngresoFecha").val(moment(itemCabecera.Fecha).format("YYYY-MM-DD"));
             $("#txtIngresoObservacion").val(itemCabecera.ObservacionCtrl);
             $('#ModalIngresoCabecera').modal('show');
+            $('#selectTurnoInsertar').val(itemCabecera.Turno).trigger('change');
         }
     } catch (e) {
         MensajeError(Mensajes.Error,false);
@@ -291,7 +310,7 @@ function ModalIngresoCabecera() {
 }
 
 function LimpiarModalIngresoCabecera() {
-    $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+    $('#txtIngresoFecha').val(moment($('#txtFechaProduccion').val()).format('YYYY-MM-DD'));
     document.getElementById("selectTurnoInsertar").options[0].selected = true;
     $('#txtIngresoObservacion').val('');
 }
@@ -316,34 +335,37 @@ function OnChangeTextBox() {
 //DETALLE
 async function CargarParadas() {
     try {
-        $('#cargac').show();
-        let params = {
-            fechaDesde: $('#txtFecha').val(),
-            turno: document.getElementById('selectTurno').value
-        }
-        let query = Object.keys(params)
-            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-            .join('&');
-        let url = '../LaboratorioAnalisisQuimico/ControlAnalisisQuimicoPartial?' + query;       
-        var promiseCall=fetch(url);
-        var objectPromise = await promiseCall;
-        if (!objectPromise.ok) {
-            throw 'Error';
-        }
-        var jsonResult = await objectPromise.text();
-        if (jsonResult == "101") {
-            window.location.reload();
-        }
-        if (jsonResult == "0") {
-            $("#divMostarTablaDetallesVer").html("No existen registros");
-            $('#divBotonCrearDetalle').prop('hidden', false);
-            $('#selectVerificacion').prop('disabled', false);
-        } else {
-            $('#divMostarTablaDetallesVer').prop('hidden', false);
-            $('#divMostarTablaDetallesVer').html(jsonResult);
-            //ConsultarElemento();
-        }
-        $('#cargac').hide();
+        
+            $('#cargac').show();
+            let params = {
+                fechaProduccion: $('#txtFechaProduccion').val(),
+                fechaParadaCocina: document.getElementById('txtFecha').value,
+                turno: document.getElementById('selectTurno').value
+            }
+            let query = Object.keys(params)
+                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                .join('&');
+            let url = '../LaboratorioAnalisisQuimico/ControlAnalisisQuimicoPartial?' + query;
+            var promiseCall = fetch(url);
+            var objectPromise = await promiseCall;
+            if (!objectPromise.ok) {
+                throw 'Error';
+            }
+            var jsonResult = await objectPromise.text();
+            if (jsonResult == "101") {
+                window.location.reload();
+            }
+            if (jsonResult == "0") {
+                $("#divMostarTablaDetallesVer").html("No existen registros");
+                $('#divBotonCrearDetalle').prop('hidden', false);
+                $('#selectVerificacion').prop('disabled', false);
+            } else {
+                $('#divMostarTablaDetallesVer').prop('hidden', false);
+                $('#divMostarTablaDetallesVer').html(jsonResult);
+                //ConsultarElemento();
+            }
+            $('#cargac').hide();
+        
     } catch (e) {
         $('#cargac').hide();
         MensajeError(Mensajes.Error,false);
@@ -370,8 +392,7 @@ async function CargarDetalle() {
             window.location.reload();
         }
         if (jsonResult == "0") {
-            
-           
+            itemDetalle = null;           
         } else {
             itemDetalle = jsonResult;
         }
@@ -457,6 +478,12 @@ function showTextBox() {
     });
 }
 
+async function ConfirmarIngreso() {
+    //$('#ModalIngresoSubDetalle').modal('hide');    
+    $('#modalConfirmarEdicion').modal('hide')
+    $('#ModalIngresoSubDetalle').modal('show');
+}
+
 async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
     LimpiarDatosImagen();    
     mask();
@@ -464,37 +491,48 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
     siActualizar = false;
     LimpiarDetalle();    
     try {
-        if (turno == document.getElementById('selectTurno').value || turno == null) {
-            var estadoReporteAwait = await ConsultarEstadoRegistro();
-            if (!estadoReporteAwait.ok) {
-                throw 'Error';
-            }
-            var estadoReporte = await estadoReporteAwait.json();
-            CambiarMensajeEstado(estadoReporte.EstadoReporte);
-            if (estadoReporte.EstadoReporte == true) {                
-                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-                $('#cargac').hide();
-                return;
-            } else {
-                CargarDetalle();
-                document.getElementById('lblCocinador').innerText = 'COCINA: ' + cocina;
-                document.getElementById('lblParada').innerText = 'PARADA: ' + parada;
-                document.getElementById('lblCocinador').value = cocina;
-                document.getElementById('lblParada').value = parada;
-                $('#tblImagenes').html('');
-                jdata.forEach(function (row) {
-                    var x = document.getElementById("selectIngresarLote");
-                    var option = document.createElement("option");
-                    option.text = row.LOTE + ' - ' + row.BARCO;
-                    option.value = row.LOTE + '-' + row.BARCO;
-                    x.add(option);
-                });
-                $('#ModalIngresoSubDetalle').modal('show');
-                ConsultarElemento();
-                $('#cargac').hide();
-            }
-        } else
-            MensajeAdvertencia('El registro fue ingresado en otro TURNO');
+        if (itemCabecera.length != 0) {
+            var fProduccion = document.getElementById('txtFechaProduccion').value;
+            var fAsignada = document.getElementById('txtFecha').value;
+            if (fProduccion != fAsignada) {
+                $('#confirmarIngreso').html('Esta a punto de ingresar en un detalle con fecha diferente:</br>Fecha  Asignada:<span class="badge badge-danger">' + moment(fAsignada).format('DD-MM-YYYY') + '</span> </br>Fecha Producción:<span class="badge badge-success"> ' + moment(fProduccion).format('DD-MM-YYYY'));
+                $('#modalConfirmarEdicion').modal('show')
+                $('#ModalIngresoSubDetalle').modal('hide');
+            } else { $('#ModalIngresoSubDetalle').modal('show');}
+                if (turno == document.getElementById('selectTurno').value || turno == null) {
+                    var estadoReporteAwait = await ConsultarEstadoRegistro();
+                    if (!estadoReporteAwait.ok) {
+                        throw 'Error';
+                    }
+                    var estadoReporte = await estadoReporteAwait.json();
+                    CambiarMensajeEstado(estadoReporte.EstadoReporte);
+                    if (estadoReporte.EstadoReporte == true) {
+                        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+                        $('#cargac').hide();
+                        return;
+                    } else {
+                        CargarDetalle();
+                        document.getElementById('lblCocinador').innerText = 'COCINA: ' + cocina;
+                        document.getElementById('lblParada').innerText = 'PARADA: ' + parada;
+                        document.getElementById('lblCocinador').value = cocina;
+                        document.getElementById('lblParada').value = parada;
+                        $('#tblImagenes').html('');
+                        jdata.forEach(function (row) {
+                            var x = document.getElementById("selectIngresarLote");
+                            var option = document.createElement("option");
+                            option.text = row.LOTE + ' - ' + row.BARCO;
+                            option.value = row.LOTE + '-' + row.BARCO;
+                            x.add(option);
+                        });
+                        
+                        ConsultarElemento();
+                        $('#cargac').hide();
+                    }
+                } else
+                    MensajeAdvertencia('El registro fue ingresado en otro TURNO');
+            //}
+            } else
+            MensajeAdvertencia('No existe la cabecera del CONTROL');
     } catch (e) {
         MensajeError(Mensajes.Error,false);
     }   
@@ -643,6 +681,7 @@ async function GuardarElemento(){
             $('#cargac').hide();
         }
     } catch (ex) {
+        //console.log(ex);
         $('#cargac').hide();
         MensajeError(Mensajes.Error, false);
     }

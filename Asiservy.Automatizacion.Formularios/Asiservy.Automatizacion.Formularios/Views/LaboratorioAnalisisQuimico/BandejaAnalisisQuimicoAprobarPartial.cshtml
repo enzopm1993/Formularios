@@ -44,15 +44,15 @@
                                  select new { listGroup.Key.COCINA, listGroup.Key.PARADA });
             //var consultarDetalleDia = ViewBag.ConsultarDetalleDia as List<sp_Analisis_Quimico_Precoccion>;
             string[] turnoLetra = new string[] { "", "A", "B", "C", "D", "E", "F", "G" };
+            int con = 1;
         }
         <tbody style="font-size:9px">
             @foreach (var row in listaAgrupada)
             {
                 var turno = (from c in Model where int.Parse(c.Cocinador) == row.COCINA && c.Parada == row.PARADA select c).FirstOrDefault();
+                var listaCocinaParada = (from c in ViewBag.ListaParadasCocinas as List<ItemParadaCocina> where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA);
                 if (turno == null || turno.Turno == ViewBag.Turno)
-                {
-                    var listaCocinaParada = (from c in ViewBag.ListaParadasCocinas as List<ItemParadaCocina> where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA);
-
+                {                    
                     <tr style="cursor:pointer">
                         <td>@row.COCINA</td>
                         <td>@row.PARADA</td>
@@ -71,7 +71,9 @@
                         <td>
                             @foreach (var item in listaCocinaParada)
                             {
-                                <div>@item.COCHES</div>
+                                int con2 = item.COCHES + con - 1;
+                                <div>@con - @con2</div>
+                                con = con + item.COCHES;
                             }
                         </td>
                         @if (groupParametros.Any())
@@ -150,9 +152,17 @@
                         </td>
                     </tr>
                 }
+                else
+                {
+                    foreach (var item in listaCocinaParada)
+                    {
+                        int con2 = item.COCHES + con - 1;
+                        con = con + item.COCHES;
+                    }
+                }
             }
         </tbody>
-    </table>
+    </table>    
 </div>
 
 @{

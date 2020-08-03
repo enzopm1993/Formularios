@@ -63,6 +63,7 @@ function SeleccionarCabecera(jdata) {
         url: "../LaboratorioAnalisisQuimico/ReporteAnalisisQuimicoDetallePartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
         data: {
             fechaControl: jdata.Fecha,
+            fechaAsignada: jdata.FechaAsignada,
             turno:jdata.Turno,
             op: op
         },
@@ -178,6 +179,7 @@ $(function () {
         minDate: moment("01/10/2019", "DD/MM/YYYY"),
         maxDate: moment(),
         ranges: {
+            'Futuro': [moment(), moment().add('1', 'month')],
             'Hoy': [moment(), moment()],
             'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
             'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
