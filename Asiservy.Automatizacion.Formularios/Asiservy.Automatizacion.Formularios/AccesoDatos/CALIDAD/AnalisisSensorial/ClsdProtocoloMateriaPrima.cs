@@ -8,50 +8,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
     public class ClsdProtocoloMateriaPrima
     {
         #region PROTOCOLO MATERIA PRIMA ANÁLISIS SENSORIAL
-        public List<dynamic> ConsultaIntermedia()
+       
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrima()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.AsNoTracking().Include("CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS").AsNoTracking().Include("CC_MANTENIMIENTO_CALIFICACION_AS").AsNoTracking().ToList();
-                List<dynamic> lista2 = (from x in lista
-                                        select new
-                                        {
-                                            IdCalificacion = x.IdCalificacion,
-                                            UsuarioModificacionLog = x.UsuarioModificacionLog,
-                                            DescripcionCalificacion = x.CC_MANTENIMIENTO_CALIFICACION_AS.Descripcion,
-                                            DescripcionParametroSensorial = x.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS.Descripcion,
-                                            Descripcion = x.Descripcion,
-                                            EstadoRegistro = x.EstadoRegistro,
-                                            FechaIngresoLog = x.FechaIngresoLog,
-                                            FechaModificacionLog = x.FechaModificacionLog,
-                                            IdIntermedia = x.IdIntermedia,
-                                            IdParametroSensorial = x.IdParametroSensorial,
-                                            TerminalIngresoLog = x.TerminalIngresoLog,
-                                            TerminalModificacionLog = x.TerminalModificacionLog,
-                                            UsuarioIngresoLog = x.UsuarioIngresoLog
-                                        }).ToList<dynamic>();
-
-                return lista2;
-            }
-        }
-
-        public List<CC_MANTENIMIENTO_INTERMEDIO_AS> ConsultaIntermedia2()
-        {
-            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-            {
-                var lista = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.AsNoTracking().ToList();
+                var lista = entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.AsNoTracking().ToList();
                 return lista;
             }
         }
 
-        public void GuardarModificarIntermedia(CC_MANTENIMIENTO_INTERMEDIO_AS model)
+        public void GuardarModificarParamtroMateriaPrima(CC_PROTOCOLO_MATERIA_PRIMA_AS model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.FirstOrDefault(x => x.IdCalificacion == model.IdCalificacion && x.IdParametroSensorial == model.IdParametroSensorial);
+                var poControl = entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrima == model.IdProtocoloMateriaPrima );
                 if (poControl != null)
                 {
-                    poControl.Descripcion = model.Descripcion.ToUpper();
+                    poControl.FechaEvaluacion = model.FechaEvaluacion;
+                    poControl.FechaDescarga = model.FechaDescarga;
+                    poControl.Lote = model.Lote;
+                    poControl.LoteDescarga = model.LoteDescarga;
+                    poControl.CodigoProtocolo = model.CodigoProtocolo;
+                    poControl.Pcc = model.Pcc;
+                    poControl.Observacion = model.Observacion != null ? model.Observacion.ToUpper() : model.Observacion;
                     poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -59,18 +39,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
                 }
                 else
                 {
-                    model.Descripcion = model.Descripcion.ToUpper();
-                    entities.CC_MANTENIMIENTO_INTERMEDIO_AS.Add(model);
+                    model.Observacion = model.Observacion!=null? model.Observacion.ToUpper():model.Observacion;
+                    entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Add(model);
                 }
                 entities.SaveChanges();
             }
         }
 
-        public void EliminarIntermedia(CC_MANTENIMIENTO_INTERMEDIO_AS model)
+        public void EliminarParametroMateriaPrima(CC_PROTOCOLO_MATERIA_PRIMA_AS model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_MANTENIMIENTO_INTERMEDIO_AS.FirstOrDefault(x => x.IdCalificacion == model.IdCalificacion && x.IdParametroSensorial == model.IdParametroSensorial);
+                var poControl = entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrima == model.IdProtocoloMateriaPrima );
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = model.EstadoRegistro;
@@ -80,6 +60,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
                     entities.SaveChanges();
                 }
 
+            }
+        }
+
+        public CC_PROTOCOLO_MATERIA_PRIMA_AS ConsultaProtocoloMateriaPrima(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.FirstOrDefault(x => x.Fecha == Fecha
+                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
             }
         }
         #endregion

@@ -2218,6 +2218,7 @@
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoApariencia.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoParametrosSensoriales.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\ProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -4322,6 +4323,7 @@
     <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperatura.cshtml" />
     <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperaturaPartial.cshtml" />
     <Content Include="Views\AnalisisSensorial\MantenimientoParametrosSensoriales.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

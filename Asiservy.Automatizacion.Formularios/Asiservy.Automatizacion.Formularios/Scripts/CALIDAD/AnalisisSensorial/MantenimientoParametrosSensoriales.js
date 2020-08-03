@@ -571,8 +571,14 @@ function CargarDevExpressIntermedia(data) {
         columns: [
             { dataField: "IdIntermedia", caption: "Id", sortOrder: "ascss" },
            // { caption: "Parametro", dataField: "DescripcionParametroSensorial"  },
-            { caption: "Calificación", dataField: "DescripcionCalificacion", area: "row"},
+            { caption: "Calificación", dataField: "DescripcionCalificacion", area: "row" },
+            {
+                caption: "Parametro",
+                dataField: "DescripcionParametroSensorial",
+                groupIndex: 0
+            },
             { dataField: "Descripcion" },
+           
             {
                 caption: "Estado",
                 dataField: "EstadoRegistro", dataType: "string",
@@ -639,10 +645,6 @@ function CargarDevExpressIntermedia(data) {
                             .appendTo(container);
                     }
                 }
-            },{
-                caption: "Parametro",
-                dataField: "DescripcionParametroSensorial",
-                groupIndex: 0
             }
            
 
