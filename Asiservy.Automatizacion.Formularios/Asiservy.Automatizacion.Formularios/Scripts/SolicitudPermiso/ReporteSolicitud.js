@@ -113,9 +113,9 @@ function ConsultarSolicitudes() {
         },
         success: function (data) {
            // console.log(data);
-           // console.log($('#Garita').val());
+            console.log($('#Garita').val());
             DevExpress.localization.locale(navigator.language);
-            if ($('#Garita').val() == true) {
+            if ($('#Garita').val() == "true") {
                 var opciosGrid = {
                     dataSource: data,
                     loadPanel: {
