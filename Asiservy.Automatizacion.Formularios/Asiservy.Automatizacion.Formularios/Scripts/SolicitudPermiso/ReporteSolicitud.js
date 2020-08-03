@@ -11,9 +11,11 @@ $(document).ready(function () {
         'width': '100%'
     });
 
-    $("#selectEstado").select2({
-        'width': '100%'
-    });
+  
+
+    if ($('#Garita').val() == true) {
+        $("#selectEstado").prop("disabled", true);
+    } 
 });
 
 function Nuevo() {
@@ -110,9 +112,10 @@ function ConsultarSolicitudes() {
             ddFechaHasta: $("#fechaHasta").val(),
         },
         success: function (data) {
-                    
+           // console.log(data);
+           // console.log($('#Garita').val());
             DevExpress.localization.locale(navigator.language);
-            if ($('#Garita').val()) {
+            if ($('#Garita').val() == true) {
                 var opciosGrid = {
                     dataSource: data,
                     loadPanel: {
