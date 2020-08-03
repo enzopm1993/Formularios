@@ -91,7 +91,7 @@ function ConsultarMonitoreoDescongelado() {
         $("#divCabecera2").prop("hidden", true);
         return;
     }
-    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().add(1, 'days').format("YYYY-MM-DD")) {
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().add(1, 'month').format("YYYY-MM-DD")) {
         $("#txtFecha").val("");
         MensajeAdvertencia("Fecha no permitida");
         return;
@@ -106,6 +106,7 @@ function ConsultarMonitoreoDescongelado() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
+            FechaProduccion: $("#txtFechaProduccion").val(),
             Turno: $("#selectTurno").val()
         },
         success: function (resultado) {

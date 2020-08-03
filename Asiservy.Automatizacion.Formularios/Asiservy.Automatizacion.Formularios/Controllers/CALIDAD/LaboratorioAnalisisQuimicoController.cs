@@ -78,7 +78,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult ControlAnalisisQuimicoPartial(DateTime fechaDesde, int idAnalisis=0, string turno="1", int op=1)
+        public ActionResult ControlAnalisisQuimicoPartial(DateTime fechaProduccion, DateTime fechaParadaCocina, int idAnalisis=0, string turno="1", int op=1)
         {
             try
             {
@@ -92,8 +92,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDApiProduccion = new clsDApiProduccion();
                 var parametros = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.codFormPrecoccion).Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 ViewBag.listaParametros = parametros ;
-                ViewBag.ConsultarDetalleDia = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaDesde, turno, op);
-                var listaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaDesde);
+                ViewBag.ConsultarDetalleDia = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaProduccion, turno, op);
+                var listaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaParadaCocina);
                 if (listaParadasCocinas != null)
                 {
                     return PartialView(listaParadasCocinas);
@@ -244,7 +244,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
                 else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }
-                else return Json("3", JsonRequestBehavior.AllowGet);//ERROR DE FECHA
+                else if (valor == 3) return Json("3", JsonRequestBehavior.AllowGet);//ERROR DE FECHA
+                else return Json("5", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -925,7 +926,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         
-        public ActionResult BandejaAnalisisQuimicoAprobarPartial(DateTime fechaControl,string turno, int op)
+        public ActionResult BandejaAnalisisQuimicoAprobarPartial(DateTime fechaControl, DateTime fechaAsignada, string turno, int op)
         {
             try
             {
@@ -941,7 +942,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("100", JsonRequestBehavior.AllowGet);
                 }
                 clsDApiProduccion = new clsDApiProduccion();
-                ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaControl);
+                ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaAsignada);
                 ViewBag.Turno = turno;
                 ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
                 var lista = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaControl, turno, op);
@@ -1067,7 +1068,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult ReporteAnalisisQuimicoDetallePartial(DateTime fechaControl, string turno, int op)
+        public ActionResult ReporteAnalisisQuimicoDetallePartial(DateTime fechaControl, DateTime fechaAsignada, string turno, int op)
         {
             try
             {
@@ -1081,7 +1082,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (lista.Count != 0)
                 {
                     clsDApiProduccion = new clsDApiProduccion();
-                    ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaControl);
+                    ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaAsignada);
                     ViewBag.Turno = turno;
                     ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..")+ this.ControllerContext.RouteData.Values["controller"].ToString() + "/";
                     return PartialView(lista);

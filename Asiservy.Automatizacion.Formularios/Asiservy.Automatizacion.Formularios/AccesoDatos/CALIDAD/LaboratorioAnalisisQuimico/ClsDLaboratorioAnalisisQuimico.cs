@@ -14,8 +14,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
             int valor = 0;//GUARDDADO NUEVO
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var validarNombreRepetido = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.Fecha == guardarModificar.Fecha && x.Turno == guardarModificar.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                if (siAprobar != 1 && validarNombreRepetido != null && guardarModificar.IdAnalisis != validarNombreRepetido.IdAnalisis)
+                //var validarNombreRepetido = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.Fecha == guardarModificar.Fecha && x.Turno == guardarModificar.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                //if (siAprobar != 1 && validarNombreRepetido != null && guardarModificar.IdAnalisis != validarNombreRepetido.IdAnalisis)
+                //{
+                //    valor = 5;
+                //    return valor;
+                //}
+                var fechaRepetida = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.FirstOrDefault(x => x.Fecha == guardarModificar.Fecha && x.Turno == guardarModificar.Turno && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (fechaRepetida != null && guardarModificar.IdAnalisis != fechaRepetida.IdAnalisis)
                 {
                     valor = 5;
                     return valor;
@@ -24,8 +30,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                 if (model != null)
                 {
                     if (siAprobar == 1)
-                    {
-
+                    {                        
                         model.EstadoReporte = guardarModificar.EstadoReporte;
                         model.AprobadoPor = guardarModificar.UsuarioIngresoLog;
                         model.FechaAprobado = guardarModificar.FechaAprobado;
@@ -40,7 +45,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                             else
                                 model.ObservacionCtrl = guardarModificar.ObservacionCtrl;
                             model.Fecha = guardarModificar.Fecha;
-
+                            model.Turno = guardarModificar.Turno;
+                            //model.FechaAsignada = guardarModificar.FechaAsignada;
                             valor = 1;//ACTUALIZAR
                         }
                         else valor = 3;//ERROR DE FECHA
@@ -194,6 +200,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                 cabecera.IdAnalisis = listado.IdAnalisis;
                 cabecera.ObservacionCtrl = listado.ObservacionCtrl;
                 cabecera.Turno = listado.Turno;
+                cabecera.FechaAsignada = listado.FechaAsignada;
                 return cabecera;
             }
             return listado;
@@ -374,7 +381,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                 else
                 {
                    listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Where(x => x.EstadoReporte == estadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                                                                               && x.Fecha <= FechaHasta).OrderByDescending(v => v.Fecha).ToList();                    
+                                                                               ).OrderByDescending(v => v.Fecha).ToList();                    
                 }
                 CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera;
                 List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> listaCabecera = new List<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL>();
@@ -392,6 +399,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                         cabecera.FechaAprobado = item.FechaAprobado;
                         cabecera.AprobadoPor = item.AprobadoPor;
                         cabecera.Turno = item.Turno;
+                        cabecera.FechaAsignada = item.FechaAsignada;
                         listaCabecera.Add(cabecera);
                     }
                 }
@@ -402,7 +410,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                var listado = db.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL.AsNoTracking().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                                                            && x.Fecha >= fechaDesde && x.Fecha <= FechaHasta).OrderByDescending(c => c.Fecha).ToList();
 
                 CC_ANALISIS_QUIMICO_PRECOCCION_CTRL cabecera;
@@ -423,6 +431,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
                         cabecera.FechaAprobado = item.FechaAprobado;
                         cabecera.AprobadoPor = item.AprobadoPor;
                         cabecera.Turno = item.Turno;
+                        cabecera.FechaAsignada = item.FechaAsignada;
                         listaCabecera.Add(cabecera);
                     }
                 }
