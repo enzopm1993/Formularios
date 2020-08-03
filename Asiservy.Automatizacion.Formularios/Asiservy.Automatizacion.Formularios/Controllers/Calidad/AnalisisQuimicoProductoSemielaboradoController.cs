@@ -824,7 +824,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Areas = Areas;
                 List<dynamic> Parametros = (from p in resultado
                                                   orderby p.IdClasificador,p.ParametroLaboratorio
-                                  select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro}).Distinct().ToList<dynamic>();
+                                  select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro,p.CalcMinMax}).Distinct().ToList<dynamic>();
                 List<TipoProducto> TipoProducto = (from t in resultado
                                               orderby t.IdTipoAnalisisQuimicoProductoSe
                                               select new TipoProducto { IdTipoAnalisisQuimicoProductoSe=t.IdTipoAnalisisQuimicoProductoSe, TipoProductoNombre=t.TipoProducto,OrdenFabricacion=t.OrdenFabricacion,Lote=t.Lote })
