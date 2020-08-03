@@ -3476,6 +3476,7 @@
     <Compile Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\ClsDAnalisisQuimicoProductoSemielaborado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdMantenimientoApariencia.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdParametrosSensoriales.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdProtocoloMateriaPrima.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
