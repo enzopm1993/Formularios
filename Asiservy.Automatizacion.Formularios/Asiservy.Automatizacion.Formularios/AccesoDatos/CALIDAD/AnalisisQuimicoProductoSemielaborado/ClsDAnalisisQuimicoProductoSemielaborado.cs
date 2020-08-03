@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
+
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimicoProductoSemielaborado
 {
     public class ClsDAnalisisQuimicoProductoSemielaborado
@@ -190,21 +192,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                 return resultado;
             }
         }
-        public List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> ConsultarSubDetalleControl(int idDetalleControl)
+        public List<SPSubdetalleAnalisisQuimicoProductoSe> ConsultarSubDetalleControl(int idDetalleControl)
         {
-            List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> resultado = new List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO>();
+            //List<SPSubdetalleAnalisisQuimicoProductoSe> resultado = new List<SPSubdetalleAnalisisQuimicoProductoSe>();
             using (var db = new ASIS_PRODEntities())
             {
-                resultado = (from d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Include(x=>x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Select(q=>q.CC_PARAMETROS_LABORATORIO))
-                             //join cab in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cab.IdDetalleAnalisisQuimicoProductoSe, cab.EstadoRegistro }
-                             where d.IdDetalleAnalisisQuimicoProductoSe == idDetalleControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                             
-                             select d).ToList();
-                //var resultado2 = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Include(x=>x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Select(q=>q.CC_PARAMETROS_LABORATORIO)).toli
+                //resultado = (from d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Include(x => x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO 
+                //             .Select(q => q.CC_PARAMETROS_LABORATORIO))
+                //             where d.IdDetalleAnalisisQuimicoProductoSe == idDetalleControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+
+                //             select d).AsNoTracking().ToList();
+                //foreach (var item in resultado.ToArray())
+                //{
+                //    foreach (var p in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.ToArray())
+                //    {
+                //        if(p.EstadoRegistro==clsAtributos.EstadoRegistroInactivo)
+                //        item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Remove(p);
+                //    }
+                //}
+                
+                return db.SPSubdetalleAnalisisQuimicoProductoSe(idDetalleControl).ToList();
 
             }
             
-            return resultado;
+            //return resultado;
         }
         public object[] GuardarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalle,int IdCabecera)
         {
@@ -474,6 +485,147 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
                                                                                }).ToList();
                                                                        
                 return b;
+            }
+        }
+        public object[] GuardarSubdetalle_ParamxSubdetalle(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubdetalle)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO BuscarParametroxSubdetalle = null;
+                var BuscarSubdetalle = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.FirstOrDefault(x =>x.IdDetalleAnalisisQuimicoProductoSe==poSubdetalle.IdDetalleAnalisisQuimicoProductoSe
+                &&x.NumeroMuestra == poSubdetalle.NumeroMuestra&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                  && x.TipoProducto == poSubdetalle.TipoProducto);
+                if (BuscarSubdetalle != null) {
+                     BuscarParametroxSubdetalle = BuscarSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO
+                        .FirstOrDefault(x => x.ParametroLaboratorio == poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().ParametroLaboratorio
+                        &&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                }
+                
+                if (BuscarParametroxSubdetalle == null &&BuscarSubdetalle==null)
+                {
+                    db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.Add(poSubdetalle);
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Registro ingresado con éxito";
+                    resultado[2] = new
+                    {
+                        poSubdetalle.NumeroMuestra,
+                        poSubdetalle.TipoProducto,
+                        poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().IdTipoxParametro,
+                        poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().Cantidad
+                    };
+                }
+                if(BuscarParametroxSubdetalle!=null&& BuscarSubdetalle!=null)
+                {
+                    resultado[0] = "002";
+                    resultado[1] = "Error, el registro ya existe";
+                    resultado[2] = new
+                    {
+                        poSubdetalle.NumeroMuestra,
+                        poSubdetalle.TipoProducto,
+                        poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().IdTipoxParametro,
+                        poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().Cantidad
+                    };
+                }
+                if(BuscarSubdetalle!=null && BuscarParametroxSubdetalle == null)
+                {
+                    BuscarSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Add(poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault());
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Registro ingresado con éxito";
+                    resultado[2] = new
+                    {
+                        poSubdetalle.NumeroMuestra,
+                        poSubdetalle.TipoProducto,
+                        poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().IdTipoxParametro,
+                        poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().Cantidad
+                    };
+                }
+                return resultado;
+            }
+        }
+        public object[] ActualizarSubdetalle_ParamxSubdetalle(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO poParamxTipo)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                var buscarParamxTipo = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Find(poParamxTipo.IdTipoxParametro);
+                buscarParamxTipo.Cantidad = poParamxTipo.Cantidad;
+                buscarParamxTipo.FechaModificacionLog = poParamxTipo.FechaIngresoLog;
+                buscarParamxTipo.UsuarioModificacionLog = poParamxTipo.UsuarioModificacionLog;
+                buscarParamxTipo.TerminalModificacionLog = poParamxTipo.TerminalModificacionLog;
+                db.SaveChanges();
+                
+                resultado[0] = "001";
+                resultado[1] = "Registro Actualizado con éxito";
+                resultado[2] = new
+                {
+                    poParamxTipo.IdTipoxParametro,
+                    poParamxTipo.Cantidad
+                };
+                return resultado;
+            }
+        }
+        public List<SemiElaborado_SubDetalle_ParamxSubdetalleViewModel> ConsultarParametrosSubdetalle(int IdDetalle)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var resultado = (from pt in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO
+                                 join p in db.CC_PARAMETROS_LABORATORIO on new { IdParametro=pt.ParametroLaboratorio, EstadoRegistro=clsAtributos.EstadoRegistroActivo } 
+                                 equals new {p.IdParametro, p.EstadoRegistro }
+                                 join area in db.CLASIFICADOR on new { Grupo = clsAtributos.CodGrupoAreaLaboratorio, Codigo = p.CodArea, EstadoRegistro = clsAtributos.EstadoRegistroActivo }
+                                 equals new { area.Grupo, area.Codigo, area.EstadoRegistro }
+                                 join sd in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO on new { IdTipoAnalisisQuimicoProductoSe = pt.IdTipo, EstadoRegistro = clsAtributos.EstadoRegistroActivo }
+                                 equals new { sd.IdTipoAnalisisQuimicoProductoSe, sd.EstadoRegistro }
+                                 join tprod in db.CLASIFICADOR on new { Grupo = clsAtributos.CodGrupoTipoProducto, Codigo = sd.TipoProducto, EstadoRegistro = clsAtributos.EstadoRegistroActivo }
+                                 equals new { tprod.Grupo, tprod.Codigo, tprod.EstadoRegistro }
+                                 where sd.IdDetalleAnalisisQuimicoProductoSe == IdDetalle &&pt.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                                 orderby pt.IdTipoxParametro descending
+                                 select new SemiElaborado_SubDetalle_ParamxSubdetalleViewModel
+                                 {
+                                     Area = area.Descripcion,
+                                     Cantidad = pt.Cantidad,
+                                     CodArea = area.Codigo,
+                                     CodTipoProducto = tprod.Codigo,
+                                     IdParametro = p.IdParametro,
+                                     IdSubdetalle = sd.IdTipoAnalisisQuimicoProductoSe,
+                                     NMuestra = sd.NumeroMuestra,
+                                     Parametro = p.NombreParametro,
+                                     TipoProducto = tprod.Descripcion,
+                                     IdTipoxParametro=pt.IdTipoxParametro,
+                                     Mascara=p.Mascara
+                                 }
+
+                               ).ToList();
+                return resultado;
+            }
+        }
+        public object[] InactivarParametroxSubdetalle(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO poObjeto,int IdCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[3];
+                var BuscarCabeceraControl = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA.Find(IdCabecera);
+                if (BuscarCabeceraControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible inactivar el control, por que se encuentra aprobado";
+                    resultado[2] = new {poObjeto.IdTipoxParametro,poObjeto.Cantidad,poObjeto.IdTipo };
+                }
+                else
+                {
+                    var BuscarParametroxSubDet = db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Find(poObjeto.IdTipoxParametro);
+                    BuscarParametroxSubDet.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    BuscarParametroxSubDet.FechaModificacionLog = poObjeto.FechaIngresoLog;
+                    BuscarParametroxSubDet.UsuarioModificacionLog = poObjeto.UsuarioIngresoLog;
+                    BuscarParametroxSubDet.TerminalModificacionLog = poObjeto.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = new { poObjeto.IdTipoxParametro, poObjeto.Cantidad, poObjeto.IdTipo };
+                }
+                return resultado;
             }
         }
     }

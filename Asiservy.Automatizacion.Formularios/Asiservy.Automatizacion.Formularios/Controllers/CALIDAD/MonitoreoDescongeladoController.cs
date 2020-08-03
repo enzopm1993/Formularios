@@ -74,7 +74,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult MonitoreoDescongeladoPartial(DateTime Fecha, string Turno)
+        public ActionResult MonitoreoDescongeladoPartial(DateTime Fecha,DateTime FechaProduccion ,  string Turno)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 List<spConsultaMonitoreoDescongelado> Lista = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha).ToList();
                 ViewBag.Control = Lista;
-                List<RegistroDescongeladoEmparrilladoMP> model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(Fecha);
+                List<RegistroDescongeladoEmparrilladoMP> model = clsDApiProduccion.ConsultaControlDescongeladoEmparrilladoMP(FechaProduccion);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

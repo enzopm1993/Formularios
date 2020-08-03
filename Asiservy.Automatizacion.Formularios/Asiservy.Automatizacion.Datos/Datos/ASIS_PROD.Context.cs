@@ -194,8 +194,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_GRUPO_AAC> CC_MANTENIMIENTO_GRUPO_AAC { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_AAC> CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
         public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
-        public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
-        public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
         public virtual DbSet<FONDO_LOGIN> FONDO_LOGIN { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
         public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
@@ -214,6 +212,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_APARIENCIA_AS> CC_MANTENIMIENTO_APARIENCIA_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_CALIFICACION_AS> CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS> CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_TEMPERATURA> CC_MANTENIMIENTO_TEMPERATURA { get; set; }
+        public virtual DbSet<CC_PCC_MANTENIMIENTO> CC_PCC_MANTENIMIENTO { get; set; }
+        public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
+        public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2416,15 +2421,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
         }
     
-        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
-        {
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
-        }
-    
         public virtual ObjectResult<sp_Calibracion_Fluorometro> sp_Calibracion_Fluorometro(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCalibracionFluor, Nullable<int> op)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2444,6 +2440,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Calibracion_Fluorometro>("sp_Calibracion_Fluorometro", fechaDesdeParameter, fechaHastaParameter, idCalibracionFluorParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
+        }
+    
+        public virtual ObjectResult<SPSubdetalleAnalisisQuimicoProductoSe> SPSubdetalleAnalisisQuimicoProductoSe(Nullable<int> idDetalle)
+        {
+            var idDetalleParameter = idDetalle.HasValue ?
+                new ObjectParameter("IdDetalle", idDetalle) :
+                new ObjectParameter("IdDetalle", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPSubdetalleAnalisisQuimicoProductoSe>("SPSubdetalleAnalisisQuimicoProductoSe", idDetalleParameter);
         }
     }
 }

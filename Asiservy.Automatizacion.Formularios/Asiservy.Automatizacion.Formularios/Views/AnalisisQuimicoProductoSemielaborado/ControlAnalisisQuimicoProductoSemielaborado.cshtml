@@ -74,7 +74,7 @@
         border: 1px solid black;
     }*/
 </style>
-<div class="row"  id="titulo">
+<div class="row" id="titulo">
     <div class="col-12  text-md-left text-center">
         <h5 style="float:left;">Control Análisis Químico Producto Semielaborado <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h5>
         <div class="col-md-3 col-12 col-sm-12 float-right text-right">
@@ -366,10 +366,24 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-md-2 col-sm-12">
+                        <div class="form-group">
+                            <label>N° Muestra</label>
+                            <select class="form-control" id="cmbMuestra" onchange="ValidaVacio(this)">
+                                <option>Seleccione..</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <label class="text-danger" id="msjerrorTipoProducto" hidden>Debe seleccionar un tipo de producto</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
                         <div class="form-group">
                             <label>Tipo Producto</label>
-                            <select class="form-control" id="cmbTipoProducto">
+                            <select class="form-control" id="cmbTipoProducto" onchange="ValidaVacio(this)">
                                 <option>Seleccione..</option>
                                 <option value="L">Lomo</option>
                                 <option value="M">Miga</option>
@@ -378,79 +392,115 @@
                             <label class="text-danger" id="msjerrorTipoProducto" hidden>Debe seleccionar un tipo de producto</label>
                         </div>
                     </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Área</label>
+                            @Html.DropDownList("cmbArea", (IEnumerable<SelectListItem>)ViewBag.Area, "Seleccione..", new { @class = "form-control", @onchange = "ConsultarParamxArea(); ValidaVacio(this);" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Parámetro</label>
+                            <select class="form-control" id="cmbParametro" onchange="ConsultarMascara(); ValidaVacio(this);">
+                                <option>Seleccione..</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <div class="form-group">
+                            <label>Cantidad <span class="badge badge-secondary" id="spancantidad"></span></label>
+                            <div class="input-group">
+                                <input type="text" id="txtCantidadParametro" class="form-control" autocomplete="off" onkeyup="ValidaVacio(this)" />
+                                <a href="#" id="agregarParametro" class="btn btn-primary btn-sm" onclick="GuardarSubDetalle_ParamxSubdetalle()"><i id="iconaddparametro" class="fas fa-plus-circle"></i></a>
+                                <a href="#" id="limpiarparam" class="btn btn-warning btn-sm" onclick="LimpiarParamModal()"><i id="icolimpiarparam" class="fas fa-eraser"></i></a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    @*<div class="col-md-12 col-sm-12">
+                            <br />
+                            <label>Producto:</label>
+                            <!-- Nav tabs -->
+                            <br />
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#Proceso" id="areproc">Área Proceso</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Empaque" id="areaemp">Área Empaque</a>
+                                </li>
+                            </ul>
+                            <script>
+                                var IdArray = [];
+
+                            </script>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane container-fluid active" id="Proceso">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <br />
+                                            <div class="row">
+
+                                                @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.ProcesoCalidad))
+                                                {
+                                                    string nummascara;
+                                                    nummascara = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
+                                                    <div class="col-md-3 col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascara</span>
+                                                            <input type="text" class="form-control" id="@item.IdParametro" />
+                                                        </div>
+                                                    </div>
+                                                    <script>
+
+                                                        IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
+
+                                                    </script>
+                                                }
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane container-fluid fade" id="Empaque">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <br />
+                                            <div class="row">
+                                                @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.EmpaqueCalidad))
+                                                {
+                                                    string nummascarae;
+                                                    nummascarae = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
+                                                    <div class="col-md-3 col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascarae</span>
+                                                            <input type="text" class="form-control" id="@item.IdParametro" />
+                                                        </div>
+                                                    </div>
+                                                    <script>
+
+                                                        IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
+
+                                                    </script>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <br />
-                        <label>Producto:</label>
-                        <!-- Nav tabs -->
-                        <br />
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#Proceso" id="areproc">Área Proceso</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#Empaque" id="areaemp">Área Empaque</a>
-                            </li>
-                        </ul>
-                        <script>
-                            var IdArray = [];
-
-                        </script>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane container-fluid active" id="Proceso">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <br />
-                                        <div class="row">
-
-                                            @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.ProcesoCalidad))
-                                            {
-                                                string nummascara;
-                                                nummascara = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
-                                                <div class="col-md-3 col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascara</span>
-                                                        <input type="text" class="form-control" id="@item.IdParametro" />
-                                                    </div>
-                                                </div>
-                                                <script>
-
-                                                    IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
-
-                                                </script>
-                                            }
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="tab-pane container-fluid fade" id="Empaque">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <br />
-                                        <div class="row">
-                                            @foreach (var item in (ViewBag.ParametrosControl as List<CC_PARAMETROS_LABORATORIO>).Where(x => x.CodArea == clsAtributos.EmpaqueCalidad))
-                                            {
-                                                string nummascarae;
-                                                nummascarae = item.Mascara >= 0 ? "+" + item.Mascara.ToString() : item.Mascara.ToString();
-                                                <div class="col-md-3 col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>@item.NombreParametro</label><span class="badge badge-secondary">@nummascarae</span>
-                                                        <input type="text" class="form-control" id="@item.IdParametro" />
-                                                    </div>
-                                                </div>
-                                                <script>
-
-                                                    IdArray.push(@Html.Raw(JsonConvert.SerializeObject(new { item.IdParametro, item.Mascara })));
-
-                                                </script>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="demo-container" id="DivCabReportes">
+                            <div id="gridContainer"></div>
                         </div>
                     </div>
                 </div>
@@ -458,7 +508,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarSubDetalleControl()">Guardar</button>
+                @*<button type="button" class="btn btn-primary" onclick="GuardarSubDetalleControl()">Guardar</button>*@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
 
@@ -518,3 +568,21 @@
         </div>
     </div>
 </div>
+
+@*modal eliminar subdet parametros *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarParametroSubdetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarParametroSubdetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+

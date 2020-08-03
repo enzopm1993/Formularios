@@ -502,6 +502,7 @@
           <Property Name="IdTipoAnalisisQuimicoProductoSe" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TipoProducto" Type="char" MaxLength="1" />
           <Property Name="IdDetalleAnalisisQuimicoProductoSe" Type="int" Nullable="false" />
+          <Property Name="NumeroMuestra" Type="int" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1185,6 +1186,21 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_CALIFICACION_AS">
+          <Key>
+            <PropertyRef Name="IdCalificacion" />
+          </Key>
+          <Property Name="IdCalificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_CISTERNA">
           <Key>
             <PropertyRef Name="IdCisterna" />
@@ -1263,6 +1279,22 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
+          <Key>
+            <PropertyRef Name="IdIntermedia" />
+          </Key>
+          <Property Name="IdIntermedia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdParametroSensorial" Type="int" Nullable="false" />
+          <Property Name="IdCalificacion" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_MORETON">
           <Key>
             <PropertyRef Name="IdMoreton" />
@@ -1324,6 +1356,21 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_PEDILUVIO">
           <Key>
             <PropertyRef Name="IdMantenimientoPediluvio" />
@@ -1377,6 +1424,23 @@
           <Property Name="IdSabor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Abreviatura" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_TEMPERATURA">
+          <Key>
+            <PropertyRef Name="IdTemperaturaMant" />
+          </Key>
+          <Property Name="IdTemperaturaMant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodFormulario" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="ValorMax" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="ValorMin" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1698,6 +1762,21 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="CalcMinMax" Type="bit" />
+        </EntityType>
+        <EntityType Name="CC_PCC_MANTENIMIENTO">
+          <Key>
+            <PropertyRef Name="IdPcc" />
+          </Key>
+          <Property Name="IdPcc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="DescripcionMant" Type="varchar" MaxLength="100" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CC_TEMPERATURA_INTERNA_REFRIGERADORA">
           <Key>
@@ -3921,6 +4000,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+          <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" Type="Self.CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
+          <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Type="Self.CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Type="Self.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Type="Self.CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
           <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" Type="Self.CC_MATERIAL_QUEBRADIZO_CTRL" Multiplicity="1" />
           <End Role="CC_MATERIAL_QUEBRADIZO_DET" Type="Self.CC_MATERIAL_QUEBRADIZO_DET" Multiplicity="*" />
@@ -5209,6 +5312,9 @@
           <Parameter Name="FechaDesde" Type="date" Mode="In" />
           <Parameter Name="FechaHasta" Type="date" Mode="In" />
         </Function>
+        <Function Name="SPSubdetalleAnalisisQuimicoProductoSe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdDetalle" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="ASIS_PRODModelStoreContainer">
           <EntitySet Name="ASISTENCIA" EntityType="Self.ASISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AVANCE_KILOS_HORA" EntityType="Self.AVANCE_KILOS_HORA" Schema="dbo" store:Type="Tables" />
@@ -5273,19 +5379,23 @@
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA" store:Type="Tables" />
           <EntitySet Name="CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" EntityType="Self.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" Schema="dbo" Table="CC.LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_APARIENCIA_AS" EntityType="Self.CC_MANTENIMIENTO_APARIENCIA_AS" Schema="dbo" Table="CC.MANTENIMIENTO_APARIENCIA_AS" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_CALIFICACION_AS" EntityType="Self.CC_MANTENIMIENTO_CALIFICACION_AS" Schema="dbo" Table="CC.MANTENIMIENTO_CALIFICACION_AS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_CISTERNA" EntityType="Self.CC_MANTENIMIENTO_CISTERNA" Schema="dbo" Table="CC.MANTENIMIENTO_CISTERNA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_COLOR" EntityType="Self.CC_MANTENIMIENTO_COLOR" Schema="dbo" Table="CC.MANTENIMIENTO_COLOR" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_DEFECTO" EntityType="Self.CC_MANTENIMIENTO_DEFECTO" Schema="dbo" Table="CC.MANTENIMIENTO_DEFECTO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_EQUIPO_AAC" EntityType="Self.CC_MANTENIMIENTO_EQUIPO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_EQUIPO_AAC" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_GRUPO_AAC" EntityType="Self.CC_MANTENIMIENTO_GRUPO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_GRUPO_AAC" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_INTERMEDIO_AS" EntityType="Self.CC_MANTENIMIENTO_INTERMEDIO_AS" Schema="dbo" Table="CC.MANTENIMIENTO_INTERMEDIO_AS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_MORETON" EntityType="Self.CC_MANTENIMIENTO_MORETON" Schema="dbo" Table="CC.MANTENIMIENTO_MORETON" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" EntityType="Self.CC_MANTENIMIENTO_MUESTRA_DESCONGELADO" Schema="dbo" Table="CC.MANTENIMIENTO_MUESTRA_DESCONGELADO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_OLOR" EntityType="Self.CC_MANTENIMIENTO_OLOR" Schema="dbo" Table="CC.MANTENIMIENTO_OLOR" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_AAC" EntityType="Self.CC_MANTENIMIENTO_PARAMETRO_AAC" Schema="dbo" Table="CC.MANTENIMIENTO_PARAMETRO_AAC" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="Self.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Schema="dbo" Table="CC.MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PEDILUVIO" EntityType="Self.CC_MANTENIMIENTO_PEDILUVIO" Schema="dbo" Table="CC.MANTENIMIENTO_PEDILUVIO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_PROTEINA" EntityType="Self.CC_MANTENIMIENTO_PROTEINA" Schema="dbo" Table="CC.MANTENIMIENTO_PROTEINA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_REACTIVO" EntityType="Self.CC_MANTENIMIENTO_REACTIVO" Schema="dbo" Table="CC.MANTENIMIENTO_REACTIVO" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_SABOR" EntityType="Self.CC_MANTENIMIENTO_SABOR" Schema="dbo" Table="CC.MANTENIMIENTO_SABOR" store:Type="Tables" />
+          <EntitySet Name="CC_MANTENIMIENTO_TEMPERATURA" EntityType="Self.CC_MANTENIMIENTO_TEMPERATURA" Schema="dbo" Table="CC.MANTENIMIENTO_TEMPERATURA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_TEXTURA" EntityType="Self.CC_MANTENIMIENTO_TEXTURA" Schema="dbo" Table="CC.MANTENIMIENTO_TEXTURA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_TIPO_DESCONGELADO" EntityType="Self.CC_MANTENIMIENTO_TIPO_DESCONGELADO" Schema="dbo" Table="CC.MANTENIMIENTO_TIPO_DESCONGELADO" store:Type="Tables" />
           <EntitySet Name="CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" EntityType="Self.CC_MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" Schema="dbo" Table="CC.MATERIAL_QUEBRADIZO_ACCI_CORRECTIVA" store:Type="Tables" />
@@ -5303,6 +5413,7 @@
           <EntitySet Name="CC_PARAMETRO_DEFECTO_CABECERA" EntityType="Self.CC_PARAMETRO_DEFECTO_CABECERA" Schema="dbo" Table="CC.PARAMETRO_DEFECTO_CABECERA" store:Type="Tables" />
           <EntitySet Name="CC_PARAMETRO_DEFECTO_DETALLE" EntityType="Self.CC_PARAMETRO_DEFECTO_DETALLE" Schema="dbo" Table="CC.PARAMETRO_DEFECTO_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_PARAMETROS_LABORATORIO" EntityType="Self.CC_PARAMETROS_LABORATORIO" Schema="dbo" Table="CC.PARAMETROS_LABORATORIO" store:Type="Tables" />
+          <EntitySet Name="CC_PCC_MANTENIMIENTO" EntityType="Self.CC_PCC_MANTENIMIENTO" Schema="dbo" Table="CC.PCC_MANTENIMIENTO" store:Type="Tables" />
           <EntitySet Name="CC_TEMPERATURA_INTERNA_REFRIGERADORA" EntityType="Self.CC_TEMPERATURA_INTERNA_REFRIGERADORA" Schema="dbo" Table="CC.TEMPERATURA_INTERNA_REFRIGERADORA" store:Type="Tables" />
           <EntitySet Name="CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" EntityType="Self.CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" Schema="dbo" Table="CC.TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" store:Type="Tables" />
           <EntitySet Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" EntityType="Self.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Schema="dbo" Table="CC.TEMPERATURA_TERMOENCOGIDO_SELLADO" store:Type="Tables" />
@@ -5548,6 +5659,14 @@
           <AssociationSet Name="FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC" Association="Self.FK_CC_MANTENIMIENTO_EQUIPO_AAC_CC_MANTENIMIENTO_GRUPO_AAC">
             <End Role="CC_MANTENIMIENTO_GRUPO_AAC" EntitySet="CC_MANTENIMIENTO_GRUPO_AAC" />
             <End Role="CC_MANTENIMIENTO_EQUIPO_AAC" EntitySet="CC_MANTENIMIENTO_EQUIPO_AAC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="Self.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="Self.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL" Association="Self.FK_CC_MATERIAL_QUEBRADIZO_DET_CC_MATERIAL_QUEBRADIZO_CTRL">
             <End Role="CC_MATERIAL_QUEBRADIZO_CTRL" EntitySet="CC_MATERIAL_QUEBRADIZO_CTRL" />
@@ -7012,16 +7131,6 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="LineaNegocio" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
-          <EntitySet Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
-          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
-            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
-            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
-            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
-          </AssociationSet>
           <FunctionImport Name="spConsultarDetalleControlEvaluacionProdEnfundado" ReturnType="Collection(ASIS_PRODModel.spConsultarDetalleControlEvaluacionProdEnfundado)">
           <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -7116,13 +7225,6 @@
             <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
             <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
           </AssociationSet>
-          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO">
-            <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
-            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
-          </AssociationSet>
-          <FunctionImport Name="SPReporteAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe)">
-          <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="CC_VERIFICACION_POTENCIOMETRO" EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" />
           <EntitySet Name="CC_MANTENIMIENTO_REACTIVO" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" />
           <AssociationSet Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO">
@@ -7151,6 +7253,39 @@
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="CC_MANTENIMIENTO_APARIENCIA_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_APARIENCIA_AS" />
+          <EntitySet Name="CC_MANTENIMIENTO_CALIFICACION_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" />
+          <EntitySet Name="CC_MANTENIMIENTO_INTERMEDIO_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
+          <EntitySet Name="CC_MANTENIMIENTO_TEMPERATURA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA" />
+          <EntitySet Name="CC_PCC_MANTENIMIENTO" EntityType="ASIS_PRODModel.CC_PCC_MANTENIMIENTO" />
+          <EntitySet Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
+          <EntitySet Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
+          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
+            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
+            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
+            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO">
+            <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
+            <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
+          </AssociationSet>
+          <FunctionImport Name="SPReporteAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe)">
+            <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SPSubdetalleAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPSubdetalleAnalisisQuimicoProductoSe)">
+            <Parameter Name="IdDetalle" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13100,65 +13235,6 @@
           <Property Type="Decimal" Name="Liquido" Nullable="true" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="Aceite" Nullable="true" Precision="5" Scale="2" />
         </ComplexType>
-        <EntityType Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
-          <Key>
-            <PropertyRef Name="IdTipoxParametro" />
-          </Key>
-          <Property Name="IdTipoxParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParametroLaboratorio" Type="Int32" Nullable="false" />
-          <Property Name="Cantidad" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="IdTipo" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
-          <NavigationProperty Name="CC_PARAMETROS_LABORATORIO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" ToRole="CC_PARAMETROS_LABORATORIO" />
-        </EntityType>
-        <EntityType Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-          <Key>
-            <PropertyRef Name="IdTipoAnalisisQuimicoProductoSe" />
-          </Key>
-          <Property Name="IdTipoAnalisisQuimicoProductoSe" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TipoProducto" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="IdDetalleAnalisisQuimicoProductoSe" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
-          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
-        </EntityType>
-        <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
-              <PropertyRef Name="IdDetalleAnalisisQuimicoProductoSe" />
-            </Principal>
-            <Dependent Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-              <PropertyRef Name="IdDetalleAnalisisQuimicoProductoSe" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-              <PropertyRef Name="IdTipoAnalisisQuimicoProductoSe" />
-            </Principal>
-            <Dependent Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
-              <PropertyRef Name="IdTipo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultarDetalleControlEvaluacionProdEnfundado">
           <Property Type="Boolean" Name="TLomo" Nullable="true" />
           <Property Type="Boolean" Name="TMiga" Nullable="true" />
@@ -13774,36 +13850,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO">
-          <End Type="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Role="CC_PARAMETROS_LABORATORIO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_PARAMETROS_LABORATORIO">
-              <PropertyRef Name="IdParametro" />
-            </Principal>
-            <Dependent Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
-              <PropertyRef Name="ParametroLaboratorio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="SPReporteAnalisisQuimicoProductoSe">
-          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
-          <Property Type="String" Name="Proveedor" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Especie" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="IdTipoAnalisisQuimicoProductoSe" Nullable="false" />
-          <Property Type="String" Name="TipoProducto" Nullable="true" MaxLength="5" />
-          <Property Type="Int32" Name="ParametroLaboratorio" Nullable="false" />
-          <Property Type="Int32" Name="IdClasificador" Nullable="false" />
-          <Property Type="String" Name="CodArea" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="NombreParametro" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="DescripcionParametro" Nullable="true" MaxLength="100" />
-          <Property Type="Boolean" Name="CalcMinMax" Nullable="true" />
-          <Property Type="Decimal" Name="Cantidad" Nullable="true" Precision="10" Scale="2" />
-        </ComplexType>
         <EntityType Name="CC_VERIFICACION_POTENCIOMETRO">
           <Key>
             <PropertyRef Name="IdVerificacionPotenciometroControl" />
@@ -13984,6 +14030,214 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_CALIFICACION_AS">
+          <Key>
+            <PropertyRef Name="IdCalificacion" />
+          </Key>
+          <Property Name="IdCalificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_CALIFICACION_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
+          <Key>
+            <PropertyRef Name="IdIntermedia" />
+          </Key>
+          <Property Name="IdIntermedia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" />
+          <Property Name="IdCalificacion" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_CALIFICACION_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_INTERMEDIO_AS" ToRole="CC_MANTENIMIENTO_CALIFICACION_AS" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_INTERMEDIO_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+        </EntityType>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CC_MANTENIMIENTO_TEMPERATURA">
+          <Key>
+            <PropertyRef Name="IdTemperaturaMant" />
+          </Key>
+          <Property Name="IdTemperaturaMant" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodFormulario" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="ValorMax" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="ValorMin" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_PCC_MANTENIMIENTO">
+          <Key>
+            <PropertyRef Name="IdPcc" />
+          </Key>
+          <Property Name="IdPcc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionMant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
+          <Key>
+            <PropertyRef Name="IdTipoxParametro" />
+          </Key>
+          <Property Name="IdTipoxParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParametroLaboratorio" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="IdTipo" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" />
+          <NavigationProperty Name="CC_PARAMETROS_LABORATORIO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" ToRole="CC_PARAMETROS_LABORATORIO" />
+        </EntityType>
+        <EntityType Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+          <Key>
+            <PropertyRef Name="IdTipoAnalisisQuimicoProductoSe" />
+          </Key>
+          <Property Name="IdTipoAnalisisQuimicoProductoSe" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoProducto" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IdDetalleAnalisisQuimicoProductoSe" Type="Int32" Nullable="false" />
+          <Property Name="NumeroMuestra" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
+          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" FromRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" ToRole="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" />
+        </EntityType>
+        <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE">
+              <PropertyRef Name="IdDetalleAnalisisQuimicoProductoSe" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+              <PropertyRef Name="IdDetalleAnalisisQuimicoProductoSe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+              <PropertyRef Name="IdTipoAnalisisQuimicoProductoSe" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
+              <PropertyRef Name="IdTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO_CC_PARAMETROS_LABORATORIO">
+          <End Type="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Role="CC_PARAMETROS_LABORATORIO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_PARAMETROS_LABORATORIO">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
+              <PropertyRef Name="ParametroLaboratorio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SPReporteAnalisisQuimicoProductoSe">
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
+          <Property Type="String" Name="Proveedor" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Especie" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="IdTipoAnalisisQuimicoProductoSe" Nullable="false" />
+          <Property Type="String" Name="TipoProducto" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="ParametroLaboratorio" Nullable="false" />
+          <Property Type="Int32" Name="IdClasificador" Nullable="false" />
+          <Property Type="String" Name="CodArea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NombreParametro" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescripcionParametro" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="CalcMinMax" Nullable="true" />
+          <Property Type="Decimal" Name="Cantidad" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SPSubdetalleAnalisisQuimicoProductoSe">
+          <Property Type="Int32" Name="IdTipoAnalisisQuimicoProductoSe" Nullable="false" />
+          <Property Type="String" Name="TipoProducto" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="ParametroLaboratorio" Nullable="false" />
+          <Property Type="Int32" Name="IdClasificador" Nullable="false" />
+          <Property Type="String" Name="CodArea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NombreParametro" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescripcionParametro" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="CalcMinMax" Nullable="true" />
+          <Property Type="Decimal" Name="Cantidad" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19837,39 +20091,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
-              <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="ParametroLaboratorio" ColumnName="ParametroLaboratorio" />
-                <ScalarProperty Name="IdTipoxParametro" ColumnName="IdTipoxParametro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-              <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdDetalleAnalisisQuimicoProductoSe" ColumnName="IdDetalleAnalisisQuimicoProductoSe" />
-                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
-                <ScalarProperty Name="IdTipoAnalisisQuimicoProductoSe" ColumnName="IdTipoAnalisisQuimicoProductoSe" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultarDetalleControlEvaluacionProdEnfundado" FunctionName="ASIS_PRODModel.Store.spConsultarDetalleControlEvaluacionProdEnfundado">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarDetalleControlEvaluacionProdEnfundado">
@@ -20395,28 +20616,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SPReporteAnalisisQuimicoProductoSe" FunctionName="ASIS_PRODModel.Store.SPReporteAnalisisQuimicoProductoSe">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe">
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="IdTipoAnalisisQuimicoProductoSe" ColumnName="IdTipoAnalisisQuimicoProductoSe" />
-                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
-                <ScalarProperty Name="ParametroLaboratorio" ColumnName="ParametroLaboratorio" />
-                <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
-                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
-                <ScalarProperty Name="DescripcionParametro" ColumnName="DescripcionParametro" />
-                <ScalarProperty Name="CalcMinMax" ColumnName="CalcMinMax" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CC_VERIFICACION_POTENCIOMETRO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO">
               <MappingFragment StoreEntitySet="CC_VERIFICACION_POTENCIOMETRO">
@@ -20554,6 +20753,161 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_CALIFICACION_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_CALIFICACION_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
+                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
+                <ScalarProperty Name="IdIntermedia" ColumnName="IdIntermedia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_MANTENIMIENTO_TEMPERATURA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_TEMPERATURA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ValorMin" ColumnName="ValorMin" />
+                <ScalarProperty Name="ValorMax" ColumnName="ValorMax" />
+                <ScalarProperty Name="CodFormulario" ColumnName="CodFormulario" />
+                <ScalarProperty Name="IdTemperaturaMant" ColumnName="IdTemperaturaMant" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_PCC_MANTENIMIENTO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_PCC_MANTENIMIENTO">
+              <MappingFragment StoreEntitySet="CC_PCC_MANTENIMIENTO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="DescripcionMant" ColumnName="DescripcionMant" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="IdPcc" ColumnName="IdPcc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
+              <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ParametroLaboratorio" ColumnName="ParametroLaboratorio" />
+                <ScalarProperty Name="IdTipoxParametro" ColumnName="IdTipoxParametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+              <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="NumeroMuestra" ColumnName="NumeroMuestra" />
+                <ScalarProperty Name="IdDetalleAnalisisQuimicoProductoSe" ColumnName="IdDetalleAnalisisQuimicoProductoSe" />
+                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
+                <ScalarProperty Name="IdTipoAnalisisQuimicoProductoSe" ColumnName="IdTipoAnalisisQuimicoProductoSe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SPReporteAnalisisQuimicoProductoSe" FunctionName="ASIS_PRODModel.Store.SPReporteAnalisisQuimicoProductoSe">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe">
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="IdTipoAnalisisQuimicoProductoSe" ColumnName="IdTipoAnalisisQuimicoProductoSe" />
+                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
+                <ScalarProperty Name="ParametroLaboratorio" ColumnName="ParametroLaboratorio" />
+                <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
+                <ScalarProperty Name="DescripcionParametro" ColumnName="DescripcionParametro" />
+                <ScalarProperty Name="CalcMinMax" ColumnName="CalcMinMax" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPSubdetalleAnalisisQuimicoProductoSe" FunctionName="ASIS_PRODModel.Store.SPSubdetalleAnalisisQuimicoProductoSe">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.SPSubdetalleAnalisisQuimicoProductoSe">
+                <ScalarProperty Name="IdTipoAnalisisQuimicoProductoSe" ColumnName="IdTipoAnalisisQuimicoProductoSe" />
+                <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
+                <ScalarProperty Name="ParametroLaboratorio" ColumnName="ParametroLaboratorio" />
+                <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
+                <ScalarProperty Name="DescripcionParametro" ColumnName="DescripcionParametro" />
+                <ScalarProperty Name="CalcMinMax" ColumnName="CalcMinMax" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

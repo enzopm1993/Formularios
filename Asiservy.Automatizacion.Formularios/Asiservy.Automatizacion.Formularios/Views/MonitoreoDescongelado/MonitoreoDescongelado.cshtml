@@ -40,10 +40,16 @@
     <div class="card-header">
 
         <div class="row" id="divCabecera1">
-            <div class="col-md-4 col-6 col-sm-6">
+            <div class="col-md-3 col-6 col-sm-6">
                 <div class="form-group">
-                    <label>Fecha</label>
-                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
+                    <label>Fecha Evaluación</label>
+                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="" id="txtFecha" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-3 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Fecha Producción</label>
+                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFechaProduccion" class="form-control" />
                 </div>
             </div>
             <div class="col-md-2 col-6 col-sm-6">
@@ -52,15 +58,15 @@
                     @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "ConsultarMonitoreoDescongelado()" })
                 </div>
             </div>
-            <div class="col-md-4 col-sm-12 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <label>Tipo</label>
                 @Html.DropDownList("selectTipo", new SelectList(ViewBag.Tipo, "IdTipoMonitoreo", "Descripcion"), new { @class = "form-control", @onchange = "" })
 
                 @*<select class="form-control" id="selectTipo" onchange="">
-                        <option value="D">Descongelado</option>
-                        <option value="E">Emparrillado</option>
-                        <option value="C">Ingreso Cocina</option>
-                    </select>*@
+                <option value="D">Descongelado</option>
+                <option value="E">Emparrillado</option>
+                <option value="C">Ingreso Cocina</option>
+            </select>*@
             </div>
             <div class="col-md-1 text-md-left col-sm-12 col-12 text-center">
                 <label class="">Acción</label>
