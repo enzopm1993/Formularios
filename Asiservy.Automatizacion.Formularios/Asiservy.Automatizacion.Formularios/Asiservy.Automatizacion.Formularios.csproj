@@ -3708,6 +3708,7 @@
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
     <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\ParametrosViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\SemiElaborado_SubDetalle_ParamxSubdetalleViewModel.cs" />

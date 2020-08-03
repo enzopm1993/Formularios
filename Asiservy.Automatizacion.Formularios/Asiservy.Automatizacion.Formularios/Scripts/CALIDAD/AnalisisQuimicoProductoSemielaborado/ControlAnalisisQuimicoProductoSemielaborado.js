@@ -64,13 +64,7 @@ var opciosGrid = {
         //    hidingPriority: 0,
         //    sortOrder: "desc"
         //},
-        {
-            caption: "N° Muestra",
-            dataField: "NMuestra",
-            area: "column",
-            dataType: "number",
-        }
-        , {
+       {
             caption: "Tipo Producto",
             dataField: "TipoProducto",
             area: "column",
@@ -83,7 +77,7 @@ var opciosGrid = {
             dataType: "string"
         }
         , {
-            caption: "Parametro",
+            caption: "Parámetro",
             dataField: "Parametro",
             area: "column",
             dataType: "string"
@@ -349,30 +343,20 @@ function GuardarSubDetalle_ParamxSubdetalle() {
     if (!ValidarIngresoParametros()) {
         return;
     }
-    var ParamxSubdetalle =
-       [ {
-            IdTipoxParametro:SubDxParam,
-            ParametroLaboratorio:$('#cmbParametro').val(),
-            Cantidad: $('#txtCantidadParametro').val(),
-            IdTipo: IdSubDetalle,
-            EstadoRegistro:'A'
-        }];
-    
     var parametro =
     {
-        IdTipoAnalisisQuimicoProductoSe: IdSubDetalle,
+        ParametroLaboratorio: $('#cmbParametro').val(),
+        Cantidad: $('#txtCantidadParametro').val(),
         TipoProducto: $('#cmbTipoProducto').val(),
-        IdDetalleAnalisisQuimicoProductoSe: IdDetalle,
-        NumeroMuestra: $('#cmbMuestra').val(),
-        EstadoRegistro: 'A',
-        CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO: ParamxSubdetalle
+        IdDetalle: IdDetalle,
+        EstadoRegistro:'A'
     };
-    var data = JSON.stringify(
-        {
-            poSubdetalle: parametro,
-            poFecha: $('#txtFechaProduccion').val()
-        }
-    );
+    var data = JSON.stringify({
+        poParamxDetalle:parametro,
+        poFecha: $('#txtFechaProduccion').val(),
+        Idcabecera: IdCabecera
+
+    });
     //console.log(data);
     fetch("../AnalisisQuimicoProductoSemielaborado/GuardarSubDetalle_ParamxSubdetalle", {
         method: 'POST',
