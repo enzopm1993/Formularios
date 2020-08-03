@@ -113,7 +113,7 @@ function ConsultarSolicitudes() {
         },
         success: function (data) {
            // console.log(data);
-            console.log(data);
+            //console.log(data);
             DevExpress.localization.locale(navigator.language);
             if ($('#Garita').val() == "true") {
                 var opciosGrid = {
