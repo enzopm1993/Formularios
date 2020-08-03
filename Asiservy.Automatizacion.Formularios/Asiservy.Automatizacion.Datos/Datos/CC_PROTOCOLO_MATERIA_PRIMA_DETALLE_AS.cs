@@ -12,12 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO
+    public partial class CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS
     {
-        public int IdTipoxParametro { get; set; }
-        public int ParametroLaboratorio { get; set; }
-        public Nullable<decimal> Cantidad { get; set; }
-        public int IdTipo { get; set; }
+        public int IdProtocoloMateriaPrimaDetalle { get; set; }
+        public int IdProtocoloMateriaPrima { get; set; }
+        public int IdCalificacion { get; set; }
+        public int IdParametroSensorial { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -26,7 +26,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO { get; set; }
-        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
+        public virtual CC_MANTENIMIENTO_CALIFICACION_AS CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
+        public virtual CC_MANTENIMIENTO_PARAMETRO_AAC CC_MANTENIMIENTO_PARAMETRO_AAC { get; set; }
+        public virtual CC_PROTOCOLO_MATERIA_PRIMA_AS CC_PROTOCOLO_MATERIA_PRIMA_AS { get; set; }
     }
 }

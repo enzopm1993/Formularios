@@ -147,12 +147,6 @@
     <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\CC_CALIBRACION_FLUOROMETRO_CTRL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -367,6 +361,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_PCC_MANTENIMIENTO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA.cs">

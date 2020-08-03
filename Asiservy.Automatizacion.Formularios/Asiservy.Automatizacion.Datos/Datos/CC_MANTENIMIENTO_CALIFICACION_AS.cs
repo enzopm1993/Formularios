@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CC_MANTENIMIENTO_CALIFICACION_AS()
         {
             this.CC_MANTENIMIENTO_INTERMEDIO_AS = new HashSet<CC_MANTENIMIENTO_INTERMEDIO_AS>();
+            this.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS = new HashSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS>();
         }
     
         public int IdCalificacion { get; set; }
@@ -33,5 +34,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
     }
 }
