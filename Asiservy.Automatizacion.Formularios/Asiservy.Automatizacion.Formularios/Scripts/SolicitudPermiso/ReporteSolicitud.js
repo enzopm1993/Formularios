@@ -113,7 +113,7 @@ function ConsultarSolicitudes() {
         },
         success: function (data) {
            // console.log(data);
-            console.log($('#Garita').val());
+            console.log(data);
             DevExpress.localization.locale(navigator.language);
             if ($('#Garita').val() == "true") {
                 var opciosGrid = {
@@ -146,7 +146,7 @@ function ConsultarSolicitudes() {
                     },
                    
                     paging: {
-                        pageSize: -1
+                        pageSize: 0
                     },
                    
                     searchPanel: {
@@ -540,7 +540,7 @@ $(function () {
         }
     }, cb);
     cb(start, end);
-    ConsultarSolicitudes();
+    //ConsultarSolicitudes();
 });
 
 
