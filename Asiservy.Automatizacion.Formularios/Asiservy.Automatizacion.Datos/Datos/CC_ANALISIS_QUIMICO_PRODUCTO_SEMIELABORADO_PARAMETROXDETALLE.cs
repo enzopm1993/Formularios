@@ -12,13 +12,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS
+    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE
     {
-        public int IdElemento { get; set; }
-        public int IdAnalisisDetalle { get; set; }
-        public int IdParametro { get; set; }
-        public decimal Valor { get; set; }
-        public string LoteBarco { get; set; }
+        public int IdTipoxParametro { get; set; }
+        public int ParametroLaboratorio { get; set; }
+        public Nullable<decimal> Cantidad { get; set; }
+        public string TipoProducto { get; set; }
+        public int IdDetalle { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -26,9 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public int OrdenFabricacion { get; set; }
     
-        public virtual CC_ANALISIS_QUIMICO_PRECOCCION_DET CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
-        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
+        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
     }
 }

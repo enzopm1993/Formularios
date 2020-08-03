@@ -14,6 +14,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE()
+        {
+            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE>();
+        }
+    
         public int IdDetalleAnalisisQuimicoProductoSe { get; set; }
         public Nullable<int> OrdenFabricacion { get; set; }
         public string Proveedor { get; set; }
@@ -31,5 +37,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE { get; set; }
     }
 }

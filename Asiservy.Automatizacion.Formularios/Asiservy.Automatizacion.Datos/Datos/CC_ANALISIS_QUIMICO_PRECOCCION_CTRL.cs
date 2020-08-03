@@ -22,6 +22,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public int IdAnalisis { get; set; }
         public System.DateTime Fecha { get; set; }
+        public Nullable<System.DateTime> FechaAsignada { get; set; }
         public string ObservacionCtrl { get; set; }
         public string Turno { get; set; }
         public bool EstadoReporte { get; set; }
@@ -34,7 +35,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.DateTime> FechaAsignada { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_DET> CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
