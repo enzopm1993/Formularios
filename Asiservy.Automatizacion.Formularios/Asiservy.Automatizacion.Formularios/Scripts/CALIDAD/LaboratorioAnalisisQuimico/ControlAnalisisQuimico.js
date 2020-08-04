@@ -520,8 +520,8 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
                         jdata.forEach(function (row) {
                             var x = document.getElementById("selectIngresarLote");
                             var option = document.createElement("option");
-                            option.text = row.LOTE + ' - ' + row.BARCO;
-                            option.value = row.LOTE + '-' + row.BARCO;
+                            option.text = row.LOTE;
+                            option.value = row.LOTE;
                             x.add(option);
                         });
                         
@@ -641,6 +641,7 @@ async function GuardarElemento(){
             data.append('IdElemento', idElemento);
             data.append('IdParametro', document.getElementById('selectParametros').value);
             data.append('Valor', valor);
+            data.append('OrdenFabricacion', valor);
             data.append('LoteBarco', document.getElementById('selectIngresarLote').value);
             data.append('Cocinador', document.getElementById('lblCocinador').value);
             data.append('Parada', document.getElementById('lblParada').value);

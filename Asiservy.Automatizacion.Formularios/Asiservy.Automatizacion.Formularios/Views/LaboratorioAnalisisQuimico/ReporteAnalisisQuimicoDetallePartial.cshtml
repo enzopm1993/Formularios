@@ -12,12 +12,14 @@
     int con1 = 1;
 }
 <div class="table-responsive">
-    <table class="table table-bordered  text-uppercase" id="tblDataTables">
+    <table class="table table-bordered text-uppercase table-hover" id="tblDataTables">
         <thead style="font-size:10px">
             <tr>
                 <th>COCINADOR</th>
                 <th>PARADA</th>
-                <th>LOTE/COD. BARCO</th>
+                <th>LOTE</th>
+                <th>BARCO ORIGEN</th>
+                <th>BARCO ASIGNADO</th>
                 <th>ESP. TALLA</th>
                 <th>Nº COCHE</th>
                 @if (groupParametros.Any())
@@ -66,12 +68,24 @@
                     if (turno == null || turno.Turno == ViewBag.Turno)
                     {
                         <tr style="cursor:pointer">
-                            <td>@row.COCINA</td>
-                            <td>@row.PARADA</td>
+                            <td class="text-right">@row.COCINA</td>
+                            <td class="text-right">@row.PARADA</td>
                             <td>
                                 @foreach (var item in listaCocinaParada)
                                 {
-                                    <div>@item.LOTE / @item.BARCO</div>
+                                    <div>@item.LOTE</div>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var item in listaCocinaParada)
+                                {
+                                    <div>@item.BARCO</div>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var item in listaCocinaParada)
+                                {
+                                    <div>@item.BARCO</div>
                                 }
                             </td>
                             <td>
@@ -80,7 +94,7 @@
                                     <div>@item.ESPECIE - @item.TALLA</div>
                                 }
                             </td>
-                            <td>
+                            <td class="text-right">
                                 @foreach (var item in listaCocinaParada)
                                 {
                                     int con2 = item.COCHES + con1 - 1;
@@ -92,17 +106,17 @@
                             {
                                 foreach (var thead in groupParametros)
                                 {
-                                    <td style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
+                                    <td class="text-right" style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
                                         @foreach (var lote in listaCocinaParada)
                                         {
                                             var groupLote = (from item in Model
-                                                             where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
+                                                             where item.LoteBarco == lote.LOTE && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
                                                              orderby item.Parada
                                                              group item by new { item.IdElemento, item.IdParametro, item.LoteBarco, item.Valor } into x
                                                              select new { x.Key.IdElemento, x.Key.IdParametro, x.Key.LoteBarco, x.Key.Valor }).ToList();
                                             foreach (var glote in groupLote)
                                             {
-                                                if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)
+                                                if (thead.IdParametro == glote.IdParametro && lote.LOTE == glote.LoteBarco)
                                                 {
                                                     <div id="inputParametro_@thead.IdParametro@row.COCINA@row.PARADA@lote.LOTE">@lote.LOTE _ @glote.Valor</div>
                                                 }
@@ -121,12 +135,12 @@
                                                           select new { x.Valor }).ToList();
 
 
-                                        <td>@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                                        <td class="text-right">@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
                                         <td>@listaValor.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
                                     }
                                     else
                                     {
-                                        <td>
+                                        <td class="text-right">
                                             @{
                                                 var sum = (from x in Model
                                                            where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
@@ -165,7 +179,7 @@
         </tbody>
         <tfoot style="font-size:10px">
             <tr>
-                @{ tfoot += 6;
+                @{ tfoot += 8;
                     var listaValue = (from x in Model
                                       where x.IdParametro == idParametro
                                       select new { x.Valor }).ToList();
@@ -182,7 +196,7 @@
                 }
             </tr>
         </tfoot>
-    </table>    
+    </table>
 </div>
 
 <div class="card-footer divFooter ">
