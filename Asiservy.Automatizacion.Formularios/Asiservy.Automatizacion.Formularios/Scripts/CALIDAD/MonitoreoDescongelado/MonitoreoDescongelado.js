@@ -53,6 +53,13 @@ $(document).ready(function () {
 
 });
 
+function CambioFecha() {
+    if ($("#txtFecha").val() != '') {
+        $("#txtFechaProduccion").val($("#txtFecha").val());
+        ConsultarMonitoreoDescongelado();
+    }
+}
+
 function ValidaEstadoReporte(Fecha){
     $.ajax({
         url: "../MonitoreoDescongelado/ValidaEstadoReporte",
@@ -87,7 +94,7 @@ function ValidaEstadoReporte(Fecha){
 
 function ConsultarMonitoreoDescongelado() {
     $("#chartCabecera2").html('');
-    if ($("#txtFecha").val() == '' || $("#selectTurno").val()=='') {
+    if ($("#txtFechaProduccion").val() == '' || $("#selectTurno").val()=='') {
         $("#divCabecera2").prop("hidden", true);
         return;
     }
