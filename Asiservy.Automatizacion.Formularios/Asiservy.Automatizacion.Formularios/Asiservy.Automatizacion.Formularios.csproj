@@ -3473,6 +3473,7 @@
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaCaldero\ClsdAnalisisAguaCaldero.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaClorinacionCisterna\ClsAnalisisAguaClorinacionCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisAguaTanquero\ClsdAnalisisAguaTanquero.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\ClsDAnalisisQuimicoProductoSemielaborado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdMantenimientoApariencia.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdParametrosSensoriales.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
@@ -3598,6 +3599,7 @@
     <Compile Include="Controllers\CALIDAD\AnalisisAguaCalderosController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaClorinacionCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisAguaTanqueroController.cs" />
+    <Compile Include="Controllers\CALIDAD\AnalisisQuimicoProductoSemielaboradoController.cs" />
     <Compile Include="Controllers\CALIDAD\AnalisisSensorialController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
@@ -4327,7 +4329,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
