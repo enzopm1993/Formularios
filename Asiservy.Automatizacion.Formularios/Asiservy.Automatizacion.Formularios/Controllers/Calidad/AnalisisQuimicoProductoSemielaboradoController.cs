@@ -186,7 +186,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 List<dynamic> DRespuesta = new List<dynamic>();
                 clsDClasificador = new clsDClasificador();
                 List<CLASIFICADOR> ListaTurnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
-                
+
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 List<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA> Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarCabReportes(FechaDesde, FechaHasta);
                 if (Respuesta.Count == 0)
@@ -195,7 +195,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 else
                 {
-                    
+
                     string turno;
                     string Fecha;
                     string FechaIngresoLog;
@@ -208,11 +208,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                                  select t.Descripcion).FirstOrDefault();
                         Fecha = item.Fecha.Value.ToString("yyyy-MM-dd");
                         FechaIngresoLog = item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm");
-                        FechaModificacionLog= item.FechaModificacionLog ==null? "":item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
-                        FechaAprobacion= item.FechaAprobacion==null?"": item.FechaAprobacion.Value.ToString("yyyy-MM-dd HH:mm");
-                        DRespuesta.Add(new { item.AprobadoPor, item.EstadoControl, item.EstadoRegistro, Fecha,
-                            FechaAprobacion, FechaIngresoLog, FechaModificacionLog, item.IdAnalisisQuimicoProductoSe, item.Observacion,
-                            item.TerminalIngresoLog, item.TerminalModificacionLog, item.UsuarioIngresoLog, item.UsuarioModificacionLog,turno });
+                        FechaModificacionLog = item.FechaModificacionLog == null ? "" : item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                        FechaAprobacion = item.FechaAprobacion == null ? "" : item.FechaAprobacion.Value.ToString("yyyy-MM-dd HH:mm");
+                        DRespuesta.Add(new
+                        {
+                            item.AprobadoPor,
+                            item.EstadoControl,
+                            item.EstadoRegistro,
+                            Fecha,
+                            FechaAprobacion,
+                            FechaIngresoLog,
+                            FechaModificacionLog,
+                            item.IdAnalisisQuimicoProductoSe,
+                            item.Observacion,
+                            item.TerminalIngresoLog,
+                            item.TerminalModificacionLog,
+                            item.UsuarioIngresoLog,
+                            item.UsuarioModificacionLog,
+                            turno
+                        });
                     }
                     clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                     var ordenes = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(FechaDesde, FechaHasta);
@@ -562,71 +576,71 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        public JsonResult GuardarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalleControl,int CabeceraControl,DateTime poFecha)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDPeriodo = new clsDPeriodo();
-                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
-                {
-                    object[] respuesta = new object[3];
-                    respuesta[0] = "444";
-                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
-                    respuesta[2] = poFecha;
-                    return Json(respuesta, JsonRequestBehavior.AllowGet);
-                }
-                foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
-                {
-                    item.TerminalIngresoLog = Request.UserHostAddress;
-                    item.UsuarioIngresoLog = lsUsuario[0];
-                    item.FechaIngresoLog = DateTime.Now;
-                    item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                }
-                poSubDetalleControl.FechaIngresoLog = DateTime.Now;
-                poSubDetalleControl.UsuarioIngresoLog = lsUsuario[0];
-                poSubDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
-                poSubDetalleControl.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                object[] resultado = null;
-                ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
-                if (poSubDetalleControl.IdTipoAnalisisQuimicoProductoSe == 0)
-                {
-                    resultado = ClsDAnalisisQuimicoProductoSemielaborado.GuardarSubDetalleControl(poSubDetalleControl,CabeceraControl);
-                }
-                else
-                {
-                    resultado = ClsDAnalisisQuimicoProductoSemielaborado.ActualizarSubDetalleControl(poSubDetalleControl,CabeceraControl);
-                }
+        //[HttpPost]
+        //public JsonResult GuardarSubDetalleControl(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalleControl,int CabeceraControl,DateTime poFecha)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDPeriodo = new clsDPeriodo();
+        //        if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+        //        {
+        //            object[] respuesta = new object[3];
+        //            respuesta[0] = "444";
+        //            respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+        //            respuesta[2] = poFecha;
+        //            return Json(respuesta, JsonRequestBehavior.AllowGet);
+        //        }
+        //        foreach (var item in poSubDetalleControl.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
+        //        {
+        //            item.TerminalIngresoLog = Request.UserHostAddress;
+        //            item.UsuarioIngresoLog = lsUsuario[0];
+        //            item.FechaIngresoLog = DateTime.Now;
+        //            item.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+        //        }
+        //        poSubDetalleControl.FechaIngresoLog = DateTime.Now;
+        //        poSubDetalleControl.UsuarioIngresoLog = lsUsuario[0];
+        //        poSubDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
+        //        poSubDetalleControl.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+        //        object[] resultado = null;
+        //        ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
+        //        if (poSubDetalleControl.IdTipoAnalisisQuimicoProductoSe == 0)
+        //        {
+        //            resultado = ClsDAnalisisQuimicoProductoSemielaborado.GuardarSubDetalleControl(poSubDetalleControl,CabeceraControl);
+        //        }
+        //        else
+        //        {
+        //            resultado = ClsDAnalisisQuimicoProductoSemielaborado.ActualizarSubDetalleControl(poSubDetalleControl,CabeceraControl);
+        //        }
 
-                //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
-                //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
+        //        //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+        //        //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
        
-                return Json(resultado, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(resultado, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public ActionResult PartialSubDetalleControl(int IdDetalleControl)
         {
             try
@@ -654,9 +668,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                                             orderby p.IdClasificador, p.ParametroLaboratorio
                                             select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro }).Distinct().ToList<dynamic>();
                 List<TipoProducto> TipoProducto = (from t in resultado
-                                                   orderby t.IdTipoAnalisisQuimicoProductoSe
-                                                   select new TipoProducto { IdTipoAnalisisQuimicoProductoSe = t.IdTipoAnalisisQuimicoProductoSe, TipoProductoNombre = t.TipoProducto})
-                                              .ToList().GroupBy(x => new { x.OrdenFabricacion, x.IdTipoAnalisisQuimicoProductoSe }).Select(g => g.First()).ToList(); ;
+                                                   select new TipoProducto { CodTipoProd=t.CodTipoProducto,TipoProductoNombre=t.TipoProducto})
+                                              .ToList().GroupBy(x => new {x.CodTipoProd }).Select(g => g.First()).ToList();
                 ViewBag.Parametros = Parametros;
                 ViewBag.TipoProducto = TipoProducto;
                 if (resultado.Count == 0)
@@ -685,56 +698,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult EliminarSubDetalleControl(int IdSubdetalle, int IdCabecera, DateTime poFecha)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDPeriodo = new clsDPeriodo();
-                if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
-                {
-                    object[] respuesta = new object[3];
-                    respuesta[0] = "444";
-                    respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
-                    respuesta[2] = poFecha;
-                    return Json(respuesta, JsonRequestBehavior.AllowGet);
-                }
-                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalle = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO()
-                {
-                    IdTipoAnalisisQuimicoProductoSe = IdSubdetalle,
-                    UsuarioIngresoLog = lsUsuario[0],
-                    FechaIngresoLog = DateTime.Now,
-                    TerminalIngresoLog = Request.UserHostAddress
-                };
-                object[] Respuesta = null;
-                ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
-                Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.InactivarSubDetalleControl(poSubDetalle, IdCabecera);
-                return Json(Respuesta, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [HttpPost]
+        //public JsonResult EliminarSubDetalleControl(int IdSubdetalle, int IdCabecera, DateTime poFecha)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDPeriodo = new clsDPeriodo();
+        //        if (!clsDPeriodo.ValidaFechaPeriodo(poFecha))
+        //        {
+        //            object[] respuesta = new object[3];
+        //            respuesta[0] = "444";
+        //            respuesta[1] = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+        //            respuesta[2] = poFecha;
+        //            return Json(respuesta, JsonRequestBehavior.AllowGet);
+        //        }
+        //        CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubDetalle = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO()
+        //        {
+        //            IdTipoAnalisisQuimicoProductoSe = IdSubdetalle,
+        //            UsuarioIngresoLog = lsUsuario[0],
+        //            FechaIngresoLog = DateTime.Now,
+        //            TerminalIngresoLog = Request.UserHostAddress
+        //        };
+        //        object[] Respuesta = null;
+        //        ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
+        //        Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.InactivarSubDetalleControl(poSubDetalle, IdCabecera);
+        //        return Json(Respuesta, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+   
         public JsonResult EliminarDetalleControl(int IdDetalle, int IdCabecera,DateTime poFecha)
         {
             try
@@ -814,21 +827,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 resultado = ClsDAnalisisQuimicoProductoSemielaborado.ConsultaReporte(IdCabecera);
                 //var MinMaxItems = resultado.Where(x => x.CalcMinMax == true).GroupBy(x => x.ParametroLaboratorio).Select(g => g.First()).ToList();
                 var Areas = (from a in resultado
-                                 orderby a.IdClasificador
-                                 select new Area { CodArea=a.CodArea, AreaNombre=a.Area,Total=0 }
-                             ).ToList().GroupBy(x=>x.CodArea).Select(g=>g.First()).ToList();
+                             orderby a.IdClasificador
+                             select new Area { CodArea = a.CodArea, AreaNombre = a.Area, Total = 0 }
+                             ).ToList().GroupBy(x => x.CodArea).Select(g => g.First()).ToList();
                 foreach (var itemarea in Areas)
                 {
-                    itemarea.Total = resultado.Where(x => x.CodArea == itemarea.CodArea).Select(x => new { x.ParametroLaboratorio, x.NombreParametro, x.CodArea }).Distinct().Count(); 
+                    itemarea.Total = resultado.Where(x => x.CodArea == itemarea.CodArea).Select(x => new { x.ParametroLaboratorio, x.NombreParametro, x.CodArea }).Distinct().Count();
                 }
                 ViewBag.Areas = Areas;
                 List<dynamic> Parametros = (from p in resultado
-                                                  orderby p.IdClasificador,p.ParametroLaboratorio
-                                  select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro}).Distinct().ToList<dynamic>();
+                                            orderby p.IdClasificador, p.ParametroLaboratorio
+                                            select new { p.ParametroLaboratorio, p.CodArea, p.NombreParametro, p.CalcMinMax }).Distinct().ToList<dynamic>();
                 List<TipoProducto> TipoProducto = (from t in resultado
-                                              orderby t.IdTipoAnalisisQuimicoProductoSe
-                                              select new TipoProducto { IdTipoAnalisisQuimicoProductoSe=t.IdTipoAnalisisQuimicoProductoSe, TipoProductoNombre=t.TipoProducto,OrdenFabricacion=t.OrdenFabricacion,Lote=t.Lote })
-                                              .ToList().GroupBy(x => new {x.OrdenFabricacion,x.IdTipoAnalisisQuimicoProductoSe }).Select(g => g.First()).ToList(); ;
+
+                                                   select new TipoProducto {TipoProductoNombre = t.TipoProducto, CodTipoProd=t.CodTipoProducto })
+                                              .ToList().GroupBy(x => new { x.CodTipoProd }).Select(g => g.First()).ToList(); ;
                 ViewBag.Parametros = Parametros;
                 ViewBag.TipoProducto = TipoProducto;
                 if (resultado.Count == 0)
@@ -938,7 +951,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarSubDetalle_ParamxSubdetalle(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO poSubdetalle,DateTime? poFecha)
+        public JsonResult GuardarSubDetalle_ParamxSubdetalle(CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE poParamxDetalle, DateTime? poFecha,int Idcabecera)
         {
             try
             {
@@ -954,21 +967,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                     return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
-                poSubdetalle.FechaIngresoLog = DateTime.Now;
-                poSubdetalle.UsuarioIngresoLog = lsUsuario[0];
-                poSubdetalle.TerminalIngresoLog = Request.UserHostAddress;
-                poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().UsuarioIngresoLog= lsUsuario[0];
-                poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().TerminalIngresoLog= Request.UserHostAddress;
-                poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().FechaIngresoLog = DateTime.Now;
+                poParamxDetalle.FechaIngresoLog = DateTime.Now;
+                poParamxDetalle.UsuarioIngresoLog = lsUsuario[0];
+                poParamxDetalle.TerminalIngresoLog = Request.UserHostAddress;
+                //poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().UsuarioIngresoLog = lsUsuario[0];
+                //poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().TerminalIngresoLog = Request.UserHostAddress;
+                //poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().FechaIngresoLog = DateTime.Now;
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
-                object[] Respuesta=null;
-                if (poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault().IdTipoxParametro == 0)
+                object[] Respuesta = null;
+                if (poParamxDetalle.IdTipoxParametro == 0)
                 {
-                    Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.GuardarSubdetalle_ParamxSubdetalle(poSubdetalle);
+                    Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.GuardarSubdetalle_ParamxSubdetalle(poParamxDetalle, Idcabecera);
                 }
                 else
                 {
-                    Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ActualizarSubdetalle_ParamxSubdetalle(poSubdetalle.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.FirstOrDefault());
+                    Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ActualizarSubdetalle_ParamxSubdetalle(poParamxDetalle, Idcabecera);
                 }
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
@@ -1000,7 +1013,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                
+
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
                 var Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.ConsultarParametrosSubdetalle(IdDetalle);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
@@ -1024,7 +1037,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult EliminarParametroSubDetalle(int IdTipoxParametro,DateTime poFecha,int IdCabecera)
+        public JsonResult EliminarParametroSubDetalle(int IdTipoxParametro, DateTime poFecha, int IdCabecera)
         {
             try
             {
@@ -1042,7 +1055,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     respuesta[2] = poFecha;
                     return Json(respuesta, JsonRequestBehavior.AllowGet);
                 }
-                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO poModelo = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO()
+                CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE poModelo = new CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE()
                 {
                     IdTipoxParametro = IdTipoxParametro,
                     UsuarioIngresoLog = lsUsuario[0],
@@ -1051,7 +1064,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 };
                 object[] Respuesta = null;
                 ClsDAnalisisQuimicoProductoSemielaborado = new ClsDAnalisisQuimicoProductoSemielaborado();
-                Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.InactivarParametroxSubdetalle(poModelo,IdCabecera);
+                Respuesta = ClsDAnalisisQuimicoProductoSemielaborado.InactivarParametroxSubdetalle(poModelo, IdCabecera);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

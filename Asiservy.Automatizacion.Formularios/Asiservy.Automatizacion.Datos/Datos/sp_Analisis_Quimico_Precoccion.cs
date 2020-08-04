@@ -14,6 +14,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class sp_Analisis_Quimico_Precoccion
     {
         public string Turno { get; set; }
+        public Nullable<System.DateTime> FechaAsignada { get; set; }
         public string Cocinador { get; set; }
         public int IdAnalisisDetalle { get; set; }
         public string ObservacionDet { get; set; }

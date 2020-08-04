@@ -18,7 +18,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CC_PARAMETROS_LABORATORIO()
         {
             this.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS = new HashSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS>();
-            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO>();
         }
     
         public int IdParametro { get; set; }
@@ -40,7 +39,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
     }
 }

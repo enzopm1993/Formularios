@@ -1,0 +1,215 @@
+﻿
+@{
+    ViewBag.Title = "ProtocoloMateriaPrima";
+}
+
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .blue {
+        border-color: blue;
+    }
+</style>
+
+
+
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center text-uppercase" style="float:left">Protocolo de Materia Prima <label id="lblAprobadoPendiente" class="badge"> </label></h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Reporte</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="card-body">
+        <div class="row" id="divCabecera1">
+
+            <div class="col-md-3 col-6 col-sm-6">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+            <div class="col-md-9 col-6 col-sm-6 text-left">
+                <label class="">Acciones</label>
+                <div class="form-group">
+                    <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostrarModal()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card-footer">
+
+        <div class="row">
+
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="card shadow">
+    <div class="card-header">
+        <div class="text-center text-warning">
+            <h4 id="h4Mensaje"></h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="tblPartial" class="table-responsive">
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar el control?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalControl">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtIdCloroAguaAutoclave" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Fecha Ingreso Planta</label>
+                            <input type="date" class="form-control" id="txtFechaDescarga" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Fecha Evaluación</label>
+                            <input type="date" class="form-control" id="txtFechaEvaluación" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Orden Fabricación</label>
+                            <div class="input-group">
+                                @Html.TextBox("txtOrdenFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })
+                                <button type="button" onclick="" id="btnOrden">
+                                    <img src="~/Content/images/buscar.png" />
+                                </button><br />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Lote</label>
+                            <select class="form-control" id="selectLote">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Código Protocolo</label>
+                            <input type="text" maxlength="20" class="form-control" id="txtCodigoProtocolo" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Lote Descarga</label>
+                            <input type="text" class="form-control" id="txtLoteDescarga" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Pcc</label>
+                            @Html.DropDownList("selectPcc", new SelectList(ViewBag.Pcc, "Numero", "Numero"), "Seleccione", new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Observación</label>
+                            <input type="text" maxlength="250" class="form-control" id="txtObservación" name="name" value="" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarControl()" id="modal-si">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="" onchange="CargarOrdenFabricacion()" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

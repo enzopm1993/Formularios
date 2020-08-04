@@ -2218,6 +2218,7 @@
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoApariencia.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoParametrosSensoriales.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\ProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -3476,6 +3477,7 @@
     <Compile Include="AccesoDatos\CALIDAD\AnalisisQuimicoProductoSemielaborado\ClsDAnalisisQuimicoProductoSemielaborado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdMantenimientoApariencia.cs" />
     <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdParametrosSensoriales.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\AnalisisSensorial\ClsdProtocoloMateriaPrima.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
@@ -3706,6 +3708,7 @@
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
     <Compile Include="Models\CALIDAD\ParametroDefectoViewModel.cs" />
+    <Compile Include="Models\CALIDAD\ParametrosViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionLomosyMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\ReporteFotosEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\SemiElaborado_SubDetalle_ParamxSubdetalleViewModel.cs" />
@@ -4321,6 +4324,7 @@
     <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperatura.cshtml" />
     <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperaturaPartial.cshtml" />
     <Content Include="Views\AnalisisSensorial\MantenimientoParametrosSensoriales.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -6,18 +6,17 @@
         /*padding: 0rem;*/
         font-size: 0.6rem;
     }
- 
+
     #tblparametro th {
         /*padding: 0rem;*/
         font-size: 0.6rem;
     }
 </style>
-@{ 
+@{
     var Lista = (from m in Model
-                 select new { m.Proveedor, m.OrdenFabricacion, m.Lote, m.Especie, m.Talla,m.Cliente}).Distinct().ToList();
-
-
+                 select new { m.Proveedor, m.OrdenFabricacion, m.Lote, m.Especie, m.Talla,m.Cliente,m.IdDetalleAnalisisQuimicoProductoSe}).Distinct().ToList();
 }
+
 
 @****@
 
@@ -26,7 +25,7 @@
         <div class="col-md-12 table-responsive">
 
             <div class="card-header divHeader table-responsive" id="divhead">
-                <table id="tbltitulo" class="table table-bordered">
+                <table id="tbltitulo" class="table table-bordered table-striped">
                     <tbody>
                         <tr>
                             <td rowspan="2" width="10%" id="logo">
@@ -45,7 +44,7 @@
                             <td width="90%" class="text-center">
                                 <strong>@ViewBag.NombreReporte</strong>
                             </td>
-              
+
                         </tr>
                     </tbody>
                 </table>
@@ -64,7 +63,7 @@
                     </table>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="tblReporte">
+                    <table class="table table-bordered" id="tblReporte">
                         <thead>
                             <tr>
                                 <th colspan="4">
@@ -76,12 +75,7 @@
                                         @Areas.AreaNombre
                                     </th>
                                 }
-                                @*<th colspan="3" class="text-center">
-                                    ÁREA PROCESO
-                                </th>
-                                <th colspan="2" class="text-center">
-                                    ÁREA DE EMPAQUE
-                                </th>*@
+             
                                 <th class="text-center">
                                     CLIENTE
                                 </th>
@@ -91,82 +85,129 @@
                                 <th>LOTE/CODIGO</th>
                                 <th>ESPECIE/TALLA</th>
                                 <th>PRODUCTO</th>
-                                @{ 
+                                @{
 
-                                    var Json=JsonConvert.SerializeObject(ViewBag.Parametros);
-                                    var Dparametros = JsonConvert.DeserializeObject<List<dynamic>>(Json);
+                                    var Json = JsonConvert.SerializeObject(ViewBag.Parametros);
+                                    List<ParametrosViewModel> Dparametros = JsonConvert.DeserializeObject<List<ParametrosViewModel>>(Json);
+                                    List<ParametrosViewModel> ParametrosViewModel = JsonConvert.DeserializeObject<List<ParametrosViewModel>>(Json);
                                     List<TipoProducto> DTipoProd = ViewBag.TipoProducto as List<TipoProducto>;
 
                                 }
                                 @foreach (var parametros in Dparametros)
                                 {
-                                 
+
                                     <th class="text-uppercase text-center">@parametros.NombreParametro</th>
                                 }
-                            
+
                                 <th>
 
                                 </th>
                             </tr>
                         </thead>
                         <TBODY>
-                            @foreach (var item in Lista)
-                            {
-                                <tr>
-                                    <td>@item.Proveedor</td>
-                                    <td class="text-center">@item.Lote</td>
-                                    <td>@item.Especie @item.Talla</td>
-                                    <td style="padding:0">
-                                        <table style="width:100%;">
-                                            @foreach (var tipprod in DTipoProd.Where(x=>x.OrdenFabricacion==item.OrdenFabricacion))
+                            @{
+                                var tprod = ViewBag.TipoProducto as List<TipoProducto>;
+                                }
+                                @foreach (var item in Lista)
+                                {
+                                    <tr>
+                                        <td rowspan="@DTipoProd.Count">@item.Proveedor</td>
+                                        <td rowspan="@DTipoProd.Count" class="text-center">@item.Lote</td>
+                                        <td rowspan="@DTipoProd.Count">@item.Especie @item.Talla</td>
+                                        @*<td style="padding:0"></td>*@
+                                        <td>@tprod.FirstOrDefault().TipoProductoNombre</td>
+                                        @foreach (var Areas in ViewBag.Areas as List<Area>)
+                                        {
+                                            var pr = Dparametros.Where(x => x.CodArea == Areas.CodArea).ToList();
+                                            foreach (var param in pr)
                                             {
-                                                <tr>
-                                                    <td>
-                                                        @tipprod.TipoProductoNombre
+                                                var parametro = (from r in Model
+                                                                 where r.CodArea == Areas.CodArea && r.CodTipoProducto == tprod.FirstOrDefault().CodTipoProd && r.ParametroLaboratorio == param.ParametroLaboratorio
+                                                                 && r.IdDetalleAnalisisQuimicoProductoSe==item.IdDetalleAnalisisQuimicoProductoSe
+                                                                 select r).ToList();
+                                                    <td style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px">
+
+                                                        <table width="100%" style="height:100%" border="0">
+                                                            @foreach (var filas in parametro)
+                                                            {
+                                                                <tr style="border: hidden">
+                                                                    <td width="100%" style="border: hidden" class="text-right">@filas.Cantidad</td>
+                                                                </tr>
+                                                            }
+                                                        </table>
                                                     </td>
-                                                </tr>
+                                                }
                                             }
-                                        </table>
+                                        <td rowspan="@DTipoProd.Count">
+                                            @item.Cliente
                                         </td>
-                                    @foreach (var Parametros in Dparametros)
+                                        
+                                    </tr>
+                                    for (int i = 1; i < tprod.Count; i++)
                                     {
-                                        <td style="padding:0">
-                                            <table style="width:100%;">
-                                                    @foreach (var LineaSd in DTipoProd.Where(x=>x.OrdenFabricacion==item.OrdenFabricacion))
-                                                    {
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                @{
-                                                                    var cantidad = Model.Where(x => x.OrdenFabricacion == item.OrdenFabricacion && x.TipoProducto == LineaSd.TipoProductoNombre && x.IdTipoAnalisisQuimicoProductoSe == LineaSd.IdTipoAnalisisQuimicoProductoSe
-                                                                    && Parametros.ParametroLaboratorio == x.ParametroLaboratorio).Select(x => x.Cantidad).FirstOrDefault();
-                                                                }
-                                                                @if (cantidad == null)
-                                                                {
-                                                                    <text>
-                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    </text>
-                                                                }
-                                                                else
-                                                                {
-                                                                    @cantidad
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                      }
-                                            </table>
-                                        </td>
+                                        <tr>
+                                            <td>
+                                                @tprod[i].TipoProductoNombre
+                                            </td>
+                                            @foreach (var Areas in ViewBag.Areas as List<Area>)
+                                            {
+                                                var pr = Dparametros.Where(x => x.CodArea == Areas.CodArea).ToList();
+                                                foreach (var param in pr)
+                                                {
+                                                    var parametro = (from r in Model
+                                                                     where r.CodArea == Areas.CodArea && r.CodTipoProducto == tprod[i].CodTipoProd && r.ParametroLaboratorio == param.ParametroLaboratorio
+                                                                     && r.IdDetalleAnalisisQuimicoProductoSe == item.IdDetalleAnalisisQuimicoProductoSe
+                                                                     select r).ToList();
+                                                    <td style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px">
+
+                                                        <table width="100%" style="height:100%" border="0">
+                                                            @foreach (var filas in parametro)
+                                                            {
+                                                                <tr style="border: hidden">
+                                                                    <td width="100%" style="border: hidden" class="text-right">@filas.Cantidad</td>
+                                                                </tr>
+                                                            }
+                                                        </table>
+                                                    </td>
+                                                }
+                                            }
+                                        </tr>
                                     }
-                                    <td>
-                                        @item.Cliente
-                                    </td>
-                                </tr>
-                            }
+                                    @*foreach (var tp in ViewBag.TipoProducto as List<TipoProducto>)
+                                    {
+                                        <tr>
+                                            <td>@tp.TipoProductoNombre</td>
+                                            @foreach (var Areas in ViewBag.Areas as List<Area>)
+                                            {
+                                                var pr = Dparametros.Where(x => x.CodArea == Areas.CodArea).ToList();
+                                                foreach (var param in pr)
+                                                {
+                                                    var parametro = (from r in Model
+                                                                     where r.CodArea == Areas.CodArea && r.CodTipoProducto == tp.CodTipoProd && r.ParametroLaboratorio == param.ParametroLaboratorio
+                                                                     select r).ToList();
+                                                    <td style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px">
+
+                                                        <table width="100%" style="height:100%">
+                                                            @foreach (var filas in parametro)
+                                                            {
+                                                                <tr>
+                                                                    <td width="100%">@filas.Cantidad</td>
+                                                                </tr>
+                                                            }
+                                                        </table>
+                                                    </td>
+                                                }
+                                            }
+
+                                        </tr>
+                                    }*@
+                                }
                         </TBODY>
                     </table>
                 </div>
-        
-       
-        </div>
+
+
+            </div>
             <div class="card-footer divFooter" id="divfoot">
                 <div class="row table-responsive">
                     <div style="width:20%; float:left" class="col-7 col-md-2">
@@ -179,52 +220,66 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>HISTAMINA</td>
-                                    <td>3.61</td>
-                                    <td>8.4</td>
-                                </tr>
-                                <tr>
-                                    <td>HUMEDAD</td>
-                                    <td>67.48</td>
-                                    <td>69.92</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="width:80%; float:right" class="col-5 col-md-10">
-                        <center>
-                            <table>
-                                <tbody>
+                                @{
+                                    var objParam = ParametrosViewModel.Where(x => x.CalcMinMax == true);
+                                }
+                                @foreach (var poparam in objParam)
+                                {
+                                    var min = (from m in Model
+                                               where m.ParametroLaboratorio == poparam.ParametroLaboratorio
+                                               select m.Cantidad).Min();
+                                    var max = (from m in Model
+                                               where m.ParametroLaboratorio == poparam.ParametroLaboratorio
+                                               select m.Cantidad).Max();
                                     <tr>
-                                        <td class="text-center">
-                                            <label id="lblUsuarioIngreso"></label>
-                                            @*@Model.FirstOrDefault().UsuarioIngresoLog*@
-                                            <br />
-                                            <input type="text" value="Realizado Por" id="realizado" />
-                                            <br />
-                                            <label id="lblFechaIngreso"></label>
-                                            @*@Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")*@
+                                        <td>
+                                            @poparam.NombreParametro
                                         </td>
                                         <td>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            @min
                                         </td>
-                                        <td class="text-center">
-                                            <label id="lblAprobadoPor"></label>
-                                            @*@Model.FirstOrDefault().AprobadoPor*@
-                                            <br />
-                                            <input type="text" value="Revisado Por" id="revisado" />
-                                            <br />
-                                            <label id="lblFechaAprobacion"></label>
+                                        <td>
+                                            @max
                                         </td>
                                     </tr>
-                                </tbody>
+                                }
+                               
+                            </tbody>
+                    </table>
+                </div>
+                <div style="width:80%; float:right" class="col-5 col-md-10">
+                    <center>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <label id="lblUsuarioIngreso"></label>
+                                        @*@Model.FirstOrDefault().UsuarioIngresoLog*@
+                                        <br />
+                                        <input type="text" value="Realizado Por" id="realizado" />
+                                        <br />
+                                        <label id="lblFechaIngreso"></label>
+                                        @*@Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy")*@
+                                    </td>
+                                    <td>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </td>
+                                    <td class="text-center">
+                                        <label id="lblAprobadoPor"></label>
+                                        @*@Model.FirstOrDefault().AprobadoPor*@
+                                        <br />
+                                        <input type="text" value="Revisado Por" id="revisado" />
+                                        <br />
+                                        <label id="lblFechaAprobacion"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
 
-                            </table>
-                        </center>
-                    </div>
+                        </table>
+                    </center>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 </div>

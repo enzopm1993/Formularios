@@ -1,82 +1,9 @@
-﻿@model ICollection<Asiservy.Automatizacion.Datos.Datos.SPSubdetalleAnalisisQuimicoProductoSe>
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.SPSubdetalleAnalisisQuimicoProductoSe>
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
 @using Asiservy.Automatizacion.Formularios.Models.CALIDAD
-@*<table class="table table-bordered table-striped">
-        @{
-            int ContMax = 0;
 
-            foreach (var c in Model)
-            {
-                ContMax = c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count > ContMax ? c.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count : ContMax;
-
-            }
-            var ObjetoMasParametros = Model.FirstOrDefault(x => x.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.Count == ContMax);
-        }
-        <thead>
-            <tr>
-
-                <th>
-                    Tipo Producto
-                </th>
-                @foreach (var item in ObjetoMasParametros.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x=>x.ParametroLaboratorio))
-                {
-                    <th>
-                        @item.CC_PARAMETROS_LABORATORIO.DescripcionParametro
-                    </th>
-                }
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model)
-            {
-                int cont = 0;
-                List<dynamic> lista = new List<dynamic>();
-                foreach (var listaParam in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO)
-                {
-                    lista.Add(new { listaParam.ParametroLaboratorio, listaParam.Cantidad });
-                }
-                dynamic ObjTipo = new
-                {
-                    IdDetalleAnalisisQuimicoProductoSe = item.IdDetalleAnalisisQuimicoProductoSe,
-                    IdTipoAnalisisQuimicoProductoSe = item.IdTipoAnalisisQuimicoProductoSe,
-                    TipoProducto = item.TipoProducto,
-                    CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = lista
-                };
-
-                var json = JsonConvert.SerializeObject(ObjTipo);
-                string Tipo = item.TipoProducto == "L" ? "Lomo" : item.TipoProducto == "M" ? "Miga" : item.TipoProducto == "T" ? "Trozo" : item.TipoProducto;
-                <tr>
-
-                    <td>
-                        @Tipo
-                    </td>
-                    @foreach (var ListaCant in item.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO.OrderBy(x => x.ParametroLaboratorio))
-                    {
-                        cont++;
-                        <td>
-                            @ListaCant.Cantidad
-                        </td>
-                    }
-
-                    @if (cont < ContMax)
-                    {
-                        int ncont = ContMax - cont;
-                        for (int i = 0; i < ncont; i++)
-                        {
-                            <td></td>
-
-                        }
-                    }
-
-                </tr>
-            }
-        </tbody>
-
-    </table>*@
-
-<table class="table table-bordered table-striped" id="tblReporte">
+<table class="table table-bordered" id="tblReporte">
     <thead style="font-size:0.8rem">
         <tr>
             <th>
@@ -93,7 +20,7 @@
             <th>TIPO PRODUCTO</th>
             @{
                 var Json = JsonConvert.SerializeObject(ViewBag.Parametros);
-                var Dparametros = JsonConvert.DeserializeObject<List<dynamic>>(Json);
+                List<ParametrosViewModel> Dparametros = JsonConvert.DeserializeObject<List<ParametrosViewModel>>(Json);
                 List<TipoProducto> DTipoProd = ViewBag.TipoProducto as List<TipoProducto>;
             }
             @foreach (var parametros in Dparametros)
@@ -103,48 +30,33 @@
         </tr>
     </thead>
     <TBODY>
+        @foreach (var item in ViewBag.TipoProducto as List<TipoProducto>)
+        {
             <tr>
-            
-                <td style="padding:0">
-                    <table style="width:100%;" class="table-bordered">
-                        @foreach (var tipprod in DTipoProd)
-                        {
-                            <tr>
-                                <td>
-                                    @tipprod.TipoProductoNombre
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </td>
-                @foreach (var Parametros in Dparametros)
+                <td>@item.TipoProductoNombre</td>
+                @foreach (var Areas in ViewBag.Areas as List<Area>)
                 {
-                    <td style="padding:0">
-                        <table style="width:100%;">
-                            @foreach (var LineaSd in DTipoProd)
-                            {
-                                <tr>
-                                    <td class="text-center">
-                                        @{
-                                            var cantidad = Model.Where(x=>x.TipoProducto == LineaSd.TipoProductoNombre && x.IdTipoAnalisisQuimicoProductoSe == LineaSd.IdTipoAnalisisQuimicoProductoSe
-                                            && Parametros.ParametroLaboratorio == x.ParametroLaboratorio).Select(x => x.Cantidad).FirstOrDefault();
-                                        }
-                                        @if (cantidad == null)
-                                        {
-                                            <text>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            </text>
-                                        }
-                                        else
-                                        {
-                                            @cantidad
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    </td>
+                    var pr = Dparametros.Where(x => x.CodArea == Areas.CodArea).ToList();
+                    foreach (var param in pr)
+                    {
+                        var parametro = (from r in Model
+                                         where r.CodArea==Areas.CodArea && r.CodTipoProducto==item.CodTipoProd &&r.ParametroLaboratorio==param.ParametroLaboratorio
+                                         select r).ToList();
+                        <td style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px">
+
+                            <table width="100%" style="height:100%">
+                                @foreach (var filas in parametro)
+                                {
+                                    <tr style="border: hidden">
+                                        <td width="100%" style="border: hidden" class="text-right">@filas.Cantidad</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    }
                 }
+
             </tr>
+        }
     </TBODY>
-    </table>
+</table>
