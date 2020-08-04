@@ -393,7 +393,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDReporte = new clsDReporte();
-                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                var rep = clsDReporte.ConsultaCodigoReporte("ReporteCalibracionPhMetro");
                 if (rep != null)
                 {
                     ViewBag.CodigoReporte = rep.Codigo;
