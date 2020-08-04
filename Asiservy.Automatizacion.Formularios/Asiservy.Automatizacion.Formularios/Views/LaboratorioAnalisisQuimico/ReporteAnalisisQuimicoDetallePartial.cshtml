@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Quimico_Precoccion>
 @using Asiservy.Automatizacion.Formularios.Models.Produccion;
 @using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
 
 @{
     var groupParametros = (from x in Model
@@ -67,6 +68,19 @@
                     var turno = (from c in Model where int.Parse(c.Cocinador) == row.COCINA && c.Parada == row.PARADA select c).FirstOrDefault();
                     if (turno == null || turno.Turno == ViewBag.Turno)
                     {
+                        List<sp_Analisis_Quimico_Precoccion_Barco> listaBarcoOF = new List<sp_Analisis_Quimico_Precoccion_Barco>();
+                        sp_Analisis_Quimico_Precoccion_Barco barcoOF;
+                        if (ViewBag.BarcosAsignados != null)
+                        {
+                            foreach (var item in listaCocinaParada)
+                            {
+                                barcoOF = (from x in ViewBag.BarcosAsignados as List<sp_Analisis_Quimico_Precoccion_Barco>
+                                           where int.Parse(x.OrdenFabricacion) == item.ORDEN && x.Lote == item.LOTE && x.Nombre != item.BARCO
+                                           select x).FirstOrDefault();
+
+                                listaBarcoOF.Add(barcoOF);
+                            }
+                        }
                         <tr style="cursor:pointer">
                             <td class="text-right">@row.COCINA</td>
                             <td class="text-right">@row.PARADA</td>
@@ -83,9 +97,19 @@
                                 }
                             </td>
                             <td>
-                                @foreach (var item in listaCocinaParada)
+                                @if (listaBarcoOF != null)
                                 {
-                                    <div>@item.BARCO</div>
+                                    foreach (var item in listaBarcoOF)
+                                    {
+                                        if (item != null)
+                                        {
+                                            <div>@item.Nombre</div>
+                                        }
+                                        else
+                                        {
+                                            <div>&nbsp;</div>
+                                        }
+                                    }
                                 }
                             </td>
                             <td>
@@ -123,7 +147,7 @@
                                             }
                                             if (!groupLote.Any())
                                             {
-                                                <div>----</div>
+                                                <div>&nbsp;</div>
                                             }
                                         }
                                     </td>
@@ -237,38 +261,38 @@
         con++;
     }
 }
-         <div class="row align-center text-uppercase " style="margin:0px;padding:0px;" >
-             @foreach (var item in listFotos)
-             {
-                 if (item.RutaFoto != null)
-                 {
+<div class="row align-center text-uppercase " style="margin:0px;padding:0px;">
+    @foreach (var item in listFotos)
+    {
+        if (item.RutaFoto != null)
+        {
 
-                     <div style="width:270px;margin:0px;" >
-                         <div id="header_@item.IdFoto">
-                             <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img " alt="...">
-                         </div>
-                         <script>
+            <div style="width:270px;margin:0px;">
+                <div id="header_@item.IdFoto">
+                    <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img " alt="...">
+                </div>
+                <script>
                             validarImg('@item.Rotation','@item.IdFoto','@item.RutaFoto');
-                         </script>
-                         <div >
-                             <label class="card-text" style="color:black;font-size:10px;white-space:normal;"><b>COCINADOR: </b> @item.Cocinador</label><br id="brOcultar"/>
-                             <label class="card-text floatLabel" style="color:black;font-size:10px;white-space:normal;"><b>PARADA: </b> @item.Parada</label><br />
-                             <label class="card-text" style="color:black;font-size:10px;white-space:normal; padding-left:0.5px"><b>OBSERVACIÓN: </b> @item.ObservacionFoto</label><br />
-                         </div>
-                     </div>
-                 }
-             }
-         </div>
-         <style>
-             .img {
-                 border: 1px solid #ddd;
-                 border-radius: 4px;
-                 padding: 5px;
-                 width: 250px;
-             }
+                </script>
+                <div>
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;"><b>COCINADOR: </b> @item.Cocinador</label><br id="brOcultar" />
+                    <label class="card-text floatLabel" style="color:black;font-size:10px;white-space:normal;"><b>PARADA: </b> @item.Parada</label><br />
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal; padding-left:0.5px"><b>OBSERVACIÓN: </b> @item.ObservacionFoto</label><br />
+                </div>
+            </div>
+        }
+    }
+</div>
+<style>
+    .img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 250px;
+    }
 
-                 .img:hover {
-                     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-                 }
-         </style>
+        .img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
 <input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />

@@ -7,6 +7,7 @@ var siActualizar = false;
 var rotation = 0;
 var inputMask = JSON.parse(document.getElementById('inputMask').value);
 var actulizarFoto = false;
+var ordenFabricacion = [];
 $(document).ready(function () {
     CargarCabecera();
     $('#selectTurno').select2({
@@ -516,6 +517,9 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
                         document.getElementById('lblParada').innerText = 'PARADA: ' + parada;
                         document.getElementById('lblCocinador').value = cocina;
                         document.getElementById('lblParada').value = parada;
+                        //document.getElementById('lblOrdenFabricacion').innerText = 'ORDEN FABRICACIÓN: ' + jdata[0].ORDEN;
+                        document.getElementById('lblOrdenFabricacion').value = jdata[0].ORDEN;
+                        ordenFabricacion = jdata;
                         $('#tblImagenes').html('');
                         jdata.forEach(function (row) {
                             var x = document.getElementById("selectIngresarLote");
@@ -536,6 +540,15 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
     } catch (e) {
         MensajeError(Mensajes.Error,false);
     }   
+}
+
+function SelectOrdenFabricacion() {
+    ordenFabricacion.forEach(function (row) {
+        if (document.getElementById('selectIngresarLote').value == row.LOTE) {
+            //document.getElementById('lblOrdenFabricacion').innerText = 'ORDEN FABRICACIÓN: ' + row.ORDEN;
+            document.getElementById('lblOrdenFabricacion').value = row.ORDEN;
+        }
+    }); 
 }
 
 async function GuardarDetalle() {
@@ -641,7 +654,7 @@ async function GuardarElemento(){
             data.append('IdElemento', idElemento);
             data.append('IdParametro', document.getElementById('selectParametros').value);
             data.append('Valor', valor);
-            data.append('OrdenFabricacion', valor);
+            data.append('OrdenFabricacion', document.getElementById('lblOrdenFabricacion').value);
             data.append('LoteBarco', document.getElementById('selectIngresarLote').value);
             data.append('Cocinador', document.getElementById('lblCocinador').value);
             data.append('Parada', document.getElementById('lblParada').value);
@@ -803,6 +816,7 @@ function EliminarDetalleSi() {
 function LimpiarDetalle() {
     CargarParadas();
     LimpiarDatosImagen();
+    ordenFabricacion = [];
     mask();      
     document.getElementById('selectIngresarLote').innerHTML = '';
     $('#divElementos').html('');

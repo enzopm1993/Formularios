@@ -9,6 +9,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LaboratorioAna
 {
     public class ClsDLaboratorioAnalisisQuimico
     {
+        public List<sp_Analisis_Quimico_Precoccion_Barco> ConsultarBarcoFecha(DateTime fechaAsignada, int op = 1)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var elemento = db.sp_Analisis_Quimico_Precoccion_Barco( op, fechaAsignada).ToList();
+                return elemento;
+            }
+        }
         public int GuardarModificarAnalisisQuimico(CC_ANALISIS_QUIMICO_PRECOCCION_CTRL guardarModificar, int siAprobar)
         {
             int valor = 0;//GUARDDADO NUEVO

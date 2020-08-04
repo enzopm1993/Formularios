@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Asiservy.Automatizacion.Datos.Datos;
+using System.Data.Entity;
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 {
 
@@ -103,7 +104,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 
                 return proyeccion;
             }
-        }
+        }       
 
         public PROYECCION_PROGRAMACION ConsultaProyeccionProgramacion()
         {

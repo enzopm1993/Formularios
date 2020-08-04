@@ -14,5 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Produccion
         public string ESPECIE { get; set; }
         public string TALLA { get; set; }
         public int COCHES { get; set; }
+        public int ORDEN { get; set; }
+
     }
 }

@@ -12,6 +12,7 @@ using System.Web;
 using System.IO;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -92,7 +93,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDApiProduccion = new clsDApiProduccion();
                 var parametros = ClsDParametrosLaboratorio.ConsultarParametrosFormularios(clsAtributos.codFormPrecoccion).Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 ViewBag.listaParametros = parametros ;
-                ViewBag.ConsultarDetalleDia = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaProduccion, turno, op);
+                ViewBag.ConsultarDetalleDia = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaProduccion, turno, op);                
+                ViewBag.BarcosAsignados = ClsDLaboratorioAnalisisQuimico.ConsultarBarcoFecha(fechaParadaCocina);
                 var listaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaParadaCocina);
                 if (listaParadasCocinas != null)
                 {
@@ -941,10 +943,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("100", JsonRequestBehavior.AllowGet);
                 }
+                ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
                 clsDApiProduccion = new clsDApiProduccion();
                 ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaAsignada);
                 ViewBag.Turno = turno;
-                ClsDLaboratorioAnalisisQuimico = new ClsDLaboratorioAnalisisQuimico();
+                ViewBag.BarcosAsignados = ClsDLaboratorioAnalisisQuimico.ConsultarBarcoFecha(fechaAsignada);                
                 var lista = ClsDLaboratorioAnalisisQuimico.ConsultarDetalleDia(fechaControl, turno, op);
                 if (lista.Count != 0)
                 {
@@ -1084,6 +1087,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     clsDApiProduccion = new clsDApiProduccion();
                     ViewBag.ListaParadasCocinas = clsDApiProduccion.ParadasCocinasPorFecha(fechaAsignada);
                     ViewBag.Turno = turno;
+                    ViewBag.BarcosAsignados = ClsDLaboratorioAnalisisQuimico.ConsultarBarcoFecha(fechaAsignada);
                     ViewBag.Path = clsAtributos.UrlImagen.Replace("~", "..")+ this.ControllerContext.RouteData.Values["controller"].ToString() + "/";
                     return PartialView(lista);
                 }

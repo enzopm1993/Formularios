@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Quimico_Precoccion>
 @using Asiservy.Automatizacion.Formularios.Models.Produccion;
+@using Asiservy.Automatizacion.Datos.Datos;
 @using Newtonsoft.Json;
 
 @{
     var groupParametros = (from x in Model
-                           where x.IdParametro!=null
-                           group x by new { x.IdParametro, x.NombreParametro } into g                           
+                           where x.IdParametro != null
+                           group x by new { x.IdParametro, x.NombreParametro } into g
                            select new { g.Key.IdParametro, g.Key.NombreParametro });
 }
 <div class="table-responsive">
@@ -54,6 +55,19 @@
                 var listaCocinaParada = (from c in ViewBag.ListaParadasCocinas as List<ItemParadaCocina> where c.COCINA == row.COCINA && c.PARADA == row.PARADA select c).OrderBy(x => x.PARADA);
                 if (turno == null || turno.Turno == ViewBag.Turno)
                 {
+                    List<sp_Analisis_Quimico_Precoccion_Barco> listaBarcoOF = new List<sp_Analisis_Quimico_Precoccion_Barco>();
+                    sp_Analisis_Quimico_Precoccion_Barco barcoOF;
+                    if (ViewBag.BarcosAsignados!=null)
+                    {
+                        foreach (var item in listaCocinaParada)
+                        {
+                            barcoOF = (from x in ViewBag.BarcosAsignados as List<sp_Analisis_Quimico_Precoccion_Barco>
+                                       where int.Parse(x.OrdenFabricacion) == item.ORDEN && x.Lote == item.LOTE && x.Nombre != item.BARCO
+                                       select x).FirstOrDefault();
+
+                            listaBarcoOF.Add(barcoOF);
+                        }
+                    }
                     <tr style="cursor:pointer">
                         <td class="text-right">@row.COCINA</td>
                         <td class="text-right">@row.PARADA</td>
@@ -70,9 +84,19 @@
                             }
                         </td>
                         <td>
-                            @foreach (var item in listaCocinaParada)
+                            @if (listaBarcoOF != null)
                             {
-                                <div>@item.BARCO</div>
+                                foreach (var item in listaBarcoOF)
+                                {
+                                    if (item != null)
+                                    {
+                                        <div>@item.Nombre</div>
+                                    }
+                                    else
+                                    {
+                                        <div>&nbsp;</div>
+                                    }
+                                }
                             }
                         </td>
                         <td>
@@ -110,7 +134,7 @@
                                         }
                                         if (!groupLote.Any())
                                         {
-                                            <div>----</div>
+                                                <div>&nbsp;</div>
                                         }
                                     }
                                 </td>
@@ -180,8 +204,8 @@
 
 @{
     var listaFotos = (from x in Model
-                                 group x by new { x.ObservacionFoto, x.IdFoto, x.RutaFoto, x.Rotation, x.Cocinador,x.Parada, x.Turno} into v
-                                 select new { v.Key.ObservacionFoto, v.Key.IdFoto, v.Key.RutaFoto, v.Key.Rotation, v.Key.Parada, v.Key.Cocinador, v.Key.Turno}).ToList();
+                      group x by new { x.ObservacionFoto, x.IdFoto, x.RutaFoto, x.Rotation, x.Cocinador, x.Parada, x.Turno } into v
+                      select new { v.Key.ObservacionFoto, v.Key.IdFoto, v.Key.RutaFoto, v.Key.Rotation, v.Key.Parada, v.Key.Cocinador, v.Key.Turno }).ToList();
 }
 <div class="row align-center text-uppercase" s style="margin:3px">
     @foreach (var item in listaFotos)
@@ -214,16 +238,16 @@
 
 
 
-    <style>
-        .img {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 5px;
-            width: 250px;
-        }
+<style>
+    .img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 250px;
+    }
 
-            .img:hover {
-                box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-            }
-    </style>
-    <input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />
+        .img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
+<input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />
