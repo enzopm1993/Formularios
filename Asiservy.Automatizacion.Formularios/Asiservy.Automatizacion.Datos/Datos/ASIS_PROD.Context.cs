@@ -216,10 +216,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_TEMPERATURA> CC_MANTENIMIENTO_TEMPERATURA { get; set; }
         public virtual DbSet<CC_PCC_MANTENIMIENTO> CC_PCC_MANTENIMIENTO { get; set; }
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_AS> CC_PROTOCOLO_MATERIA_PRIMA_AS { get; set; }
-        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> CC_ANALISIS_QUIMICO_PRECOCCION_CTRL { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE { get; set; }
+        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
+        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

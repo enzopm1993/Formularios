@@ -416,7 +416,7 @@
           <Property Name="IdParametro" Type="int" Nullable="false" />
           <Property Name="Valor" Type="decimal" Precision="6" Scale="2" Nullable="false" />
           <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
-          <Property Name="LoteBarco" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoteBarco" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1796,6 +1796,20 @@
           </Key>
           <Property Name="IdProtocoloMateriaPrimaDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdProtocoloMateriaPrima" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+          <Key>
+            <PropertyRef Name="IdProtocoloMateriaPrimaSubDetalle" />
+          </Key>
+          <Property Name="IdProtocoloMateriaPrimaSubDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProtocoloMateriaPrimaDetalle" Type="int" Nullable="false" />
           <Property Name="IdCalificacion" Type="int" Nullable="false" />
           <Property Name="IdParametroSensorial" Type="int" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
@@ -4148,30 +4162,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
-          <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" Type="Self.CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
-          <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
-              <PropertyRef Name="IdCalificacion" />
-            </Principal>
-            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-              <PropertyRef Name="IdCalificacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC">
-          <End Role="CC_MANTENIMIENTO_PARAMETRO_AAC" Type="Self.CC_MANTENIMIENTO_PARAMETRO_AAC" Multiplicity="1" />
-          <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_AAC">
-              <PropertyRef Name="IdParametro" />
-            </Principal>
-            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-              <PropertyRef Name="IdParametroSensorial" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
           <End Role="CC_PROTOCOLO_MATERIA_PRIMA_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_AS" Multiplicity="1" />
           <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
@@ -4181,6 +4171,42 @@
             </Principal>
             <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
               <PropertyRef Name="IdProtocoloMateriaPrima" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+          <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" Type="Self.CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
+          <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Type="Self.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+          <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="1" />
+          <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Type="Self.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+              <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5455,6 +5481,7 @@
           <EntitySet Name="CC_PCC_MANTENIMIENTO" EntityType="Self.CC_PCC_MANTENIMIENTO" Schema="dbo" Table="CC.PCC_MANTENIMIENTO" store:Type="Tables" />
           <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_AS" EntityType="Self.CC_PROTOCOLO_MATERIA_PRIMA_AS" Schema="dbo" Table="CC.PROTOCOLO_MATERIA_PRIMA_AS" store:Type="Tables" />
           <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntityType="Self.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Schema="dbo" Table="CC.PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" store:Type="Tables" />
+          <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntityType="Self.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Schema="dbo" Table="CC.PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" store:Type="Tables" />
           <EntitySet Name="CC_TEMPERATURA_INTERNA_REFRIGERADORA" EntityType="Self.CC_TEMPERATURA_INTERNA_REFRIGERADORA" Schema="dbo" Table="CC.TEMPERATURA_INTERNA_REFRIGERADORA" store:Type="Tables" />
           <EntitySet Name="CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" EntityType="Self.CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" Schema="dbo" Table="CC.TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" store:Type="Tables" />
           <EntitySet Name="CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" EntityType="Self.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Schema="dbo" Table="CC.TEMPERATURA_TERMOENCOGIDO_SELLADO" store:Type="Tables" />
@@ -5741,17 +5768,21 @@
             <End Role="CC_PARAMETRO_DEFECTO_CABECERA" EntitySet="CC_PARAMETRO_DEFECTO_CABECERA" />
             <End Role="CC_PARAMETRO_DEFECTO_DETALLE" EntitySet="CC_PARAMETRO_DEFECTO_DETALLE" />
           </AssociationSet>
-          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="Self.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
-            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC" Association="Self.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC">
-            <End Role="CC_MANTENIMIENTO_PARAMETRO_AAC" EntitySet="CC_MANTENIMIENTO_PARAMETRO_AAC" />
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
-          </AssociationSet>
           <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" Association="Self.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
             <End Role="CC_PROTOCOLO_MATERIA_PRIMA_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_AS" />
             <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="Self.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="Self.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Association="Self.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL_CC_TEMPERATURA_INTERNA_REFRIGERADORA" Association="Self.FK_CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL_CC_TEMPERATURA_INTERNA_REFRIGERADORA">
             <End Role="CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" EntitySet="CC_TEMPERATURA_INTERNA_REFRIGERADORA_CONTROL" />
@@ -7297,19 +7328,6 @@
           <EntitySet Name="CC_MANTENIMIENTO_TEMPERATURA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA" />
           <EntitySet Name="CC_PCC_MANTENIMIENTO" EntityType="ASIS_PRODModel.CC_PCC_MANTENIMIENTO" />
           <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_AS" EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_AS" />
-          <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
-          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
-            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC">
-            <End Role="CC_MANTENIMIENTO_PARAMETRO_AAC" EntitySet="CC_MANTENIMIENTO_PARAMETRO_AAC" />
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_AS" />
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
-          </AssociationSet>
           <EntitySet Name="CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" />
           <EntitySet Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
           <EntitySet Name="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE" />
@@ -7331,11 +7349,29 @@
             <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SPReporteAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe)">
-            <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
+          <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SPSubdetalleAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPSubdetalleAnalisisQuimicoProductoSe)">
-            <Parameter Name="IdDetalle" Mode="In" Type="Int32" />
+          <Parameter Name="IdDetalle" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+          <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+            <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13163,7 +13199,6 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_ANALISIS_AGUA_CALDEROS_DETALLE" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_PARAMETRO_AAC" FromRole="CC_MANTENIMIENTO_PARAMETRO_AAC" ToRole="CC_ANALISIS_AGUA_CALDEROS_DETALLE" />
-          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC" FromRole="CC_MANTENIMIENTO_PARAMETRO_AAC" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
         </EntityType>
         <Association Name="FK_CC_ANALISIS_AGUA_CALDEROS_DETALLE_CC_MANTENIMIENTO_EQUIPO_AAC">
           <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_EQUIPO_AAC" Role="CC_MANTENIMIENTO_EQUIPO_AAC" Multiplicity="1" />
@@ -13595,7 +13630,7 @@
           <Property Name="IdAnalisisDetalle" Type="Int32" Nullable="false" />
           <Property Name="IdParametro" Type="Int32" Nullable="false" />
           <Property Name="Valor" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="LoteBarco" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoteBarco" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -14010,7 +14045,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_CALIFICACION_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
-          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_CALIFICACION_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_CALIFICACION_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
         </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_INTERMEDIO_AS">
           <Key>
@@ -14045,6 +14080,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
         </EntityType>
         <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
           <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
@@ -14128,61 +14164,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
         </EntityType>
-        <EntityType Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-          <Key>
-            <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
-          </Key>
-          <Property Name="IdProtocoloMateriaPrimaDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdProtocoloMateriaPrima" Type="Int32" Nullable="false" />
-          <Property Name="IdCalificacion" Type="Int32" Nullable="false" />
-          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_MANTENIMIENTO_CALIFICACION_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" ToRole="CC_MANTENIMIENTO_CALIFICACION_AS" />
-          <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_AAC" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_AAC" />
-          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_AS" />
-        </EntityType>
-        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
-          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
-              <PropertyRef Name="IdCalificacion" />
-            </Principal>
-            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-              <PropertyRef Name="IdCalificacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC">
-          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_AAC" Role="CC_MANTENIMIENTO_PARAMETRO_AAC" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_AAC">
-              <PropertyRef Name="IdParametro" />
-            </Principal>
-            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-              <PropertyRef Name="IdParametroSensorial" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
-          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_AS" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_PROTOCOLO_MATERIA_PRIMA_AS">
-              <PropertyRef Name="IdProtocoloMateriaPrima" />
-            </Principal>
-            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-              <PropertyRef Name="IdProtocoloMateriaPrima" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CC_ANALISIS_QUIMICO_PRECOCCION_CTRL">
           <Key>
             <PropertyRef Name="IdAnalisis" />
@@ -14333,6 +14314,89 @@
           <Property Type="Boolean" Name="CalcMinMax" Nullable="true" />
           <Property Type="Decimal" Name="Cantidad" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
+        <EntityType Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+          <Key>
+            <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
+          </Key>
+          <Property Name="IdProtocoloMateriaPrimaDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProtocoloMateriaPrima" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_AS" />
+          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+        </EntityType>
+        <EntityType Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+          <Key>
+            <PropertyRef Name="IdProtocoloMateriaPrimaSubDetalle" />
+          </Key>
+          <Property Name="IdProtocoloMateriaPrimaSubDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProtocoloMateriaPrimaDetalle" Type="Int32" Nullable="false" />
+          <Property Name="IdCalificacion" Type="Int32" Nullable="false" />
+          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_CALIFICACION_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_MANTENIMIENTO_CALIFICACION_AS" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+        </EntityType>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_CALIFICACION_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_PROTOCOLO_MATERIA_PRIMA_AS">
+              <PropertyRef Name="IdProtocoloMateriaPrima" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+              <PropertyRef Name="IdProtocoloMateriaPrima" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+              <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20893,23 +20957,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-              <MappingFragment StoreEntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
-                <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
-                <ScalarProperty Name="IdProtocoloMateriaPrima" ColumnName="IdProtocoloMateriaPrima" />
-                <ScalarProperty Name="IdProtocoloMateriaPrimaDetalle" ColumnName="IdProtocoloMateriaPrimaDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRECOCCION_CTRL">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL">
               <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_CTRL">
@@ -21035,6 +21082,38 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+              <MappingFragment StoreEntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdProtocoloMateriaPrima" ColumnName="IdProtocoloMateriaPrima" />
+                <ScalarProperty Name="IdProtocoloMateriaPrimaDetalle" ColumnName="IdProtocoloMateriaPrimaDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <MappingFragment StoreEntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
+                <ScalarProperty Name="IdCalificacion" ColumnName="IdCalificacion" />
+                <ScalarProperty Name="IdProtocoloMateriaPrimaDetalle" ColumnName="IdProtocoloMateriaPrimaDetalle" />
+                <ScalarProperty Name="IdProtocoloMateriaPrimaSubDetalle" ColumnName="IdProtocoloMateriaPrimaSubDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
