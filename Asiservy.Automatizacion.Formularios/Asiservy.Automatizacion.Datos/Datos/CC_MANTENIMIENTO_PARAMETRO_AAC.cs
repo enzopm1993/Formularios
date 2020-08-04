@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CC_MANTENIMIENTO_PARAMETRO_AAC()
         {
             this.CC_ANALISIS_AGUA_CALDEROS_DETALLE = new HashSet<CC_ANALISIS_AGUA_CALDEROS_DETALLE>();
+            this.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS = new HashSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS>();
         }
     
         public int IdParametro { get; set; }
@@ -34,5 +35,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_ANALISIS_AGUA_CALDEROS_DETALLE> CC_ANALISIS_AGUA_CALDEROS_DETALLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
     }
 }

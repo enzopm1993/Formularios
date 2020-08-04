@@ -39,6 +39,7 @@
                              select new { listGroup.Key.COCINA, listGroup.Key.PARADA });
         var consultarDetalleDia = ViewBag.ConsultarDetalleDia as List<sp_Analisis_Quimico_Precoccion>;
         string[] turnoLetra = new string[] { "", "A", "B", "C", "D", "E", "F", "G" };
+        int con = 1;
     }
     <tbody style="font-size:9px">
         @foreach (var row in listaAgrupada)
@@ -71,7 +72,10 @@
                     <td>
                         @foreach (var item in listaCocinaParada)
                         {
-                            <div>@item.COCHES</div>
+                            int con2 = item.COCHES + con - 1;
+                            <div>@con - @con2</div>
+                            @*<div>@item.COCHES</div>*@
+                            con = con + item.COCHES;
                         }
                     </td>
                     @if (ViewBag.listaParametros != null)
@@ -145,6 +149,14 @@
 
                     </td>
                 </tr>
+            }
+            else
+            {
+                foreach (var item in listaCocinaParada)
+                {
+                    int con2 = item.COCHES + con - 1;
+                    con = con + item.COCHES;
+                }
             }
         }
     </tbody>

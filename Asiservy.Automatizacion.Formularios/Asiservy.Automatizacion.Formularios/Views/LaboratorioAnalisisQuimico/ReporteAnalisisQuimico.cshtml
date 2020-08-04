@@ -167,10 +167,11 @@
 
 @*<br id="brCabecera" />*@
 <div class="row text-center text-md-left align-self-sm-center" id="divFiltro">
-    <div class="col-12 text-uppercase">
+    <div class="col-12 col-md-12 text-uppercase">
         <h5 style="float:left">REPORTE ANÁLISIS QUÍMICOS PRECOCCIÓN</h5>
-        <div class="box_filters text-center text-md-left">
-            <div class="itemFilter col-12 col-sm-10 col-md-10">
+       
+        <div class="box_filters col-md-5 col-sm-10 text-center text-md-left" style="font-size:14px">
+            <div class="float-sm-left col-12 col-sm-10 col-md-10">
                 <input type="hidden" id="fechaDesde" value="" />
                 <input type="hidden" id="fechaHasta" value="" />
                 <div id="reportrange" class="selectbox">
@@ -178,7 +179,7 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
             </div>
-            <div class="itemFilter col-12 col-md-1 col-sm-1">
+            <div class="float-sm-right col-12 col-md-1 col-sm-1">
                 <a href="#" onclick="CargarCabecera()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search text-center"></i></a>
             </div>
         </div>

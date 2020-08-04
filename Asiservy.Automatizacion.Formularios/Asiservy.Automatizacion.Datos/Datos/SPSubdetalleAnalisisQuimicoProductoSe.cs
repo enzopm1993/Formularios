@@ -13,7 +13,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class SPSubdetalleAnalisisQuimicoProductoSe
     {
-        public int IdTipoAnalisisQuimicoProductoSe { get; set; }
+        public int IdDetalle { get; set; }
+        public string CodTipoProducto { get; set; }
         public string TipoProducto { get; set; }
         public int ParametroLaboratorio { get; set; }
         public int IdClasificador { get; set; }

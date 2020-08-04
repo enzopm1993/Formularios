@@ -8,10 +8,12 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
     public class TipoProducto
     {
      
-        public int IdTipoAnalisisQuimicoProductoSe { get; set; }
+        //public int IdTipoAnalisisQuimicoProductoSe { get; set; }
+        //public string TipoProductoNombre { get; set; }
+        //public int? OrdenFabricacion { get; set; }
+        //public string Lote { get; set; }
+        public string CodTipoProd { get; set; }
         public string TipoProductoNombre { get; set; }
-        public int? OrdenFabricacion { get; set; }
-        public string Lote { get; set; }
 
 
     }

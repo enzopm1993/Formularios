@@ -15,6 +15,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 return lista;
             }
         }
+
+        public List<CC_PCC_MANTENIMIENTO> ConsultarRegistroActivos()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_PCC_MANTENIMIENTO.AsNoTracking().Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+                return lista;
+            }
+        }
+
         public int GuardarModificarRegistro(CC_PCC_MANTENIMIENTO guardarModificar)
         {
             int valor = 0;

@@ -22,6 +22,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public int IdAnalisis { get; set; }
         public System.DateTime Fecha { get; set; }
+        public Nullable<System.DateTime> FechaAsignada { get; set; }
         public string ObservacionCtrl { get; set; }
         public string Turno { get; set; }
         public bool EstadoReporte { get; set; }

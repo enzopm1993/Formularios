@@ -12,18 +12,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO
+    public partial class CC_PROTOCOLO_MATERIA_PRIMA_AS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_TIPO()
+        public CC_PROTOCOLO_MATERIA_PRIMA_AS()
         {
-            this.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO = new HashSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO>();
+            this.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS = new HashSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS>();
         }
     
-        public int IdTipoAnalisisQuimicoProductoSe { get; set; }
-        public string TipoProducto { get; set; }
-        public int IdDetalleAnalisisQuimicoProductoSe { get; set; }
-        public Nullable<int> NumeroMuestra { get; set; }
+        public int IdProtocoloMateriaPrima { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.DateTime FechaEvaluacion { get; set; }
+        public System.DateTime FechaDescarga { get; set; }
+        public int OrdenFabricacion { get; set; }
+        public string Lote { get; set; }
+        public string LoteDescarga { get; set; }
+        public string CodigoProtocolo { get; set; }
+        public int Pcc { get; set; }
+        public string Observacion { get; set; }
+        public bool EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,8 +41,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXTIPO { get; set; }
+        public virtual ICollection<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
     }
 }

@@ -66,6 +66,7 @@ function SeleccionarBandeja(model) {
         type: "GET",
         data: {
             fechaControl: listaDatos.Fecha,
+            fechaAsignada: model.FechaAsignada,
             turno: model.Turno,
             op: op
         },
