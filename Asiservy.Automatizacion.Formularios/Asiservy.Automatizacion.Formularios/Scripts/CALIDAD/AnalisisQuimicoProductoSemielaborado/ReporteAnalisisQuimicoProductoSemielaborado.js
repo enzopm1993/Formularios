@@ -1,8 +1,9 @@
-﻿DevExpress.localization.locale(navigator.language);
+﻿var dataRep;
+DevExpress.localization.locale(navigator.language);
 var opciosGrid = {
-    //loadPanel: {
-    //    enabled: true
-    //},
+    loadPanel: {
+        enabled: true
+    },
     //dataSource: resultado,
     keyExpr: "IdAnalisisQuimicoProductoSe",
     selection: {
@@ -119,13 +120,19 @@ var opciosGrid = {
             area: "column",
             dataType: "datetime"
         }
-    ],
-    onSelectionChanged: function (selectedItems) {
+    ]
+    ,onSelectionChanged: function (selectedItems) {
         var data = selectedItems.selectedRowsData[0];
         if (data) {
             MostrarReporte(data);
         }
-    }, export: {
+    }
+    //, onRowClick: function (clickedRow) {
+    //    var OppID = clickedRow.values;
+    //    console.log(OppID);
+    //    MostrarReporte(OppID)
+    //}
+    , export: {
         enabled: true,
         allowExportSelectedData: true
     },
@@ -153,6 +160,8 @@ $(document).ready(function () {
 });
 function MostrarReporte(data) {
     //console.log(data);
+    //grid.dataGrid.deselectAll();
+    //grid.dataGrid.clearSelection();
     $('#cargac').show();
     Error = 0;
     let params = {
@@ -214,9 +223,14 @@ function Atras() {
     $('#DivBotonImpr').prop('hidden', true);
     $('#DivReporte').prop('hidden', true);
     $('#DivCabReportes').prop('hidden', false);
+    CargarCabReportes();
+    //grid.dataGrid.deselectAll();
+    //grid.dataGrid.clearSelection();
 }
 function CargarCabReportes() {
-    Atras();
+    $('#DivBotonImpr').prop('hidden', true);
+    $('#DivReporte').prop('hidden', true);
+    $('#DivCabReportes').prop('hidden', false);
     $('#cargac').show();
     //var table = $("#tblDataTableReporte");
     //    table.DataTable().destroy();
@@ -240,11 +254,11 @@ function CargarCabReportes() {
                 window.location.reload();
             }
             if (resultado != '0') {
-                opciosGrid.dataSource = resultado;
-                var dataGrid = $("#gridContainer").dxDataGrid(opciosGrid).dxDataGrid("instance");
-                dataGrid.beginCustomLoading();
 
-                dataGrid.endCustomLoading();
+                opciosGrid.dataSource = resultado;
+                var grid = $("#gridContainer").dxDataGrid(opciosGrid).dxDataGrid("instance");;
+                grid.deselectAll();
+                grid.clearSelection();
                 $('#mensajeRegistros').prop('hidden', true);
                 $("#tblDataTableReporte tbody").empty();
                 $('#DivCabReportes').prop('hidden', false);
