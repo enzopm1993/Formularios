@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Analisis_Quimico_Precoccion>
 @using Asiservy.Automatizacion.Formularios.Models.Produccion;
 @using Newtonsoft.Json;
+@using Asiservy.Automatizacion.Datos.Datos;
 
 @{
     var groupParametros = (from x in Model
@@ -12,12 +13,14 @@
     int con1 = 1;
 }
 <div class="table-responsive">
-    <table class="table table-bordered  text-uppercase" id="tblDataTables">
+    <table class="table table-bordered text-uppercase table-hover" id="tblDataTables">
         <thead style="font-size:10px">
             <tr>
                 <th>COCINADOR</th>
                 <th>PARADA</th>
-                <th>LOTE/COD. BARCO</th>
+                <th>LOTE</th>
+                <th>BARCO ORIGEN</th>
+                <th>BARCO ASIGNADO</th>
                 <th>ESP. TALLA</th>
                 <th>Nº COCHE</th>
                 @if (groupParametros.Any())
@@ -65,13 +68,48 @@
                     var turno = (from c in Model where int.Parse(c.Cocinador) == row.COCINA && c.Parada == row.PARADA select c).FirstOrDefault();
                     if (turno == null || turno.Turno == ViewBag.Turno)
                     {
+                        List<sp_Analisis_Quimico_Precoccion_Barco> listaBarcoOF = new List<sp_Analisis_Quimico_Precoccion_Barco>();
+                        sp_Analisis_Quimico_Precoccion_Barco barcoOF;
+                        if (ViewBag.BarcosAsignados != null)
+                        {
+                            foreach (var item in listaCocinaParada)
+                            {
+                                barcoOF = (from x in ViewBag.BarcosAsignados as List<sp_Analisis_Quimico_Precoccion_Barco>
+                                           where int.Parse(x.OrdenFabricacion) == item.ORDEN && x.Lote == item.LOTE && x.Nombre != item.BARCO
+                                           select x).FirstOrDefault();
+
+                                listaBarcoOF.Add(barcoOF);
+                            }
+                        }
                         <tr style="cursor:pointer">
-                            <td>@row.COCINA</td>
-                            <td>@row.PARADA</td>
+                            <td class="text-right">@row.COCINA</td>
+                            <td class="text-right">@row.PARADA</td>
                             <td>
                                 @foreach (var item in listaCocinaParada)
                                 {
-                                    <div>@item.LOTE / @item.BARCO</div>
+                                    <div>@item.LOTE</div>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var item in listaCocinaParada)
+                                {
+                                    <div>@item.BARCO</div>
+                                }
+                            </td>
+                            <td>
+                                @if (listaBarcoOF != null)
+                                {
+                                    foreach (var item in listaBarcoOF)
+                                    {
+                                        if (item != null)
+                                        {
+                                            <div>@item.Nombre</div>
+                                        }
+                                        else
+                                        {
+                                            <div>&nbsp;</div>
+                                        }
+                                    }
                                 }
                             </td>
                             <td>
@@ -80,7 +118,7 @@
                                     <div>@item.ESPECIE - @item.TALLA</div>
                                 }
                             </td>
-                            <td>
+                            <td class="text-right">
                                 @foreach (var item in listaCocinaParada)
                                 {
                                     int con2 = item.COCHES + con1 - 1;
@@ -92,24 +130,24 @@
                             {
                                 foreach (var thead in groupParametros)
                                 {
-                                    <td style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
+                                    <td class="text-right" style="background-color: rgba(165, 158, 158, 0.72);font-size:10px">
                                         @foreach (var lote in listaCocinaParada)
                                         {
                                             var groupLote = (from item in Model
-                                                             where item.LoteBarco == lote.LOTE + "-" + lote.BARCO && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
+                                                             where item.LoteBarco == lote.LOTE && item.Cocinador == lote.COCINA.ToString() && item.Parada == lote.PARADA && item.IdParametro == thead.IdParametro
                                                              orderby item.Parada
                                                              group item by new { item.IdElemento, item.IdParametro, item.LoteBarco, item.Valor } into x
                                                              select new { x.Key.IdElemento, x.Key.IdParametro, x.Key.LoteBarco, x.Key.Valor }).ToList();
                                             foreach (var glote in groupLote)
                                             {
-                                                if (thead.IdParametro == glote.IdParametro && lote.LOTE + "-" + lote.BARCO == glote.LoteBarco)
+                                                if (thead.IdParametro == glote.IdParametro && lote.LOTE == glote.LoteBarco)
                                                 {
                                                     <div id="inputParametro_@thead.IdParametro@row.COCINA@row.PARADA@lote.LOTE">@lote.LOTE _ @glote.Valor</div>
                                                 }
                                             }
                                             if (!groupLote.Any())
                                             {
-                                                <div>----</div>
+                                                <div>&nbsp;</div>
                                             }
                                         }
                                     </td>
@@ -121,12 +159,12 @@
                                                           select new { x.Valor }).ToList();
 
 
-                                        <td>@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
+                                        <td class="text-right">@listaValor.OrderByDescending(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
                                         <td>@listaValor.OrderBy(x => x.Valor).Select(x => x.Valor).FirstOrDefault()</td>
                                     }
                                     else
                                     {
-                                        <td>
+                                        <td class="text-right">
                                             @{
                                                 var sum = (from x in Model
                                                            where x.Cocinador == row.COCINA.ToString() && x.Parada == row.PARADA && x.IdParametro == thead.IdParametro
@@ -165,7 +203,7 @@
         </tbody>
         <tfoot style="font-size:10px">
             <tr>
-                @{ tfoot += 6;
+                @{ tfoot += 8;
                     var listaValue = (from x in Model
                                       where x.IdParametro == idParametro
                                       select new { x.Valor }).ToList();
@@ -182,7 +220,7 @@
                 }
             </tr>
         </tfoot>
-    </table>    
+    </table>
 </div>
 
 <div class="card-footer divFooter ">
@@ -223,38 +261,38 @@
         con++;
     }
 }
-         <div class="row align-center text-uppercase " style="margin:0px;padding:0px;" >
-             @foreach (var item in listFotos)
-             {
-                 if (item.RutaFoto != null)
-                 {
+<div class="row align-center text-uppercase " style="margin:0px;padding:0px;">
+    @foreach (var item in listFotos)
+    {
+        if (item.RutaFoto != null)
+        {
 
-                     <div style="width:270px;margin:0px;" >
-                         <div id="header_@item.IdFoto">
-                             <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img " alt="...">
-                         </div>
-                         <script>
+            <div style="width:270px;margin:0px;">
+                <div id="header_@item.IdFoto">
+                    <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img " alt="...">
+                </div>
+                <script>
                             validarImg('@item.Rotation','@item.IdFoto','@item.RutaFoto');
-                         </script>
-                         <div >
-                             <label class="card-text" style="color:black;font-size:10px;white-space:normal;"><b>COCINADOR: </b> @item.Cocinador</label><br id="brOcultar"/>
-                             <label class="card-text floatLabel" style="color:black;font-size:10px;white-space:normal;"><b>PARADA: </b> @item.Parada</label><br />
-                             <label class="card-text" style="color:black;font-size:10px;white-space:normal; padding-left:0.5px"><b>OBSERVACIÓN: </b> @item.ObservacionFoto</label><br />
-                         </div>
-                     </div>
-                 }
-             }
-         </div>
-         <style>
-             .img {
-                 border: 1px solid #ddd;
-                 border-radius: 4px;
-                 padding: 5px;
-                 width: 250px;
-             }
+                </script>
+                <div>
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal;"><b>COCINADOR: </b> @item.Cocinador</label><br id="brOcultar" />
+                    <label class="card-text floatLabel" style="color:black;font-size:10px;white-space:normal;"><b>PARADA: </b> @item.Parada</label><br />
+                    <label class="card-text" style="color:black;font-size:10px;white-space:normal; padding-left:0.5px"><b>OBSERVACIÓN: </b> @item.ObservacionFoto</label><br />
+                </div>
+            </div>
+        }
+    }
+</div>
+<style>
+    .img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 250px;
+    }
 
-                 .img:hover {
-                     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-                 }
-         </style>
+        .img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
 <input type="hidden" class="btn btn-primary" value="@ViewBag.Path" id="btnPath" />

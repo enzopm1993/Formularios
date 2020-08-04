@@ -80,17 +80,32 @@ function ConsultarControl() {
 }
 
 function MostrarModal() {
-    $("#modalControl").modal("show");
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+        $("#modalControl").modal("show");
+        nuevoControl();
+    }
 }
 
 function nuevoControl() {
-    $("#selectParametro").prop("selectedIndex", 0).change();
-    $("#txtValor").val('');
+    $("#txtFechaDescarga").val('');
+    $("#txtFechaEvaluación").val('');
+    $("#txtOrdenFabricacion").val('');
+    $("#selectLote").prop('selectedIndex', 0);
+    $("#selectPcc").prop('selectedIndex', 0);
+    $("#txtCodigoProtocolo").val('');
+    $("#txtLoteDescarga").val('');
+    $("#txtObservación").val('');
+
 }
 
 
 function EditarControl() {
-
+    nuevoControl();
+    $("#modalControl").modal("show");
     $("#btnGenerar").prop("hidden", false);
     $("#btnEditar").prop("hidden", true);
     $("#btnEliminar").prop("hidden", false);
@@ -100,45 +115,58 @@ function EditarControl() {
 function Validar() {
     var valida = true;
 
-    if ($("#txtFecha").val() == "") {
-        $("#txtFecha").css('borderColor', '#FA8072');
+    if ($("#txtFechaDescarga").val() == "") {
+        $("#txtFechaDescarga").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#txtFecha").css('borderColor', '#ced4da');
+        $("#txtFechaDescarga").css('borderColor', '#ced4da');
     }
 
-    if ($("#selectEquipo").val() == "") {
-        $("#selectEquipo").each(function () {
-            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
-        });
-
+    if ($("#txtFechaEvaluación").val() == "") {
+        $("#txtFechaEvaluación").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#selectEquipo").each(function () {
-            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
-        });
+        $("#txtFechaEvaluación").css('borderColor', '#ced4da');
     }
 
-    if ($("#selectParametro").val() == "") {
-
-        $("#selectParametro").each(function () {
-            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
-        });
-
+    if ($("#txtOrdenFabricacion").val() == "") {
+        $("#txtOrdenFabricacion").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#selectParametro").each(function () {
-            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
-        });
-
+        $("#txtOrdenFabricacion").css('borderColor', '#ced4da');
     }
 
-    if ($("#txtValor").val() == "") {
-        $("#txtValor").css('borderColor', '#FA8072');
+    if ($("#selectPcc").val() == "") {
+        $("#selectPcc").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#txtValor").css('borderColor', '#ced4da');
+        $("#selectPcc").css('borderColor', '#ced4da');
     }
+
+    if ($("#selectLote").val() == "") {
+        $("#selectLote").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectLote").css('borderColor', '#ced4da');
+    }
+
+   
+
+    //if ($("#selectParametro").val() == "") {
+
+    //    $("#selectParametro").each(function () {
+    //        $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+    //    });
+
+    //    valida = false;
+    //} else {
+    //    $("#selectParametro").each(function () {
+    //        $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+    //    });
+
+    //}
+
+    
 
 
     return valida;
@@ -149,7 +177,8 @@ function GuardarControl() {
     if (!Validar()) {
         return;
     }
-    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+
+    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().add(7,'days').format("YYYY-MM-DD")) {
         $("#txtFecha").val("");
         MensajeAdvertencia("Fecha no permitida");
         return;
@@ -163,9 +192,15 @@ function GuardarControl() {
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            IdParametro: $("#selectParametro").val(),
-            IdEquipo: $("#selectEquipo").val(),
-            Valor: parseFloat($("#txtValor").val()).toFixed(2)
+            FechaDescarga: $("#txtFechaDescarga").val(),
+            FechaEvaluacion: $("#txtFechaEvaluación").val(),
+            OrdenFabricacion: $("#txtOrdenFabricacion").val(),
+            Lote: $("#selectLote").val(),
+            Pcc: $("#selectPcc").val(),
+            CodigoProtocolo: $("#txtCodigoProtocolo").val(),
+            LoteDescarga: $("#txtLoteDescarga").val(),
+            Observacion: $("#txtObservación").val()
+           
         },
         success: function (resultado) {
             if (resultado == "101") {
