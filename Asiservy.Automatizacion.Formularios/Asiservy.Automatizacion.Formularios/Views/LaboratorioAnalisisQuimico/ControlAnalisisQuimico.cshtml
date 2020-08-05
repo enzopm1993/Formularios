@@ -279,7 +279,8 @@
                 <div class="row">
                     <div class="col-md-12 col-12 col-sm-12">
                         <b><label id="lblCocinador"></label></b>
-                        <b><label id="lblParada"></label></b>
+                        <b><label class="float-right" id="lblParada"></label></b>
+                        <b><label hidden id="lblOrdenFabricacion"></label></b>
                     </div>
                     <div class="col-md-12 col-sm-12">
                         <!-- Nav tabs -->
@@ -313,9 +314,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-12 col-sm-12">
-                                        <label>LOTE - BARCO</label>
+                                        <label>LOTE</label>
                                         <div class="form-group">
-                                            <select id="selectIngresarLote" class="form-control"></select>
+                                            <select id="selectIngresarLote" onchange="SelectOrdenFabricacion()" class="form-control"></select>
                                         </div>
                                     </div>
                                     @{

@@ -443,7 +443,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisQuimic
             {
                 var respuesta = (from x in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA
                                  join d in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE on new { Id = x.IdAnalisisQuimicoProductoSe, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Id = d.IdCabeceraAnalisisQuimicoProductoSe, d.EstadoRegistro }
-
+                                 join dp in db.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE 
+                                 on new {Id=d.IdDetalleAnalisisQuimicoProductoSe, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new { Id=dp.IdDetalle,dp.EstadoRegistro }
                                  where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.Fecha >= FechaDesde && x.Fecha <= FechaHasta)
                                  select new
                                  {

@@ -4339,6 +4339,7 @@
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\ControlCocinamiento\" />
     <Folder Include="Views\MantenimientoCocinamiento\" />
   </ItemGroup>
   <ItemGroup>
