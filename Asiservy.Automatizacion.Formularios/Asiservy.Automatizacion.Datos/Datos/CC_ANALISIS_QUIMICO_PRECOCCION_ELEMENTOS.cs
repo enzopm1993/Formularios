@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdAnalisisDetalle { get; set; }
         public int IdParametro { get; set; }
         public decimal Valor { get; set; }
+        public int OrdenFabricacion { get; set; }
         public string LoteBarco { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -26,7 +27,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public int OrdenFabricacion { get; set; }
     
         public virtual CC_ANALISIS_QUIMICO_PRECOCCION_DET CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
         public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }

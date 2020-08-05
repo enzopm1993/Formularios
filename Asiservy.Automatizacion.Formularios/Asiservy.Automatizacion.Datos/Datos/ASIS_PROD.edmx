@@ -4716,6 +4716,10 @@
           <Parameter Name="fechaControl" Type="date" Mode="In" />
           <Parameter Name="turno" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_Analisis_Quimico_Precoccion_Barco" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="op" Type="int" Mode="In" />
+          <Parameter Name="fechaAsignada" Type="date" Mode="In" />
+        </Function>
         <Function Name="sp_Calibracion_Fluorometro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
           <Parameter Name="fechaHasta" Type="date" Mode="In" />
@@ -7246,12 +7250,7 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CC_ANALISIS_QUIMICO_PRECOCCION_DET" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
-          <EntitySet Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
           <EntitySet Name="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" />
-          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET">
-            <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
-            <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
-          </AssociationSet>
           <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_FOTO_CC_ANALISIS_QUIMICO_PRECOCCION_DET" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_FOTO_CC_ANALISIS_QUIMICO_PRECOCCION_DET">
             <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
             <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" />
@@ -7282,10 +7281,6 @@
             <End Role="CC_MONITOREO_DESCONGELADO" EntitySet="CC_MONITOREO_DESCONGELADO" />
           </AssociationSet>
           <EntitySet Name="CC_PARAMETROS_LABORATORIO" EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" />
-          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO">
-            <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
-            <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
-          </AssociationSet>
           <EntitySet Name="CC_VERIFICACION_POTENCIOMETRO" EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" />
           <EntitySet Name="CC_MANTENIMIENTO_REACTIVO" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" />
           <AssociationSet Name="FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO">
@@ -7343,11 +7338,6 @@
             <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
             <End Role="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE" EntitySet="CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE" />
           </AssociationSet>
-          <FunctionImport Name="sp_Analisis_Quimico_Precoccion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion)">
-            <Parameter Name="op" Mode="In" Type="Int32" />
-            <Parameter Name="fechaControl" Mode="In" Type="DateTime" />
-            <Parameter Name="turno" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SPReporteAnalisisQuimicoProductoSe" ReturnType="Collection(ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe)">
           <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -7372,6 +7362,24 @@
             <End Role="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
             <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
           </AssociationSet>
+          <EntitySet Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
+          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET">
+            <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
+            <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO">
+            <End Role="CC_PARAMETROS_LABORATORIO" EntitySet="CC_PARAMETROS_LABORATORIO" />
+            <End Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" EntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Analisis_Quimico_Precoccion" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion)">
+            <Parameter Name="op" Mode="In" Type="Int32" />
+            <Parameter Name="fechaControl" Mode="In" Type="DateTime" />
+            <Parameter Name="turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Analisis_Quimico_Precoccion_Barco" ReturnType="Collection(ASIS_PRODModel.sp_Analisis_Quimico_Precoccion_Barco)">
+            <Parameter Name="op" Mode="In" Type="Int32" />
+            <Parameter Name="fechaAsignada" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -13618,29 +13626,9 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
           <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_FOTO_CC_ANALISIS_QUIMICO_PRECOCCION_DET" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" />
           <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_DET_CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" />
-        </EntityType>
-        <EntityType Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
-          <Key>
-            <PropertyRef Name="IdElemento" />
-          </Key>
-          <Property Name="IdElemento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdAnalisisDetalle" Type="Int32" Nullable="false" />
-          <Property Name="IdParametro" Type="Int32" Nullable="false" />
-          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
-          <Property Name="LoteBarco" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_DET" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
-          <NavigationProperty Name="CC_PARAMETROS_LABORATORIO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" ToRole="CC_PARAMETROS_LABORATORIO" />
-          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
         </EntityType>
         <EntityType Name="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO">
           <Key>
@@ -13660,18 +13648,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_DET" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_FOTO_CC_ANALISIS_QUIMICO_PRECOCCION_DET" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
         </EntityType>
-        <Association Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET">
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_DET" Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET">
-              <PropertyRef Name="IdAnalisisDetalle" />
-            </Principal>
-            <Dependent Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
-              <PropertyRef Name="IdAnalisisDetalle" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_FOTO_CC_ANALISIS_QUIMICO_PRECOCCION_DET">
           <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_DET" Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" Multiplicity="1" />
           <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" Role="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" Multiplicity="*" />
@@ -13838,18 +13814,6 @@
           <Property Name="CalcMinMax" Type="Boolean" />
           <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" FromRole="CC_PARAMETROS_LABORATORIO" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" />
         </EntityType>
-        <Association Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO">
-          <End Type="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Role="CC_PARAMETROS_LABORATORIO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_PARAMETROS_LABORATORIO">
-              <PropertyRef Name="IdParametro" />
-            </Principal>
-            <Dependent Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
-              <PropertyRef Name="IdParametro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CC_VERIFICACION_POTENCIOMETRO">
           <Key>
             <PropertyRef Name="IdVerificacionPotenciometroControl" />
@@ -14261,27 +14225,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_Analisis_Quimico_Precoccion">
-          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaAsignada" Nullable="true" />
-          <Property Type="String" Name="Cocinador" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="IdAnalisisDetalle" Nullable="false" />
-          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="Parada" Nullable="false" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="IdElemento" Nullable="true" />
-          <Property Type="String" Name="LoteBarco" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Int32" Name="IdParametro" Nullable="true" />
-          <Property Type="Decimal" Name="Mascara" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="String" Name="NombreParametro" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="ValorMax" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Decimal" Name="ValorMin" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="ObservacionFoto" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="Rotation" Nullable="true" />
-          <Property Type="Int32" Name="IdFoto" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="SPReporteAnalisisQuimicoProductoSe">
           <Property Type="Int32" Name="IdDetalleAnalisisQuimicoProductoSe" Nullable="false" />
           <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
@@ -14397,6 +14340,79 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
+          <Key>
+            <PropertyRef Name="IdElemento" />
+          </Key>
+          <Property Name="IdElemento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAnalisisDetalle" Type="Int32" Nullable="false" />
+          <Property Name="IdParametro" Type="Int32" Nullable="false" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="LoteBarco" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_ANALISIS_QUIMICO_PRECOCCION_DET" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" ToRole="CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
+          <NavigationProperty Name="CC_PARAMETROS_LABORATORIO" Relationship="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" FromRole="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" ToRole="CC_PARAMETROS_LABORATORIO" />
+        </EntityType>
+        <Association Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET">
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_DET" Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_ANALISIS_QUIMICO_PRECOCCION_DET">
+              <PropertyRef Name="IdAnalisisDetalle" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
+              <PropertyRef Name="IdAnalisisDetalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO">
+          <End Type="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Role="CC_PARAMETROS_LABORATORIO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_PARAMETROS_LABORATORIO">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
+              <PropertyRef Name="IdParametro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_Analisis_Quimico_Precoccion">
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaAsignada" Nullable="true" />
+          <Property Type="String" Name="Cocinador" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="IdAnalisisDetalle" Nullable="false" />
+          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Parada" Nullable="false" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdElemento" Nullable="true" />
+          <Property Type="String" Name="LoteBarco" Nullable="true" MaxLength="5" />
+          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
+          <Property Type="Int32" Name="IdParametro" Nullable="true" />
+          <Property Type="Decimal" Name="Mascara" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="NombreParametro" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="ValorMax" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="ValorMin" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="RutaFoto" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ObservacionFoto" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Rotation" Nullable="true" />
+          <Property Type="Int32" Name="IdFoto" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Analisis_Quimico_Precoccion_Barco">
+          <Property Type="String" Name="OrdenFabricacion" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Barco" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Cocina" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20550,25 +20566,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
-              <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="LoteBarco" ColumnName="LoteBarco" />
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
-                <ScalarProperty Name="IdAnalisisDetalle" ColumnName="IdAnalisisDetalle" />
-                <ScalarProperty Name="IdElemento" ColumnName="IdElemento" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO">
               <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_FOTO">
@@ -21017,31 +21014,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Analisis_Quimico_Precoccion" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Quimico_Precoccion">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Quimico_Precoccion">
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="FechaAsignada" ColumnName="FechaAsignada" />
-                <ScalarProperty Name="Cocinador" ColumnName="Cocinador" />
-                <ScalarProperty Name="IdAnalisisDetalle" ColumnName="IdAnalisisDetalle" />
-                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
-                <ScalarProperty Name="Parada" ColumnName="Parada" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="IdElemento" ColumnName="IdElemento" />
-                <ScalarProperty Name="LoteBarco" ColumnName="LoteBarco" />
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
-                <ScalarProperty Name="Mascara" ColumnName="Mascara" />
-                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
-                <ScalarProperty Name="ValorMax" ColumnName="ValorMax" />
-                <ScalarProperty Name="ValorMin" ColumnName="ValorMin" />
-                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
-                <ScalarProperty Name="ObservacionFoto" ColumnName="ObservacionFoto" />
-                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
-                <ScalarProperty Name="IdFoto" ColumnName="IdFoto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SPReporteAnalisisQuimicoProductoSe" FunctionName="ASIS_PRODModel.Store.SPReporteAnalisisQuimicoProductoSe">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.SPReporteAnalisisQuimicoProductoSe">
@@ -21114,6 +21086,62 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
+              <MappingFragment StoreEntitySet="CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="LoteBarco" ColumnName="LoteBarco" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="IdAnalisisDetalle" ColumnName="IdAnalisisDetalle" />
+                <ScalarProperty Name="IdElemento" ColumnName="IdElemento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Analisis_Quimico_Precoccion" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Quimico_Precoccion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Quimico_Precoccion">
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="FechaAsignada" ColumnName="FechaAsignada" />
+                <ScalarProperty Name="Cocinador" ColumnName="Cocinador" />
+                <ScalarProperty Name="IdAnalisisDetalle" ColumnName="IdAnalisisDetalle" />
+                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="IdElemento" ColumnName="IdElemento" />
+                <ScalarProperty Name="LoteBarco" ColumnName="LoteBarco" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="Mascara" ColumnName="Mascara" />
+                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
+                <ScalarProperty Name="ValorMax" ColumnName="ValorMax" />
+                <ScalarProperty Name="ValorMin" ColumnName="ValorMin" />
+                <ScalarProperty Name="RutaFoto" ColumnName="RutaFoto" />
+                <ScalarProperty Name="ObservacionFoto" ColumnName="ObservacionFoto" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="IdFoto" ColumnName="IdFoto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Analisis_Quimico_Precoccion_Barco" FunctionName="ASIS_PRODModel.Store.sp_Analisis_Quimico_Precoccion_Barco">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Analisis_Quimico_Precoccion_Barco">
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Barco" ColumnName="Barco" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Cocina" ColumnName="Cocina" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
