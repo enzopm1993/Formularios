@@ -1,19 +1,20 @@
-﻿model = [];
+﻿//model = [];
 modelEliminar = [];
 modelEditar = [];
 $(document).ready(function () {
-    ValidaEstadoReporte($("#txtFecha").val());
+   // ValidaEstadoReporte($("#txtFecha").val());
     $("#txtFechaOrden").val($("#txtFecha").val());
     CargarOrdenFabricacion();
+    ConsultarControl();
 });
 
 
-function ValidaEstadoReporte(Fecha) {
+function ValidaEstadoReporte(ID) {
     $.ajax({
         url: "../AnalisisSensorial/ValidaEstadoReporte",
         type: "GET",
         data: {
-            Fecha: Fecha
+            ID: ID
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -44,9 +45,9 @@ function ConsultarControl() {
     if ($("#txtFecha").val() == '') {
         return;
     }
-    $("#txtFechaOrden").val($("#txtFecha").val());
+    //$("#txtFechaOrden").val($("#txtFecha").val());
     model = [];
-    ValidaEstadoReporte($("#txtFecha").val());
+   // ValidaEstadoReporte($("#txtFecha").val());
     MostrarModalCargando();
   
     $("#h4Mensaje").html("");
@@ -55,8 +56,7 @@ function ConsultarControl() {
         url: "../AnalisisSensorial/ProtocoloMateriaPrimaPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val(),
-            IdEquipo: $("#selectEquipo").val()
+            Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -66,10 +66,11 @@ function ConsultarControl() {
             if (resultado == "0") {
                 $("#h4Mensaje").html(Mensajes.SinRegistros);
             } else {
-                $("#tblPartial").html(resultado);
+                //console.log(resultado);
+                CargarDevExpress(resultado);
+                //$("#tblPartial").html(resultado);
             }
             CerrarModalCargando();
-            nuevoControl();
 
         },
         error: function (resultado) {
@@ -99,18 +100,8 @@ function nuevoControl() {
     $("#txtCodigoProtocolo").val('');
     $("#txtLoteDescarga").val('');
     $("#txtObservación").val('');
-
+    $("#txtIdControl").val(0);
 }
-
-
-function EditarControl() {
-    nuevoControl();
-    $("#modalControl").modal("show");
-    $("#btnGenerar").prop("hidden", false);
-    $("#btnEditar").prop("hidden", true);
-    $("#btnEliminar").prop("hidden", false);
-}
-
 
 function Validar() {
     var valida = true;
@@ -172,7 +163,6 @@ function Validar() {
     return valida;
 }
 
-
 function GuardarControl() {
     if (!Validar()) {
         return;
@@ -191,6 +181,7 @@ function GuardarControl() {
         url: "../AnalisisSensorial/ProtocoloMateriaPrima",
         type: "POST",
         data: {
+            IdProtocoloMateriaPrima: $("#txtIdControl").val(),
             Fecha: $("#txtFecha").val(),
             FechaDescarga: $("#txtFechaDescarga").val(),
             FechaEvaluacion: $("#txtFechaEvaluación").val(),
@@ -220,72 +211,7 @@ function GuardarControl() {
             } else {
                 ConsultarControl();
             }
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
-        }
-    });
-
-    //alert("generado");
-}
-
-
-function EditarControl(model) {
-    $("#modalEditarControl").modal('show');
-    $("#txtParametro").val(model.Parametro);
-    $("#txtEquipo").val(model.Equipo);
-    $("#txtValorModal").val(model.Valor);
-    modelEditar = model;
-}
-
-function ValidaEditar() {
-    var valida = true;
-    if ($("#txtValorModal").val() == "") {
-        $("#txtValorModal").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtValorModal").css('borderColor', '#ced4da');
-    }
-    return valida;
-}
-
-
-function ModificarControl() {
-    if (!ValidaEditar()) {
-        return;
-    }
-    if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
-        $("#txtFecha").val("");
-        MensajeAdvertencia("Fecha no permitida");
-        return;
-    }
-
-    $.ajax({
-        url: "../AnalisisSensorial/AnalisisSensorial",
-        type: "POST",
-        data: {
-            Fecha: $("#txtFecha").val(),
-            IdParametro: modelEditar.IdParametro,
-            IdEquipo: modelEditar.IdEquipo,
-            Valor: $("#txtValorModal").val()
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "800") {
-                MensajeAdvertencia(Mensajes.MensajePeriodo);
-            } else if (resultado == "0") {
-                MensajeAdvertencia("Faltan Parametros");
-                return;
-            } else if (resultado == "1") {
-                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
-                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
-                MensajeAdvertencia(Mensajes.ControlAprobado);
-            } else {
-                ConsultarControl();
-            }
-            $("#modalEditarControl").modal('hide');
+            $("#modalControl").modal("hide");
 
         },
         error: function (resultado) {
@@ -294,20 +220,37 @@ function ModificarControl() {
     });
 
     //alert("generado");
+}
+
+function EditarControl() {
+    //console.log(modelEditar);
+
+    $("#modalControl").modal('show');
+    $("#txtFechaDescarga").val(moment(modelEditar.FechaDescarga).format('YYYY-MM-DD'));
+    $("#txtFechaEvaluación").val(moment(modelEditar.FechaEvaluacion).format('YYYY-MM-DD'));
+    $("#txtOrdenFabricacion").val(modelEditar.OrdenFabricacion);
+    $("#selectLote").val(modelEditar.Lote);
+    $("#txtCodigoProtocolo").val(modelEditar.CodigoProtocolo);
+    $("#txtLoteDescarga").val(modelEditar.LoteDescarga);
+    $("#selectPcc").val(modelEditar.Pcc);
+    $("#txtObservación").val(modelEditar.Observacion);
+    $("#txtIdControl").val(modelEditar.IdProtocoloMateriaPrima);
+
+    $("#btnOrden").prop("disabled", true);
+    
 }
 
 
 function InactivarControl() {
-    console.log(model);
+    // console.log(model);
+   // console.log(moment(modelEditar.Fecha).format('YYYY-MM-DD'));
+
     $.ajax({
-        url: "../AnalisisSensorial/EliminarAnalisisSensorial",
+        url: "../AnalisisSensorial/EliminarProtocoloMateriaPrima",
         type: "POST",
         data: {
-            IdAnalisisSensorialDetalle: modelEliminar.IdAnalisisSensorialDetalle,
-            IdAnalisisSensorial: modelEliminar.IdAnalisisSensorial,
-            IdEquipo: modelEliminar.IdEquipo,
-            IdParametro: modelEliminar.IdParametro,
-            Fecha: $("#txtFecha").val()
+            IdProtocoloMateriaPrima: modelEditar.IdProtocoloMateriaPrima,
+            Fecha: moment(modelEditar.Fecha).format('YYYY-MM-DD')
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -322,7 +265,8 @@ function InactivarControl() {
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
             } else {
-                ConsultarControl();
+                MensajeCorrecto(resultado);
+                Atras();
             }
             $("#modalEliminarControl").modal("hide");
         },
@@ -332,7 +276,7 @@ function InactivarControl() {
     });
 }
 
-function EliminarControl(model) {
+function EliminarControl() {
     $("#modalEliminarControlDetalle").modal('show');
     modelEliminar = model;
 }
@@ -347,14 +291,9 @@ $("#modal-detalle-no").on("click", function () {
 });
 
 
-
-
-
-
 $("#btnOrden").on("click", function () {
     $("#ModalOrdenes").modal('show');
 });
-
 
 $("#modal-orden-si").on("click", function () {
     if ($("#SelectOrdenFabricacion").val() == '') {
@@ -370,6 +309,72 @@ $("#modal-orden-si").on("click", function () {
 $("#modal-orden-no").on("click", function () {
     $("#ModalOrdenes").modal('hide');
 });
+
+
+function SeleccionarControl(model) {
+    modelEditar = model;
+    $("#divCabecera").prop("hidden", true);
+    $("#divDetalle").prop("hidden", false);
+    ConsultaLotesOf(model.OrdenFabricacion);
+    ValidaEstadoReporte(model.IdProtocoloMateriaPrima);
+    ConsultarDetalle();
+    $("#hMensaje").html(model.Lote);
+}
+
+function Atras() {
+    $("#divCabecera").prop("hidden", false);
+    $("#divDetalle").prop("hidden", true);
+    modelEditar = [];
+    ConsultarControl();
+    var dataGrid = $("#divCuerpo").dxDataGrid("instance");
+    dataGrid.deselectAll();
+    dataGrid.clearSelection();
+    $("#lblAprobadoPendiente").html("");
+}
+
+
+
+/////////////////////////////////////// DETALLE ///////////////////////////////////////////////////////////////////
+
+
+function ConsultarDetalle() {
+   
+    $("#h4Mensaje").html("");
+    $("#tblPartial").html("");
+    $.ajax({
+        url: "../AnalisisSensorial/ProtocoloMateriaPrimaDetallePartial",
+        type: "GET",
+        data: {
+            Id: modelEditar.IdProtocoloMateriaPrima
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#tblPartial").prop("hidden", false);
+            if (resultado == "0") {
+                $("#h4Mensaje").html(Mensajes.SinRegistros);
+            } else {
+                //console.log(resultado);
+                
+                $("#tblPartial").html(resultado);
+            }
+          //  CerrarModalCargando();
+
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        //    CerrarModalCargando();
+        }
+    });
+}
+
+function MostrarModalDetalle() {
+    $("#ModalDetalle").modal("show");
+}
+
+
+
 
 function CargarOrdenFabricacion() {
     valor = $("#txtFechaOrden").val();
@@ -408,10 +413,6 @@ function CargarOrdenFabricacion() {
         }
     });
 }
-
-
-
-
 function ConsultaLotes() {
     valor = $("#SelectOrdenFabricacion").val();
     if (valor == '' || valor == null)
@@ -444,4 +445,167 @@ function ConsultaLotes() {
             MensajeError(resultado.responseText, false);
         }
     });
+}
+function ConsultaLotesOf(Of) {
+    if (Of == '' || Of == null)
+        return;
+    $("#selectLote").empty();
+    $("#selectLote").append("<option value='' >-- Seleccionar Opción--</option>");
+    $.ajax({
+        url: "../AnalisisSensorial/ConsultaLotes",
+        type: "GET",
+        data: {
+            Of: Of
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#selectLote").empty();
+                $("#selectLote").append("<option value='' >-- Error de servicio--</option>");
+                return;
+            }
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectLote").append("<option value='" + row.Lote + "'>" + row.Lote + "</option>")
+                });
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+function CargarDevExpress(data) {
+    //console.log(data);
+    DevExpress.localization.locale(navigator.language);
+    var opciosGrid = {
+        dataSource: data,
+        loadPanel: {
+            enabled: true
+        },
+        keyExpr: "IdProtocoloMateriaPrima",
+        selection: {
+            mode: "single"
+        },
+        hoverStateEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        showBorders: true,
+        allowColumnResizing: true,
+        columnResizingMode: "nextColumn",
+        columnMinWidth: 50,
+        columnAutoWidth: true,
+        columnFixing: {
+            enabled: true
+        },
+        showBorders: true,
+        showRowLines: true,
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        headerFilter: {
+            visible: true
+        },
+        paging: {
+            pageSize: 10
+        },
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [10, 20, 50, 100],
+            showInfo: true
+        },
+        searchPanel: {
+            visible: true,
+            highlightCaseSensitive: true,
+            width: 240,
+            placeholder: "Buscar..."
+        }, groupPanel: { visible: true },
+        grouping: {
+            autoExpandAll: true
+        },
+
+        columns: [
+            { dataField: "IdProtocoloMateriaPrima", caption: "Id", sortOrder: "asc" },
+            // { caption: "Parametro", dataField: "DescripcionParametroSensorial"  },
+            {
+                caption: "Fecha", dataField: "Fecha",
+                cellTemplate: function (container, options) {
+                    var fecha = moment(options.data.Fecha).format("DD-MM-YYYY");
+                    //  console.log(fecha);
+                    $("<div>")
+                        .append($('<label>' + fecha + '</label>'))
+                        .appendTo(container);
+                } },
+            {
+                caption: "Fecha Evaluacion", dataField: "FechaEvaluacion",
+                cellTemplate: function (container, options) {
+                    var fecha = moment(options.data.FechaEvaluacion).format("DD-MM-YYYY");
+                    //  console.log(fecha);
+                    $("<div>")
+                        .append($('<label>' + fecha + '</label>'))
+                        .appendTo(container);
+                } },
+            {
+                caption: "Fecha Descarga", dataField: "FechaDescarga",
+                cellTemplate: function (container, options) {
+                    var fecha = moment(options.data.FechaDescarga).format("DD-MM-YYYY");
+                    //  console.log(fecha);
+                    $("<div>")
+                        .append($('<label>' + fecha + '</label>'))
+                        .appendTo(container);
+                } },
+            {
+                caption: "O.F.",
+                dataField: "OrdenFabricacion",
+            },
+            { dataField: "Lote" },
+            { dataField: "LoteDescarga" },
+            { dataField: "CodigoProtocolo" },
+            { dataField: "Pcc" },
+            { dataField: "Observacion" }
+        ],
+        onSelectionChanged: function (selectedItems) {
+            //console.log(selectedItems);
+            var data = selectedItems.selectedRowsData[0];
+            if (data) {
+                SeleccionarControl(data);
+                
+
+            }
+        },
+        //selection: {
+        //    mode: "none" // or "multiple" | "none"
+        //},
+        export: {
+            enabled: true,
+            allowExportSelectedData: true
+        },
+        onExporting: function (e) {
+            var workbook = new ExcelJS.Workbook();
+            var worksheet = workbook.addWorksheet('Reporte');
+
+
+
+            DevExpress.excelExporter.exportDataGrid({
+                component: e.component,
+                worksheet: worksheet,
+                autoFilterEnabled: true
+            }).then(function () {
+                workbook.xlsx.writeBuffer().then(function (buffer) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ManteniminetoCalificacionAS.xlsx');
+                });
+            });
+            e.cancel = true;
+        }
+    }
+
+    $("#divCuerpo").dxDataGrid(opciosGrid);
+   // $("#divCuerpo").deselectAll();
+   
 }
