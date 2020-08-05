@@ -1534,7 +1534,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 //List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
                 List<spConsutaEmpleadosCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosCambioPersonal>;
-
+                if (ListEmpleados == null)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
 
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
                 //List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();

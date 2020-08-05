@@ -243,7 +243,10 @@ function Mover(result) {
             } else {
                 ConsultarEmpleadosRegresar();
             }
-            $('#ModalMensajeCP').modal('show');
+            if (resultado != "101") {
+                $('#ModalMensajeCP').modal('show');
+            }
+            
         }
         ,
         error: function (resultado) {
