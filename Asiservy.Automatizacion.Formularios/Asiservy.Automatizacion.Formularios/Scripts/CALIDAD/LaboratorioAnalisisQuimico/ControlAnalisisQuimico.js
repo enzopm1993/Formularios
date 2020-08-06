@@ -232,49 +232,6 @@ async function EliminarCabeceraSi() {
         $('#cargac').hide();
         MensajeError(Mensajes.Error,false);
     }
-   
-    //setTimeout(function () {
-    //    if (estadoReporte == true) {
-    //        $('#cargac').hide();
-    //        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-    //        return;
-    //    } else {
-
-    //        $.ajax({
-    //            url: "../LaboratorioAnalisisQuimico/EliminarAnalisisQuimico",
-    //            type: "POST",
-    //            data: {
-    //                IdAnalisis: itemCabecera.IdAnalisis
-    //            },
-    //            success: function (resultado) {
-    //                if (resultado == "101") {
-    //                    window.location.reload();
-    //                }
-    //                if (resultado == "0") {
-    //                    MensajeAdvertencia("Falta Parametro IdAnalisis");
-    //                    $("#modalEliminarControl").modal("hide");
-    //                    $('#cargac').hide();
-    //                    return;
-    //                } else if (resultado == "1") {
-    //                    $('#firmaDigital').prop('hidden', true);
-    //                    $("#modalEliminarControl").modal("hide");
-    //                    CargarCabecera();
-    //                    MensajeCorrecto("Registro eliminado con Éxito");
-    //                    $('#cargac').hide();
-    //                } else if (resultado == '2') {
-    //                    MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
-    //                    $('#cargac').hide();
-    //                    return;
-    //                }
-    //                itemCabecera = [];
-    //            },
-    //            error: function (resultado) {
-    //                $('#cargac').hide();
-    //                MensajeError(Mensajes.Error, false);
-    //            }
-    //        });
-    //    }
-    //}, 200);
 }
 
 function EliminarCabeceraNo() {

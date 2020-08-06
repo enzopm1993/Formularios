@@ -220,7 +220,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        [HttpPost]
+        
         public ActionResult ControlClorinacionCisternaPartial(int idAnalisisAguaControl, int op)
         {
             try
