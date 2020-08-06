@@ -1,9 +1,16 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
 @{
+   
     ViewBag.Title = "ProtocoloMateriaPrima";
 }
 
+@{ 
+    var Parametros = (List<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS>)ViewBag.Parametros;
+    var Calificaciones = (List<CC_MANTENIMIENTO_CALIFICACION_AS>) ViewBag.Calificaciones;
 
+
+
+}
 <style>
     input, select, textarea {
         max-width: 100%;
@@ -30,8 +37,8 @@
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
-    <div class="card-body">
-        <div class="row" id="divCabecera1">
+    <div class="card-header">
+        <div class="row" id="">
 
             <div class="col-md-3 col-6 col-sm-6">
                 <div class="form-group">
@@ -53,29 +60,70 @@
 
     </div>
 
-    <div class="card-footer">
+    <div class="card-body">
 
-        <div class="row">
+        <div id="divCuerpo">
 
         </div>
     </div>
 </div>
 
 <br />
+<div id="divDetalle" hidden>
 
-<div class="card shadow">
-    <div class="card-header">
-        <div class="text-center text-warning">
-            <h4 id="h4Mensaje"></h4>
+    <div class="card shadow" id="">
+        <div class="card-header text-center">
+            <div class="row">
+                <div class="col-md-2 col-sm-6 col-6">
+                   
+                        <h5 id="">Lote: <label id="hMensaje"></label></h5>
+
+                  
+                </div>
+                <div class="col-md-9 col-sm-6 col-6">
+                    <label class="">Acciones</label>
+                    <div class="form-group">
+                        <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnEditar" onclick="EditarControl()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/edit24.png" />
+                        </button>
+
+                        <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/atras24.png" />
+                        </button>
+
+                        <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                        </button>
+
+                    </div>
+                </div>
+            </div>           
+        </div>
+       
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="card-header">
+                <div class="form-group">
+                    <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostrarModalDetalle()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="text-center text-warning">
+                    <h4 id="h4Mensaje"></h4>
+                </div>
+                <div id="tblPartial" class="table-responsive">
+                  
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <div id="tblPartial" class="table-responsive">
 
-        </div>
-    </div>
 </div>
-
 
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
@@ -101,7 +149,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <input type="hidden" id="txtIdCloroAguaAutoclave" name="name" value="0" />
+                <input type="hidden" id="txtIdControl" name="name" value="0" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -174,6 +222,45 @@
 
 
 
+<div class="modal" tabindex="-1" role="dialog" id="ModalDetalle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Protocolo de Materia Prima Detaller</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @{
+                    if (Parametros != null)
+                    {
+                        foreach (var x in Parametros)
+                        {
+                            <label>@x.Descripcion</label>
+                            <select class="form-control">
+                                <option value="">Seleccione</option>
+                                @if (Calificaciones != null)
+                                {
+                                    foreach (var y in Calificaciones)
+                                    {
+                                        <option value="@y.IdCalificacion">@y.Descripcion</option>
+                                    }
+                                }
+                            </select>
+                        }
+                    }
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -213,3 +300,7 @@
         </div>
     </div>
 </div>
+
+
+
+

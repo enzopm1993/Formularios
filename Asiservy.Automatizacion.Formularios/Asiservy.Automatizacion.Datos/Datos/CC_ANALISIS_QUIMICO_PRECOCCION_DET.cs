@@ -17,8 +17,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CC_ANALISIS_QUIMICO_PRECOCCION_DET()
         {
-            this.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS = new HashSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS>();
             this.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO = new HashSet<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO>();
+            this.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS = new HashSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS>();
         }
     
         public int IdAnalisisDetalle { get; set; }
@@ -35,9 +35,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO> CC_ANALISIS_QUIMICO_PRECOCCION_FOTO { get; set; }
         public virtual CC_ANALISIS_QUIMICO_PRECOCCION_CTRL CC_ANALISIS_QUIMICO_PRECOCCION_CTRL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
     }
 }

@@ -199,7 +199,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_DET> CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
-        public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO> CC_ANALISIS_QUIMICO_PRECOCCION_FOTO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO> CC_MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<CC_MONITOREO_DESCONGELADO_CONTROL> CC_MONITOREO_DESCONGELADO_CONTROL { get; set; }
@@ -216,10 +215,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_TEMPERATURA> CC_MANTENIMIENTO_TEMPERATURA { get; set; }
         public virtual DbSet<CC_PCC_MANTENIMIENTO> CC_PCC_MANTENIMIENTO { get; set; }
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_AS> CC_PROTOCOLO_MATERIA_PRIMA_AS { get; set; }
-        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_CTRL> CC_ANALISIS_QUIMICO_PRECOCCION_CTRL { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE> CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE { get; set; }
+        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
+        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS { get; set; }
+        public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2426,6 +2427,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Calibracion_Fluorometro>("sp_Calibracion_Fluorometro", fechaDesdeParameter, fechaHastaParameter, idCalibracionFluorParameter, opParameter);
         }
     
+        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
+        {
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
+        }
+    
+        public virtual ObjectResult<SPSubdetalleAnalisisQuimicoProductoSe> SPSubdetalleAnalisisQuimicoProductoSe(Nullable<int> idDetalle)
+        {
+            var idDetalleParameter = idDetalle.HasValue ?
+                new ObjectParameter("IdDetalle", idDetalle) :
+                new ObjectParameter("IdDetalle", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPSubdetalleAnalisisQuimicoProductoSe>("SPSubdetalleAnalisisQuimicoProductoSe", idDetalleParameter);
+        }
+    
         public virtual ObjectResult<sp_Analisis_Quimico_Precoccion> sp_Analisis_Quimico_Precoccion(Nullable<int> op, Nullable<System.DateTime> fechaControl, string turno)
         {
             var opParameter = op.HasValue ?
@@ -2443,22 +2462,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion>("sp_Analisis_Quimico_Precoccion", opParameter, fechaControlParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<SPReporteAnalisisQuimicoProductoSe> SPReporteAnalisisQuimicoProductoSe(Nullable<int> idCabecera)
+        public virtual ObjectResult<sp_Analisis_Quimico_Precoccion_Barco> sp_Analisis_Quimico_Precoccion_Barco(Nullable<int> op, Nullable<System.DateTime> fechaAsignada)
         {
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPReporteAnalisisQuimicoProductoSe>("SPReporteAnalisisQuimicoProductoSe", idCabeceraParameter);
-        }
+            var fechaAsignadaParameter = fechaAsignada.HasValue ?
+                new ObjectParameter("fechaAsignada", fechaAsignada) :
+                new ObjectParameter("fechaAsignada", typeof(System.DateTime));
     
-        public virtual ObjectResult<SPSubdetalleAnalisisQuimicoProductoSe> SPSubdetalleAnalisisQuimicoProductoSe(Nullable<int> idDetalle)
-        {
-            var idDetalleParameter = idDetalle.HasValue ?
-                new ObjectParameter("IdDetalle", idDetalle) :
-                new ObjectParameter("IdDetalle", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPSubdetalleAnalisisQuimicoProductoSe>("SPSubdetalleAnalisisQuimicoProductoSe", idDetalleParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion_Barco>("sp_Analisis_Quimico_Precoccion_Barco", opParameter, fechaAsignadaParameter);
         }
     }
 }

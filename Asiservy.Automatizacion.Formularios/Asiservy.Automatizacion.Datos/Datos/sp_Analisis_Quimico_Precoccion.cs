@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> IdElemento { get; set; }
         public string LoteBarco { get; set; }
         public Nullable<decimal> Valor { get; set; }
+        public Nullable<int> OrdenFabricacion { get; set; }
         public Nullable<int> IdParametro { get; set; }
         public Nullable<decimal> Mascara { get; set; }
         public string NombreParametro { get; set; }

@@ -251,9 +251,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_DET" Width="1.5" PointX="23.625" PointY="54.25" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Width="1.5" PointX="27.875" PointY="41.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" Width="1.5" PointX="25.875" PointY="58.875" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_FOTO_CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO" Width="1.5" PointX="56.625" PointY="6.625" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MANTENIMIENTO_TIPO_DESCONGELADO" />
@@ -261,7 +259,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MONITOREO_DESCONGELADO_CONTROL" Width="1.5" PointX="43.375" PointY="11" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MONITOREO_DESCONGELADO_CC_MONITOREO_DESCONGELADO_CONTROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PARAMETROS_LABORATORIO" Width="1.5" PointX="8.625" PointY="51.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="3.375" PointY="31.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Width="1.5" PointX="5.375" PointY="34" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" />
@@ -280,16 +277,21 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA" Width="1.5" PointX="33.375" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PCC_MANTENIMIENTO" Width="1.5" PointX="35.375" PointY="27.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_AS" Width="1.5" PointX="51.375" PointY="56.5" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Width="1.5" PointX="53.625" PointY="13.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_AAC" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" Width="1.5" PointX="21.375" PointY="54.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" Width="1.5" PointX="47.625" PointY="40" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE" Width="1.5" PointX="49.875" PointY="40.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_DET_CC_ANALISIS_QUIMICO_PRECOCCION_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_PARAMETROXDETALLE_CC_ANALISIS_QUIMICO_PRODUCTO_SEMIELABORADO_DETALLE" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Width="1.5" PointX="51.375" PointY="6.875" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Width="1.5" PointX="53.625" PointY="18.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Width="1.5" PointX="25.875" PointY="52.75" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

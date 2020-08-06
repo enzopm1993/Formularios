@@ -4326,6 +4326,7 @@
     <Content Include="Views\MantenimientoTemperatura\MantenimientoTemperaturaPartial.cshtml" />
     <Content Include="Views\AnalisisSensorial\MantenimientoParametrosSensoriales.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrimaDetallePartial.cshtml" />
     <Content Include="Views\ControlCocinamiento\ControlCocinamiento.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

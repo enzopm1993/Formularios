@@ -372,6 +372,9 @@
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_INTERNA_REFRIGERADORA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -1042,6 +1045,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Analisis_Quimico_Precoccion.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_Analisis_Quimico_Precoccion_Barco.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Calibracion_Fluorometro.cs">

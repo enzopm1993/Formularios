@@ -36,7 +36,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DxDevWeb = "1";
                 ClsDMantenimientoPCC = new ClsDMantenimientoPCC();
+                ClsdParametrosSensoriales = new ClsdParametrosSensoriales();
                 ViewBag.Pcc = ClsDMantenimientoPCC.ConsultarRegistroActivos();
+                ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x=> x.EstadoRegistro== clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x=> x.EstadoRegistro== clsAtributos.EstadoRegistroActivo).ToList();
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -60,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult ProtocoloMateriaPrimaPartial()
+        public JsonResult ProtocoloMateriaPrimaPartial(DateTime Fecha)
         {
             try
             {
@@ -70,7 +73,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
-                var model = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima();
+                var model = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima(Fecha);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -113,12 +116,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("800", JsonRequestBehavior.AllowGet);
                 }
+                
 
                 ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoReporte = false;
+
+                if (model.IdProtocoloMateriaPrima >0 && ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima(model.IdProtocoloMateriaPrima).EstadoReporte)
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
                 ClsdProtocoloMateriaPrima.GuardarModificarParamtroMateriaPrima(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
@@ -155,8 +165,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+                if (ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima(model.IdProtocoloMateriaPrima).EstadoReporte)
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
                 ClsdProtocoloMateriaPrima.EliminarParametroMateriaPrima(model);
-                return Json("1", JsonRequestBehavior.AllowGet);
+                return Json("Registro Eliminado con Exito", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -179,7 +198,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult ValidaEstadoReporte(DateTime Fecha)
+        public JsonResult ValidaEstadoReporte(int ID)
         {
             try
             {
@@ -189,7 +208,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
-                var control = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima(Fecha);
+                var control = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima(ID);
                 if (control != null)
                 {
                     if (control.EstadoReporte)
@@ -304,7 +323,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
         #endregion
 
+        #region PROTOCOLO MATERIA PRIMA DETALLE
+        public ActionResult ProtocoloMateriaPrimaDetallePartial(int Id)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
+                var model = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrimaDetalle(Id);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
+        #endregion
 
 
 

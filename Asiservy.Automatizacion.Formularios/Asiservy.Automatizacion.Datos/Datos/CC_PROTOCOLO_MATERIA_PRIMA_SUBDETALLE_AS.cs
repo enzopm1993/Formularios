@@ -12,14 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS
+    public partial class CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS
     {
-        public int IdElemento { get; set; }
-        public int IdAnalisisDetalle { get; set; }
-        public int IdParametro { get; set; }
-        public decimal Valor { get; set; }
-        public int OrdenFabricacion { get; set; }
-        public string LoteBarco { get; set; }
+        public int IdProtocoloMateriaPrimaSubDetalle { get; set; }
+        public int IdProtocoloMateriaPrimaDetalle { get; set; }
+        public int IdCalificacion { get; set; }
+        public int IdParametroSensorial { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -28,7 +26,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_ANALISIS_QUIMICO_PRECOCCION_DET CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
-        public virtual CC_PARAMETROS_LABORATORIO CC_PARAMETROS_LABORATORIO { get; set; }
+        public virtual CC_MANTENIMIENTO_CALIFICACION_AS CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
+        public virtual CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
+        public virtual CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
     }
 }
