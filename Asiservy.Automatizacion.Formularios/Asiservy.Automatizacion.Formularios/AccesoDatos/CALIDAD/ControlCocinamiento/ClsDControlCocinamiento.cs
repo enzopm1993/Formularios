@@ -38,7 +38,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCocinam
                                 model.ObservacionC = guardarModificar.ObservacionC.ToUpper();
                             else
                                 model.ObservacionC = guardarModificar.ObservacionC;
-                            model.FechaProduccion = guardarModificar.FechaProduccion;                           
+                            model.FechaProduccion = guardarModificar.FechaProduccion;
+                            model.FechaAsignada = guardarModificar.FechaAsignada;
                             valor = 1;//ACTUALIZAR
                         }
                         else valor = 3;//ERROR DE FECHA
@@ -61,37 +62,103 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCocinam
                 return valor;
             }
         }
-        public CC_COCINAMIENTO_CTRL ConsultarEstadoReporte(int idAnalisis, DateTime fechaControl)
+        public dynamic ConsultarEstadoReporte(int idCocinamientoCtrl, DateTime fechaControl)
         {
-            CC_COCINAMIENTO_CTRL listado;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                if (idAnalisis == 0 && fechaControl > DateTime.MinValue)
+                if (idCocinamientoCtrl == 0 && fechaControl > DateTime.MinValue)
                 {
-                    listado = db.CC_COCINAMIENTO_CTRL.FirstOrDefault(x => x.FechaProduccion.Year == fechaControl.Year && x.FechaProduccion.Month == fechaControl.Month
-                                                                                        && x.FechaProduccion.Day == fechaControl.Day
-                                                                                        && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    var listado = (from x in db.CC_COCINAMIENTO_CTRL.AsNoTracking()
+                                   where x.FechaProduccion.Year == fechaControl.Year && x.FechaProduccion.Month == fechaControl.Month && x.FechaProduccion.Day == fechaControl.Day
+                                   && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                   select new
+                                   {
+                                       x.AprobadoPor,
+                                       x.EstadoRegistro,
+                                       x.EstadoReporte,
+                                       x.FechaAprobado,
+                                       x.FechaAsignada,
+                                       x.FechaIngresoLog,
+                                       x.FechaModificacionLog,
+                                       x.FechaProduccion,
+                                       x.IdCocinamientoCtrl,
+                                       x.ObservacionC,
+                                       x.TerminalIngresoLog,
+                                       x.TerminalModificacionLog,
+                                       x.UsuarioIngresoLog,
+                                       x.UsuarioModificacionLog
+                                   }).FirstOrDefault();
+                    return listado;
                 }
                 else
                 {
-                    listado = db.CC_COCINAMIENTO_CTRL.FirstOrDefault(x => x.IdCocinamientoCtrl == idAnalisis && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                }
-                CC_COCINAMIENTO_CTRL cabecera;
-                if (listado != null)
-                {
-                    cabecera = new CC_COCINAMIENTO_CTRL();
-                    cabecera.IdCocinamientoCtrl = listado.IdCocinamientoCtrl;
-                    cabecera.FechaProduccion = listado.FechaProduccion;
-                    cabecera.ObservacionC = listado.ObservacionC;
-                    cabecera.EstadoReporte = listado.EstadoReporte;
-                    cabecera.FechaIngresoLog = listado.FechaIngresoLog;
-                    cabecera.UsuarioIngresoLog = listado.UsuarioIngresoLog;
-                    cabecera.FechaAprobado = listado.FechaAprobado;
-                    cabecera.AprobadoPor = listado.AprobadoPor;
-                    return cabecera;
-                }
-            }
-            return listado;
+                    var listado = (from x in db.CC_COCINAMIENTO_CTRL.AsNoTracking()
+                                   where x.IdCocinamientoCtrl == idCocinamientoCtrl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                   select new
+                                   {
+                                       x.AprobadoPor,
+                                       x.EstadoRegistro,
+                                       x.EstadoReporte,
+                                       x.FechaAprobado,
+                                       x.FechaAsignada,
+                                       x.FechaIngresoLog,
+                                       x.FechaModificacionLog,
+                                       x.FechaProduccion,
+                                       x.IdCocinamientoCtrl,
+                                       x.ObservacionC,
+                                       x.TerminalIngresoLog,
+                                       x.TerminalModificacionLog,
+                                       x.UsuarioIngresoLog,
+                                       x.UsuarioModificacionLog
+                                   }).FirstOrDefault();
+                    return listado;
+                }            
+            }           
         }
+        public dynamic ConsultarCabecera(DateTime fechaProduccion)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = (from x in db.CC_COCINAMIENTO_CTRL.AsNoTracking()
+                               where x.FechaProduccion == fechaProduccion && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                               select new
+                               {
+                                   x.AprobadoPor,
+                                   x.EstadoRegistro,
+                                   x.EstadoReporte,
+                                   x.FechaAprobado,
+                                   x.FechaAsignada,
+                                   x.FechaIngresoLog,
+                                   x.FechaModificacionLog,
+                                   x.FechaProduccion,
+                                   x.IdCocinamientoCtrl,
+                                   x.ObservacionC,
+                                   x.TerminalIngresoLog,
+                                   x.TerminalModificacionLog,
+                                   x.UsuarioIngresoLog,
+                                   x.UsuarioModificacionLog
+                               }).FirstOrDefault();
+                return listado;                
+            }            
+        }
+        public int EliminarCocinamiento(CC_COCINAMIENTO_CTRL guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_COCINAMIENTO_CTRL.FirstOrDefault(x => x.IdCocinamientoCtrl == guardarModificar.IdCocinamientoCtrl);
+                if (model != null)
+                {
+                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;
+                    db.SaveChanges();
+                }
+                return valor;
+            }
+        }
+
     }
 }

@@ -2237,6 +2237,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\ControlCocinamiento\ControlCocinamiento.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
@@ -4326,6 +4327,7 @@
     <Content Include="Views\AnalisisSensorial\MantenimientoParametrosSensoriales.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrimaDetallePartial.cshtml" />
+    <Content Include="Views\ControlCocinamiento\ControlCocinamiento.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4339,7 +4341,6 @@
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\ControlCocinamiento\" />
     <Folder Include="Views\MantenimientoCocinamiento\" />
   </ItemGroup>
   <ItemGroup>
