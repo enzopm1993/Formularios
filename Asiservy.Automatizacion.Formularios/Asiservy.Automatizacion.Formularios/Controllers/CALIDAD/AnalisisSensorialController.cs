@@ -3,6 +3,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensorial;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         // GET: AnalisisSensorial
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
+        clsDLogin clsDLogin { get; set; } = null;
         ClsdMantenimientoApariencia ClsdMantenimientoApariencia { get; set; } = null;
         ClsdParametrosSensoriales ClsdParametrosSensoriales { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
@@ -27,6 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         ClsDMantenimientoPCC ClsDMantenimientoPCC { get; set; } = null;
        
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
+        clsDReporte clsDReporte { get; set; } = null;
 
         #region PROTOCOLO MATERIA PRIMA
         [Authorize]
@@ -528,6 +531,142 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
         #endregion
 
+        #region REPORTE 
+        [Authorize]
+        public ActionResult ReporteProtocoloMateriaPrima()
+        {
+            try
+            {
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
+                ViewBag.dataTableJS = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ProtocoloMateriaPrima");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ProtocoloMateriaPrima";
+                    }
+                }
+
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteProtocoloMateriaPrimaPartial(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
+
+                var poControl = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrima(FechaDesde, FechaHasta);
+
+
+                if (poControl != null && poControl.Any())
+                {
+                    return PartialView(poControl);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult ReporteProtocoloMateriaPrimaDetallePartial(int IdControl)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
+                ClsdParametrosSensoriales = new ClsdParametrosSensoriales();
+                ClsdMantenimientoApariencia = new ClsdMantenimientoApariencia();
+                ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Apariencia = ClsdMantenimientoApariencia.ConsultaManteminetoApariencia().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+
+                var model = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrimaDetalle(IdControl);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+        #endregion
 
 
 

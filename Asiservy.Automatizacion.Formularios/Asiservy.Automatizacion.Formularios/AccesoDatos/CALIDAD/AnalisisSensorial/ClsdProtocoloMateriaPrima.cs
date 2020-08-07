@@ -235,15 +235,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
             }
         }
 
-        //public List<spReporteAnalisisAguaCaldero> ConsultaProtocoloMateriaPrima(DateTime FechaDesde, DateTime FechaHasta)
-        //{
-        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-        //    {
-        //        return entities.spReporteAnalisisAguaCaldero(FechaDesde, FechaHasta).ToList();
-        //    }
-        //}
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrima(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                ).ToList();
+            }
+        }
 
-        
+
 
         public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrimaPendiente()
         {
