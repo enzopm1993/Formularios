@@ -221,6 +221,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
+        public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2473,6 +2474,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaAsignada", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Analisis_Quimico_Precoccion_Barco>("sp_Analisis_Quimico_Precoccion_Barco", opParameter, fechaAsignadaParameter);
+        }
+    
+        public virtual int spGuardarProtocoloMateriaPrima(string json, Nullable<int> muestras, ObjectParameter pS_COD_ERROR)
+        {
+            var jsonParameter = json != null ?
+                new ObjectParameter("Json", json) :
+                new ObjectParameter("Json", typeof(string));
+    
+            var muestrasParameter = muestras.HasValue ?
+                new ObjectParameter("muestras", muestras) :
+                new ObjectParameter("muestras", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spGuardarProtocoloMateriaPrima", jsonParameter, muestrasParameter, pS_COD_ERROR);
         }
     }
 }

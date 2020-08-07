@@ -12,17 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_APARIENCIA_AS
+    public partial class CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_APARIENCIA_AS()
-        {
-            this.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS = new HashSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS>();
-        }
-    
+        public int IdProtocoloMateriaPrimaSubDetalleApariencia { get; set; }
+        public int IdProtocoloMateriaPrimaDetalle { get; set; }
         public int IdApariencia { get; set; }
-        public string Descripcion { get; set; }
-        public string Abreviatura { get; set; }
+        public bool Valor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -31,7 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS { get; set; }
+        public virtual CC_MANTENIMIENTO_APARIENCIA_AS CC_MANTENIMIENTO_APARIENCIA_AS { get; set; }
+        public virtual CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
     }
 }
