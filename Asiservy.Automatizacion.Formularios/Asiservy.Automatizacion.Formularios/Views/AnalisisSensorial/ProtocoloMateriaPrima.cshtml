@@ -1,14 +1,25 @@
 ﻿@using Asiservy.Automatizacion.Datos.Datos
 @{
-   
+
     ViewBag.Title = "ProtocoloMateriaPrima";
 }
 
-@{ 
+@{
     var Parametros = (List<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS>)ViewBag.Parametros;
-    var Calificaciones = (List<CC_MANTENIMIENTO_CALIFICACION_AS>) ViewBag.Calificaciones;
+    var Calificaciones = (List<CC_MANTENIMIENTO_CALIFICACION_AS>)ViewBag.Calificaciones;
+    var Apariencia = (List<CC_MANTENIMIENTO_APARIENCIA_AS>)ViewBag.Apariencia;
 
+    <script>
+        parametros = [];
+        calificaciones = [];
+        apariencia = [];
 
+        parametros= @Html.Raw(Json.Encode(Parametros));
+        calificaciones = @Html.Raw(Json.Encode(Calificaciones));
+        apariencia = @Html.Raw(Json.Encode(Apariencia));
+        //console.log(parametros);
+        //console.log(calificaciones);
+    </script>
 
 }
 <style>
@@ -31,9 +42,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
@@ -74,32 +82,31 @@
     <div class="card shadow" id="">
         <div class="card-header text-center">
             <div class="row">
-                <div class="col-md-2 col-sm-6 col-6">
-                   
-                        <h5 id="">Lote: <label id="hMensaje"></label></h5>
+                <div class="col-md-2 col-sm-6 col-4 text-left">
 
-                  
+                    <h6 id="">Lote: <label id="hMensaje"></label></h6>
+                    <h6 id="">O.F.: <label id="hMensajeOf"></label></h6>
+                    <h6 id="">PCC: <label id="hMensajePCC"></label></h6>
+
+
                 </div>
-                <div class="col-md-9 col-sm-6 col-6">
+                <div class="col-md-9 col-sm-6 col-8">
                     <label class="">Acciones</label>
                     <div class="form-group">
                         <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnEditar" onclick="EditarControl()" style="border-color:#2c3e50" type="button">
                             <img style="width:100%" src="~/Content/icons/edit24.png" />
                         </button>
-
-                        <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
-                            <img style="width:100%" src="~/Content/icons/atras24.png" />
-                        </button>
-
                         <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
                             <img style="width:100%" src="~/Content/icons/cancel24.png" />
                         </button>
-
+                        <button data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/atras24.png" />
+                        </button>
                     </div>
                 </div>
-            </div>           
+            </div>
         </div>
-       
+
     </div>
 
     <div class="card shadow">
@@ -109,7 +116,6 @@
                     <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="MostrarModalDetalle()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="~/Content/icons/add24.png" />
                     </button>
-
                 </div>
             </div>
             <div class="card-body">
@@ -117,8 +123,9 @@
                     <h4 id="h4Mensaje"></h4>
                 </div>
                 <div id="tblPartial" class="table-responsive">
-                  
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -141,9 +148,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalControl">
     <div class="modal-dialog modal-xl">
@@ -214,48 +218,92 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarControl()" id="modal-si">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarControl()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
 
-
 <div class="modal" tabindex="-1" role="dialog" id="ModalDetalle">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Protocolo de Materia Prima Detaller</h5>
+                <input type="hidden" id="txtIdControlDetalle" name="name" value="0" />
+                <h5 class="modal-title">Protocolo de Materia Prima Detalle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                @{
-                    if (Parametros != null)
-                    {
-                        foreach (var x in Parametros)
+
+                <div class="row">
+
+                    @{
+                        if (Parametros != null)
                         {
-                            <label>@x.Descripcion</label>
-                            <select class="form-control">
-                                <option value="">Seleccione</option>
-                                @if (Calificaciones != null)
+                            foreach (var x in Parametros)
+                            {
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label>@x.Descripcion</label>
+                                        <select class="form-control" id="select-@x.IdParametroSensorial">
+                                            <option value="" id="">Seleccione</option>
+                                            @if (Calificaciones != null)
+                                            {
+                                                foreach (var y in Calificaciones)
+                                                {
+                                                    <option value="@y.IdCalificacion">@y.Descripcion</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <form class="was-validated">
+                                @if (Apariencia != null)
                                 {
-                                    foreach (var y in Calificaciones)
+                                    foreach (var a in Apariencia)
                                     {
-                                        <option value="@y.IdCalificacion">@y.Descripcion</option>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" checked class="custom-control-input" id="chk-@a.IdApariencia" required>
+                                            <label class="custom-control-label" for="chk-@a.IdApariencia">@a.Descripcion</label>
+                                        </div>
                                     }
                                 }
-                            </select>
-                        }
+                                else
+                                {
+                                    <label>No existen registros activos en el mantenimiento de apariencia.</label>
+                                }
+                            </form>
+                        </div>
                     }
-                }
+
+
+                    @*<div class="custom-control custom-checkbox">
+                            <input type="checkbox" checked class="custom-control-input" id="customControlValidation1" required>
+                            <label class="custom-control-label" for="customControlValidation1">No Maltratado</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" checked class="custom-control-input" id="customControlValidation2" required>
+                            <label class="custom-control-label" for="customControlValidation2">No honey</label>
+                        </div>*@
+
+
+
+                </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <div class="form-group">
+                    <label>Muestras</label>
+                    <input type="text" class="form-control" id="txtCantidad" name="name" value="1" />
+                </div>
+                <button type="button" class="btn btn-primary" onclick="GuardarDetalle()">Guardar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
             </div>
         </div>
     </div>
@@ -263,7 +311,21 @@
 
 
 
-
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar el detalle?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
     <div class="modal-dialog modal-md">
