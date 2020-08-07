@@ -2216,6 +2216,7 @@
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\BandejaAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\BandejaProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoApariencia.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoParametrosSensoriales.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\ProtocoloMateriaPrima.js" />
@@ -4328,6 +4329,8 @@
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrimaDetallePartial.cshtml" />
     <Content Include="Views\ControlCocinamiento\ControlCocinamiento.cshtml" />
+    <Content Include="Views\AnalisisSensorial\BandejaProtocoloMateriaPrima.cshtml" />
+    <Content Include="Views\AnalisisSensorial\BandejaProtocoloMateriaPrimaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

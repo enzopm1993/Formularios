@@ -511,11 +511,14 @@ function GuardarDetalle() {
             }
             if (resultado == "800") {
                 MensajeAdvertencia(Mensajes.MensajePeriodo);
+                CerrarModalCargando();
+
             } else if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
-               // nuevoControl();
+                // nuevoControl();
+                CerrarModalCargando();
             } else {
                 MensajeCorrecto(resultado);
                 ConsultarDetalle();
@@ -618,12 +621,18 @@ function InactivarDetalle(detalles) {
             }
             if (resultado == "800") {
                 MensajeAdvertencia(Mensajes.MensajePeriodo);
+                CerrarModalCargando();
+
             } else if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
+                CerrarModalCargando();
+
             } else if (resultado == "1") {
                 $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 MensajeAdvertencia(Mensajes.ControlAprobado);
+                CerrarModalCargando();
+
             } else {
                 MensajeCorrecto(resultado);
                 ConsultarDetalle();

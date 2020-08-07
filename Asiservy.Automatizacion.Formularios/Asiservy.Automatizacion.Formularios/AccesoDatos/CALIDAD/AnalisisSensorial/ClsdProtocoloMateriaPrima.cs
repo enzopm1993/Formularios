@@ -217,6 +217,59 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
 
             }
         }
+
+        #endregion
+
+        #region APROBACION - REPORTE
+
+
+
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrima(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                && x.EstadoReporte == Estado).ToList();
+            }
+        }
+
+        //public List<spReporteAnalisisAguaCaldero> ConsultaProtocoloMateriaPrima(DateTime FechaDesde, DateTime FechaHasta)
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        return entities.spReporteAnalisisAguaCaldero(FechaDesde, FechaHasta).ToList();
+        //    }
+        //}
+
+        
+
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrimaPendiente()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+        public void Aprobar_Reporte(CC_PROTOCOLO_MATERIA_PRIMA_AS Control)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_PROTOCOLO_MATERIA_PRIMA_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrima == Control.IdProtocoloMateriaPrima || (x.Fecha == Control.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.EstadoReporte = Control.EstadoReporte;
+                    model.AprobadoPor = Control.AprobadoPor;
+                    model.FechaAprobacion = Control.FechaAprobacion;
+                    model.FechaModificacionLog = Control.FechaIngresoLog;
+                    model.TerminalModificacionLog = Control.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = Control.UsuarioIngresoLog;
+                    db.SaveChanges();
+                }
+
+            }
+        }
         #endregion
     }
 }

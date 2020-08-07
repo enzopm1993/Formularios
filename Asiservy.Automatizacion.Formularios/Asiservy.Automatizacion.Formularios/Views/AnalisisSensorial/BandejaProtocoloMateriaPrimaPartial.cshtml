@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PROTOCOLO_MATERIA_PRIMA_AS>
+@using Newtonsoft.Json
+@using Asiservy.Automatizacion.Datos.Datos
+
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+               Fecha Evaluación
+            </th>
+            <th>
+                Fecha Descarga
+            </th>
+            <th>
+                Orden Fabricación
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+               Lote Descarga
+            </th>
+            <th>
+                Codigo Protocolo
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pcc)
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Terminal Ingreso
+            </th>
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario Modificación
+            </th>
+            <th>
+                Terminal Modificación
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var m = new CC_PROTOCOLO_MATERIA_PRIMA_AS
+            {
+                IdProtocoloMateriaPrima = item.IdProtocoloMateriaPrima,
+                Fecha = item.Fecha,
+            };
+
+
+            var json = JsonConvert.SerializeObject(m);
+            <tr onclick="SeleccionarBandeja(@json)">
+
+                <td>
+                    @item.Fecha.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaEvaluacion.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaDescarga.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoteDescarga)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoProtocolo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pcc)
+                </td>
+                <td style="white-space:normal">
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                @if (item.EstadoReporte == true)
+                {
+                    <td><span class="badge badge-success">Aprobado</span></td>
+                }
+                else
+                {
+                    <td><span class="badge badge-danger">Pendiente</span></td>
+                }
+
+
+                <td>
+                    @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                </td>
+                <td>
+                    @if (item.FechaModificacionLog != null)
+                    {@item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm")}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
