@@ -51,24 +51,8 @@ function SeleccionarBandeja(Control) {
     $("#divMensaje").html('');
     $("#divCabeceras").prop("hidden", true);
     $("#divDetalle").prop("hidden", true);
-    $("#lblLomos").html('');
+    //$("#lblLomos").html('');
     $("#divDetalle").prop("hidden", false);
-
-    // console.log(model);
-
-    //$("#divMensaje").html('');
-    //if (model.Lomos) {
-    //    $("#lblLomos").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
-    //}
-    //if (model.Latas) {
-    //    $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
-    //}
-    //$("#lblFerroro").html(model.Ferroso);
-    //$("#lblPCC").html(model.Pcc);
-    //$("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
-    //$("#lblNoFerroso").html(model.NoFerroso);
-    //$("#lblAceroInoxidable").html(model.AceroInoxidable);
-    //$("#pObservacion").html(model.Observacion);
 
     if (model.EstadoReporte) {
         $("#txtUsuarioAprobacion").html(model.AprobadoPor);
@@ -78,10 +62,47 @@ function SeleccionarBandeja(Control) {
         $("#txtFechaAprobacion").html('');
     }
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
-
-
+    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));    
+    ConsultaDatosOf();
     CargarControlDetalle();
+}
+
+function ConsultaDatosOf() {
+    $.ajax({
+        url: "../AnalisisSensorial/DatosOf",
+        type: "GET",
+        data: {
+            OrdenFabricacion: model.OrdenFabricacion,
+            Lote: model.Lote
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("No existen datos de la Orden de Fabricación");
+            } else {
+            //    console.log(resultado);
+                $("#txtFechaIngresoPlanta").html(moment(model.FechaDescarga).format("DD-MM-YYYY"));
+                $("#txtFechaEvaluacion").html(moment(model.FechaEvaluacion).format("DD-MM-YYYY"));
+                $("#txtFechaProduccion").html(moment(model.Fecha).format("DD-MM-YYYY"));
+                $("#txtBarco").html(resultado.Barco);
+                $("#txtLoteDescarga").html(model.LoteDescarga); 
+                $("#txtLote").html(model.Lote); 
+                $("#txtCodigoProtocolo").html(model.CodigoProtocolo);
+                $("#txtEspecieTalla").html(resultado.Especie+'  '+ resultado.Talla);
+                $("#txtPcc").html(model.Pcc);
+                $("#txtObservacion").html(model.Observacion);
+                
+               
+            }
+          
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado.responseText, false);
+        }
+    });
 }
 
 function Atras() {
@@ -180,6 +201,7 @@ $(function () {
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
 
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
+        FiltrarAprobadosFecha();
     }
 
     $('#reportrange').daterangepicker({

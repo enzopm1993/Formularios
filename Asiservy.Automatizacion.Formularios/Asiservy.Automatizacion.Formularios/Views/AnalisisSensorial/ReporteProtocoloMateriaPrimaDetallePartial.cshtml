@@ -15,34 +15,52 @@
 <table class="table table-hover table-striped" id="tblDataTable">
     <thead>
         <tr>
-           
-            <th style="white-space:normal">Nº Pescados</th>
+
+            <th class="text-center" style="white-space:normal">Nº Pescados</th>
             @{
                 if (Parametros != null)
                 {
                     foreach (var p in Parametros)
                     {
-                        <th style="white-space:normal">@p.Descripcion</th>
+                        <th class="text-center" style="white-space:normal">@p.Abreviatura</th>
                     }
                 }
                 if (Apariencia != null)
                 {
                     foreach (var a in Apariencia)
                     {
-                        <th style="white-space:normal">@a.Descripcion</th>
+                        <th class="text-center" style="white-space:normal">@a.Abreviatura</th>
                     }
                 }
+                <th class="text-center" style="white-space:normal">Nº Pescados</th>
+
+                if (Parametros != null)
+                {
+                    foreach (var p in Parametros)
+                    {
+                        <th style="white-space:normal">@p.Abreviatura</th>
+                    }
+                }
+                if (Apariencia != null)
+                {
+                    foreach (var a in Apariencia)
+                    {
+                        <th style="white-space:normal">@a.Abreviatura</th>
+                    }
+                }
+               
             }
-         
+
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-               
-                <td>@cont</td>
-                @{
+        <tr>
+            @{ int contador = 1;}
+            @foreach (var item in Model)
+            {
+
+                <td class="text-center"><b>@cont</b></td>
+                
 
                     if (Parametros != null)
                     {
@@ -55,7 +73,7 @@
                             }
                             else
                             {
-                                <td></td>
+                                <td>-</td>
                             }
                         }
                     }
@@ -82,14 +100,19 @@
                             else
                             {
                                 <td></td>
-                            }
                         }
                     }
-                    cont = cont + 1;
                 }
-               
-            </tr>
-        }
+                cont = cont + 1;
+                if (contador == 2)
+                {
+                    @:</tr><tr>
+                    contador = 0;
+                }
+                contador = contador + 1;
+            }
+        </tr>
+
     </tbody>
 </table>
 

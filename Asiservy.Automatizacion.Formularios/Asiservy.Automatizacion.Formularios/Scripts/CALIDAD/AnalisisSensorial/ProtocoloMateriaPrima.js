@@ -89,7 +89,7 @@ function ConsultarControl() {
    
     MostrarModalCargando();  
     $("#h4Mensaje").html("");
-    $("#tblPartial").html("");
+    //$("#tblPartial").html("");
     $.ajax({
         url: "../AnalisisSensorial/ProtocoloMateriaPrimaPartial",
         type: "GET",
@@ -434,7 +434,7 @@ function NuevoDetalle() {
     });
     apariencia.forEach(function (element, index) {
         var select = "#chk-" + element.IdApariencia;
-        $(select).prop("checked", true);
+        $(select).prop("checked", false);
     });
     $("#txtCantidad").val(1);
     $("#txtCantidad").prop("readonly", false);
@@ -767,13 +767,16 @@ function ConsultaLotesOf(Of) {
     });
 }
 function CargarDevExpress(data) {
-    //console.log(data);
-    data.forEach(function (x, y) {
-        x.Fecha = moment(x.Fecha).format("DD-MM-YYYY");
-        x.FechaEvaluacion = moment(x.FechaEvaluacion).format("DD-MM-YYYY");
-        x.FechaDescarga = moment(x.FechaDescarga).format("DD-MM-YYYY");
-    });
+   //console.log(data);
+    if (data != null) {
+        data.forEach(function (x, y) {
+            x.Fecha = moment(x.Fecha).format("DD-MM-YYYY");
+            x.FechaEvaluacion = moment(x.FechaEvaluacion).format("DD-MM-YYYY");
+            x.FechaDescarga = moment(x.FechaDescarga).format("DD-MM-YYYY");
+        });
 
+    }
+  
     DevExpress.localization.locale(navigator.language);
     var opciosGrid = {
         dataSource: data,

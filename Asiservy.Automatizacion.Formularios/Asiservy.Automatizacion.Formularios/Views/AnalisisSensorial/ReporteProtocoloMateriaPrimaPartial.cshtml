@@ -30,9 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Pcc)
             </th>
-            <th>
-                Observación
-            </th>
+           
             <th>
                 Estado
             </th>
@@ -63,6 +61,20 @@
             {
                 IdProtocoloMateriaPrima = item.IdProtocoloMateriaPrima,
                 Fecha = item.Fecha,
+                OrdenFabricacion = item.OrdenFabricacion,
+                Lote = item.Lote,
+                LoteDescarga = item.LoteDescarga,
+                CodigoProtocolo = item.CodigoProtocolo,
+                Pcc = item.Pcc,
+                FechaIngresoLog= item.FechaIngresoLog,
+                FechaDescarga= item.FechaDescarga,
+                FechaEvaluacion= item.FechaEvaluacion,
+                FechaAprobacion= item.FechaAprobacion,
+                UsuarioIngresoLog= item.UsuarioIngresoLog,
+                AprobadoPor= item.AprobadoPor,
+                Observacion= item.Observacion
+                
+                
             };
 
 
@@ -93,9 +105,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Pcc)
                 </td>
-                <td style="white-space:normal">
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
+              
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>

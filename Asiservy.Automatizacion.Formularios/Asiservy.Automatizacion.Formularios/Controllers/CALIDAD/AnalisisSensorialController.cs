@@ -551,6 +551,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDLogin = new clsDLogin();
+                ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
+                ClsdParametrosSensoriales = new ClsdParametrosSensoriales();
+                ClsdMantenimientoApariencia = new ClsdMantenimientoApariencia();
+                ViewBag.Intermedia = ClsdParametrosSensoriales.ConsultaIntermedia2().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Apariencia = ClsdMantenimientoApariencia.ConsultaManteminetoApariencia().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+
                 if (!string.IsNullOrEmpty(lsUsuario[1]))
                 {
                     var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ProtocoloMateriaPrima");
@@ -643,6 +651,44 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult DatosOf(int OrdenFabricacion, string Lote)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                var model = clsDApiOrdenFabricacion.ConsultaLotesPorOFCompleto(OrdenFabricacion).FirstOrDefault(x=> x.Lote== Lote);
+                if (model== null)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

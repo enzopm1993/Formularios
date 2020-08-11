@@ -211,7 +211,8 @@
                     <div class="col-md-5 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Observación</label>
-                            <input type="text" maxlength="250" class="form-control" id="txtObservación" name="name" value="" />
+                            @*<input type="text" maxlength="250" class="form-control" id="txtObservación" name="name" value="" />*@
+                            <textarea name="textarea" maxlength="250" rows="3" class="form-control" id="txtObservación" ></textarea>
 
                         </div>
                     </div>
@@ -268,7 +269,7 @@
                                     foreach (var a in Apariencia)
                                     {
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" checked class="custom-control-input" id="chk-@a.IdApariencia" required>
+                                            <input type="checkbox" class="custom-control-input" id="chk-@a.IdApariencia" required>
                                             <label class="custom-control-label" for="chk-@a.IdApariencia">@a.Descripcion</label>
                                         </div>
                                     }
