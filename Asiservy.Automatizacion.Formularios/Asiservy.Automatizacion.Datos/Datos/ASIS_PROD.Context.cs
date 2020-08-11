@@ -168,7 +168,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_CTRL> CC_CUCHILLOS_PREPARACION_CTRL { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA { get; set; }
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL> ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL { get; set; }
-        public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_CABECERA> ENTRADA_SALIDA_MATERIAL_CABECERA { get; set; }
         public virtual DbSet<ENTRADA_SALIDA_MATERIAL_DETALLE> ENTRADA_SALIDA_MATERIAL_DETALLE { get; set; }
@@ -211,7 +210,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_APARIENCIA_AS> CC_MANTENIMIENTO_APARIENCIA_AS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_CALIFICACION_AS> CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_INTERMEDIO_AS> CC_MANTENIMIENTO_INTERMEDIO_AS { get; set; }
-        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS> CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TEMPERATURA> CC_MANTENIMIENTO_TEMPERATURA { get; set; }
         public virtual DbSet<CC_PCC_MANTENIMIENTO> CC_PCC_MANTENIMIENTO { get; set; }
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_AS> CC_PROTOCOLO_MATERIA_PRIMA_AS { get; set; }
@@ -222,6 +220,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS> CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS { get; set; }
         public virtual DbSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS> CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
+        public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

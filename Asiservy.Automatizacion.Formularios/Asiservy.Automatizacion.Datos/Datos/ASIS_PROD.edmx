@@ -1349,7 +1349,7 @@
           </Key>
           <Property Name="IdParametroSensorial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -3425,7 +3425,7 @@
           <Property Name="IdReporteDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdReporteMaestro" Type="int" Nullable="false" />
           <Property Name="Version" Type="int" Nullable="false" />
-          <Property Name="Imagen" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="150" />
           <Property Name="Rotacion" Type="int" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -7117,12 +7117,7 @@
             <Parameter Name="idCloroCisterna" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="REPORTE_DETALLE" EntityType="ASIS_PRODModel.REPORTE_DETALLE" />
           <EntitySet Name="REPORTE_MAESTRO" EntityType="ASIS_PRODModel.REPORTE_MAESTRO" />
-          <AssociationSet Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO" Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO">
-            <End Role="REPORTE_MAESTRO" EntitySet="REPORTE_MAESTRO" />
-            <End Role="REPORTE_DETALLE" EntitySet="REPORTE_DETALLE" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaCodigoReporte" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigoReporte)">
           <Parameter Name="Reporte" Mode="In" Type="String" />
           </FunctionImport>
@@ -7366,13 +7361,8 @@
           <EntitySet Name="CC_MANTENIMIENTO_APARIENCIA_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_APARIENCIA_AS" />
           <EntitySet Name="CC_MANTENIMIENTO_CALIFICACION_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" />
           <EntitySet Name="CC_MANTENIMIENTO_INTERMEDIO_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" />
-          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
           <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
             <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
-            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
             <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
           </AssociationSet>
           <EntitySet Name="CC_MANTENIMIENTO_TEMPERATURA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA" />
@@ -7403,10 +7393,6 @@
           <EntitySet Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
           <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
             <End Role="CC_MANTENIMIENTO_CALIFICACION_AS" EntitySet="CC_MANTENIMIENTO_CALIFICACION_AS" />
-            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
             <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS">
@@ -7449,6 +7435,20 @@
             <Parameter Name="muestras" Mode="In" Type="Int32" />
             <Parameter Name="PS_COD_ERROR" Mode="InOut" Type="Boolean" />
           </FunctionImport>
+          <EntitySet Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+          <AssociationSet Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_MANTENIMIENTO_INTERMEDIO_AS" EntitySet="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <End Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" EntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+            <End Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" EntitySet="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+          </AssociationSet>
+          <EntitySet Name="REPORTE_DETALLE" EntityType="ASIS_PRODModel.REPORTE_DETALLE" />
+          <AssociationSet Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO" Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO">
+            <End Role="REPORTE_MAESTRO" EntitySet="REPORTE_MAESTRO" />
+            <End Role="REPORTE_DETALLE" EntitySet="REPORTE_DETALLE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -12419,24 +12419,6 @@
           <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="Ppm_CloroDet" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
-        <EntityType Name="REPORTE_DETALLE">
-          <Key>
-            <PropertyRef Name="IdReporteDetalle" />
-          </Key>
-          <Property Name="IdReporteDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdReporteMaestro" Type="Int32" Nullable="false" />
-          <Property Name="Version" Type="Int32" Nullable="false" />
-          <Property Name="Imagen" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Rotacion" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="REPORTE_MAESTRO" Relationship="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" FromRole="REPORTE_DETALLE" ToRole="REPORTE_MAESTRO" />
-        </EntityType>
         <EntityType Name="REPORTE_MAESTRO">
           <Key>
             <PropertyRef Name="IdReporteMaestro" />
@@ -12454,18 +12436,6 @@
           <Property Name="IdOpcion" Type="Int32" />
           <NavigationProperty Name="REPORTE_DETALLE" Relationship="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" FromRole="REPORTE_MAESTRO" ToRole="REPORTE_DETALLE" />
         </EntityType>
-        <Association Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO">
-          <End Type="ASIS_PRODModel.REPORTE_MAESTRO" Role="REPORTE_MAESTRO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.REPORTE_DETALLE" Role="REPORTE_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="REPORTE_MAESTRO">
-              <PropertyRef Name="IdReporteMaestro" />
-            </Principal>
-            <Dependent Role="REPORTE_DETALLE">
-              <PropertyRef Name="IdReporteMaestro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaCodigoReporte">
           <Property Type="String" Name="Codigo" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="UltimaVersion" Nullable="true" />
@@ -14100,23 +14070,6 @@
           <NavigationProperty Name="CC_MANTENIMIENTO_CALIFICACION_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_MANTENIMIENTO_INTERMEDIO_AS" ToRole="CC_MANTENIMIENTO_CALIFICACION_AS" />
           <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_INTERMEDIO_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
         </EntityType>
-        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-          <Key>
-            <PropertyRef Name="IdParametroSensorial" />
-          </Key>
-          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
-          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
-        </EntityType>
         <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
           <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
           <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
@@ -14126,18 +14079,6 @@
             </Principal>
             <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
               <PropertyRef Name="IdCalificacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-              <PropertyRef Name="IdParametroSensorial" />
-            </Principal>
-            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
-              <PropertyRef Name="IdParametroSensorial" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14361,8 +14302,8 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_MANTENIMIENTO_CALIFICACION_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_MANTENIMIENTO_CALIFICACION_AS" />
-          <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
           <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" ToRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
         </EntityType>
         <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS">
           <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Role="CC_MANTENIMIENTO_CALIFICACION_AS" Multiplicity="1" />
@@ -14373,18 +14314,6 @@
             </Principal>
             <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
               <PropertyRef Name="IdCalificacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-              <PropertyRef Name="IdParametroSensorial" />
-            </Principal>
-            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
-              <PropertyRef Name="IdParametroSensorial" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14524,6 +14453,77 @@
             </Principal>
             <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS">
               <PropertyRef Name="IdProtocoloMateriaPrimaDetalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <Key>
+            <PropertyRef Name="IdParametroSensorial" />
+          </Key>
+          <Property Name="IdParametroSensorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_MANTENIMIENTO_INTERMEDIO_AS" Relationship="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_MANTENIMIENTO_INTERMEDIO_AS" />
+          <NavigationProperty Name="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Relationship="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" FromRole="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" ToRole="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" />
+        </EntityType>
+        <Association Name="FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Role="CC_MANTENIMIENTO_INTERMEDIO_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_MANTENIMIENTO_INTERMEDIO_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+          <End Type="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Principal>
+            <Dependent Role="CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS">
+              <PropertyRef Name="IdParametroSensorial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="REPORTE_DETALLE">
+          <Key>
+            <PropertyRef Name="IdReporteDetalle" />
+          </Key>
+          <Property Name="IdReporteDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdReporteMaestro" Type="Int32" Nullable="false" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Rotacion" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="REPORTE_MAESTRO" Relationship="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" FromRole="REPORTE_DETALLE" ToRole="REPORTE_MAESTRO" />
+        </EntityType>
+        <Association Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO">
+          <End Type="ASIS_PRODModel.REPORTE_MAESTRO" Role="REPORTE_MAESTRO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.REPORTE_DETALLE" Role="REPORTE_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REPORTE_MAESTRO">
+              <PropertyRef Name="IdReporteMaestro" />
+            </Principal>
+            <Dependent Role="REPORTE_DETALLE">
+              <PropertyRef Name="IdReporteMaestro" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -19521,24 +19521,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="REPORTE_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_DETALLE">
-              <MappingFragment StoreEntitySet="REPORTE_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Rotacion" ColumnName="Rotacion" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="IdReporteMaestro" ColumnName="IdReporteMaestro" />
-                <ScalarProperty Name="IdReporteDetalle" ColumnName="IdReporteDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="REPORTE_MAESTRO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_MAESTRO">
               <MappingFragment StoreEntitySet="REPORTE_MAESTRO">
@@ -20993,22 +20975,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CC_MANTENIMIENTO_TEMPERATURA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA">
               <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_TEMPERATURA">
@@ -21275,6 +21241,40 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spGuardarProtocoloMateriaPrima" FunctionName="ASIS_PRODModel.Store.spGuardarProtocoloMateriaPrima" />
+          <EntitySetMapping Name="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+              <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdParametroSensorial" ColumnName="IdParametroSensorial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REPORTE_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_DETALLE">
+              <MappingFragment StoreEntitySet="REPORTE_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Rotacion" ColumnName="Rotacion" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="IdReporteMaestro" ColumnName="IdReporteMaestro" />
+                <ScalarProperty Name="IdReporteDetalle" ColumnName="IdReporteDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

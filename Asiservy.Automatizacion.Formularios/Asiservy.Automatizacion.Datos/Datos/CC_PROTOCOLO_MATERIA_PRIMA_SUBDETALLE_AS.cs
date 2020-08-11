@@ -27,7 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         public virtual CC_MANTENIMIENTO_CALIFICACION_AS CC_MANTENIMIENTO_CALIFICACION_AS { get; set; }
-        public virtual CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
         public virtual CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS { get; set; }
+        public virtual CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
     }
 }
