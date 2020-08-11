@@ -12,16 +12,7 @@
         }
         #wrapper #content-wrapper {
             background-color: white;
-        }
-
-        .card-header {
-            background-color: white;
-        }
-
-        .card-footer {
-            background-color: white;
-        }
-
+        }      
        
         hr {
             display: none;
@@ -74,8 +65,26 @@
             width: 100%;
         }
 
-        .card {
-            border: 0px solid #e3e6f0;
+    
+
+        .header, .header-space {
+            height: 60px;
+        }
+
+        .footer, .footer-space {
+            height: 100px;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
         }
     }
 
@@ -189,7 +198,8 @@
 
 
 <div id="divDetalle" hidden class="card">
-    <div class="card-header">
+
+    <div class="header">
         <table id="tbltitulo" class="table table-bordered">
             <tbody>
                 <tr>
@@ -242,86 +252,74 @@
             </tr>
         </table>
     </div>
-    <div class="card-body">
-        <div class=" table-responsive">
-            <table class="table table-bordered">
-                <tr>
-                    <td><b>Fecha: </b><label id="lblFecha"> </label></td>
-                    <td><b>Turno: </b><label id="lblTurno"> </label></td>
-                    <td><b>Ferroso:</b><label id="lblFerroro"> </label></td>
-                    <td><b>PCC:</b><label id="lblPCC"> </label></td>
-                </tr>
-                <tr>
-                    <td> <b> Empaque Lomos: </b><label id="lblLomos"> </label></td>
-                    <td colspan="3"><b>No Ferroso:</b><label id="lblNoFerroso"> </label></td>
-                </tr>
-                <tr>
-                    <td>  <b>Conservas Latas y Pouch: </b><label id="lblLatas"> </label> </td>
-                    <td colspan="3"> <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable">  </label></td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="width: 50%; white-space:normal"> <b>Observaciones:</b> <p id="pObservacion"></p> </td>
-                </tr>
-            </table>
-        </div>
-        <div id="divTableDetalle" class="table1  table-responsive1">
-            @*<thead>
-                <tr>
-                    <th style="width:100%; border-right:2px solid #e3e6f0; border-left:2px solid #e3e6f0; border-bottom:0px" class="text-center"><h5>Verificación de operatividad con patrones</h5></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="width:100%;border:0px; padding:0px !important" id="">
-                        <div id="spinnerCargandoDetalle" hidden class="text-center">
-                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                                <span class="sr-only">Cargando...</span>
-                            </div>
-                        </div>
-                        <div id="divTableDetalle" class="">
 
-                        </div>
+<table>
+  <thead><tr><td>
+    <div class="header-space">&nbsp;</div>
+  </td></tr></thead>
+  <tbody><tr><td>
+                 <div class="content">
+                     <div class=" table-responsive">
+                         <table class="table table-bordered">
+                             <tr>
+                                 <td><b>Fecha: </b><label id="lblFecha"> </label></td>
+                                 <td><b>Turno: </b><label id="lblTurno"> </label></td>
+                                 <td><b>Ferroso:</b><label id="lblFerroro"> </label></td>
+                                 <td><b>PCC:</b><label id="lblPCC"> </label></td>
+                             </tr>
+                             <tr>
+                                 <td> <b> Empaque Lomos: </b><label id="lblLomos"> </label></td>
+                                 <td colspan="3"><b>No Ferroso:</b><label id="lblNoFerroso"> </label></td>
+                             </tr>
+                             <tr>
+                                 <td>  <b>Conservas Latas y Pouch: </b><label id="lblLatas"> </label> </td>
+                                 <td colspan="3"> <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable">  </label></td>
+                             </tr>
+                             <tr>
+                                 <td colspan="4" style="width: 50%; white-space:normal"> <b>Observaciones:</b> <p id="pObservacion"></p> </td>
+                             </tr>
+                         </table>
+                     </div>
+                     <div id="divTableDetalle" class="table1  table-responsive1">
+                        
+                     </div>
 
-                    </td>
-                </tr>
-            </tbody>*@
-        </div>
+                     <table class="table1 table-bordered  table-responsive1">
+                         <thead>
+                             <tr>
+                                 <th colspan="2" style="width:100%" class="text-center"><h5>Detección de metales en bandejas</h5></th>
+                             </tr>
+                         </thead>
+                         <tbody id="divTableDetalle2"></tbody>
+                     </table>
+                 </div>
+  </td></tr></tbody>
+  <tfoot><tr><td>
+    <div class="footer-space">&nbsp;</div>
+  </td></tr></tfoot>
+</table>
+<div class="footer">
+    <table class="table table-borderless text-center" style="margin-bottom:0rem">
+        <tr>
+            <td>
+                <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label>
 
-        <table class="table1 table-bordered  table-responsive1">
-            <thead>
-                <tr>
-                    <th colspan="2" style="width:100%" class="text-center"><h5>Detección de metales en bandejas</h5></th>
-                </tr>
-            </thead>
-            <tbody id="divTableDetalle2"></tbody>
-        </table>
+            </td>
+            <td>
+                <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion"></label>
 
-    </div>          
-                   
-         
-
-    <div class="card-footer divFooter">
-        <br />
-        <table class="table table-borderless text-center" style="margin-bottom:0rem">
-            <tr>
-                <td>
-                    <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label>
-
-                </td>
-                <td>
-                    <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion"></label>
-
-                </td>
-            </tr>
-            <tr>
-                <td><label>Realizado Por</label><br /></td>
-                <td> <label>Aprobado Por</label><br /></td>
-            </tr>
-            <tr>
-                <td> <label id="txtFechaCreacion"></label></td>
-                <td> <label id="txtFechaAprobacion"></label></td>
-            </tr>
-        </table>
-    </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Realizado Por</label><br /></td>
+            <td> <label>Aprobado Por</label><br /></td>
+        </tr>
+        <tr>
+            <td> <label id="txtFechaCreacion"></label></td>
+            <td> <label id="txtFechaAprobacion"></label></td>
+        </tr>
+    </table>
+</div>
+       
 </div>
 
