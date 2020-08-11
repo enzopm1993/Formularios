@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.ItemParadaCocina>
+
+
+<table class="table table-hover table-striped text-uppercase table-bordered">
+    <thead style="font-size:12px">
+        <tr>
+            <th>LOTE</th>
+            <th>COCINA/PARADA</th>
+            <th>BARCO</th>
+            <th>INICIO COCCIÓN</th>
+            <th>TIEMPO COCCIÓN</th>
+            <th>ESPECIE/TALLA</th>
+            <th>NUM. COCHE</th>
+            <th>ªC CORTE</th>
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LOTE)
+            </td>
+            <td class="text-center">
+                @item.COCINA/@item.PARADA
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BARCO)
+            </td>
+            <td>12</td>
+            <td>3</td>
+            <td>
+                @item.ESPECIE / @item.TALLA
+            </td>
+            <td>
+               num coches
+            </td>
+            <td>
+               23º
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

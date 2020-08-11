@@ -2216,9 +2216,11 @@
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\BandejaAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\BandejaProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoApariencia.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoParametrosSensoriales.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\ProtocoloMateriaPrima.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\ReporteProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -2237,6 +2239,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\ControlCocinamiento\ControlCocinamiento.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
@@ -4326,6 +4329,12 @@
     <Content Include="Views\AnalisisSensorial\MantenimientoParametrosSensoriales.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrimaDetallePartial.cshtml" />
+    <Content Include="Views\ControlCocinamiento\ControlCocinamiento.cshtml" />
+    <Content Include="Views\AnalisisSensorial\BandejaProtocoloMateriaPrima.cshtml" />
+    <Content Include="Views\AnalisisSensorial\BandejaProtocoloMateriaPrimaPartial.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrima.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrimaPartial.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrimaDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4339,7 +4348,6 @@
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\ControlCocinamiento\" />
     <Folder Include="Views\MantenimientoCocinamiento\" />
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_MANTENIMIENTO_APARIENCIA_AS.ToList();
+                var lista = (from x in entities.CC_MANTENIMIENTO_APARIENCIA_AS
+                             select x).ToList();
+
+                lista = lista.Select(x => new CC_MANTENIMIENTO_APARIENCIA_AS()
+                {
+                    Abreviatura = x.Abreviatura,
+                    Descripcion = x.Descripcion,
+                    EstadoRegistro = x.EstadoRegistro,
+                    FechaIngresoLog = x.FechaIngresoLog,
+                    FechaModificacionLog = x.FechaModificacionLog,
+                    IdApariencia = x.IdApariencia,
+                    TerminalIngresoLog = x.TerminalIngresoLog,
+                    TerminalModificacionLog = x.TerminalModificacionLog,
+                    UsuarioIngresoLog = x.UsuarioIngresoLog,
+                    UsuarioModificacionLog = x.UsuarioModificacionLog
+                }).ToList();
                 return lista;
             }
         }

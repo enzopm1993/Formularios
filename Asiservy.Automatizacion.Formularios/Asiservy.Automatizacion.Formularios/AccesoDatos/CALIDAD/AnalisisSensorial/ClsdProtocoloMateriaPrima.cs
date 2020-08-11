@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Helpers;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensorial
 {
@@ -16,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
                 var lista = entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.AsNoTracking()
                     .Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                var listaProtocolos= lista
-                    .Select(x=> new CC_PROTOCOLO_MATERIA_PRIMA_AS{
+                    .Select(x=> new CC_PROTOCOLO_MATERIA_PRIMA_AS(){
                         Fecha=x.Fecha,
                         IdProtocoloMateriaPrima = x.IdProtocoloMateriaPrima,
                         AprobadoPor=x.AprobadoPor,
@@ -36,8 +37,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
                         TerminalIngresoLog=x.TerminalIngresoLog,
                         TerminalModificacionLog=x.TerminalModificacionLog,
                         UsuarioIngresoLog=x.UsuarioIngresoLog,
-                        UsuarioModificacionLog=x.UsuarioModificacionLog,
-                        CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS = x.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS
+                        UsuarioModificacionLog=x.UsuarioModificacionLog
+                       // CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS = x.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS
+                        
                 }).ToList();
                 return listaProtocolos;
             }
@@ -106,57 +108,167 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.AnalisisSensor
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.AsNoTracking().Include("CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS")
+                var lista = entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.AsNoTracking().Include("CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS").Include("CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS")
                     .Where(x => x.IdProtocoloMateriaPrima == Id && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 var listaProtocolos = lista
                      .Select(x => new CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS
                      {
                          IdProtocoloMateriaPrima = x.IdProtocoloMateriaPrima,
-                         
+                         IdProtocoloMateriaPrimaDetalle = x.IdProtocoloMateriaPrimaDetalle,
                          EstadoRegistro = x.EstadoRegistro,
                          FechaIngresoLog = x.FechaIngresoLog,
                          FechaModificacionLog = x.FechaModificacionLog,
                          TerminalIngresoLog = x.TerminalIngresoLog,
                          TerminalModificacionLog = x.TerminalModificacionLog,
                          UsuarioIngresoLog = x.UsuarioIngresoLog,
-                         UsuarioModificacionLog = x.UsuarioModificacionLog
+                         UsuarioModificacionLog = x.UsuarioModificacionLog,
+                         CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS = x.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS,
+                         CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS=x.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS
                      }).ToList();
                 return listaProtocolos;
             }
         }
 
-        public void GuardarModificarParamtroMateriaPrimaDetalle(CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS model)
+        public void ModificarParametroMateriaPrimaDetalle(CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrimaDetalle == model.IdProtocoloMateriaPrimaDetalle);
-                if (poControl != null)
+                using (var transaction = entities.Database.BeginTransaction())
                 {
-                    poControl.EstadoRegistro = model.EstadoRegistro;
-                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
-                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS poControlReporte = entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrimaDetalle == model.IdProtocoloMateriaPrimaDetalle);
+                    if (poControlReporte != null)
+                    {
+                        poControlReporte.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControlReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControlReporte.FechaModificacionLog = model.FechaIngresoLog;
+                    }                 
+
+                    foreach(var d in model.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS)
+                    {
+                        var modelDetalle = entities.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.FirstOrDefault(y => 
+                        y.IdProtocoloMateriaPrimaDetalle==d.IdProtocoloMateriaPrimaDetalle
+                        && y.IdParametroSensorial == d.IdParametroSensorial);
+                        if (modelDetalle != null)
+                        {
+                            modelDetalle.IdCalificacion = d.IdCalificacion;
+                            //modelDetalle.IdParametroSensorial = d.IdParametroSensorial;
+                            modelDetalle.UsuarioModificacionLog = model.UsuarioModificacionLog;
+                            modelDetalle.FechaModificacionLog = model.FechaModificacionLog;
+                            modelDetalle.TerminalModificacionLog = model.TerminalModificacionLog;
+                            modelDetalle.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        }
+                    }
+
+                    foreach (var d in model.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS)
+                    {
+                        var modelDetalle = entities.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.FirstOrDefault(y => 
+                        y.IdProtocoloMateriaPrimaDetalle == d.IdProtocoloMateriaPrimaDetalle
+                        && y.IdApariencia == d.IdApariencia);
+                        if (modelDetalle != null)
+                        {
+                            modelDetalle.Valor = d.Valor;
+                           modelDetalle.UsuarioModificacionLog = model.UsuarioModificacionLog;
+                            modelDetalle.FechaModificacionLog = model.FechaModificacionLog;
+                            modelDetalle.TerminalModificacionLog = model.TerminalModificacionLog;
+                            modelDetalle.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        }
+                    }
+                    entities.SaveChanges();
+                    transaction.Commit();
                 }
-                else
-                {
-                    entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.Add(model);
-                }
-                entities.SaveChanges();
             }
         }
 
-        public void EliminarParametroMateriaPrimaDetalle(CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS model)
+        public bool GuardarParametroMateriaPrimaDetalle(CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS model, int muestras)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrimaDetalle == model.IdProtocoloMateriaPrimaDetalle);
-                if (poControl != null)
+                System.Data.Entity.Core.Objects.ObjectParameter myOutputParamBool = new System.Data.Entity.Core.Objects.ObjectParameter("PS_COD_ERROR", typeof(bool));
+                //System.Data.Entity.Core.Objects.ObjectParameter myOutputParamString = new System.Data.Entity.Core.Objects.ObjectParameter("myOutputParamString", typeof(string));
+                //System.Data.Entity.Core.Objects.ObjectParameter myOutputParamInt = new System.Data.Entity.Core.Objects.ObjectParameter("myOutputParamInt", typeof(Int32));
+                var json = Json.Encode(model);
+
+                entities.spGuardarProtocoloMateriaPrima(json, muestras, myOutputParamBool);
+                bool myBool = Convert.ToBoolean(myOutputParamBool.Value);
+                //string myString = Convert.ToString(myOutputParamString.Value);
+                //int myInt = Convert.ToInt32(myOutputParamInt.Value);
+
+
+                return myBool;
+
+            }
+        }
+
+        public void EliminarParametroMateriaPrimaDetalle(CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS model, int[] detalles)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                foreach (var d in detalles) {
+                    var poControl = entities.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrimaDetalle == d);
+                    if (poControl != null)
+                    {
+                        poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                        poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poControl.FechaModificacionLog = model.FechaIngresoLog;
+                        entities.SaveChanges();
+                    }
+                }
+
+            }
+        }
+
+        #endregion
+
+        #region APROBACION - REPORTE
+
+
+
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrima(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                && x.EstadoReporte == Estado).ToList();
+            }
+        }
+
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrima(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                ).ToList();
+            }
+        }
+
+
+
+        public List<CC_PROTOCOLO_MATERIA_PRIMA_AS> ConsultaProtocoloMateriaPrimaPendiente()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_PROTOCOLO_MATERIA_PRIMA_AS.Where(x => !x.EstadoReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+        public void Aprobar_Reporte(CC_PROTOCOLO_MATERIA_PRIMA_AS Control)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_PROTOCOLO_MATERIA_PRIMA_AS.FirstOrDefault(x => x.IdProtocoloMateriaPrima == Control.IdProtocoloMateriaPrima || (x.Fecha == Control.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
                 {
-                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
-                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    poControl.FechaModificacionLog = model.FechaIngresoLog;
-                    entities.SaveChanges();
+                    model.EstadoReporte = Control.EstadoReporte;
+                    model.AprobadoPor = Control.AprobadoPor;
+                    model.FechaAprobacion = Control.FechaAprobacion;
+                    model.FechaModificacionLog = Control.FechaIngresoLog;
+                    model.TerminalModificacionLog = Control.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = Control.UsuarioIngresoLog;
+                    db.SaveChanges();
                 }
 
             }

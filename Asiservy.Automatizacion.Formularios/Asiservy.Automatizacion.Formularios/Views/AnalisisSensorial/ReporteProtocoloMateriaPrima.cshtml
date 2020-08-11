@@ -1,6 +1,16 @@
-﻿
+﻿@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
 @{
-    ViewBag.Title = "ReporteOperatividadMetal";
+    ViewBag.Title = "ReporteProtocoloMateriaPrima";
+}
+
+@{
+
+    var Parametros = (List<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS>)ViewBag.Parametros;
+    var Apariencia = (List<CC_MANTENIMIENTO_APARIENCIA_AS>)ViewBag.Apariencia;
+    var Calificaciones = (List<CC_MANTENIMIENTO_CALIFICACION_AS>)ViewBag.Calificaciones;
+    var Intermedia = (List<CC_MANTENIMIENTO_INTERMEDIO_AS>) ViewBag.Intermedia; 
 }
 
 
@@ -8,17 +18,16 @@
 
     @@media print {
         @@page {
-            size: A4;
+            size: A4;                        
+        }
+        @@page :blank {
+            display: none;
         }
         #wrapper #content-wrapper {
             background-color: white;
-        }      
-       
-        hr {
-            display: none;
-        }
+        }   
 
-        br {
+        hr {
             display: none;
         }
 
@@ -26,6 +35,9 @@
             display: none;
         }
 
+        .hr {
+            display: none
+        }
 
         #DivBotonImpr {
             display: none;
@@ -55,22 +67,14 @@
         input, select, textarea {
             max-width: 100%
         }
-
-        .table {
-            margin-bottom: 0.5rem;
+       
+        .letra10 {
+            font-size: 10px;
         }
-        div.divFooter {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-    
 
         .header, .header-space {
             height: 60px;
         }
-
         .footer, .footer-space {
             height: 100px;
         }
@@ -83,28 +87,24 @@
         .footer {
             position: fixed;
             bottom: 0;
-            width: 100%;
-            text-align: center;
+           width:100%;          
+           text-align:center;
+            
+        }
+
+        th {
+            font-size: 11px;
         }
     }
 
     @@media screen {
-        div.divFooter {
-            display: initial;
-        }
+
         #tbltitulo {
             display: none;
         }
 
         input, select, textarea {
             max-width: 100%
-        }
-
-        .table-responsive1 {
-            display: block;
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .selectbox {
@@ -126,24 +126,23 @@
             overflow: auto;
         }
     }
-
-    .table1 {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #858796;
-        border-top: 2px solid #e3e6f0;
-        /*border-right: 2px solid #e3e6f0;
-        border-left: 2px solid #e3e6f0;
-        border-bottom:0px;*/
-    }
-
-    table {
-        border-collapse: collapse;
-    }
+   
 </style>
 
-<h4 id="titulo">Reporte de verificación de operatividad detector de metales</h4>
 
+<div class="row" id="titulo">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center" style="float:left">Reporte Protocolo de Materia Prima</h4>
+        <div class="col-md-3 col-12 col-sm-12 float-right text-right">
+            @if (ViewBag.Link == null)
+            {
+                <a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label disabled">Ir al Control</a>
+            }
+            else
+            {<a style="text-decoration:underline;" href="@ViewBag.Link" class="form-label">Ir al Control</a>}
+        </div>
+    </div>
+</div>
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
@@ -196,9 +195,7 @@
 </div>
 
 
-
-<div id="divDetalle" hidden class="card">
-
+<div id="divDetalle" hidden class="">
     <div class="header">
         <table id="tbltitulo" class="table table-bordered">
             <tbody>
@@ -224,17 +221,17 @@
                 </tr>
                 <tr>
                     <td width="90%" class="text-center">
-                        <strong> @ViewBag.NombreReporte</strong>
+                        <strong>@ViewBag.NombreReporte</strong>
                     </td>
                 </tr>
             </tbody>
         </table>
         <table cellspacing="2" class="table table-borderless" id="tblTitulo2">
             <tr>
-                <td rowspan="2" width="90%" style="border-right:solid 1px #e3e6f0; white-space:normal">
+                <td rowspan="2" width="90%" style="border-right:solid 1px #e3e6f0">
                     <div class="text-center">
                         <h5> DEPARTAMENTO DE CONTROL DE CALIDAD</h5>
-                        <h5>@ViewBag.NombreReporte</h5>
+                        <h5> @ViewBag.NombreReporte</h5>
                     </div>
                 </td>
                 <td rowspan="2" width="10%" class="text-center text-right">
@@ -253,73 +250,144 @@
         </table>
     </div>
 
-<table>
-  <thead><tr><td>
-    <div class="header-space">&nbsp;</div>
-  </td></tr></thead>
-  <tbody><tr><td>
-                 <div class="content">
-                     <div class=" table-responsive">
-                         <table class="table table-bordered">
-                             <tr>
-                                 <td><b>Fecha: </b><label id="lblFecha"> </label></td>
-                                 <td><b>Turno: </b><label id="lblTurno"> </label></td>
-                                 <td><b>Ferroso:</b><label id="lblFerroro"> </label></td>
-                                 <td><b>PCC:</b><label id="lblPCC"> </label></td>
-                             </tr>
-                             <tr>
-                                 <td> <b> Empaque Lomos: </b><label id="lblLomos"> </label></td>
-                                 <td colspan="3"><b>No Ferroso:</b><label id="lblNoFerroso"> </label></td>
-                             </tr>
-                             <tr>
-                                 <td>  <b>Conservas Latas y Pouch: </b><label id="lblLatas"> </label> </td>
-                                 <td colspan="3"> <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable">  </label></td>
-                             </tr>
-                             <tr>
-                                 <td colspan="4" style="width: 50%; white-space:normal"> <b>Observaciones:</b> <p id="pObservacion"></p> </td>
-                             </tr>
-                         </table>
-                     </div>
-                     <div id="divTableDetalle" class="table1  table-responsive1">
-                        
-                     </div>
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    <div class="header-space">&nbsp;</div>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="content">
+                        <table class="table">
+                            <tr>
 
-                     <table class="table1 table-bordered  table-responsive1">
-                         <thead>
-                             <tr>
-                                 <th colspan="2" style="width:100%" class="text-center"><h5>Detección de metales en bandejas</h5></th>
-                             </tr>
-                         </thead>
-                         <tbody id="divTableDetalle2"></tbody>
-                     </table>
-                 </div>
-  </td></tr></tbody>
-  <tfoot><tr><td>
-    <div class="footer-space">&nbsp;</div>
-  </td></tr></tfoot>
-</table>
-<div class="footer">
-    <table class="table table-borderless text-center" style="margin-bottom:0rem">
-        <tr>
-            <td>
-                <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label>
+                                <td><b>Fecha Ingreso Planta: </b><label id="txtFechaIngresoPlanta"></label></td>
+                                <td><b>Fecha Evaluación:</b> <label id="txtFechaEvaluacion"></label></td>
+                                <td><b>Fecha Producción: </b><label id="txtFechaProduccion"></label></td>
 
-            </td>
-            <td>
-                <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion"></label>
+                            </tr>
+                            <tr>
+                                <td><b>Barco Proveedor: </b><label id="txtBarco"></label></td>
+                                <td><b>Lote: </b><label id="txtLote"></label></td>
+                                <td><b>Especie-Talla: </b><label id="txtEspecieTalla"></label></td>
 
-            </td>
-        </tr>
-        <tr>
-            <td><label>Realizado Por</label><br /></td>
-            <td> <label>Aprobado Por</label><br /></td>
-        </tr>
-        <tr>
-            <td> <label id="txtFechaCreacion"></label></td>
-            <td> <label id="txtFechaAprobacion"></label></td>
-        </tr>
+                            </tr>
+                            <tr>
+                                <td><b>Código Protocolo: </b><label id="txtCodigoProtocolo"></label></td>
+                                <td><b>Lote Descarga: </b><label id="txtLoteDescarga"></label></td>
+                                <td><b>Pcc:</b><label id="txtPcc"></label></td>
+
+                            </tr>
+
+                        </table>
+
+                        <div id="divTableDetalle" class="table-responsive">
+                        </div>
+
+                        <div>
+                            <h6 class="text-black">RESUMEN EVALUACIÓN</h6>
+                            <P style="font-size:11px"> # TOTAL DE PIEZAS CON PRESENCIA DE OLORES CONTAMINANTES O ASOCIADOS A DESCOMPOSICIÓN:</P>
+                        </div>
+                        <div class="text-center">
+                            <label>PARAMETROS SENSORIALES</label>
+                        </div>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td></td>
+                                @if (Calificaciones != null)
+                                {
+                                    foreach (var c in Calificaciones)
+                                    {
+
+                                        <th class="text-center" style="white-space:normal">@c.Descripcion (@c.Abreviatura)</th>
+                                    }
+                                }
+                            </tr>
+                            @if (Parametros != null)
+                            {
+                                foreach (var p in Parametros)
+                                {
+
+                                    <tr>
+                                        <th>@p.Descripcion</th>
+                                        @if (Calificaciones != null)
+                                        {
+                                            foreach (var c in Calificaciones)
+                                            {
+                                                var descripcionIntermedia = Intermedia.FirstOrDefault(x => x.IdParametroSensorial == p.IdParametroSensorial
+                                                && x.IdCalificacion == c.IdCalificacion);
+                                                if (descripcionIntermedia != null)
+                                                {
+
+                                                    <td class="text-center" style="white-space:normal">@descripcionIntermedia.Descripcion</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>-</td>
+                                                }
+
+                                            }
+                                        }
+                                    </tr>
+                                }
+
+                            }
+                        </table>
+                       
+                        <table class="table-bordered">
+                            <tr>
+                                <th>Apariencia</th>
+                                <th>No</th>
+                                <th>Si</th>
+
+                            </tr>
+                            @foreach (var a in Apariencia)
+                            {
+                            <tr>
+                                <td>@a.Descripcion @a.Abreviatura</td>
+                                <td> <i class="fa fa-times text-danger" aria-hidden="true"></i></td>
+                                <td><i class="fa fa-check-circle text-success" aria-hidden="true"></i></td>
+
+                            </tr>
+                            }
+                        </table>
+                        <table>
+                            <tr>
+                                <td style="white-space:normal"><b>OBSERVACIONES:</b><p id="txtObservacion"> </p></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <div class="footer-space">&nbsp;</div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
-</div>
-       
-</div>
+    <div class="footer">
+        <table class="table table-borderless text-center">
+            <tr>
+                <td width="50%">
+                    <label style="border-bottom:solid 1px" id="txtUsuarioCreacion"></label> <br />
+                    <label>Realizado Por</label><br />
+                    <label id="txtFechaCreacion"></label>
+                </td>
+                <td width="50%">
+                    <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion"></label><br />
+                    <label>Aprobado Por</label><br />
+                    <label id="txtFechaAprobacion"></label>
+                </td>
+            </tr>
+        </table>
+    </div>
 
+
+</div>
