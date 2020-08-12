@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdControlEnfundado { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public System.DateTime Hora { get; set; }
         public string Lote { get; set; }
         public int TeoricoFunda { get; set; }
         public decimal PesoProducto { get; set; }

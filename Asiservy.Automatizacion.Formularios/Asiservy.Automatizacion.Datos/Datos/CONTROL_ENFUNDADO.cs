@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public int IdControlEnfundado { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public System.DateTime Hora { get; set; }
         public string Lote { get; set; }
         public int TeoricoFunda { get; set; }
         public decimal PesoProducto { get; set; }
@@ -34,6 +34,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONTROL_ENFUNDADO_DETALLE> CONTROL_ENFUNDADO_DETALLE { get; set; }
