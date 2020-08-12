@@ -21,8 +21,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutocl
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.spConsultaCocheAutoclaveEsterilizacion(Fecha, Turno,CabControl).ToList();
-                return lista;
+                //var lista = entities.spConsultaCocheAutoclaveEsterilizacion(Fecha, Turno,CabControl).ToList();
+                return null;
             }
         }
 

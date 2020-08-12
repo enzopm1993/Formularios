@@ -45,6 +45,7 @@ function GuardarControlEnfundado(detalle, fundas, id, IdDetalle) {
         data: {
             IdControlEnfundadoDetalle: IdDetalle,
             Fundas: fundas,
+            Fecha: $("#txtFecha").val()
         
         },
         success: function (resultado) {
@@ -73,7 +74,7 @@ function Atras() {
 function Limpiar() {
     
     $('#txtIdControl').val(0);  
-    $('#txtHora').val('00:00');  
+    $('#txtHora').val(moment().format("YYYY-MM-DDTHH:mm"));  
     $('#txtFundasTeoricas').val(25);
     $('#txtPeso').val('7.5');
     $('#selectEspecificacionFunda').prop('selectedIndex',0);
@@ -81,6 +82,7 @@ function Limpiar() {
 
     $("#txtFecha").prop("readonly", false);
     $("#txtHora").prop("readonly", false);
+    $("#selectTurno").prop("disabled", false);
     $("#txtFundasTeoricas").prop("readonly", false);
     $("#txtPeso").prop("disabled", false);
     $("#selectLotes").prop("disabled", false);
@@ -135,13 +137,17 @@ function CargarLotes() {
 }
 
 function CargarControlEnfundado() {
+    if ($('#txtFecha').val() == "" || $("#selectTurno").val() == '') {
+        return;
+    }
     $("#spinnerCargando").prop("hidden", false);
     $("#DivTableControl").html('');
     $.ajax({
         url: "../ControlEnfundado/ControlEnfundadoPartial",
         type: "GET",
         data: {
-            Fecha: $('#txtFecha').val(),          
+            Fecha: $('#txtFecha').val(), 
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             $("#DivTableControl").html('');
@@ -162,12 +168,13 @@ function CargarControlEnfundadoDetalle(IdControl,fecha, hora, fundasTeoricas, pe
     $('#txtIdControl').val(IdControl);  
 
     $("#txtFecha").val(fecha);
-    $("#txtHora").val(hora);
+    $("#txtHora").val(moment(hora).format("YYYY-MM-DDTHH:mm"));
     $("#txtFundasTeoricas").val(fundasTeoricas);
     $("#txtPeso").val(peso);
     $("#selectLotes").val(lote);
 
     $("#txtFecha").prop("readonly",true);
+    $("#selectTurno").prop("disabled", true);
     $("#txtHora").prop("readonly", true);
     $("#txtFundasTeoricas").prop("readonly", true);
     $("#txtPeso").prop("disabled", true);
@@ -225,10 +232,17 @@ function GenerarControl() {
                 Lote: lote,
                 TeoricoFunda: FundasTeoricas,
                 PesoProducto: Peso,
-                EspecificacionFunda: especificacionFunda
+                EspecificacionFunda: especificacionFunda,
+                Turno:$("#selectTurno").val()
             },
             success: function (resultado) {
-
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                if (resultado == "800") {
+                    MensajeAdvertencia(Mensajes.MensajePeriodo);
+                    return;
+                }
                 if (resultado == 0) {
                     MensajeAdvertencia("Ya se ha generado un control con esos parametros");               
                     $('#btnGuardarCargando').prop("hidden", true);
@@ -255,58 +269,54 @@ function GenerarControl() {
 
 
 function Validar() {
-    var hora = $('#txtHora').val();
-    var fecha = $('#txtFecha').val();
-    var FundasTeoricas = $('#txtFundasTeoricas').val();
-    var Peso = $('#txtPeso').val();
-    var EspecificacionFunda = $('#selectEspecificacionFunda').val();
-    var Lote = $('#selectLotes').val();
-    var bool = true;
-    if (fecha == '') {
-        $('#ValidaFecha').prop('hidden', false);
+ 
+    var valida = true;   
+
+    if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
-        bool = false;
+        valida = false;
     } else {
-        $('#ValidaFecha').prop('hidden', true);
         $("#txtFecha").css('borderColor', '#ced4da');
     }
 
-    if (hora == '' || hora == "00:00") {
-        $('#ValidaHora').prop('hidden', false);
-        $("#txtHora").css('borderColor', '#FA8072');
-        bool = false;
-
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
     } else {
-        $('#ValidaHora').prop('hidden', true);
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtHora").val() == "") {
+        $("#txtHora").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
         $("#txtHora").css('borderColor', '#ced4da');
     }
-    if (FundasTeoricas == '' || FundasTeoricas < 1) {
-        $('#ValidaFundasTeoricas').prop('hidden', false);
-        $("#txtFundasTeoricas").css('borderColor', '#FA8072');
-        bool = false;
 
+    if ($("#txtFundasTeoricas").val() == "" || $("#txtFundasTeoricas").val() <1) {
+        $("#txtFundasTeoricas").css('borderColor', '#FA8072');
+        valida = false;
     } else {
-        $('#ValidaFundasTeoricas').prop('hidden', true);
         $("#txtFundasTeoricas").css('borderColor', '#ced4da');
     }
 
-    if (Lote == '' || Lote == null) {
-        $('#ValidaLote').prop('hidden', false);
+    if ($("#selectLotes").val() == "") {
         $("#selectLotes").css('borderColor', '#FA8072');
-        bool = false;
-
+        valida = false;
     } else {
-        $('#ValidaLote').prop('hidden', true);
         $("#selectLotes").css('borderColor', '#ced4da');
-    }
-    return bool;
+    }  
+
+   
+    return valida;
 }
 
 
 
 
 function InactivarRegistro() {
-    if ($("#txtIdControl").val() < 1) {
+    if ($("#txtIdControl").val() < 1 || $("#txtFecha").val() == '') {
+        MensajeAdvertencia("Faltan Parametros");
         return;
     }
 
@@ -317,11 +327,19 @@ function InactivarRegistro() {
         url: "../ControlEnfundado/InactivarControlEnfundado",
         type: "GET",
         data: {
-            IdControl: $("#txtIdControl").val()
+            IdControl: $("#txtIdControl").val(),
+            Fecha: $("#txtFecha").val()
         },
 
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                return;
+            }
             if (resultado.Codigo == 0) {
                 MensajeAdvertencia(resultado.Mensaje);
             } else {

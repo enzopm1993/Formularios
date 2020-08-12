@@ -4,20 +4,29 @@
 function Consultar() {
     $("#DivReporte").html("");
 
+   
     if ($("#txtFecha").val() == "") {
-        $("#ValidaFecha").prop("hidden", false);
+        $("#txtFecha").css('borderColor', '#FA8072');
         return;
     } else {
-        $("#ValidaFecha").prop("hidden", true);
+        $("#txtFecha").css('borderColor', '#ced4da');
     }
 
-    if ($("#Selectreporte").val() == "0") {
-        $("#ValidaReporte").prop("hidden", false);
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
         return;
     } else {
-        $("#ValidaReporte").prop("hidden", true);
+        $("#selectTurno").css('borderColor', '#ced4da');
     }
 
+    if ($("#Selectreporte").val() == "") {
+        $("#Selectreporte").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#Selectreporte").css('borderColor', '#ced4da');
+    }
+       
     var Url = "";
     if ($("#Selectreporte").val() == "1") {
         Url = "../ControlEnfundado/ReportePorEnfundadora";
@@ -29,10 +38,12 @@ function Consultar() {
         url: Url,
         type: "POST",
         data: {
-            Fecha: $("#txtFecha").val() 
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
 
         },
         success: function (resultado) {
+           
             if (resultado.Codigo == 0) {
                 $("#DivReporte").html("<h3 class='text-center'>"+resultado.Mensaje+"</h3>");
             } else {

@@ -53,8 +53,8 @@
     </thead>
     <tbody>
         @{ 
-            int MaxHora = Model.Max(x => x.Hora.Hours);
-            int MinHora =  Model.Min(x=> x.Hora.Hours);
+            int MaxHora = Model.Max(x => x.Hora.Hour);
+            int MinHora =  Model.Min(x=> x.Hora.Hour);
             int TotalHoras = MaxHora-MinHora;
             int TotalEmpacadoras = Model.Sum(x=> x.TotalEnfundadora??0);
             int TotalFundas = Model.Sum(x=> x.TotalFunda??0);
