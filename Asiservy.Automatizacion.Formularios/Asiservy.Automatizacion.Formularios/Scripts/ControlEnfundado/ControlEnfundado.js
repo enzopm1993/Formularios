@@ -49,7 +49,14 @@ function GuardarControlEnfundado(detalle, fundas, id, IdDetalle) {
         
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+                Atras();
+                return;
+            }
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -221,8 +228,7 @@ function GenerarControl() {
     if (Validar()) {      
        
        // MostrarModalCargando();
-        $('#btnGuardarCargando').prop("hidden", false);
-        $('#btnGenerar').prop("hidden", true);
+        $('#btnGenerar').prop("disabled", true);
               $.ajax({
                   url: "../ControlEnfundado/GenerarControlEnfundado",
             type: "POST",
@@ -241,19 +247,15 @@ function GenerarControl() {
                 }
                 if (resultado == "800") {
                     MensajeAdvertencia(Mensajes.MensajePeriodo);
+                    $('#btnGenerar').prop("disabled", false);
                     return;
                 }
                 if (resultado == 0) {
                     MensajeAdvertencia("Ya se ha generado un control con esos parametros");               
-                    $('#btnGuardarCargando').prop("hidden", true);
                     $('#btnGenerar').prop("hidden", false);
                     return;
                 }               
-                //CargarControlEnfundado(fecha);
                 $('#btnGenerar').prop("disabled", false);
-              //  $('#divFiltros').fadeOut("slow");
-
-                $('#btnGuardarCargando').prop("hidden", true);
                 CargarControlEnfundadoDetalle(resultado, fecha, hora, FundasTeoricas, Peso, lote);
            
             },
@@ -338,6 +340,7 @@ function InactivarRegistro() {
             }
             if (resultado == "800") {
                 MensajeAdvertencia(Mensajes.MensajePeriodo);
+                Atras();
                 return;
             }
             if (resultado.Codigo == 0) {

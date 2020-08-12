@@ -38,6 +38,13 @@
         </div>
         <div class="col-md-2 col-6">
             <div class="form-group">
+                <label>Lote</label>
+                @Html.DropDownList("Lotes", new SelectList(ViewBag.Lotes, "Lote", "Lote"), "seleccione", new { @class = "form-control", @id = "selectLotes" })
+                <p class="text-danger" id="ValidaLote" hidden>Seleccione un lote </p>
+            </div>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="form-group">
                 <label>Fundas Teoricas</label>
                 <input id="txtFundasTeoricas" type="number" class="form-control" name="name" value="25" />
                 <p class="text-danger" id="ValidaFundasTeoricas" hidden>Tiene que ser mayor a 0 </p>
@@ -50,13 +57,7 @@
             </div>
         </div>
 
-        <div class="col-md-2 col-6">
-            <div class="form-group">
-                <label>Lote</label>
-                @Html.DropDownList("Lotes", new SelectList(ViewBag.Lotes, "Lote", "Lote"), "seleccione", new { @class = "form-control", @id = "selectLotes" })
-                <p class="text-danger" id="ValidaLote" hidden>Seleccione un lote </p>
-            </div>
-        </div>
+
         <div class="col-md-4 col-6">
             <div class="form-group">
                 <label>Especificación de Funda</label>
