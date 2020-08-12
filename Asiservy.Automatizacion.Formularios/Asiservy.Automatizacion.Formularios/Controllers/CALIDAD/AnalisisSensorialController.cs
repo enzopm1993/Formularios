@@ -48,6 +48,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x=> x.EstadoRegistro== clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x=> x.EstadoRegistro== clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Apariencia = ClsdMantenimientoApariencia.ConsultaManteminetoApariencia().Where(x=> x.EstadoRegistro== clsAtributos.EstadoRegistroActivo).ToList();
+                clsDLogin = new clsDLogin();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ReporteProtocoloMateriaPrima");
+                    if (usuarioOpcion)
+                    {
+                        ViewBag.Link = "../" + RouteData.Values["controller"] + "/" + "ReporteProtocoloMateriaPrima";
+                    }
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
