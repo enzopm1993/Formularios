@@ -2314,6 +2314,7 @@
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\TiempoExposicion\TiempoExposicion.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\BandejaVerificacionPotenciometro.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\ReporteVerificacionPotenciometro.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
@@ -3523,6 +3524,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaInternaRefrigeradora\ClsdTemperaturaInternaRefrigeradora.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\TiempoExposicion\ClsdTiempoExposicion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\VerificacionPotenciometro\ClsdVerificacionPotenciometro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
@@ -3646,6 +3648,7 @@
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaInternaRefrigeradoraController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
+    <Compile Include="Controllers\CALIDAD\TiempoExposicionController.cs" />
     <Compile Include="Controllers\CALIDAD\VerificacionPotenciometroController.cs" />
     <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
@@ -4335,6 +4338,8 @@
     <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrima.cshtml" />
     <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrimaPartial.cshtml" />
     <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrimaDetallePartial.cshtml" />
+    <Content Include="Views\TiempoExposicion\TiempoExposicion.cshtml" />
+    <Content Include="Views\TiempoExposicion\TiempoExposicionDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_TIEMPO_EXPOSICION_DETALLE>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+<table class="table">
+    <tr>
+        <th>
+            Orden Fabricación
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>
+        <th>
+            Temperatura Sala
+        </th>
+
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperaturaSala)
+            </td>
+            <td> 
+                @{ 
+                    string json = Json.Encode(item);
+                }
+                <button id="btnActualizar" style="padding:0px" class="btn btn-link" onclick="EditarControlDetalle(@json)">Editar</button>
+            </td>
+        </tr>
+    }
+
+</table>
