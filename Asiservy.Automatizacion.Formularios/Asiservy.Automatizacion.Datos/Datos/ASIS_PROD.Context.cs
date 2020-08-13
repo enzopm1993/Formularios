@@ -193,8 +193,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
         public virtual DbSet<FONDO_LOGIN> FONDO_LOGIN { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
-        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
-        public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_DET> CC_ANALISIS_QUIMICO_PRECOCCION_DET { get; set; }
         public virtual DbSet<CC_ANALISIS_QUIMICO_PRECOCCION_FOTO> CC_ANALISIS_QUIMICO_PRECOCCION_FOTO { get; set; }
@@ -224,6 +222,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
         public virtual DbSet<CC_TIEMPO_EXPOSICION> CC_TIEMPO_EXPOSICION { get; set; }
         public virtual DbSet<CC_TIEMPO_EXPOSICION_DETALLE> CC_TIEMPO_EXPOSICION_DETALLE { get; set; }
+        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
+        public virtual DbSet<CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO> CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO { get; set; }
+        public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1289,15 +1290,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclave>("spConsultaCocheAutoclave", fechaParameter, turnoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaCocheAutoclaveDetalle> spConsultaCocheAutoclaveDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveDetalle>("spConsultaCocheAutoclaveDetalle", idControlParameter);
         }
     
         public virtual ObjectResult<spReporteCocheAutoclaveDetalle> spReporteCocheAutoclaveDetalle(Nullable<int> of)
@@ -2505,6 +2497,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCocheAutoclaveDetalle> spConsultaCocheAutoclaveDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveDetalle>("spConsultaCocheAutoclaveDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spReporteProduccionDiaria> spReporteProduccionDiaria(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProduccionDiaria>("spReporteProduccionDiaria", fechaParameter);
         }
     }
 }

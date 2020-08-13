@@ -366,6 +366,9 @@
     <Compile Include="Datos\CC_PCC_MANTENIMIENTO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -1039,6 +1042,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteProdPouchCuarentenaSubDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spReporteProduccionDiaria.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteResidualCloro.cs">

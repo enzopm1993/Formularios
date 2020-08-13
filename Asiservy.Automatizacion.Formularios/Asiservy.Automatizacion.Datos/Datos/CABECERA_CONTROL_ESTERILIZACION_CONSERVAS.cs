@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> Fecha { get; set; }
         public string Turno { get; set; }
         public string TipoLinea { get; set; }
+        public Nullable<int> OrdenFabircacion { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -35,7 +36,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CedulaUsuarioCreacion { get; set; }
         public Nullable<bool> UnidadPresion { get; set; }
         public Nullable<bool> AutoclaveConvencional { get; set; }
-        public Nullable<int> OrdenFabircacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }

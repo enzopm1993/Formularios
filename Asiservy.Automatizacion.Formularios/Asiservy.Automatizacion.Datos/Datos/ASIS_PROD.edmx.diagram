@@ -241,10 +241,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.FONDO_LOGIN" Width="1.5" PointX="37.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="22.625" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="32.375" PointY="63.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Width="1.5" PointX="34.625" PointY="56.5" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_DET" Width="1.5" PointX="23.625" PointY="54.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_FOTO" Width="1.5" PointX="25.875" PointY="58.875" />
@@ -259,7 +255,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_REACTIVO" Width="1.5" PointX="5.375" PointY="34" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_KARDEX_REACTIVO_DETALLE_CC_MANTENIMIENTO_REACTIVO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="36.875" PointY="57" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_DET" Width="1.5" PointX="42.625" PointY="30.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT" Width="1.5" PointX="40.375" PointY="30" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CALIBRACION_FLUOROMETRO_DET_CC_CALIBRACION_FLUOROMETRO_CTRL" />
@@ -298,6 +293,12 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION" Width="1.5" PointX="52.375" PointY="40" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION_DETALLE" Width="1.5" PointX="54.625" PointY="40.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TIEMPO_EXPOSICION_DETALLE_CC_TIEMPO_EXPOSICION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="32.375" PointY="63" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO" Width="1.5" PointX="35.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Width="1.5" PointX="34.625" PointY="56.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

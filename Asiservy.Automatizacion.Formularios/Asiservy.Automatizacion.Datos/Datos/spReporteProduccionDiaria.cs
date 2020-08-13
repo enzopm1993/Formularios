@@ -11,14 +11,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaCocheAutoclaveDetalle
+    public partial class spReporteProduccionDiaria
     {
-        public int IdCocheAutoclaveDetalle { get; set; }
-        public int IdCocheAutoclave { get; set; }
-        public string Tarjeta { get; set; }
-        public System.DateTime HoraInicio { get; set; }
-        public string Coche { get; set; }
-        public string LineaProduccion { get; set; }
+        public Nullable<int> SumaFunda { get; set; }
+        public Nullable<int> OrdenFabricacion { get; set; }
+        public string Producto { get; set; }
+        public string TipoLimpieza { get; set; }
+        public string Limpieza { get; set; }
+        public string Turno { get; set; }
         public string Lote { get; set; }
+        public string Textura { get; set; }
+        public string Talla { get; set; }
+        public string BARCO { get; set; }
+        public string Especie { get; set; }
     }
 }
