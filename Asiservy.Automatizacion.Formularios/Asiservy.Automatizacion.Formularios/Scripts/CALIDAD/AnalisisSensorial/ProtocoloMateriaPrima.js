@@ -294,7 +294,7 @@ function InactivarControl() {
         type: "POST",
         data: {
             IdProtocoloMateriaPrima: modelEditar.IdProtocoloMateriaPrima,
-            Fecha: moment(modelEditar.Fecha).format('YYYY-MM-DD')
+            Fecha: modelEditar.Fecha
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -496,7 +496,7 @@ function GuardarDetalle() {
         data: {
             IdProtocoloMateriaPrima: modelEditar.IdProtocoloMateriaPrima,
          //   IdProtocoloMateriaPrimaDetalle: $("#txtIdControlDetalle").val(),
-            Fecha: moment(modelEditar.Fecha).format('YYYY-MM-DD'),
+            Fecha: modelEditar.Fecha,
             Cantidad: $("#txtCantidad").val(),
             Detalle: detalle,
             DetalleApariencia: detalleApariencia
@@ -612,7 +612,7 @@ function InactivarDetalle(detalles) {
         type: "POST",
         data: {
             IdProtocoloMateriaPrima: modelEditar.IdProtocoloMateriaPrima,
-            Fecha: moment(modelEditar.Fecha).format('YYYY-MM-DD'),
+            Fecha: modelEditar.Fecha,
             IdDetalles: detalles
         },
         success: function (resultado) {
@@ -770,9 +770,9 @@ function CargarDevExpress(data) {
    //console.log(data);
     if (data != null) {
         data.forEach(function (x, y) {
-            x.Fecha = moment(x.Fecha).format("DD-MM-YYYY");
-            x.FechaEvaluacion = moment(x.FechaEvaluacion).format("DD-MM-YYYY");
-            x.FechaDescarga = moment(x.FechaDescarga).format("DD-MM-YYYY");
+            x.Fecha = moment(x.Fecha).format("YYYY-MM-DD");
+            x.FechaEvaluacion = moment(x.FechaEvaluacion).format("YYYY-MM-DD");
+            x.FechaDescarga = moment(x.FechaDescarga).format("YYYY-MM-DD");
         });
 
     }
