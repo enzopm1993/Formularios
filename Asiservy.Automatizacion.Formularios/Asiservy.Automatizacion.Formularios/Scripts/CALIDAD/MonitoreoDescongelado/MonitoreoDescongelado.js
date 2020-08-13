@@ -65,8 +65,7 @@ function ValidaEstadoReporte(Fecha){
         url: "../MonitoreoDescongelado/ValidaEstadoReporte",
         type: "GET",
         data: {
-            Fecha: Fecha,
-            Turno: $("#selectTurno").val()
+            Fecha: Fecha
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -94,7 +93,7 @@ function ValidaEstadoReporte(Fecha){
 
 function ConsultarMonitoreoDescongelado() {
     $("#chartCabecera2").html('');
-    if ($("#txtFechaProduccion").val() == '' || $("#selectTurno").val()=='') {
+    if ($("#txtFechaProduccion").val() == '' ) {
         $("#divCabecera2").prop("hidden", true);
         return;
     }
@@ -113,8 +112,7 @@ function ConsultarMonitoreoDescongelado() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
-            FechaProduccion: $("#txtFechaProduccion").val(),
-            Turno: $("#selectTurno").val()
+            FechaProduccion: $("#txtFechaProduccion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -210,12 +208,12 @@ function SeleccionarControl(model) {
         $("#divTemperaturaAgua").prop("hidden", true);
     }
   
-    if ($("#selectTurno").val() == "") {
-        $("#selectTurno").css('borderColor', '#FA8072');
-        return;
-    } else {
-        $("#selectTurno").css('borderColor', '#ced4da');
-    }
+    //if ($("#selectTurno").val() == "") {
+    //    $("#selectTurno").css('borderColor', '#FA8072');
+    //    return;
+    //} else {
+    //    $("#selectTurno").css('borderColor', '#ced4da');
+    //}
       
     ConsultarMonitoreoDetalle();
     
@@ -322,7 +320,7 @@ function GuardarMonitoreoDescongelado() {
         data: {
             IdMonitoreoDescongelado: $("#txtIdControl").val(),
             Fecha: $("#txtFecha").val(),
-            Turno: $("#selectTurno").val(),
+            //Turno: $("#selectTurno").val(),
             Tanque: DatosCabecera.U_SYP_TANQUE,
             Lote: DatosCabecera.U_SYP_LOTE,
             Especie: DatosCabecera.U_SYP_ESPECIE,
@@ -401,8 +399,8 @@ function InactivarControl() {
         type: "POST",
         data: {
             IdMonitoreoDescongelado: $("#txtIdControl").val(),
-            Fecha: $("#txtFecha").val(),
-            Turno: $("#selectTurno").val()
+            Fecha: $("#txtFecha").val()
+
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -425,7 +423,63 @@ function InactivarControl() {
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+             MensajeError(Mensajes.Error, false);
+        }
+    });
+}
+
+
+
+
+
+
+
+function EliminarMonitoreoControl() {
+    $("#modalEliminarControlMonitoreo").modal("show");
+}
+
+
+$("#modal-si").on("click", function () {
+    InactivarControlMonitoreo();
+    $("#modalEliminarControlMonitoreo").modal('hide');
+});
+
+$("#modal-no").on("click", function () {
+    $("#modalEliminarControlMonitoreo").modal('hide');
+});
+
+
+function InactivarControlMonitoreo() {
+    $.ajax({
+        url: "../MonitoreoDescongelado/EliminarMonitoreoDescongeladoControl",
+        type: "POST",
+        data: {
+            
+            Fecha: $("#txtFecha").val()
+
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "800") {
+                MensajeAdvertencia(Mensajes.MensajePeriodo);
+            } else if (resultado == 1) {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                MensajeAdvertencia(Mensajes.ControlAprobado);
+                return;
+            } else if (resultado == 0) {
+                MensajeAdvertencia("Faltan Parametros");
+            } else {
+                MensajeCorrecto(resultado);
+            }
+            ConsultarMonitoreoDescongelado();
+            NuevoControl();
+            $("#modalEliminarControlMonitoreo").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error, false);
         }
     });
 }

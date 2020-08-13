@@ -15,13 +15,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class ControlEnfundadoController : Controller
     {
-        string[] lsUsuario  = null;
-        clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDClasificador clsDClasificador = null;
-        clsDControlEnfundado clsDControlEnfundado = null;
-        clsDApiProduccion clsDApiProduccion = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDEmpleado clsDEmpleado { get; set; } = null;
+        clsDClasificador clsDClasificador { get; set; } = null;
+        clsDControlEnfundado clsDControlEnfundado { get; set; } = null;
+        clsDApiProduccion clsDApiProduccion { get; set; } = null;
+        clsDPeriodo clsDPeriodo { get; set; } = null;
 
+        #region CONTROL
         // GET: ControlEnfundado
         [Authorize]
         public ActionResult ControlEnfundado()
@@ -40,7 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Lotes = Lotes;
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.EspecificacionFunda = EspecificacionFunda;
-
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
                 return View();
             }
             catch (Exception ex)
@@ -63,13 +65,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        [Authorize]
-        public ActionResult ControlEnfundadoPartial(DateTime Fecha)
+       
+        public ActionResult ControlEnfundadoPartial(DateTime Fecha, string Turno)
         {
             try
             {
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDControlEnfundado = new clsDControlEnfundado();
-                var model = clsDControlEnfundado.ConsultaControlEnfundado(Fecha);
+                var model = clsDControlEnfundado.ConsultaControlEnfundado(Fecha,Turno);
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
@@ -93,11 +100,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        [Authorize]
+      
         public ActionResult ControlEnfundadoDetallePartial(int Id)
         {
             try
             {
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDControlEnfundado = new clsDControlEnfundado();
                 var model = clsDControlEnfundado.ConsultaControlEnfundadoDetalle(Id);
                 return PartialView(model);
@@ -123,19 +135,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        [Authorize]
+       
         [HttpPost]
         public ActionResult GenerarControlEnfundado(CONTROL_ENFUNDADO model)
         {
             try
             {
-               
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDControlEnfundado = new clsDControlEnfundado();
                 lsUsuario  = User.Identity.Name.Split('_');
                 model.UsuarioIngresoLog = lsUsuario [0];
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 int id = clsDControlEnfundado.GenerarControlEnfundado(model);
                 return Json(id, JsonRequestBehavior.AllowGet);
             }
@@ -159,12 +180,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
-        [Authorize]
+       
+
+
         [HttpPost]
-        public ActionResult GuardarControlEnfundado(CONTROL_ENFUNDADO_DETALLE detalle)
+        public ActionResult GuardarControlEnfundado(CONTROL_ENFUNDADO_DETALLE detalle, DateTime Fecha)
         {
             try
             {
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
                 if (detalle == null)
                 {
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -176,7 +205,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 detalle.UsuarioIngresoLog = lsUsuario [0];
                 detalle.TerminalIngresoLog = Request.UserHostAddress;
                 detalle.FechaIngresoLog = DateTime.Now;
-                detalle.EstadoRegistro = clsAtributos.EstadoRegistroActivo;               
+                detalle.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
                 var respuesta = clsDControlEnfundado.GuardarModificarControlEnfundado(detalle);
 
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
@@ -235,10 +269,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public JsonResult InactivarControlEnfundado(int IdControl)
+        public JsonResult InactivarControlEnfundado(int IdControl, DateTime Fecha)
         {
             try
             {
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 RespuestaGeneral respuestaGeneral = new RespuestaGeneral();
                 clsDControlEnfundado = new clsDControlEnfundado();
                 lsUsuario  = User.Identity.Name.Split('_');
@@ -248,7 +287,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.FechaModificacionLog = DateTime.Now;
                     model.UsuarioModificacionLog = lsUsuario [0];
                     model.TerminalModificacionLog = Request.UserHostAddress;
-
+                    clsDPeriodo = new clsDPeriodo();
+                    if (!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                    {
+                        return Json("800", JsonRequestBehavior.AllowGet);
+                    }
                     clsDControlEnfundado.InactivarControlEnfundado(model);
                     respuestaGeneral.Codigo = 1;
                     respuestaGeneral.Mensaje = "Registro Elimminado con Éxito";
@@ -280,15 +323,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
-
+        #region REPORTE 
         [Authorize]
         public ActionResult ReporteControlEnfundado()
         {
             try
             {
+                clsDClasificador = new clsDClasificador();
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.Turno = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -312,13 +359,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult ReportePorEnfundadora(DateTime Fecha)
+        public ActionResult ReportePorEnfundadora(DateTime Fecha, string Turno)
         {
             try
             {
                 RespuestaGeneral  respuestaGeneral = new RespuestaGeneral();
                 clsDControlEnfundado = new clsDControlEnfundado();
-                var model = clsDControlEnfundado.ReporteControlEnfundadoPorEnfundadora(Fecha);
+                var model = clsDControlEnfundado.ReporteControlEnfundadoPorEnfundadora(Fecha, Turno);
                 if (!model.Any())
                 {
                     respuestaGeneral.Codigo = 0;
@@ -349,13 +396,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult ReportePorHora(DateTime Fecha)
+        public ActionResult ReportePorHora(DateTime Fecha, string Turno)
         {
             try
             {
                 RespuestaGeneral  respuestaGeneral = new RespuestaGeneral();
                 clsDControlEnfundado = new clsDControlEnfundado();
-                var model = clsDControlEnfundado.ReporteControlEnfundadoPorHora(Fecha);
+                var model = clsDControlEnfundado.ReporteControlEnfundadoPorHora(Fecha, Turno);
                 if(!model.Any())
                 {
                     respuestaGeneral.Codigo = 0;
@@ -384,7 +431,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

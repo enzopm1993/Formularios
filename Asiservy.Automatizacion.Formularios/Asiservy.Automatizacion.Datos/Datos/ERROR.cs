@@ -21,5 +21,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioIngreso { get; set; }
         public Nullable<System.DateTime> FechaIngreso { get; set; }
         public string TerminalIngreso { get; set; }
+        public string Json { get; set; }
     }
 }

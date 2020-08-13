@@ -14,7 +14,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class spReporteControlEnfundadoPorEnfundadora
     {
         public int IdControlEnfundado { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public System.DateTime Hora { get; set; }
         public int IdControlEnfundadoDetalle { get; set; }
         public string Cedula { get; set; }
         public string nombre { get; set; }

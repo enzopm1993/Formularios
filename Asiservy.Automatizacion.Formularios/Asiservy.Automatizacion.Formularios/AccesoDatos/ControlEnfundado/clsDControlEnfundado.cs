@@ -40,11 +40,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
                 var ControlEnfundado = entities.CONTROL_ENFUNDADO.FirstOrDefault(x =>   
                 x.Hora == doControl.Hora &&
                 x.Fecha == doControl.Fecha
+                && x.Turno == doControl.Turno
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (ControlEnfundado == null)
                 {
                   
-                        var empleados = entities.spConsultaEmpacadoras(doControl.Fecha,doControl.Hora);
+                        var empleados = entities.spConsultaEmpacadoras(doControl.Fecha,doControl.Hora.TimeOfDay);
                         foreach (var x in empleados)
                         {
                             doControl.CONTROL_ENFUNDADO_DETALLE.Add(new CONTROL_ENFUNDADO_DETALLE
@@ -99,29 +100,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
                 return result;
             }
         }
-        public List<spConsultaControlEnfundado> ConsultaControlEnfundado(DateTime Fecha)
+        public List<spConsultaControlEnfundado> ConsultaControlEnfundado(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.spConsultaControlEnfundado(Fecha).ToList();
+                var result = entities.spConsultaControlEnfundado(Fecha, Turno).ToList();
                 return result;
             }
         }
 
-        public List<spReporteControlEnfundadoPorEnfundadora> ReporteControlEnfundadoPorEnfundadora(DateTime Fecha)
+        public List<spReporteControlEnfundadoPorEnfundadora> ReporteControlEnfundadoPorEnfundadora(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.spReporteControlEnfundadoPorEnfundadora(Fecha).ToList();
+                var result = entities.spReporteControlEnfundadoPorEnfundadora(Fecha, Turno).ToList();
                 return result;
             }
         }
 
-        public List<spReporteControlEnfundadoPorHora> ReporteControlEnfundadoPorHora(DateTime Fecha)
+        public List<spReporteControlEnfundadoPorHora> ReporteControlEnfundadoPorHora(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.spReporteControlEnfundadoPorHora(Fecha).ToList();
+                var result = entities.spReporteControlEnfundadoPorHora(Fecha, Turno).ToList();
                 return result;
             }
         }

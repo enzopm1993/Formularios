@@ -38,7 +38,7 @@
                     <label>@item.Fecha.ToShortDateString()</label>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Hora)
+                    @item.Hora.ToString("yyyy-MM-dd HH:mm")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Lote)

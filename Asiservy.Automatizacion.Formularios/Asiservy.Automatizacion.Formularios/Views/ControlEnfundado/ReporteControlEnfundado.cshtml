@@ -9,13 +9,19 @@
 
     <div class="col-md-4 col-6">
         <label>Fecha</label>
-        <input type="date" id="txtFecha" name="name" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="Consultar()"/>
+        <input type="date" id="txtFecha" name="name" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="Consultar()" />
         <p hidden id="ValidaFecha" class="text-danger">Ingrese una Fecha</p>
+    </div>
+    <div class="col-md-2 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Turno</label>
+            @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "Consultar()" })
+        </div>
     </div>
     <div class="col-md-4 col-6">
         <label>Reporte</label>
         <select id="Selectreporte" onchange="Consultar()" class="form-control">
-            <option value="0">Seleccione</option>
+            <option value="">Seleccione</option>
             <option value="1">Control por Enfundadora</option>
             <option value="2">Control por Hora</option>
         </select>

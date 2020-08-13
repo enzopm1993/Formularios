@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+@{
+    var Parametros = (List<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS>)ViewBag.Parametros;
+    var Apariencia = (List<CC_MANTENIMIENTO_APARIENCIA_AS>)ViewBag.Apariencia;
+
+
+    int cont = 1;
+
+}
+
+
+<table class="table table-hover table-striped" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th class="text-center" style="white-space:normal">Nº Pescados</th>
+            @{
+                if (Parametros != null)
+                {
+                    foreach (var p in Parametros)
+                    {
+                        <th class="text-center" style="white-space:normal">@p.Abreviatura</th>
+                    }
+                }
+                if (Apariencia != null)
+                {
+                    foreach (var a in Apariencia)
+                    {
+                        <th class="text-center" style="white-space:normal">@a.Abreviatura</th>
+                    }
+                }
+                <th class="text-center" style="white-space:normal">Nº Pescados</th>
+
+                if (Parametros != null)
+                {
+                    foreach (var p in Parametros)
+                    {
+                        <th style="white-space:normal">@p.Abreviatura</th>
+                    }
+                }
+                if (Apariencia != null)
+                {
+                    foreach (var a in Apariencia)
+                    {
+                        <th style="white-space:normal">@a.Abreviatura</th>
+                    }
+                }
+               
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @{ int contador = 1;}
+            @foreach (var item in Model)
+            {
+
+                <td class="text-center"><b>@cont</b></td>
+                
+
+                    if (Parametros != null)
+                    {
+                        foreach (var p in Parametros)
+                        {
+                            var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.FirstOrDefault(x => x.IdParametroSensorial == p.IdParametroSensorial);
+                            if (detalle != null)
+                            {
+                                <td class="text-center">@detalle.IdCalificacion</td>
+                            }
+                            else
+                            {
+                                <td>-</td>
+                            }
+                        }
+                    }
+
+                    if (Apariencia != null)
+                    {
+                        foreach (var p in Apariencia)
+                        {
+                            var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.FirstOrDefault(x => x.IdApariencia == p.IdApariencia);
+                            if (detalle != null)
+                            {
+                                <td class="text-center">
+                                    @if (detalle.Valor)
+                                    {
+                                        <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                        }
+                    }
+                }
+                cont = cont + 1;
+                if (contador == 2)
+                {
+                    @:</tr><tr>
+                    contador = 0;
+                }
+                contador = contador + 1;
+            }
+        </tr>
+
+    </tbody>
+</table>
+

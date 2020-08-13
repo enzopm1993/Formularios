@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS()
         {
             this.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS = new HashSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS>();
+            this.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS = new HashSet<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS>();
         }
     
         public int IdProtocoloMateriaPrimaDetalle { get; set; }
@@ -33,5 +34,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual CC_PROTOCOLO_MATERIA_PRIMA_AS CC_PROTOCOLO_MATERIA_PRIMA_AS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS> CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS { get; set; }
     }
 }

@@ -372,6 +372,9 @@
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -385,6 +388,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_TIEMPO_EXPOSICION.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_TIEMPO_EXPOSICION_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_VERIFICACION_POTENCIOMETRO.cs">

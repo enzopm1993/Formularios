@@ -1,140 +1,138 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PROTOCOLO_MATERIA_PRIMA_AS>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+@{
+    var Parametros = (List<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS>)ViewBag.Parametros;
+    var Apariencia = (List<CC_MANTENIMIENTO_APARIENCIA_AS>)ViewBag.Apariencia;
 
 
+    int cont = 1;
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IdProtocoloMateriaPrima)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaEvaluacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaDescarga)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrdenFabricacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lote)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LoteDescarga)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoProtocolo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pcc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoReporte)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaAprobacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AprobadoPor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoRegistro)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaIngresoLog)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TerminalIngresoLog)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaModificacionLog)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TerminalModificacionLog)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdProtocoloMateriaPrima)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaEvaluacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaDescarga)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lote)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LoteDescarga)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoProtocolo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pcc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoReporte)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaAprobacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AprobadoPor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoRegistro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
 }
 
+
+<table class="table table-hover table-striped" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+               
+            </th>
+            <th hidden></th>
+            <th style="white-space:normal">Nº Pescados</th>
+            @{
+                if (Parametros != null)
+                {
+                    foreach (var p in Parametros)
+                    {
+                        <th style="white-space:normal">@p.Descripcion</th>
+                    }
+                }
+                if (Apariencia != null)
+                {
+                    foreach (var a in Apariencia)
+                    {
+                        <th style="white-space:normal">@a.Descripcion</th>
+                    }
+                }
+            }
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center ">
+                    <div class="custom-control custom-checkbox td_muestra">
+                        <input type="checkbox" data-cedula="@item.IdProtocoloMateriaPrimaDetalle"  class="custom-control-input detallecheck" id="ChkControl-@item.IdProtocoloMateriaPrimaDetalle">
+                        <label class="custom-control-label" for="ChkControl-@item.IdProtocoloMateriaPrimaDetalle"></label>
+                    </div>
+                </td>
+                <td hidden>@item.IdProtocoloMateriaPrimaDetalle</td>
+                <td>@cont</td>
+                @{
+
+                    if (Parametros != null)
+                    {
+                        foreach (var p in Parametros)
+                        {
+                            var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.FirstOrDefault(x => x.IdParametroSensorial == p.IdParametroSensorial);
+                            if (detalle != null)
+                            {
+                                <td class="text-center">@detalle.IdCalificacion</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    }
+
+                    if (Apariencia != null)
+                    {
+                        foreach (var p in Apariencia)
+                        {
+                            var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.FirstOrDefault(x => x.IdApariencia == p.IdApariencia);
+                            if (detalle != null)
+                            {
+                                <td class="text-center">
+                                    @if (detalle.Valor)
+                                    {
+                                        <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    }
+                    cont = cont + 1;
+                }
+                <td>
+                    @{
+
+                        CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS prueba = new CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS()
+                        {
+                            //CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.ToList(),
+                            //CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.ToList(),
+                            EstadoRegistro = item.EstadoRegistro,
+                            IdProtocoloMateriaPrimaDetalle = item.IdProtocoloMateriaPrimaDetalle
+                        };
+
+                        foreach (var x in item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS)
+                        {
+                            prueba.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.Add(new CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS()
+                            {
+                                IdCalificacion = x.IdCalificacion,
+                                IdParametroSensorial = x.IdParametroSensorial
+                            });
+                        }
+
+                        foreach (var x in item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS)
+                        {
+                            prueba.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.Add(new CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS()
+                            {
+                                IdApariencia = x.IdApariencia,
+                                Valor = x.Valor
+                            });
+                        }
+
+                        string json = Json.Encode(prueba);
+                    }
+                    <button id="btnActualizar" style="padding:0px" class="btn btn-link" onclick="EditarControlDetalle(@json)">Editar</button>
+                   @* <button id="btnEliminar" style="padding:0px" class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>*@
+
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+

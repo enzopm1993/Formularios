@@ -302,7 +302,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model, string Turno)
+        public ActionResult EliminarMonitoreoDescongelado(CC_MONITOREO_DESCONGELADO model)
         {
             try
             {
@@ -332,6 +332,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
                 clsDMonitoreoDescongelado.EliminarMonitoreoDescongelado(model);
+                return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult EliminarMonitoreoDescongeladoControl(CC_MONITOREO_DESCONGELADO_CONTROL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }               
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                clsDMonitoreoDescongelado = new clsDMonitoreoDescongelado();
+                clsDPeriodo = new clsDPeriodo();
+                if (!clsDPeriodo.ValidaFechaPeriodo(model.Fecha))
+                {
+                    return Json("800", JsonRequestBehavior.AllowGet);
+                }
+
+                var Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongeladoControl(model.Fecha);
+                if (Control != null && Control.EstadoReporte)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                clsDMonitoreoDescongelado.EliminarMonitoreoDescongeladoControl(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

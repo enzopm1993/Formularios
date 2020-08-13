@@ -28,9 +28,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_ESFERO" Width="1.5" PointX="10.375" PointY="15.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ESFERO" Width="1.5" PointX="14.375" PointY="14.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AUDITORIASANGRE" Width="1.5" PointX="0.75" PointY="16.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" Width="1.5" PointX="16.375" PointY="18" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE" Width="1.5" PointX="18.625" PointY="18.25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PARAMETRO" Width="1.5" PointX="18.375" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PERIODO" Width="1.5" PointX="9.375" PointY="19.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_PROYECCION" Width="1.5" PointX="11.75" PointY="19.75" />
@@ -203,9 +201,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CUCHILLOS_PREPARACION_HORA_CC_CUCHILLOS_PREPARACION_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE_CC_LIMPIEZA_DESINFECCION_PLANTA_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_MANT_MATERIAL" Width="1.5" PointX="5.375" PointY="17.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="21.375" PointY="30.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_CABECERA" Width="1.5" PointX="48.375" PointY="51" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_DETALLE" Width="1.5" PointX="50.625" PointY="51.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTRADA_SALIDA_MATERIAL_SUBDETALLE" Width="1.5" PointX="52.875" PointY="51.375" />
@@ -271,9 +267,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_APARIENCIA_AS" Width="1.5" PointX="33.375" PointY="26.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CALIFICACION_AS" Width="1.5" PointX="51.375" PointY="11.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_INTERMEDIO_AS" Width="1.5" PointX="53.625" PointY="30" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Width="1.5" PointX="51.375" PointY="30.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_CALIFICACION_AS" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEMPERATURA" Width="1.5" PointX="33.375" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PCC_MANTENIMIENTO" Width="1.5" PointX="35.375" PointY="27.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_AS" Width="1.5" PointX="51.375" PointY="56.5" />
@@ -286,12 +280,24 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" Width="1.5" PointX="51.375" PointY="6.875" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS" Width="1.5" PointX="53.625" PointY="18.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_CALIFICACION_AS" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_AS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS" Width="1.5" PointX="25.875" PointY="52.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_ANALISIS_QUIMICO_PRECOCCION_DET" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_ANALISIS_QUIMICO_PRECOCCION_ELEMENTOS_CC_PARAMETROS_LABORATORIO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS" Width="1.5" PointX="53.625" PointY="13.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS_CC_MANTENIMIENTO_APARIENCIA_AS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" Width="1.5" PointX="48.375" PointY="19.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_MANTENIMIENTO_INTERMEDIO_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS_CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="23.625" PointY="30" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" Width="1.5" PointX="16.375" PointY="28.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION" Width="1.5" PointX="52.375" PointY="40" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION_DETALLE" Width="1.5" PointX="54.625" PointY="40.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TIEMPO_EXPOSICION_DETALLE_CC_TIEMPO_EXPOSICION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -2216,9 +2216,11 @@
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\BandejaAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ControlAnalisisQuimicoProductoSemielaborado.js" />
     <Content Include="Scripts\CALIDAD\AnalisisQuimicoProductoSemielaborado\ReporteAnalisisQuimicoProductoSemielaborado.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\BandejaProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoApariencia.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\MantenimientoParametrosSensoriales.js" />
     <Content Include="Scripts\CALIDAD\AnalisisSensorial\ProtocoloMateriaPrima.js" />
+    <Content Include="Scripts\CALIDAD\AnalisisSensorial\ReporteProtocoloMateriaPrima.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\BandejaCalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
@@ -2237,6 +2239,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\ControlCocinamiento\ControlCocinamiento.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
@@ -2311,6 +2314,7 @@
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\TiempoExposicion\TiempoExposicion.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\BandejaVerificacionPotenciometro.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\ReporteVerificacionPotenciometro.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
@@ -3521,6 +3525,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaInternaRefrigeradora\ClsdTemperaturaInternaRefrigeradora.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\TiempoExposicion\ClsdTiempoExposicion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\VerificacionPotenciometro\ClsdVerificacionPotenciometro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
@@ -3645,6 +3650,7 @@
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaInternaRefrigeradoraController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
+    <Compile Include="Controllers\CALIDAD\TiempoExposicionController.cs" />
     <Compile Include="Controllers\CALIDAD\VerificacionPotenciometroController.cs" />
     <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
@@ -4333,6 +4339,14 @@
     <Content Include="Views\EvaluacionProductoTerminadoConservasLata\ProcedenciaMateriaPrimaMantenimiento.cshtml" />
     <Content Include="Views\MapeoProductoTunel\ReporteProduccionDiaria.cshtml" />
     <Content Include="Views\MapeoProductoTunel\PartialReporteProduccionDiaria.cshtml" />
+    <Content Include="Views\ControlCocinamiento\ControlCocinamiento.cshtml" />
+    <Content Include="Views\AnalisisSensorial\BandejaProtocoloMateriaPrima.cshtml" />
+    <Content Include="Views\AnalisisSensorial\BandejaProtocoloMateriaPrimaPartial.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrima.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrimaPartial.cshtml" />
+    <Content Include="Views\AnalisisSensorial\ReporteProtocoloMateriaPrimaDetallePartial.cshtml" />
+    <Content Include="Views\TiempoExposicion\TiempoExposicion.cshtml" />
+    <Content Include="Views\TiempoExposicion\TiempoExposicionDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4346,7 +4360,6 @@
     <Folder Include="Content\Img\EvaluacionProductoEnfundado\" />
     <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\ControlCocinamiento\" />
     <Folder Include="Views\MantenimientoCocinamiento\" />
   </ItemGroup>
   <ItemGroup>
