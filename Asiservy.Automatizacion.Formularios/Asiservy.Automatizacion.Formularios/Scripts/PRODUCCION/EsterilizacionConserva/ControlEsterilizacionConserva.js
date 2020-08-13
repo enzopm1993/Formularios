@@ -131,6 +131,7 @@ var config3 = {
     }
 }
 var modal_lv = 0;
+var DatosOrdenes=null;
 $('.modal').on('shown.bs.modal', function (e) {
     $('.modal-backdrop:last').css('zIndex', 1051 + modal_lv);
     $(e.currentTarget).css('zIndex', 1052 + modal_lv);
@@ -226,8 +227,9 @@ $(document).ready(function () {
 
     //--
     $('#Turno').prop('selectedIndex', 1);
-    $('#Linea').prop('selectedIndex', 1);
-    ConsultarCabControl();
+    //$('#Linea').prop('selectedIndex', 1);
+    //ConsultarCabControl();
+    LLenarComboOrdenes();
 });
 function ValidarCabecera() {
     var valida = true;
@@ -256,6 +258,15 @@ function ValidarCabecera() {
 
     } else {
         $('#Linea').css('borderColor', '#ced4da');
+        //$('#msjerrorIngreso').prop('hidden', true);
+    }
+    if ($('#cmbOrdeneFabricacion').val() == 0) {
+        $('#cmbOrdeneFabricacion').css('borderColor', '#FA8072');
+        valida = false;
+        //$('#msjerrorIngreso').prop('hidden', false);
+
+    } else {
+        $('#cmbOrdeneFabricacion').css('borderColor', '#ced4da');
         //$('#msjerrorIngreso').prop('hidden', true);
     }
     return valida;
@@ -296,7 +307,8 @@ function GuardarCabEsterilizacion() {
             TipoLinea: $("#Linea").val(),
             Observacion: $("#Observacion").val(),
             UnidadPresion: UnidadPrresion,
-            AutoclaveConvencional: AutoclaveConv
+            AutoclaveConvencional: AutoclaveConv,
+            OrdenFabircacion: $('#cmbOrdeneFabricacion').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -344,25 +356,33 @@ function GuardarCabEsterilizacion() {
     });
 }
 function ConsultarCabControl() {
-    if ($('#Fecha').val() == '') {
-        $('#msjerrorfecha').prop('hidden', false);
-        return false;
-    } else {
-        $('#msjerrorfecha').prop('hidden', true);
+    //if ($('#Fecha').val() == '') {
+    //    $('#msjerrorfecha').prop('hidden', false);
+    //    return false;
+    //} else {
+    //    $('#msjerrorfecha').prop('hidden', true);
+    //}
+    //if ($('#Turno').prop('selectedIndex') == 0) {
+    //    $('#msjerrorturno').prop('hidden', false);
+    //    return false;
+    //} else {
+    //    $('#msjerrorturno').prop('hidden', true);
+    //}
+    //if ($('#Linea').prop('selectedIndex') == 0) {
+    //    $('#msjerrorLinea').prop('hidden', false);
+    //    return false;
+    //} else {
+    //    $('#msjerrorLinea').prop('hidden', true);
+    //}
+    //if ($('#cmbOrdeneFabricacion').val() == '') {
+    //    $('#msjerrorOrdeneFabricacion').prop('hidden', false);
+    //    return false;
+    //} else {
+    //    $('#msjerrorOrdeneFabricacion').prop('hidden', true);
+    //}
+    if (!ValidarCabecera()) {
+        return;
     }
-    if ($('#Turno').prop('selectedIndex') == 0) {
-        $('#msjerrorturno').prop('hidden', false);
-        return false;
-    } else {
-        $('#msjerrorturno').prop('hidden', true);
-    }
-    if ($('#Linea').prop('selectedIndex') == 0) {
-        $('#msjerrorLinea').prop('hidden', false);
-        return false;
-    } else {
-        $('#msjerrorLinea').prop('hidden', true);
-    }
-
     LimpiarControlesDetalle();
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
@@ -417,6 +437,8 @@ function ConsultarCabControl() {
     data.append('Fecha', $("#Fecha").val());
     data.append('Turno', $("#Turno").val());
     data.append('TipoLinea', $("#Linea").val());
+    data.append('OrdenFabircacion', $("#cmbOrdeneFabricacion").val());
+    
     fetch("../EsterilizacionConserva/ConsultarCabeceraEsterilizacion", {
         method: 'POST',
         body: data
@@ -474,9 +496,11 @@ function ConsultarCoches() {
         url: "../EsterilizacionConserva/PartialCocheAutoclave",
         type: "GET",
         data: {
-            Fecha: $("#Fecha").val(),
+            //Fecha: $("#Fecha").val(),
+            OrdenFabricacion:$('#cmbOrdeneFabricacion').val(),
             Turno: $("#Turno").val(),
-            CabControl: $('#CabeceraControl').val()
+            CabControl: $('#CabeceraControl').val(),
+            Linea: $('#Linea').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -546,6 +570,7 @@ function AbrirRegion(evt, NombreTab) {
 }
 
 function AgregarCocheAControl(data) {
+    $('#txtTemperaturaInicial').val('');
     $('#DivNuevoDetalleEsterilizacion').prop('hidden', false);
     $('#txtAutoclave').val(data.Autoclave);
     $('#txtParada').val(data.Parada);
@@ -561,7 +586,7 @@ function GuardarDetalleEsterilizacion() {
     $('#btnGuardarDetalleControl').prop('hidden', true);
     $('#btnLimpiarDetalleControl').prop('hidden', true);
     $('#btnEliminarDetalleControl').prop('hidden', true);
-    $('#btnGuardar').prop('hidden', true);
+    //$('#btnGuardar').prop('hidden', true);
     var Tipo = [
         {
             Panel: $('#txtPanelInicio').val(),
@@ -621,14 +646,14 @@ function GuardarDetalleEsterilizacion() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $('#IdDetalleControl').val(resultado[2].IdDetalleControlEsterilizacionConserva);
+            //$('#IdDetalleControl').val(resultado[2].IdDetalleControlEsterilizacionConserva);
             if (resultado[0] == '000') {
                 MensajeCorrecto('Registro ingresado con éxito');
             }
             if (resultado[0] == '001') {
                 MensajeCorrecto('Registro actualizado con éxito');
             }
-            ConsultarDetalleControl();
+            
             //cargar tabla de detalles de esa cabecera
             //  $('#btnConsultar').prop("disabled", true);
             $('#btnCargandoDet').prop('hidden', true);
@@ -637,6 +662,7 @@ function GuardarDetalleEsterilizacion() {
             $('#btnEliminarDetalleControl').prop('hidden', false);
             ConsultarCoches();
             $('#ModalDetalle').modal('hide');
+            ConsultarDetalleControl();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -990,7 +1016,8 @@ function MostrarDetalleCoche(IdCabCoche) {
             config3.opcionesDT.info = false;
             config3.opcionesDT.columns = [
                 { data: 'Tarjeta' },
-                { data: 'HoraInicio' }
+                { data: 'HoraInicio' },
+                { data: 'Lote' }
             ];
             table.DataTable().destroy();
             table.DataTable(config3.opcionesDT);
@@ -1011,6 +1038,8 @@ function MostrarDetalleCoche(IdCabCoche) {
     });
 }
 function LimpiarControles() {
+    $('#SelectOrdenFabricacion').prop('selectedIndex',0)
+    $('#cmbOrdeneFabricacion').val('');
     $("#MensajeRegistros").html('');
     $('#DivDetallesEsterilizacion').empty();
     $('#DivCoches').empty();
@@ -1085,3 +1114,78 @@ function EliminarDetalleControl() {
         }
     });
 }
+$("#btnOrden").on("click", function () {
+    $("#ModalOrdenes").modal('show');
+});
+async function LlenarComboOrdenesAjax() {
+    let params = {
+        Fecha: $("#txtFechaOrden").val()
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+    let url = '../General/ConsultaOFNivel2?' + query;
+    var promesa = fetch(url);
+    return promesa;
+}
+async function LLenarComboOrdenes(/*orden*/) {
+    try {
+        $('#txtCliente').val('');
+        //if ($('#txtFechaProduccion').val() == '') {
+        //    $('#msjErrorFechaProduccion').prop('hidden', false);
+        //    return;
+        //} else {
+        //    $('#msjErrorFechaProduccion').prop('hidden', true);
+        //}
+        $('#SelectOrdenFabricacion').empty();
+        $('#SelectOrdenFabricacion').append('<option> Seleccione</option>');
+        if (!$('#txtFechaOrden').val() == '') {
+            var PromesaConsultar = await LlenarComboOrdenesAjax();
+            if (!PromesaConsultar.ok) {
+                throw "Error";
+            }
+            var ResultadoConsultar = await PromesaConsultar.json();
+            DatosOrdenes = ResultadoConsultar;
+            console.log(ResultadoConsultar);
+            if (ResultadoConsultar == "101") {
+                window.location.reload();
+            }
+            $.each(ResultadoConsultar, function (key, value) {
+                $('#SelectOrdenFabricacion').append('<option value=' + value.ORDEN_FABRICACION + '>' + value.ORDEN_FABRICACION + '</option>');
+            });
+
+        }
+    } catch (ex) {
+        MensajeError('Error comuníquese con el departamento de Sistemas, ' + ex.message, false);
+    }
+
+
+}
+$("#modal-orden-si").on("click", function () {
+    if ($("#SelectOrdenFabricacion").prop('selectedIndex') == 0) {
+        $('#validaOrden').prop("hidden", false);
+        return;
+    }
+    $("#cmbOrdeneFabricacion").val($("#SelectOrdenFabricacion").val());
+    var queryResult =
+         Enumerable.From(DatosOrdenes)
+        .Where(function (x) { return x.ORDEN_FABRICACION == $("#SelectOrdenFabricacion").val() })
+        .Select(function (x) { return x.ItemName })
+        .SingleOrDefault();
+    var Linea=queryResult.charAt(0) + queryResult.charAt(1);
+    //console.log(queryResult);
+    //console.log(Linea);
+    if (Linea == 'AT') {
+        $("#Linea").val('L');
+    } else {
+        $("#Linea").val('P');
+    }
+    //CargarLotes($("#SelectOrdenFabricacion").val());
+    //DatosOrdenFabricacion();
+
+    $("#ModalOrdenes").modal('hide');
+    $('#validaOrden').prop("hidden", true);
+
+    ConsultarCabControl();
+
+});

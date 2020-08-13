@@ -3,6 +3,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutoclave;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EsterilizacionConserva;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using Asiservy.Automatizacion.Formularios.Models.Produccion.EsterilizacionConservas;
 //using Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutoclave;
 using System;
@@ -18,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
     public class EsterilizacionConservaController : Controller
     {
         string[] lsUsuario { get; set; } = null;
+        public clsDReporte clsDReporte { get; private set; }
         clsDError clsDError { get; set; } = null;
         clsDEsterilizacionConserva clsDEsterilizacionConserva { get; set; } = null;
         clsDCcocheAutoclave clsDCcocheAutoclave { get; set; } = null;
@@ -102,6 +104,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte("ReporteControlEsterilizacionConserva");
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                    ViewBag.NombreReporte = rep.Nombre;
+                }
+                else
+                {
+                    ViewBag.CodigoReporte = "AS-RG-CC-21";
+                    ViewBag.VersionReporte = "V 10.0";
+                    ViewBag.NombreReporte = "CONTROL DE ESTERILIZACION DE CONSERVAS";
+                }
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
@@ -341,7 +357,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
         [HttpGet]
-        public ActionResult PartialCocheAutoclave(DateTime Fecha, string Turno,int CabControl)
+        public ActionResult PartialCocheAutoclave(int OrdenFabricacion, string Turno,int CabControl,string Linea)
         {
             try
             {
@@ -353,7 +369,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDCcocheAutoclave = new clsDCcocheAutoclave();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                List<spConsultaCocheAutoclaveEsterilizacion> model = clsDCcocheAutoclave.ConsultaCocheAutoclaveEsterilizacion(Fecha, Turno,CabControl);
+                List<spConsultaCocheAutoclaveEsterilizacion> model = clsDCcocheAutoclave.ConsultaCocheAutoclaveEsterilizacion(OrdenFabricacion, Turno,CabControl,Linea);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

@@ -4,6 +4,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.Produccion;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -23,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDMapeoProductoTunel clsDMapeoProductoTunel { get; set; } = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion { get; set; } = null;
         clsDApiProduccion clsDApiProduccion { get; set; } = null;
+   
 
         #region MAPEO CONTROL
         // GET: MapeoProductoTunel
@@ -382,6 +384,107 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region Produccion Diaria
+        [Authorize]
+        public ActionResult ReporteProduccionDiaria()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+        
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult PartialReporteProduccionDiaria(DateTime Fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
+                var Respuesta = clsDMapeoProductoTunel.ConsultarReporteProduccionDiariaxFecha(Fecha);
+                clsDApiProduccion = new clsDApiProduccion();
+                List<ProduccionDiariaViewModel> ProduccionDiariaViewModel=new List<ProduccionDiariaViewModel>();
+                IEnumerable<SelectListItem> Textura = null;
+                foreach (var item in Respuesta)
+                {
+                    ViewBag.Textura = clsDApiProduccion.ConsultarObservaciones(item.Textura);
+                    Textura = new SelectList(ViewBag.Textura, "Codigo", "Descripcion");
+                    ProduccionDiariaViewModel.Add(new ProduccionDiariaViewModel
+                    {
+                        BARCO = item.BARCO,
+                        Limpieza=item.Limpieza,
+                        OrdenFabricacion=item.OrdenFabricacion,
+                        Lote=item.Lote,
+                        Producto=item.Producto,
+                        SumaFunda=item.SumaFunda,
+                        Talla=item.Talla,
+                        Textura = Textura.FirstOrDefault().Text,
+                        TipoLimpieza =item.TipoLimpieza,
+                        Turno=item.Turno,
+                        Especie=item.Especie
+                    }
+                    );
+                }
+                if (ProduccionDiariaViewModel.Count > 0)
+                {
+                    clsDClasificador = new clsDClasificador();
+                    List<CLASIFICADOR> Turnos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodTurno);
+                    List<CLASIFICADOR> TurnosDia = (from t in ProduccionDiariaViewModel
+                                                    join c in Turnos on t.Turno equals c.Codigo
+                                                    select new CLASIFICADOR { Codigo = t.Turno, Descripcion = c.Descripcion }).GroupBy(x=>new {x.Codigo,x.Descripcion })
+                                                    .Select(g=>new CLASIFICADOR {Codigo=g.Key.Codigo,Descripcion=g.Key.Descripcion }).ToList();
+                    ViewBag.TurnosDia = TurnosDia;
+                    return PartialView(ProduccionDiariaViewModel);
+                }  
+                else
+                    return Json(0, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

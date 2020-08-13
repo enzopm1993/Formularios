@@ -149,5 +149,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
                 return lista;
             }
         }
+        public List<spReporteProduccionDiaria> ConsultarReporteProduccionDiariaxFecha(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spReporteProduccionDiaria(Fecha).ToList();
+            }
+        }
     }
 }
