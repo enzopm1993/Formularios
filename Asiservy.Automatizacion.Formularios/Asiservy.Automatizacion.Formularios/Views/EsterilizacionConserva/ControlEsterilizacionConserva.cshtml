@@ -82,16 +82,16 @@
 
         <hr />
 
-        <div class="col-md-4 col-sm-4 col-6">
+        <div class="col-md-3 col-sm-4 col-6">
             <div class="form-group">
 
 
                 <label>Fecha:</label>
                 <input type="date" id="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" onchange="ValidaVacio(this); ConsultarCabControl();" />
-                <label class="text-danger" id="msjerrorfecha" hidden>Debe ingresar una fecha</label>
+                @*<label class="text-danger" id="msjerrorfecha" hidden>Debe ingresar una fecha</label>*@
             </div>
         </div>
-        <div class="col-md-4 col-sm-4 col-6">
+        <div class="col-md-3 col-sm-4 col-6">
             <div class="form-group">
                 <label>Turno:</label>
                 <select class="form-control" id="Turno" onchange="ValidaVacio(this); ConsultarCabControl();">
@@ -99,18 +99,36 @@
                     <option value="1">Turno A</option>
                     <option value="2">Turno B</option>
                 </select>
-                <label class="text-danger" id="msjerrorturno" hidden>Debe seleccionar un turno</label>
+                @*<label class="text-danger" id="msjerrorturno" hidden>Debe seleccionar un turno</label>*@
             </div>
         </div>
-        <div class="col-md-4 col-sm-4">
+
+        <div class="col-md-3 col-4">
+            <div class="form-group">
+                Orden de Fabricación:
+                <div class="input-group">
+                    @*@Html.TextBox("cmbOrdeneFabricacion", null, new { style = "width: auto; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })*@
+                    <input type="text" id="cmbOrdeneFabricacion" class="form-control" readonly />
+                    <button type="button" onclick="" id="btnOrden">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
+                @*<label class="text-danger" id="msjerrorOrdeneFabricacion" hidden>Debe ingresar la orden de fabricación</label>*@
+                @*<select id="cmbOrdeneFabricacion" class="form-control" onchange="ConsultarCabControl('of')">
+                    <option>Seleccione..</option>
+                </select>
+                <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4">
             <div class="form-group">
                 <label>Línea:</label>
-                <select class="form-control" id="Linea" onchange="ValidaVacio(this); ConsultarCabControl();">
+                <select class="form-control" id="Linea" onchange="ValidaVacio(this); ConsultarCabControl();" disabled>
                     <option value="">Seleccione...</option>
                     <option value="L">Lata</option>
                     <option value="P">Pouch</option>
                 </select>
-                <label class="text-danger" id="msjerrorLinea" hidden>Debe seleccionar una línea</label>
+                @*<label class="text-danger" id="msjerrorLinea" hidden>Debe seleccionar una línea</label>*@
             </div>
 
         </div>
@@ -122,7 +140,7 @@
 
 
                 <label>Observación:</label>
-                <textarea id="Observacion" class="form-control"></textarea>
+                <textarea id="Observacion" class="form-control" maxlength="500"></textarea>
             </div>
         </div>
         <div class="col-md-5 col-sm-12">
@@ -549,9 +567,7 @@
                             <th colspan="2">Final</th>
                         </tr>
                     </thead>
-                    <tbody>
-                      
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
 
@@ -581,6 +597,7 @@
                         <tr>
                             <th>Número de<br /> canastas</th>
                             <th>Hora de cierre<br /> 1er envase</th>
+                            <th>Lote</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -627,3 +644,39 @@
     </div>
 </div>
 <!-- Fin Modal confirmación eliminar control -->
+@*modal ordenes de fabricacion*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="LLenarComboOrdenes()" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

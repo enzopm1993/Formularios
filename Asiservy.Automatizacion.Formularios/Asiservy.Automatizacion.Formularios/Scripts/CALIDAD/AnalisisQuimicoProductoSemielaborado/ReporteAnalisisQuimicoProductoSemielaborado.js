@@ -363,3 +363,15 @@ $(function () {
     }, cb);
     cb(start, end);
 });
+
+
+function exportTableToExcel(tableID, filename = '') {
+    let file = new Blob([$('#divcard1').html()], { type: "application/vnd.ms-excel" });
+    let url = URL.createObjectURL(file);
+    let a = $("<a />", {
+        href: url,
+        download: "filename.xls"
+    }).appendTo("body").get(0).click();
+    e.preventDefault();
+ 
+}

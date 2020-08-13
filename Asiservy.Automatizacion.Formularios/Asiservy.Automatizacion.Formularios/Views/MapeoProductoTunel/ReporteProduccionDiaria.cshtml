@@ -1,0 +1,35 @@
+﻿<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+</style>
+<div class="card">
+    <div class="row">
+        <div class="col-md-3 col-5">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input id="txtFecha" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" onchange="MostrarReporte()"/>
+            </div>
+
+        </div>
+        
+    </div>
+
+</div>
+<center>
+    <h4 id="MensajeRegistros" class="text-warning" hidden>No existen Registros</h4>
+</center>
+<div class="card" id="cardreporte" hidden>
+    <div class="row">
+        <div class="col-md-12 col-12" id="DivReporte">
+            
+        </div>
+    </div>
+</div>
