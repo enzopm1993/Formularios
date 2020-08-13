@@ -295,6 +295,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" Width="1.5" PointX="16.375" PointY="28.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION" Width="1.5" PointX="52.375" PointY="40" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION_DETALLE" Width="1.5" PointX="54.625" PointY="40.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TIEMPO_EXPOSICION_DETALLE_CC_TIEMPO_EXPOSICION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

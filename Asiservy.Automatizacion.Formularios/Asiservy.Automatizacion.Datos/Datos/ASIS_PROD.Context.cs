@@ -222,6 +222,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS> CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS { get; set; }
         public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
+        public virtual DbSet<CC_TIEMPO_EXPOSICION> CC_TIEMPO_EXPOSICION { get; set; }
+        public virtual DbSet<CC_TIEMPO_EXPOSICION_DETALLE> CC_TIEMPO_EXPOSICION_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

@@ -390,6 +390,12 @@
     <Compile Include="Datos\CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_TIEMPO_EXPOSICION.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_TIEMPO_EXPOSICION_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_VERIFICACION_POTENCIOMETRO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
