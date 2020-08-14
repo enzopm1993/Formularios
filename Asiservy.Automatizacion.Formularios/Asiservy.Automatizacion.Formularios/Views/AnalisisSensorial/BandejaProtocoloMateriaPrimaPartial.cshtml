@@ -10,10 +10,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-            <th>
+            <th style="white-space:normal">
                Fecha Evaluación
             </th>
-            <th>
+            <th style="white-space:normal">
                 Fecha Descarga
             </th>
             <th>
@@ -22,18 +22,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
-            <th>
+            <th style="white-space:normal">
                Lote Descarga
             </th>
-            <th>
+            <th style="white-space:normal">
                 Codigo Protocolo
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Pcc)
             </th>
-            <th>
-                Observación
-            </th>
+           
             <th>
                 Estado
             </th>
@@ -43,18 +41,14 @@
             <th>
                 Usuario Ingreso
             </th>
-            <th>
-                Terminal Ingreso
-            </th>
+           
             <th>
                 Fecha Modificación
             </th>
             <th>
                 Usuario Modificación
             </th>
-            <th>
-                Terminal Modificación
-            </th>
+           
         </tr>
     </thead>
     <tbody>
@@ -64,6 +58,19 @@
             {
                 IdProtocoloMateriaPrima = item.IdProtocoloMateriaPrima,
                 Fecha = item.Fecha,
+                OrdenFabricacion = item.OrdenFabricacion,
+                Lote = item.Lote,
+                LoteDescarga = item.LoteDescarga,
+                CodigoProtocolo = item.CodigoProtocolo,
+                Pcc = item.Pcc,
+                FechaIngresoLog = item.FechaIngresoLog,
+                FechaDescarga = item.FechaDescarga,
+                FechaEvaluacion = item.FechaEvaluacion,
+                FechaAprobacion = item.FechaAprobacion,
+                UsuarioIngresoLog = item.UsuarioIngresoLog,
+                AprobadoPor = item.AprobadoPor,
+                Observacion = item.Observacion
+
             };
 
 
@@ -94,9 +101,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Pcc)
                 </td>
-                <td style="white-space:normal">
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
+              
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>
@@ -113,9 +118,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                </td>
+               
                 <td>
                     @if (item.FechaModificacionLog != null)
                     {@item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm")}
@@ -123,9 +126,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
+               
 
             </tr>
         }

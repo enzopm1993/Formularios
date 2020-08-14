@@ -35,7 +35,7 @@ function CargarBandeja() {
 }
 
 function SeleccionarBandeja(model) {
-    // console.log(model);
+     //console.log(model);
     //  CargarControlDetalle(model.IdAnalisisSensorial);
     if ($("#selectEstadoRegistro").val() == "false") {
         $("#txtFechaAprobacion").prop("hidden", false);
@@ -150,33 +150,72 @@ function FiltrarAprobadosFecha() {
 function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
-    //$.ajax({
-    //    url: "../AnalisisSensorial/ReporteAnalisisSensorialDetallePartial",
-    //    type: "GET",
-    //    data: {
-    //        Fecha: listaDatos.Fecha
-    //        //  Tipo: $("#txtLineaNegocio").val()
-    //    },
-    //    success: function (resultado) {
-    //        if (resultado == "101") {
-    //            window.location.reload();
-    //        }
-    //        if (resultado == "0") {
-    //            $("#divTableDetalle").html("No existen registros");
-    //            $("#spinnerCargandoDetalle").prop("hidden", true);
-    //        } else {
-    //            $("#spinnerCargandoDetalle").prop("hidden", true);
-    //            $("#divTableDetalle").html(resultado);
-    //            //config.opcionesDT.pageLength = 10;
-    //            //      config.opcionesDT.order = [[0, "asc"]];
-    //            //    $('#tblDataTable').DataTable(config.opcionesDT);
-    //        }
-    //    },
-    //    error: function (resultado) {
-    //        MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
-    //        $("#spinnerCargandoDetalle").prop("hidden", true);
-    //    }
-    //});
+    $.ajax({
+        url: "../AnalisisSensorial/ReporteProtocoloMateriaPrimaDetallePartial",
+        type: "GET",
+        data: {
+            IdControl: listaDatos.IdProtocoloMateriaPrima
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableDetalle").html("No existen registros");
+                $("#spinnerCargandoDetalle").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoDetalle").prop("hidden", true);
+                $("#divTableDetalle").html(resultado);
+                ConsultaDatosOf();
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+        },
+        error: function (resultado) {
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
+            $("#spinnerCargandoDetalle").prop("hidden", true);
+        }
+    });
+}
+
+function ConsultaDatosOf() {
+    $.ajax({
+        url: "../AnalisisSensorial/DatosOf",
+        type: "GET",
+        data: {
+            OrdenFabricacion: listaDatos.OrdenFabricacion,
+            Lote: listaDatos.Lote
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("No existen datos de la Orden de Fabricación");
+            } else {
+                //    console.log(resultado);
+                $("#txtFechaIngresoPlanta").html(moment(listaDatos.FechaDescarga).format("DD-MM-YYYY"));
+                $("#txtFechaEvaluacion").html(moment(listaDatos.FechaEvaluacion).format("DD-MM-YYYY"));
+                $("#txtFechaProduccion").html(moment(listaDatos.Fecha).format("DD-MM-YYYY"));
+                $("#txtBarco").html(resultado.Barco);
+                $("#txtLoteDescarga").html(listaDatos.LoteDescarga);
+                $("#txtLote").html(listaDatos.Lote);
+                $("#txtCodigoProtocolo").html(listaDatos.CodigoProtocolo);
+                $("#txtEspecieTalla").html(resultado.Especie + '  ' + resultado.Talla);
+                $("#txtPcc").html(listaDatos.Pcc);
+                $("#txtObservacion").html(listaDatos.Observacion);
+
+
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado.responseText, false);
+        }
+    });
 }
 
 $(function () {

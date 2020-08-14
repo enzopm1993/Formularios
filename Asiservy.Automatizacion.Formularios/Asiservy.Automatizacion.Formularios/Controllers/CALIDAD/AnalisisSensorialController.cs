@@ -728,14 +728,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDLogin = new clsDLogin();
-                ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
-                ClsdParametrosSensoriales = new ClsdParametrosSensoriales();
-                ClsdMantenimientoApariencia = new ClsdMantenimientoApariencia();
-                ViewBag.Intermedia = ClsdParametrosSensoriales.ConsultaIntermedia2().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                ViewBag.Apariencia = ClsdMantenimientoApariencia.ConsultaManteminetoApariencia().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-
+               
                 if (!string.IsNullOrEmpty(lsUsuario[1]))
                 {
                     var usuarioOpcion = clsDLogin.ValidarPermisoOpcion(lsUsuario[1], "ProtocoloMateriaPrima");
@@ -821,6 +814,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 ViewBag.Apariencia = ClsdMantenimientoApariencia.ConsultaManteminetoApariencia().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ViewBag.Intermedia = ClsdParametrosSensoriales.ConsultaIntermedia2().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                //ClsdProtocoloMateriaPrima = new ClsdProtocoloMateriaPrima();
+                //ClsdParametrosSensoriales = new ClsdParametrosSensoriales();
+                //ClsdMantenimientoApariencia = new ClsdMantenimientoApariencia();
+                //ViewBag.Parametros = ClsdParametrosSensoriales.ConsultaParametroSensorial().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                //ViewBag.Calificaciones = ClsdParametrosSensoriales.ConsultaMantemientoCalificacion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                //ViewBag.Apariencia = ClsdMantenimientoApariencia.ConsultaManteminetoApariencia().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
 
                 var model = ClsdProtocoloMateriaPrima.ConsultaProtocoloMateriaPrimaDetalle(IdControl);
                 if (!model.Any())

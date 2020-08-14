@@ -97,10 +97,10 @@ function MostrarModal() {
 }
 
 function nuevoControl() {
+
     $("#selectPcc").prop('selectedIndex', 0);
     $("#txtObservación").val('');
     $("#txtIdControl").val(0);
-    $("#btnOrden").prop("disabled", false);
 }
 
 function Validar() {
@@ -178,7 +178,6 @@ function EditarControl() {
     $("#txtObservación").val(modelEditar.Observacion);
     $("#txtIdControl").val(modelEditar.IdTiempoExposicion);
 
-    $("#btnOrden").prop("disabled", true);
 
 }
 

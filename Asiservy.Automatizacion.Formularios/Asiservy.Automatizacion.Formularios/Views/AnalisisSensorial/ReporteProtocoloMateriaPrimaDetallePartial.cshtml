@@ -5,12 +5,36 @@
 @{
     var Parametros = (List<CC_MANTENIMIENTO_PARAMETRO_SENSORIAL_AS>)ViewBag.Parametros;
     var Apariencia = (List<CC_MANTENIMIENTO_APARIENCIA_AS>)ViewBag.Apariencia;
+    var Calificaciones = (List<CC_MANTENIMIENTO_CALIFICACION_AS>)ViewBag.Calificaciones;
+    var Intermedia = (List<CC_MANTENIMIENTO_INTERMEDIO_AS>)ViewBag.Intermedia;
 
 
     int cont = 1;
 
 }
 
+<table class="table">
+    <tr>
+
+        <td><b>Fecha Ingreso Planta: </b><label id="txtFechaIngresoPlanta"></label></td>
+        <td><b>Fecha Evaluación:</b> <label id="txtFechaEvaluacion"></label></td>
+        <td><b>Fecha Producción: </b><label id="txtFechaProduccion"></label></td>
+
+    </tr>
+    <tr>
+        <td><b>Barco Proveedor: </b><label id="txtBarco"></label></td>
+        <td><b>Lote: </b><label id="txtLote"></label></td>
+        <td><b>Especie-Talla: </b><label id="txtEspecieTalla"></label></td>
+
+    </tr>
+    <tr>
+        <td><b>Código Protocolo: </b><label id="txtCodigoProtocolo"></label></td>
+        <td><b>Lote Descarga: </b><label id="txtLoteDescarga"></label></td>
+        <td><b>Pcc:</b><label id="txtPcc"></label></td>
+
+    </tr>
+
+</table>
 
 <table class="table table-hover table-striped" id="tblDataTable">
     <thead>
@@ -48,7 +72,7 @@
                         <th style="white-space:normal">@a.Abreviatura</th>
                     }
                 }
-               
+
             }
 
         </tr>
@@ -60,53 +84,53 @@
             {
 
                 <td class="text-center"><b>@cont</b></td>
-                
 
-                    if (Parametros != null)
+
+                if (Parametros != null)
+                {
+                    foreach (var p in Parametros)
                     {
-                        foreach (var p in Parametros)
+                        var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.FirstOrDefault(x => x.IdParametroSensorial == p.IdParametroSensorial);
+                        if (detalle != null)
                         {
-                            var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.FirstOrDefault(x => x.IdParametroSensorial == p.IdParametroSensorial);
-                            if (detalle != null)
-                            {
-                                <td class="text-center">@detalle.IdCalificacion</td>
-                            }
-                            else
-                            {
-                                <td>-</td>
-                            }
+                            <td class="text-center">@detalle.IdCalificacion</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
                         }
                     }
+                }
 
-                    if (Apariencia != null)
+                if (Apariencia != null)
+                {
+                    foreach (var p in Apariencia)
                     {
-                        foreach (var p in Apariencia)
+                        var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.FirstOrDefault(x => x.IdApariencia == p.IdApariencia);
+                        if (detalle != null)
                         {
-                            var detalle = item.CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.FirstOrDefault(x => x.IdApariencia == p.IdApariencia);
-                            if (detalle != null)
-                            {
-                                <td class="text-center">
-                                    @if (detalle.Valor)
-                                    {
-                                        <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                            <td class="text-center">
+                                @if (detalle.Valor)
+                                {
+                                    <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
 
-                                    }
-                                    else
-                                    {
-                                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
-                                    }
-                                </td>
-                            }
-                            else
-                            {
-                                <td></td>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
                         }
                     }
                 }
                 cont = cont + 1;
                 if (contador == 2)
                 {
-                    @:</tr><tr>
+                @:</tr><tr>
                     contador = 0;
                 }
                 contador = contador + 1;
@@ -116,3 +140,76 @@
     </tbody>
 </table>
 
+
+<div>
+    <h6 class="text-black">RESUMEN EVALUACIÓN</h6>
+    <P style="font-size:11px"> # TOTAL DE PIEZAS CON PRESENCIA DE OLORES CONTAMINANTES O ASOCIADOS A DESCOMPOSICIÓN:</P>
+</div>
+<div class="text-center">
+    <label>PARAMETROS SENSORIALES</label>
+</div>
+<table class="table table-bordered">
+    <tr>
+        <td></td>
+        @if (Calificaciones != null)
+        {
+            foreach (var c in Calificaciones)
+            {
+
+                <th class="text-center" style="white-space:normal">@c.Descripcion (@c.Abreviatura)</th>
+            }
+        }
+    </tr>
+    @if (Parametros != null)
+    {
+        foreach (var p in Parametros)
+        {
+
+            <tr>
+                <th>@p.Descripcion</th>
+                @if (Calificaciones != null)
+                {
+                    foreach (var c in Calificaciones)
+                    {
+                        var descripcionIntermedia = Intermedia.FirstOrDefault(x => x.IdParametroSensorial == p.IdParametroSensorial
+                        && x.IdCalificacion == c.IdCalificacion);
+                        if (descripcionIntermedia != null)
+                        {
+
+                            <td class="text-center" style="white-space:normal">@descripcionIntermedia.Descripcion</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+
+                    }
+                }
+            </tr>
+        }
+
+    }
+</table>
+
+<table class="table-bordered">
+    <tr>
+        <th>Apariencia</th>
+        <th>No</th>
+        <th>Si</th>
+
+    </tr>
+    @foreach (var a in Apariencia)
+    {
+        <tr>
+            <td>@a.Descripcion @a.Abreviatura</td>
+            <td> <i class="fa fa-times text-danger" aria-hidden="true"></i></td>
+            <td><i class="fa fa-check-circle text-success" aria-hidden="true"></i></td>
+
+        </tr>
+    }
+</table>
+<table>
+    <tr>
+        <td style="white-space:normal"><b>OBSERVACIONES:</b><p id="txtObservacion"> </p></td>
+    </tr>
+</table>
