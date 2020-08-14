@@ -62,8 +62,7 @@ function SeleccionarBandeja(Control) {
         $("#txtFechaAprobacion").html('');
     }
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));    
-    ConsultaDatosOf();
+    //$("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));    
     CargarControlDetalle();
 }
 
@@ -136,9 +135,8 @@ function CargarControlDetalle() {
             } else {
                 $("#spinnerCargandoDetalle").prop("hidden", true);
                 $("#divTableDetalle").html(resultado);
-                //config.opcionesDT.pageLength = 10;
-                //      config.opcionesDT.order = [[0, "asc"]];
-                //    $('#tblDataTable').DataTable(config.opcionesDT);
+                ConsultaDatosOf();
+
             }
             CerrarModalCargando();
         },
