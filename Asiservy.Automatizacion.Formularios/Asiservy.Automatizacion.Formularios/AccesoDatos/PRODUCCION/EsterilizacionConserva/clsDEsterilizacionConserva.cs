@@ -53,6 +53,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                 BuscarCabeceraControl.TerminalModificacionLog = poEsterilizacionConserva.TerminalIngresoLog;
                 BuscarCabeceraControl.UnidadPresion = poEsterilizacionConserva.UnidadPresion;
                 BuscarCabeceraControl.AutoclaveConvencional = poEsterilizacionConserva.AutoclaveConvencional;
+                BuscarCabeceraControl.Pcc = poEsterilizacionConserva.Pcc;
                 db.SaveChanges();
                 resultado[0] = "001";
                 resultado[1] = "Registro actualizado con éxito";

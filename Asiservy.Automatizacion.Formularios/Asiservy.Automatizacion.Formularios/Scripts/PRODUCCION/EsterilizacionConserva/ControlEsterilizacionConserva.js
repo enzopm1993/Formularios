@@ -308,7 +308,8 @@ function GuardarCabEsterilizacion() {
             Observacion: $("#Observacion").val(),
             UnidadPresion: UnidadPrresion,
             AutoclaveConvencional: AutoclaveConv,
-            OrdenFabircacion: $('#cmbOrdeneFabricacion').val()
+            OrdenFabircacion: $('#cmbOrdeneFabricacion').val(),
+            Pcc: $('#cmbpcc').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -463,9 +464,11 @@ function ConsultarCabControl() {
                 $("#MensajeRegistros").html('No se encontraron registros');
                 $('#btnEliminarCabeceraControl').prop('disabled', true)
             } else {
+                console.log(resultado.Pcc);
                 $("#MensajeRegistros").html('');
                 $('#CabeceraControl').val(resultado.IdCabControlEsterilizado);
                 $('#Observacion').val(resultado.Observacion);
+                $('#cmbpcc').val(resultado.Pcc);
                 if (resultado.UnidadPresion == true) {
                     $('#ckbunidadpresion').prop('checked', true);
                 } else {
