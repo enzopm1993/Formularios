@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutoclave;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.EsterilizacionConserva;
@@ -20,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
     {
         string[] lsUsuario { get; set; } = null;
         public clsDReporte clsDReporte { get; private set; }
+        public ClsDMantenimientoPCC ClsDMantenimientoPCC { get; set; }
         clsDError clsDError { get; set; } = null;
         clsDEsterilizacionConserva clsDEsterilizacionConserva { get; set; } = null;
         clsDCcocheAutoclave clsDCcocheAutoclave { get; set; } = null;
@@ -46,6 +48,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
+                ClsDMantenimientoPCC = new ClsDMantenimientoPCC();
+                ViewBag.PCC= ClsDMantenimientoPCC.ConsultarRegistroActivos().Select(p => new SelectListItem() { Value = p.IdPcc.ToString(), Text = p.Numero.ToString() }).ToList<SelectListItem>(); ;
 
                 return View();
             }
@@ -240,7 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDEsterilizacionConserva = new clsDEsterilizacionConserva();
                 resultado = clsDEsterilizacionConserva.ConsultarCabeceraEsterilizacionConserva(poControlEsterilizacion);
                 if (resultado != null) {
-                    return Json(new { resultado.IdCabControlEsterilizado, resultado.Observacion, resultado.TipoLinea, resultado.Turno, resultado.Fecha ,resultado.AutoclaveConvencional,resultado.UnidadPresion}, JsonRequestBehavior.AllowGet);
+                    return Json(new { resultado.IdCabControlEsterilizado, resultado.Observacion, resultado.TipoLinea, resultado.Turno, resultado.Fecha ,resultado.AutoclaveConvencional,resultado.UnidadPresion,resultado.Pcc}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 col-4">
+        <div class="col-md-3 col-6">
             <div class="form-group">
                 Orden de Fabricación:
                 <div class="input-group">
@@ -120,7 +120,7 @@
                 <label id="msjErrorOrdenFabricacion" class="text-danger" hidden>Debe seelccionar una orden de fabricación</label>*@
             </div>
         </div>
-        <div class="col-md-3 col-sm-4">
+        <div class="col-md-3 col-6">
             <div class="form-group">
                 <label>Línea:</label>
                 <select class="form-control" id="Linea" onchange="ValidaVacio(this); ConsultarCabControl();" disabled>
@@ -132,8 +132,17 @@
             </div>
 
         </div>
+
         <div class="col-sm-12 col-12 col-md-12">
             <hr />
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="form-group">
+                <label>PCC:</label>
+                @Html.DropDownList("cmbpcc", (List<SelectListItem>)ViewBag.PCC, new { @class = "form-control" })
+
+            </div>
+
         </div>
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
