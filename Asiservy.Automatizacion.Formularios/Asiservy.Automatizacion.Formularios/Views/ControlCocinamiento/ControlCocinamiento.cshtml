@@ -1,5 +1,6 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.CC_COCINAMIENTO_CTRL
-
+@using Asiservy.Automatizacion.Formularios.Controllers.CALIDAD;
+@using Newtonsoft.Json;
 @{
     ViewBag.Title = "ControlCocinamiento";
 }
@@ -116,7 +117,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-1 col-2 col-sm-2 float-left" id="divBotonCrear">
+    <div class="col-md-1 col-3 col-sm-2 float-left" id="divBotonCrear">
         <label class="" id="lblAcciones">NUEVO</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
@@ -124,8 +125,8 @@
             </button>
         </div>
     </div>
-  
-    <div class="col-md-2 col-7 col-sm-4">
+
+    <div class="col-md-2 col-9 col-sm-4">
         FECHA PRODUCCIÓN
         <div class=" box_filters float-left">
             <div class="itemFilter">
@@ -144,17 +145,24 @@
             </div>
         </div>
     </div>
+   
 </div>
 <br />
 <div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-9 col-12 col-sm-12" style="float:left">
+        <div class="col-md-7 col-12 col-sm-7" style="float:left">
             <div class="form-group">
                 <label>OBSERVACIÓN</label>
                 <textarea type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" rows="2"></textarea>
             </div>
         </div>
-        <div class="col-md-3 col-12 col-sm-12 text-md-center text-center">
+        <div class="col-md-1 col-4 col-sm-1" style="float:left">
+            <div class="form-group">
+                <label>PCC</label>
+                <textarea type="text" name="name" disabled value="" id="txtPCC" class="form-control" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="col-md-3 col-8 col-sm-3 text-md-center text-center">
             <div class="form-group">
                 <label>ACCIONES</label><br />
                 <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
@@ -170,11 +178,11 @@
 <hr />
 
 @*MODAL MOSTRAR TABLA DETALLE*@
-
-<div id="divMostarTablaDetallesVer" class="table-responsive">
+<br />
+<div id="divMostarTablaDetallesVer">
 </div>
 <br />
-<div id="divApexChartDetalle" class="card">
+<div id="divApexChartDetalle" class="card table-responsive">
 </div>
 
 @*MODAL ELIMINAR REGISTRO CABECERA*@
@@ -212,7 +220,17 @@
                             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="OnChangeTextBox(0)" onkeydown="return(false)" max="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaProduccionIng" class="form-control" />
                         </div>
                     </div>
-                    
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <label>PCC</label>
+                        <div class="form-group" style="text-transform:capitalize">
+                            @if (ViewBag.PCC != null)
+                            {
+                                @Html.DropDownList("selectPCC", new SelectList(ViewBag.PCC, "IdPcc", "Numero"), new { @Class = "form-control" });
+                            }
+                            else
+                            { <label class="badge badge-danger">No existen PCC</label>}
+                        </div>
+                    </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>OBSERVACIÓN</label>
@@ -224,6 +242,186 @@
                     <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ModalIngresoSubDetalle" style="overflow-y: scroll;" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>INGRESO SUBDETALLE</h6>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarSubDetalle()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <b><label hidden id="lblCocina"></label></b>
+                        <b><label id="lblLote"></label></b>
+                        <b><label class="float-right" id="lblOrdenFabricacion"></label></b>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link show active" data-toggle="tab" href="#divParametros" id="areproc">TEMPERATURA COCCIÓN</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#divImagenes" id="areaemp" onclick="CargarImagen()">IMAGENES</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane container-fluid active" id="divParametros">
+                                <div class="row">
+                                    <div class="col-md-12 col-12 col-sm-12">
+                                        <button type="button" class="btn btn-primary" onclick="GuardarSubDetalle()" id="btnGuadarElemento">Agregar</button>
+                                        <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn " id="btnNuevo" onclick="NewSubDetail()" style="border-color:#2c3e50;padding:0px" type="button">
+                                            <img style="width:100%" src="~/Content/icons/clear24.png" />
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-12 col-sm-6">
+                                        <label>Nº COCHE</label>
+                                        <div class="form-group">
+                                            <input type="text" autocomplete="off" name="name" onchange="OnChangeTextBoxSubDetalle()" id="txtNumCoche" maxlength="8" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12 col-sm-12">
+                                        <label>TOMA DE MUESTRA</label>
+                                        <div class="form-group" style="text-transform:capitalize">
+                                            @if (ViewBag.TomaMuestra != null)
+                                            {
+                                                @Html.DropDownList("selectTomaMuestra", new SelectList(ViewBag.TomaMuestra, "Id", "Nombre"), new { @Class = "form-control" });
+                                            }
+                                            else
+                                            { <label class="badge badge-danger">No existen Muestras</label>}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12 col-sm-6">
+                                        <label>TEMPERATURA</label>
+                                        <div class="form-group">
+                                            <input type="text" autocomplete="off" name="name" id="txtTemperatura" onchange="OnChangeTextBoxSubDetalle()" maxlength="8" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-12 col-sm-12">
+                                        <label>GUARDADO</label>
+                                        <div class="table-responsive" id="divSubDetalle">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane container-fluid fade" id="divImagenes">
+                                <div class="row">
+                                    <div class="col-md-12 col-12 col-sm-12">
+                                        <button type="button" class="btn btn-primary" onclick="GuardarImagen()" id="btnImagenes">Agregar</button>
+                                        <button data-toggle="tooltip" data-placement="top" title="Nueva Foto" class="btn" id="btnNuevo" onclick="LimpiarDatosImagen()" style="border-color:#2c3e50; padding:0px" type="button">
+                                            <img style="width:100%" src="~/Content/icons/clear24.png" />
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6 col-12 col-sm-12">                                       
+                                        <div class="form-group">
+                                            <label>OBSERVACIÓN</label>
+                                            <textarea class="form-control" id="txtObservacionImagen" onchange="OnChangeTextBoxAccion()" maxlength="200" style="font-size:10px" type="text" name="name" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div id="divInputLoad" class="col-md-6 col-12 col-sm-12">
+                                        <label>ADJUNTAR IMAGEN</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file-upload" onclick="OnChangeTextBoxAccion()" accept="image/*">
+                                            <label class="custom-file-label" for="customFile" onclick="OnChangeTextBoxAccion()" id="lblImagen">Seleccione archivo</label>
+                                        </div>
+                                        <div class="text-center" style="justify-content:center">
+                                            <br />
+                                            <div id="file-preview-zone" style="height:auto">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divListarImagen" class="table-responsive"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarSubDetalle()">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*MODAL ELIMINAR REGISTRO SUB DETALLE*@
+<div class="modal" style="background-color:rgba(224, 224, 235, .4)" id="modalEliminarSubDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabelDetalle"></h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="EliminarSubDetalleNo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarSubDetalleSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarSubDetalleNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL DETALLE CLICK EN EL APEX CHART *@
+<div class="modal fade" tabindex="-1" id="modalMostrarAC" role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h7 class="modal-title" id="hLote">LOTE</h7>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card" id="divSubDetalleAC">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL ELIMINAR REGISTRO IMAGEN*@
+<div class="modal" style="background-color:rgba(224, 224, 235, .4)" id="modalEliminarImagen" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mensajeEliminarImagen"></h5>
+                <button type="button" class="close" onclick="EliminarImagenNo()" aria-label="Close"><span>&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarImagenSi()" id="btnEliminarSi">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarImagenNo()" id="btnEliminarNo">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*CONFIRMACION EDICION DETALLE DE FECHAS FUTURAS O ANTERIORES*@
+<div class="modal" style="background-color:dimgrey" id="modalConfirmarEdicion" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modal-title" id="confirmarIngreso"></label>
+                <button type="button" class="close" onclick="ConfirmarIngreso()" aria-label="Close"><span>&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" onclick="ConfirmarIngreso()" id="btnEliminarNo">OK</button>
             </div>
         </div>
     </div>

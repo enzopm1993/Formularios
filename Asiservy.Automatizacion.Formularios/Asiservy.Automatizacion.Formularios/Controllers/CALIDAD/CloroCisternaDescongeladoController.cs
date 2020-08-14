@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         string[] lsUsuario { get; set; }=null;
         public clsDReporte ClsDReporte { get; set; } = null;
         //-----------------------------------------------------VISTA DE INGRESO DE DATOS----------------------------------------------------------------
+        [Authorize]
         public ActionResult CloroCisternaDescongelado()
         {
             try
@@ -74,7 +75,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-
         [HttpPost]
         public ActionResult EliminarCloroCisternaDescongelado(CC_CLORO_CISTERNA_DESCONGELADO model)
         {
@@ -128,7 +128,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         public ActionResult ValidarCloroCisternaDescongelado(DateTime fecha, string turno)
         {
             try
@@ -167,7 +166,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         [HttpPost]
         public ActionResult ControlCloroCisternaDescongelado(CC_CLORO_CISTERNA_DESCONGELADO model)
         {
@@ -220,9 +218,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        
+        }        
+        [HttpPost]
         public ActionResult ControlCloroCisternaDescongeladoDetalle(CC_CLORO_CISTERNA_DESCONGELADO_DETALLE model)
         {
             try
@@ -246,11 +243,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     {
                         return Json("100", JsonRequestBehavior.AllowGet);
                     }
-                //}
-                
-                
-                //if (!estadoReporte.EstadoReporte)
-                //{
+             
                     clsDCloroCisternaDescongelado.GuardarModificar_ReporteCloroCisternaDescongeladoDetalle(model);
                     return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
                 }else return Json("2", JsonRequestBehavior.AllowGet);
@@ -274,7 +267,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         public ActionResult ValidarCloroCisternaDescongeladoDetallePartial(DateTime fecha, int IdCloroCisterna)
         {
             try
@@ -320,7 +312,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }        
-
         [HttpPost]
         public ActionResult EliminarCloroCisternaDescongeladoDetalle(CC_CLORO_CISTERNA_DESCONGELADO_DETALLE model)
         {
@@ -377,8 +368,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
+        [Authorize]
         public ActionResult BandejaCloroCisternaDescongelado()
         {
             try
@@ -408,7 +399,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
@@ -417,7 +408,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -464,7 +455,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult BandejaAprobarCloroCisternaDescongelado(int idCloroCisterna)
+        public JsonResult BandejaAprobarCloroCisternaDescongelado(int idCloroCisterna)
         {
             try
             {
@@ -503,7 +494,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
         public ActionResult AprobarBandejaControlCloro(CC_CLORO_CISTERNA_DESCONGELADO model)
         {
             try
@@ -545,19 +536,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         //-----------------------------------------------------VISTA DE REPORTE----------------------------------------------------------------
-
+         [Authorize]
         public ActionResult ReporteCloroCisternaDescongelado()
         {
             try
             {
                 ClsdParametroCalidad = new ClsdParametroCalidad();
                 var parametros = ClsdParametroCalidad.ConsultaManteminetoParametroCalidad(clsAtributos.CC_CodParametroCloroCisterna);
-                
-                    ViewBag.ColorDentroRango = parametros.ColorDentroRango;
-                    ViewBag.ColorFueraRango = parametros.ColorFueraRango;
-                    //ViewBag.ParamMax = parametros.Maximo;
-                    //ViewBag.ParamMin = parametros.Minimo;
-                
+
+                ViewBag.ColorDentroRango = parametros.ColorDentroRango;
+                ViewBag.ColorFueraRango = parametros.ColorFueraRango;
                 ViewBag.DateRangePicker = "1";
                 ViewBag.dataTableJS = "1";
                 clsLogin = new clsDLogin();
@@ -599,7 +587,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-
         public ActionResult ReporteCloroCisternaDescongeladoPartial(DateTime fechaDesde, DateTime fechaHasta, int idCloroCisterna, int op)
         {
             try
@@ -657,7 +644,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         public ActionResult ReporteCloroCisternaDescongeladoCabeceraPartial(DateTime fechaDesde, DateTime fechaHasta)
         {
             try
@@ -700,7 +686,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult ConsultarEstadoReporte(long idControlCloro)
         {
             try
@@ -740,7 +725,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

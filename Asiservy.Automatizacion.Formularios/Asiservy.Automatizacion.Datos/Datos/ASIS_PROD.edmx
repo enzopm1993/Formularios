@@ -615,6 +615,77 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_CTRL">
+          <Key>
+            <PropertyRef Name="IdCocinamientoCtrl" />
+          </Key>
+          <Property Name="IdCocinamientoCtrl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaProduccion" Type="date" Nullable="false" />
+          <Property Name="FechaAsignada" Type="date" Nullable="false" />
+          <Property Name="ObservacionC" Type="varchar" MaxLength="200" />
+          <Property Name="PCC" Type="int" Nullable="false" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="100" />
+          <Property Name="FechaAprobado" Type="datetime" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_DET">
+          <Key>
+            <PropertyRef Name="IdCocinamientoDet" />
+          </Key>
+          <Property Name="IdCocinamientoDet" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCocinamientoCtrl" Type="int" Nullable="false" />
+          <Property Name="Lote" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
+          <Property Name="ObservacionDet" Type="varchar" MaxLength="200" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_IMAGEN">
+          <Key>
+            <PropertyRef Name="IdImagen" />
+          </Key>
+          <Property Name="IdImagen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCocinamientoDet" Type="int" Nullable="false" />
+          <Property Name="ObservacionImagen" Type="varchar" MaxLength="200" />
+          <Property Name="RutaImagen" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Rotation" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_SUBDET">
+          <Key>
+            <PropertyRef Name="IdCocinamientoSubDet" />
+          </Key>
+          <Property Name="IdCocinamientoSubDet" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCocinamientoDet" Type="int" Nullable="false" />
+          <Property Name="NumCoche" Type="int" Nullable="false" />
+          <Property Name="Temperatura" Type="int" Nullable="false" />
+          <Property Name="TomaMuestra" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_CONDICION_PERSONAL">
           <Key>
             <PropertyRef Name="IdCondicionPersonal" />
@@ -3859,6 +3930,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL">
+          <End Role="CC_COCINAMIENTO_CTRL" Type="Self.CC_COCINAMIENTO_CTRL" Multiplicity="1" />
+          <End Role="CC_COCINAMIENTO_DET" Type="Self.CC_COCINAMIENTO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_COCINAMIENTO_CTRL">
+              <PropertyRef Name="IdCocinamientoCtrl" />
+            </Principal>
+            <Dependent Role="CC_COCINAMIENTO_DET">
+              <PropertyRef Name="IdCocinamientoCtrl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN">
+          <End Role="CC_COCINAMIENTO_DET" Type="Self.CC_COCINAMIENTO_DET" Multiplicity="1" />
+          <End Role="CC_COCINAMIENTO_IMAGEN" Type="Self.CC_COCINAMIENTO_IMAGEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_COCINAMIENTO_DET">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Principal>
+            <Dependent Role="CC_COCINAMIENTO_IMAGEN">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET">
+          <End Role="CC_COCINAMIENTO_DET" Type="Self.CC_COCINAMIENTO_DET" Multiplicity="1" />
+          <End Role="CC_COCINAMIENTO_SUBDET" Type="Self.CC_COCINAMIENTO_SUBDET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_COCINAMIENTO_DET">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Principal>
+            <Dependent Role="CC_COCINAMIENTO_SUBDET">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL">
           <End Role="CC_CONDICION_PERSONAL_CONTROL" Type="Self.CC_CONDICION_PERSONAL_CONTROL" Multiplicity="1" />
           <End Role="CC_CONDICION_PERSONAL" Type="Self.CC_CONDICION_PERSONAL" Multiplicity="*" />
@@ -4865,6 +4972,14 @@
         <Function Name="sp_ConsultaMotivoSolicitudPermisoAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_Control_Cocinamiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="op" Type="int" Mode="In" />
+          <Parameter Name="fechaProduccion" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_Control_Cocinamiento_Sin_Imagenes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="op" Type="int" Mode="In" />
+          <Parameter Name="fechaProduccion" Type="date" Mode="In" />
+        </Function>
         <Function Name="sp_Control_Cuchillos_Preparacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idControlCuchillo" Type="int" Mode="In" />
           <Parameter Name="op" Type="int" Mode="In" />
@@ -5536,6 +5651,10 @@
           <EntitySet Name="CC_CALIBRACION_PHMETRO" EntityType="Self.CC_CALIBRACION_PHMETRO" Schema="dbo" Table="CC.CALIBRACION_PHMETRO" store:Type="Tables" />
           <EntitySet Name="CC_CLORO_AGUA_AUTOCLAVE" EntityType="Self.CC_CLORO_AGUA_AUTOCLAVE" Schema="dbo" Table="CC.CLORO_AGUA_AUTOCLAVE" store:Type="Tables" />
           <EntitySet Name="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntityType="Self.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Schema="dbo" Table="CC.CLORO_AGUA_AUTOCLAVE_CONTROL" store:Type="Tables" />
+          <EntitySet Name="CC_COCINAMIENTO_CTRL" EntityType="Self.CC_COCINAMIENTO_CTRL" Schema="dbo" Table="CC.COCINAMIENTO_CTRL" store:Type="Tables" />
+          <EntitySet Name="CC_COCINAMIENTO_DET" EntityType="Self.CC_COCINAMIENTO_DET" Schema="dbo" Table="CC.COCINAMIENTO_DET" store:Type="Tables" />
+          <EntitySet Name="CC_COCINAMIENTO_IMAGEN" EntityType="Self.CC_COCINAMIENTO_IMAGEN" Schema="dbo" Table="CC.COCINAMIENTO_IMAGEN" store:Type="Tables" />
+          <EntitySet Name="CC_COCINAMIENTO_SUBDET" EntityType="Self.CC_COCINAMIENTO_SUBDET" Schema="dbo" Table="CC.COCINAMIENTO_SUBDET" store:Type="Tables" />
           <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="Self.CC_CONDICION_PERSONAL" Schema="dbo" Table="CC.CONDICION_PERSONAL" store:Type="Tables" />
           <EntitySet Name="CC_CONDICION_PERSONAL_CONTROL" EntityType="Self.CC_CONDICION_PERSONAL_CONTROL" Schema="dbo" Table="CC.CONDICION_PERSONAL_CONTROL" store:Type="Tables" />
           <EntitySet Name="CC_CONTROL_LAVADO_DESINFECCION_MANOS" EntityType="Self.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Schema="dbo" Table="CC.CONTROL_LAVADO_DESINFECCION_MANOS" store:Type="Tables" />
@@ -5768,6 +5887,18 @@
           <AssociationSet Name="FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Association="Self.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL">
             <End Role="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" EntitySet="CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
             <End Role="CC_CLORO_AGUA_AUTOCLAVE" EntitySet="CC_CLORO_AGUA_AUTOCLAVE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL" Association="Self.FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL">
+            <End Role="CC_COCINAMIENTO_CTRL" EntitySet="CC_COCINAMIENTO_CTRL" />
+            <End Role="CC_COCINAMIENTO_DET" EntitySet="CC_COCINAMIENTO_DET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN" Association="Self.FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN">
+            <End Role="CC_COCINAMIENTO_DET" EntitySet="CC_COCINAMIENTO_DET" />
+            <End Role="CC_COCINAMIENTO_IMAGEN" EntitySet="CC_COCINAMIENTO_IMAGEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET" Association="Self.FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET">
+            <End Role="CC_COCINAMIENTO_DET" EntitySet="CC_COCINAMIENTO_DET" />
+            <End Role="CC_COCINAMIENTO_SUBDET" EntitySet="CC_COCINAMIENTO_SUBDET" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL" Association="Self.FK_CC_CONDICION_PERSONAL_CC_CONDICION_PERSONAL_CONTROL">
             <End Role="CC_CONDICION_PERSONAL_CONTROL" EntitySet="CC_CONDICION_PERSONAL_CONTROL" />
@@ -7536,10 +7667,34 @@
             <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
           </AssociationSet>
           <FunctionImport Name="spConsultaCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclaveDetalle)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spReporteProduccionDiaria" ReturnType="Collection(ASIS_PRODModel.spReporteProduccionDiaria)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="CC_COCINAMIENTO_CTRL" EntityType="ASIS_PRODModel.CC_COCINAMIENTO_CTRL" />
+          <EntitySet Name="CC_COCINAMIENTO_DET" EntityType="ASIS_PRODModel.CC_COCINAMIENTO_DET" />
+          <EntitySet Name="CC_COCINAMIENTO_IMAGEN" EntityType="ASIS_PRODModel.CC_COCINAMIENTO_IMAGEN" />
+          <EntitySet Name="CC_COCINAMIENTO_SUBDET" EntityType="ASIS_PRODModel.CC_COCINAMIENTO_SUBDET" />
+          <AssociationSet Name="FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL" Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL">
+            <End Role="CC_COCINAMIENTO_CTRL" EntitySet="CC_COCINAMIENTO_CTRL" />
+            <End Role="CC_COCINAMIENTO_DET" EntitySet="CC_COCINAMIENTO_DET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN" Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN">
+            <End Role="CC_COCINAMIENTO_DET" EntitySet="CC_COCINAMIENTO_DET" />
+            <End Role="CC_COCINAMIENTO_IMAGEN" EntitySet="CC_COCINAMIENTO_IMAGEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET" Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET">
+            <End Role="CC_COCINAMIENTO_DET" EntitySet="CC_COCINAMIENTO_DET" />
+            <End Role="CC_COCINAMIENTO_SUBDET" EntitySet="CC_COCINAMIENTO_SUBDET" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Control_Cocinamiento" ReturnType="Collection(ASIS_PRODModel.sp_Control_Cocinamiento)">
+            <Parameter Name="op" Mode="In" Type="Int32" />
+            <Parameter Name="fechaProduccion" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Control_Cocinamiento_Sin_Imagenes" ReturnType="Collection(ASIS_PRODModel.sp_Control_Cocinamiento_Sin_Imagenes)">
+            <Parameter Name="op" Mode="In" Type="Int32" />
+            <Parameter Name="fechaProduccion" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -14699,6 +14854,159 @@
           <Property Type="String" Name="BARCO" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Especie" Nullable="true" MaxLength="20" />
         </ComplexType>
+        <EntityType Name="CC_COCINAMIENTO_CTRL">
+          <Key>
+            <PropertyRef Name="IdCocinamientoCtrl" />
+          </Key>
+          <Property Name="IdCocinamientoCtrl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaProduccion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaAsignada" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ObservacionC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PCC" Type="Int32" Nullable="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_COCINAMIENTO_DET" Relationship="ASIS_PRODModel.FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL" FromRole="CC_COCINAMIENTO_CTRL" ToRole="CC_COCINAMIENTO_DET" />
+        </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_DET">
+          <Key>
+            <PropertyRef Name="IdCocinamientoDet" />
+          </Key>
+          <Property Name="IdCocinamientoDet" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCocinamientoCtrl" Type="Int32" Nullable="false" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="ObservacionDet" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_COCINAMIENTO_CTRL" Relationship="ASIS_PRODModel.FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL" FromRole="CC_COCINAMIENTO_DET" ToRole="CC_COCINAMIENTO_CTRL" />
+          <NavigationProperty Name="CC_COCINAMIENTO_IMAGEN" Relationship="ASIS_PRODModel.FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN" FromRole="CC_COCINAMIENTO_DET" ToRole="CC_COCINAMIENTO_IMAGEN" />
+          <NavigationProperty Name="CC_COCINAMIENTO_SUBDET" Relationship="ASIS_PRODModel.FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET" FromRole="CC_COCINAMIENTO_DET" ToRole="CC_COCINAMIENTO_SUBDET" />
+        </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_IMAGEN">
+          <Key>
+            <PropertyRef Name="IdImagen" />
+          </Key>
+          <Property Name="IdImagen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCocinamientoDet" Type="Int32" Nullable="false" />
+          <Property Name="ObservacionImagen" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RutaImagen" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Rotation" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_COCINAMIENTO_DET" Relationship="ASIS_PRODModel.FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN" FromRole="CC_COCINAMIENTO_IMAGEN" ToRole="CC_COCINAMIENTO_DET" />
+        </EntityType>
+        <EntityType Name="CC_COCINAMIENTO_SUBDET">
+          <Key>
+            <PropertyRef Name="IdCocinamientoSubDet" />
+          </Key>
+          <Property Name="IdCocinamientoSubDet" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCocinamientoDet" Type="Int32" Nullable="false" />
+          <Property Name="NumCoche" Type="Int32" Nullable="false" />
+          <Property Name="Temperatura" Type="Int32" Nullable="false" />
+          <Property Name="TomaMuestra" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_COCINAMIENTO_DET" Relationship="ASIS_PRODModel.FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET" FromRole="CC_COCINAMIENTO_SUBDET" ToRole="CC_COCINAMIENTO_DET" />
+        </EntityType>
+        <Association Name="FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL">
+          <End Type="ASIS_PRODModel.CC_COCINAMIENTO_CTRL" Role="CC_COCINAMIENTO_CTRL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_COCINAMIENTO_DET" Role="CC_COCINAMIENTO_DET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_COCINAMIENTO_CTRL">
+              <PropertyRef Name="IdCocinamientoCtrl" />
+            </Principal>
+            <Dependent Role="CC_COCINAMIENTO_DET">
+              <PropertyRef Name="IdCocinamientoCtrl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN">
+          <End Type="ASIS_PRODModel.CC_COCINAMIENTO_DET" Role="CC_COCINAMIENTO_DET" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_COCINAMIENTO_IMAGEN" Role="CC_COCINAMIENTO_IMAGEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_COCINAMIENTO_DET">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Principal>
+            <Dependent Role="CC_COCINAMIENTO_IMAGEN">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET">
+          <End Type="ASIS_PRODModel.CC_COCINAMIENTO_DET" Role="CC_COCINAMIENTO_DET" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_COCINAMIENTO_SUBDET" Role="CC_COCINAMIENTO_SUBDET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_COCINAMIENTO_DET">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Principal>
+            <Dependent Role="CC_COCINAMIENTO_SUBDET">
+              <PropertyRef Name="IdCocinamientoDet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_Control_Cocinamiento">
+          <Property Type="Int32" Name="IdCocinamientoCtrl" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaAsignada" Nullable="false" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="String" Name="ObservacionC" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="PCC" Nullable="false" />
+          <Property Type="Int32" Name="IdCocinamientoDet" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="IdCocinamientoSubDet" Nullable="true" />
+          <Property Type="Int32" Name="NumCoche" Nullable="true" />
+          <Property Type="Int32" Name="Temperatura" Nullable="true" />
+          <Property Type="Int32" Name="TomaMuestra" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="IdImagen" Nullable="true" />
+          <Property Type="String" Name="ObservacionImagen" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="RutaImagen" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Rotation" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Control_Cocinamiento_Sin_Imagenes">
+          <Property Type="Int32" Name="IdCocinamientoCtrl" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaAsignada" Nullable="false" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="String" Name="ObservacionC" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="PCC" Nullable="false" />
+          <Property Type="Int32" Name="IdCocinamientoDet" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="IdCocinamientoSubDet" Nullable="false" />
+          <Property Type="Int32" Name="NumCoche" Nullable="false" />
+          <Property Type="Int32" Name="Temperatura" Nullable="false" />
+          <Property Type="Int32" Name="TomaMuestra" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -21517,6 +21825,129 @@
                 <ScalarProperty Name="Talla" ColumnName="Talla" />
                 <ScalarProperty Name="BARCO" ColumnName="BARCO" />
                 <ScalarProperty Name="Especie" ColumnName="Especie" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CC_COCINAMIENTO_CTRL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_COCINAMIENTO_CTRL">
+              <MappingFragment StoreEntitySet="CC_COCINAMIENTO_CTRL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="PCC" ColumnName="PCC" />
+                <ScalarProperty Name="ObservacionC" ColumnName="ObservacionC" />
+                <ScalarProperty Name="FechaAsignada" ColumnName="FechaAsignada" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="IdCocinamientoCtrl" ColumnName="IdCocinamientoCtrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_COCINAMIENTO_DET">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_COCINAMIENTO_DET">
+              <MappingFragment StoreEntitySet="CC_COCINAMIENTO_DET">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="IdCocinamientoCtrl" ColumnName="IdCocinamientoCtrl" />
+                <ScalarProperty Name="IdCocinamientoDet" ColumnName="IdCocinamientoDet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_COCINAMIENTO_IMAGEN">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_COCINAMIENTO_IMAGEN">
+              <MappingFragment StoreEntitySet="CC_COCINAMIENTO_IMAGEN">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+                <ScalarProperty Name="RutaImagen" ColumnName="RutaImagen" />
+                <ScalarProperty Name="ObservacionImagen" ColumnName="ObservacionImagen" />
+                <ScalarProperty Name="IdCocinamientoDet" ColumnName="IdCocinamientoDet" />
+                <ScalarProperty Name="IdImagen" ColumnName="IdImagen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_COCINAMIENTO_SUBDET">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_COCINAMIENTO_SUBDET">
+              <MappingFragment StoreEntitySet="CC_COCINAMIENTO_SUBDET">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TomaMuestra" ColumnName="TomaMuestra" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="NumCoche" ColumnName="NumCoche" />
+                <ScalarProperty Name="IdCocinamientoDet" ColumnName="IdCocinamientoDet" />
+                <ScalarProperty Name="IdCocinamientoSubDet" ColumnName="IdCocinamientoSubDet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Control_Cocinamiento" FunctionName="ASIS_PRODModel.Store.sp_Control_Cocinamiento">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Control_Cocinamiento">
+                <ScalarProperty Name="IdCocinamientoCtrl" ColumnName="IdCocinamientoCtrl" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaAsignada" ColumnName="FechaAsignada" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="ObservacionC" ColumnName="ObservacionC" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="PCC" ColumnName="PCC" />
+                <ScalarProperty Name="IdCocinamientoDet" ColumnName="IdCocinamientoDet" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdCocinamientoSubDet" ColumnName="IdCocinamientoSubDet" />
+                <ScalarProperty Name="NumCoche" ColumnName="NumCoche" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="TomaMuestra" ColumnName="TomaMuestra" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdImagen" ColumnName="IdImagen" />
+                <ScalarProperty Name="ObservacionImagen" ColumnName="ObservacionImagen" />
+                <ScalarProperty Name="RutaImagen" ColumnName="RutaImagen" />
+                <ScalarProperty Name="Rotation" ColumnName="Rotation" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Control_Cocinamiento_Sin_Imagenes" FunctionName="ASIS_PRODModel.Store.sp_Control_Cocinamiento_Sin_Imagenes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Control_Cocinamiento_Sin_Imagenes">
+                <ScalarProperty Name="IdCocinamientoCtrl" ColumnName="IdCocinamientoCtrl" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaAsignada" ColumnName="FechaAsignada" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="ObservacionC" ColumnName="ObservacionC" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="PCC" ColumnName="PCC" />
+                <ScalarProperty Name="IdCocinamientoDet" ColumnName="IdCocinamientoDet" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdCocinamientoSubDet" ColumnName="IdCocinamientoSubDet" />
+                <ScalarProperty Name="NumCoche" ColumnName="NumCoche" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="TomaMuestra" ColumnName="TomaMuestra" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
