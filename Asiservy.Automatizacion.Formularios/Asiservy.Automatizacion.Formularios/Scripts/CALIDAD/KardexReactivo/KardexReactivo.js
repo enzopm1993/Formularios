@@ -149,8 +149,11 @@ function GuardarControl() {
     var obj = [];
     mantenimientos.forEach(function (x) {
         if ($("#txtReactivo-" + x.IdReactivo).val() > 0) {
-            obj.push({ IdReactivo: x.IdReactivo, Valor: $("#txtReactivo-" + x.IdReactivo).val() });
- }
+            obj.push({
+                IdReactivo: x.IdReactivo,
+                Valor: $("#txtReactivo-" + x.IdReactivo).val()
+            });
+        }
     });
 
     formdata.append("detalle", obj);

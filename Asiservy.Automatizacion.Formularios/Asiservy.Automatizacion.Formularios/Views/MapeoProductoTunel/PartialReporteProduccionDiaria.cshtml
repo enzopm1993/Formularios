@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.ProduccionDiariaViewModel>
+@using Asiservy.Automatizacion.Formularios.Models.Produccion
+@using Asiservy.Automatizacion.Datos.Datos
+@{ 
+    List<ProduccionDiariaViewModel> Productos = (from p in Model
+                                                 group p by new {p.Producto,p.Turno,p.Limpieza } into g
+                                                 select new ProduccionDiariaViewModel {Producto=g.Key.Producto,Turno=g.Key.Turno, Limpieza=g.Key.Limpieza }
+                            ).ToList();
+
+}
+
+<div class="row">
+    <div class="col-md-12 col-12 table-responsive">
+
+        @foreach (var item in ViewBag.TurnosDia as List<CLASIFICADOR>)
+        {
+            <center style="background-color:cadetblue;color:white">
+                <strong>Turno @item.Descripcion</strong>
+            </center>
+            <br />
+            foreach (var datos in Productos.Where(x=>x.Turno==item.Codigo))
+            {
+                <table class="table table-bordered">
+                    <tr>
+                        <td>@datos.Limpieza</td>
+                    </tr>
+                </table>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Fundas</th>
+                        <th class="text-center">Peso x funda</th>
+                        <th class="text-center">Total kilos</th>
+                        <th class="text-center">Sap</th>
+                        <th class="text-center">Lote</th>
+                        <th class="text-center">BARCO</th>
+                        <th class="text-center">Esp-Talla</th>
+                        <th class="text-center">Códigos</th>
+                        <th class="text-center">OBSERVACIÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var modelo in Model.Where(m => m.Producto == datos.Producto))
+                    {
+                        <tr>
+                            <td class="text-right">@modelo.SumaFunda</td>
+                            <td class="text-right">7,5</td>
+                            <td class="text-right">@(modelo.SumaFunda*7.5)</td>
+                            <td>&nbsp;</td>
+                            <td>@modelo.Lote</td>
+                            <td>@modelo.BARCO</td>
+                            <td>@modelo.Especie @modelo.Talla</td>
+                            <td>@modelo.Producto</td>
+                            <td>@modelo.Textura</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    @{ 
+                        var suma = (from m in Model.Where(m => m.Producto == datos.Producto)
+
+                                    select m.SumaFunda.Value
+                                   ).Sum();
+                        var TotalKilos = (from m in Model.Where(m => m.Producto == datos.Producto)
+
+                                    select m.SumaFunda.Value*7.5
+                                  ).Sum();
+                    }
+                    <tr>
+                        <td class="text-right">@suma</td>
+                        <td style="border-bottom:hidden"></td>
+                        <td class="text-right">@TotalKilos</td>
+                    </tr>
+                </tfoot>
+            </table>
+            }
+        }
+
+    </div>
+</div>

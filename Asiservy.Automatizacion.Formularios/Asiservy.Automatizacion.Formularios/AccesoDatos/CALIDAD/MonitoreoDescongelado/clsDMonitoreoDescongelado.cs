@@ -32,6 +32,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
                              && x.Lote == Lote
                          //    && y.Turno == Turno
                              && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && y.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                              select x
                             ).FirstOrDefault();
                 if (model != null)
@@ -169,6 +170,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MonitoreoDesco
 
             }
         }
+
+
+        public void EliminarMonitoreoDescongeladoControl(CC_MONITOREO_DESCONGELADO_CONTROL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.CC_MONITOREO_DESCONGELADO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha && x.EstadoRegistro== clsAtributos.EstadoRegistroActivo);
+                if (poControl != null)
+                {      
+                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
+                }
+
+            }
+        }
+
+
         public List<CC_MONITOREO_DESCONGELADO_CONTROL> ConsultaMonitoreoDescongeladoControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

@@ -366,10 +366,16 @@
     <Compile Include="Datos\CC_PCC_MANTENIMIENTO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_DETALLE_AS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_APARIENCIA_AS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_PROTOCOLO_MATERIA_PRIMA_SUBDETALLE_AS.cs">
@@ -385,6 +391,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_TIEMPO_EXPOSICION.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_TIEMPO_EXPOSICION_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_VERIFICACION_POTENCIOMETRO.cs">
@@ -1030,6 +1042,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteProdPouchCuarentenaSubDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spReporteProduccionDiaria.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteResidualCloro.cs">

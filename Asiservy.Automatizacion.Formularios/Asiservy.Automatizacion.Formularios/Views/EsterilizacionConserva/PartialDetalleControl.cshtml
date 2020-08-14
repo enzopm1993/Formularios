@@ -92,6 +92,14 @@
         </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.TemperaturaInicial)
+                @if (item.TemperaturaInicial != null)
+                {
+                    @Math.Round((double)item.TemperaturaInicial.Value, 1)
+                }
+                else
+                {
+                    @item.TemperaturaInicial
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HoraInicioViento)

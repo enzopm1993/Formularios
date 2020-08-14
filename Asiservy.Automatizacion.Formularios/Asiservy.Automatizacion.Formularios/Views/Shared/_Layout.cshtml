@@ -284,7 +284,7 @@
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <a class="scroll-to-top rounded" href="#page-top" id="scrtp">
         <i class="fas fa-angle-up"></i>
     </a>
 
@@ -749,7 +749,7 @@
 
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js?v=3.3";
+        string url = "/Scripts/" + js + ".js?v=3.5";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
         <script>

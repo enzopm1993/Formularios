@@ -17,11 +17,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutocl
                 return lista;
             }
         }
-        public List<spConsultaCocheAutoclaveEsterilizacion> ConsultaCocheAutoclaveEsterilizacion(DateTime Fecha, string Turno,int CabControl)
+        public List<spConsultaCocheAutoclaveEsterilizacion> ConsultaCocheAutoclaveEsterilizacion(int OrdenFabricacion, string Turno,int CabControl,string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.spConsultaCocheAutoclaveEsterilizacion(Fecha, Turno,CabControl).ToList();
+                var lista = entities.spConsultaCocheAutoclaveEsterilizacion(OrdenFabricacion, Turno,CabControl,Linea).ToList();
                 return lista;
             }
         }

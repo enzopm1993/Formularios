@@ -14,44 +14,51 @@
 <div id="divFiltros">
     <div class="row">
         <input type="hidden" name="name" id="txtIdControl" value="0" />
-        <div class="col-md-3 col-6">
+        <div class="col-md-2 col-6">
             <div class="form-group">
                 <label id="labelFecha">Fecha</label>
                 <input id="txtFecha" type="date" name="Fecha" onchange="CambioFecha()" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
                 <p class="text-danger" id="ValidaFecha" hidden>Ingrese una fecha </p>
             </div>
         </div>
-        <div class="col-md-3 col-6">
+
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno</label>
+                @Html.DropDownList("selectTurno", new SelectList(ViewBag.Turno, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "CargarControlEnfundado()" })
+            </div>
+        </div>
+
+        <div class="col-md-2 col-6">
             <div class="form-group">
                 <label>Hora</label>
-                <input id="txtHora" type="time" name="Hora" value="00:00" class="form-control" />
+                <input id="txtHora" type="datetime-local" name="Hora" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" class="form-control" />
                 <p class="text-danger" id="ValidaHora" hidden>Ingrese una hora </p>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="form-group">
-                <label>Fundas Teoricas</label>
-                <input id="txtFundasTeoricas" type="number" class="form-control" name="name" value="25" />
-                <p class="text-danger" id="ValidaFundasTeoricas" hidden>Tiene que ser mayor a 0 </p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="form-group">
-                <label>Peso Producto</label>
-                <input id="txtPeso" type="number" class="form-control" name="name" value="7.5" />
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
+        <div class="col-md-2 col-6">
             <div class="form-group">
                 <label>Lote</label>
                 @Html.DropDownList("Lotes", new SelectList(ViewBag.Lotes, "Lote", "Lote"), "seleccione", new { @class = "form-control", @id = "selectLotes" })
                 <p class="text-danger" id="ValidaLote" hidden>Seleccione un lote </p>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-2 col-6">
+            <div class="form-group">
+                <label>Fundas Teoricas</label>
+                <input id="txtFundasTeoricas" type="number" class="form-control" name="name" value="25" />
+                <p class="text-danger" id="ValidaFundasTeoricas" hidden>Tiene que ser mayor a 0 </p>
+            </div>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="form-group">
+                <label>Peso Producto</label>
+                <input id="txtPeso" type="number" class="form-control" name="name" value="7.5" />
+            </div>
+        </div>
+
+
+        <div class="col-md-4 col-6">
             <div class="form-group">
                 <label>Especificación de Funda</label>
                 @Html.DropDownList("Funda", new SelectList(ViewBag.EspecificacionFunda, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectEspecificacionFunda" })

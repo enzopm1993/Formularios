@@ -363,14 +363,14 @@ function ValidarDetalle() {
         $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
     }
 
-    if ($("#file-preview").val() == undefined) {
-        $("#lblFile").css('border-color', '#FA8072');
+    //if ($("#file-preview").val() == undefined) {
+    //    $("#lblFile").css('border-color', '#FA8072');
         
-        valida=false;
-    } else {
-        $("#lblFile").css('border-color', '#ced4da');
+    //    valida=false;
+    //} else {
+    //    $("#lblFile").css('border-color', '#ced4da');
        
-    }
+    //}
     return valida;
 }
 
@@ -434,34 +434,37 @@ function EditarReporteDetalle(model) {
     $("#txtIdDetalleModal").val(model.IdReporteDetalle);
     $("#txtVersionDetalleModal").val(model.VERSION);
 
-    var filePreview = document.createElement('img');
-    filePreview.id = 'file-preview';
-    filePreview.src = "/ImagenSiaa/" + model.Imagen;
-    var previewZone = document.getElementById('file-preview-zone');
-    previewZone.appendChild(filePreview);
- 
-    $("#file-preview").addClass("img");
-    $('#file-preview').rotate(model.Rotacion);
-    document.getElementById("file-preview").style.height = "0px";
-    document.getElementById("file-preview").style.width = "0px";
+    if (model.Imagen != null) {
+        var filePreview = document.createElement('img');
+        filePreview.id = 'file-preview';
+        filePreview.src = "/ImagenSiaa/" + model.Imagen;
+        var previewZone = document.getElementById('file-preview-zone');
+        previewZone.appendChild(filePreview);
 
-    var img = new Image();
-    img.onload = function () {
-      //  alert(this.width + 'x' + this.height);
-        var ancho = this.width;
-        var alto = this.height;  
-        if (ancho < alto) {
-            document.getElementById("file-preview").style.height = "350px";
-            document.getElementById("file-preview").style.width = "250px";
-        } else {
-            document.getElementById("file-preview").style.height = "250px";
-            document.getElementById("file-preview").style.width = "350px";
+        $("#file-preview").addClass("img");
+        $('#file-preview').rotate(model.Rotacion);
+        document.getElementById("file-preview").style.height = "0px";
+        document.getElementById("file-preview").style.width = "0px";
+
+        var img = new Image();
+        img.onload = function () {
+            //  alert(this.width + 'x' + this.height);
+            var ancho = this.width;
+            var alto = this.height;
+            if (ancho < alto) {
+                document.getElementById("file-preview").style.height = "350px";
+                document.getElementById("file-preview").style.width = "250px";
+            } else {
+                document.getElementById("file-preview").style.height = "250px";
+                document.getElementById("file-preview").style.width = "350px";
+            }
+            $("#ModalControlDetalle").modal("show");
+
         }
-        $("#ModalControlDetalle").modal("show");
-
+        img.src = "/ImagenSiaa/" + model.Imagen;
+    } else {
+        $("#file-preview-zone").html('No se ha cargado ninguna imagen.');
     }
-    img.src = "/ImagenSiaa/" + model.Imagen;
-
 }
 
 function InactivarControlDetalle(IdControlElimnar) {
@@ -511,22 +514,22 @@ function readFile(input) {
 
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-       
+
         reader.onload = function (e) {
-           // console.log(this.width.toFixed(0));
+            // console.log(this.width.toFixed(0));
 
             // alert('Imagen correcta :)')
             $("#file-preview-zone").html('');
             var filePreview = document.createElement('img');
             filePreview.id = 'file-preview';
-           // filePreview.setAttribute("type", "hidden");
+            // filePreview.setAttribute("type", "hidden");
 
             //e.target.result contents the base64 data from the image uploaded
             filePreview.src = e.target.result;
             //console.log(e.target.result);
-            var previewZone = document.getElementById('file-preview-zone');                
+            var previewZone = document.getElementById('file-preview-zone');
             previewZone.appendChild(filePreview);
-            $("#file-preview").addClass("img");    
+            $("#file-preview").addClass("img");
             document.getElementById("file-preview").style.height = "0px";
             document.getElementById("file-preview").style.width = "0px";
             //console.log(e.target.result);
@@ -541,13 +544,13 @@ function readFile(input) {
                     document.getElementById("file-preview").style.height = "250px";
                     document.getElementById("file-preview").style.width = "350px";
                 }
-               
-            };      
-        
-        
-         }
+
+            };
+
+
+        }
         reader.readAsDataURL(input.files[0]);
-    }
+    } 
 }
 
 var fileUpload = document.getElementById('file-upload');

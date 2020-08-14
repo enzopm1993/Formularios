@@ -19,5 +19,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime HoraInicio { get; set; }
         public string Coche { get; set; }
         public string LineaProduccion { get; set; }
+        public string Lote { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> Fecha { get; set; }
         public string Turno { get; set; }
         public string TipoLinea { get; set; }
+        public Nullable<int> OrdenFabircacion { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

@@ -13,7 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
         {
             using (var db=new ASIS_PRODEntities())
             {
-                return db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Where(x => x.Fecha == poEsterilizacionConserva.Fecha && x.Turno == poEsterilizacionConserva.Turno && x.TipoLinea== poEsterilizacionConserva.TipoLinea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                return db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Where(x => x.Fecha == poEsterilizacionConserva.Fecha && x.Turno == poEsterilizacionConserva.Turno &&x.OrdenFabircacion==poEsterilizacionConserva.OrdenFabircacion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
             }
         }
         public object[] GuardarCabEsterilizacionConserva(CABECERA_CONTROL_ESTERILIZACION_CONSERVAS poEsterilizacionConserva)
@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Where(x => x.Fecha == poEsterilizacionConserva.Fecha && x.Turno == poEsterilizacionConserva.Turno
-                 &&x.TipoLinea==poEsterilizacionConserva.TipoLinea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                 &&x.OrdenFabircacion==poEsterilizacionConserva.OrdenFabircacion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
