@@ -303,8 +303,15 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td style="font-size:0.5rem" class="text-center">
-                                                                    <strong>PCC6 CONSERVAS</strong><br />
-                                                                    <strong>PCC7:POUCH</strong><br />
+                                                                    @if (ViewBag.Linea == "L")
+                                                                    {
+                                                                        <strong>PCC @Model.ListDetalleReporte.FirstOrDefault().Pcc CONSERVAS</strong><br />
+                                                                    }
+                                                                    @if (ViewBag.Linea == "P")
+                                                                    {
+                                                                        <strong>PCC @Model.ListDetalleReporte.FirstOrDefault().Pcc POUCH</strong><br />
+                                                                    }
+                                                              
                                                                     Cumplir los procesos y factores críticos establecidos
                                                                 </td>
                                                             </tr>

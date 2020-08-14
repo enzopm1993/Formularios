@@ -138,6 +138,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 List<TIPO_ESTERILIZACION_CONSERVA> TiposEsterilizacion = null;
                 ReporteEsterilizacionViewModel Reporte = null;
                 ViewBag.Registros = 0;
+                ViewBag.Linea = Linea;
                 if (detallereporte.Count != 0)
                 {
                     DetalleCoches = clsDEsterilizacionConserva.ConsultarReporteDetallesCoches(detallereporte.Select(x=>x.IdCocheAutoclave).ToArray());

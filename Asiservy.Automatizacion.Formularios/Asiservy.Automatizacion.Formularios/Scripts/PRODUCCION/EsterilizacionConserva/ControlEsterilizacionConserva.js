@@ -447,7 +447,7 @@ function ConsultarCabControl() {
         return resultado.json();
         }) 
         .then(function(resultado){
-            console.log(resultado);
+            //console.log(resultado);
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -464,7 +464,7 @@ function ConsultarCabControl() {
                 $("#MensajeRegistros").html('No se encontraron registros');
                 $('#btnEliminarCabeceraControl').prop('disabled', true)
             } else {
-                console.log(resultado.Pcc);
+                //console.log(resultado.Pcc);
                 $("#MensajeRegistros").html('');
                 $('#CabeceraControl').val(resultado.IdCabControlEsterilizado);
                 $('#Observacion').val(resultado.Observacion);
