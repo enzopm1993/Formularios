@@ -780,7 +780,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -789,7 +789,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
@@ -966,7 +966,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return Json("1", JsonRequestBehavior.AllowGet);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -975,7 +975,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return Json("1", JsonRequestBehavior.AllowGet);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

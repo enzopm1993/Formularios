@@ -453,7 +453,7 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
             var fProduccion = document.getElementById('txtFechaProduccion').value;
             var fAsignada = document.getElementById('txtFecha').value;
             if (fProduccion != fAsignada) {
-                $('#confirmarIngreso').html('Esta a punto de ingresar en un detalle con fecha diferente:</br>Fecha  Asignada:<span class="badge badge-danger">' + moment(fAsignada).format('DD-MM-YYYY') + '</span> </br>Fecha Producción:<span class="badge badge-success"> ' + moment(fProduccion).format('DD-MM-YYYY'));
+                $('#confirmarIngreso').html('Esta a punto de ingresar en un detalle con fecha diferente:' + '</br>Fecha Producción:<span class="badge badge-success"> ' + moment(fProduccion).format('DD-MM-YYYY') + '</span></br> Fecha  Asignada: <span class="badge badge-danger">' + moment(fAsignada).format('DD-MM-YYYY') + '</span>');
                 $('#modalConfirmarEdicion').modal('show')
                 $('#ModalIngresoSubDetalle').modal('hide');
             } else { $('#ModalIngresoSubDetalle').modal('show');}
@@ -474,7 +474,6 @@ async function ModalIngresoSubDetalle(jdata, cocina, parada, turno) {
                         document.getElementById('lblParada').innerText = 'PARADA: ' + parada;
                         document.getElementById('lblCocinador').value = cocina;
                         document.getElementById('lblParada').value = parada;
-                        //document.getElementById('lblOrdenFabricacion').innerText = 'ORDEN FABRICACIÓN: ' + jdata[0].ORDEN;
                         document.getElementById('lblOrdenFabricacion').value = jdata[0].ORDEN;
                         ordenFabricacion = jdata;
                         $('#tblImagenes').html('');

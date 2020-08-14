@@ -12,20 +12,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CABECERA_CONTROL_ESTERILIZACION_CONSERVAS
+    public partial class CC_COCINAMIENTO_DET
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CABECERA_CONTROL_ESTERILIZACION_CONSERVAS()
+        public CC_COCINAMIENTO_DET()
         {
-            this.DETALLE_CONTROL_ESTERILIZACION_CONSERVA = new HashSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA>();
+            this.CC_COCINAMIENTO_IMAGEN = new HashSet<CC_COCINAMIENTO_IMAGEN>();
+            this.CC_COCINAMIENTO_SUBDET = new HashSet<CC_COCINAMIENTO_SUBDET>();
         }
     
-        public int IdCabControlEsterilizado { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public string Turno { get; set; }
-        public string TipoLinea { get; set; }
-        public Nullable<int> OrdenFabircacion { get; set; }
-        public string Observacion { get; set; }
+        public int IdCocinamientoDet { get; set; }
+        public int IdCocinamientoCtrl { get; set; }
+        public string Lote { get; set; }
+        public int OrdenFabricacion { get; set; }
+        public string ObservacionDet { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -33,12 +33,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public string CedulaUsuarioCreacion { get; set; }
-        public Nullable<bool> UnidadPresion { get; set; }
-        public Nullable<bool> AutoclaveConvencional { get; set; }
-        public Nullable<int> Pcc { get; set; }
     
+        public virtual CC_COCINAMIENTO_CTRL CC_COCINAMIENTO_CTRL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
+        public virtual ICollection<CC_COCINAMIENTO_IMAGEN> CC_COCINAMIENTO_IMAGEN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_COCINAMIENTO_SUBDET> CC_COCINAMIENTO_SUBDET { get; set; }
     }
 }

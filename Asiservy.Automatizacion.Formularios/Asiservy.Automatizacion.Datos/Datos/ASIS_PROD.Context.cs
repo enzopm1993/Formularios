@@ -222,8 +222,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
         public virtual DbSet<CC_TIEMPO_EXPOSICION> CC_TIEMPO_EXPOSICION { get; set; }
         public virtual DbSet<CC_TIEMPO_EXPOSICION_DETALLE> CC_TIEMPO_EXPOSICION_DETALLE { get; set; }
-        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
         public virtual DbSet<CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO> CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO { get; set; }
+        public virtual DbSet<CC_COCINAMIENTO_CTRL> CC_COCINAMIENTO_CTRL { get; set; }
+        public virtual DbSet<CC_COCINAMIENTO_DET> CC_COCINAMIENTO_DET { get; set; }
+        public virtual DbSet<CC_COCINAMIENTO_IMAGEN> CC_COCINAMIENTO_IMAGEN { get; set; }
+        public virtual DbSet<CC_COCINAMIENTO_SUBDET> CC_COCINAMIENTO_SUBDET { get; set; }
+        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
+        public virtual DbSet<CC_EVALUACION_PRODUCTO_TERMINADO_CONSERVAS_LATA_CABECERA> CC_EVALUACION_PRODUCTO_TERMINADO_CONSERVAS_LATA_CABECERA { get; set; }
         public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
@@ -2515,6 +2520,32 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProduccionDiaria>("spReporteProduccionDiaria", fechaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Cocinamiento> sp_Control_Cocinamiento(Nullable<int> op, Nullable<System.DateTime> fechaProduccion)
+        {
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            var fechaProduccionParameter = fechaProduccion.HasValue ?
+                new ObjectParameter("fechaProduccion", fechaProduccion) :
+                new ObjectParameter("fechaProduccion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cocinamiento>("sp_Control_Cocinamiento", opParameter, fechaProduccionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Cocinamiento_Sin_Imagenes> sp_Control_Cocinamiento_Sin_Imagenes(Nullable<int> op, Nullable<System.DateTime> fechaProduccion)
+        {
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            var fechaProduccionParameter = fechaProduccion.HasValue ?
+                new ObjectParameter("fechaProduccion", fechaProduccion) :
+                new ObjectParameter("fechaProduccion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cocinamiento_Sin_Imagenes>("sp_Control_Cocinamiento_Sin_Imagenes", opParameter, fechaProduccionParameter);
         }
     }
 }

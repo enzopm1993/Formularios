@@ -11,12 +11,11 @@
 
 }
 
-
 <table class="table table-hover table-striped" id="tblDataTable">
     <thead>
         <tr>
             <th>
-               
+
             </th>
             <th hidden></th>
             <th style="white-space:normal">Nº Pescados</th>
@@ -45,7 +44,7 @@
             <tr>
                 <td class="text-center ">
                     <div class="custom-control custom-checkbox td_muestra">
-                        <input type="checkbox" data-cedula="@item.IdProtocoloMateriaPrimaDetalle"  class="custom-control-input detallecheck" id="ChkControl-@item.IdProtocoloMateriaPrimaDetalle">
+                        <input type="checkbox" data-cedula="@item.IdProtocoloMateriaPrimaDetalle" class="custom-control-input detallecheck" id="ChkControl-@item.IdProtocoloMateriaPrimaDetalle">
                         <label class="custom-control-label" for="ChkControl-@item.IdProtocoloMateriaPrimaDetalle"></label>
                     </div>
                 </td>
@@ -128,7 +127,7 @@
                         string json = Json.Encode(prueba);
                     }
                     <button id="btnActualizar" style="padding:0px" class="btn btn-link" onclick="EditarControlDetalle(@json)">Editar</button>
-                   @* <button id="btnEliminar" style="padding:0px" class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>*@
+                    @* <button id="btnEliminar" style="padding:0px" class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>*@
 
                 </td>
             </tr>

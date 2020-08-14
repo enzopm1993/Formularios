@@ -293,8 +293,16 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION" Width="1.5" PointX="52.375" PointY="40" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TIEMPO_EXPOSICION_DETALLE" Width="1.5" PointX="54.625" PointY="40.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TIEMPO_EXPOSICION_DETALLE_CC_TIEMPO_EXPOSICION" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="32.375" PointY="63" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_PROCEDENCIA_MATERIA_PRIMA_MANTENIMIENTO" Width="1.5" PointX="35.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_CTRL" Width="1.5" PointX="39.375" PointY="55" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_DET" Width="1.5" PointX="41.625" PointY="55.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_IMAGEN" Width="1.5" PointX="43.875" PointY="53.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_SUBDET" Width="1.5" PointX="43.875" PointY="57.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Width="1.5" PointX="32.375" PointY="63" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_TERMINADO_CONSERVAS_LATA_CABECERA" Width="1.5" PointX="39.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Width="1.5" PointX="34.625" PointY="56.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />

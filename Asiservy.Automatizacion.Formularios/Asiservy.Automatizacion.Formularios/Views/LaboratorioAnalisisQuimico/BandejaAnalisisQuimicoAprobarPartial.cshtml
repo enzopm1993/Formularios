@@ -207,7 +207,7 @@
                       group x by new { x.ObservacionFoto, x.IdFoto, x.RutaFoto, x.Rotation, x.Cocinador, x.Parada, x.Turno } into v
                       select new { v.Key.ObservacionFoto, v.Key.IdFoto, v.Key.RutaFoto, v.Key.Rotation, v.Key.Parada, v.Key.Cocinador, v.Key.Turno }).ToList();
 }
-<div class="row align-center text-uppercase" s style="margin:3px">
+<div class="row align-center text-uppercase" style="margin:3px">
     @foreach (var item in listaFotos)
     {
         if (item.RutaFoto != null)
@@ -216,7 +216,7 @@
             {
                 <div>
                     <div id="header_@item.IdFoto">
-                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" border: 1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
+                        <img src="@ViewBag.Path@item.RutaFoto" id="@item.IdFoto" style="border:1px solid #ddd;" onclick="window.open(this.src)" class="card-img-bottom img" alt="...">
 
                     </div>
 

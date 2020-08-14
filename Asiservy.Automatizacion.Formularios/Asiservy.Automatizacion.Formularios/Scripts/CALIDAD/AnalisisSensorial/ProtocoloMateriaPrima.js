@@ -364,6 +364,7 @@ function SeleccionarControl(model) {
     $("#hMensaje").html(model.Lote);
     $("#hMensajeOf").html(model.OrdenFabricacion);
     $("#hMensajePCC").html(model.Pcc);
+    ConsultaDatosOf();
 }
 
 function Atras() {
@@ -378,6 +379,46 @@ function Atras() {
     $("#lblAprobadoPendiente").html("");
 
 }
+
+
+function ConsultaDatosOf() {
+    $.ajax({
+        url: "../AnalisisSensorial/DatosOf",
+        type: "GET",
+        data: {
+            OrdenFabricacion: modelEditar.OrdenFabricacion,
+            Lote: modelEditar.Lote
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("No existen datos de la Orden de Fabricación");
+            } else {
+                //    console.log(resultado);
+                $("#txtFechaIngresoPlanta").html(moment(modelEditar.FechaDescarga).format("DD-MM-YYYY"));
+                $("#txtFechaEvaluacion").html(moment(modelEditar.FechaEvaluacion).format("DD-MM-YYYY"));
+                $("#txtFechaProduccion").html(moment(modelEditar.Fecha).format("DD-MM-YYYY"));
+                $("#txtBarco").html(resultado.Barco);
+                $("#txtLoteDescarga").html(modelEditar.LoteDescarga);
+                $("#txtLote").html(modelEditar.Lote);
+                $("#txtCodigoProtocolo").html(modelEditar.CodigoProtocolo);
+                $("#txtEspecieTalla").html(resultado.Especie + '  ' + resultado.Talla);
+                $("#txtPcc").html(modelEditar.Pcc);
+                $("#txtObservacion").html(modelEditar.Observacion);
+
+
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado.responseText, false);
+        }
+    });
+}
+
 
 
 /////////////////////////////////////// DETALLE ///////////////////////////////////////////////////////////////////

@@ -174,6 +174,18 @@
     <Compile Include="Datos\CC_CLORO_CISTERNA_DESCONGELADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_COCINAMIENTO_CTRL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_COCINAMIENTO_DET.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_COCINAMIENTO_IMAGEN.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_COCINAMIENTO_SUBDET.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_CONDICION_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -220,6 +232,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_EVALUACION_PRODUCTO_ENFUNDADO_FOTO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_EVALUACION_PRODUCTO_TERMINADO_CONSERVAS_LATA_CABECERA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_HIGIENE_COMEDOR_COCINA_CTRL.cs">
@@ -1084,6 +1099,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_ConsultaEmpleadosMovidos.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_Control_Cocinamiento.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_Control_Cocinamiento_Sin_Imagenes.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Control_Cuchillos_Preparacion.cs">

@@ -142,6 +142,17 @@ function validarImg(rotacion, id, imagen) {
     img.src = $('#btnPath').val() + imagen;
 }
 
+function exportTableToExcel(tableID, filename = '') {
+    let file = new Blob([$('#tblImprimir').html()], { type: "application/vnd.ms-excel" });
+    let url = URL.createObjectURL(file);
+    let a = $("<a />", {
+        href: url,
+        download: "ReporteAnalisisQuimicoPrecoccion.xls"
+    }).appendTo("body").get(0).click();
+    e.preventDefault();
+
+}
+
 //FECHA DataRangePicker
 $(function () {
     var start = moment();
