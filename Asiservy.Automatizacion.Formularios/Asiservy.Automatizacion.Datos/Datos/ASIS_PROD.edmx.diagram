@@ -299,6 +299,13 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_CTRL" Width="1.5" PointX="39.375" PointY="55" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_DET" Width="1.5" PointX="41.625" PointY="55.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_IMAGEN" Width="1.5" PointX="43.875" PointY="53.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_COCINAMIENTO_SUBDET" Width="1.5" PointX="43.875" PointY="57.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_DET_CC_COCINAMIENTO_CTRL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_IMAGEN_CC_COCINAMIENTO_IMAGEN" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_COCINAMIENTO_SUBDET_CC_COCINAMIENTO_DET" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
