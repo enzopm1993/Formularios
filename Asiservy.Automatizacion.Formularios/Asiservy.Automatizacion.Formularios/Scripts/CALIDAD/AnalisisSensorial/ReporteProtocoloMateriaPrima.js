@@ -62,7 +62,7 @@ function SeleccionarBandeja(Control) {
         $("#txtFechaAprobacion").html('');
     }
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));    
+    //$("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));    
     CargarControlDetalle();
 }
 
