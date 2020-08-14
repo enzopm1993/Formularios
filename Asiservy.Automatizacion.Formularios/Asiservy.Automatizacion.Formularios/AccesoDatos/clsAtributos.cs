@@ -4,6 +4,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //PARAMETRO CONTROL COCINAMIENTO TEMPERATURA COCCION
+        //public static string[,] TomaMuestraCocinamiento { get; set; } = new string[,] { { "1", "ARRIBA" }, { "2", "MEDIO" }, { "3", "ABAJO" } };
+        public static List<string> TomaMuestraCocinamiento { get; set; } = new List<string>() {"ARRIBA", "MEDIO","ABAJO"};       
         //GRUPO PARA LA TEMPERATURA DE COCINAMIENTO DE CALIDAD
         public static string codGroupTemperatura { get; set; } = "046";
         //FORMULARIO ANALISIS QUIMICO DE PRECOCCION

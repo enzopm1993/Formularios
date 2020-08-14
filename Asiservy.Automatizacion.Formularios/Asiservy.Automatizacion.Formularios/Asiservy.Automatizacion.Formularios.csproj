@@ -2237,6 +2237,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\AnalisisAguaClorinacionCisterna\ControlClorinacionCisterna.js" />
+    <Content Include="Scripts\CALIDAD\ControlCocinamiento\BandejaCocinamiento.js" />
     <Content Include="Scripts\CALIDAD\ControlCocinamiento\ControlCocinamiento.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
@@ -3485,6 +3486,7 @@
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ControlCocinamiento\ClsDControlCocinamiento.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlDesechosLiquidosPeligrosos\clsDDesechosLiquidosPeligrosos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlLavadoCisterna\clsDControlLavadoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlMaterialQuebradizo\ClsMaterialQuebradizo.cs" />
@@ -3609,6 +3611,7 @@
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\ControlCocinamientoController.cs" />
     <Compile Include="Controllers\CALIDAD\LaboratorioAnalisisQuimicoController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoEquipoAacController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoGrupoAacController.cs" />
@@ -4328,6 +4331,9 @@
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrima.cshtml" />
     <Content Include="Views\AnalisisSensorial\ProtocoloMateriaPrimaDetallePartial.cshtml" />
     <Content Include="Views\ControlCocinamiento\ControlCocinamiento.cshtml" />
+    <Content Include="Views\ControlCocinamiento\VerCrearImagenPartial.cshtml" />
+    <Content Include="Views\ControlCocinamiento\BandejaCocinamiento.cshtml" />
+    <Content Include="Views\ControlCocinamiento\BandejaCocinamientoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
